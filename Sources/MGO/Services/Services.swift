@@ -25,6 +25,11 @@ extension Container {
 			.singleton
 	}
 	
+	var favoritesRepository: Factory<FileRepository<SharedHealthCategories.Category>> {
+		Factory(self) { FileRepository<SharedHealthCategories.Category>(fileName: "favorites.json") }
+			.singleton
+	}
+	
 	/// The repository for all the stored healthcare organizations
 	var healthcareOrganizationRepository: Factory<HealthcareOrganizationRepositoryProtocol> {
 		Factory(self) { HealthcareOrganizationRepository() }
@@ -77,6 +82,14 @@ extension Container {
 			}
 		}
 		.singleton
+	}
+	
+	/// The os Version Checker
+	var osVersionChecker: Factory<OSVersionProtocol> {
+		Factory(self) {
+			OSVersionChecker()
+		}
+		.shared
 	}
 	
 	/// The remote configuration repository

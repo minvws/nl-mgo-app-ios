@@ -24,6 +24,8 @@ extension Coordination.Action {
 	@MainActor static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
 	
 	@MainActor static let exportHealthData = Coordination.Action(identifier: "exportHealthData")
+	
+	@MainActor static let showFavorites = Coordination.Action(identifier: "showFavorites")
 }
 
 protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
@@ -45,7 +47,7 @@ protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
 	/// Get a View for the State
 	/// - Parameter state: the HealthcareCoordination State
 	/// - Returns: A view for that state
-	@MainActor func viewState(for: HealthcareCoordination.State?) -> Body
+	@MainActor func view(for: HealthcareCoordination.State?) -> Body
 }
 
 struct HealthcareCoordination {
@@ -67,6 +69,9 @@ struct HealthcareCoordination {
 		case showHealthCategory(category: SharedHealthCategories.Category, organization: MgoOrganization?)
 		case showHealthData(backButtonTitle: String?, schema: HealthUISchema, organization: MgoOrganization, inSheet: Bool)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
+		
+		// Favorites
+		case showFavorites
 		
 		// Export
 		case exportHealthData(PdfData)
@@ -108,6 +113,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		guard !handleSearchFlow(action) else { return }
 		guard !handleHealthDataFlow(action) else { return }
 		guard !handleExportFlow(action) else { return }
+		guard !handleFavorites(action) else { return }
 		
 		switch action.identifier {
 			
@@ -222,6 +228,19 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			return false
 		}
 	}
+
+	/// Handle the show favorites action
+	/// - Parameter action: any Action
+	/// - Returns: True if the action is consumed
+	@MainActor private func handleFavorites(_ action: Coordination.Action) -> Bool {
+		
+		if action.identifier == Coordination.Action.showFavorites.identifier {
+			rootStateForSheet = HealthcareCoordination.State.showFavorites
+			return true
+		} else {
+			return false
+		}
+	}
 	
 	/// Handle the `showHealthcareOrganization` action
 	/// - Parameter action: the action
@@ -320,7 +339,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the HealthcareCoordination State
 	/// - Returns: A view for that state
-	@ViewBuilder @MainActor func viewState(for state: HealthcareCoordination.State?) -> some View {
+	@ViewBuilder @MainActor func view(for state: HealthcareCoordination.State?) -> some View {
 		
 		switch state {
 			
@@ -407,6 +426,10 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 					)
 				)
 				.isPresentedAsSheet(!isIOS15)
+			
+			case .showFavorites:
+				FavoritesView(viewModel: FavoritesViewModel(coordinator: self))
+					.isPresentedAsSheet(!isIOS15)
 			
 			default:
 				EmptyView()

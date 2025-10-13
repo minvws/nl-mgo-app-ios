@@ -15,6 +15,7 @@ let package = Package(
 	dependencies: [
 		// Internal
 		.package(name: "MGODebug", path: "../MGODebug"),
+		.package(name: "Observatory", path: "../Observatory"),
 		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
@@ -24,6 +25,7 @@ let package = Package(
 			name: "FileStorage",
 			dependencies: [
 				.product(name: "MGODebug", package: "MGODebug"),
+				.product(name: "Observatory", package: "Observatory"),
 			],
 			swiftSettings: [
 				.enableExperimentalFeature("StrictConcurrency")

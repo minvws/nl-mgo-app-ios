@@ -97,6 +97,9 @@ func setupServicesSpies() -> ServicesSpies {
 		.register { @MainActor in spies.appVersionSupplierSpy }
 	Container.shared.dataStore
 		.register { spies.dataStoreSpy }
+	Container.shared.favoritesRepository.register {
+		FileRepository<SharedHealthCategories.Category>(fileName: "favorites-test.json")
+	}
 	Container.shared.featureFlagManager
 		.register { @MainActor in spies.featureFlagSpy }
 	Container.shared.healthcareOrganizationRepository

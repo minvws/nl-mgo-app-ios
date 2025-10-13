@@ -1055,7 +1055,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allergieën"
+            "value" : "Allergiën en intoleranties"
           }
         }
       }
@@ -1495,7 +1495,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gezondheidsproblemen"
+            "value" : "Medische klachten"
           }
         }
       }
@@ -3246,7 +3246,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allergieën"
+            "value" : "Allergiën en intoleranties"
           }
         }
       }

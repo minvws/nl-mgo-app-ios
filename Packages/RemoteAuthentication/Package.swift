@@ -19,9 +19,9 @@ let package = Package(
 		.package(name: "MGODebug", path: "../MGODebug"),
 		
 		// External
-		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.2"),
-		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.2"),
-		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.1.0"),
+		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.3"),
+		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.3"),
+		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.2.0"),
 		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
