@@ -192,6 +192,7 @@ struct HealthUISchemaView: View {
 				viewFor(
 					referenceLink.label,
 					heading: nil,
+					showChevron: true,
 					showDivider: !isLastElement
 				)
 			}
@@ -199,7 +200,14 @@ struct HealthUISchemaView: View {
 			.accessibilityIdentifier(referenceLink.label)
 			
 		} else {
-			viewFor(referenceLink.reference, heading: referenceLink.label, showDivider: !isLastElement)
+			viewFor(
+				SingleValue(
+					display: .string(referenceLink.reference),
+					label: referenceLink.label,
+					type: .singleValue
+				),
+				isLastElement: isLastElement
+			)
 		}
 	}
 	
@@ -224,6 +232,7 @@ struct HealthUISchemaView: View {
 				viewFor(
 					value,
 					heading: referenceValue.label,
+					showChevron: true,
 					showDivider: !isLastElement
 				)
 			}
@@ -232,9 +241,12 @@ struct HealthUISchemaView: View {
 			
 		} else {
 			viewFor(
-				value,
-				heading: referenceValue.label,
-				showDivider: !isLastElement
+				SingleValue(
+					display: .string(value ?? ""),
+					label: referenceValue.label,
+					type: .singleValue
+				),
+				isLastElement: isLastElement
 			)
 		}
 	}
@@ -306,6 +318,7 @@ struct HealthUISchemaView: View {
 	@ViewBuilder private func viewFor(
 		_ value: String?,
 		heading: String?,
+		showChevron: Bool = false,
 		showDivider: Bool = true
 	) -> some View {
 		
@@ -324,13 +337,16 @@ struct HealthUISchemaView: View {
 			
 			Spacer()
 			
-			Image(ImageResource.Overview.chevronRight)
-				.foregroundStyle(theme.symbolPrimary)
-				.frame(width: ViewTraits.Chevron.size,
-					   height: ViewTraits.Chevron.size,
-					   alignment: .center
-				)
-				.accessibilityHidden(true)
+			if showChevron {
+				
+				Image(ImageResource.Overview.chevronRight)
+					.foregroundStyle(theme.symbolPrimary)
+					.frame(width: ViewTraits.Chevron.size,
+						   height: ViewTraits.Chevron.size,
+						   alignment: .center
+					)
+					.accessibilityHidden(true)
+			}
 		}
 		.padding(ViewTraits.Row.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
