@@ -215,6 +215,8 @@ struct HealthUISchemaView: View {
 		isLastElement: Bool
 	) -> some View {
 		
+		let value = referenceValue.display ?? referenceValue.reference
+		
 		if let reference = referenceValue.reference,
 		   resolvedReferences[reference] == true {
 			
@@ -222,18 +224,18 @@ struct HealthUISchemaView: View {
 				self.referenceTapped?(reference)
 			} label: {
 				viewFor(
-					referenceValue.display ?? referenceValue.reference,
+					value,
 					heading: referenceValue.label,
 					showDivider: !isLastElement,
 					showChevron: true
 				)
 			}
 			.buttonStyle(HoverButtonStyle())
-			.accessibilityIdentifier(referenceValue.label)
+			.accessibilityIdentifier("\(referenceValue.label), \(value ?? "")")
 			
 		} else {
 			viewFor(
-				referenceValue.display ?? referenceValue.reference,
+				value,
 				heading: referenceValue.label,
 				showDivider: !isLastElement
 			)
@@ -320,7 +322,9 @@ struct HealthUISchemaView: View {
 					viewFor(heading, accessibilityIdentifier: heading)
 				}
 				let text = Sanitizer.strip(value) ?? unknown
-				selectableTextView(text)
+
+				Text(text)
+					.rijksoverheidStyle(font: .regular, style: .body)
 					.accessibilityIdentifier(text)
 			}
 			
