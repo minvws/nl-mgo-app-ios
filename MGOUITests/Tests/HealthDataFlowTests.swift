@@ -74,7 +74,7 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifySectionRowExists("Registratiedatum", value: "16 augustus 2018")
 			.verifySectionRowExists("Toelichting", value: "Niet bekend")
 			.verifySectionRowExists("Volgens afspraak indicator", value: "Ja")
-			.verifyReferenceButtonExists("Voorschrijver", value: "Huisartsen, niet nader gespecificeerd")
+			.verifySectionRowExists("Voorschrijver", value: "Huisartsen, niet nader gespecificeerd")
 			.verifySectionHeaderExists("Gebruiksperiode")
 			.verifySectionRowExists("Einddatum", value: "Niet bekend")
 			.verifySectionRowExists("Ingangsdatum", value: "28 juni 2018")
