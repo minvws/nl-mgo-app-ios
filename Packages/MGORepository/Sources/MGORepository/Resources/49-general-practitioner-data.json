@@ -1,16 +1,17 @@
 {
     "id": "49",
     "name": "General Practitioner Data",
-    "fhirVersion": "R3",
+    "fhirVersion": "3.0",
+    "fhirVersionEnum": "R3",
     "endpoints": [
         {
             "id": "patient",
-            "url": "/Patient?_include=Patient:general-practitioner",
+            "path": "/Patient?_include=Patient:general-practitioner",
             "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-patient"]
         },
         {
             "id": "episodes",
-            "url": "/EpisodeOfCare",
+            "path": "/EpisodeOfCare",
             "profiles": [
                 "http://nictiz.nl/fhir/StructureDefinition/zib-Alert",
                 "http://fhir.nl/fhir/StructureDefinition/nl-core-episodeofcare"
@@ -18,17 +19,17 @@
         },
         {
             "id": "currentMedication",
-            "url": "/MedicationRequest?periodofuse=ge{{today}}&category=http://snomed.info/sct|16076005&_include=MedicationRequest:medication",
+            "path": "/MedicationRequest?periodofuse=ge{{today}}&category=http://snomed.info/sct|16076005&_include=MedicationRequest:medication",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement"]
         },
         {
             "id": "allergies",
-            "url": "/AllergyIntolerance?category=medication",
+            "path": "/AllergyIntolerance?category=medication",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance"]
         },
         {
             "id": "diagnosticAndLabResults",
-            "url": "/Observation?code=https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen|&_include=Observation:related-target&_include=Observation:specimen",
+            "path": "/Observation?code=https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen|&_include=Observation:related-target&_include=Observation:specimen",
             "profiles": [
                 "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult",
                 "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult"
@@ -36,7 +37,7 @@
         },
         {
             "id": "soapEntries",
-            "url": "/Composition?type=http://loinc.org|67781-5",
+            "path": "/Composition?type=http://loinc.org|67781-5",
             "profiles": [
                 "http://nictiz.nl/fhir/StructureDefinition/gp-EncounterReport",
                 "http://nictiz.nl/fhir/StructureDefinition/gp-JournalEntry"
@@ -44,7 +45,7 @@
         },
         {
             "id": "encounters",
-            "url": "/Encounter",
+            "path": "/Encounter",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/gp-Encounter"]
         }
     ]

@@ -5,6 +5,7 @@
         "categories": [
             {
                 "id": "problems",
+                "icon": "health_cross",
                 "heading": "hc_problems.heading",
                 "subheading": "hc_problems.subheading",
                 "subcategories": [
@@ -16,6 +17,7 @@
             },
             {
                 "id": "allergies",
+                "icon": "allergy",
                 "heading": "hc_allergies.heading",
                 "subheading": "hc_allergies.subheading",
                 "subcategories": [
@@ -29,6 +31,7 @@
             },
             {
                 "id": "alerts",
+                "icon": "emergency_home",
                 "heading": "hc_alerts.heading",
                 "subheading": "hc_alerts.subheading",
                 "subcategories": [
@@ -40,6 +43,7 @@
             },
             {
                 "id": "vaccinations",
+                "icon": "syringe",
                 "heading": "hc_vaccinations.heading",
                 "subheading": "hc_vaccinations.subheading",
                 "subcategories": [
@@ -60,6 +64,7 @@
             },
             {
                 "id": "lifestyle",
+                "icon": "nutrition",
                 "heading": "hc_lifestyle.heading",
                 "subheading": "hc_lifestyle.subheading",
                 "subcategories": [
@@ -91,6 +96,7 @@
             },
             {
                 "id": "mental_wellbeing",
+                "icon": "psychology",
                 "heading": "hc_mental.heading",
                 "subheading": "hc_mental.subheading",
                 "subcategories": [
@@ -110,6 +116,7 @@
         "categories": [
             {
                 "id": "measurements",
+                "icon": "vital_signs",
                 "heading": "hc_measurements.heading",
                 "subheading": "hc_measurements.subheading",
                 "subcategories": [
@@ -135,6 +142,7 @@
             },
             {
                 "id": "lab_results",
+                "icon": "labs",
                 "heading": "hc_lab_results.heading",
                 "subheading": "hc_lab_results.subheading",
                 "subcategories": [
@@ -166,6 +174,7 @@
         "categories": [
             {
                 "id": "treatments",
+                "icon": "medical_services",
                 "heading": "hc_treatments.heading",
                 "subheading": "hc_treatments.subheading",
                 "subcategories": [
@@ -184,6 +193,7 @@
             },
             {
                 "id": "medication",
+                "icon": "pill",
                 "heading": "hc_medication.heading",
                 "subheading": "hc_medication.subheading",
                 "subcategories": [
@@ -207,6 +217,7 @@
             },
             {
                 "id": "appointments",
+                "icon": "calendar_today",
                 "heading": "hc_appointments.heading",
                 "subheading": "hc_appointments.subheading",
                 "subcategories": [
@@ -228,6 +239,7 @@
             },
             {
                 "id": "documents",
+                "icon": "folder",
                 "heading": "hc_documents.heading",
                 "subheading": "hc_documents.subheading",
                 "subcategories": [
@@ -241,6 +253,7 @@
             },
             {
                 "id": "plans",
+                "icon": "patient_list",
                 "heading": "hc_plans.heading",
                 "subheading": "hc_plans.subheading",
                 "subcategories": [
@@ -260,6 +273,7 @@
             },
             {
                 "id": "medical_devices",
+                "icon": "health_and_safety",
                 "heading": "hc_devices.heading",
                 "subheading": "hc_devices.subheading",
                 "subcategories": [
@@ -281,6 +295,7 @@
         "categories": [
             {
                 "id": "patient",
+                "icon": "person",
                 "heading": "hc_patient.heading",
                 "subheading": "hc_patient.subheading",
                 "subcategories": [
@@ -295,6 +310,7 @@
             },
             {
                 "id": "payment",
+                "icon": "account_balance",
                 "heading": "hc_payment.heading",
                 "subheading": "hc_payment.subheading",
                 "subcategories": [

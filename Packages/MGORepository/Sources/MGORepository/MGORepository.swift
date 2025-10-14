@@ -35,7 +35,7 @@ public actor MGORepository {
 		password: String?
 	) async throws -> Data {
 		
-		var path = endpoint.getUrl()
+		var path = endpoint.getPath()
 		if let first = path.first, first == "/" {
 			path = String(path.dropFirst())
 		}

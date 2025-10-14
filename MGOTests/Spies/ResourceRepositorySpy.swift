@@ -62,13 +62,13 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 
 	private let queue = DispatchQueue(label: "com.ResourceRepositorySpy.serialqueue.\(UUID().uuidString)")
 
-	func loadBinary(_ healthcareOrganization: MgoOrganization, serviceId: String, url: String) async throws -> FHIRBinary? {
+	func loadBinary(_ healthcareOrganization: MgoOrganization, serviceId: String, path: String) async throws -> FHIRBinary? {
 			
 		queue.sync {
 			invokedLoadBinary = true
 			invokedLoadBinaryCount += 1
-			invokedLoadBinaryParameters = (healthcareOrganization, serviceId, url)
-			invokedLoadBinaryParametersList.append((healthcareOrganization, serviceId, url))
+			invokedLoadBinaryParameters = (healthcareOrganization, serviceId, path)
+			invokedLoadBinaryParametersList.append((healthcareOrganization, serviceId, path))
 		}
 		if let error = stubbedLoadBinaryError {
 			throw error
