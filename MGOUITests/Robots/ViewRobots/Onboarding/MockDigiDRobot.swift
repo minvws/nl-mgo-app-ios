@@ -25,7 +25,7 @@ import XCTest
 	// MARK: - Elements
 	
 	private var mockDigiDSubmitButton: XCUIElement {
-		safari.webViews.staticTexts["Login / Submit"]
+		safari.buttons["Login / Submit"]
 	}
 	
 	private var openAppButton: XCUIElement {

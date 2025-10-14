@@ -33,7 +33,7 @@ protocol ResourceRepositoryProtocol {
 	@MainActor func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		url: String) async throws -> FHIRBinary?
+		path: String) async throws -> FHIRBinary?
 }
 
 /// Load the resources from the server
@@ -284,7 +284,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				results.append(
 					(
 						endpoint: endpoint,
-						fhirVersion: dataService.fhirVersion,
+						fhirVersion: dataService.fhirVersionEnum,
 						dvaTarget: dvaTarget
 					)
 				)
@@ -320,12 +320,12 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
 	///   - serviceId: the id of the data service
-	///   - url: reference url
+	///   - path: reference path
 	/// - Returns: Binary Object
 	@MainActor func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		url: String
+		path: String
 	) async throws -> FHIRBinary? {
 			
 		// The binary call also needs the DVA Target header
@@ -335,11 +335,11 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 		
 		do {
-			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", url)
+			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", path)
 			
 			let data = try await repository.getBundleData(
-				endpoint: DataServices.Endpoint(id: "binary", url: url, profiles: []),
-				fhirVersion: dataService.fhirVersion,
+				endpoint: DataServices.Endpoint(id: "binary", path: path, profiles: []),
+				fhirVersion: dataService.fhirVersionEnum,
 				dvaTarget: dvaTarget,
 				username: username,
 				password: password

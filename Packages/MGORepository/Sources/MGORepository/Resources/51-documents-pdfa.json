@@ -1,11 +1,12 @@
 {
     "id": "51",
     "name": "Documents PDF/A",
-    "fhirVersion": "R3",
+    "fhirVersion": "3.0",
+    "fhirVersionEnum": "R3",
     "endpoints": [
         {
             "id": "documentReference",
-            "url": "/DocumentReference",
+            "path": "/DocumentReference",
             "profiles": [
                 "http://nictiz.nl/fhir/StructureDefinition/IHE.MHD.Minimal.DocumentReference"
             ]

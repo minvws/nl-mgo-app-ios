@@ -208,7 +208,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let hcim = try await sut.loadBinary(organization, serviceId: "48", url: url)
+		let hcim = try await sut.loadBinary(organization, serviceId: "48", path: url)
 		
 		// Then
 		expect(hcim?.contentType) == "application/pdf"
@@ -222,7 +222,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		let url = "https://example.com/Binary/file1"
 		
 		// When
-		let hcim = try await sut.loadBinary(organization, serviceId: "48", url: url)
+		let hcim = try await sut.loadBinary(organization, serviceId: "48", path: url)
 		
 		// Then
 		expect(hcim) == nil
@@ -240,7 +240,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let hcim = try await sut.loadBinary(organization, serviceId: "48", url: url)
+		let hcim = try await sut.loadBinary(organization, serviceId: "48", path: url)
 		
 		// Then
 		expect(hcim) == nil

@@ -1,0 +1,55 @@
+{
+    "id": "61",
+    "name": "Long-Term Healthcare Information",
+    "fhirVersion": "3.0",
+    "fhirVersionEnum": "R3",
+    "endpoints": [
+        {
+            "id": "patient",
+            "path": "/Patient?_include=Patient:general-practitioner",
+            "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-patient"]
+        },
+        {
+            "id": "treatmentDirective",
+            "path": "/Consent?category=http://snomed.info/sct|11291000146105",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective"]
+        },
+        {
+            "id": "advanceDirective",
+            "path": "/Consent?category=http://snomed.info/sct|11341000146107",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective"]
+        },
+        {
+            "id": "problem",
+            "path": "/Condition",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Problem"]
+        },
+        {
+            "id": "allergies",
+            "path": "/AllergyIntolerance",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance"]
+        },
+        {
+            "id": "laboratoryTestResult",
+            "path": "/Observation/$lastn?category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen",
+            "profiles": [
+                "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation"
+            ]
+        },
+        {
+            "id": "procedure",
+            "path": "/Procedure",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Procedure"]
+        },
+        {
+            "id": "careplan",
+            "path": "/CarePlan?_include=CarePlan:activity-goal:Goal&_include=CarePlan:activity-outcomereference:Observation&_include=CarePlan:activity-medicaldevice:DeviceUseStatement&_include:recurse=DeviceUseStatement:device:Device",
+            "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-careplan"]
+        },
+        {
+            "id": "careteam",
+            "path": "/CareTeam?_include=CareTeam:participant",
+            "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-careteam"]
+        }
+    ]
+}

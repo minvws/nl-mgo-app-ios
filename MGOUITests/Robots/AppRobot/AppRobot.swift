@@ -119,7 +119,7 @@ class AppRobot: Robot {
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithVaccination() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: 7)
+		self.navigateToOverview(organization: 8)
 	}
 	
 	/// Enable the biometric face ID login
