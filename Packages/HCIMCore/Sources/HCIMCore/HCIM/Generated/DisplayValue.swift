@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let displayCoding = try DisplayCoding(json)
+//   let displayValue = try DisplayValue(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - DisplayCoding
-public struct DisplayCoding: Codable, Hashable, Sendable {
+// MARK: - DisplayValue
+public struct DisplayValue: Codable, Hashable, Sendable {
     public let code, display, system: String?
 
     public init(code: String?, display: String?, system: String?) {
@@ -21,11 +21,11 @@ public struct DisplayCoding: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: DisplayCoding convenience initializers and mutators
+// MARK: DisplayValue convenience initializers and mutators
 
-public extension DisplayCoding {
+public extension DisplayValue {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(DisplayCoding.self, from: data)
+        self = try newJSONDecoder().decode(DisplayValue.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -43,8 +43,8 @@ public extension DisplayCoding {
         code: String?? = nil,
         display: String?? = nil,
         system: String?? = nil
-    ) -> DisplayCoding {
-        return DisplayCoding(
+    ) -> DisplayValue {
+        return DisplayValue(
             code: code ?? self.code,
             display: display ?? self.display,
             system: system ?? self.system

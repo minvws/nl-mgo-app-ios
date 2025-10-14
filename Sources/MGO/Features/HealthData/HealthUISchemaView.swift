@@ -22,7 +22,7 @@ struct HealthUISchemaView: View {
 	var resolvedReferences: [String: Bool]
 	
 	/// Handler when a user taps on a code
-	var codeTapped: ((DisplayCoding?) -> Void)?
+	var codeTapped: ((DisplayValue?) -> Void)?
 	
 	/// An array with the state of codes
 	var resolvedCodes: [String: Bool]
@@ -134,8 +134,8 @@ struct HealthUISchemaView: View {
 		isLastElement: Bool
 	) -> some View {
 		
-		if let display = singleValue.display {
-			viewFor([display], heading: singleValue.label, showDivider: !isLastElement)
+		if let value = singleValue.value {
+			viewFor([value], heading: singleValue.label, showDivider: !isLastElement)
 		}
 	}
 	
@@ -149,8 +149,8 @@ struct HealthUISchemaView: View {
 		isLastElement: Bool
 	) -> some View {
 		
-		if let display = multipleValues.display {
-			viewFor(display, heading: multipleValues.label, showDivider: !isLastElement)
+		if let values = multipleValues.value {
+			viewFor(values, heading: multipleValues.label, showDivider: !isLastElement)
 		}
 	}
 	
@@ -164,12 +164,12 @@ struct HealthUISchemaView: View {
 		isLastElement: Bool
 	) -> some View {
 		
-		if let display = multipleGroupedValues.display {
-			let elements = display.flatMap({ $0 })
+		if let values = multipleGroupedValues.value {
+			let elements = values.flatMap({ $0 })
 			viewFor(
 				elements,
 				heading: multipleGroupedValues.label,
-				showDivider: !(isLastElement && elements == display.last)
+				showDivider: !(isLastElement && elements == values.last)
 			)
 		}
 	}
@@ -202,9 +202,13 @@ struct HealthUISchemaView: View {
 		} else {
 			viewFor(
 				SingleValue(
-					display: .string(referenceLink.reference),
 					label: referenceLink.label,
-					type: .singleValue
+					type: .singleValue,
+					value: DisplayValue(
+						code: nil,
+						display: referenceLink.reference,
+						system: nil
+					)
 				),
 				isLastElement: isLastElement
 			)
@@ -242,9 +246,13 @@ struct HealthUISchemaView: View {
 		} else {
 			viewFor(
 				SingleValue(
-					display: .string(value ?? ""),
 					label: referenceValue.label,
-					type: .singleValue
+					type: .singleValue,
+					value: DisplayValue(
+						code: nil,
+						display: value,
+						system: nil
+					)
 				),
 				isLastElement: isLastElement
 			)
@@ -374,16 +382,16 @@ struct HealthUISchemaView: View {
 		)
 	}
 	
-	/// Show a row of data (SingleValueDisplay)
+	/// Show a row of data (ValueDisplay)
 	/// - Parameters:
 	///   - value: the value to display
 	///   - heading: the heading to display
 	///   - showDivider: True if we should show a divider at the bottom
 	/// - Returns: Row View
 	@ViewBuilder private func viewFor(
-		_ values: [SingleValueDisplay],
+		_ values: [DisplayValue],
 		heading: String?,
-		showDivider: Bool = true
+		showDivider: Bool
 	) -> some View {
 		
 		HStack(alignment: .center, spacing: 0) {
@@ -393,7 +401,6 @@ struct HealthUISchemaView: View {
 				if let heading {
 					viewFor(heading, accessibilityIdentifier: heading)
 				}
-				
 				viewFor(values)
 			}
 		}
@@ -408,52 +415,47 @@ struct HealthUISchemaView: View {
 		}
 	}
 	
-	/// The view for an array of single value displays
-	/// - Parameter element: the array of single value displays
-	/// - Returns: view for the array of single value displays
-	@ViewBuilder private func viewFor(_ values: [SingleValueDisplay]) -> some View {
+	/// The view for an array of value displays
+	/// - Parameter element: the array of value displays
+	/// - Returns: view for the array of value displays
+	@ViewBuilder private func viewFor(_ values: [DisplayValue]) -> some View {
 		
 		ForEach(Array(values.enumerated()), id: \.offset) { _, element in
 			viewFor(element)
 		}
 	}
 	
-	/// The view for a single value display
-	/// - Parameter element: the single value display
-	/// - Returns: view for single value display
-	@ViewBuilder private func viewFor(_ element: SingleValueDisplay) -> some View {
+	/// The view for a value display
+	/// - Parameter element: the value display
+	/// - Returns: view for value display
+	@ViewBuilder private func viewFor(_ element: DisplayValue) -> some View {
 		
-		switch element {
-			case let .string(value):
-				let text = Sanitizer.strip(value) ?? unknown
-				selectableTextView(text)
-					.accessibilityIdentifier(text)
-				
-			case let .displayCoding(displayCoding):
-				if let code = displayCoding.code, resolvedCodes[code] ?? false {
-					viewFor(displayCoding)
-						.accessibilityIdentifier(code)
-				} else {
-					selectableTextView(Sanitizer.strip(displayCoding.display) ?? unknown)
-						.accessibilityIdentifier(displayCoding.code ?? "unknown")
-				}
+		if let code = element.code, resolvedCodes[code] ?? false {
+			termViewFor(element)
+				.accessibilityIdentifier(code)
+		} else {
+			selectableTextView(Sanitizer.strip(element.display) ?? unknown)
+				.accessibilityIdentifier(element.code ?? "unknown")
 		}
 	}
 	
 	/// The view for a display coding
-	/// - Parameter displayCoding: the coding object
+	/// - Parameter displayValue: the coding object
 	/// - Returns: view for display coding
-	@ViewBuilder private func viewFor(_ displayCoding: DisplayCoding) -> some View {
+	@ViewBuilder private func termViewFor(_ displayValue: DisplayValue) -> some View {
 		
 		Button {
-			codeTapped?(displayCoding)
+			codeTapped?(displayValue)
 		} label: {
-			displayCodingLabel(Sanitizer.strip(displayCoding.display) ?? unknown)
+			displayCodingLabel(Sanitizer.strip(displayValue.display) ?? unknown)
 		}
 		.buttonStyle(HalfOpacityWhenPressedButtonStyle())
-		.accessibilityIdentifier(displayCoding.code ?? "unknown")
+		.accessibilityIdentifier(displayValue.code ?? "unknown")
 	}
 	
+	/// The label for a patient friendly term
+	/// - Parameter text: the term
+	/// - Returns: view for the label of a term (with question mark icon)
 	@ViewBuilder private func displayCodingLabel(_ text: String) -> some View {
 		
 		HStack(alignment: .center, content: {
@@ -482,7 +484,10 @@ struct HealthUISchemaView: View {
 	/// - Parameter heading: the heading
 	/// - Parameter accessibilityIdentifier: the accessibility Identifier
 	/// - Returns: heading view
-	@ViewBuilder private func viewFor(_ heading: String, accessibilityIdentifier: String) -> some View {
+	@ViewBuilder private func viewFor(
+		_ heading: String,
+		accessibilityIdentifier: String
+	) -> some View {
 		
 		SelectableTextView(
 			text: heading,

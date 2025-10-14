@@ -12,15 +12,16 @@ import Foundation
 
 // MARK: - UIElement
 public struct UIElement: Codable, Hashable, Sendable {
-    public let display: UIElementDisplay?
     public let label: String
     public let type: UIElementType
-    public let reference, url: String?
+    public let value: UIElementValue?
+    public let display, reference, url: String?
 
-    public init(display: UIElementDisplay?, label: String, type: UIElementType, reference: String?, url: String?) {
-        self.display = display
+    public init(label: String, type: UIElementType, value: UIElementValue?, display: String?, reference: String?, url: String?) {
         self.label = label
         self.type = type
+        self.value = value
+        self.display = display
         self.reference = reference
         self.url = url
     }
@@ -45,16 +46,18 @@ public extension UIElement {
     }
 
     func with(
-        display: UIElementDisplay?? = nil,
         label: String? = nil,
         type: UIElementType? = nil,
+        value: UIElementValue?? = nil,
+        display: String?? = nil,
         reference: String?? = nil,
         url: String?? = nil
     ) -> UIElement {
         return UIElement(
-            display: display ?? self.display,
             label: label ?? self.label,
             type: type ?? self.type,
+            value: value ?? self.value,
+            display: display ?? self.display,
             reference: reference ?? self.reference,
             url: url ?? self.url
         )
