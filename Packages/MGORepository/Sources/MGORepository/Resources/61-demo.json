@@ -15,11 +15,6 @@
             "profiles": [
                 "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation"
             ]
-        },
-        {
-            "id": "problem",
-            "path": "/Condition",
-            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Problem"]
         }
     ]
 }
