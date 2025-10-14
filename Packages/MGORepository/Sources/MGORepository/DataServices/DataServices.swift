@@ -76,7 +76,15 @@ public struct DataServices: Sendable {
 		public let name: String
 		
 		/// The FHIR version of the data service
-		public let fhirVersion: FhirVersion
+		public let fhirVersionEnum: FhirVersion
+		
+		/// The FHIR version of the data service
+		public let fhirVersion: String
+		
+		/*
+		 "fhirVersion": "3.0",
+		 "fhirVersionEnum": "R3",
+		 */
 		
 		/// The endpoints for the data service
 		public let endpoints: [Endpoint]
@@ -87,10 +95,17 @@ public struct DataServices: Sendable {
 		///   - name: The name of the data service
 		///   - fhirVersion: The FHIR version of the data service
 		///   - endpoints: The endpoints for the data service
-		public init(id: String, name: String, fhirVersion: FhirVersion, endpoints: [Endpoint]) {
+		public init(
+			id: String,
+			name: String,
+			fhirVersion: String,
+			fhirVersionEnum: FhirVersion,
+			endpoints: [Endpoint]
+		) {
 			self.id = id
 			self.name = name
 			self.fhirVersion = fhirVersion
+			self.fhirVersionEnum = fhirVersionEnum
 			self.endpoints = endpoints
 		}
 	}

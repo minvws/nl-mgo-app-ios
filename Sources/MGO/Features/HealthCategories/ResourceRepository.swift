@@ -284,7 +284,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				results.append(
 					(
 						endpoint: endpoint,
-						fhirVersion: dataService.fhirVersion,
+						fhirVersion: dataService.fhirVersionEnum,
 						dvaTarget: dvaTarget
 					)
 				)
@@ -339,7 +339,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			
 			let data = try await repository.getBundleData(
 				endpoint: DataServices.Endpoint(id: "binary", path: path, profiles: []),
-				fhirVersion: dataService.fhirVersion,
+				fhirVersion: dataService.fhirVersionEnum,
 				dvaTarget: dvaTarget,
 				username: username,
 				password: password

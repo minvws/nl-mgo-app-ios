@@ -36,7 +36,8 @@ class DataServicesTests {
 		// Then
 		#expect(dataService.id == "48")
 		#expect(dataService.name == "Common Clinical Dataset")
-		#expect(dataService.fhirVersion == .r3)
+		#expect(dataService.fhirVersion == "3.0")
+		#expect(dataService.fhirVersionEnum == .r3)
 		#expect(dataService.endpoints.count == 28)
 		
 		#expect(dataService.endpoints[0].id == "patient")
@@ -196,7 +197,8 @@ class DataServicesTests {
 		// Then
 		#expect(dataService.id == "48")
 		#expect(dataService.name == "Common Clinical Dataset (demo)")
-		#expect(dataService.fhirVersion == .r3)
+		#expect(dataService.fhirVersion == "3.0")
+		#expect(dataService.fhirVersionEnum == .r3)
 		#expect(dataService.endpoints.count == 3)
 		
 		#expect(dataService.endpoints[0].id == "medicationUse")
@@ -226,7 +228,8 @@ class DataServicesTests {
 		// Then
 		#expect(dataService.id == "49")
 		#expect(dataService.name == "General Practitioner Data (demo)")
-		#expect(dataService.fhirVersion == .r3)
+		#expect(dataService.fhirVersion == "3.0")
+		#expect(dataService.fhirVersionEnum == .r3)
 		#expect(dataService.endpoints.count == 1)
 		
 		#expect(dataService.endpoints[0].id == "diagnosticAndLabResults")
@@ -247,7 +250,8 @@ class DataServicesTests {
 		// Then
 		#expect(dataService.id == "49")
 		#expect(dataService.name == "General Practitioner Data")
-		#expect(dataService.fhirVersion == .r3)
+		#expect(dataService.fhirVersion == "3.0")
+		#expect(dataService.fhirVersionEnum == .r3)
 		#expect(dataService.endpoints.count == 7)
 		
 		#expect(dataService.endpoints[0].id == "patient")
@@ -315,7 +319,8 @@ class DataServicesTests {
 		// Then
 		#expect(dataService.id == "51")
 		#expect(dataService.name == "Documents PDF/A")
-		#expect(dataService.fhirVersion == .r3)
+		#expect(dataService.fhirVersion == "3.0")
+		#expect(dataService.fhirVersionEnum == .r3)
 		#expect(dataService.endpoints.count == 1)
 		
 		#expect(dataService.endpoints[0].id == "documentReference")
@@ -334,7 +339,8 @@ class DataServicesTests {
 		// Then
 		#expect(dataService.id == "63")
 		#expect(dataService.name == "Vaccination Immunization")
-		#expect(dataService.fhirVersion == .r4)
+		#expect(dataService.fhirVersion == "4.0")
+		#expect(dataService.fhirVersionEnum == .r4)
 		#expect(dataService.endpoints.count == 1)
 		
 		#expect(dataService.endpoints[0].id == "vaccination")

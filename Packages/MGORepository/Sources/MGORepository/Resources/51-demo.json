@@ -6,7 +6,7 @@
     "endpoints": [
         {
             "id": "documentReference",
-            "url": "/DocumentReference",
+            "path": "/DocumentReference",
             "profiles": [
                 "http://nictiz.nl/fhir/StructureDefinition/IHE.MHD.Minimal.DocumentReference"
             ]

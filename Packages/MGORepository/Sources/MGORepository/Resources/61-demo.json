@@ -6,15 +6,20 @@
     "endpoints": [
         {
             "id": "problem",
-            "url": "/Condition",
+            "path": "/Condition",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Problem"]
         },
         {
             "id": "laboratoryTestResult",
-            "url": "/Observation/$lastn?category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen",
+            "path": "/Observation/$lastn?category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen",
             "profiles": [
                 "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation"
             ]
+        },
+        {
+            "id": "problem",
+            "path": "/Condition",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Problem"]
         }
     ]
 }
