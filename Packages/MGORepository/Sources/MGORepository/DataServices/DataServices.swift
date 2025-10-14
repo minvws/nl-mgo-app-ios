@@ -75,39 +75,14 @@ public struct DataServices: Sendable {
 		/// The name of the data service
 		public let name: String
 		
-		/// The FHIR version of the data service
+		/// The FHIR version of the data service (as Enum)
 		public let fhirVersionEnum: FhirVersion
 		
-		/// The FHIR version of the data service
+		/// The FHIR version of the data service (as String)
 		public let fhirVersion: String
-		
-		/*
-		 "fhirVersion": "3.0",
-		 "fhirVersionEnum": "R3",
-		 */
 		
 		/// The endpoints for the data service
 		public let endpoints: [Endpoint]
-		
-		/// Create a Data Service
-		/// - Parameters:
-		///   - id: The identifier of the data service
-		///   - name: The name of the data service
-		///   - fhirVersion: The FHIR version of the data service
-		///   - endpoints: The endpoints for the data service
-		public init(
-			id: String,
-			name: String,
-			fhirVersion: String,
-			fhirVersionEnum: FhirVersion,
-			endpoints: [Endpoint]
-		) {
-			self.id = id
-			self.name = name
-			self.fhirVersion = fhirVersion
-			self.fhirVersionEnum = fhirVersionEnum
-			self.endpoints = endpoints
-		}
 	}
 	
 	/// the Health Categories Error
