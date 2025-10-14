@@ -192,6 +192,7 @@ struct HealthUISchemaView: View {
 				viewFor(
 					referenceLink.label,
 					heading: nil,
+					showChevron: true,
 					showDivider: !isLastElement
 				)
 			}
@@ -199,7 +200,14 @@ struct HealthUISchemaView: View {
 			.accessibilityIdentifier(referenceLink.label)
 			
 		} else {
-			viewFor(referenceLink.reference, heading: referenceLink.label, showDivider: !isLastElement)
+			viewFor(
+				SingleValue(
+					display: .string(referenceLink.reference),
+					label: referenceLink.label,
+					type: .singleValue
+				),
+				isLastElement: isLastElement
+			)
 		}
 	}
 	
@@ -213,6 +221,8 @@ struct HealthUISchemaView: View {
 		isLastElement: Bool
 	) -> some View {
 		
+		let value = referenceValue.display ?? referenceValue.reference
+		
 		if let reference = referenceValue.reference,
 		   resolvedReferences[reference] == true {
 			
@@ -220,19 +230,23 @@ struct HealthUISchemaView: View {
 				self.referenceTapped?(reference)
 			} label: {
 				viewFor(
-					referenceValue.display ?? referenceValue.reference,
+					value,
 					heading: referenceValue.label,
+					showChevron: true,
 					showDivider: !isLastElement
 				)
 			}
 			.buttonStyle(HoverButtonStyle())
-			.accessibilityIdentifier(referenceValue.label)
+			.accessibilityIdentifier("\(referenceValue.label), \(value ?? "")")
 			
 		} else {
 			viewFor(
-				referenceValue.display ?? referenceValue.reference,
-				heading: referenceValue.label,
-				showDivider: !isLastElement
+				SingleValue(
+					display: .string(value ?? ""),
+					label: referenceValue.label,
+					type: .singleValue
+				),
+				isLastElement: isLastElement
 			)
 		}
 	}
@@ -304,6 +318,7 @@ struct HealthUISchemaView: View {
 	@ViewBuilder private func viewFor(
 		_ value: String?,
 		heading: String?,
+		showChevron: Bool = false,
 		showDivider: Bool = true
 	) -> some View {
 		
@@ -316,18 +331,22 @@ struct HealthUISchemaView: View {
 				}
 				let text = Sanitizer.strip(value) ?? unknown
 				Text(text)
+					.rijksoverheidStyle(font: .regular, style: .body)
 					.accessibilityIdentifier(text)
 			}
 			
 			Spacer()
 			
-			Image(ImageResource.Overview.chevronRight)
-				.foregroundStyle(theme.symbolPrimary)
-				.frame(width: ViewTraits.Chevron.size,
-					   height: ViewTraits.Chevron.size,
-					   alignment: .center
-				)
-				.accessibilityHidden(true)
+			if showChevron {
+				
+				Image(ImageResource.Overview.chevronRight)
+					.foregroundStyle(theme.symbolPrimary)
+					.frame(width: ViewTraits.Chevron.size,
+						   height: ViewTraits.Chevron.size,
+						   alignment: .center
+					)
+					.accessibilityHidden(true)
+			}
 		}
 		.padding(ViewTraits.Row.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
