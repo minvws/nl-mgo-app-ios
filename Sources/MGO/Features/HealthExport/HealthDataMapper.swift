@@ -89,15 +89,14 @@ class HealthDataMapper {
 	@MainActor private func mapElement(_ element: UIElementProtocol) -> PdfSubTablePair? {
 		
 		if element is SingleValue,
-		   let display = (element as? SingleValue)?.display,
-		   let value = mapElement(display) {
-			return PdfSubTablePair(key: element.label, value: value)
+		   let display = (element as? SingleValue)?.value?.display {
+			return PdfSubTablePair(key: element.label, value: display)
 		}
 		
 		if element is MultipleValues,
-		   let display = (element as? MultipleValues)?.display {
+		   let display = (element as? MultipleValues)?.value {
 			let values = display
-				.compactMap { mapElement($0) }
+				.compactMap { $0.display }
 			
 			return PdfSubTablePair(
 				key: element.label,
@@ -106,10 +105,10 @@ class HealthDataMapper {
 		}
 		
 		if element is MultipleGroupedValues,
-		   let display = (element as? MultipleGroupedValues)?.display {
+		   let display = (element as? MultipleGroupedValues)?.value {
 			let values = display
 				.flatMap { $0 }
-				.compactMap { mapElement($0) }
+				.compactMap { $0.display }
 			
 			return PdfSubTablePair(
 				key: element.label,
@@ -122,18 +121,5 @@ class HealthDataMapper {
 			return PdfSubTablePair(key: element.label, value: value)
 		}
 		return nil
-	}
-	
-	/// Map a UIElement onto a PDF sub table pair
-	/// - Parameter element: the element
-	/// - Returns: PDF sub table pair
-	@MainActor private func mapElement(_ element: SingleValueDisplay) -> String? {
-		
-		switch element {
-			case let .string(value):
-				return value
-			case let .displayCoding(displayCoding):
-				return displayCoding.display
-		}
 	}
 }
