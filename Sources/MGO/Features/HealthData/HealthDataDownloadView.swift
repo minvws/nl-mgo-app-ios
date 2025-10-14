@@ -181,7 +181,7 @@ enum HealthDataDownloadState: Equatable, Sendable {
 			   let binary = try await Container.shared.resourceRepository().loadBinary(
 				healthcareOrganization,
 				serviceId: documentService.id,
-				url: externalUrl
+				path: externalUrl
 			) {
 				logInfo("binary", binary.contentType)
 				
