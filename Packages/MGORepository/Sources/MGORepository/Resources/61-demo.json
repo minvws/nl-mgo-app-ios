@@ -1,0 +1,19 @@
+{
+    "id": "61",
+    "name": "Long-Term Healthcare Information",
+    "fhirVersion": "R3",
+    "endpoints": [
+        {
+            "id": "problem",
+            "url": "/Condition",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Problem"]
+        },
+        {
+            "id": "laboratoryTestResult",
+            "url": "/Observation/$lastn?category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen",
+            "profiles": [
+                "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation"
+            ]
+        }
+    ]
+}

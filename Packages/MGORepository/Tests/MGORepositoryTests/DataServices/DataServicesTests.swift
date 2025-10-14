@@ -22,7 +22,7 @@ class DataServicesTests {
 		// When
 		
 		// Then
-		#expect(sut.services.count == 4)
+		#expect(sut.services.count == 5)
 	}
 	
 	// swiftlint: disable function_body_length
