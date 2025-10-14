@@ -1,7 +1,8 @@
 {
     "id": "61",
     "name": "Long-Term Healthcare Information",
-    "fhirVersion": "R3",
+    "fhirVersion": "3.0",
+    "fhirVersionEnum": "R3",
     "endpoints": [
         {
             "id": "problem",

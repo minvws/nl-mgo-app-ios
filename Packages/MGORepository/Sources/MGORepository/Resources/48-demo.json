@@ -1,7 +1,8 @@
 {
     "id": "48",
     "name": "Common Clinical Dataset (demo)",
-    "fhirVersion": "R3",
+    "fhirVersion": "3.0",
+    "fhirVersionEnum": "R3",
     "endpoints": [
         {
             "id": "medicationUse",

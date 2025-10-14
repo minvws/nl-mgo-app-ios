@@ -1,7 +1,8 @@
 {
     "id": "51",
     "name": "Documents PDF/A",
-    "fhirVersion": "R3",
+    "fhirVersion": "3.0",
+    "fhirVersionEnum": "R3",
     "endpoints": [
         {
             "id": "documentReference",

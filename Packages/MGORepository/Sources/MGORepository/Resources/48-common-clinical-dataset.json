@@ -1,16 +1,17 @@
 {
     "id": "48",
     "name": "Common Clinical Dataset",
-    "fhirVersion": "R3",
+    "fhirVersion": "3.0",
+    "fhirVersionEnum": "R3",
     "endpoints": [
         {
             "id": "patient",
-            "url": "/Patient?_include=Patient:general-practitioner",
+            "path": "/Patient?_include=Patient:general-practitioner",
             "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-patient"]
         },
         {
             "id": "payer",
-            "url": "/Coverage?_include=Coverage:payor:Patient&_include=Coverage:payor:Organization",
+            "path": "/Coverage?_include=Coverage:payor:Patient&_include=Coverage:payor:Organization",
             "profiles": [
                 "http://nictiz.nl/fhir/StructureDefinition/zib-Payer",
                 "http://fhir.nl/fhir/StructureDefinition/nl-core-organization",
@@ -19,77 +20,77 @@
         },
         {
             "id": "treatmentDirective",
-            "url": "/Consent?category=http://snomed.info/sct|11291000146105",
+            "path": "/Consent?category=http://snomed.info/sct|11291000146105",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective"]
         },
         {
             "id": "advanceDirective",
-            "url": "/Consent?category=http://snomed.info/sct|11341000146107",
+            "path": "/Consent?category=http://snomed.info/sct|11341000146107",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective"]
         },
         {
             "id": "functionalOrMentalStatus",
-            "url": "/Observation/$lastn?category=http://snomed.info/sct|118228005,http://snomed.info/sct|384821006",
+            "path": "/Observation/$lastn?category=http://snomed.info/sct|118228005,http://snomed.info/sct|384821006",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus"]
         },
         {
             "id": "problem",
-            "url": "/Condition",
+            "path": "/Condition",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Problem"]
         },
         {
             "id": "livingSituation",
-            "url": "/Observation/$lastn?code=http://snomed.info/sct|365508006",
+            "path": "/Observation/$lastn?code=http://snomed.info/sct|365508006",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation"]
         },
         {
             "id": "drugUse",
-            "url": "/Observation?code=http://snomed.info/sct|228366006",
+            "path": "/Observation?code=http://snomed.info/sct|228366006",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse"]
         },
         {
             "id": "alcoholUse",
-            "url": "/Observation?code=http://snomed.info/sct|228273003",
+            "path": "/Observation?code=http://snomed.info/sct|228273003",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse"]
         },
         {
             "id": "tobaccoUse",
-            "url": "/Observation?code=http://snomed.info/sct|365980008",
+            "path": "/Observation?code=http://snomed.info/sct|365980008",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-TobaccoUse"]
         },
         {
             "id": "nutritionAdvice",
-            "url": "/NutritionOrder",
+            "path": "/NutritionOrder",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice"]
         },
         {
             "id": "alert",
-            "url": "/Flag",
+            "path": "/Flag",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Alert"]
         },
         {
             "id": "allergies",
-            "url": "/AllergyIntolerance",
+            "path": "/AllergyIntolerance",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance"]
         },
         {
             "id": "medicationUse",
-            "url": "/MedicationStatement?category=urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3|6&_include=MedicationStatement:medication",
+            "path": "/MedicationStatement?category=urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3|6&_include=MedicationStatement:medication",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"]
         },
         {
             "id": "medicationAgreements",
-            "url": "/MedicationRequest?category=http://snomed.info/sct|16076005&_include=MedicationRequest:medication",
+            "path": "/MedicationRequest?category=http://snomed.info/sct|16076005&_include=MedicationRequest:medication",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement"]
         },
         {
             "id": "administrationAgreement",
-            "url": "/MedicationDispense?category=http://snomed.info/sct|422037009&_include=MedicationDispense:medication",
+            "path": "/MedicationDispense?category=http://snomed.info/sct|422037009&_include=MedicationDispense:medication",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement"]
         },
         {
             "id": "medicalDevice",
-            "url": "/DeviceUseStatement?_include=DeviceUseStatement:device",
+            "path": "/DeviceUseStatement?_include=DeviceUseStatement:device",
             "profiles": [
                 "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDevice",
                 "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceProduct"
@@ -97,27 +98,27 @@
         },
         {
             "id": "vaccination",
-            "url": "/Immunization?status=completed",
+            "path": "/Immunization?status=completed",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Vaccination"]
         },
         {
             "id": "bloodPressure",
-            "url": "/Observation/$lastn?code=http://loinc.org|85354-9",
+            "path": "/Observation/$lastn?code=http://loinc.org|85354-9",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure"]
         },
         {
             "id": "bodyWeight",
-            "url": "/Observation/$lastn?code=http://loinc.org|29463-7",
+            "path": "/Observation/$lastn?code=http://loinc.org|29463-7",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight"]
         },
         {
             "id": "bodyHeight",
-            "url": "/Observation/$lastn?code=http://loinc.org|8302-2,http://loinc.org|8306-3,http://loinc.org|8308-9",
+            "path": "/Observation/$lastn?code=http://loinc.org|8302-2,http://loinc.org|8306-3,http://loinc.org|8308-9",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight"]
         },
         {
             "id": "laboratoryTestResult",
-            "url": "/Observation/$lastn?category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen",
+            "path": "/Observation/$lastn?category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen",
             "profiles": [
                 "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation",
                 "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen"
@@ -125,32 +126,32 @@
         },
         {
             "id": "procedure",
-            "url": "/Procedure?category=http://snomed.info/sct|387713003",
+            "path": "/Procedure?category=http://snomed.info/sct|387713003",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Procedure"]
         },
         {
             "id": "encounter",
-            "url": "/Encounter?class=http://hl7.org/fhir/v3/ActCode|IMP,http://hl7.org/fhir/v3/ActCode|ACUTE,http://hl7.org/fhir/v3/ActCode|NONAC",
+            "path": "/Encounter?class=http://hl7.org/fhir/v3/ActCode|IMP,http://hl7.org/fhir/v3/ActCode|ACUTE,http://hl7.org/fhir/v3/ActCode|NONAC",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Encounter"]
         },
         {
             "id": "plannedProcedures",
-            "url": "/ProcedureRequest?status=active",
+            "path": "/ProcedureRequest?status=active",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-ProcedureRequest"]
         },
         {
             "id": "plannedImmunization",
-            "url": "/ImmunizationRecommendation",
+            "path": "/ImmunizationRecommendation",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-VaccinationRecommendation"]
         },
         {
             "id": "plannedMedicalDevices",
-            "url": "/DeviceRequest?status=active&_include=DeviceRequest:device",
+            "path": "/DeviceRequest?status=active&_include=DeviceRequest:device",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceRequest"]
         },
         {
             "id": "plannedEncounters",
-            "url": "/Appointment?status=booked,pending,proposed",
+            "path": "/Appointment?status=booked,pending,proposed",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/eAfspraak-Appointment"]
         }
     ]

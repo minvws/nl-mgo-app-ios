@@ -1,7 +1,8 @@
 {
     "id": "61",
     "name": "Long-Term Healthcare Information",
-    "fhirVersion": "R3",
+    "fhirVersion": "3.0",
+    "fhirVersionEnum": "R3",
     "endpoints": [
         {
             "id": "patient",
@@ -49,6 +50,6 @@
             "id": "careteam",
             "url": "/CareTeam?_include=CareTeam:participant",
             "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-careteam"]
-        },
+        }
     ]
 }
