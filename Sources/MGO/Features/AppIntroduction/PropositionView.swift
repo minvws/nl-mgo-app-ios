@@ -69,7 +69,7 @@ struct PropositionView: View {
 				
 				Text("proposition.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.foregroundStyle(theme.labels.primary)
 					.padding(.bottom, ViewTraits.General.padding)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
@@ -96,8 +96,8 @@ struct PropositionView: View {
 				.environment(\.openURL, OpenURLAction(handler: handleURL))
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.padding(.bottom, ViewTraits.General.padding)
-				.foregroundStyle(theme.contentPrimary)
-				.tint(theme.interactionTertiaryDefaultText)
+				.foregroundStyle(theme.labels.primary)
+				.tint(theme.actions.tertiary.text)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				
 				VStack(spacing: ViewTraits.Items.bottom) {
@@ -127,7 +127,7 @@ struct PropositionView: View {
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)
 		})
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 	

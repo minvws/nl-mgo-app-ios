@@ -30,7 +30,7 @@ struct OrganizationListManualLoadingView: View {
 			
 			Text("organization_search.heading")
 				.rijksoverheidStyle(font: .bold, style: .title)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
 			
@@ -44,7 +44,7 @@ struct OrganizationListManualLoadingView: View {
 					
 					Text("organization_search.searching")
 						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundStyle(theme.contentPrimary)
+						.foregroundStyle(theme.labels.primary)
 				}
 			}
 			Spacer()

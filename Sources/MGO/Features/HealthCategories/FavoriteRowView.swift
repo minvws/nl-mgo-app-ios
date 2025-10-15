@@ -45,7 +45,7 @@ struct FavoriteRowView: View {
 				switch state {
 					case .loaded:
 						Image(systemName: "chevron.right")
-							.foregroundStyle(theme.symbolSecondary)
+							.foregroundStyle(theme.symbols.secondary)
 							.frame(
 								width: ViewTraits.Accessory.size,
 								height: ViewTraits.Accessory.size
@@ -58,7 +58,7 @@ struct FavoriteRowView: View {
 								width: ViewTraits.Accessory.size,
 								height: ViewTraits.Accessory.size
 							)
-							.tint(theme.symbolSecondary)
+							.tint(theme.symbols.secondary)
 						
 					default:
 						EmptyView()
@@ -69,7 +69,7 @@ struct FavoriteRowView: View {
 			
 			Text(String(localized: String.LocalizationValue(stringLiteral: category.heading)))
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundColor(theme.contentPrimary)
+				.foregroundColor(theme.labels.primary)
 		}
 		.frame(minHeight: ViewTraits.Category.minHeight)
 		.accessibilityElement(children: .combine)

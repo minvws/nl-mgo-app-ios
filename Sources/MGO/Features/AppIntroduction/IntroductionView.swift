@@ -114,7 +114,7 @@ struct IntroductionView: View {
 			.padding(.top, ViewTraits.Navigation.padding)
 			.readSize($contentSize)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
-			.foregroundStyle(theme.contentPrimary)
+			.foregroundStyle(theme.labels.primary)
 			.onRotate { newOrientation in
 				
 				// Always show on iPad
@@ -139,7 +139,7 @@ struct IntroductionView: View {
 		}
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 }

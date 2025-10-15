@@ -270,7 +270,7 @@ struct OrganizationListManualView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	@ViewBuilder func listSearchResults(_ list: [OrganizationListSet]) -> some View {
@@ -281,7 +281,7 @@ struct OrganizationListManualView: View {
 				
 				Text("organization_search.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilityIdentifier("organization_search.heading")

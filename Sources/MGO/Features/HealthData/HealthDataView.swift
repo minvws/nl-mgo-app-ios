@@ -256,7 +256,7 @@ struct HealthDataView: View {
 			.padding(.top, ViewTraits.Navigation.padding)
 			.padding(.horizontal, ViewTraits.General.padding)
 		}
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.navigationBarBackButtonHidden()
 		.when(viewModel.state.backButton != nil) { view in
 			view

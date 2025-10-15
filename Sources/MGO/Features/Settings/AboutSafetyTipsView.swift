@@ -70,7 +70,7 @@ struct AboutSafetyTipsView: View {
 		})
 		.navigationTitle("settings.about_this_app.safety")
 		.navigationBarTitleDisplayMode(.inline)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// Get the header for the list
@@ -79,7 +79,7 @@ struct AboutSafetyTipsView: View {
 		
 		Text("settings.about_this_app.safety.subheading")
 			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundStyle(theme.contentPrimary)
+			.foregroundStyle(theme.labels.primary)
 			.textCase(nil)
 			.padding(.top, ViewTraits.Navigation.padding)
 			.when(isIOS16OrOlder) { view in
@@ -99,13 +99,13 @@ struct AboutSafetyTipsView: View {
 		VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 			Text(heading)
 				.rijksoverheidStyle(font: .bold, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 				.accessibilityAddTraits(.isHeader)
 				.accessibilityIdentifier(heading.stringKey)
 			
 			Text(subheading)
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 				.accessibilityIdentifier(subheading.stringKey)
 		}
 		.padding(ViewTraits.General.padding)

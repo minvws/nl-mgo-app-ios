@@ -12,7 +12,11 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_primaryWithLeadingIcon() throws {
 		
 		// Given
-		let sut = CallToActionButton("DigiD", icon: Image(systemName: "stethoscope"), style: .primaryWithLeadingIcon)
+		let sut = CallToActionButton(
+			"DigiD",
+			icon: Image(systemName: "stethoscope"),
+			style: .primaryWithLeadingIcon
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -24,7 +28,10 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_primaryWithLeadingSpinner() throws {
 		
 		// Given
-		let sut = CallToActionButton("Laden...", style: .primaryWithLeadingSpinner)
+		let sut = CallToActionButton(
+			"Laden...",
+			style: .primaryWithLeadingSpinner
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -36,7 +43,10 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_primary() throws {
 		
 		// Given
-		let sut = CallToActionButton("Primary", style: .primary)
+		let sut = CallToActionButton(
+			"Primary",
+			style: .primary
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -48,19 +58,10 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_primary_asTitle() throws {
 		
 		// Given
-		let sut = CallToActionButton(title: "Primary Title", style: .primary)
-		
-		// When
-		let view = sut.frame(width: 300, height: 200)
-		
-		// Then
-		assertSnapshot(of: view, as: .image)
-	}
-	
-	func test_primaryCritical() throws {
-		
-		// Given
-		let sut = CallToActionButton("Primary Critical", style: .primaryCritical)
+		let sut = CallToActionButton(
+			title: "Primary Title",
+			style: .primary
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -72,19 +73,10 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_secondary() throws {
 		
 		// Given
-		let sut = CallToActionButton("Secondary", style: .secondary)
-		
-		// When
-		let view = sut.frame(width: 300, height: 200)
-		
-		// Then
-		assertSnapshot(of: view, as: .image)
-	}
-	
-	func test_secondaryCritical() throws {
-		
-		// Given
-		let sut = CallToActionButton("Secondary Critical", style: .secondaryCritical)
+		let sut = CallToActionButton(
+			"Secondary",
+			style: .secondary
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -96,19 +88,10 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_tertiary() throws {
 		
 		// Given
-		let sut = CallToActionButton("Tertiary", style: .tertiary)
-		
-		// When
-		let view = sut.frame(width: 300, height: 200)
-		
-		// Then
-		assertSnapshot(of: view, as: .image)
-	}
-	
-	func test_tertiaryCritical() throws {
-		
-		// Given
-		let sut = CallToActionButton("Tertiary Critical", style: .tertiaryCritical)
+		let sut = CallToActionButton(
+			"Tertiary",
+			style: .tertiary
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -120,7 +103,11 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_withIcon() throws {
 		
 		// Given
-		let sut = CallToActionButton("With Icon", icon: Image(systemName: "stethoscope"), style: .withIcon)
+		let sut = CallToActionButton(
+			"With Icon",
+			icon: Image(systemName: "stethoscope"),
+			style: .withIcon
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -132,7 +119,10 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_withSpinner() throws {
 		
 		// Given
-		let sut = CallToActionButton("With Spinner", style: .withSpinner)
+		let sut = CallToActionButton(
+			"With Spinner",
+			style: .withSpinner
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)

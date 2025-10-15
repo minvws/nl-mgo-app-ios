@@ -59,9 +59,9 @@ struct PinCodeBoxView: View {
 	/// The color of the border for the various states
 	var borderColor: Color {
 		if state == .error {
-			return theme.sentimentCritical
+			return theme.states.critical
 		} else {
-			return theme.interactionTertiaryDefaultText
+			return theme.actions.tertiary.text
 		}
 	}
 	
@@ -70,9 +70,9 @@ struct PinCodeBoxView: View {
 			case .empty, .focus:
 				.clear
 			case .filling, .filled:
-				theme.interactionTertiaryDefaultText
+				theme.actions.tertiary.text
 			case .error:
-				theme.sentimentCritical
+				theme.states.critical
 		}
 	}
 	
@@ -95,7 +95,7 @@ struct PinCodeBoxView: View {
 #Preview {
 	
 	ZStack {
-		Theme().backgroundPrimary
+		Theme().backgrounds.primary
 		HStack(spacing: 12) {
 			PinCodeBoxView(state: .constant(.filled))
 			PinCodeBoxView(state: .constant(.filling))

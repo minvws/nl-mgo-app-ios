@@ -270,7 +270,7 @@ struct OrganizationListAutomaticView: View {
 				.layoutForIPad()
 		})
 
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// Create a list of organizations
@@ -284,14 +284,14 @@ struct OrganizationListAutomaticView: View {
 				
 				Text("organization_search.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilityIdentifier("organization_search.heading")
 				
 				Text("organization_search.subheading")
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityIdentifier("organization_search.subheading")
 				
@@ -311,7 +311,7 @@ struct OrganizationListAutomaticView: View {
 			.padding(ViewTraits.Button.padding)
 		}
 		.navigationBarHidden(false)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.padding(.top, ViewTraits.Navigation.padding)
 		.layoutForIPad()
 	}

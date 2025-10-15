@@ -46,19 +46,19 @@ struct HealthCategoryRowView: View {
 				
 				Text(String(localized: String.LocalizationValue(stringLiteral: category.heading)))
 					.rijksoverheidStyle(font: .bold, style: .body)
-					.foregroundColor(theme.contentPrimary)
+					.foregroundColor(theme.labels.primary)
 				
 				if state == .empty {
 					
 					Text("common.no_data")
 						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundColor(theme.contentSecondary)
+						.foregroundColor(theme.labels.secondary)
 					
 				} else {
 					
 					Text(String(localized: String.LocalizationValue(stringLiteral: category.subheading)))
 						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundColor(theme.contentSecondary)
+						.foregroundColor(theme.labels.secondary)
 					
 				}
 			}
@@ -69,14 +69,14 @@ struct HealthCategoryRowView: View {
 				switch state {
 					case .loaded:
 						Image(systemName: "chevron.right")
-							.foregroundStyle(theme.symbolSecondary)
+							.foregroundStyle(theme.symbols.secondary)
 							.frame(width: 12, height: 22)
 					
 					case .loading:
 						ProgressView()
 							.progressViewStyle(.circular)
 							.frame(width: ViewTraits.Spinner.size, height: ViewTraits.Spinner.size)
-							.tint(theme.symbolSecondary)
+							.tint(theme.symbols.secondary)
 					
 					default:
 						EmptyView()

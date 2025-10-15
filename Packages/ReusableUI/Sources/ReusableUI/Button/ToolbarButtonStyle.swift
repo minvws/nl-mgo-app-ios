@@ -23,6 +23,6 @@ public struct ToolbarButtonStyle: ButtonStyle {
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
 			.opacity(configuration.isPressed ? 0.5 : 1.0)
-			.foregroundColor(configuration.isPressed ? theme.interactionTertiaryDefaultTextHover : theme.interactionTertiaryDefaultText)
+			.foregroundColor(configuration.isPressed ? theme.actions.tertiary.hover : theme.actions.tertiary.text)
 	}
 }

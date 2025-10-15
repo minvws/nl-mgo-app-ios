@@ -418,12 +418,12 @@ struct HealthCategoriesView: View {
 			view
 				.navigationBarTitleDisplayMode(.inline)
 		}
-		.when(!viewModel.state.showEmptyView && viewModel.state.canTitleCollapse) { view in
+		.when(!viewModel.state.showEmptyView) { view in
 			view
 				.toolbar(content: toolbarContent)
 		}
 		.navigationBarHidden(false)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.refreshable {
 			viewModel.reduce(.refresh)
 		}
@@ -439,7 +439,7 @@ struct HealthCategoriesView: View {
 		
 		Text(viewModel.state.heading)
 			.rijksoverheidStyle(font: .bold, style: .title)
-			.foregroundColor(theme.contentPrimary)
+			.foregroundColor(theme.labels.primary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityAddTraits(.isHeader)
 			.accessibilityIdentifier("healthcare_organizations.heading")
@@ -452,7 +452,7 @@ struct HealthCategoriesView: View {
 		
 		Text(viewModel.state.subheading)
 			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundColor(theme.contentPrimary)
+			.foregroundColor(theme.labels.primary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityIdentifier("overview.subheading")
 	}
@@ -470,12 +470,6 @@ struct HealthCategoriesView: View {
 			}
 			
 			ForEach(viewModel.state.mainCategories) { mainCategoryView($0) }
-			
-			Section { /* Empty section */ }
-			footer: {
-				listFooter()
-			}
-			
 		} // List
 		.backport.scrollContentBackground(.hidden)
 		.listStyle(.insetGrouped)
@@ -498,8 +492,7 @@ struct HealthCategoriesView: View {
 			Section {
 				Text(String(localized: String.LocalizationValue(stringLiteral: mainCategory.heading)))
 					.rijksoverheidStyle(font: .bold, style: .headline)
-					.foregroundColor(theme.contentPrimary)
-//					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.foregroundColor(theme.labels.primary)
 					.accessibilityAddTraits(.isHeader)
 			}
 			.listRowBackground(Color.clear)
@@ -576,7 +569,7 @@ struct HealthCategoriesView: View {
 				ForEach(viewModel.state.favorites) {
 					categoryView($0, asFavorite: true)
 						.padding(ViewTraits.General.padding)
-						.background(theme.backgroundSecondary)
+						.background(theme.backgrounds.secondary)
 						.cornerRadius(ViewTraits.Favorites.cornerRadius)
 				}
 			}
@@ -592,7 +585,7 @@ struct HealthCategoriesView: View {
 		Section {
 			Text("overview.favorites.heading")
 				.rijksoverheidStyle(font: .bold, style: .headline)
-				.foregroundColor(theme.contentPrimary)
+				.foregroundColor(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
 		}
@@ -619,7 +612,7 @@ struct HealthCategoriesView: View {
 			
 			Text("overview.favorites.empty.heading")
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 				.padding(.top, 2 * ViewTraits.General.padding)
 			
 			CallToActionButton(emptyActionKey, style: .tertiary) {
@@ -632,7 +625,7 @@ struct HealthCategoriesView: View {
 			RoundedRectangle(cornerRadius: ViewTraits.Favorites.cornerRadius)
 				.inset(by: ViewTraits.Favorites.inset)
 				.stroke(
-					theme.borderPrimary,
+					theme.separators.primary,
 					style: ViewTraits.Favorites.style
 				)
 		)
@@ -640,24 +633,6 @@ struct HealthCategoriesView: View {
 	
 	/// The language key for adding favorite categories
 	let emptyActionKey: LocalizedStringKey = "overview.favorites.empty.action"
-	
-	/// The footer
-	/// - Returns: the footer
-	@ViewBuilder private func listFooter() -> some View {
-		
-		if viewModel.state.showRemoveHealthcareProvider {
-			// Button in footer of an empty section so it is
-			// at the bottom of the list, and without a rounded list background
-			CallToActionButton(
-				"organizations.remove_organization",
-				style: .tertiaryCritical) {
-					viewModel.reduce(.removeHealthcareOrganization)
-				}
-				.accessibilityIdentifier("organizations.remove_organization")
-		} else {
-			Spacer(minLength: ViewTraits.List.bottom)
-		}
-	}
 	
 	/// Create the empty state view
 	/// - Returns: View when the user has no stored healthcare organizations
@@ -669,7 +644,7 @@ struct HealthCategoriesView: View {
 				icon: Image(ImageResource.Woman.womanWithPhone),
 				heading: "common.no_organizations_heading",
 				subHeading: "common.no_organizations_subheading",
-				subHeadingForegroundColor: theme.contentPrimary
+				subHeadingForegroundColor: theme.labels.primary
 			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
@@ -693,11 +668,16 @@ struct HealthCategoriesView: View {
 			content: {
 				
 				Menu {
-					menuFavoritesOption()
+					if viewModel.state.canTitleCollapse {
+						menuFavoritesOption()
+					}
+					if viewModel.state.showRemoveHealthcareProvider {
+						menuRemoveHealthcareOrganizationOption()
+					}
 				} label: {
 					if osVersionChecker.available(version: .iOS(.v26)) {
 						Image(ImageResource.Icon.more26)
-							.foregroundStyle(theme.symbolPrimary)
+							.foregroundStyle(theme.symbols.primary)
 					} else {
 						Image(ImageResource.Icon.more)
 					}
@@ -716,7 +696,19 @@ struct HealthCategoriesView: View {
 			viewModel.reduce(.showFavorites)
 		} label: {
 			Label(emptyActionKey, systemImage: "star")
-				.tint(theme.contentPrimary)
+				.tint(theme.labels.primary)
+		}
+	}
+	
+	/// The remove healthcare organization option
+	/// - Returns: view
+	@ViewBuilder func menuRemoveHealthcareOrganizationOption() -> some View {
+		
+		Button(role: .destructive) {
+			viewModel.reduce(.removeHealthcareOrganization)
+		} label: {
+			Label("organizations.remove_organization", systemImage: "trash")
+				.tint(theme.states.critical)
 		}
 	}
 }

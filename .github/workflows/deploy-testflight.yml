@@ -16,7 +16,7 @@ env:
 jobs:
   upload:
     if: github.event.repository.name == 'nl-mgo-app-ios-private'
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Checkout
         uses: actions/checkout@v5

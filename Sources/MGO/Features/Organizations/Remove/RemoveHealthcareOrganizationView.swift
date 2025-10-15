@@ -92,7 +92,7 @@ struct RemoveHealthcareOrganizationView: View {
 					Image(ImageResource.Details.bigTrashcan)
 						.background {
 							Circle()
-								.foregroundStyle(theme.backgroundSecondary)
+								.foregroundStyle(theme.backgrounds.secondary)
 						}
 					Spacer()
 				}
@@ -104,7 +104,7 @@ struct RemoveHealthcareOrganizationView: View {
 					arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 				))
 					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilityIdentifier("remove_organization.heading")
@@ -114,7 +114,7 @@ struct RemoveHealthcareOrganizationView: View {
 						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 				))
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityIdentifier("remove_organization.subheading")
 			}
@@ -133,7 +133,7 @@ struct RemoveHealthcareOrganizationView: View {
 					viewModel.reduce(.closeSheet)
 				}
 		})
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// Get the call to action buttons view

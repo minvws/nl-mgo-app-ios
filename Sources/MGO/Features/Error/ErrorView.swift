@@ -108,7 +108,7 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 				
 				Text(viewModel.title)
 					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 				
@@ -129,7 +129,7 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 				
 				viewModel.viewForBody()
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 				
 				Spacer()
@@ -143,7 +143,7 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 			.padding(ErrorViewViewTraits.General.padding)
 		}
 		.padding(.top, ErrorViewViewTraits.Navigation.padding)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 }
 

@@ -74,7 +74,7 @@ struct HealthUISchemaView: View {
 			// A schema group has a section label
 			Text(NSLocalizedString(schemaGroupLabel, comment: ""))
 				.rijksoverheidStyle(font: .bold, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
 		}
@@ -88,7 +88,7 @@ struct HealthUISchemaView: View {
 			}
 		}
 		.frame(maxWidth: .infinity, alignment: .topLeading)
-		.background(theme.backgroundSecondary)
+		.background(theme.backgrounds.secondary)
 		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.List.cornerRadius))
 		.padding(.bottom, ViewTraits.List.bottom)
 	}
@@ -282,7 +282,7 @@ struct HealthUISchemaView: View {
 				view
 				Divider()
 					.frame(height: ViewTraits.Divider.height)
-					.overlay(theme.borderPrimary)
+					.overlay(theme.separators.primary)
 					.padding(.leading, ViewTraits.Row.padding)
 			}
 		}
@@ -311,7 +311,7 @@ struct HealthUISchemaView: View {
 				view
 				Divider()
 					.frame(height: ViewTraits.Divider.height)
-					.overlay(theme.borderPrimary)
+					.overlay(theme.separators.primary)
 					.padding(.leading, ViewTraits.Row.padding)
 			}
 		}
@@ -348,7 +348,7 @@ struct HealthUISchemaView: View {
 			if showChevron {
 				
 				Image(ImageResource.Overview.chevronRight)
-					.foregroundStyle(theme.symbolPrimary)
+					.foregroundStyle(theme.symbols.primary)
 					.frame(width: ViewTraits.Chevron.size,
 						   height: ViewTraits.Chevron.size,
 						   alignment: .center
@@ -362,7 +362,7 @@ struct HealthUISchemaView: View {
 		if showDivider {
 			Divider()
 				.frame(height: ViewTraits.Divider.height)
-				.overlay(theme.borderPrimary)
+				.overlay(theme.separators.primary)
 				.padding(.leading, ViewTraits.Row.padding)
 		}
 	}
@@ -374,7 +374,7 @@ struct HealthUISchemaView: View {
 		
 		SelectableTextView(
 			text: value,
-			textColor: theme.contentPrimary,
+			textColor: theme.labels.primary,
 			font: UIFont(
 				name: RijksoverheidSansWebTextFont.regular.fontName,
 				size: Font.TextStyle.body.pointSize
@@ -410,7 +410,7 @@ struct HealthUISchemaView: View {
 		if showDivider {
 			Divider()
 				.frame(height: ViewTraits.Divider.height)
-				.overlay(theme.borderPrimary)
+				.overlay(theme.separators.primary)
 				.padding(.leading, ViewTraits.Row.padding)
 		}
 	}
@@ -477,7 +477,7 @@ struct HealthUISchemaView: View {
 			Spacer()
 		})
 		.fixedSize(horizontal: false, vertical: true)
-		.foregroundStyle(theme.rijksLint)
+		.foregroundStyle(theme.categories.rijkslint)
 	}
 	
 	/// The view for a heading row
@@ -491,7 +491,7 @@ struct HealthUISchemaView: View {
 		
 		SelectableTextView(
 			text: heading,
-			textColor: theme.contentSecondary,
+			textColor: theme.labels.secondary,
 			font: UIFont(
 				name: RijksoverheidSansWebTextFont.regular.fontName,
 				size: Font.TextStyle.callout.pointSize

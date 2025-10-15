@@ -371,7 +371,7 @@ struct HealthExportView: View {
 					Spacer()
 					
 					ProgressView("pdf_viewer.loading")
-						.foregroundStyle(theme.contentSecondary)
+						.foregroundStyle(theme.labels.secondary)
 						.rijksoverheidStyle(font: .regular, style: .body)
 				
 					Spacer()
@@ -396,14 +396,14 @@ struct HealthExportView: View {
 							}
 							.padding(.horizontal, ViewTraits.General.padding)
 							.padding(.top, ViewTraits.General.padding)
-							.background(theme.backgroundSecondary)
+							.background(theme.backgrounds.secondary)
 						}
 					}
 			}
 		}
 		.interactiveDismissDisabled(true) // Disable dragging by the user for this sheet
 		.frame(maxWidth: .infinity)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}

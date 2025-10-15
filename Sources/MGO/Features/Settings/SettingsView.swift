@@ -119,7 +119,7 @@ struct SettingsView: View {
 		.backport.contentMargins(ViewTraits.Navigation.padding)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.navigationTitle("settings.heading")
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// Get the view for the display settings option
@@ -131,7 +131,7 @@ struct SettingsView: View {
 		} label: {
 			SettingsRowView(
 				icon: Image(ImageResource.Settings.display),
-				iconBackground: theme.procedures,
+				iconBackground: theme.categories.procedures,
 				heading: "settings.display.heading",
 				subHeading: selectedAppearance.key
 			)
@@ -149,7 +149,7 @@ struct SettingsView: View {
 		} label: {
 			SettingsRowView(
 				icon: Image(ImageResource.Settings.lock),
-				iconBackground: theme.rijksLint,
+				iconBackground: theme.categories.rijkslint,
 				heading: "settings.security.heading"
 			)
 		}
@@ -167,7 +167,7 @@ struct SettingsView: View {
 			} label: {
 				SettingsRowView(
 					icon: Image(ImageResource.Settings.advanced),
-					iconBackground: theme.vitals,
+					iconBackground: theme.categories.vitals,
 					heading: "settings.advanced.heading"
 				)
 			}
@@ -176,7 +176,7 @@ struct SettingsView: View {
 		} footer: {
 			Text("settings.advanced.subheading")
 				.rijksoverheidStyle(font: .regular, style: .callout)
-				.foregroundStyle(theme.contentSecondary)
+				.foregroundStyle(theme.labels.secondary)
 		}
 	}
 	
@@ -207,7 +207,7 @@ struct SettingsView: View {
 			} label: {
 				Text("settings.reset_app.heading")
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.sentimentCritical)
+					.foregroundStyle(theme.states.critical)
 					.frame(
 						maxWidth: .infinity,
 						minHeight: ViewTraits.Button.minimumHeight,
@@ -219,7 +219,7 @@ struct SettingsView: View {
 		} footer: {
 			Text("settings.reset_app.subheading")
 				.rijksoverheidStyle(font: .regular, style: .callout)
-				.foregroundStyle(theme.contentSecondary)
+				.foregroundStyle(theme.labels.secondary)
 		}
 		.alert(
 			"settings.reset_app.dialog.heading",
