@@ -512,7 +512,7 @@ struct PinCodeView: View {
 					Text("pincode.opticid.lockout")
 			}
 		}
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 	
@@ -603,7 +603,7 @@ struct PinCodeView: View {
 				Spacer()
 			}
 		}
-		.foregroundStyle(theme.sentimentCritical)
+		.foregroundStyle(theme.states.critical)
 		.frame(minHeight: ViewTraits.Feedback.minHeight, alignment: .top)
 	}
 	

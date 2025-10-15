@@ -26,11 +26,11 @@ public struct RestrictedBrowserView: View {
 		VStack(spacing: 0) {
 			
 			Divider()
-				.overlay(theme.borderSecondary)
+				.overlay(theme.separators.secondary)
 			
 			WebView(viewModel: viewModel, url: viewModel.url)
-				.background(theme.backgroundPrimary)
-				.backport.toolbarBackground(theme.backgroundSecondary, for: .navigationBar)
+				.background(theme.backgrounds.primary)
+				.backport.toolbarBackground(theme.backgrounds.secondary, for: .navigationBar)
 				.toolbar(
 					content: {
 						ToolbarItemGroup(
@@ -65,6 +65,6 @@ struct NavigationBarButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.foregroundStyle(configuration.isPressed ? theme.interactionTertiaryDefaultTextHover : theme.interactionTertiaryDefaultText)
+			.foregroundStyle(configuration.isPressed ? theme.actions.tertiary.hover : theme.actions.tertiary.text)
 	}
 }

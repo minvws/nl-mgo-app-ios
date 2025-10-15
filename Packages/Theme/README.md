@@ -21,7 +21,7 @@ It can be used in Views like so:
 
 ```swift
 Text("Hello, World!")
-	.foregroundStyle(theme.contentPrimary)
+	.foregroundStyle(theme.labels.primary)
 ```
 
 This will produce a Text object with text color #000000 when in Light Mode, or #FFFFFF in Dark Mode. 

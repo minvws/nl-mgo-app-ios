@@ -101,7 +101,7 @@ public struct ImageContentView: View {
 				
 				Text(heading)
 					.rijksoverheidStyle(font: .bold, style: titleStyle)
-					.foregroundColor(theme.contentPrimary)
+					.foregroundColor(theme.labels.primary)
 					.multilineTextAlignment(textAlignment == .center ? .center : .leading)
 					.fixedSize(horizontal: false, vertical: true)
 					.accessibilityIdentifier("imagecontentview.heading")

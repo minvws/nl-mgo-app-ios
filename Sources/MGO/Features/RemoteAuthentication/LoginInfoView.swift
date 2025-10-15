@@ -60,7 +60,7 @@ struct LoginInfoView: View {
 				textAlignment: .leading,
 				textSpacing: ViewTraits.General.spacing,
 				titleStyle: .largeTitle,
-				subHeadingForegroundColor: theme.contentPrimary
+				subHeadingForegroundColor: theme.labels.primary
 			)
 			.padding(.horizontal, ViewTraits.General.spacing)
 			
@@ -73,7 +73,7 @@ struct LoginInfoView: View {
 		}
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 }

@@ -56,14 +56,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		// Set fonts for the Navigation bar
 		UINavigationBar.appearance().titleTextAttributes = [
-			.foregroundColor: UIColor(Theme().contentPrimary),
+			.foregroundColor: UIColor(Theme().labels.primary),
 			.font: UIFont(
 				name: RijksoverheidSansWebTextFont.bold.fontName,
 				size: Font.TextStyle.body.pointSize
 			) as Any
 		]
 		UINavigationBar.appearance().largeTitleTextAttributes = [
-			.foregroundColor: UIColor(Theme().contentPrimary),
+			.foregroundColor: UIColor(Theme().labels.primary),
 			.font: UIFont(
 				name: RijksoverheidSansWebTextFont.bold.fontName,
 				size: Font.TextStyle.title.pointSize

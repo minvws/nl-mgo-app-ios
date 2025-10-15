@@ -72,7 +72,7 @@ struct AdvancedSettingsView: View {
 		})
 		.navigationTitle("settings.advanced.heading")
 		.navigationBarTitleDisplayMode(.inline)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// The view for the toggle
@@ -82,11 +82,11 @@ struct AdvancedSettingsView: View {
 		Toggle(isOn: $automaticLocalization) {
 			Text("settings.featureflag.localization")
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 		}
 			.accessibilityIdentifier("settings.featureflag.localization")
 			.toggleStyle(.switch)
-			.tint(theme.interactionPrimaryDefaultBackground)
+			.tint(theme.actions.primary.background)
 	}
 	
 	/// The view for the toggle
@@ -96,11 +96,11 @@ struct AdvancedSettingsView: View {
 		Toggle(isOn: $bypassPincode) {
 			Text("settings.featureflag.pincode")
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 		}
 			.accessibilityIdentifier("settings.featureflag.pincode")
 			.toggleStyle(.switch)
-			.tint(theme.interactionPrimaryDefaultBackground)
+			.tint(theme.actions.primary.background)
 	}
 }
 

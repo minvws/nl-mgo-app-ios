@@ -8,7 +8,7 @@ import SwiftUI
 import MGOTest
 
 final class ToastViewTests: XCTestCase {
-
+	
 	func test_toast_info() {
 		
 		// Given

@@ -133,7 +133,7 @@ struct SecuritySettingsView: View {
 			} footer: {
 				Text("settings.security.biometric.subheading")
 					.rijksoverheidStyle(font: .regular, style: .callout)
-					.foregroundStyle(theme.contentSecondary)
+					.foregroundStyle(theme.labels.secondary)
 			}
 			.onChange(of: viewModel.state.bioMetricAuthenticationEnabled) { newValue in
 				viewModel.reduce(.biometricEnabled(newValue))
@@ -164,7 +164,7 @@ struct SecuritySettingsView: View {
 		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationTitle("settings.security.heading")
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// The view for the toggle
@@ -174,10 +174,10 @@ struct SecuritySettingsView: View {
 		Toggle(isOn: $viewModel.state.bioMetricAuthenticationEnabled) {
 			Text(LocalizedStringKey(label(viewModel.state.bioMetricType)))
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 		}
 			.toggleStyle(.switch)
-			.tint(theme.interactionPrimaryDefaultBackground)
+			.tint(theme.actions.primary.background)
 			.accessibilityIdentifier("settings.security.toggle")
 	}
 	

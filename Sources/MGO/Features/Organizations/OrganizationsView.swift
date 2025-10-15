@@ -204,7 +204,7 @@ struct OrganizationsView: View {
 		.navigationBarBackButtonHidden()
 		.navigationBarHidden(false)
 		.navigationTitle("organizations.heading")
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
@@ -223,7 +223,7 @@ struct OrganizationsView: View {
 				icon: Image(ImageResource.Woman.womanWithPhone),
 				heading: "common.no_organizations_heading",
 				subHeading: "common.no_organizations_subheading",
-				subHeadingForegroundColor: theme.contentPrimary
+				subHeadingForegroundColor: theme.labels.primary
 			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
@@ -289,12 +289,12 @@ struct OrganizationsView: View {
 			HStack {
 				Text(title)
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+					.foregroundStyle(theme.labels.primary)
 				
 				Spacer()
 				
 				Image(imageResource)
-					.foregroundColor(theme.symbolSecondary)
+					.foregroundColor(theme.symbols.secondary)
 			}
 			.padding(ViewTraits.List.padding)
 		}

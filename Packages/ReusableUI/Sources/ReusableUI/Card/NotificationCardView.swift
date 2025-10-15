@@ -61,7 +61,7 @@ public struct NotificationCardView: View {
 			if let title {
 				Text(title)
 					.rijksoverheidStyle(font: .bold, style: .title2)
-					.foregroundColor(theme.contentPrimary)
+					.foregroundColor(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 			}
@@ -69,7 +69,7 @@ public struct NotificationCardView: View {
 			if let message {
 				Text(message)
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundColor(theme.contentSecondary)
+					.foregroundColor(theme.labels.secondary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 			}
 		}

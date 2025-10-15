@@ -68,7 +68,7 @@ struct AccountRemovedView: View {
 				textAlignment: .leading,
 				textSpacing: ViewTraits.Text.spacing,
 				titleStyle: .title,
-				subHeadingForegroundColor: theme.contentPrimary
+				subHeadingForegroundColor: theme.labels.primary
 			)
 			.padding(.top, ViewTraits.Navigation.padding)
 			.padding(.horizontal, ViewTraits.General.spacing)
@@ -82,7 +82,7 @@ struct AccountRemovedView: View {
 		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarHidden(false)
-		.background(theme.backgroundPrimary)
+		.background(theme.backgrounds.primary)
 		.layoutForIPad()
 	}
 }

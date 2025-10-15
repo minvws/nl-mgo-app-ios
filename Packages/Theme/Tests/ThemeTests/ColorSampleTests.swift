@@ -16,7 +16,7 @@ final class ColorSampleTests: XCTestCase {
 		let sut = ColorSampleView()
 		
 		// When
-		let content = sut.frame(width: 520, height: 2000)
+		let content = sut.frame(width: 520, height: 1650)
 		
 		// Then
 		assertSnapshot(
@@ -31,7 +31,7 @@ final class ColorSampleTests: XCTestCase {
 		let sut = ColorSampleView()
 		
 		// When
-		let content = sut.frame(width: 520, height: 2000)
+		let content = sut.frame(width: 520, height: 1650)
 		
 		// Then
 		assertSnapshot(

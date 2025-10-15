@@ -180,7 +180,7 @@ struct AddOrganizationView: View {
 				
 				Text("add_organization.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.foregroundStyle(theme.labels.primary)
 					.padding(.bottom, ViewTraits.General.padding)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
@@ -246,7 +246,7 @@ struct AddOrganizationView: View {
 			view
 				.layoutForIPad()
 		})
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 }
 
