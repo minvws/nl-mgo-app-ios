@@ -6,14 +6,18 @@
 			"children": [
 				{
 					"label": "The label",
-					"display": "Download Binary",
+					"value": {
+						"display": "Download Binary"
+					},
 					"type": "DOWNLOAD_BINARY",
 					"reference": "reference",
 					"url": null
 				},
 				{
 					"label": "The label",
-					"display": "Single Entry",
+					"value": {
+						"display": "Single Entry"
+					},
 					"type": "SINGLE_VALUE",
 					"reference": null,
 					"url": null

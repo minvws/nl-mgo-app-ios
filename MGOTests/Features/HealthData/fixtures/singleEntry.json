@@ -6,7 +6,9 @@
 			"children": [
 				{
 					"label": "The label",
-					"display": "Single Entry",
+					"value": {
+						"display": "Single Entry"
+					},
 					"type": "SINGLE_VALUE",
 					"reference": null,
 					"url": null

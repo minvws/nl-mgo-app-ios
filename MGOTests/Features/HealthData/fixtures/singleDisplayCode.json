@@ -6,7 +6,7 @@
 			"children": [
 				{
 					"label": "The label",
-					"display": {
+					"value": {
 						"code": "code",
 						"display": "code 1234",
 						"system": "http://snomed.info/sct"

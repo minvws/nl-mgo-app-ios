@@ -6,7 +6,10 @@
 			"children": [
 				{
 					"label": "The label",
-					"display": "Reference",
+					"value": {
+						"display": "Reference"
+					},
+					"display": null,
 					"type": "REFERENCE_LINK",
 					"reference": "reference/link",
 					"url": null

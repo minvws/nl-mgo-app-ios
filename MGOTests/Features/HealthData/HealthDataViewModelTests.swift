@@ -27,66 +27,85 @@ final class HealthDataViewModelTests: XCTestCase {
 		
 		sut = HealthDataViewModel(
 			coordinator: coordinatorSpy,
-			schema: HealthUISchema(children: [HealthUIGroup(
+			schema: HealthUISchema(
 				children: [
-					UIElement(
-						display: UIElementDisplay.string("single value"),
-						label: "label single value",
-						type: .singleValue,
-						reference: nil,
-						url: nil
-					),
-					UIElement(
-						display: UIElementDisplay.string("reference value"),
-						label: "label reference",
-						type: .referenceValue,
-						reference: "test_resolveReference",
-						url: "reference/link"
-					),
-					UIElement(
-						display: nil,
-						label: "label reference link",
-						type: .referenceLink,
-						reference: "test_resolveReferenceLink",
-						url: "reference/link"
-					),
-					UIElement(
-						display: nil,
-						label: "label download link",
-						type: .downloadLink,
-						reference: nil,
-						url: "https://www.apple.com"
-					),
-					UIElement(
-						display: UIElementDisplay.displayCoding(
-							DisplayCoding(
-								code: "code",
-								display: "display",
-								system: "http://snomed.info/sct"
+					HealthUIGroup(
+						children: [
+							UIElement(
+								label: "label single value",
+								type: .singleValue,
+								value: UIElementValue
+									.displayValue(
+										DisplayValue(
+											code: nil,
+											display: "single value",
+											system: nil
+										)
+									),
+								display: nil,
+								reference: nil,
+								url: nil
+							),
+							UIElement(
+								label: "label reference",
+								type: .referenceValue,
+								value: nil,
+								display: "reference value",
+								reference: "test_resolveReference",
+								url: "reference/link"
+							),
+							UIElement(
+								label: "label reference link",
+								type: .referenceLink,
+								value: nil,
+								display: nil,
+								reference: "test_resolveReferenceLink",
+								url: "reference/link"
+							),
+							UIElement(
+								label: "label download link",
+								type: .downloadLink,
+								value: nil,
+								display: nil,
+								reference: nil,
+								url: "https://www.apple.com"
+							),
+							UIElement(
+								label: "label snomed code",
+								type: .singleValue,
+								value: UIElementValue
+									.displayValue(
+										DisplayValue(
+											code: "code",
+											display: "display",
+											system: "http://snomed.info/sct"
+										)
+									),
+								display: nil,
+								reference: nil,
+								url: nil
+							),
+							UIElement(
+								label: "label non snomed code",
+								type: .singleValue,
+								value: UIElementValue
+									.displayValue(
+										DisplayValue(
+											code: "code",
+											display: "display",
+											system: "syste,"
+										)
+									),
+								display: nil,
+								reference: nil,
+								url: nil
 							)
-						),
-						label: "label snomed code",
-						type: .singleValue,
-						reference: nil,
-						url: nil
-					),
-					UIElement(
-						display: UIElementDisplay.displayCoding(
-							DisplayCoding(
-								code: "code",
-								display: "display",
-								system: "syste,"
-							)
-						),
-						label: "label non snomed code",
-						type: .singleValue,
-						reference: nil,
-						url: nil
+						],
+						label: "Section Header first group"
 					)
 				],
-				label: "Section Header first group")
-			],
-			label: "test"),
+				label: "test"
+			),
 			backButtonTitle: "HealthCategoryDataViewModelTests",
 			healthcareOrganization: Generator.healthcareOrganization("1"),
 			referenceResolver: referenceResolverSpy
@@ -218,7 +237,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		// When
 		sut.reduce(
 			.term(
-				DisplayCoding(
+				DisplayValue(
 					code: "code",
 					display: "display",
 					system: "http://snomed.info/sct"
@@ -240,7 +259,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		// When
 		sut.reduce(
 			.term(
-				DisplayCoding(
+				DisplayValue(
 					code: "other code",
 					display: "display",
 					system: "http://snomed.info/sct"
