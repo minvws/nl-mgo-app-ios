@@ -6,14 +6,18 @@
 			"children": [
 				{
 					"label": "The label",
-					"display": "Download link",
+					"value": {
+						"display": "Download link"
+					},
 					"type": "DOWNLOAD_LINK",
 					"reference": null,
 					"url": "https://apple.com"
 				},
 				{
 					"label": "The label",
-					"display": "Single Entry",
+					"value": {
+						"display": "Single Entry"
+					},
 					"type": "SINGLE_VALUE",
 					"reference": null,
 					"url": null

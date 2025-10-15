@@ -89,6 +89,30 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	@MainActor func test_HealthUISchemaView_referenceLink() throws {
+		
+		// Given
+		try setupSut("referenceLink", resolvedReferences: ["reference/link": true])
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_referenceLink_unresolved() throws {
+		
+		// Given
+		try setupSut("referenceLink")
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	@MainActor func test_HealthUISchemaView_reference() throws {
 		
 		// Given
@@ -113,18 +137,6 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	@MainActor func test_HealthUISchemaView_referenceLink() throws {
-		
-		// Given
-		try setupSut("referenceLink", resolvedReferences: ["reference/link": true])
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
 	@MainActor func test_HealthUISchemaView_reference_unresolved() throws {
 		
 		// Given
@@ -141,18 +153,6 @@ final class HealthUISchemaViewTests: XCTestCase {
 		
 		// Given
 		try setupSut("referenceWithoutDisplay")
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	@MainActor func test_HealthUISchemaView_referenceLink_unresolved() throws {
-		
-		// Given
-		try setupSut("referenceLink")
 		
 		// When
 		let content = NavigationView { sut }

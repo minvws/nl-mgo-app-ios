@@ -6,7 +6,11 @@
 			"children": [
 				{
 					"label": "The label",
-					"display": ["Single Entry in an array"],
+					"value":[
+						{
+							"display": "Single Entry in an array"
+						}
+					],
 					"type": "MULTIPLE_VALUES",
 					"reference": null,
 					"url": null

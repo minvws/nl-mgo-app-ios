@@ -52,7 +52,7 @@ class HealthDataViewModel: ObservableObject {
 		case closeSheet
 		case closeTermSheet
 		case reference(String)
-		case term(DisplayCoding)
+		case term(DisplayValue)
 	}
 	
 	/// Create a Healthcare Data View Model
@@ -125,21 +125,21 @@ class HealthDataViewModel: ObservableObject {
 	/// Prepare the patient friendly terms
 	private func prepareTerms() {
 		
-		// The list of SingleValueDisplays
-		var values: [SingleValueDisplay] = [SingleValueDisplay]()
+		// The list of DisplayValue
+		var values: [DisplayValue] = [DisplayValue]()
 		
 		// Append the list with MultipleValues
 		values.append(contentsOf: state.schema.children
 			.flatMap { $0.uiElements }
 			.compactMap { $0 as? MultipleValues }
-			.compactMap { $0.display }
+			.compactMap { $0.value }
 			.flatMap { $0 })
 		
 		// Append the list with MultipleGroupedValues
 		values.append(contentsOf: state.schema.children
 			.flatMap { $0.uiElements }
 			.compactMap { $0 as? MultipleGroupedValues }
-			.compactMap { $0.display }
+			.compactMap { $0.value }
 			.flatMap { $0 }
 			.flatMap { $0 }
 		)
@@ -148,21 +148,19 @@ class HealthDataViewModel: ObservableObject {
 		values.append(contentsOf: state.schema.children
 			.flatMap { $0.uiElements }
 			.compactMap { $0 as? SingleValue }
-			.compactMap { $0.display }
+			.compactMap { $0.value }
 		)
 		
 		// Check the values and see if there is a patient friendly term available
-		values.forEach { singleDisplayValue in
-			if case let .displayCoding(displayCoding) = singleDisplayValue {
-				
-				guard displayCoding.system == PatientFriendlyTermsRepository.snomedCTSystem,
-					  let code = displayCoding.code else {
-					return
-				}
-				if let term = patientFriendyTermsRepository.find(code) {
-					patientFriendlyTermsStore[code] = term
-					resolvedCodes[code] = true
-				}
+		values.forEach { displayValue in
+			
+			guard displayValue.system == PatientFriendlyTermsRepository.snomedCTSystem,
+				  let code = displayValue.code else {
+				return
+			}
+			if let term = patientFriendyTermsRepository.find(code) {
+				patientFriendlyTermsStore[code] = term
+				resolvedCodes[code] = true
 			}
 		}
 	}
@@ -184,8 +182,8 @@ class HealthDataViewModel: ObservableObject {
 			case let .reference(reference):
 				referenceTapped(reference)
 			
-			case let .term(displayCoding):
-				termTapped(displayCoding)
+			case let .term(displayValue):
+				termTapped(displayValue)
 		}
 	}
 	
@@ -213,11 +211,12 @@ class HealthDataViewModel: ObservableObject {
 	}
 	
 	/// Handle the patient friendly term tap
-	/// - Parameter displayCoding: the display coding object tapped on
-	@MainActor private func termTapped(_ displayCoding: DisplayCoding) {
+	/// - Parameter displayValue: the display coding object tapped on
+	@MainActor private func termTapped(_ displayValue: DisplayValue) {
 		
-		guard let code = displayCoding.code, let foundTerm = patientFriendlyTermsStore[code] else {
-			logInfo("HealthDataView - no term found for:", displayCoding)
+		guard let code = displayValue.code,
+			  let foundTerm = patientFriendlyTermsStore[code] else {
+			logInfo("HealthDataView - no term found for:", displayValue)
 			return
 		}
 		selectedPatientFriendlyTerm = foundTerm

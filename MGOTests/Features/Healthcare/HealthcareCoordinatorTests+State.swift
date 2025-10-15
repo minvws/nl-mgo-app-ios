@@ -126,9 +126,15 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 				HealthUIGroup(
 					children: [
 						UIElement(
-							display: .string("value 1"),
 							label: "label",
 							type: .singleValue,
+							value: UIElementValue
+								.displayValue(DisplayValue(
+									code: nil,
+									display: "value 1",
+									system: nil)
+								),
+							display: nil,
 							reference: nil,
 							url: nil
 						)
@@ -160,9 +166,15 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 				HealthUIGroup(
 					children: [
 						UIElement(
-							display: .string("value 1"),
 							label: "label",
 							type: .singleValue,
+							value: UIElementValue
+								.displayValue(DisplayValue(
+									code: nil,
+									display: "value 1",
+									system: nil)
+								),
+							display: nil,
 							reference: nil,
 							url: nil
 						)

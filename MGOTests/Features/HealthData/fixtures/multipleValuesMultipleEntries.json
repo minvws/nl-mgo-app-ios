@@ -6,7 +6,15 @@
 			"children": [
 				{
 					"label": "The label",
-					"display": ["First Entry in an array", "Second Entry in an array"],
+					"value":[
+						{
+							"display": "First Entry in an array"
+						},
+						{
+							"display": "Second Entry in an array"
+						}
+					],
+					"display": null,
 					"type": "MULTIPLE_VALUES",
 					"reference": null,
 					"url": null
