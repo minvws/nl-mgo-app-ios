@@ -169,4 +169,17 @@ final class HealthCategoriesViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showFavorites
 	}
+	
+	@MainActor func test_toolbar() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
 }

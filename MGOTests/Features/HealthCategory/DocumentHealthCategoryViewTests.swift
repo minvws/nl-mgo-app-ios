@@ -91,6 +91,20 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	@MainActor func test_stateList_iOS26() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		try createSut()
+		let content = NavigationView { sut }
+		
+		// When
+		viewModel.state = .list(items: [item])
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	@MainActor func disabled_test_search_itemNotFound() throws {
 		
 		// Given
