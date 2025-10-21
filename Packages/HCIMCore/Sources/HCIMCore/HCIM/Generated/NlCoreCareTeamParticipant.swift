@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let indigoGiven = try IndigoGiven(json)
+//   let nlCoreCareTeamParticipant = try NlCoreCareTeamParticipant(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,21 +10,22 @@
 
 import Foundation
 
-// MARK: - IndigoGiven
-public struct IndigoGiven: Codable, Hashable, Sendable {
-    public let birthName, initials: [PrimitiveValueTypeOfStringString]?
+// MARK: - NlCoreCareTeamParticipant
+public struct NlCoreCareTeamParticipant: Codable, Hashable, Sendable {
+    public let healthProfessionalRole: MgoCodeableConcept?
+    public let participant: MgoReference?
 
-    public init(birthName: [PrimitiveValueTypeOfStringString]?, initials: [PrimitiveValueTypeOfStringString]?) {
-        self.birthName = birthName
-        self.initials = initials
+    public init(healthProfessionalRole: MgoCodeableConcept?, participant: MgoReference?) {
+        self.healthProfessionalRole = healthProfessionalRole
+        self.participant = participant
     }
 }
 
-// MARK: IndigoGiven convenience initializers and mutators
+// MARK: NlCoreCareTeamParticipant convenience initializers and mutators
 
-public extension IndigoGiven {
+public extension NlCoreCareTeamParticipant {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(IndigoGiven.self, from: data)
+        self = try newJSONDecoder().decode(NlCoreCareTeamParticipant.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -39,12 +40,12 @@ public extension IndigoGiven {
     }
 
     func with(
-        birthName: [PrimitiveValueTypeOfStringString]?? = nil,
-        initials: [PrimitiveValueTypeOfStringString]?? = nil
-    ) -> IndigoGiven {
-        return IndigoGiven(
-            birthName: birthName ?? self.birthName,
-            initials: initials ?? self.initials
+        healthProfessionalRole: MgoCodeableConcept?? = nil,
+        participant: MgoReference?? = nil
+    ) -> NlCoreCareTeamParticipant {
+        return NlCoreCareTeamParticipant(
+            healthProfessionalRole: healthProfessionalRole ?? self.healthProfessionalRole,
+            participant: participant ?? self.participant
         )
     }
 

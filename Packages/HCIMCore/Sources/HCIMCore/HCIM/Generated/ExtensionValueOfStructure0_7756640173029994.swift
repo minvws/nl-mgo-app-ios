@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let extensionValueOfStructure09648013870166363 = try ExtensionValueOfStructure0_9648013870166363(json)
+//   let extensionValueOfStructure07756640173029994 = try ExtensionValueOfStructure0_7756640173029994(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,29 +10,29 @@
 
 import Foundation
 
-// MARK: - ExtensionValueOfStructure0_9648013870166363
-public struct ExtensionValueOfStructure0_9648013870166363: Codable, Hashable, Sendable {
+// MARK: - ExtensionValueOfStructure0_7756640173029994
+public struct ExtensionValueOfStructure0_7756640173029994: Codable, Hashable, Sendable {
     public let ext: Bool
-    public let code: ExtensionValueOfMgoCodeableConcept?
-    public let period: ExtensionValueOfMgoPeriod?
+    public let accountNumber, bankcode, bankName: ExtensionValueOfMgoString?
 
     public enum CodingKeys: String, CodingKey {
         case ext = "_ext"
-        case code, period
+        case accountNumber, bankcode, bankName
     }
 
-    public init(ext: Bool, code: ExtensionValueOfMgoCodeableConcept?, period: ExtensionValueOfMgoPeriod?) {
+    public init(ext: Bool, accountNumber: ExtensionValueOfMgoString?, bankcode: ExtensionValueOfMgoString?, bankName: ExtensionValueOfMgoString?) {
         self.ext = ext
-        self.code = code
-        self.period = period
+        self.accountNumber = accountNumber
+        self.bankcode = bankcode
+        self.bankName = bankName
     }
 }
 
-// MARK: ExtensionValueOfStructure0_9648013870166363 convenience initializers and mutators
+// MARK: ExtensionValueOfStructure0_7756640173029994 convenience initializers and mutators
 
-public extension ExtensionValueOfStructure0_9648013870166363 {
+public extension ExtensionValueOfStructure0_7756640173029994 {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(ExtensionValueOfStructure0_9648013870166363.self, from: data)
+        self = try newJSONDecoder().decode(ExtensionValueOfStructure0_7756640173029994.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -48,13 +48,15 @@ public extension ExtensionValueOfStructure0_9648013870166363 {
 
     func with(
         ext: Bool? = nil,
-        code: ExtensionValueOfMgoCodeableConcept?? = nil,
-        period: ExtensionValueOfMgoPeriod?? = nil
-    ) -> ExtensionValueOfStructure0_9648013870166363 {
-        return ExtensionValueOfStructure0_9648013870166363(
+        accountNumber: ExtensionValueOfMgoString?? = nil,
+        bankcode: ExtensionValueOfMgoString?? = nil,
+        bankName: ExtensionValueOfMgoString?? = nil
+    ) -> ExtensionValueOfStructure0_7756640173029994 {
+        return ExtensionValueOfStructure0_7756640173029994(
             ext: ext ?? self.ext,
-            code: code ?? self.code,
-            period: period ?? self.period
+            accountNumber: accountNumber ?? self.accountNumber,
+            bankcode: bankcode ?? self.bankcode,
+            bankName: bankName ?? self.bankName
         )
     }
 

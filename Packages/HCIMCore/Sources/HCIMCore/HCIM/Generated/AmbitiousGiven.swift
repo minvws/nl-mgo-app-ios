@@ -1,8 +1,8 @@
 import Foundation
 
-public enum IndecentGiven: Codable, Hashable, Sendable {
+public enum AmbitiousGiven: Codable, Hashable, Sendable {
+    case indigoGiven(IndigoGiven)
     case primitiveValueTypeOfStringStringArray([PrimitiveValueTypeOfStringString])
-    case stickyGiven(StickyGiven)
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -10,19 +10,19 @@ public enum IndecentGiven: Codable, Hashable, Sendable {
             self = .primitiveValueTypeOfStringStringArray(x)
             return
         }
-        if let x = try? container.decode(StickyGiven.self) {
-            self = .stickyGiven(x)
+        if let x = try? container.decode(IndigoGiven.self) {
+            self = .indigoGiven(x)
             return
         }
-        throw DecodingError.typeMismatch(IndecentGiven.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for IndecentGiven"))
+        throw DecodingError.typeMismatch(AmbitiousGiven.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for AmbitiousGiven"))
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case .primitiveValueTypeOfStringStringArray(let x):
+        case .indigoGiven(let x):
             try container.encode(x)
-        case .stickyGiven(let x):
+        case .primitiveValueTypeOfStringStringArray(let x):
             try container.encode(x)
         }
     }

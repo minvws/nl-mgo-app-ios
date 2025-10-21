@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let r4NlCoreHealthProfessionalPractitionerAddress = try R4NlCoreHealthProfessionalPractitionerAddress(json)
+//   let nlCoreRelatedPersonAddress = try NlCoreRelatedPersonAddress(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,38 +10,40 @@
 
 import Foundation
 
-// MARK: - R4NlCoreHealthProfessionalPractitionerAddress
-public struct R4NlCoreHealthProfessionalPractitionerAddress: Codable, Hashable, Sendable {
-    public let profile: R4NlCoreAddressInformationProfile
-    public let city: PrimitiveValueTypeOfStringString?
-    public let country: FluffyCountry
-    public let district: PrimitiveValueTypeOfStringString?
-    public let line: [IndecentLine]?
+// MARK: - NlCoreRelatedPersonAddress
+public struct NlCoreRelatedPersonAddress: Codable, Hashable, Sendable {
+    public let profile: NlCoreAddressProfile
+    public let addressType: MgoCodeableConcept?
+    public let city, country, district: PrimitiveValueTypeOfStringString?
+    public let line: [StickyLine]?
+    public let official: PrimitiveValueTypeOfBooleanBoolean?
     public let postalCode: PrimitiveValueTypeOfStringString?
     public let type, use: MgoCodeOfString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
-        case city, country, district, line, postalCode, type, use
+        case addressType, city, country, district, line, official, postalCode, type, use
     }
 
-    public init(profile: R4NlCoreAddressInformationProfile, city: PrimitiveValueTypeOfStringString?, country: FluffyCountry, district: PrimitiveValueTypeOfStringString?, line: [IndecentLine]?, postalCode: PrimitiveValueTypeOfStringString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
+    public init(profile: NlCoreAddressProfile, addressType: MgoCodeableConcept?, city: PrimitiveValueTypeOfStringString?, country: PrimitiveValueTypeOfStringString?, district: PrimitiveValueTypeOfStringString?, line: [StickyLine]?, official: PrimitiveValueTypeOfBooleanBoolean?, postalCode: PrimitiveValueTypeOfStringString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
         self.profile = profile
+        self.addressType = addressType
         self.city = city
         self.country = country
         self.district = district
         self.line = line
+        self.official = official
         self.postalCode = postalCode
         self.type = type
         self.use = use
     }
 }
 
-// MARK: R4NlCoreHealthProfessionalPractitionerAddress convenience initializers and mutators
+// MARK: NlCoreRelatedPersonAddress convenience initializers and mutators
 
-public extension R4NlCoreHealthProfessionalPractitionerAddress {
+public extension NlCoreRelatedPersonAddress {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(R4NlCoreHealthProfessionalPractitionerAddress.self, from: data)
+        self = try newJSONDecoder().decode(NlCoreRelatedPersonAddress.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -56,21 +58,25 @@ public extension R4NlCoreHealthProfessionalPractitionerAddress {
     }
 
     func with(
-        profile: R4NlCoreAddressInformationProfile? = nil,
+        profile: NlCoreAddressProfile? = nil,
+        addressType: MgoCodeableConcept?? = nil,
         city: PrimitiveValueTypeOfStringString?? = nil,
-        country: FluffyCountry? = nil,
+        country: PrimitiveValueTypeOfStringString?? = nil,
         district: PrimitiveValueTypeOfStringString?? = nil,
-        line: [IndecentLine]?? = nil,
+        line: [StickyLine]?? = nil,
+        official: PrimitiveValueTypeOfBooleanBoolean?? = nil,
         postalCode: PrimitiveValueTypeOfStringString?? = nil,
         type: MgoCodeOfString?? = nil,
         use: MgoCodeOfString?? = nil
-    ) -> R4NlCoreHealthProfessionalPractitionerAddress {
-        return R4NlCoreHealthProfessionalPractitionerAddress(
+    ) -> NlCoreRelatedPersonAddress {
+        return NlCoreRelatedPersonAddress(
             profile: profile ?? self.profile,
+            addressType: addressType ?? self.addressType,
             city: city ?? self.city,
             country: country ?? self.country,
             district: district ?? self.district,
             line: line ?? self.line,
+            official: official ?? self.official,
             postalCode: postalCode ?? self.postalCode,
             type: type ?? self.type,
             use: use ?? self.use

@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nameClass = try NameClass(json)
+//   let nlCoreRelatedPersonName = try NlCoreRelatedPersonName(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,38 +10,33 @@
 
 import Foundation
 
-// MARK: - NameClass
-public struct NameClass: Codable, Hashable, Sendable {
-    public let profile: PurpleProfile
-    public let family: R4NlCoreNameInformationFamily?
-    public let given: HilariousGiven?
-    public let period: MgoPeriod?
-    public let r4NlCoreNameInformationPrefix, suffix: [PrimitiveValueTypeOfStringString]?
+// MARK: - NlCoreRelatedPersonName
+public struct NlCoreRelatedPersonName: Codable, Hashable, Sendable {
+    public let profile: NlCoreHumannameProfile
+    public let family: TentacledFamily
+    public let given: TentacledGiven
+    public let humannameAssemblyOrder: MgoCodeOfString?
     public let text: PrimitiveValueTypeOfStringString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
-        case family, given, period
-        case r4NlCoreNameInformationPrefix = "prefix"
-        case suffix, text
+        case family, given, humannameAssemblyOrder, text
     }
 
-    public init(profile: PurpleProfile, family: R4NlCoreNameInformationFamily?, given: HilariousGiven?, period: MgoPeriod?, r4NlCoreNameInformationPrefix: [PrimitiveValueTypeOfStringString]?, suffix: [PrimitiveValueTypeOfStringString]?, text: PrimitiveValueTypeOfStringString?) {
+    public init(profile: NlCoreHumannameProfile, family: TentacledFamily, given: TentacledGiven, humannameAssemblyOrder: MgoCodeOfString?, text: PrimitiveValueTypeOfStringString?) {
         self.profile = profile
         self.family = family
         self.given = given
-        self.period = period
-        self.r4NlCoreNameInformationPrefix = r4NlCoreNameInformationPrefix
-        self.suffix = suffix
+        self.humannameAssemblyOrder = humannameAssemblyOrder
         self.text = text
     }
 }
 
-// MARK: NameClass convenience initializers and mutators
+// MARK: NlCoreRelatedPersonName convenience initializers and mutators
 
-public extension NameClass {
+public extension NlCoreRelatedPersonName {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NameClass.self, from: data)
+        self = try newJSONDecoder().decode(NlCoreRelatedPersonName.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -56,21 +51,17 @@ public extension NameClass {
     }
 
     func with(
-        profile: PurpleProfile? = nil,
-        family: R4NlCoreNameInformationFamily?? = nil,
-        given: HilariousGiven?? = nil,
-        period: MgoPeriod?? = nil,
-        r4NlCoreNameInformationPrefix: [PrimitiveValueTypeOfStringString]?? = nil,
-        suffix: [PrimitiveValueTypeOfStringString]?? = nil,
+        profile: NlCoreHumannameProfile? = nil,
+        family: TentacledFamily? = nil,
+        given: TentacledGiven? = nil,
+        humannameAssemblyOrder: MgoCodeOfString?? = nil,
         text: PrimitiveValueTypeOfStringString?? = nil
-    ) -> NameClass {
-        return NameClass(
+    ) -> NlCoreRelatedPersonName {
+        return NlCoreRelatedPersonName(
             profile: profile ?? self.profile,
             family: family ?? self.family,
             given: given ?? self.given,
-            period: period ?? self.period,
-            r4NlCoreNameInformationPrefix: r4NlCoreNameInformationPrefix ?? self.r4NlCoreNameInformationPrefix,
-            suffix: suffix ?? self.suffix,
+            humannameAssemblyOrder: humannameAssemblyOrder ?? self.humannameAssemblyOrder,
             text: text ?? self.text
         )
     }

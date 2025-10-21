@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let indigoGiven = try IndigoGiven(json)
+//   let activity = try Activity(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,21 +10,20 @@
 
 import Foundation
 
-// MARK: - IndigoGiven
-public struct IndigoGiven: Codable, Hashable, Sendable {
-    public let birthName, initials: [PrimitiveValueTypeOfStringString]?
+// MARK: - Activity
+public struct Activity: Codable, Hashable, Sendable {
+    public let nursingIntervention: NursingIntervention
 
-    public init(birthName: [PrimitiveValueTypeOfStringString]?, initials: [PrimitiveValueTypeOfStringString]?) {
-        self.birthName = birthName
-        self.initials = initials
+    public init(nursingIntervention: NursingIntervention) {
+        self.nursingIntervention = nursingIntervention
     }
 }
 
-// MARK: IndigoGiven convenience initializers and mutators
+// MARK: Activity convenience initializers and mutators
 
-public extension IndigoGiven {
+public extension Activity {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(IndigoGiven.self, from: data)
+        self = try newJSONDecoder().decode(Activity.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -39,12 +38,10 @@ public extension IndigoGiven {
     }
 
     func with(
-        birthName: [PrimitiveValueTypeOfStringString]?? = nil,
-        initials: [PrimitiveValueTypeOfStringString]?? = nil
-    ) -> IndigoGiven {
-        return IndigoGiven(
-            birthName: birthName ?? self.birthName,
-            initials: initials ?? self.initials
+        nursingIntervention: NursingIntervention? = nil
+    ) -> Activity {
+        return Activity(
+            nursingIntervention: nursingIntervention ?? self.nursingIntervention
         )
     }
 
