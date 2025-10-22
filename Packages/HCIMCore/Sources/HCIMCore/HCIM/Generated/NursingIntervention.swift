@@ -13,12 +13,12 @@ import Foundation
 // MARK: - NursingIntervention
 public struct NursingIntervention: Codable, Hashable, Sendable {
     public let comment: ExtensionValueOfMgoString?
-    public let detail: Detail
+    public let detail: NursingInterventionDetail
     public let outcomeCodeableConcept: [MgoCodeableConcept]?
     public let outcomeReference: [MgoReference]?
     public let reference: MgoReference?
 
-    public init(comment: ExtensionValueOfMgoString?, detail: Detail, outcomeCodeableConcept: [MgoCodeableConcept]?, outcomeReference: [MgoReference]?, reference: MgoReference?) {
+    public init(comment: ExtensionValueOfMgoString?, detail: NursingInterventionDetail, outcomeCodeableConcept: [MgoCodeableConcept]?, outcomeReference: [MgoReference]?, reference: MgoReference?) {
         self.comment = comment
         self.detail = detail
         self.outcomeCodeableConcept = outcomeCodeableConcept
@@ -47,7 +47,7 @@ public extension NursingIntervention {
 
     func with(
         comment: ExtensionValueOfMgoString?? = nil,
-        detail: Detail? = nil,
+        detail: NursingInterventionDetail? = nil,
         outcomeCodeableConcept: [MgoCodeableConcept]?? = nil,
         outcomeReference: [MgoReference]?? = nil,
         reference: MgoReference?? = nil

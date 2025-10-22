@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let detail = try Detail(json)
+//   let activityDetail = try ActivityDetail(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,31 +10,27 @@
 
 import Foundation
 
-// MARK: - Detail
-public struct Detail: Codable, Hashable, Sendable {
-    public let code: MgoCodeableConcept?
-    public let description: PrimitiveValueTypeOfStringString?
-    public let goal: [MgoReference]?
-    public let medicalDevice: [ExtensionValueOfMgoReference]
-    public let performer, reasonReference: [MgoReference]?
-    public let scheduledTiming: MgoTiming?
+// MARK: - ActivityDetail
+public struct ActivityDetail: Codable, Hashable, Sendable {
+    public let category: MgoCodeableConcept?
+    public let code, description: PrimitiveValueTypeOfStringString?
+    public let performer: [MgoReference]?
+    public let scheduledString: PrimitiveValueTypeOfStringString?
 
-    public init(code: MgoCodeableConcept?, description: PrimitiveValueTypeOfStringString?, goal: [MgoReference]?, medicalDevice: [ExtensionValueOfMgoReference], performer: [MgoReference]?, reasonReference: [MgoReference]?, scheduledTiming: MgoTiming?) {
+    public init(category: MgoCodeableConcept?, code: PrimitiveValueTypeOfStringString?, description: PrimitiveValueTypeOfStringString?, performer: [MgoReference]?, scheduledString: PrimitiveValueTypeOfStringString?) {
+        self.category = category
         self.code = code
         self.description = description
-        self.goal = goal
-        self.medicalDevice = medicalDevice
         self.performer = performer
-        self.reasonReference = reasonReference
-        self.scheduledTiming = scheduledTiming
+        self.scheduledString = scheduledString
     }
 }
 
-// MARK: Detail convenience initializers and mutators
+// MARK: ActivityDetail convenience initializers and mutators
 
-public extension Detail {
+public extension ActivityDetail {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Detail.self, from: data)
+        self = try newJSONDecoder().decode(ActivityDetail.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -49,22 +45,18 @@ public extension Detail {
     }
 
     func with(
-        code: MgoCodeableConcept?? = nil,
+        category: MgoCodeableConcept?? = nil,
+        code: PrimitiveValueTypeOfStringString?? = nil,
         description: PrimitiveValueTypeOfStringString?? = nil,
-        goal: [MgoReference]?? = nil,
-        medicalDevice: [ExtensionValueOfMgoReference]? = nil,
         performer: [MgoReference]?? = nil,
-        reasonReference: [MgoReference]?? = nil,
-        scheduledTiming: MgoTiming?? = nil
-    ) -> Detail {
-        return Detail(
+        scheduledString: PrimitiveValueTypeOfStringString?? = nil
+    ) -> ActivityDetail {
+        return ActivityDetail(
+            category: category ?? self.category,
             code: code ?? self.code,
             description: description ?? self.description,
-            goal: goal ?? self.goal,
-            medicalDevice: medicalDevice ?? self.medicalDevice,
             performer: performer ?? self.performer,
-            reasonReference: reasonReference ?? self.reasonReference,
-            scheduledTiming: scheduledTiming ?? self.scheduledTiming
+            scheduledString: scheduledString ?? self.scheduledString
         )
     }
 

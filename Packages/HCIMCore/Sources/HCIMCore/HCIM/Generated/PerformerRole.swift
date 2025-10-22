@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let activity = try Activity(json)
+//   let performerRole = try PerformerRole(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,20 +10,20 @@
 
 import Foundation
 
-// MARK: - Activity
-public struct Activity: Codable, Hashable, Sendable {
-    public let nursingIntervention: NursingIntervention
+// MARK: - PerformerRole
+public struct PerformerRole: Codable, Hashable, Sendable {
+    public let healthProfessionalRole: MgoCodeableConcept?
 
-    public init(nursingIntervention: NursingIntervention) {
-        self.nursingIntervention = nursingIntervention
+    public init(healthProfessionalRole: MgoCodeableConcept?) {
+        self.healthProfessionalRole = healthProfessionalRole
     }
 }
 
-// MARK: Activity convenience initializers and mutators
+// MARK: PerformerRole convenience initializers and mutators
 
-public extension Activity {
+public extension PerformerRole {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Activity.self, from: data)
+        self = try newJSONDecoder().decode(PerformerRole.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -38,10 +38,10 @@ public extension Activity {
     }
 
     func with(
-        nursingIntervention: NursingIntervention? = nil
-    ) -> Activity {
-        return Activity(
-            nursingIntervention: nursingIntervention ?? self.nursingIntervention
+        healthProfessionalRole: MgoCodeableConcept?? = nil
+    ) -> PerformerRole {
+        return PerformerRole(
+            healthProfessionalRole: healthProfessionalRole ?? self.healthProfessionalRole
         )
     }
 

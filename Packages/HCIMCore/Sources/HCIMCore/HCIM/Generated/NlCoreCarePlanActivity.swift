@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let practitioner = try Practitioner(json)
+//   let nlCoreCarePlanActivity = try NlCoreCarePlanActivity(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,20 @@
 
 import Foundation
 
-// MARK: - Practitioner
-public struct Practitioner: Codable, Hashable, Sendable {
-    public let actor: MgoReference?
-    public let role: PractitionerRole
+// MARK: - NlCoreCarePlanActivity
+public struct NlCoreCarePlanActivity: Codable, Hashable, Sendable {
+    public let nursingIntervention: NursingIntervention
 
-    public init(actor: MgoReference?, role: PractitionerRole) {
-        self.actor = actor
-        self.role = role
+    public init(nursingIntervention: NursingIntervention) {
+        self.nursingIntervention = nursingIntervention
     }
 }
 
-// MARK: Practitioner convenience initializers and mutators
+// MARK: NlCoreCarePlanActivity convenience initializers and mutators
 
-public extension Practitioner {
+public extension NlCoreCarePlanActivity {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Practitioner.self, from: data)
+        self = try newJSONDecoder().decode(NlCoreCarePlanActivity.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,12 +38,10 @@ public extension Practitioner {
     }
 
     func with(
-        actor: MgoReference?? = nil,
-        role: PractitionerRole? = nil
-    ) -> Practitioner {
-        return Practitioner(
-            actor: actor ?? self.actor,
-            role: role ?? self.role
+        nursingIntervention: NursingIntervention? = nil
+    ) -> NlCoreCarePlanActivity {
+        return NlCoreCarePlanActivity(
+            nursingIntervention: nursingIntervention ?? self.nursingIntervention
         )
     }
 

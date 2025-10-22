@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let role = try Role(json)
+//   let socialNetwork = try SocialNetwork(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,20 +10,20 @@
 
 import Foundation
 
-// MARK: - Role
-public struct Role: Codable, Hashable, Sendable {
-    public let healthProfessionalRole: MgoCodeableConcept?
+// MARK: - SocialNetwork
+public struct SocialNetwork: Codable, Hashable, Sendable {
+    public let valueString: PrimitiveValueTypeOfStringString?
 
-    public init(healthProfessionalRole: MgoCodeableConcept?) {
-        self.healthProfessionalRole = healthProfessionalRole
+    public init(valueString: PrimitiveValueTypeOfStringString?) {
+        self.valueString = valueString
     }
 }
 
-// MARK: Role convenience initializers and mutators
+// MARK: SocialNetwork convenience initializers and mutators
 
-public extension Role {
+public extension SocialNetwork {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Role.self, from: data)
+        self = try newJSONDecoder().decode(SocialNetwork.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -38,10 +38,10 @@ public extension Role {
     }
 
     func with(
-        healthProfessionalRole: MgoCodeableConcept?? = nil
-    ) -> Role {
-        return Role(
-            healthProfessionalRole: healthProfessionalRole ?? self.healthProfessionalRole
+        valueString: PrimitiveValueTypeOfStringString?? = nil
+    ) -> SocialNetwork {
+        return SocialNetwork(
+            valueString: valueString ?? self.valueString
         )
     }
 

@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let practitioner = try Practitioner(json)
+//   let hobby = try Hobby(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,20 @@
 
 import Foundation
 
-// MARK: - Practitioner
-public struct Practitioner: Codable, Hashable, Sendable {
-    public let actor: MgoReference?
-    public let role: PractitionerRole
+// MARK: - Hobby
+public struct Hobby: Codable, Hashable, Sendable {
+    public let valueString: PrimitiveValueTypeOfStringString?
 
-    public init(actor: MgoReference?, role: PractitionerRole) {
-        self.actor = actor
-        self.role = role
+    public init(valueString: PrimitiveValueTypeOfStringString?) {
+        self.valueString = valueString
     }
 }
 
-// MARK: Practitioner convenience initializers and mutators
+// MARK: Hobby convenience initializers and mutators
 
-public extension Practitioner {
+public extension Hobby {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Practitioner.self, from: data)
+        self = try newJSONDecoder().decode(Hobby.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,12 +38,10 @@ public extension Practitioner {
     }
 
     func with(
-        actor: MgoReference?? = nil,
-        role: PractitionerRole? = nil
-    ) -> Practitioner {
-        return Practitioner(
-            actor: actor ?? self.actor,
-            role: role ?? self.role
+        valueString: PrimitiveValueTypeOfStringString?? = nil
+    ) -> Hobby {
+        return Hobby(
+            valueString: valueString ?? self.valueString
         )
     }
 

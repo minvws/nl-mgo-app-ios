@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let practitioner = try Practitioner(json)
+//   let child = try Child(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,22 @@
 
 import Foundation
 
-// MARK: - Practitioner
-public struct Practitioner: Codable, Hashable, Sendable {
-    public let actor: MgoReference?
-    public let role: PractitionerRole
+// MARK: - Child
+public struct Child: Codable, Hashable, Sendable {
+    public let dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let livingAtHome: ExtensionValueOfMgoBoolean?
 
-    public init(actor: MgoReference?, role: PractitionerRole) {
-        self.actor = actor
-        self.role = role
+    public init(dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, livingAtHome: ExtensionValueOfMgoBoolean?) {
+        self.dateTime = dateTime
+        self.livingAtHome = livingAtHome
     }
 }
 
-// MARK: Practitioner convenience initializers and mutators
+// MARK: Child convenience initializers and mutators
 
-public extension Practitioner {
+public extension Child {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Practitioner.self, from: data)
+        self = try newJSONDecoder().decode(Child.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,12 +40,12 @@ public extension Practitioner {
     }
 
     func with(
-        actor: MgoReference?? = nil,
-        role: PractitionerRole? = nil
-    ) -> Practitioner {
-        return Practitioner(
-            actor: actor ?? self.actor,
-            role: role ?? self.role
+        dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        livingAtHome: ExtensionValueOfMgoBoolean?? = nil
+    ) -> Child {
+        return Child(
+            dateTime: dateTime ?? self.dateTime,
+            livingAtHome: livingAtHome ?? self.livingAtHome
         )
     }
 

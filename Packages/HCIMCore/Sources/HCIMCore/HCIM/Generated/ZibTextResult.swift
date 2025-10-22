@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCoreCarePlan = try NlCoreCarePlan(json)
+//   let zibTextResult = try ZibTextResult(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,43 +10,49 @@
 
 import Foundation
 
-// MARK: - NlCoreCarePlan
-public struct NlCoreCarePlan: Codable, Hashable, Sendable {
-    public let activity: [NlCoreCarePlanActivity]?
+// MARK: - ZibTextResult
+public struct ZibTextResult: Codable, Hashable, Sendable {
+    public let code: MgoCodeableConcept?
+    public let conclusion: PrimitiveValueTypeOfStringString?
+    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let effectivePeriod: MgoPeriod?
     public let fhirVersion: NlCoreObservationFhirVersion
-    public let goal: [MgoReference]?
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let period: MgoPeriod?
-    public let profile: NlCoreCarePlanProfile
+    public let performer: [ZibTextResultPerformer]?
+    public let profile: ZibTextResultProfile
     public let referenceID, resourceType: String
+    public let status: ExtensionValueOfMgoCodeableConcept?
     public let subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case activity, fhirVersion, goal, id, identifier, period, profile
+        case code, conclusion, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, performer, profile
         case referenceID = "referenceId"
-        case resourceType, subject
+        case resourceType, status, subject
     }
 
-    public init(activity: [NlCoreCarePlanActivity]?, fhirVersion: NlCoreObservationFhirVersion, goal: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, period: MgoPeriod?, profile: NlCoreCarePlanProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
-        self.activity = activity
+    public init(code: MgoCodeableConcept?, conclusion: PrimitiveValueTypeOfStringString?, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [ZibTextResultPerformer]?, profile: ZibTextResultProfile, referenceID: String, resourceType: String, status: ExtensionValueOfMgoCodeableConcept?, subject: MgoReference?) {
+        self.code = code
+        self.conclusion = conclusion
+        self.effectiveDateTime = effectiveDateTime
+        self.effectivePeriod = effectivePeriod
         self.fhirVersion = fhirVersion
-        self.goal = goal
         self.id = id
         self.identifier = identifier
-        self.period = period
+        self.performer = performer
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
+        self.status = status
         self.subject = subject
     }
 }
 
-// MARK: NlCoreCarePlan convenience initializers and mutators
+// MARK: ZibTextResult convenience initializers and mutators
 
-public extension NlCoreCarePlan {
+public extension ZibTextResult {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCoreCarePlan.self, from: data)
+        self = try newJSONDecoder().decode(ZibTextResult.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -61,27 +67,33 @@ public extension NlCoreCarePlan {
     }
 
     func with(
-        activity: [NlCoreCarePlanActivity]?? = nil,
+        code: MgoCodeableConcept?? = nil,
+        conclusion: PrimitiveValueTypeOfStringString?? = nil,
+        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        effectivePeriod: MgoPeriod?? = nil,
         fhirVersion: NlCoreObservationFhirVersion? = nil,
-        goal: [MgoReference]?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        period: MgoPeriod?? = nil,
-        profile: NlCoreCarePlanProfile? = nil,
+        performer: [ZibTextResultPerformer]?? = nil,
+        profile: ZibTextResultProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,
+        status: ExtensionValueOfMgoCodeableConcept?? = nil,
         subject: MgoReference?? = nil
-    ) -> NlCoreCarePlan {
-        return NlCoreCarePlan(
-            activity: activity ?? self.activity,
+    ) -> ZibTextResult {
+        return ZibTextResult(
+            code: code ?? self.code,
+            conclusion: conclusion ?? self.conclusion,
+            effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
+            effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             fhirVersion: fhirVersion ?? self.fhirVersion,
-            goal: goal ?? self.goal,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
-            period: period ?? self.period,
+            performer: performer ?? self.performer,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
+            status: status ?? self.status,
             subject: subject ?? self.subject
         )
     }

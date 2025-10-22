@@ -43392,6 +43392,10 @@ ${indent}}` : "}";
     "r3.zib_body_weight.clothing": [{ "type": 0, "value": "Kleding" }],
     "r3.zib_encounter.hospitalization": [{ "type": 0, "value": "Opname" }],
     "r3.zib_encounter.participant": [{ "type": 0, "value": "Zorgverlener" }],
+    "r3.zib_family_situation.children": [{ "type": 0, "value": "Kinderen" }],
+    "r3.zib_family_situation.children.living_at_home": [{ "type": 0, "value": "Thuiswonend" }],
+    "r3.zib_help_from_others": [{ "type": 0, "value": "Hulp van anderen" }],
+    "r3.zib_help_from_others.activity.detail": [{ "type": 0, "value": "Hulp van anderen" }],
     "r3.zib_laboratory_test_result_observation.context": [{ "type": 0, "value": "Verband" }],
     "r3.zib_laboratory_test_result_observation.general_test_information": [{ "type": 0, "value": "Algemene testinformatie" }],
     "r3.zib_laboratory_test_result_observation.interpretation": [{ "type": 0, "value": "Interpretatie" }],
@@ -43430,6 +43434,7 @@ ${indent}}` : "}";
     "r3.zib_nutrition_advice.oral_diet.texture.modifier": [{ "type": 0, "value": "Aangepast" }],
     "r3.zib_nutrition_advice.oral_diet.type": [{ "type": 0, "value": "Dieet type" }],
     "r3.zib_nutrition_advice.orderer": [{ "type": 0, "value": "Auteur" }],
+    "r3.zib_participation_in_society.component": [{ "type": 0, "value": "Participatie in maatschappij" }],
     "r3.zib_payer.beneficiary": [{ "type": 0, "value": "Onderwerp (Patiënt)" }],
     "r3.zib_problem": [{ "type": 0, "value": "Medische klacht" }],
     "r3.zib_problem.abatement_date_time": [{ "type": 0, "value": "Wanneer gestopt" }],
@@ -43456,6 +43461,9 @@ ${indent}}` : "}";
     "r3.zib_procedure_request.occurrence_period": [{ "type": 0, "value": "Periode" }],
     "r3.zib_procedure_request.occurrence_timing.repeat": [{ "type": 0, "value": "Herhaling" }],
     "r3.zib_product.code": [{ "type": 0, "value": "Product" }],
+    "r3.zib_text_result.conclusion": [{ "type": 0, "value": "Tekst uitslag resultaat" }],
+    "r3.zib_text_result.performer": [{ "type": 0, "value": "Uitvoerder" }],
+    "r3.zib_text_result.performer.actor": [{ "type": 0, "value": "Uitvoerder" }],
     "r3.zib_treatment_directive.additional_sources": [{ "type": 0, "value": "Aanvullende bronnen" }],
     "r3.zib_treatment_directive.additional_sources.value": [{ "type": 0, "value": "Aanvullende bronnen" }],
     "r3.zib_treatment_directive.comment": [{ "type": 0, "value": "Toelichting" }],
@@ -50728,7 +50736,7 @@ ${indent}}` : "}";
     const resourceTyped = value2;
     return !!resourceTyped?.resourceType && !!resourceTyped?.profile;
   }
-  const profile$$ = "http://fhir.nl/fhir/StructureDefinition/nl-core-observation";
+  const profile$13 = "http://fhir.nl/fhir/StructureDefinition/nl-core-observation";
   function parseNlCoreObservationBase(resource) {
     return {
       identifier: map(resource.identifier, identifier$1),
@@ -50756,7 +50764,7 @@ ${indent}}` : "}";
   function parseNlCoreObservation(resource) {
     const { effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$$, FhirVersion.R3),
+      ...resourceMeta(resource, profile$13, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -50766,11 +50774,11 @@ ${indent}}` : "}";
     };
   }
   const nlCoreObservation = {
-    profile: profile$$,
+    profile: profile$13,
     parse: parseNlCoreObservation,
     uiSchema: generateUiSchema
   };
-  const profile$_ = "http://nictiz.nl/fhir/StructureDefinition/zib-GeneralMeasurement";
+  const profile$12 = "http://nictiz.nl/fhir/StructureDefinition/zib-GeneralMeasurement";
   function parseZibGeneralMeasurementBase(resource) {
     return {
       // HCIM GeneralMeasurement-v3.0(2017EN)
@@ -50792,19 +50800,19 @@ ${indent}}` : "}";
   }
   function parseZibGeneralMeasurement(resource) {
     return {
-      ...resourceMeta(resource, profile$_, FhirVersion.R3),
+      ...resourceMeta(resource, profile$12, FhirVersion.R3),
       ...parseZibGeneralMeasurementBase(resource)
     };
   }
   const zibGeneralMeasurement = {
-    profile: profile$_,
+    profile: profile$12,
     parse: parseZibGeneralMeasurement,
     uiSchema: generateUiSchema
   };
-  const profile$Z = "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult";
+  const profile$11 = "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult";
   function parseGpDiagnosticResult(resource) {
     return {
-      ...resourceMeta(resource, profile$Z, FhirVersion.R3),
+      ...resourceMeta(resource, profile$11, FhirVersion.R3),
       ...parseZibGeneralMeasurementBase(resource),
       episodeOfCare: extensionMultiple(
         resource,
@@ -50815,11 +50823,11 @@ ${indent}}` : "}";
     };
   }
   const gpDiagnosticResult = {
-    profile: profile$Z,
+    profile: profile$11,
     parse: parseGpDiagnosticResult,
     uiSchema: generateUiSchema
   };
-  const profile$Y = "http://nictiz.nl/fhir/StructureDefinition/zib-Encounter";
+  const profile$10 = "http://nictiz.nl/fhir/StructureDefinition/zib-Encounter";
   function parseZibEncounterBase(resource) {
     return {
       // HCIM BasicElements-v1.0(2017EN)
@@ -50849,31 +50857,31 @@ ${indent}}` : "}";
   }
   function parseZibEncounter(resource) {
     return {
-      ...resourceMeta(resource, profile$Y, FhirVersion.R3),
+      ...resourceMeta(resource, profile$10, FhirVersion.R3),
       ...parseZibEncounterBase(resource)
     };
   }
   const zibEncounter = {
-    profile: profile$Y,
+    profile: profile$10,
     parse: parseZibEncounter,
     uiSchema: generateUiSchema
   };
-  const profile$X = "http://nictiz.nl/fhir/StructureDefinition/gp-Encounter";
+  const profile$$ = "http://nictiz.nl/fhir/StructureDefinition/gp-Encounter";
   function parseGpEncounter(resource) {
     return {
-      ...resourceMeta(resource, profile$X, FhirVersion.R3),
+      ...resourceMeta(resource, profile$$, FhirVersion.R3),
       ...parseZibEncounterBase(resource)
     };
   }
   const gpEncounter = {
-    profile: profile$X,
+    profile: profile$$,
     parse: parseGpEncounter,
     uiSchema: generateUiSchema
   };
-  const profile$W = "http://nictiz.nl/fhir/StructureDefinition/gp-EncounterReport";
+  const profile$_ = "http://nictiz.nl/fhir/StructureDefinition/gp-EncounterReport";
   function parseGpEncounterReport(resource) {
     return {
-      ...resourceMeta(resource, profile$W, FhirVersion.R3),
+      ...resourceMeta(resource, profile$_, FhirVersion.R3),
       identifier: identifier$1(resource.identifier),
       status: string$1(resource.status),
       type: map(resource.type.coding, coding$1),
@@ -50888,18 +50896,18 @@ ${indent}}` : "}";
     };
   }
   const gpEncounterReport = {
-    profile: profile$W,
+    profile: profile$_,
     parse: parseGpEncounterReport,
     uiSchema: generateUiSchema
   };
   function omitUndefined(value2) {
     return Object.fromEntries(Object.entries(value2).filter(([_, propValue]) => propValue !== void 0));
   }
-  const profile$V = "http://nictiz.nl/fhir/StructureDefinition/gp-JournalEntry";
+  const profile$Z = "http://nictiz.nl/fhir/StructureDefinition/gp-JournalEntry";
   function parseGpJournalEntry(resource) {
     const { identifier: identifier2, subject, effectiveDateTime, effectivePeriod, performer, valueString } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$V, FhirVersion.R3),
+      ...resourceMeta(resource, profile$Z, FhirVersion.R3),
       identifier: identifier2,
       subject,
       performer,
@@ -50936,7 +50944,7 @@ ${indent}}` : "}";
     };
   }
   const gpJournalEntry = {
-    profile: profile$V,
+    profile: profile$Z,
     parse: parseGpJournalEntry,
     uiSchema: generateUiSchema
   };
@@ -51079,7 +51087,7 @@ ${indent}}` : "}";
       ]
     };
   };
-  const profile$U = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
+  const profile$Y = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
   function parseZibLaboratoryTestResultObservationBase(resource) {
     return {
       // HCIM BasicElements-v1.0(2017EN)
@@ -51138,12 +51146,12 @@ ${indent}}` : "}";
   }
   function parseZibLaboratoryTestResultObservation(resource) {
     return {
-      ...resourceMeta(resource, profile$U, FhirVersion.R3),
+      ...resourceMeta(resource, profile$Y, FhirVersion.R3),
       ...parseZibLaboratoryTestResultObservationBase(resource)
     };
   }
   const zibLaboratoryTestResultObservation = {
-    profile: profile$U,
+    profile: profile$Y,
     parse: parseZibLaboratoryTestResultObservation,
     uiSchema: generateUiSchema,
     summary: summary$6
@@ -51156,23 +51164,23 @@ ${indent}}` : "}";
       label: capitalize(resource.context?.display) || formatMessage2(i18n$3)
     };
   };
-  const profile$T = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
+  const profile$X = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
   function parseGpLaboratoryResult(resource) {
     return {
-      ...resourceMeta(resource, profile$T, FhirVersion.R3),
+      ...resourceMeta(resource, profile$X, FhirVersion.R3),
       ...parseZibLaboratoryTestResultObservationBase(resource)
     };
   }
   const gpLaboratoryResult = {
-    profile: profile$T,
+    profile: profile$X,
     parse: parseGpLaboratoryResult,
     uiSchema: generateUiSchema,
     summary: summary$5
   };
-  const profile$S = "http://fhir.nl/fhir/StructureDefinition/nl-core-careplan";
+  const profile$W = "http://fhir.nl/fhir/StructureDefinition/nl-core-careplan";
   function parseNlCoreCarePlan(resource) {
     return {
-      ...resourceMeta(resource, profile$S, FhirVersion.R3),
+      ...resourceMeta(resource, profile$W, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)	nl-core-careplan
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -51211,14 +51219,14 @@ ${indent}}` : "}";
     };
   }
   const nlCoreCarePlan = {
-    profile: profile$S,
+    profile: profile$W,
     parse: parseNlCoreCarePlan,
     uiSchema: generateUiSchema
   };
-  const profile$R = "http://fhir.nl/fhir/StructureDefinition/nl-core-careteam";
+  const profile$V = "http://fhir.nl/fhir/StructureDefinition/nl-core-careteam";
   function parseNlCoreCareTeam(resource) {
     return {
-      ...resourceMeta(resource, profile$R, FhirVersion.R3),
+      ...resourceMeta(resource, profile$V, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -51231,14 +51239,14 @@ ${indent}}` : "}";
     };
   }
   const nlCoreCareTeam = {
-    profile: profile$R,
+    profile: profile$V,
     parse: parseNlCoreCareTeam,
     uiSchema: generateUiSchema
   };
-  const profile$Q = "http://fhir.nl/fhir/StructureDefinition/nl-core-episodeofcare";
+  const profile$U = "http://fhir.nl/fhir/StructureDefinition/nl-core-episodeofcare";
   function parseNlCoreEpisodeofcare(resource) {
     return {
-      ...resourceMeta(resource, profile$Q, FhirVersion.R3),
+      ...resourceMeta(resource, profile$U, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.patient),
@@ -51254,14 +51262,14 @@ ${indent}}` : "}";
     };
   }
   const nlCoreEpisodeofcare = {
-    profile: profile$Q,
+    profile: profile$U,
     parse: parseNlCoreEpisodeofcare,
     uiSchema: generateUiSchema
   };
-  const profile$P = "http://fhir.nl/fhir/StructureDefinition/nl-core-address";
+  const profile$T = "http://fhir.nl/fhir/StructureDefinition/nl-core-address";
   function parseNlCoreAddress(value2) {
     return {
-      _profile: profile$P,
+      _profile: profile$T,
       // HCIM AddressInformation-v1.0(2017EN)
       addressType: extension(
         value2,
@@ -51315,10 +51323,10 @@ ${indent}}` : "}";
       country: string$1(value2?.country)
     };
   }
-  const profile$O = "http://fhir.nl/fhir/StructureDefinition/nl-core-contactpoint";
+  const profile$S = "http://fhir.nl/fhir/StructureDefinition/nl-core-contactpoint";
   function parseNlCoreContactpoint(value2) {
     return {
-      _profile: profile$O,
+      _profile: profile$S,
       // HCIM ContactInformation-v1.0(2017EN)
       telecomType: extension(
         value2,
@@ -51331,7 +51339,7 @@ ${indent}}` : "}";
       use: code$1(value2?.use)
     };
   }
-  const profile$N = "http://fhir.nl/fhir/StructureDefinition/nl-core-humanname";
+  const profile$R = "http://fhir.nl/fhir/StructureDefinition/nl-core-humanname";
   function parseNlCoreHumanname(value2) {
     const birthNames = filterPrimitiveByExtension(value2, "given", {
       url: "http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier",
@@ -51349,7 +51357,7 @@ ${indent}}` : "}";
       valueCode: "CL"
     });
     return {
-      _profile: profile$N,
+      _profile: profile$R,
       // HCIM NameInformation-v1.0.1(2017EN)
       humannameAssemblyOrder: extension(
         value2,
@@ -51418,11 +51426,11 @@ ${indent}}` : "}";
       ]
     };
   };
-  const profile$M = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationSchedule";
+  const profile$Q = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationSchedule";
   function parseZibAdministrationSchedule(value2) {
     const { repeat: repeat2 } = value2 ?? {};
     return {
-      _profile: profile$M,
+      _profile: profile$Q,
       repeat: {
         // HCIM InstructionsForUse-v1.1(2017EN)
         ...oneOfValueX$1(repeat2, ["duration", "range", "period"], "bounds"),
@@ -51483,10 +51491,10 @@ ${indent}}` : "}";
       ]
     };
   };
-  const profile$L = "http://nictiz.nl/fhir/StructureDefinition/zib-InstructionsForUse";
+  const profile$P = "http://nictiz.nl/fhir/StructureDefinition/zib-InstructionsForUse";
   function parseZibInstructionsForUse(value2) {
     return {
-      _profile: profile$L,
+      _profile: profile$P,
       // HCIM InstructionsForUse-v1.1(2017EN)
       sequence: integer$1(value2?.sequence),
       text: string$1(value2?.text),
@@ -51504,10 +51512,10 @@ ${indent}}` : "}";
     uiSchemaGroup,
     summary: summary$4
   };
-  const profile$K = "http://fhir.nl/fhir/StructureDefinition/nl-core-organization";
+  const profile$O = "http://fhir.nl/fhir/StructureDefinition/nl-core-organization";
   function parseNlCoreOrganization(resource) {
     return {
-      ...resourceMeta(resource, profile$K, FhirVersion.R3),
+      ...resourceMeta(resource, profile$O, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       // HCIM Payer-v3.1(2017EN)
@@ -51529,7 +51537,7 @@ ${indent}}` : "}";
     };
   }
   const nlCoreOrganization = {
-    profile: profile$K,
+    profile: profile$O,
     parse: parseNlCoreOrganization,
     uiSchema: generateUiSchema
   };
@@ -51644,7 +51652,7 @@ ${indent}}` : "}";
       display: "Wettelijke vertegenwoordiger"
     }
   ].map((x) => ({ ...x, system: "urn:oid:2.16.840.1.113883.2.4.3.11.22.472" }));
-  const profile$J = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
+  const profile$N = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
   function parseLanguageProficiency$1(communication) {
     const result = {
       languageControlListening: void 0,
@@ -51671,7 +51679,7 @@ ${indent}}` : "}";
   }
   function parseNlCorePatient$1(resource) {
     return {
-      ...resourceMeta(resource, profile$J, FhirVersion.R3),
+      ...resourceMeta(resource, profile$N, FhirVersion.R3),
       // HCIM LifeStance-v3.1(2017EN)
       lifeStance: extensionMultiple(
         resource,
@@ -51756,14 +51764,14 @@ ${indent}}` : "}";
     };
   }
   const nlCorePatient = {
-    profile: profile$J,
+    profile: profile$N,
     parse: parseNlCorePatient$1,
     uiSchema: generateUiSchema
   };
-  const profile$I = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitioner";
+  const profile$M = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitioner";
   function parseNlCorePractitioner(resource) {
     return {
-      ...resourceMeta(resource, profile$I, FhirVersion.R3),
+      ...resourceMeta(resource, profile$M, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: {
         uzi: identifier$1(resource.identifier?.find(
@@ -51793,14 +51801,14 @@ ${indent}}` : "}";
     };
   }
   const nlCorePractitioner = {
-    profile: profile$I,
+    profile: profile$M,
     parse: parseNlCorePractitioner,
     uiSchema: generateUiSchema
   };
-  const profile$H = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitionerrole";
+  const profile$L = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitionerrole";
   function parseNlCorePractitionerRole(resource) {
     return {
-      ...resourceMeta(resource, profile$H, FhirVersion.R3),
+      ...resourceMeta(resource, profile$L, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       // HCIM ContactInformation-v1.0(2017EN)
@@ -51811,14 +51819,14 @@ ${indent}}` : "}";
     };
   }
   const nlCorePractitionerRole = {
-    profile: profile$H,
+    profile: profile$L,
     parse: parseNlCorePractitionerRole,
     uiSchema: generateUiSchema
   };
-  const profile$G = "http://fhir.nl/fhir/StructureDefinition/nl-core-relatedperson";
+  const profile$K = "http://fhir.nl/fhir/StructureDefinition/nl-core-relatedperson";
   function parseNlCoreRelatedPerson(resource) {
     return {
-      ...resourceMeta(resource, profile$G, FhirVersion.R3),
+      ...resourceMeta(resource, profile$K, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.patient),
@@ -51839,14 +51847,14 @@ ${indent}}` : "}";
     };
   }
   const nlCoreRelatedPerson = {
-    profile: profile$G,
+    profile: profile$K,
     parse: parseNlCoreRelatedPerson,
     uiSchema: generateUiSchema
   };
-  const profile$F = "http://nictiz.nl/fhir/StructureDefinition/eAfspraak-Appointment";
+  const profile$J = "http://nictiz.nl/fhir/StructureDefinition/eAfspraak-Appointment";
   function parseEAfspraakAppointment(resource) {
     return {
-      ...resourceMeta(resource, profile$F, FhirVersion.R3),
+      ...resourceMeta(resource, profile$J, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       start: dateTime$1(resource.start),
@@ -51901,14 +51909,14 @@ ${indent}}` : "}";
     };
   }
   const eAfspraakAppointment = {
-    profile: profile$F,
+    profile: profile$J,
     parse: parseEAfspraakAppointment,
     uiSchema: generateUiSchema
   };
-  const profile$E = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement";
+  const profile$I = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement";
   function parseZibAdministrationAgreement(resource) {
     return {
-      ...resourceMeta(resource, profile$E, FhirVersion.R3),
+      ...resourceMeta(resource, profile$I, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.subject),
@@ -51975,7 +51983,7 @@ ${indent}}` : "}";
     };
   }
   const zibAdministrationAgreement = {
-    profile: profile$E,
+    profile: profile$I,
     parse: parseZibAdministrationAgreement,
     uiSchema: generateUiSchema
   };
@@ -52032,10 +52040,10 @@ ${indent}}` : "}";
       code: "DO"
     }
   ];
-  const profile$D = "http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective";
+  const profile$H = "http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective";
   function parseZibAdvanceDirective(resource) {
     return {
-      ...resourceMeta(resource, profile$D, FhirVersion.R3),
+      ...resourceMeta(resource, profile$H, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier$1(resource.identifier),
       dateTime: dateTime$1(resource.dateTime),
@@ -52060,15 +52068,15 @@ ${indent}}` : "}";
     };
   }
   const zibAdvanceDirective = {
-    profile: profile$D,
+    profile: profile$H,
     parse: parseZibAdvanceDirective,
     uiSchema: generateUiSchema
   };
-  const profile$C = "http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse";
+  const profile$G = "http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse";
   function parseZibAlcoholUse(resource) {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueCodeableConcept } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$C, FhirVersion.R3),
+      ...resourceMeta(resource, profile$G, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52091,14 +52099,14 @@ ${indent}}` : "}";
     };
   }
   const zibAlcoholUse = {
-    profile: profile$C,
+    profile: profile$G,
     parse: parseZibAlcoholUse,
     uiSchema: generateUiSchema
   };
-  const profile$B = "http://nictiz.nl/fhir/StructureDefinition/zib-Alert";
+  const profile$F = "http://nictiz.nl/fhir/StructureDefinition/zib-Alert";
   function parseZibAlert(resource) {
     return {
-      ...resourceMeta(resource, profile$B, FhirVersion.R3),
+      ...resourceMeta(resource, profile$F, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       author: reference$1(resource.author),
@@ -52116,11 +52124,11 @@ ${indent}}` : "}";
     };
   }
   const zibAlert = {
-    profile: profile$B,
+    profile: profile$F,
     parse: parseZibAlert,
     uiSchema: generateUiSchema
   };
-  const profile$A = "http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance";
+  const profile$E = "http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance";
   function parseZibAllergyIntolerance(resource) {
     const category = map(resource._category, (category2) => ({
       allergieCategorieCodelijst: extension(
@@ -52146,7 +52154,7 @@ ${indent}}` : "}";
       exposureRoute: codeableConcept$1(reaction2.exposureRoute)
     }));
     return {
-      ...resourceMeta(resource, profile$A, FhirVersion.R3),
+      ...resourceMeta(resource, profile$E, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.patient),
@@ -52179,15 +52187,15 @@ ${indent}}` : "}";
     };
   }
   const zibAllergyIntolerance = {
-    profile: profile$A,
+    profile: profile$E,
     parse: parseZibAllergyIntolerance,
     uiSchema: generateUiSchema
   };
-  const profile$z = "http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure";
+  const profile$D = "http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure";
   function parseZibBloodPressure(resource) {
     const { bodySite, comment, effectiveDateTime, effectivePeriod, identifier: identifier2, method, performer, subject } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$z, FhirVersion.R3),
+      ...resourceMeta(resource, profile$D, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52248,15 +52256,15 @@ ${indent}}` : "}";
     };
   }
   const zibBloodPressure = {
-    profile: profile$z,
+    profile: profile$D,
     parse: parseZibBloodPressure,
     uiSchema: generateUiSchema
   };
-  const profile$y = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight";
+  const profile$C = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight";
   function parseZibBodyHeight(resource) {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueQuantity } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$y, FhirVersion.R3),
+      ...resourceMeta(resource, profile$C, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52270,15 +52278,15 @@ ${indent}}` : "}";
     };
   }
   const zibBodyHeight = {
-    profile: profile$y,
+    profile: profile$C,
     parse: parseZibBodyHeight,
     uiSchema: generateUiSchema
   };
-  const profile$x = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight";
+  const profile$B = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight";
   function parseZibBodyWeight(resource) {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueQuantity } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$x, FhirVersion.R3),
+      ...resourceMeta(resource, profile$B, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52301,15 +52309,15 @@ ${indent}}` : "}";
     };
   }
   const zibBodyWeight = {
-    profile: profile$x,
+    profile: profile$B,
     parse: parseZibBodyWeight,
     uiSchema: generateUiSchema
   };
-  const profile$w = "http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse";
+  const profile$A = "http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse";
   function parseZibDrugUse(resource) {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueCodeableConcept } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$w, FhirVersion.R3),
+      ...resourceMeta(resource, profile$A, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52348,15 +52356,92 @@ ${indent}}` : "}";
     };
   }
   const zibDrugUse = {
-    profile: profile$w,
+    profile: profile$A,
     parse: parseZibDrugUse,
     uiSchema: generateUiSchema
   };
-  const profile$v = "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus";
+  const profile$z = "http://nictiz.nl/fhir/StructureDefinition/zib-FamilySituation";
+  function parseChildren(children) {
+    return {
+      children: map(children, (child) => ({
+        dateTime: dateTime$1(child.valueDateTime),
+        livingAtHome: extension(
+          child,
+          "http://nictiz.nl/fhir/StructureDefinition/zib-FamilySituation-LivingAtHomeIndicator",
+          // NOSONAR
+          "boolean"
+        )
+      }))
+    };
+  }
+  function parseZibFamilySituation(resource) {
+    const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject } = parseNlCoreObservationBase(resource);
+    const children = getObservationComponents(resource.component ?? [], {
+      system: "http://snomed.info/sct",
+      // NOSONAR
+      code: "67822003"
+    });
+    return {
+      ...resourceMeta(resource, profile$z, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)
+      identifier: identifier2,
+      subject,
+      ...omitUndefined({
+        effectiveDateTime,
+        effectivePeriod
+      }),
+      performer,
+      // HCIM FamilySituation-v3.0(2017EN)
+      comment,
+      component: {
+        ...parseObservationComponents(resource.component, {
+          familyComposition: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "224130005"
+            },
+            type: "codeableConcept"
+          },
+          numberOfChildren: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "224118004"
+            },
+            type: "quantity"
+          },
+          numberOfChildrenLivingAtHome: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "55811000146107"
+            },
+            type: "quantity"
+          },
+          careResponsibility: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "406192005"
+            },
+            type: "string"
+          }
+        })
+      },
+      ...parseChildren(children)
+    };
+  }
+  const zibFamilySituation = {
+    profile: profile$z,
+    parse: parseZibFamilySituation,
+    uiSchema: generateUiSchema
+  };
+  const profile$y = "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus";
   function parseZibFunctionalOrMentalStatus(resource) {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueCodeableConcept } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$v, FhirVersion.R3),
+      ...resourceMeta(resource, profile$y, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52376,15 +52461,40 @@ ${indent}}` : "}";
     };
   }
   const zibFunctionalOrMentalStatus = {
-    profile: profile$v,
+    profile: profile$y,
     parse: parseZibFunctionalOrMentalStatus,
     uiSchema: generateUiSchema
   };
-  const profile$u = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen";
+  const profile$x = "http://nictiz.nl/fhir/StructureDefinition/zib-HelpFromOthers";
+  function parseZibHelpFromOthers(resource) {
+    return {
+      ...resourceMeta(resource, profile$x, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)
+      identifier: map(resource.identifier, identifier$1),
+      subject: reference$1(resource.subject),
+      period: period$1(resource.period),
+      // HCIM HelpFromOthers-v3.0(2017EN)
+      activity: map(resource.activity, (activity) => ({
+        detail: {
+          category: codeableConcept$1(activity.detail?.category),
+          code: string$1(activity.detail?.code?.text),
+          scheduledString: string$1(activity.detail?.scheduledString),
+          performer: map(activity.detail?.performer, reference$1),
+          description: string$1(activity.detail?.description)
+        }
+      }))
+    };
+  }
+  const zibHelpFromOthers = {
+    profile: profile$x,
+    parse: parseZibHelpFromOthers,
+    uiSchema: generateUiSchema
+  };
+  const profile$w = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen";
   function parseZibLaboratoryTestResultSpecimen(resource) {
     const collection = resource.collection;
     return {
-      ...resourceMeta(resource, profile$u, FhirVersion.R3),
+      ...resourceMeta(resource, profile$w, FhirVersion.R3),
       // HCIM LaboratoryTestResult-v4.1(2017EN)
       identifier: map(resource.identifier, identifier$1),
       type: codeableConcept$1(resource.type),
@@ -52419,15 +52529,15 @@ ${indent}}` : "}";
     };
   }
   const zibLaboratoryTestResultSpecimen = {
-    profile: profile$u,
+    profile: profile$w,
     parse: parseZibLaboratoryTestResultSpecimen,
     uiSchema: generateUiSchema
   };
-  const profile$t = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen-Isolate";
+  const profile$v = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen-Isolate";
   function parseZibLaboratoryTestResultSpecimenIsolate(resource) {
     const collection = resource.collection;
     return {
-      ...resourceMeta(resource, profile$t, FhirVersion.R3),
+      ...resourceMeta(resource, profile$v, FhirVersion.R3),
       // HCIM LaboratoryTestResult-v4.1(2017EN)
       identifier: map(resource.identifier, identifier$1),
       type: codeableConcept$1(resource.type),
@@ -52462,28 +52572,28 @@ ${indent}}` : "}";
     };
   }
   const zibLaboratoryTestResultSpecimenIsolate = {
-    profile: profile$t,
+    profile: profile$v,
     parse: parseZibLaboratoryTestResultSpecimenIsolate,
     uiSchema: generateUiSchema
   };
-  const profile$s = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Substance";
+  const profile$u = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Substance";
   function parseZibLaboratoryTestResultSubstance(resource) {
     return {
-      ...resourceMeta(resource, profile$s, FhirVersion.R3),
+      ...resourceMeta(resource, profile$u, FhirVersion.R3),
       // HCIM LaboratoryTestResult-v4.1(2017EN)
       code: codeableConcept$1(resource.code)
     };
   }
   const zibLaboratoryTestResultSubstance = {
-    profile: profile$s,
+    profile: profile$u,
     parse: parseZibLaboratoryTestResultSubstance,
     uiSchema: generateUiSchema
   };
-  const profile$r = "http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation";
+  const profile$t = "http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation";
   const parseZibLivingSituation = (resource) => {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueCodeableConcept } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$r, FhirVersion.R3),
+      ...resourceMeta(resource, profile$t, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52496,11 +52606,11 @@ ${indent}}` : "}";
     };
   };
   const zibLivingSituation = {
-    profile: profile$r,
+    profile: profile$t,
     parse: parseZibLivingSituation,
     uiSchema: generateUiSchema
   };
-  const profile$q = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDevice";
+  const profile$s = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDevice";
   function parseZibMedicalDevice(resource) {
     const indicationProblem = map(resource.indication, (indication) => {
       return extension(
@@ -52521,7 +52631,7 @@ ${indent}}` : "}";
       text: string$1(resource.bodySite?.text)
     };
     return {
-      ...resourceMeta(resource, profile$q, FhirVersion.R3),
+      ...resourceMeta(resource, profile$s, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -52547,14 +52657,14 @@ ${indent}}` : "}";
     };
   }
   const zibMedicalDevice = {
-    profile: profile$q,
+    profile: profile$s,
     parse: parseZibMedicalDevice,
     uiSchema: generateUiSchema
   };
-  const profile$p = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceProduct";
+  const profile$r = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceProduct";
   function parseZibMedicalDeviceProduct(resource) {
     return {
-      ...resourceMeta(resource, profile$p, FhirVersion.R3),
+      ...resourceMeta(resource, profile$r, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.patient),
@@ -52571,14 +52681,14 @@ ${indent}}` : "}";
     };
   }
   const zibMedicalDeviceProduct = {
-    profile: profile$p,
+    profile: profile$r,
     parse: parseZibMedicalDeviceProduct,
     uiSchema: generateUiSchema
   };
-  const profile$o = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceRequest";
+  const profile$q = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceRequest";
   function parseZibMedicalDeviceRequest(resource) {
     return {
-      ...resourceMeta(resource, profile$o, FhirVersion.R3),
+      ...resourceMeta(resource, profile$q, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -52602,14 +52712,14 @@ ${indent}}` : "}";
     };
   }
   const zibMedicalDeviceRequest = {
-    profile: profile$o,
+    profile: profile$q,
     parse: parseZibMedicalDeviceRequest,
     uiSchema: generateUiSchema
   };
-  const profile$n = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement";
+  const profile$p = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement";
   function parseZibMedicationAgreement(resource) {
     return {
-      ...resourceMeta(resource, profile$n, FhirVersion.R3),
+      ...resourceMeta(resource, profile$p, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.subject),
@@ -52662,7 +52772,7 @@ ${indent}}` : "}";
     };
   }
   const zibMedicationAgreement = {
-    profile: profile$n,
+    profile: profile$p,
     parse: parseZibMedicationAgreement,
     uiSchema: generateUiSchema
   };
@@ -52699,10 +52809,10 @@ ${indent}}` : "}";
       ]
     };
   };
-  const profile$m = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse";
+  const profile$o = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse";
   function parseZibMedicationUse(resource) {
     return {
-      ...resourceMeta(resource, profile$m, FhirVersion.R3),
+      ...resourceMeta(resource, profile$o, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       author: extension(
         resource,
@@ -52768,16 +52878,16 @@ ${indent}}` : "}";
     };
   }
   const zibMedicationUse = {
-    profile: profile$m,
+    profile: profile$o,
     parse: parseZibMedicationUse,
     summary: summary$3,
     uiSchema: generateUiSchema
   };
-  const profile$l = "http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice";
+  const profile$n = "http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice";
   function parseZibNutritionAdvice(resource) {
     const { oralDiet } = resource;
     return {
-      ...resourceMeta(resource, profile$l, FhirVersion.R3),
+      ...resourceMeta(resource, profile$n, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.patient),
@@ -52801,11 +52911,61 @@ ${indent}}` : "}";
     };
   }
   const zibNutritionAdvice = {
-    profile: profile$l,
+    profile: profile$n,
     parse: parseZibNutritionAdvice,
     uiSchema: generateUiSchema
   };
-  const profile$k = "http://nictiz.nl/fhir/StructureDefinition/zib-Payer";
+  const profile$m = "http://nictiz.nl/fhir/StructureDefinition/zib-ParticipationInSociety";
+  function parseZibParticipationInSociety(resource) {
+    const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject } = parseNlCoreObservationBase(resource);
+    return {
+      ...resourceMeta(resource, profile$m, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)
+      identifier: identifier2,
+      subject,
+      ...omitUndefined({
+        effectiveDateTime,
+        effectivePeriod
+      }),
+      performer,
+      // HCIM ParticipationInSociety-v3.1(2017EN)
+      comment,
+      component: {
+        ...parseObservationComponents(resource.component, {
+          socialNetwork: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "365469004"
+            },
+            type: "string"
+          },
+          hobby: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "405081003"
+            },
+            type: "string"
+          },
+          workSituation: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "364703007"
+            },
+            type: "string"
+          }
+        })
+      }
+    };
+  }
+  const zibParticipationInSociety = {
+    profile: profile$m,
+    parse: parseZibParticipationInSociety,
+    uiSchema: generateUiSchema
+  };
+  const profile$l = "http://nictiz.nl/fhir/StructureDefinition/zib-Payer";
   function parseZibPayer(resource) {
     const payor = resource.payor?.map((payor2) => {
       return {
@@ -52825,7 +52985,7 @@ ${indent}}` : "}";
       };
     });
     return {
-      ...resourceMeta(resource, profile$k, FhirVersion.R3),
+      ...resourceMeta(resource, profile$l, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       beneficiary: reference$1(resource.beneficiary),
@@ -52837,7 +52997,7 @@ ${indent}}` : "}";
     };
   }
   const zibPayer = {
-    profile: profile$k,
+    profile: profile$l,
     parse: parseZibPayer,
     uiSchema: generateUiSchema
   };
@@ -52891,10 +53051,10 @@ ${indent}}` : "}";
       ]
     };
   };
-  const profile$j = "http://nictiz.nl/fhir/StructureDefinition/zib-Problem";
+  const profile$k = "http://nictiz.nl/fhir/StructureDefinition/zib-Problem";
   function parseZibProblem(resource) {
     return {
-      ...resourceMeta(resource, profile$j, FhirVersion.R3),
+      ...resourceMeta(resource, profile$k, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -52933,7 +53093,7 @@ ${indent}}` : "}";
     };
   }
   const zibProblem = {
-    profile: profile$j,
+    profile: profile$k,
     parse: parseZibProblem,
     uiSchema: generateUiSchema,
     summary: summary$2
@@ -52949,10 +53109,10 @@ ${indent}}` : "}";
       healthProfessionalRole: codeableConcept$1(value2?.role)
     };
   }
-  const profile$i = "http://nictiz.nl/fhir/StructureDefinition/zib-Procedure";
+  const profile$j = "http://nictiz.nl/fhir/StructureDefinition/zib-Procedure";
   function parseZibProcedure(resource) {
     return {
-      ...resourceMeta(resource, profile$i, FhirVersion.R3),
+      ...resourceMeta(resource, profile$j, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -52984,14 +53144,14 @@ ${indent}}` : "}";
     };
   }
   const zibProcedure = {
-    profile: profile$i,
+    profile: profile$j,
     parse: parseZibProcedure,
     uiSchema: generateUiSchema
   };
-  const profile$h = "http://nictiz.nl/fhir/StructureDefinition/zib-ProcedureRequest";
+  const profile$i = "http://nictiz.nl/fhir/StructureDefinition/zib-ProcedureRequest";
   function parseZibProcedureRequest(resource) {
     return {
-      ...resourceMeta(resource, profile$h, FhirVersion.R3),
+      ...resourceMeta(resource, profile$i, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -53029,14 +53189,14 @@ ${indent}}` : "}";
     };
   }
   const zibProcedureRequest = {
-    profile: profile$h,
+    profile: profile$i,
     parse: parseZibProcedureRequest,
     uiSchema: generateUiSchema
   };
-  const profile$g = "http://nictiz.nl/fhir/StructureDefinition/zib-Product";
+  const profile$h = "http://nictiz.nl/fhir/StructureDefinition/zib-Product";
   function parseZibProduct(resource) {
     return {
-      ...resourceMeta(resource, profile$g, FhirVersion.R3),
+      ...resourceMeta(resource, profile$h, FhirVersion.R3),
       // HCIM PharmaceuticalProduct-v2.0(2017EN)
       description: extension(
         resource,
@@ -53056,8 +53216,41 @@ ${indent}}` : "}";
     };
   }
   const zibProduct = {
-    profile: profile$g,
+    profile: profile$h,
     parse: parseZibProduct,
+    uiSchema: generateUiSchema
+  };
+  const profile$g = "http://nictiz.nl/fhir/StructureDefinition/zib-TextResult";
+  function parseZibTextResult(resource) {
+    return {
+      ...resourceMeta(resource, profile$g, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)
+      identifier: map(resource.identifier, identifier$1),
+      ...oneOfValueX$1(resource, ["dateTime", "period"], "effective"),
+      // HCIM BasicElements-v1.0(2017EN) && hcim-patient-v3.1-2017EN
+      subject: reference$1(resource.subject),
+      performer: map(resource.performer, (performer) => ({
+        // HCIM BasicElements-v1.0(2017EN)
+        actor: reference$1(performer.actor),
+        // HCIM HealthProfessional-v3.2(2017EN)
+        role: {
+          healthProfessionalRole: codeableConcept$1(performer.role)
+        }
+      })),
+      // HCIM TextResult-v4.1(2017EN)
+      status: extension(
+        resource._status,
+        "http://nictiz.nl/fhir/StructureDefinition/code-specification",
+        // NOSONAR
+        "codeableConcept"
+      ),
+      code: codeableConcept$1(resource.code),
+      conclusion: string$1(resource.conclusion)
+    };
+  }
+  const zibTextResult = {
+    profile: profile$g,
+    parse: parseZibTextResult,
     uiSchema: generateUiSchema
   };
   const profile$f = "http://nictiz.nl/fhir/StructureDefinition/zib-TobaccoUse";
@@ -53339,8 +53532,10 @@ ${indent}}` : "}";
     zibBodyWeight,
     zibDrugUse,
     zibEncounter,
+    zibFamilySituation,
     zibFunctionalOrMentalStatus,
     zibGeneralMeasurement,
+    zibHelpFromOthers,
     zibLaboratoryTestResultObservation,
     zibLaboratoryTestResultSpecimen,
     zibLaboratoryTestResultSpecimenIsolate,
@@ -53352,11 +53547,13 @@ ${indent}}` : "}";
     zibMedicationAgreement,
     zibMedicationUse,
     zibNutritionAdvice,
+    zibParticipationInSociety,
     zibPayer,
     zibProblem,
     zibProcedure,
     zibProcedureRequest,
     zibProduct,
+    zibTextResult,
     zibTobaccoUse,
     zibTreatmentDirective,
     zibTreatmentObjective,
