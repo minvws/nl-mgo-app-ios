@@ -67,7 +67,7 @@ struct FavoriteRowView: View {
 			
 			Spacer()
 			
-			Text(String(localized: String.LocalizationValue(stringLiteral: category.heading)))
+			Text(category.localizedHeading())
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundColor(theme.labels.primary)
 		}

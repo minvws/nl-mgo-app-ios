@@ -36,7 +36,7 @@ class HealthDataMapper {
 		let date = Container.shared.now()()
 		
 		return PdfData(
-			heading: String(localized: String.LocalizationValue(stringLiteral: category.heading)),
+			heading: category.localizedHeading(),
 			subHeading: String(
 				format: String(localized: "export_pdf.subheading"),
 				arguments: [

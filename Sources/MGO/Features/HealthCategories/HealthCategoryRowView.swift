@@ -44,7 +44,7 @@ struct HealthCategoryRowView: View {
 			
 			VStack(alignment: .leading, spacing: ViewTraits.Text.spacing) {
 				
-				Text(String(localized: String.LocalizationValue(stringLiteral: category.heading)))
+				Text(category.localizedHeading())
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundColor(theme.labels.primary)
 				
@@ -56,7 +56,7 @@ struct HealthCategoryRowView: View {
 					
 				} else {
 					
-					Text(String(localized: String.LocalizationValue(stringLiteral: category.subheading)))
+					Text(category.localizedSubheading())
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.foregroundColor(theme.labels.secondary)
 					
