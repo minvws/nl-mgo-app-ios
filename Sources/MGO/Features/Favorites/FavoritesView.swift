@@ -54,12 +54,13 @@ class FavoritesViewModel: ObservableObject {
 	/// and the stored favorite is no longer a category.
 	@MainActor private func prepareFavorites() {
 		
-		let mainCategories = try? SharedHealthCategories().mainCategories
+		let shared = try? SharedHealthCategories()
 		self.state.favorites = favoritesRepository.items.filter { favorite in
-			for mainCategory in mainCategories ?? [] {
-				for category in mainCategory.categories where category == favorite {
-					return true
-				}
+			// Only add those favorites that are still a valid category
+			// based upon id, as there might be new profiled for a category and
+			// or new subcategories.
+			for category in shared?.categories() ?? [] where category.id == favorite.id {
+				return true
 			}
 			return false
 		}
@@ -201,7 +202,7 @@ struct FavoritesView: View {
 		List {
 			favoritesView()
 			
-			ForEach(viewModel.state.mainCategories) { mainCategoryView($0) }
+			ForEach(viewModel.state.mainCategories, id: \.id) { mainCategoryView($0) }
 			
 		} // List
 		.backport.scrollContentBackground(.hidden)
@@ -276,15 +277,16 @@ struct FavoritesView: View {
 		
 		if filteredCategories.isNotEmpty {
 			
-			sectionHeader(String(localized: String.LocalizationValue(stringLiteral: mainCategory.heading)))
+			sectionHeader(mainCategory.localized())
 			
-			ForEach(filteredCategories) { category in
-				
-				categoryView(
-					category,
-					icon: Image(ImageResource.Icon.add),
-					action: { viewModel.reduce(.addButtonPressed(category)) }
-				)
+			Section {
+				ForEach(filteredCategories) { category in
+					categoryView(
+						category,
+						icon: Image(ImageResource.Icon.add),
+						action: { viewModel.reduce(.addButtonPressed(category)) }
+					)
+				}
 			}
 		}
 	}
@@ -309,13 +311,15 @@ struct FavoritesView: View {
 					.frame(width: ViewTraits.Action.size, height: ViewTraits.Action.size)
 					.padding(ViewTraits.Action.padding)
 			}
+			// Any style but default makes only the button tappable instead
+			// of the whole view, which renders the drag and drop unusable.
 			.buttonStyle(PlainButtonStyle())
 			
 			category.getIcon(theme)
 				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
 				.padding(.trailing, ViewTraits.Icon.padding)
 			
-			Text(String(localized: String.LocalizationValue(stringLiteral: category.heading)))
+			Text(category.localizedHeading())
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundColor(theme.labels.primary)
 			

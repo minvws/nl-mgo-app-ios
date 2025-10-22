@@ -490,7 +490,7 @@ struct HealthCategoriesView: View {
 		if filteredCategories.isNotEmpty {
 			
 			Section {
-				Text(String(localized: String.LocalizationValue(stringLiteral: mainCategory.heading)))
+				Text(mainCategory.localized())
 					.rijksoverheidStyle(font: .bold, style: .headline)
 					.foregroundColor(theme.labels.primary)
 					.accessibilityAddTraits(.isHeader)

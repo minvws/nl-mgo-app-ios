@@ -27,6 +27,12 @@ public struct SharedHealthCategories: Sendable {
 			self.heading = heading
 			self.profiles = profiles
 		}
+		
+		/// Get the localized string for the heading
+		/// - Returns: localized string for the heading
+		public func localized() -> String {
+			return String(localized: String.LocalizationValue(stringLiteral: heading))
+		}
 	}
 
 	// MARK: - Category
@@ -65,8 +71,22 @@ public struct SharedHealthCategories: Sendable {
 			self.subcategories = subcategories
 		}
 		
+		/// Get all the profiles from the sub categories
+		/// - Returns: an array of profiles
 		public func profiles() -> [String] {
 			subcategories.flatMap(\.profiles)
+		}
+		
+		/// Get the localized string for the heading
+		/// - Returns: localized string for the heading
+		public func localizedHeading() -> String {
+			return String(localized: String.LocalizationValue(stringLiteral: heading))
+		}
+		
+		/// Get the localized string for the sub heading
+		/// - Returns: localized string for the sub heading
+		public func localizedSubheading() -> String {
+			return String(localized: String.LocalizationValue(stringLiteral: subheading))
 		}
 	}
 
@@ -100,6 +120,12 @@ public struct SharedHealthCategories: Sendable {
 			self.id = id
 			self.heading = heading
 			self.categories = categories
+		}
+		
+		/// Get the localized string for the heading
+		/// - Returns: localized string for the heading
+		public func localized() -> String {
+			return String(localized: String.LocalizationValue(stringLiteral: heading))
 		}
 	}
 	

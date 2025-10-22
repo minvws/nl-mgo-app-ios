@@ -324,7 +324,7 @@ class HealthCategoryViewModel: ObservableObject {
 		for subcategory in category.subcategories {
 			for profile in subcategory.profiles {
 				var subCat = HealthCategoryBlock(
-					heading: String(localized: String.LocalizationValue(stringLiteral: subcategory.heading)),
+					heading: subcategory.localized(),
 					rows: []
 				)
 				for record in records {
