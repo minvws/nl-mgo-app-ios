@@ -33,7 +33,20 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 		let sut = DashboardCoordinatorView(coordinator: coordinator)
 		
 		// Then
-		takeSnapShots(content: sut, precision: 0.95)
+		takeSnapShots(content: sut)
+	}
+	
+	@MainActor func test_default_iOS18() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		createSut()
+		
+		// When
+		let sut = DashboardCoordinatorView(coordinator: coordinator)
+		
+		// Then
+		takeSnapShots(content: sut)
 	}
 	
 	@MainActor func test_secondTab() throws {
@@ -49,9 +62,37 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
+	@MainActor func test_secondTab_iOS18() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		createSut()
+		let sut = DashboardCoordinatorView(coordinator: coordinator)
+		
+		// When
+		coordinator.selectedTab = DashboardTab.healthcareOrganizations.rawValue
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
 	@MainActor func test_thirdTab() throws {
 		
 		// Given
+		createSut()
+		let sut = DashboardCoordinatorView(coordinator: coordinator)
+		
+		// When
+		coordinator.selectedTab = DashboardTab.settings.rawValue
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
+	@MainActor func test_thirdTab_iOS18() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		let sut = DashboardCoordinatorView(coordinator: coordinator)
 		
