@@ -54,10 +54,10 @@ struct TestApp: App {
 	
 	init() {
 		
-		// Only run tests on a iPhone 16 Pro (screenshot dimensions will differ on other devices)
+		// Only run tests on a iPhone 17 Pro (screenshot dimensions will differ on other devices)
 		let device = UIDevice.current.name
-		if device != "iPhone 16 Pro" {
-			fatalError("Switch to using iPhone 16 Pro for these tests.")
+		if device != "iPhone 17 Pro" {
+			fatalError("Switch to using iPhone 17 Pro for these tests.")
 		}
 		
 		// Speedup animation

@@ -7,10 +7,10 @@ import SnapshotTesting
 
 extension UITraitCollection {
 	
-	/// Get the UITraitCollection for an iPhone 16 Pro
+	/// Get the UITraitCollection for an iPhone 17 Pro
 	/// - Parameter orientation: the orientation of the device
-	/// - Returns: UITraitCollection for an iPhone 16 Pro
-	public static func iPhone16Pro(_ orientation: ViewImageConfig.Orientation) -> UITraitCollection {
+	/// - Returns: UITraitCollection for an iPhone 17 Pro
+	public static func iPhone17Pro(_ orientation: ViewImageConfig.Orientation) -> UITraitCollection {
 		let base: [UITraitCollection] = [
 			.init(forceTouchCapability: .available),
 			.init(layoutDirection: .leftToRight),

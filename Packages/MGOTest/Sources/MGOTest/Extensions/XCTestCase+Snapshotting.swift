@@ -27,7 +27,7 @@ extension XCTestCase {
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone16Pro(.portrait), precision: precision),
+			as: .image(on: .iPhone17Pro(.portrait), precision: precision),
 			named: "_darkPortrait",
 			record: isRecording,
 			file: file,
@@ -37,7 +37,7 @@ extension XCTestCase {
 		// Light Mode & Portrait orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone16Pro(.portrait), precision: precision),
+			as: .image(on: .iPhone17Pro(.portrait), precision: precision),
 			named: "_lightPortrait",
 			record: isRecording,
 			file: file,
@@ -47,7 +47,7 @@ extension XCTestCase {
 		// Dark Mode & Landscape orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone16Pro(.landscape), precision: precision),
+			as: .image(on: .iPhone17Pro(.landscape), precision: precision),
 			named: "_darkLandscape",
 			record: isRecording,
 			file: file,
@@ -57,7 +57,7 @@ extension XCTestCase {
 		// Light Mode & Landscape orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone16Pro(.landscape), precision: precision),
+			as: .image(on: .iPhone17Pro(.landscape), precision: precision),
 			named: "_lightLandscape",
 			record: isRecording,
 			file: file,

@@ -82,7 +82,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone16Pro(.portrait), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
 		)
 	}
 	
@@ -104,7 +104,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone16Pro(.portrait), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
 		)
 	}
 	
@@ -126,7 +126,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone16Pro(.landscape), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0)
 		)
 	}
 	
@@ -148,7 +148,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone16Pro(.landscape), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0)
 		)
 	}
 }
