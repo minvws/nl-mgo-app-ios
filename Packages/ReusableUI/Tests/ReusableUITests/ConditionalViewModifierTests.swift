@@ -27,6 +27,7 @@ final class ConditionalViewModifierTests: XCTestCase {
 	func test_conditionalViewModifier_conditionTrue() throws {
 		
 		// Given
+		
 		let text = Text("test_conditionalViewModifier").frame(width: 300, height: 50)
 		let condition = true
 		

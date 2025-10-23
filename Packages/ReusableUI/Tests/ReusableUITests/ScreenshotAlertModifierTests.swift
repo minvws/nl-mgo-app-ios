@@ -15,7 +15,10 @@ final class ScreenshotAlertModifierTests: XCTestCase {
 		let sut = Text("Screenshot Alert").screenshotAlert()
 		
 		// When
-		NotificationCenter.default.post(name: UIApplication.userDidTakeScreenshotNotification, object: nil)
+		NotificationCenter.default.post(
+			name: UIApplication.userDidTakeScreenshotNotification,
+			object: nil
+		)
 		
 		// Then
 		takeSnapShots(content: sut)
