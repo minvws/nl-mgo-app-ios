@@ -39,6 +39,20 @@ final class FavoritesViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	@MainActor func test_noFavorites_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		createSut()
+		viewModel.state.favorites = []
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	@MainActor func test_favorites() throws {
 		
 		// Given
@@ -51,5 +65,4 @@ final class FavoritesViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-	
 }

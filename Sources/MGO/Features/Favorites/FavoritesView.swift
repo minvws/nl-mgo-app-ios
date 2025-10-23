@@ -150,11 +150,9 @@ struct FavoritesView: View {
 		
 		ToolbarItem(placement: .cancellationAction) {
 			if #available(iOS 26.0, *) {
-				Button(cancelKey, systemImage: "xmark") {
+				Button(role: .close) {
 					viewModel.reduce(.closeButtonPressed)
 				}
-				.buttonStyle(.borderedProminent)
-				.tint(.secondary)
 				.accessibilityLabel(cancelKey)
 				
 			} else {
@@ -177,11 +175,9 @@ struct FavoritesView: View {
 		
 		ToolbarItem(placement: .confirmationAction) {
 			if #available(iOS 26.0, *) {
-				Button(saveKey, systemImage: "checkmark") {
+				Button(role: .confirm) {
 					viewModel.reduce(.saveButtonPressed)
 				}
-				.buttonStyle(.borderedProminent)
-				.tint(theme.categories.rijkslint)
 				.accessibilityLabel(saveKey)
 			} else {
 				Button {
