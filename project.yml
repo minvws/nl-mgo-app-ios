@@ -437,9 +437,9 @@ schemes:
         - package: MGORepository/MGORepositoryTests
           randomExecutionOrder: true
           parallelizable: false
-#        - name: MGOTests
-#          parallelizable: false
-#          randomExecutionOrder: true
+        - name: MGOTests
+          parallelizable: false
+          randomExecutionOrder: true
         - package: Observatory/ObservatoryTests
           randomExecutionOrder: true
           parallelizable: false
