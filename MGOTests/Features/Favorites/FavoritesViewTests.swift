@@ -29,6 +29,7 @@ final class FavoritesViewTests: XCTestCase {
 	@MainActor func test_noFavorites() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		viewModel.state.favorites = []
 		
@@ -56,6 +57,7 @@ final class FavoritesViewTests: XCTestCase {
 	@MainActor func test_favorites() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		viewModel.state.favorites = [Generator.healthCategory]
 		

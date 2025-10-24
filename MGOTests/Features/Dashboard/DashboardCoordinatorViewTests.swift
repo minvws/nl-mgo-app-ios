@@ -27,6 +27,7 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 	@MainActor func test_default() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		
 		// When
@@ -52,6 +53,7 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 	@MainActor func test_secondTab() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		let sut = DashboardCoordinatorView(coordinator: coordinator)
 		
@@ -79,6 +81,7 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 	@MainActor func test_thirdTab() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		let sut = DashboardCoordinatorView(coordinator: coordinator)
 		

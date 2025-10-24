@@ -35,6 +35,7 @@ final class HealthExportViewTests: XCTestCase {
 	@MainActor func test_exportView() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		
 		// When
