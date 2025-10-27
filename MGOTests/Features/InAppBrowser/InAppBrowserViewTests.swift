@@ -6,6 +6,7 @@
 import MGOTest
 import RestrictedBrowser
 import MGOUI
+import MGOFoundation
 @testable import MGO
 
 final class InAppBrowserViewTests: XCTestCase {
@@ -33,6 +34,20 @@ final class InAppBrowserViewTests: XCTestCase {
 	@MainActor func test_backButtonPressed() throws {
 		
 		// Given
+		try setupSut()
+		
+		// When
+		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.close").button().tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
+	}
+	
+	@MainActor func test_backButtonPressed_iOS18() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try setupSut()
 		
 		// When

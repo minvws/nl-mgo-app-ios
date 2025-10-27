@@ -5,6 +5,7 @@
 
 import MGOTest
 import MGOFoundation
+import MGOUI
 @testable import MGO
 
 ///
