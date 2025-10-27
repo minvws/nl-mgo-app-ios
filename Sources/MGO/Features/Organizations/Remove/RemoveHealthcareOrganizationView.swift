@@ -62,6 +62,9 @@ struct RemoveHealthcareOrganizationView: View {
 	/// Are we presented in a sheet?
 	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -129,7 +132,7 @@ struct RemoveHealthcareOrganizationView: View {
 		.navigationBarHidden(false)
 		.when(isPresentedAsSheet, transform: { view in
 			view
-				.withToolbarCloseButton {
+				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
 					viewModel.reduce(.closeSheet)
 				}
 		})

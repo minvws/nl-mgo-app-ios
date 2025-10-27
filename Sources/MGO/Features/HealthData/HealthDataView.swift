@@ -234,6 +234,9 @@ struct HealthDataView: View {
 	/// Are we presented in a sheet?
 	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -268,7 +271,7 @@ struct HealthDataView: View {
 		.navigationTitle(viewModel.state.schema.label)
 		.when(isPresentedAsSheet, transform: { view in
 			view
-				.withToolbarCloseButton {
+				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
 					// This closes the view when shown in a sheet aka a reference
 					viewModel.reduce(.closeSheet)
 				}

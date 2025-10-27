@@ -159,6 +159,9 @@ struct AddOrganizationView: View {
 	
 	@FocusState var isCityFieldFocused: Bool
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -238,7 +241,7 @@ struct AddOrganizationView: View {
 		.navigationBarHidden(false)
 		.when(isPresentedAsSheet, transform: { view in
 			view
-				.withToolbarCloseButton {
+				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
 					viewModel.reduce(.closeSheet)
 				}
 		})
