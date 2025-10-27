@@ -68,7 +68,7 @@ jobs:
           bash Scripts/xccov-to-sonarqube-generic.sh MGO.xcresult/ > coverage.xml
 
       - name: Upload Coverage file
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: ${{ always() }}
         with:
           name: coverage.xml
@@ -85,7 +85,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download Coverage file
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: coverage.xml
           path: ./

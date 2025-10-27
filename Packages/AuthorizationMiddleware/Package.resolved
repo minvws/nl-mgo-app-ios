@@ -1,5 +1,5 @@
 {
-  "originHash" : "e0a87c9c1d69c01393d8a24cbdba7995fc5cc1f42a24fd7664d742bc12a4add0",
+  "originHash" : "cf8c1ec5c8f37448319d2161f7c867c249ebda8575126ad9de47fa15d3cfc626",
   "pins" : [
     {
       "identity" : "cwlcatchexception",
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-http-types",
       "state" : {
-        "revision" : "9410f6b9a3d418a5416cfe30d8de4227bc6890a0",
-        "version" : "1.5.0"
+        "revision" : "45eb0224913ea070ec4fba17291b9e7ecf4749ca",
+        "version" : "1.5.1"
       }
     },
     {
