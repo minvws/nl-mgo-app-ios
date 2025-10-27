@@ -36,8 +36,9 @@ public struct RestrictedBrowserView: View {
 						ToolbarItemGroup(
 							placement: .topBarTrailing,
 							content: {
-								Spacer()
-								
+								if #unavailable(iOS 26) {
+									Spacer()
+								}
 								Button {
 									viewModel.reduce(.safariButtonPressed)
 								} label: {

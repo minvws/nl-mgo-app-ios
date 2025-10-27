@@ -1044,7 +1044,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Belangrijke dingen waar zorgverleners op moeten letten"
+            "value" : "Belangrijke dingen waar zorgverleners op moeten letten."
           }
         }
       }
@@ -1055,7 +1055,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allergiën en intoleranties"
+            "value" : "Allergieën en intoleranties"
           }
         }
       }
@@ -1077,7 +1077,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dingen waar je niet tegen kunt, zoals medicijnen of eten"
+            "value" : "Dingen waar je niet tegen kunt. Zoals bepaald eten of medicijnen."
           }
         }
       }
@@ -1110,7 +1110,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die je al hebt gehad of die nog komen"
+            "value" : "Je afspraken met zorgverleners. En contacten die je hebt gehad."
           }
         }
       }
@@ -1143,7 +1143,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Medische hulpmiddelen"
+            "value" : "Hulpmiddelen"
           }
         }
       }
@@ -1154,7 +1154,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle medische hulpmiddel gegevens"
+            "value" : "Alle hulpmiddel gegevens"
           }
         }
       }
@@ -1165,7 +1165,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgspullen die je gebruikt, zoals een bril of rollator"
+            "value" : "Medische hulpmiddelen die je gebruikt. Zoals een bril of rollator."
           }
         }
       }
@@ -1220,7 +1220,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Brieven, verslagen en medische beelden zoals foto's of scans"
+            "value" : "Brieven, verslagen, foto's en scans van zorgverleners."
           }
         }
       }
@@ -1253,7 +1253,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resultaten van onderzoeken en tests die je hebt gehad"
+            "value" : "Je waarden zoals bloeddruk en hartslag. En je lengte en gewicht."
           }
         }
       }
@@ -1264,7 +1264,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leefstijl"
+            "value" : "Leefstijl en situatie"
           }
         }
       }
@@ -1286,7 +1286,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bijvoorbeeld of je rookt of drinkt, wat je eet en hoeveel je beweegt"
+            "value" : "Informatie over hoe je leeft en woont. En wat je elke dag doet."
           }
         }
       }
@@ -1352,7 +1352,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die je nu of eerder hebt gebruikt"
+            "value" : "Die je nu gebruikt of vroeger gebruikte. En afspraken daarover."
           }
         }
       }
@@ -1385,7 +1385,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hoe het geestelijk met je gaat, zoals stress en somberheid"
+            "value" : "Hoe het geestelijk met je gaat. Zoals angst, stress of somberheid."
           }
         }
       }
@@ -1418,7 +1418,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je naam, adres, geboortedatum en gezinssituatie"
+            "value" : "Je betaalgegevens, persoonlijke gegevens en contactpersonen."
           }
         }
       }
@@ -1429,7 +1429,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgkosten"
+            "value" : "Betaalgegevens"
           }
         }
       }
@@ -1484,7 +1484,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat je belangrijk vindt in je behandeling zoals wensen en doelen"
+            "value" : "Je doelen, wensen en afspraken over je behandeling."
           }
         }
       }
@@ -1506,7 +1506,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dingen waar je last van hebt, zoals pijn of ziekte"
+            "value" : "Klachten waar je last van hebt. Zoals pijn of ziekte."
           }
         }
       }
@@ -1539,7 +1539,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Behandelingen en operaties die je hebt gehad of nog krijgt"
+            "value" : "Behandelingen en operaties die je hebt gehad. Of die je nog krijgt."
           }
         }
       }
@@ -1572,7 +1572,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prikken die je hebt gehad, zoals tegen griep of corona"
+            "value" : "Prikken die je hebt gehad. Zoals tegen griep of corona."
           }
         }
       }
@@ -1803,7 +1803,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorg en behandeling"
+            "value" : "Zorg"
           }
         }
       }
@@ -1814,7 +1814,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Onderzoeken en uitslagen"
+            "value" : "Onderzoek"
           }
         }
       }
@@ -1836,7 +1836,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Persoonlijk en administratie"
+            "value" : "Persoonlijk"
           }
         }
       }
@@ -1990,7 +1990,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg hier je favorieten toe.\nZo staan die altijd bovenaan."
+            "value" : "Voeg hier je favorieten toe.\nDan staan ze altijd bovenaan."
           }
         }
       }
@@ -3367,7 +3367,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Medische hulpmiddelen"
+            "value" : "Hulpmiddelen"
           }
         }
       }

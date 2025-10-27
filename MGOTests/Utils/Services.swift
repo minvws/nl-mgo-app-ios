@@ -5,6 +5,7 @@
 
 import MGOTest
 import MGOFoundation
+import MGOUI
 @testable import MGO
 
 ///
@@ -110,6 +111,8 @@ func setupServicesSpies() -> ServicesSpies {
 		.register { spies.localAuthenticationProviderSpy }
 	Container.shared.localisationServiceClient
 		.register { spies.localisationServiceClientSpy }
+	Container.shared.osVersionChecker
+		.register { OSVersionChecker() }
 	Container.shared.patientFriendyTermsRepository
 		.register { spies.patientFriendlyTermsRepositorySpy }
 	Container.shared.remoteConfigurationRepository

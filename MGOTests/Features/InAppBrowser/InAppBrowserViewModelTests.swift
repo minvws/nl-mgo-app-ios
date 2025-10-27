@@ -22,13 +22,13 @@ final class InAppBrowserViewModelTests: XCTestCase {
 		sut = InAppBrowserViewModel(url: url, browser: browser, title: nil, coordinator: coordinatorSpy)
 	}
 	
-	@MainActor func test_backButtonPressed() throws {
+	@MainActor func test_closeButtonPressed() throws {
 		
 		// Given
 		try setupSut()
 		
 		// When
-		sut.reduce(.backButtonPressed)
+		sut.reduce(.closeButtonPressed)
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

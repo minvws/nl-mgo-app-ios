@@ -614,6 +614,7 @@ struct HealthCategoriesView: View {
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.labels.primary)
 				.padding(.top, 2 * ViewTraits.General.padding)
+				.multilineTextAlignment(.center)
 			
 			CallToActionButton(emptyActionKey, style: .tertiary) {
 				viewModel.reduce(.showFavorites)

@@ -29,6 +29,21 @@ final class FavoritesViewTests: XCTestCase {
 	@MainActor func test_noFavorites() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		viewModel.state.favorites = []
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_noFavorites_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		viewModel.state.favorites = []
 		
@@ -42,6 +57,7 @@ final class FavoritesViewTests: XCTestCase {
 	@MainActor func test_favorites() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		viewModel.state.favorites = [Generator.healthCategory]
 		
@@ -51,5 +67,4 @@ final class FavoritesViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-	
 }

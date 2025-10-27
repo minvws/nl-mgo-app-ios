@@ -14,6 +14,7 @@ let package = Package(
 	],
 	dependencies: [
 		// Internal
+		.package(name: "OSVersion", path: "../OSVersion"),
 		.package(name: "ReusableUI", path: "../ReusableUI"),
 		
 		// External
@@ -26,6 +27,7 @@ let package = Package(
 			dependencies: [
 				.product(name: "DeviceKit", package: "DeviceKit"),
 				.product(name: "NavigationStackBackport", package: "navigation-stack-backport"),
+				.product(name: "OSVersion", package: "OSVersion"),
 				.product(name: "ReusableUI", package: "ReusableUI")
 			],
 			swiftSettings: [

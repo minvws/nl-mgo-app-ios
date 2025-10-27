@@ -350,6 +350,9 @@ struct HealthExportView: View {
 	/// Are we presented in a sheet?
 	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -430,11 +433,24 @@ struct HealthExportView: View {
 		ToolbarItemGroup(
 			placement: .topBarTrailing,
 			content: {
-				Button("export_pdf.close") {
-					viewModel.reduce(.closeSheet)
+				
+				let closeKey: LocalizedStringKey = "export_pdf.close"
+				
+				if osVersionChecker.available(version: .iOS(.v26)) {
+					if #available(iOS 26.0, *) {
+						Button(role: .close) {
+							viewModel.reduce(.closeSheet)
+						}
+						.accessibilityLabel(closeKey)
+					}
+				} else {
+					
+					Button(closeKey) {
+						viewModel.reduce(.closeSheet)
+					}
+					.buttonStyle(ToolbarButtonStyle())
+					.accessibilityIdentifier("export_pdf.close")
 				}
-				.buttonStyle(ToolbarButtonStyle())
-				.accessibilityIdentifier("export_pdf.close")
 			}
 		)
 	}

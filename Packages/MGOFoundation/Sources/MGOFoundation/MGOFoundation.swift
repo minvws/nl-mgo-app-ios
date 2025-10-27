@@ -18,7 +18,6 @@
 @_exported import MGORepository
 @_exported import NotificationCenter
 @_exported import Observatory
-@_exported import OSVersion
 @_exported import PatientFriendlyTerms
 @_exported import Sanitizer
 @_exported import SecureUserSettings

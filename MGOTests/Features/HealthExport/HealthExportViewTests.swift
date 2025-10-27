@@ -35,6 +35,20 @@ final class HealthExportViewTests: XCTestCase {
 	@MainActor func test_exportView() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
+	@MainActor func test_exportView_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		
 		// When

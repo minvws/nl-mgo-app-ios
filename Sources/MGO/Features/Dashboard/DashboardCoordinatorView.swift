@@ -23,40 +23,21 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	var body: some View {
 		
 		TabView(selection: $coordinator.selectedTab) {
 			
 			Group {
-				// First Tab, Overview
-				coordinator.view(for: .healthCategories)
-				.tabItem {
-					Image(coordinator.selectedTab == DashboardTab.healthCategories.rawValue ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
-					Text("bottombar.overview")
-						.rijksoverheidStyle(font: .bold, style: .body)
-						.accessibilityIdentifier("bottombar.overview")
-				}
-				.tag(DashboardTab.healthCategories.rawValue)
 				
-				// Second Tab, Healthcare organizations
-				coordinator.view(for: .healthcareOrganizations)
-				.tabItem {
-					Image(coordinator.selectedTab == DashboardTab.healthcareOrganizations.rawValue ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
-					Text("bottombar.healthcareproviders")
-						.rijksoverheidStyle(font: .bold, style: .body)
-						.accessibilityIdentifier("bottombar.healthcareproviders")
-				}
-				.tag(DashboardTab.healthcareOrganizations.rawValue)
+				overviewTab()
 				
-				// Third Tab, Settings
-				coordinator.view(for: .settings)
-				.tabItem {
-					Image(coordinator.selectedTab == DashboardTab.settings.rawValue ? ImageResource.Tab.Selected.settings : ImageResource.Tab.Unselected.settings)
-					Text("bottombar.settings")
-						.rijksoverheidStyle(font: .bold, style: .body)
-						.accessibilityIdentifier("bottombar.settings")
-				}
-				.tag(DashboardTab.settings.rawValue)
+				healthcareProvidersTab()
+				
+				settingsTab()
+				
 			}
 			.tint(theme.actions.tertiary.text)
 		}
@@ -66,6 +47,59 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 		})
 		.navigationBarHidden(true)
 		.navigationBarBackButtonHidden()
+	}
+	
+	// First Tab, Overview
+	@ViewBuilder private func overviewTab() -> some View {
+		
+		coordinator.view(for: .healthCategories)
+			.tabItem {
+				if osVersionChecker.available(version: .iOS(.v26)) {
+					Image(
+						coordinator.selectedTab == DashboardTab.healthCategories.rawValue ? ImageResource.Tab.Selected.IOS26.overview : ImageResource.Tab.Unselected.IOS26.overview
+					)
+				} else {
+					Image(coordinator.selectedTab == DashboardTab.healthCategories.rawValue ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
+				}
+				Text("bottombar.overview")
+					.rijksoverheidStyle(font: .bold, style: .body)
+					.accessibilityIdentifier("bottombar.overview")
+			}
+			.tag(DashboardTab.healthCategories.rawValue)
+	}
+	
+	// Second Tab, Healthcare organizations
+	@ViewBuilder private func healthcareProvidersTab() -> some View {
+		
+		coordinator.view(for: .healthcareOrganizations)
+			.tabItem {
+				if osVersionChecker.available(version: .iOS(.v26)) {
+					Image(coordinator.selectedTab == DashboardTab.healthcareOrganizations.rawValue ? ImageResource.Tab.Selected.IOS26.providers : ImageResource.Tab.Unselected.IOS26.providers)
+				} else {
+					Image(coordinator.selectedTab == DashboardTab.healthcareOrganizations.rawValue ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
+				}
+				Text("bottombar.healthcareproviders")
+					.rijksoverheidStyle(font: .bold, style: .body)
+					.accessibilityIdentifier("bottombar.healthcareproviders")
+			}
+			.tag(DashboardTab.healthcareOrganizations.rawValue)
+	}
+	
+	// Third Tab, Settings
+	@ViewBuilder private func settingsTab() -> some View {
+		
+		coordinator.view(for: .settings)
+			.tabItem {
+				if osVersionChecker.available(version: .iOS(.v26)) {
+					Image(coordinator.selectedTab == DashboardTab.settings.rawValue ? ImageResource.Tab.Selected.IOS26.settings : ImageResource.Tab.Unselected.IOS26.settings)
+				} else {
+					Image(coordinator.selectedTab == DashboardTab.settings.rawValue ? ImageResource.Tab.Selected.settings : ImageResource.Tab.Unselected.settings)
+				}
+				Text("bottombar.settings")
+					.rijksoverheidStyle(font: .bold, style: .body)
+					.accessibilityIdentifier("bottombar.settings")
+			}
+			.tag(DashboardTab.settings.rawValue)
 	}
 	
 	/// Style the tab bar

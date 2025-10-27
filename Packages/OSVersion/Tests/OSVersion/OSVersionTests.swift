@@ -17,11 +17,11 @@ final class OSVersionTests {
 		// When
 		
 		// Then
-		// Runner is iPhone 16 Pro with 18.5
+		// Runner is iPhone 17 Pro with 26.0
 		#expect(checker.available(version: .iOS(.v15)) == true)
 		#expect(checker.available(version: .iOS(.v16)) == true)
 		#expect(checker.available(version: .iOS(.v17)) == true)
 		#expect(checker.available(version: .iOS(.v18)) == true)
-		#expect(checker.available(version: .iOS(.v26)) == false)
+		#expect(checker.available(version: .iOS(.v26)) == true)
 	}
 }
