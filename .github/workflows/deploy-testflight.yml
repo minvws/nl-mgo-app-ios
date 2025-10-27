@@ -77,14 +77,14 @@ jobs:
           bundle exec fastlane ios ship_app_to_testflight
 
       - name: Archive MGO
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: MGO App
           path: MGO.ipa
           retention-days: 30
 
       - name: Archive MGO dSYMs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: MGO App dSYMs
           path: MGO.app.dSYM.zip
