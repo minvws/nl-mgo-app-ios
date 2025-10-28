@@ -443,7 +443,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: try XCTUnwrap(view), isRecording: true)
 	}
 	
 	@MainActor func test_coordinatorView_favorites() throws {

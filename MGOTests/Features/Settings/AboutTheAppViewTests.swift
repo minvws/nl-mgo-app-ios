@@ -36,6 +36,7 @@ final class AboutTheAppViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
+		takeSnapShotsForiPad(content: content)
 	}
 	
 	@MainActor func test_backbuttonPressed() throws {

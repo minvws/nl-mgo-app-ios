@@ -10,16 +10,22 @@ public struct SizeReaderModifier: ViewModifier {
 	@Binding var size: CGSize
 	
 	public func body(content: Content) -> some View {
-		content.background(
-			GeometryReader { geometry in
-				Color.clear.onAppear {
-					size = geometry.size
+		content
+			.background(
+				GeometryReader { geometry in
+					Color.clear.onAppear {
+						size = geometry.size
+					}
+					.onChange(of: geometry.size) { newSize in
+						size = newSize
+					}
 				}
-				.onChange(of: geometry.size) { newSize in
-					size = newSize
-				}
+			)
+			.backport.onGeometryChange(for: CGSize.self) { geometry in
+				return geometry.size
+			} action: { newValue in
+				size = newValue
 			}
-		)
 	}
 }
 
