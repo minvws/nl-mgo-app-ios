@@ -74,6 +74,11 @@ struct AboutTheAppView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// The horizontal size classes (to determine the layout)
+	@Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+	
+	@State private var contentSize: CGSize = .zero
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -85,9 +90,6 @@ struct AboutTheAppView: View {
 		}
 		enum Button {
 			static let minimumHeight: CGFloat = 50
-		}
-		enum Logo {
-			static let maxHeight: CGFloat = 150
 		}
 	}
 	
@@ -120,27 +122,32 @@ struct AboutTheAppView: View {
 	
 	@ViewBuilder private func header() -> some View {
 		VStack(alignment: .leading, spacing: 0) {
-			
-			HStack {
+			HStack(alignment: .top) {
 				Spacer()
 				
-				Image(ImageResource.Settings.logo)
-					.resizable()
-					.scaledToFit()
-					.accessibilityLabel(Text("settings.about_this_app.logo_accessibility"))
-					.accessibilityIdentifier("settings.about_this_app.logo")
-					.frame(maxHeight: ViewTraits.Logo.maxHeight)
+				Image(
+					horizontalSizeClass == .regular ? ImageResource.Settings.Rijkslint.basis : ImageResource.Settings.Rijkslint.compact
+				)
+				.accessibilityLabel(Text("settings.about_this_app.logo_accessibility"))
+				.accessibilityIdentifier("settings.about_this_app.logo")
+				.frame(maxWidth: max(0, contentSize.width - 32))
 				
 				Spacer()
 			}
+			.frame(maxWidth: .infinity, alignment: .top)
 			
 			Text("common.app_name")
 				.rijksoverheidStyle(font: .bold, style: .body)
 				.foregroundStyle(theme.labels.primary)
-				.padding(ViewTraits.General.padding)
+				.fixedSize(horizontal: false, vertical: true)
 				.accessibilityIdentifier("common.app_name")
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.padding(.top, -16)
 		}
+		.padding(.top, -16)
 		.listRowInsets(ViewTraits.General.inset)
+		.readSize($contentSize)
+		.logInfo("$contentSize", contentSize)
 	}
 	
 	/// Get the view for the version row

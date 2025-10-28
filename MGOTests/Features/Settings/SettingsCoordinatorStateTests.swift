@@ -104,6 +104,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShotsForiPad(content: try XCTUnwrap(view))
 	}
 	
 	@MainActor func test_coordinatorView_forAboutAccessibility() throws {
