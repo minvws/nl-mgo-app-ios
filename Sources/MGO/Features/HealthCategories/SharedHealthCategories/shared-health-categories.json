@@ -268,6 +268,10 @@
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective"
                         ]
+                    },
+                    {
+                        "heading": "zib_care_plan.heading",
+                        "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-careplan"]
                     }
                 ]
             },
@@ -305,15 +309,7 @@
                             "http://fhir.nl/fhir/StructureDefinition/nl-core-patient",
                             "http://nictiz.nl/fhir/StructureDefinition/nl-core-Patient"
                         ]
-                    }
-                ]
-            },
-            {
-                "id": "payment",
-                "icon": "account_balance",
-                "heading": "hc_payment.heading",
-                "subheading": "hc_payment.subheading",
-                "subcategories": [
+                    },
                     {
                         "heading": "zib_payer.heading",
                         "profiles": [
@@ -321,6 +317,18 @@
                             "http://fhir.nl/fhir/StructureDefinition/nl-core-organization",
                             "http://fhir.nl/fhir/StructureDefinition/nl-core-patient"
                         ]
+                    }
+                ]
+            },
+            {
+                "id": "care_team",
+                "icon": "group",
+                "heading": "hc_care_team.heading",
+                "subheading": "hc_care_team.subheading",
+                "subcategories": [
+                    {
+                        "heading": "zib_care_team.heading",
+                        "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-careteam"]
                     }
                 ]
             }

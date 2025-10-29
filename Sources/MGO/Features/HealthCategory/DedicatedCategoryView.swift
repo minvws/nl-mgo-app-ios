@@ -104,12 +104,12 @@ final class HealthCategoryViewTranslationsFactory {
 					backButtonTitle: String.LocalizationValue(stringLiteral: "hc_patient.heading")
 				)
 				
-			case "payment":
+			case "care_team":
 				return HealthCategoryViewTranslations(
-					heading: "hc_payment.heading",
-					search: "hc_payment.search",
-					noSearchResults: "hc_payment.no_search_results",
-					backButtonTitle: String.LocalizationValue(stringLiteral: "hc_payment.heading")
+					heading: "hc_care_team.heading",
+					search: "hc_care_team.search",
+					noSearchResults: "hc_care_team.no_search_results",
+					backButtonTitle: String.LocalizationValue(stringLiteral: "hc_care_team.heading")
 				)
 				
 			case "plans":

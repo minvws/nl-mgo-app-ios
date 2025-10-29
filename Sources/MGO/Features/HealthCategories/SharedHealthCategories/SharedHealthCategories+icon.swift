@@ -58,8 +58,8 @@ extension SharedHealthCategories.Category {
 				Image(ImageResource.HealthCategory.patient)
 					.resizable()
 				
-			case "payment":
-				Image(ImageResource.HealthCategory.payment)
+			case "care_team":
+				Image(ImageResource.HealthCategory.careTeam)
 					.resizable()
 				
 			case "plans":
