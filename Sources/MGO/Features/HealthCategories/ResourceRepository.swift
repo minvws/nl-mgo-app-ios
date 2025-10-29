@@ -22,7 +22,10 @@ protocol ResourceRepositoryProtocol {
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
 	///   - category: the category to load the resources for.
-	@MainActor func loadResource(_ healthcareOrganization: MgoOrganization, category: SharedHealthCategories.Category)
+	@MainActor func loadResource(
+		_ healthcareOrganization: MgoOrganization,
+		category: SharedHealthCategories.Category
+	)
 	
 	/// Load a binary object
 	/// - Parameters:
@@ -33,7 +36,8 @@ protocol ResourceRepositoryProtocol {
 	@MainActor func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		path: String) async throws -> FHIRBinary?
+		path: String
+	) async throws -> FHIRBinary?
 }
 
 /// Load the resources from the server
@@ -42,13 +46,17 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	typealias Solution = (
 		endpoint: DataServices.Endpoint,
 		fhirVersion: DataServices.FhirVersion,
-		dvaTarget: String
+		dvaTarget: String,
+		dataServiceId: String,
+		providerId: String?
 	)
 	
 	typealias MappedSolution = (
 		categories: [SharedHealthCategories.Category],
 		fhirVersion: DataServices.FhirVersion,
-		dvaTarget: String
+		dvaTarget: String,
+		dataServiceId: String,
+		providerId: String?
 	)
 	
 	/// Token for the observatory (needed for unregister)
@@ -154,7 +162,13 @@ class ResourceRepository: ResourceRepositoryProtocol {
 					if mapping[solution.endpoint] != nil {
 						mapping[solution.endpoint]?.categories.append(sharedCategory)
 					} else {
-						mapping[solution.endpoint] = ([sharedCategory], solution.fhirVersion, solution.dvaTarget)
+						mapping[solution.endpoint] = (
+							[sharedCategory],
+							solution.fhirVersion,
+							solution.dvaTarget,
+							solution.dataServiceId,
+							solution.providerId
+						)
 					}
 				}
 			}
@@ -202,7 +216,13 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			if mapping[solution.endpoint] != nil {
 				mapping[solution.endpoint]?.categories.append(category)
 			} else {
-				mapping[solution.endpoint] = ([category], solution.fhirVersion, solution.dvaTarget)
+				mapping[solution.endpoint] = (
+					[category],
+					solution.fhirVersion,
+					solution.dvaTarget,
+					solution.dataServiceId,
+					solution.providerId
+				)
 			}
 		}
 		
@@ -231,9 +251,13 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			let fhirBundle = try await repository.getBundleData(
 				endpoint: endpoint,
 				fhirVersion: mapping.fhirVersion,
-				dvaTarget: mapping.dvaTarget,
-				username: username,
-				password: password
+				headers: MGORepositoryHeaders(
+					dvaTarget: mapping.dvaTarget,
+					dataServiceId: mapping.dataServiceId,
+					medmijId: mapping.providerId,
+					username: username,
+					password: password
+				)
 			)
 			
 			mgoResources = try await repository.process(
@@ -272,7 +296,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	) -> [Solution] {
 		
 		logVerbose("\n\n collectEndpoints for category:", category.id)
-		var results = [(DataServices.Endpoint, DataServices.FhirVersion, String)]()
+		var results = [(DataServices.Endpoint, DataServices.FhirVersion, String, String, String?)]()
 		for dataService in DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services {
 			
 			// Check if the organization uses this data service
@@ -285,7 +309,9 @@ class ResourceRepository: ResourceRepositoryProtocol {
 					(
 						endpoint: endpoint,
 						fhirVersion: dataService.fhirVersionEnum,
-						dvaTarget: dvaTarget
+						dvaTarget: dvaTarget,
+						dataServiceId: dataService.id,
+						providerId: healthcareOrganization.medmij_id
 					)
 				)
 			}
@@ -340,9 +366,13 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			let data = try await repository.getBundleData(
 				endpoint: DataServices.Endpoint(id: "binary", path: path, profiles: []),
 				fhirVersion: dataService.fhirVersionEnum,
-				dvaTarget: dvaTarget,
-				username: username,
-				password: password
+				headers: MGORepositoryHeaders(
+					dvaTarget: dvaTarget,
+					dataServiceId: serviceId,
+					medmijId: healthcareOrganization.identifier,
+					username: username,
+					password: password
+				)
 			)
 			
 			let binary = try FHIRBinary(data: data)

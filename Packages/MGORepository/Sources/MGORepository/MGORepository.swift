@@ -13,26 +13,22 @@ public actor MGORepository {
 	/// The FHIR Client
 	private let client: FHIRClient
 	
-	/// Initializer
+	/// Create the MGO Repository
 	/// - Parameter client: the FHIR client
 	public init(client: FHIRClient) {
 		self.client = client
 	}
 	
-	/// Get the Bundle from the DVP as data
+	/// Get the Bundle from a DVP Endpoint as data
 	/// - Parameters:
 	///   - endpoint: the endpoint to use
 	///   - fhirVersion: the FHIR version expected as response
-	///   - dvaTarget: the dva target
-	///   - username: the Basic AUTH username
-	///   - password: the Basic AUTH password
+	///   - headers: the MGO request headers
 	/// - Returns: Bundle as data.
 	public func getBundleData(
 		endpoint: DataServices.Endpoint,
 		fhirVersion: DataServices.FhirVersion,
-		dvaTarget: String,
-		username: String?,
-		password: String?
+		headers: MGORepositoryHeaders
 	) async throws -> Data {
 		
 		var path = endpoint.getPath()
@@ -40,16 +36,21 @@ public actor MGORepository {
 			path = String(path.dropFirst())
 		}
 		
-		var headers: [RequestHeaderField: String] = [
-			RequestHeaderField.dvaTarget: dvaTarget,
-			RequestHeaderField.accept: fhirVersion.acceptHeader
+		var requestHeaders: [RequestHeaderField: String] = [
+			RequestHeaderField.dvaTarget: headers.dvaTarget,
+			RequestHeaderField.accept: fhirVersion.acceptHeader,
+			RequestHeaderField.dataServiceId: headers.dataServiceId,
+			RequestHeaderField.providerId: headers.medmijId ?? "none" // defaults to none.
 		]
-		if let basicAuth = basicAuthenticationHeader(username: username, password: password) {
-			headers[RequestHeaderField.authorization] = basicAuth
+		
+		if let basicAuth = basicAuthenticationHeader(
+			username: headers.username,
+			password: headers.password) {
+			requestHeaders[RequestHeaderField.authorization] = basicAuth
 		}
 		let data = try await client.readDataFrom(
 			path,
-			headers: RequestHeaders(headers)
+			headers: RequestHeaders(requestHeaders)
 		)
 		return data
 	}
@@ -87,7 +88,9 @@ public actor MGORepository {
 		for element in fhirResources {
 			
 			// Transform to MgoResource
-			if let mgoResource = parser.transformFHIRResourceIntoHCIM(element, fhirVersion: fhirVersion) {
+			if let mgoResource = parser.transformFHIRResourceIntoHCIM(
+				element,
+				fhirVersion: fhirVersion) {
 				mgoResources.append(mgoResource)
 			}
 		}
