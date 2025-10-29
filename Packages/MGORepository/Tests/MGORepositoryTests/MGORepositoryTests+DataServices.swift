@@ -40,9 +40,13 @@ final class MGORepositoryDataServicesTests: XCTestCase {
 		let data = try await sut.getBundleData(
 			endpoint: endpoint,
 			fhirVersion: DataServices.FhirVersion.r3,
-			dvaTarget: "test",
-			username: nil,
-			password: nil
+			headers: MGORepositoryHeaders(
+				dvaTarget: "test",
+				dataServiceId: "dataserviceid",
+				medmijId: nil,
+				username: nil,
+				password: nil
+			)
 		)
 		
 		// Then
@@ -64,9 +68,13 @@ final class MGORepositoryDataServicesTests: XCTestCase {
 		let data = try await sut.getBundleData(
 			endpoint: endpoint,
 			fhirVersion: DataServices.FhirVersion.r4,
-			dvaTarget: "test",
-			username: nil,
-			password: nil
+			headers: MGORepositoryHeaders(
+				dvaTarget: "test",
+				dataServiceId: "dataserviceid",
+				medmijId: "medmij.id",
+				username: nil,
+				password: nil
+			)
 		)
 		
 		// Then
