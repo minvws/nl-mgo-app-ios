@@ -257,4 +257,51 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifySectionRowExists("Vaccinatie datum", value: "19 juni 2021 om 16:17:00 GMT+2")
 			.verifySectionRowExists("Zorgaanbieder", value: "Noordeinde 68")
 	}
+	
+	@MainActor
+	func testHealthDataFlow_LongTermCare() {
+		
+		AppRobot()
+			.navigateToOverviewWithLongTermCare()
+			.verifyTitleExists("Overzicht")
+			.verifyAllCategories()
+			.verifyOverviewButtonExists()
+			.verifyHealthcareOrganizationButtonExists()
+			.verifySettingsButtonExists()
+			// Care Team
+			.swipeUpToCategory("care_team")
+			.tapHealthCategory("care_team")
+			.verifyHeadingExists("Behandelaren")
+			.verifySectionButtonExists(0, section: 0)
+			.verifySectionRowExists("ont-ver-bglz-1-1-nl-core-careteam-01, Kwalificatie Medmij: BGLZ")
+			.tapSectionRow(0, section: 0)
+			// Care Team Summary
+			.verifyHeadingExists("ont-ver-bglz-1-1-nl-core-careteam-01")
+			.verifySectionHeaderExists("Opties")
+			.verifyDetailButton("Bekijk alle gegevens")
+			// Care Team Details
+			.tapNavigateToDetailsButton("Bekijk alle gegevens")
+			.verifyHeadingExists("Zorgteam")
+			.verifySectionRowExists("Identificatie", value: "8fea361b-e3e1-11eb-2548-020000000000")
+			.verifyReferenceButtonExists("Onderwerp", value: "Fiona XXX_Mutter")
+			.verifySectionRowExists("Periode", value: "Niet bekend")
+			.verifyHeadingExists("Deelnemer")
+			.verifyReferenceButtonExists("Deelnemer", value: "Laura Lanen")
+			.verifySectionRowExists("Zorgverlener rol", value: "Verwijzer (REF in codesysteem http://hl7.org/fhir/v3/ParticipationType)")
+			.verifyHeadingExists("Deelnemer")
+			.verifyReferenceButtonExists("Deelnemer", value: "Niels Helmond")
+			.verifySectionRowExists("Zorgverlener rol", value: "Hoofdbehandelaar (RESP in codesysteem http://hl7.org/fhir/v3/ParticipationType)")
+			.verifyHeadingExists("Deelnemer")
+			.verifyReferenceButtonExists("Deelnemer", value: "Petra Johanna Vreeswijk")
+			.verifySectionRowExists("Zorgverlener rol", value: "Niet bekend")
+			.verifyHeadingExists("Deelnemer")
+			.verifyReferenceButtonExists("Deelnemer", value: "Thomas Janssen")
+			.verifySectionRowExists("Zorgverlener rol", value: "Niet bekend")
+			.verifyHeadingExists("Deelnemer")
+			.verifyReferenceButtonExists("Deelnemer", value: "Hilda Bruinsma")
+			.verifySectionRowExists("Zorgverlener rol", value: "Niet bekend")
+			.verifyHeadingExists("Deelnemer")
+			.verifyReferenceButtonExists("Deelnemer", value: "AA-zkh - Noord")
+			.verifySectionRowExists("Zorgverlener rol", value: "Niet bekend")
+	}
 }

@@ -16,7 +16,7 @@ public struct R4NlCoreHealthProfessionalPractitionerAddress: Codable, Hashable, 
     public let city: PrimitiveValueTypeOfStringString?
     public let country: FluffyCountry
     public let district: PrimitiveValueTypeOfStringString?
-    public let line: [IndigoLine]?
+    public let line: [IndecentLine]?
     public let postalCode: PrimitiveValueTypeOfStringString?
     public let type, use: MgoCodeOfString?
 
@@ -25,7 +25,7 @@ public struct R4NlCoreHealthProfessionalPractitionerAddress: Codable, Hashable, 
         case city, country, district, line, postalCode, type, use
     }
 
-    public init(profile: R4NlCoreAddressInformationProfile, city: PrimitiveValueTypeOfStringString?, country: FluffyCountry, district: PrimitiveValueTypeOfStringString?, line: [IndigoLine]?, postalCode: PrimitiveValueTypeOfStringString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
+    public init(profile: R4NlCoreAddressInformationProfile, city: PrimitiveValueTypeOfStringString?, country: FluffyCountry, district: PrimitiveValueTypeOfStringString?, line: [IndecentLine]?, postalCode: PrimitiveValueTypeOfStringString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
         self.profile = profile
         self.city = city
         self.country = country
@@ -60,7 +60,7 @@ public extension R4NlCoreHealthProfessionalPractitionerAddress {
         city: PrimitiveValueTypeOfStringString?? = nil,
         country: FluffyCountry? = nil,
         district: PrimitiveValueTypeOfStringString?? = nil,
-        line: [IndigoLine]?? = nil,
+        line: [IndecentLine]?? = nil,
         postalCode: PrimitiveValueTypeOfStringString?? = nil,
         type: MgoCodeOfString?? = nil,
         use: MgoCodeOfString?? = nil

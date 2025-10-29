@@ -1115,6 +1115,50 @@
         }
       }
     },
+    "hc_care_plan.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelplan"
+          }
+        }
+      }
+    },
+    "hc_care_plan.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je wensen, wensen en afspraken over je behandeling."
+          }
+        }
+      }
+    },
+    "hc_care_team.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelaren"
+          }
+        }
+      }
+    },
+    "hc_care_team.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De mensen en organisaties die bij je zorg betrokken zijn."
+          }
+        }
+      }
+    },
     "hc_complaints.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1419,17 +1463,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Je betaalgegevens, persoonlijke gegevens en contactpersonen."
-          }
-        }
-      }
-    },
-    "hc_payment.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Betaalgegevens"
           }
         }
       }
@@ -3280,6 +3313,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gewicht"
+          }
+        }
+      }
+    },
+    "zib_care_plan.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelplan"
+          }
+        }
+      }
+    },
+    "zib_care_team.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelaren"
           }
         }
       }

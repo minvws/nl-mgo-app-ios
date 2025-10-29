@@ -12,17 +12,20 @@ import Foundation
 
 // MARK: - StickyLine
 public struct StickyLine: Codable, Hashable, Sendable {
-    public let additionalInformation, countryCode, houseNumber, houseNumberAddition: PrimitiveValueTypeOfStringString?
-    public let houseNumberIndiciation, houseNumberLetter, streetName: PrimitiveValueTypeOfStringString?
+    public let additionalLocator, buildingNumberSuffix, houseNumber, streetName: PrimitiveValueTypeOfStringString?
+    public let unitID: PrimitiveValueTypeOfStringString?
 
-    public init(additionalInformation: PrimitiveValueTypeOfStringString?, countryCode: PrimitiveValueTypeOfStringString?, houseNumber: PrimitiveValueTypeOfStringString?, houseNumberAddition: PrimitiveValueTypeOfStringString?, houseNumberIndiciation: PrimitiveValueTypeOfStringString?, houseNumberLetter: PrimitiveValueTypeOfStringString?, streetName: PrimitiveValueTypeOfStringString?) {
-        self.additionalInformation = additionalInformation
-        self.countryCode = countryCode
+    public enum CodingKeys: String, CodingKey {
+        case additionalLocator, buildingNumberSuffix, houseNumber, streetName
+        case unitID = "unitId"
+    }
+
+    public init(additionalLocator: PrimitiveValueTypeOfStringString?, buildingNumberSuffix: PrimitiveValueTypeOfStringString?, houseNumber: PrimitiveValueTypeOfStringString?, streetName: PrimitiveValueTypeOfStringString?, unitID: PrimitiveValueTypeOfStringString?) {
+        self.additionalLocator = additionalLocator
+        self.buildingNumberSuffix = buildingNumberSuffix
         self.houseNumber = houseNumber
-        self.houseNumberAddition = houseNumberAddition
-        self.houseNumberIndiciation = houseNumberIndiciation
-        self.houseNumberLetter = houseNumberLetter
         self.streetName = streetName
+        self.unitID = unitID
     }
 }
 
@@ -45,22 +48,18 @@ public extension StickyLine {
     }
 
     func with(
-        additionalInformation: PrimitiveValueTypeOfStringString?? = nil,
-        countryCode: PrimitiveValueTypeOfStringString?? = nil,
+        additionalLocator: PrimitiveValueTypeOfStringString?? = nil,
+        buildingNumberSuffix: PrimitiveValueTypeOfStringString?? = nil,
         houseNumber: PrimitiveValueTypeOfStringString?? = nil,
-        houseNumberAddition: PrimitiveValueTypeOfStringString?? = nil,
-        houseNumberIndiciation: PrimitiveValueTypeOfStringString?? = nil,
-        houseNumberLetter: PrimitiveValueTypeOfStringString?? = nil,
-        streetName: PrimitiveValueTypeOfStringString?? = nil
+        streetName: PrimitiveValueTypeOfStringString?? = nil,
+        unitID: PrimitiveValueTypeOfStringString?? = nil
     ) -> StickyLine {
         return StickyLine(
-            additionalInformation: additionalInformation ?? self.additionalInformation,
-            countryCode: countryCode ?? self.countryCode,
+            additionalLocator: additionalLocator ?? self.additionalLocator,
+            buildingNumberSuffix: buildingNumberSuffix ?? self.buildingNumberSuffix,
             houseNumber: houseNumber ?? self.houseNumber,
-            houseNumberAddition: houseNumberAddition ?? self.houseNumberAddition,
-            houseNumberIndiciation: houseNumberIndiciation ?? self.houseNumberIndiciation,
-            houseNumberLetter: houseNumberLetter ?? self.houseNumberLetter,
-            streetName: streetName ?? self.streetName
+            streetName: streetName ?? self.streetName,
+            unitID: unitID ?? self.unitID
         )
     }
 

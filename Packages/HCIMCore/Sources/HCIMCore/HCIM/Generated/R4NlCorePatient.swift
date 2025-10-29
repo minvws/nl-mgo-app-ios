@@ -26,7 +26,7 @@ public struct R4NlCorePatient: Codable, Hashable, Sendable {
     public let multipleBirthBoolean: PrimitiveValueTypeOfBooleanBoolean?
     public let multipleBirthInteger: PrimitiveValueTypeOfIntegerNumber?
     public let name: [R4NlCorePatientName]?
-    public let nationality: [ExtensionValueOfStructure0_9134030318607937]
+    public let nationality: [ExtensionValueOfStructure0_08217128350666303]
     public let profile: R4NlCorePatientProfile
     public let referenceID, resourceType: String
     public let telecom: R4NlCoreContactInformation
@@ -37,7 +37,7 @@ public struct R4NlCorePatient: Codable, Hashable, Sendable {
         case resourceType, telecom
     }
 
-    public init(address: [R4NlCorePatientAddress]?, birthDate: PrimitiveValueTypeOfDateDateString?, communication: [R4NlCorePatientCommunication]?, contact: [R4NlCorePatientContact]?, deceasedBoolean: PrimitiveValueTypeOfBooleanBoolean?, deceasedDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, fhirVersion: R4NlCoreHealthcareProviderFhirVersion, gender: R4NlCorePatientGender, id: String?, identifier: R4NlCorePatientIdentifier, maritalStatus: MgoCodeableConcept?, multipleBirthBoolean: PrimitiveValueTypeOfBooleanBoolean?, multipleBirthInteger: PrimitiveValueTypeOfIntegerNumber?, name: [R4NlCorePatientName]?, nationality: [ExtensionValueOfStructure0_9134030318607937], profile: R4NlCorePatientProfile, referenceID: String, resourceType: String, telecom: R4NlCoreContactInformation) {
+    public init(address: [R4NlCorePatientAddress]?, birthDate: PrimitiveValueTypeOfDateDateString?, communication: [R4NlCorePatientCommunication]?, contact: [R4NlCorePatientContact]?, deceasedBoolean: PrimitiveValueTypeOfBooleanBoolean?, deceasedDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, fhirVersion: R4NlCoreHealthcareProviderFhirVersion, gender: R4NlCorePatientGender, id: String?, identifier: R4NlCorePatientIdentifier, maritalStatus: MgoCodeableConcept?, multipleBirthBoolean: PrimitiveValueTypeOfBooleanBoolean?, multipleBirthInteger: PrimitiveValueTypeOfIntegerNumber?, name: [R4NlCorePatientName]?, nationality: [ExtensionValueOfStructure0_08217128350666303], profile: R4NlCorePatientProfile, referenceID: String, resourceType: String, telecom: R4NlCoreContactInformation) {
         self.address = address
         self.birthDate = birthDate
         self.communication = communication
@@ -93,7 +93,7 @@ public extension R4NlCorePatient {
         multipleBirthBoolean: PrimitiveValueTypeOfBooleanBoolean?? = nil,
         multipleBirthInteger: PrimitiveValueTypeOfIntegerNumber?? = nil,
         name: [R4NlCorePatientName]?? = nil,
-        nationality: [ExtensionValueOfStructure0_9134030318607937]? = nil,
+        nationality: [ExtensionValueOfStructure0_08217128350666303]? = nil,
         profile: R4NlCorePatientProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,

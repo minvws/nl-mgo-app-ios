@@ -376,11 +376,11 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	@MainActor func test_coordinatorView_showHealthCategory_payment() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_careTeam() throws {
 		
 		// Given
 		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "payment"))
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "care_team"))
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When

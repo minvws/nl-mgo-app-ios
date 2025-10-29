@@ -21,7 +21,7 @@ public struct EAfspraakAppointment: Codable, Hashable, Sendable {
     public let identifier: [MgoIdentifier]?
     public let incomingReferral, indication: [MgoReference]?
     public let minutesDuration: MgoPositiveInt?
-    public let onlineEditable: ExtensionValueOfStructure0_6754634210320445?
+    public let onlineEditable: ExtensionValueOfStructure0_9409726151967979?
     public let participant: [EAfspraakAppointmentParticipant]?
     public let patientInstructions: [ExtensionValueOfMgoString]
     public let profile: EAfspraakAppointmentProfile
@@ -38,7 +38,7 @@ public struct EAfspraakAppointment: Codable, Hashable, Sendable {
         case resourceType, serviceCategory, specialty, start, status
     }
 
-    public init(appointmentType: MgoCodeableConcept?, created: PrimitiveValueTypeOfDateTimeDateTimeString?, description: PrimitiveValueTypeOfStringString?, end: PrimitiveValueTypeOfDateTimeDateTimeString?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, incomingReferral: [MgoReference]?, indication: [MgoReference]?, minutesDuration: MgoPositiveInt?, onlineEditable: ExtensionValueOfStructure0_6754634210320445?, participant: [EAfspraakAppointmentParticipant]?, patientInstructions: [ExtensionValueOfMgoString], profile: EAfspraakAppointmentProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String, serviceCategory: MgoCodeableConcept?, specialty: [MgoCodeableConcept]?, start: PrimitiveValueTypeOfDateTimeDateTimeString?, status: EAfspraakAppointmentStatus) {
+    public init(appointmentType: MgoCodeableConcept?, created: PrimitiveValueTypeOfDateTimeDateTimeString?, description: PrimitiveValueTypeOfStringString?, end: PrimitiveValueTypeOfDateTimeDateTimeString?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, incomingReferral: [MgoReference]?, indication: [MgoReference]?, minutesDuration: MgoPositiveInt?, onlineEditable: ExtensionValueOfStructure0_9409726151967979?, participant: [EAfspraakAppointmentParticipant]?, patientInstructions: [ExtensionValueOfMgoString], profile: EAfspraakAppointmentProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String, serviceCategory: MgoCodeableConcept?, specialty: [MgoCodeableConcept]?, start: PrimitiveValueTypeOfDateTimeDateTimeString?, status: EAfspraakAppointmentStatus) {
         self.appointmentType = appointmentType
         self.created = created
         self.description = description
@@ -92,7 +92,7 @@ public extension EAfspraakAppointment {
         incomingReferral: [MgoReference]?? = nil,
         indication: [MgoReference]?? = nil,
         minutesDuration: MgoPositiveInt?? = nil,
-        onlineEditable: ExtensionValueOfStructure0_6754634210320445?? = nil,
+        onlineEditable: ExtensionValueOfStructure0_9409726151967979?? = nil,
         participant: [EAfspraakAppointmentParticipant]?? = nil,
         patientInstructions: [ExtensionValueOfMgoString]? = nil,
         profile: EAfspraakAppointmentProfile? = nil,

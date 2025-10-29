@@ -2,7 +2,7 @@ import Foundation
 
 public enum IndecentGiven: Codable, Hashable, Sendable {
     case primitiveValueTypeOfStringStringArray([PrimitiveValueTypeOfStringString])
-    case r4NlCoreNameInformationGivenClass(R4NlCoreNameInformationGivenClass)
+    case stickyGiven(StickyGiven)
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -10,8 +10,8 @@ public enum IndecentGiven: Codable, Hashable, Sendable {
             self = .primitiveValueTypeOfStringStringArray(x)
             return
         }
-        if let x = try? container.decode(R4NlCoreNameInformationGivenClass.self) {
-            self = .r4NlCoreNameInformationGivenClass(x)
+        if let x = try? container.decode(StickyGiven.self) {
+            self = .stickyGiven(x)
             return
         }
         throw DecodingError.typeMismatch(IndecentGiven.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for IndecentGiven"))
@@ -22,7 +22,7 @@ public enum IndecentGiven: Codable, Hashable, Sendable {
         switch self {
         case .primitiveValueTypeOfStringStringArray(let x):
             try container.encode(x)
-        case .r4NlCoreNameInformationGivenClass(let x):
+        case .stickyGiven(let x):
             try container.encode(x)
         }
     }

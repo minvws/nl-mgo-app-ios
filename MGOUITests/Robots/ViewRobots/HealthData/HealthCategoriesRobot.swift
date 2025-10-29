@@ -19,7 +19,7 @@ import XCTest
 	// MARK: - Elements
 	
 	private func titleLabel(_ title: String) -> XCUIElement {
-		app.navigationBars.staticTexts[title]
+		app.staticTexts[title]
 	}
 
 	private func headingLabel(_ heading: String) -> XCUIElement {
@@ -169,7 +169,7 @@ import XCTest
 	@discardableResult
 	func swipeToBottomCategory() -> Self {
 		
-		while !app.buttons["payment"].exists {
+		while !app.buttons["care_team"].exists {
 			app.swipeUp()
 		}
 		
@@ -230,24 +230,25 @@ import XCTest
 		.verifyCategoryExists("problems")
 		.verifyCategoryExists("allergies")
 		.verifyCategoryExists("alerts")
+		.swipeDownToCategory("lab_results")
 		.verifyCategoryExists("vaccinations")
 		.verifyCategoryExists("lifestyle")
-		.swipeDownToCategory("medication")
 		.verifyCategoryExists("mental_wellbeing")
 		.verifyHeadingExists("Onderzoek")
 		.verifyCategoryExists("measurements")
 		.verifyCategoryExists("lab_results")
+		.swipeDownToCategory("documents")
 		.verifyHeadingExists("Zorg")
 		.verifyCategoryExists("treatments")
 		.verifyCategoryExists("medication")
-		.swipeDownToCategory("payment")
 		.verifyCategoryExists("appointments")
 		.verifyCategoryExists("documents")
+		.swipeDownToCategory("care_team")
 		.verifyCategoryExists("plans")
 		.verifyCategoryExists("medical_devices")
 		.verifyHeadingExists("Persoonlijk")
 		.verifyCategoryExists("patient")
-		.verifyCategoryExists("payment")
+		.verifyCategoryExists("care_team")
 		
 		return self
 	}
