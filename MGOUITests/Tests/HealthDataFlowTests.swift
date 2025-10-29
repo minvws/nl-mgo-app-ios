@@ -102,7 +102,7 @@ final class HealthDataFlowTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithGP()
-//			.verifyTitleExists("Overzicht")
+			.verifyTitleExists("Overzicht")
 			.verifyAllCategories()
 			.verifyOverviewButtonExists()
 			.verifyHealthcareOrganizationButtonExists()

@@ -19,7 +19,7 @@ import XCTest
 	// MARK: - Elements
 	
 	private func titleLabel(_ title: String) -> XCUIElement {
-		app.navigationBars.staticTexts[title]
+		app.staticTexts[title]
 	}
 
 	private func headingLabel(_ heading: String) -> XCUIElement {
