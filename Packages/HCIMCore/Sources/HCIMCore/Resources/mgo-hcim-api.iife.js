@@ -43345,6 +43345,7 @@ ${indent}}` : "}";
     "r3.nl_core_address.type": [{ "type": 0, "value": "Adres type" }],
     "r3.nl_core_address.use": [{ "type": 0, "value": "Adres soort" }],
     "r3.nl_core_careplan": [{ "type": 0, "value": "Zorgplan" }],
+    "r3.nl_core_careplan.activity": [{ "type": 0, "value": "Verpleegkundige handeling" }],
     "r3.nl_core_careplan.activity.nursing_intervention": [{ "type": 0, "value": "Verpleegkundige actie" }],
     "r3.nl_core_careplan.activity.nursing_intervention.comment": [{ "type": 0, "value": "Opmerkingen" }],
     "r3.nl_core_careplan.activity.nursing_intervention.detail.description": [{ "type": 0, "value": "Instructie" }],
