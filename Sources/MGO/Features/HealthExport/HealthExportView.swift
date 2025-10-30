@@ -44,6 +44,9 @@ class HealthExportViewModel: ObservableObject {
 	/// The path to the generated pdf
 	@Published var pdfUrl: URL?
 	
+	/// Should we render for iPad?
+	@Published var forIpad: Bool = false
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -56,16 +59,19 @@ class HealthExportViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	/// - Parameter healthData: the health data to export
 	/// - Parameter storage: the file storage system
-	init(
+	/// - Parameter forIpad: should we render for iPad
+	@MainActor init(
 		coordinator: (any Coordinator)? = nil,
 		healthData: PdfData,
-		storage: FileStorageProtocol = FileStorage(subDirectory: HealthDirectory.export)
+		storage: FileStorageProtocol = FileStorage(subDirectory: HealthDirectory.export),
+		forIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
 	) {
 		self.coordinator = coordinator
 		self.state = .loading
 		self.title = healthData.heading
 		self.storage = storage
 		self.dataSource = healthData
+		self.forIpad = forIpad
 		
 		// The factory for all the PDF draw elements
 		factory = PdfDrawElementFactory(theme: theme)
@@ -384,7 +390,7 @@ struct HealthExportView: View {
 					PDFKitView(pdfDocument)
 						.padding(.horizontal, ViewTraits.General.padding)
 					
-					if UIDevice.current.userInterfaceIdiom != .pad {
+					if !viewModel.forIpad {
 						shareButton()
 					} else {
 						Spacer(minLength: 32)
@@ -412,7 +418,7 @@ struct HealthExportView: View {
 				})
 				.navigationBarTitleDisplayMode(.inline)
 		})
-		.when(UIDevice.current.userInterfaceIdiom == .pad, transform: { view in
+		.when(viewModel.forIpad, transform: { view in
 			view
 				.toolbar(content: shareTopBarLeading)
 		})

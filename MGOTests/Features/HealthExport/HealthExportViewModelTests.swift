@@ -80,6 +80,10 @@ final class HealthExportViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
+	}
+	
+	@MainActor func setupSut() {
+		
 		sut = HealthExportViewModel(
 			coordinator: coordinatorSpy,
 			healthData: HealthExportViewModelTests.pdfData
@@ -89,6 +93,7 @@ final class HealthExportViewModelTests: XCTestCase {
 	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.backButtonPressed)
@@ -101,6 +106,7 @@ final class HealthExportViewModelTests: XCTestCase {
 	@MainActor func test_closeSheet_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.closeSheet)
@@ -113,6 +119,7 @@ final class HealthExportViewModelTests: XCTestCase {
 	@MainActor func test_onAppear_shouldSavePDF() throws {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.onAppear)
