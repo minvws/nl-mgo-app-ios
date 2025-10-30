@@ -384,23 +384,10 @@ struct HealthExportView: View {
 					PDFKitView(pdfDocument)
 						.padding(.horizontal, ViewTraits.General.padding)
 					
-					if #available(iOS 16.0, *) {
-						if let pdfUrl = viewModel.pdfUrl {
-							HStack {
-								ShareLink(item: pdfUrl) {
-									Image(systemName: "square.and.arrow.up")
-										.resizable()
-										.scaledToFit()
-										.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
-								}
-								.accessibilityLabel("export_pdf.share")
-								.accessibilityIdentifier("export_pdf.share")
-								Spacer()
-							}
-							.padding(.horizontal, ViewTraits.General.padding)
-							.padding(.top, ViewTraits.General.padding)
-							.background(theme.backgrounds.secondary)
-						}
+					if UIDevice.current.userInterfaceIdiom != .pad {
+						shareButton()
+					} else {
+						Spacer(minLength: 32)
 					}
 			}
 		}
@@ -417,6 +404,7 @@ struct HealthExportView: View {
 				.toolbar(content: close)
 		})
 		.when(!isPresentedAsSheet, transform: { view in
+			// Happens on iOS 15
 			view
 				.toolbar(content: shareTopBarTrailing)
 				.navigationBarItems(leading: BackButton {
@@ -424,7 +412,21 @@ struct HealthExportView: View {
 				})
 				.navigationBarTitleDisplayMode(.inline)
 		})
+		.when(UIDevice.current.userInterfaceIdiom == .pad, transform: { view in
+			view
+				.toolbar(content: shareTopBarLeading)
+		})
+	}
+	
+	@ViewBuilder private func shareButton() -> some View {
 		
+		HStack {
+			shareLink(viewModel.pdfUrl)
+			Spacer()
+		}
+		.padding(.horizontal, ViewTraits.General.padding)
+		.padding(.top, ViewTraits.General.padding)
+		.background(theme.backgrounds.secondary)
 	}
 	
 	/// Content for the close button toolbar
@@ -471,5 +473,35 @@ struct HealthExportView: View {
 				
 			}
 		)
+	}
+	
+	/// Content for the share button toolbar
+	/// - Returns: the share button in a toolbar
+	@ToolbarContentBuilder private func shareTopBarLeading() -> some ToolbarContent {
+		ToolbarItemGroup(
+			placement: .topBarLeading,
+			content: {
+				shareLink(viewModel.pdfUrl)
+			}
+		)
+	}
+	
+	/// The share link for the pdf (iOS 16 and up_
+	/// - Parameter url: the url to the pdf
+	/// - Returns: share link for the pdf
+	@ViewBuilder func shareLink(_ url: URL?) -> some View {
+		
+		if #available(iOS 16.0, *) {
+			if let url {
+				ShareLink(item: url) {
+					Image(systemName: "square.and.arrow.up")
+						.resizable()
+						.scaledToFit()
+						.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
+				}
+				.accessibilityLabel("export_pdf.share")
+				.accessibilityIdentifier("export_pdf.share")
+			}
+		}
 	}
 }
