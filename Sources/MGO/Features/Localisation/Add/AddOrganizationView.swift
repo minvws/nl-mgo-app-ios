@@ -182,7 +182,7 @@ struct AddOrganizationView: View {
 			VStack {
 				
 				Text("add_organization.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
+					.typography(.headingExtraLarge)
 					.foregroundStyle(theme.labels.primary)
 					.padding(.bottom, ViewTraits.General.padding)
 					.frame(maxWidth: .infinity, alignment: .topLeading)

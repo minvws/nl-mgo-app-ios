@@ -68,14 +68,14 @@ struct OrganizationListCardView: View {
 			VStack(alignment: .leading, spacing: 0) {
 				
 				Text(model.name)
-					.rijksoverheidStyle(font: .bold, style: .body)
+					.typography(.bodyMedium, isBold: true)
 					.foregroundStyle(theme.labels.primary)
 					.fixedSize(horizontal: false, vertical: true)
 					.padding(.bottom, ViewTraits.Title.padding)
 				
 				if let address = model.address, address.isNotEmpty {
 					Text(address)
-						.rijksoverheidStyle(font: .regular, style: .body)
+						.typography(.bodyMedium)
 						.foregroundStyle(theme.labels.secondary)
 				}
 				
@@ -88,7 +88,7 @@ struct OrganizationListCardView: View {
 							Text(city)
 						}
 					}
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.secondary)
 				}
 				if state != .regular {
@@ -153,7 +153,7 @@ struct OrganizationListCardView: View {
 							.foregroundStyle(theme.states.positive)
 					}
 				}
-				.rijksoverheidStyle(font: .bold, style: .body)
+				.typography(.bodyMedium, isBold: true)
 				.multilineTextAlignment(.leading)
 				.frame(maxWidth: .infinity, alignment: .leading)
 				.padding(.top, ViewTraits.Selected.padding)

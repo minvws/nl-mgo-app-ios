@@ -174,7 +174,7 @@ struct AboutOpenSourceLibrariesView: View {
 	@ViewBuilder private func header() -> some View {
 		
 		Text("settings.about_this_app.open_source.subheading")
-			.rijksoverheidStyle(font: .regular, style: .body)
+			.typography(.bodyMedium)
 			.foregroundStyle(theme.labels.primary)
 			.textCase(nil)
 			.padding(.top, ViewTraits.Navigation.padding)
@@ -208,7 +208,7 @@ struct AboutOpenSourceLibrariesView: View {
 			HStack(spacing: ViewTraits.General.padding) {
 				
 				Text(library.name)
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.foregroundStyle(theme.actions.tertiary.text)
 					 
 					 Spacer()

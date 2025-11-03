@@ -160,7 +160,7 @@ struct FavoritesView: View {
 					viewModel.reduce(.closeButtonPressed)
 				} label: {
 					Text(cancelKey)
-						.rijksoverheidStyle(font: .regular, style: .body)
+						.typography(.bodyMedium)
 				}
 				.accessibilityLabel(cancelKey)
 			}
@@ -184,7 +184,7 @@ struct FavoritesView: View {
 					viewModel.reduce(.saveButtonPressed)
 				} label: {
 					Text(saveKey)
-						.rijksoverheidStyle(font: .bold, style: .body)
+						.typography(.bodyMedium, isBold: true)
 				}
 				.accessibilityLabel(saveKey)
 			}
@@ -215,7 +215,7 @@ struct FavoritesView: View {
 			if viewModel.state.favorites.isEmpty {
 				
 				Text("edit_overview.favorites.empty")
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.secondary)
 			} else {
 				
@@ -252,7 +252,7 @@ struct FavoritesView: View {
 		
 		Section {
 			Text(heading)
-				.rijksoverheidStyle(font: .bold, style: .headline)
+				.typography(.headingMedium)
 				.foregroundColor(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
@@ -316,7 +316,7 @@ struct FavoritesView: View {
 				.padding(.trailing, ViewTraits.Icon.padding)
 			
 			Text(category.localizedHeading())
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundColor(theme.labels.primary)
 			
 		}

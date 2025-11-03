@@ -68,7 +68,7 @@ struct FavoriteRowView: View {
 			Spacer()
 			
 			Text(category.localizedHeading())
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundColor(theme.labels.primary)
 		}
 		.frame(minHeight: ViewTraits.Category.minHeight)

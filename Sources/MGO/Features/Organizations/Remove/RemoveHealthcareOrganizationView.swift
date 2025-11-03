@@ -106,7 +106,7 @@ struct RemoveHealthcareOrganizationView: View {
 					format: String(localized: "remove_organization.heading"),
 					arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 				))
-					.rijksoverheidStyle(font: .bold, style: .title)
+					.typography(.headingExtraLarge)
 					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
@@ -116,7 +116,7 @@ struct RemoveHealthcareOrganizationView: View {
 						format: String(localized: "remove_organization.subheading"),
 						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 				))
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityIdentifier("remove_organization.subheading")

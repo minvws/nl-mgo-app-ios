@@ -83,7 +83,7 @@ struct SettingsRowView: View {
 			}
 			
 			Text(heading)
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundStyle(theme.labels.primary)
 				.frame(minHeight: ViewTraits.Icon.size)
 			
@@ -91,7 +91,7 @@ struct SettingsRowView: View {
 			
 			if let subHeading {
 				Text(subHeading)
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.secondary)
 					.frame(minHeight: ViewTraits.Icon.size)
 			}

@@ -213,14 +213,14 @@ struct BioMetricSetupView: View {
 			}
 			
 			Text(LocalizedStringKey(bioMetricTypedHeading(bioMetricType)))
-				.rijksoverheidStyle(font: .bold, style: .title)
+				.typography(.headingExtraLarge)
 				.padding(ViewTraits.Title.insets)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
 				.accessibilityIdentifier("biometric_setup.heading")
 			
 			Text(LocalizedStringKey(bioMetricTypedIntro(bioMetricType)))
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.padding(ViewTraits.Text.insets)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityIdentifier("biometric_setup.subheading")

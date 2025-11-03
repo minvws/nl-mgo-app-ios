@@ -107,7 +107,7 @@ public struct ImageContentView: View {
 					.accessibilityIdentifier("imagecontentview.heading")
 				
 				Text(subHeading)
-					.typography(.bodyMedium, isBold: true)
+					.typography(.bodyMedium)
 					.foregroundColor(subHeadingForegroundColor)
 					.multilineTextAlignment(textAlignment == .center ? .center : .leading)
 					.fixedSize(horizontal: false, vertical: true)

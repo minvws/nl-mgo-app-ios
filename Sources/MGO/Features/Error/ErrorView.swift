@@ -107,7 +107,7 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 			VStack(spacing: ErrorViewViewTraits.General.spacing) {
 				
 				Text(viewModel.title)
-					.rijksoverheidStyle(font: .bold, style: .title)
+					.typography(.headingExtraLarge)
 					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
@@ -128,7 +128,7 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 					.padding(.horizontal, padding)
 				
 				viewModel.viewForBody()
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 				

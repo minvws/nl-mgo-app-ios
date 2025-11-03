@@ -75,7 +75,7 @@ struct DisplaySettingsView: View {
 			HStack(spacing: 0) {
 				
 				Text(title)
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.primary)
 					.frame(minHeight: ViewTraits.Icon.size)
 				

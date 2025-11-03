@@ -74,14 +74,14 @@ struct ForgotPinCodeView: View {
 		ScrollViewWithFixedBottom {
 			VStack {
 				Text("forgot_pincode.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
+					.typography(.headingExtraLarge)
 					.padding(ViewTraits.Title.insets)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilityIdentifier("forgot_pincode.heading")
 				
 				Text("forgot_pincode.subheading")
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.padding(ViewTraits.Text.insets)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityIdentifier("forgot_pincode.subheading")

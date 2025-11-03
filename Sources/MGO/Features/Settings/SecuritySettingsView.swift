@@ -173,7 +173,7 @@ struct SecuritySettingsView: View {
 		
 		Toggle(isOn: $viewModel.state.bioMetricAuthenticationEnabled) {
 			Text(LocalizedStringKey(label(viewModel.state.bioMetricType)))
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundStyle(theme.labels.primary)
 		}
 			.toggleStyle(.switch)

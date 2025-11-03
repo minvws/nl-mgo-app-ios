@@ -108,7 +108,7 @@ struct InAppBrowserView: View {
 					viewModel.reduce(.closeButtonPressed)
 				} label: {
 					Text(closeKey)
-						.rijksoverheidStyle(font: .regular, style: .body)
+						.typography(.bodyMedium)
 				}
 				.buttonStyle(BackButtonStyle())
 				.accessibilityLabel(closeKey)

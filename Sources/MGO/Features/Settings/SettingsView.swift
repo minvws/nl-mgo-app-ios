@@ -206,7 +206,7 @@ struct SettingsView: View {
 				viewModel.reduce(.showResetDialog)
 			} label: {
 				Text("settings.reset_app.heading")
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.foregroundStyle(theme.states.critical)
 					.frame(
 						maxWidth: .infinity,

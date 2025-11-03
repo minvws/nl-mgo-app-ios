@@ -25,7 +25,7 @@ struct OrganizationListAutomaticLoadingView: View {
 			
 			ProgressView("organization_search.searching")
 				.tint(theme.labels.primary.opacity(ViewTraits.General.opacity))
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.accessibilityIdentifier("organization_search.searching")
 			
 			Spacer()

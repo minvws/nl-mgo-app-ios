@@ -86,14 +86,17 @@ struct UpdateRequiredView: View {
 				}
 				
 				Text("update_required.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
+					.typography(.headingExtraLarge)
 					.padding(ViewTraits.Title.insets)
 					.accessibilityAddTraits(.isHeader)
 					.fixedSize(horizontal: false, vertical: true)
 					.accessibilityIdentifier("update_required.heading")
 				
-				SplittedText(key: "update_required.subheading", spacing: ViewTraits.Text.spacing)
-					.rijksoverheidStyle(font: .regular, style: .body)
+				SplittedText(
+					key: "update_required.subheading",
+					spacing: ViewTraits.Text.spacing
+				)
+					.typography(.bodyMedium)
 					.padding(ViewTraits.Text.insets)
 					.accessibilityIdentifier("update_required.subheading")
 				

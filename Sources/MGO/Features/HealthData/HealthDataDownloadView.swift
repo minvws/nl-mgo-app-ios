@@ -311,7 +311,7 @@ struct HealthDataDownloadView: View {
 			
 			Text(text)
 				.multilineTextAlignment(.center)
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundStyle(theme.labels.primary)
 			
 			if let actionTitle {
