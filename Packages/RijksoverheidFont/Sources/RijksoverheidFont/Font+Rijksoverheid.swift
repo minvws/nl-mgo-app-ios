@@ -15,7 +15,10 @@ extension Font {
 		///   - style: The style of the RijksoverheidSansWebTextFont (bold, italic, regular)
 		///   - size: The fixed font size
 		/// - Returns: Fixed font
-		public static func fixed(_ style: RijksoverheidSansWebTextFont, size: CGFloat) -> Font {
+		public static func fixed(
+			_ style: RijksoverheidSansWebTextFont,
+			size: CGFloat
+		) -> Font {
 			return Font.custom(style.fontName, fixedSize: size)
 		}
 		
@@ -26,7 +29,11 @@ extension Font {
 		///   - size: the relative font size
 		///   - textStyle: the text style
 		/// - Returns: the appropriate relative font
-		public static func relative(_ style: RijksoverheidSansWebTextFont, size: CGFloat, relativeTo textStyle: Font.TextStyle) -> Font {
+		public static func relative(
+			_ style: RijksoverheidSansWebTextFont,
+			size: CGFloat,
+			relativeTo textStyle: Font.TextStyle
+		) -> Font {
 			return Font.custom(style.fontName, size: size, relativeTo: textStyle)
 		}
 	}

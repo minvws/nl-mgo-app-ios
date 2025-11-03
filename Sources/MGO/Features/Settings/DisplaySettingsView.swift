@@ -46,7 +46,7 @@ struct DisplaySettingsView: View {
 				
 			} footer: {
 				Text(shouldLayoutForiPad ? "settings.display.footer_ipad" : "settings.display.footer")
-					.rijksoverheidStyle(font: .regular, style: .callout)
+					.typography(.bodySmall)
 					.foregroundStyle(theme.labels.secondary)
 			}
 		}

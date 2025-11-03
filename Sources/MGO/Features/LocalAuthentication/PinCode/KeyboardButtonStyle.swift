@@ -30,7 +30,7 @@ struct KeyboardButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.rijksoverheidStyle(font: .regular, style: .title2)
+			.typography(.headingMedium)
 			.foregroundStyle(isEnabled ? theme.labels.primary : theme.symbols.secondary)
 			.background(configuration.isPressed ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
 			.cornerRadius(ViewTraits.Button.cornerRadius)

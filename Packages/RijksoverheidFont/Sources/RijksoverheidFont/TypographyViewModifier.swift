@@ -23,7 +23,7 @@ public struct TypographyViewModifier: ViewModifier {
 				.RijksoverheidSansWebText
 					.relative(
 						isBold ? .bold : typography.font(),
-						size: typography.textStyle().pointSize2,
+						size: typography.textStyle().pointSize,
 						relativeTo: typography.textStyle()
 					)
 			)
@@ -38,7 +38,15 @@ extension View {
 	///   - typography: the typography to use
 	///   - isBold: force bold
 	/// - Returns: content with typography applied
-	public func typography(_ typography: Typography, isBold: Bool = false) -> some View {
-		modifier(TypographyViewModifier(typography: typography, isBold: isBold))
+	public func typography(
+		_ typography: Typography,
+		isBold: Bool = false
+	) -> some View {
+		modifier(
+			TypographyViewModifier(
+				typography: typography,
+				isBold: isBold
+			)
+		)
 	}
 }

@@ -175,7 +175,7 @@ struct SettingsView: View {
 			.listRowInsets(ViewTraits.General.inset)
 		} footer: {
 			Text("settings.advanced.subheading")
-				.rijksoverheidStyle(font: .regular, style: .callout)
+				.typography(.bodySmall)
 				.foregroundStyle(theme.labels.secondary)
 		}
 	}
@@ -218,7 +218,7 @@ struct SettingsView: View {
 			.listRowInsets(ViewTraits.General.inset)
 		} footer: {
 			Text("settings.reset_app.subheading")
-				.rijksoverheidStyle(font: .regular, style: .callout)
+				.typography(.bodySmall)
 				.foregroundStyle(theme.labels.secondary)
 		}
 		.alert(

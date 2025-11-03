@@ -132,7 +132,7 @@ struct SecuritySettingsView: View {
 				toggleView()
 			} footer: {
 				Text("settings.security.biometric.subheading")
-					.rijksoverheidStyle(font: .regular, style: .callout)
+					.typography(.bodySmall)
 					.foregroundStyle(theme.labels.secondary)
 			}
 			.onChange(of: viewModel.state.bioMetricAuthenticationEnabled) { newValue in

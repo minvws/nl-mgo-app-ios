@@ -47,7 +47,6 @@ struct HealthCategoryRowView: View {
 				Text(category.localizedHeading())
 					.typography(.bodyMedium, isBold: true)
 					.foregroundColor(theme.labels.primary)
-					.background(.green)
 				
 				if state == .empty {
 					
@@ -60,7 +59,6 @@ struct HealthCategoryRowView: View {
 					Text(category.localizedSubheading())
 						.typography(.bodyMedium)
 						.foregroundColor(theme.labels.secondary)
-					
 				}
 			}
 			
