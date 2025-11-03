@@ -59,7 +59,7 @@ struct LoginInfoView: View {
 				subHeading: "login_info.subheading",
 				textAlignment: .leading,
 				textSpacing: ViewTraits.General.spacing,
-				titleStyle: .largeTitle,
+				titleStyle: .headingExtraLarge,
 				subHeadingForegroundColor: theme.labels.primary
 			)
 			.padding(.horizontal, ViewTraits.General.spacing)

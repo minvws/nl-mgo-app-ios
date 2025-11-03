@@ -47,7 +47,7 @@ public struct LoadingCardView: View {
 						.padding(.bottom, 20)
 					
 					Text(title)
-						.rijksoverheidStyle(font: .regular, style: .body)
+						.typography(.bodyMedium)
 						.foregroundColor(theme.labels.primary)
 						.frame(maxWidth: .infinity, alignment: .center)
 				}

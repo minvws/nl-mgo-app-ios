@@ -31,12 +31,12 @@ public struct DetailRow: View {
 			
 			Text(title)
 				.textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
-				.rijksoverheidStyle(font: .regular, style: .callout)
+				.typography(.bodySmall)
 				.foregroundColor(theme.labels.secondary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 			
 			Text(content ?? "")
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundColor(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 		}

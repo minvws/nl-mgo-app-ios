@@ -32,7 +32,7 @@ public struct ImageContentView: View {
 		subHeading: LocalizedStringKey,
 		textAlignment: ImageContentView.Alignment = .center,
 		textSpacing: CGFloat = 8,
-		titleStyle: Font.TextStyle = .title3,
+		titleStyle: Typography = .headingSmall,
 		subHeadingForegroundColor: Color
 	) {
 		self.icon = icon
@@ -57,7 +57,7 @@ public struct ImageContentView: View {
 	private var textAlignment: Alignment
 	
 	/// The style for the title
-	private var titleStyle: Font.TextStyle
+	private var titleStyle: Typography
 	
 	/// The style for the title
 	private var textSpacing: CGFloat
@@ -100,14 +100,14 @@ public struct ImageContentView: View {
 			VStack(alignment: textAlignment == .center ? .center : .leading, spacing: textSpacing) {
 				
 				Text(heading)
-					.rijksoverheidStyle(font: .bold, style: titleStyle)
+					.typography(titleStyle)
 					.foregroundColor(theme.labels.primary)
 					.multilineTextAlignment(textAlignment == .center ? .center : .leading)
 					.fixedSize(horizontal: false, vertical: true)
 					.accessibilityIdentifier("imagecontentview.heading")
 				
 				Text(subHeading)
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium, isBold: true)
 					.foregroundColor(subHeadingForegroundColor)
 					.multilineTextAlignment(textAlignment == .center ? .center : .leading)
 					.fixedSize(horizontal: false, vertical: true)
@@ -149,7 +149,7 @@ public struct ImageContentView: View {
 		icon: Image(systemName: "42.circle"),
 		heading: "Heading",
 		subHeading: "SubHeading",
-		titleStyle: .largeTitle,
+		titleStyle: .headingExtraLarge,
 		subHeadingForegroundColor: Color.pink
 	)
 }

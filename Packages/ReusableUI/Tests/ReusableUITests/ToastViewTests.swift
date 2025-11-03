@@ -12,66 +12,126 @@ final class ToastViewTests: XCTestCase {
 	func test_toast_info() {
 		
 		// Given
-		let sut = ToastView(Feedback(title: "Test Banner", subtitle: "Type Info", type: .info))
+		let sut = ToastView(
+			Feedback(
+				title: "Test Banner",
+				subtitle: "Type Info",
+				type: .info
+			)
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.light)), as: .image)
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
 	}
 	
 	func test_toast_info_longerTexts() {
 		
 		// Given
-		let sut = ToastView(Feedback(title: "Test Banner Test Banner Test Banner Test Banner", subtitle: "Type Info Type Info Type Info", type: .info))
+		let sut = ToastView(
+			Feedback(
+				title: "Test Banner Test Banner Test Banner Test Banner",
+				subtitle: "Type Info Type Info Type Info",
+				type: .info
+			)
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.light)), as: .image)
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
 	}
 	
 	func test_toast_warning() {
 		
 		// Given
-		let sut = ToastView(Feedback(title: "Test Banner", subtitle: "Type Warning", type: .warning))
-
+		let sut = ToastView(
+			Feedback(
+				title: "Test Banner",
+				subtitle: "Type Warning",
+				type: .warning
+			)
+		)
+		
 		// When
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.light)), as: .image)
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
 	}
 	
 	func test_toast_error() {
 		
 		// Given
-		let sut = ToastView(Feedback(title: "Test Banner", subtitle: "Type Error", type: .error))
-
+		let sut = ToastView(
+			Feedback(
+				title: "Test Banner",
+				subtitle: "Type Error",
+				type: .error
+			)
+		)
+		
 		// When
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.light)), as: .image)
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
 	}
 	
 	func test_toast_success() {
 		
 		// Given
-		let sut = ToastView(Feedback(title: "Test Banner", subtitle: "Type Success", type: .success))
+		let sut = ToastView(
+			Feedback(
+				title: "Test Banner",
+				subtitle: "Type Success",
+				type: .success
+			)
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.light)), as: .image)
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
 	}
 	
 	func test_toast_close() throws {

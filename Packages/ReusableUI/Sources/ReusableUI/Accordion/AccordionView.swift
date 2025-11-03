@@ -40,7 +40,7 @@ public struct AccordionView<Content: View>: View {
 			HStack(alignment: .top, spacing: 0) {
 				
 				Text(title)
-					.rijksoverheidStyle(font: .bold, style: .body)
+					.typography(.bodyMedium, isBold: true)
 				
 				Spacer()
 				
