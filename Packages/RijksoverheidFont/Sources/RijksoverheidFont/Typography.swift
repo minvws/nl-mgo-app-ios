@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-public enum Typography {
+public enum Typography: CaseIterable {
 	
 	case headingExtraLarge
 	case headingLarge
