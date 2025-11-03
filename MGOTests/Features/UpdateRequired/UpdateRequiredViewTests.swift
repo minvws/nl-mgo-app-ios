@@ -29,7 +29,7 @@ final class UpdateRequiredViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: content, isRecording: true)
+		takeSnapShots(content: content)
 	}
 	
 	@MainActor func test_actionButtonPressed_shouldCallCoordinator() throws {

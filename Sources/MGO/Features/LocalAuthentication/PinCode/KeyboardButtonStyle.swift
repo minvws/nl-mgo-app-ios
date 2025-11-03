@@ -38,8 +38,8 @@ struct KeyboardButtonStyle: ButtonStyle {
 				.RijksoverheidSansWebText
 					.relative(
 						RijksoverheidSansWebTextFont.regular,
-						size: Font.TextStyle.title2.pointSize,
-						relativeTo: Font.TextStyle.title2
+						size: Font.TextStyle.title.pointSize,
+						relativeTo: Font.TextStyle.title
 					)
 			)
 			.foregroundStyle(isEnabled ? theme.labels.primary : theme.symbols.secondary)

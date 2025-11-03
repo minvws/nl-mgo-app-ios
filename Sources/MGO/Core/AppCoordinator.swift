@@ -190,8 +190,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		self.rootState = .splash
 		self.dashboardCoordinator = DashboardCoordinator(parentCoordinator: self)
 		registerObservers()
-		
-		Container.shared.secureUserSettings().userHasRemoteAuthentication = true
 	}
 	
 	@MainActor private func registerObservers() {
