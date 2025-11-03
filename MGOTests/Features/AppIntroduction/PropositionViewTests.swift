@@ -35,7 +35,7 @@ final class PropositionViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content)
 	}
 	
 	@MainActor func test_handleURL_validlink() throws {
