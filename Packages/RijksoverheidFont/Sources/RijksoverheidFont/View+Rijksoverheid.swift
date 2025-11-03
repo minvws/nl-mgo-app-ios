@@ -12,6 +12,7 @@ extension View {
 	///   - font: The type of font [bold, regular, italic]
 	///   - style: The text style [title, body, footnote etc]
 	/// - Returns: Styled modifier
+	@available(*, deprecated, renamed: "View.typography(_:)", message: "Use the new typography modifier")
 	public func rijksoverheidStyle(
 		font: RijksoverheidSansWebTextFont,
 		style: Font.TextStyle
