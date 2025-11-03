@@ -13,7 +13,7 @@ public struct TypographyViewModifier: ViewModifier {
 	/// Should we use bold font
 	public var isBold: Bool
 	
-	/// Appy the Rijksoverheid font for typography
+	/// Apply the Rijksoverheid font for typography
 	/// - Parameter content: content
 	/// - Returns: content with applied font
 	public func body(content: Content) -> some View {

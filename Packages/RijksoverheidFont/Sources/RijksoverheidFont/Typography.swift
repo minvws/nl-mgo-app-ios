@@ -20,10 +20,16 @@ public enum Typography: CaseIterable {
 	/// - Returns: RijksoverheidSansWebTextFont
 	@MainActor func font() -> RijksoverheidSansWebTextFont {
 		switch self {
-			case .headingExtraLarge, .headingLarge, .headingMedium, .headingSmall, .headingExtraSmall:
+			case .headingExtraLarge,
+					.headingLarge,
+					.headingMedium,
+					.headingSmall,
+					.headingExtraSmall:
 				return .bold
 				
-			case .bodyLarge, .bodyMedium, .bodySmall:
+			case .bodyLarge,
+					.bodyMedium,
+					.bodySmall:
 				return .regular
 		}
 	}
@@ -57,7 +63,7 @@ public enum Typography: CaseIterable {
 			case .bodyLarge:
 				return .headline
 			case .bodyMedium:
-				return.body
+				return .body
 			case .bodySmall:
 				return .callout
 		}
