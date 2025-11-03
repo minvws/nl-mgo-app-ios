@@ -28,7 +28,7 @@ struct ButtonWithIconStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.rijksoverheidStyle(font: .regular, style: .body)
+			.typography(.bodyMedium)
 			.foregroundColor(theme.actions.tertiary.text)
 			.tint(configuration.isPressed ? theme.actions.tertiary.text.opacity(0.50) : theme.actions.tertiary.text)
 			.padding(ViewTraits.ButtonTitle.insets)

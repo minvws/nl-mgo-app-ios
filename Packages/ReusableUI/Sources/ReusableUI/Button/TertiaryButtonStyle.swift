@@ -28,7 +28,7 @@ struct TertiaryButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.rijksoverheidStyle(font: .bold, style: .body)
+			.typography(.bodyMedium, isBold: true)
 			.foregroundColor(configuration.isPressed ? theme.actions.tertiary.hover : theme.actions.tertiary.text)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)

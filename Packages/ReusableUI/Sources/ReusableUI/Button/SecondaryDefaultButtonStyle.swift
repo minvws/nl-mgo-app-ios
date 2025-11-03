@@ -30,7 +30,7 @@ struct SecondaryDefaultButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.rijksoverheidStyle(font: .bold, style: .body)
+			.typography(.bodyMedium, isBold: true)
 			.foregroundColor(theme.actions.secondary.text.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
