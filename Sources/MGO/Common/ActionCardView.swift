@@ -42,13 +42,13 @@ struct ActionCardView: View {
 				VStack(alignment: .leading, spacing: ViewTraits.General.spacing) {
 					
 					Text(title)
-						.rijksoverheidStyle(font: .bold, style: .body)
+						.typography(.bodyMedium, isBold: true)
 						.multilineTextAlignment(.leading)
 						.foregroundColor(theme.labels.primary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 					
 					Text(message)
-						.rijksoverheidStyle(font: .regular, style: .body)
+						.typography(.bodyMedium)
 						.multilineTextAlignment(.leading)
 						.foregroundColor(theme.labels.secondary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
