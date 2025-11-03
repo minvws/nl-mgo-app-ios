@@ -27,7 +27,11 @@ final class DisplaySettingsViewTests: XCTestCase {
 	
 	@MainActor private func createSut() {
 		
-		sut = DisplaySettingsView(viewModel: BaseViewModel(coordinator: self.coordinatorSpy))
+		sut = DisplaySettingsView(
+			viewModel: BaseViewModel(
+				coordinator: self.coordinatorSpy
+			)
+		)
 	}
 	
 	@MainActor func test_displaySettingsView_systemSelected() {
