@@ -118,7 +118,7 @@ final class MeasurementsHealthCategoryViewTests: XCTestCase {
 		viewModel.searchText = "MGO"
 		
 		// Then
-		takeSnapShots(content: content, isRecording: true)
+		takeSnapShots(content: content)
 	}
 	
 	@MainActor func disabled_test_search_itemFound() throws {

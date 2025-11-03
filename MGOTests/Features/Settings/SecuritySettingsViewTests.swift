@@ -25,7 +25,10 @@ class SecuritySettingsViewTests: XCTestCase {
 		bioMetricType: () -> LocalAuthentication.BiometricType
 	) -> SecuritySettingsView {
 		
-		let viewModel = SecuritySettingsViewModel(coordinator: coordinatorSpy, bioMetricType: bioMetricType)
+		let viewModel = SecuritySettingsViewModel(
+			coordinator: coordinatorSpy,
+			bioMetricType: bioMetricType
+		)
 		
 		return SecuritySettingsView(
 			viewModel: viewModel

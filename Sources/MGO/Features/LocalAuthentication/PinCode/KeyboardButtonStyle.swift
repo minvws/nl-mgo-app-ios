@@ -29,8 +29,19 @@ struct KeyboardButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.typography(.headingMedium)
+			.frame(
+				maxWidth: .infinity,
+				minHeight: ViewTraits.Button.minimumHeight,
+				alignment: .center
+			)
+			.font(
+				.RijksoverheidSansWebText
+					.relative(
+						RijksoverheidSansWebTextFont.regular,
+						size: Font.TextStyle.title2.pointSize,
+						relativeTo: Font.TextStyle.title2
+					)
+			)
 			.foregroundStyle(isEnabled ? theme.labels.primary : theme.symbols.secondary)
 			.background(configuration.isPressed ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
 			.cornerRadius(ViewTraits.Button.cornerRadius)

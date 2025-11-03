@@ -19,7 +19,9 @@ final class AboutOpenSourceLibrariesViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = AboutOpenSourceLibrariesViewModel(coordinator: self.coordinatorSpy)
+		sut = AboutOpenSourceLibrariesViewModel(
+			coordinator: self.coordinatorSpy
+		)
 	}
 	
 	@MainActor func test_backButtonPressed() throws {

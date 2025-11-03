@@ -23,7 +23,11 @@ final class AboutTheAppViewTests: XCTestCase {
 	
 	@MainActor private func createSut() {
 		
-		sut = AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: self.coordinatorSpy))
+		sut = AboutTheAppView(
+			viewModel: AboutTheAppViewModel(
+				coordinator: self.coordinatorSpy
+			)
+		)
 	}
 
 	@MainActor func test_aboutTheAppView() {
