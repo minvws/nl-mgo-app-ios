@@ -6,23 +6,47 @@ A helper module to use the Rijksoverheid sans Web Text fonts in SwiftUI
 
 ## Usage
 
-To display a Text with the Rijksoverheid styling, use the `.rijksoverheidStyle` modifier
+To display a Text with the Rijksoverheid styling, use the `.typography` modifier
 
 ```swift
 Text("Rijksoverheid")
-    .rijksoverheidStyle(font: .bold, style: .largeTitle)
+    .typography(.headingLarge)
 ```
 
-The modifier takes two params, font and style. Three fonts are supplied: `.bold`, `.italic` and `.regular`. The style is one of the [Font.TextStyle](https://developer.apple.com/documentation/swiftui/font/textstyle) enum values, `.largeTitle`, `.title`, `.body` etc.
+There are 5 levels of heading, and 3 for body texts. :
 
-These fonts will scale relative to the user preference for display size. If you need a fixed size, use
+```swift
+public enum Typography: CaseIterable {
+	
+	case headingExtraLarge // 34 px (.largeTitle)
+	case headingLarge // 28 px (.title)
+	case headingMedium // 22 px (.title2)
+	case headingSmall // 20 px (.title3)
+	case headingExtraSmall // 18 px (.subheadline)
+
+	case bodyLarge // 20 px (.headline)
+	case bodyMedium // 18 px (.body)
+	case bodySmall // 16 px (.callout)
+}
+```
+
+The modifier takes two params, Typography and isBold.
 
 ```swift
 Text("Rijksoverheid")
-    .font(.RijksoverheidSansWebText.fixed(.regular, size: 17))
+    .font(.bodyMedium, isBold: true)
 ```
+Note that the heading styles are always bold. You can use any of the Font.TextStyles directly without the typography modifier:
 
-The first param is the font to be used, the second is the CGFloat point size. 
+```swift
+Text("Rijksoverheid")
+.font(
+	.RijksoverheidSansWebText.relative(
+		RijksoverheidSansWebTextFont.regular,
+		relativeTo: Font.TextStyle.title
+	)
+)
+```
 
 ---
 
