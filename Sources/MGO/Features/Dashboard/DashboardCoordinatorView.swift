@@ -39,7 +39,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				settingsTab()
 				
 			}
-			.tint(theme.actions.tertiary.text)
+			.tint(theme.actions.ghost.text)
 		}
 		.onAppear(perform: {
 			styleStandardAppearance()

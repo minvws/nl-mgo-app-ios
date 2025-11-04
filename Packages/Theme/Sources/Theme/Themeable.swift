@@ -62,24 +62,24 @@ public struct Colors {
 	
 	public struct Actions {
 		
-		public struct Primary {
+		public struct Solid {
 			public let background: Color
 			public let text: Color
 		}
 		
-		public struct Secondary {
+		public struct Tonal {
 			public let background: Color
 			public let text: Color
 		}
 		
-		public struct Tertiary {
+		public struct Ghost {
 			public let text: Color
 			public let hover: Color
 		}
 		
-		public let primary: Actions.Primary
-		public let secondary: Actions.Secondary
-		public let tertiary: Actions.Tertiary
+		public let solid: Actions.Solid
+		public let tonal: Actions.Tonal
+		public let ghost: Actions.Ghost
 	}
 }
 public protocol Themeable: ObservableObject {

@@ -44,8 +44,8 @@ final class CallToActionButtonTests: XCTestCase {
 		
 		// Given
 		let sut = CallToActionButton(
-			"Primary",
-			style: .primary
+			"Solid",
+			style: .solid
 		)
 		
 		// When
@@ -59,8 +59,8 @@ final class CallToActionButtonTests: XCTestCase {
 		
 		// Given
 		let sut = CallToActionButton(
-			title: "Primary Title",
-			style: .primary
+			title: "Solid Title",
+			style: .solid
 		)
 		
 		// When
@@ -74,8 +74,8 @@ final class CallToActionButtonTests: XCTestCase {
 		
 		// Given
 		let sut = CallToActionButton(
-			"Secondary",
-			style: .secondary
+			"Tonal",
+			style: .tonal
 		)
 		
 		// When
@@ -89,8 +89,8 @@ final class CallToActionButtonTests: XCTestCase {
 		
 		// Given
 		let sut = CallToActionButton(
-			"Tertiary",
-			style: .tertiary
+			"Ghost",
+			style: .ghost
 		)
 		
 		// When

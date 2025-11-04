@@ -206,7 +206,7 @@ struct BioMetricSetupView: View {
 			HStack {
 				Spacer()
 				getBioMetricImage(type: bioMetricType)
-					.foregroundStyle(theme.actions.primary.background)
+					.foregroundStyle(theme.actions.solid.background)
 					.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
 					.padding(.top, ViewTraits.Image.top)
 				Spacer()
@@ -319,7 +319,7 @@ struct BioMetricSetupView: View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
 			
-			CallToActionButton("common.skip", style: .secondary) {
+			CallToActionButton("common.skip", style: .tonal) {
 				viewModel.reduce(.proceedWithoutBioMetric)
 			}
 				.accessibilityIdentifier("common.skip")

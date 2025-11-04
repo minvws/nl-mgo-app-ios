@@ -106,7 +106,7 @@ struct ForgotPinCodeView: View {
 	@ViewBuilder func bottomView() -> some View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
-			CallToActionButton("forgot_pincode.button", style: .secondary) {
+			CallToActionButton("forgot_pincode.button", style: .tonal) {
 				viewModel.reduce(.showDialog)
 			}
 			.accessibilityIdentifier("forgot_pincode.button")
@@ -118,5 +118,15 @@ struct ForgotPinCodeView: View {
 			
 		}
 		.padding(ViewTraits.Button.insets)
+	}
+}
+
+#Preview {
+	NavigationView {
+		ForgotPinCodeView(
+			viewModel: ForgotPinCodeViewModel(
+				coordinator: nil
+			)
+		)
 	}
 }

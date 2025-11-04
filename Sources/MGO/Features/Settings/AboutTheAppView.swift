@@ -147,7 +147,6 @@ struct AboutTheAppView: View {
 		.padding(.top, -16)
 		.listRowInsets(ViewTraits.General.inset)
 		.readSize($contentSize)
-		.logInfo("$contentSize", contentSize)
 	}
 	
 	/// Get the view for the version row

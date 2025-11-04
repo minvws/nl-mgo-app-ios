@@ -29,9 +29,9 @@ public struct CallToActionButton: View {
 	public enum Style {
 		case primaryWithLeadingIcon
 		case primaryWithLeadingSpinner
-		case primary
-		case secondary
-		case tertiary
+		case solid
+		case tonal
+		case ghost
 		case withIcon
 		case withSpinner
 	}
@@ -41,7 +41,12 @@ public struct CallToActionButton: View {
 	/// - Parameter icon: the optional icon to display
 	/// - Parameter style: the style to display in
 	/// - Parameter action: the optional action to perform
-	public init(_ key: LocalizedStringKey, icon: Image? = nil, style: Style = .primary, action: ( () -> Void)? = nil) {
+	public init(
+		_ key: LocalizedStringKey,
+		icon: Image? = nil,
+		style: Style = .solid,
+		action: ( () -> Void)? = nil
+	) {
 		self.key = key
 		self.style = style
 		self.action = action
@@ -53,7 +58,12 @@ public struct CallToActionButton: View {
 	/// - Parameter icon: the optional icon to display
 	/// - Parameter style: the style to display in
 	/// - Parameter action: the optional action to perform
-	public init(title: String, icon: Image? = nil, style: Style = .primary, action: ( () -> Void)? = nil) {
+	public init(
+		title: String,
+		icon: Image? = nil,
+		style: Style = .solid,
+		action: ( () -> Void)? = nil
+	) {
 		self.title = title
 		self.style = style
 		self.action = action
@@ -103,14 +113,14 @@ public struct CallToActionButton: View {
 				}
 			}
 		)
-		.when(style == .primaryWithLeadingIcon || style == .primaryWithLeadingSpinner || style == .primary, transform: { button in
-			button.buttonStyle(PrimaryDefaultButtonStyle())
+		.when(style == .primaryWithLeadingIcon || style == .primaryWithLeadingSpinner || style == .solid, transform: { button in
+			button.buttonStyle(SolidButtonStyle())
 		})
-		.when(style == .secondary, transform: { button in
-			button.buttonStyle(SecondaryDefaultButtonStyle())
+		.when(style == .tonal, transform: { button in
+			button.buttonStyle(TonalButtonStyle())
 		})
-		.when(style == .tertiary, transform: { button in
-			button.buttonStyle(TertiaryButtonStyle())
+		.when(style == .ghost, transform: { button in
+			button.buttonStyle(GhostButtonStyle())
 		})
 		.when(style == .withIcon, transform: { button in
 			button.buttonStyle(ButtonWithIconStyle())
@@ -138,11 +148,11 @@ public struct CallToActionButton: View {
 			.padding(16)
 		CallToActionButton(".primaryWithLeadingSpinner", style: .primaryWithLeadingSpinner)
 			.padding(16)
-		CallToActionButton(".primary", style: .primary)
+		CallToActionButton(".solid", style: .solid)
 			.padding(16)
-		CallToActionButton(".secondary", style: .secondary)
+		CallToActionButton(".tonal", style: .tonal)
 			.padding(16)
-		CallToActionButton(".tertiary", style: .tertiary)
+		CallToActionButton(".ghost", style: .ghost)
 			.padding(16)
 		CallToActionButton(".withIcon", icon: Image(systemName: "stethoscope"), style: .withIcon)
 			.padding(16)
