@@ -60,7 +60,7 @@ struct InputField: View {
 				.when(required, transform: { text in
 					text + Text(verbatim: " ") + Text("common.required")
 				})
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundStyle(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.onTapGesture {
@@ -105,7 +105,7 @@ struct InputField: View {
 						.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
 					
 					Text(errorMessage)
-						.rijksoverheidStyle(font: .bold, style: .body)
+						.typography(.bodyMedium, isBold: true)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.foregroundStyle(theme.states.critical)
 				}

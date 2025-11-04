@@ -46,7 +46,7 @@ struct DisplaySettingsView: View {
 				
 			} footer: {
 				Text(shouldLayoutForiPad ? "settings.display.footer_ipad" : "settings.display.footer")
-					.rijksoverheidStyle(font: .regular, style: .callout)
+					.typography(.bodySmall)
 					.foregroundStyle(theme.labels.secondary)
 			}
 		}
@@ -75,7 +75,7 @@ struct DisplaySettingsView: View {
 			HStack(spacing: 0) {
 				
 				Text(title)
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.primary)
 					.frame(minHeight: ViewTraits.Icon.size)
 				

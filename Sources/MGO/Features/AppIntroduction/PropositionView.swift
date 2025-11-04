@@ -68,7 +68,7 @@ struct PropositionView: View {
 			VStack(spacing: 0) {
 				
 				Text("proposition.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
+					.typography(.headingExtraLarge)
 					.foregroundStyle(theme.labels.primary)
 					.padding(.bottom, ViewTraits.General.padding)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -94,7 +94,7 @@ struct PropositionView: View {
 					}
 				}
 				.environment(\.openURL, OpenURLAction(handler: handleURL))
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.padding(.bottom, ViewTraits.General.padding)
 				.foregroundStyle(theme.labels.primary)
 				.tint(theme.actions.tertiary.text)

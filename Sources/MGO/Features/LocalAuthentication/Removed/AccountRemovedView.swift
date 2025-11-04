@@ -67,7 +67,7 @@ struct AccountRemovedView: View {
 				subHeading: "account_removed.subheading",
 				textAlignment: .leading,
 				textSpacing: ViewTraits.Text.spacing,
-				titleStyle: .title,
+				titleStyle: .headingLarge,
 				subHeadingForegroundColor: theme.labels.primary
 			)
 			.padding(.top, ViewTraits.Navigation.padding)

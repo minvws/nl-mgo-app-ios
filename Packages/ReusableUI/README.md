@@ -245,7 +245,7 @@ A reoccurring view in our project is a large image with content underneath.
 		subHeading: "SubHeading",
 		textAlignment: .center,
 		textSpacing: 8,
-		titleStyle: .largeTitle,
+		titleStyle: .headingExtraLarge,
 		subHeadingForegroundColor: Color.pink
 	)
 

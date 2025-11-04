@@ -381,7 +381,7 @@ struct HealthExportView: View {
 					
 					ProgressView("pdf_viewer.loading")
 						.foregroundStyle(theme.labels.secondary)
-						.rijksoverheidStyle(font: .regular, style: .body)
+						.typography(.bodyMedium)
 				
 					Spacer()
 					

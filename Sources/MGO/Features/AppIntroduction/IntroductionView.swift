@@ -96,14 +96,14 @@ struct IntroductionView: View {
 				VStack(alignment: .leading) {
 					
 					Text("introduction.heading")
-						.rijksoverheidStyle(font: .bold, style: .title)
+						.typography(.headingExtraLarge)
 						.padding(ViewTraits.Title.insets)
 						.accessibilityAddTraits(.isHeader)
 						.fixedSize(horizontal: false, vertical: true)
 						.accessibilityIdentifier("introduction.heading")
 					
 					SplittedText(key: "introduction.subheading", spacing: ViewTraits.Text.spacing)
-						.rijksoverheidStyle(font: .regular, style: .body)
+						.typography(.bodyMedium)
 						.padding(ViewTraits.Text.insets)
 						.fixedSize(horizontal: false, vertical: true)
 						.accessibilityIdentifier("introduction.subheading")

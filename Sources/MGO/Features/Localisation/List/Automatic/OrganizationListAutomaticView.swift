@@ -286,14 +286,14 @@ struct OrganizationListAutomaticView: View {
 			VStack(alignment: .leading, spacing: ViewTraits.General.padding, content: {
 				
 				Text("organization_search.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
+					.typography(.headingExtraLarge)
 					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilityIdentifier("organization_search.heading")
 				
 				Text("organization_search.subheading")
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityIdentifier("organization_search.subheading")

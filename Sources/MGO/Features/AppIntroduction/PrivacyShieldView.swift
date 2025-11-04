@@ -65,7 +65,7 @@ struct PrivacyShieldView: View {
 				.padding(.zero)
 			
 			Text(title)
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.padding(.leading, ViewTraits.Text.leading)
 				.foregroundStyle(theme.labels.primary)
 		}

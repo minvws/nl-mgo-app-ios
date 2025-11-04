@@ -81,7 +81,7 @@ struct AdvancedSettingsView: View {
 		
 		Toggle(isOn: $automaticLocalization) {
 			Text("settings.featureflag.localization")
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundStyle(theme.labels.primary)
 		}
 			.accessibilityIdentifier("settings.featureflag.localization")
@@ -95,7 +95,7 @@ struct AdvancedSettingsView: View {
 		
 		Toggle(isOn: $bypassPincode) {
 			Text("settings.featureflag.pincode")
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundStyle(theme.labels.primary)
 		}
 			.accessibilityIdentifier("settings.featureflag.pincode")

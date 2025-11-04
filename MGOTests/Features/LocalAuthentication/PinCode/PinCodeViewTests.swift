@@ -23,7 +23,10 @@ final class PinCodeViewTests: XCTestCase {
 		super.setUp()
 	}
 	
-	@MainActor func createSut(mode: PinCodeViewModel.PinCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) -> PinCodeView {
+	@MainActor func createSut(
+		mode: PinCodeViewModel.PinCodeMode = .creation,
+		bioMetricType: () -> LocalAuthentication.BiometricType
+	) -> PinCodeView {
 		
 		let viewModel = PinCodeViewModel(
 			coordinator: coordinatorSpy,

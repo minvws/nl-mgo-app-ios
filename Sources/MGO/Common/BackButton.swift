@@ -67,7 +67,7 @@ struct BackButton: View {
 							.padding(.trailing, ViewTraits.Image.padding)
 						
 						Text(title)
-							.rijksoverheidStyle(font: .regular, style: .body)
+							.typography(.bodyMedium)
 					}
 				}
 			)

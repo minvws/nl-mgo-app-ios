@@ -28,7 +28,7 @@ struct ButtonWithSpinnerStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.rijksoverheidStyle(font: .regular, style: .body)
+			.typography(.bodyMedium)
 			.foregroundColor(theme.actions.tertiary.text)
 			.tint(theme.actions.tertiary.text)
 			.padding(ViewTraits.ButtonTitle.insets)

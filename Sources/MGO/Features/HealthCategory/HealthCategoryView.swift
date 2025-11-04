@@ -558,7 +558,7 @@ struct HealthCategoryView: View {
 			view
 //				.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
 		}
-		.rijksoverheidStyle(font: .regular, style: .body)
+		.typography(.bodyMedium)
 		.foregroundColor(theme.labels.secondary)
 		.alert(String(localized: "export_pdf.dialog.heading"), isPresented: $viewModel.showExportAlert) {
 			Button("export_pdf.dialog.create_document") { viewModel.reduce(.exportHealthData) }
@@ -582,7 +582,7 @@ struct HealthCategoryView: View {
 		subCategoryIndex: Int) -> some View {
 		if showHeading {
 			Text(subCategory.heading)
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundColor(theme.labels.primary)
 				.padding(.top, ViewTraits.List.top)
 		}

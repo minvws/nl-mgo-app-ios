@@ -10,51 +10,37 @@ import SwiftUI
 @MainActor
 final class RijksoverheidFontTests: XCTestCase {
 	
-	func testFonts_relative() {
+	func test_typography() {
 		
-		// Given
-		let fonts: [RijksoverheidSansWebTextFont] = [
-			RijksoverheidSansWebTextFont.bold,
-			RijksoverheidSansWebTextFont.italic,
-			RijksoverheidSansWebTextFont.regular
-		]
+		let styles: [Typography] = Typography.allCases
 		
-		for font in fonts {
-			for textStyle in Font.TextStyle.allCases {
-				
-				// When
-				let content = Text("Testing")
-					.rijksoverheidStyle(font: font, style: textStyle)
-					.foregroundColor(.black)
-					.frame(width: 120, height: 50)
-	
-				// Then
-				assertSnapshot(of: content, as: .image)
-			}
+		for style in styles {
+			
+			// When
+			let content = Text("Testing")
+				.typography(style)
+				.foregroundColor(.black)
+				.frame(width: 120, height: 50)
+			
+			// Then
+			assertSnapshot(of: content, as: .image)
 		}
 	}
 	
-	func testFonts_fixedSize() {
+	func test_typography_bold() {
 		
-		// Given
-		let fonts: [RijksoverheidSansWebTextFont] = [
-			RijksoverheidSansWebTextFont.bold,
-			RijksoverheidSansWebTextFont.italic,
-			RijksoverheidSansWebTextFont.regular
-		]
+		let styles: [Typography] = Typography.allCases
 		
-		for font in fonts {
-			for textStyle in Font.TextStyle.allCases {
-				
-				// When
-				let content = Text("Testing")
-					.font(.RijksoverheidSansWebText.fixed(font, size: textStyle.pointSize))
-					.foregroundColor(.black)
-					.frame(width: 120, height: 50)
-				
-				// Then
-				assertSnapshot(of: content, as: .image)
-			}
+		for style in styles {
+			
+			// When
+			let content = Text("Testing")
+				.typography(style, isBold: true)
+				.foregroundColor(.black)
+				.frame(width: 120, height: 50)
+			
+			// Then
+			assertSnapshot(of: content, as: .image)
 		}
 	}
 }

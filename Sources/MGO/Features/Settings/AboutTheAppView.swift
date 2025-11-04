@@ -137,7 +137,7 @@ struct AboutTheAppView: View {
 			.frame(maxWidth: .infinity, alignment: .top)
 			
 			Text("common.app_name")
-				.rijksoverheidStyle(font: .bold, style: .body)
+				.typography(.bodyMedium, isBold: true)
 				.foregroundStyle(theme.labels.primary)
 				.fixedSize(horizontal: false, vertical: true)
 				.accessibilityIdentifier("common.app_name")

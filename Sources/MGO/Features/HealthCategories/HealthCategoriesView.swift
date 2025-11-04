@@ -438,7 +438,7 @@ struct HealthCategoriesView: View {
 	@ViewBuilder func heading() -> some View {
 		
 		Text(viewModel.state.heading)
-			.rijksoverheidStyle(font: .bold, style: .title)
+			.typography(.headingExtraLarge)
 			.foregroundColor(theme.labels.primary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityAddTraits(.isHeader)
@@ -451,7 +451,7 @@ struct HealthCategoriesView: View {
 	@ViewBuilder func subHeading() -> some View {
 		
 		Text(viewModel.state.subheading)
-			.rijksoverheidStyle(font: .regular, style: .body)
+			.typography(.bodyMedium)
 			.foregroundColor(theme.labels.primary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityIdentifier("overview.subheading")
@@ -491,7 +491,7 @@ struct HealthCategoriesView: View {
 			
 			Section {
 				Text(mainCategory.localized())
-					.rijksoverheidStyle(font: .bold, style: .headline)
+					.typography(.headingMedium)
 					.foregroundColor(theme.labels.primary)
 					.accessibilityAddTraits(.isHeader)
 			}
@@ -584,7 +584,7 @@ struct HealthCategoriesView: View {
 	@ViewBuilder private func favoritesHeader() -> some View {
 		Section {
 			Text("overview.favorites.heading")
-				.rijksoverheidStyle(font: .bold, style: .headline)
+				.typography(.headingMedium)
 				.foregroundColor(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
@@ -611,7 +611,7 @@ struct HealthCategoriesView: View {
 		VStack(spacing: 0) {
 			
 			Text("overview.favorites.empty.heading")
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundStyle(theme.labels.primary)
 				.padding(.top, 2 * ViewTraits.General.padding)
 				.multilineTextAlignment(.center)

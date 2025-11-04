@@ -132,7 +132,7 @@ struct SecuritySettingsView: View {
 				toggleView()
 			} footer: {
 				Text("settings.security.biometric.subheading")
-					.rijksoverheidStyle(font: .regular, style: .callout)
+					.typography(.bodySmall)
 					.foregroundStyle(theme.labels.secondary)
 			}
 			.onChange(of: viewModel.state.bioMetricAuthenticationEnabled) { newValue in
@@ -173,7 +173,7 @@ struct SecuritySettingsView: View {
 		
 		Toggle(isOn: $viewModel.state.bioMetricAuthenticationEnabled) {
 			Text(LocalizedStringKey(label(viewModel.state.bioMetricType)))
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundStyle(theme.labels.primary)
 		}
 			.toggleStyle(.switch)

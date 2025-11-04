@@ -47,7 +47,7 @@ struct SnapshotView: View {
 							
 							Text("common.loading")
 								.foregroundStyle(theme.labels.primary.opacity(ViewTraits.General.opacity))
-								.rijksoverheidStyle(font: .regular, style: .body)
+								.typography(.bodyMedium)
 							
 							Spacer()
 						}

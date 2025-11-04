@@ -288,7 +288,7 @@ struct OrganizationsView: View {
 		} label: {
 			HStack {
 				Text(title)
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.primary)
 				
 				Spacer()

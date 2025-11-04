@@ -19,8 +19,14 @@ class HealthCategoryRowViewTests: XCTestCase {
 		let view = sut.frame(width: 380, height: 200)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.light)), as: .image)
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
 	}
 	
 	@MainActor func test_loading() {
@@ -32,8 +38,14 @@ class HealthCategoryRowViewTests: XCTestCase {
 		let view = sut.frame(width: 380, height: 200)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.light)), as: .image)
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
 	}
 	
 	@MainActor func test_loaded() {
@@ -45,7 +57,13 @@ class HealthCategoryRowViewTests: XCTestCase {
 		let view = sut.frame(width: 380, height: 200)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.light)), as: .image(precision: 0.95))
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image(precision: 0.95))
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image(precision: 0.95)
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image(precision: 0.95)
+		)
 	}
 }

@@ -78,7 +78,7 @@ struct AboutSafetyTipsView: View {
 	@ViewBuilder private func header() -> some View {
 		
 		Text("settings.about_this_app.safety.subheading")
-			.rijksoverheidStyle(font: .regular, style: .body)
+			.typography(.bodyMedium)
 			.foregroundStyle(theme.labels.primary)
 			.textCase(nil)
 			.padding(.top, ViewTraits.Navigation.padding)
@@ -98,13 +98,13 @@ struct AboutSafetyTipsView: View {
 		
 		VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 			Text(heading)
-				.rijksoverheidStyle(font: .bold, style: .body)
+				.typography(.bodyMedium, isBold: true)
 				.foregroundStyle(theme.labels.primary)
 				.accessibilityAddTraits(.isHeader)
 				.accessibilityIdentifier(heading.stringKey)
 			
 			Text(subheading)
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.foregroundStyle(theme.labels.primary)
 				.accessibilityIdentifier(subheading.stringKey)
 		}

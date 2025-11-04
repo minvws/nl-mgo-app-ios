@@ -62,7 +62,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.healthCategories.rawValue ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
 				}
 				Text("bottombar.overview")
-					.rijksoverheidStyle(font: .bold, style: .body)
+					.typography(.bodyMedium, isBold: true)
 					.accessibilityIdentifier("bottombar.overview")
 			}
 			.tag(DashboardTab.healthCategories.rawValue)
@@ -79,7 +79,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.healthcareOrganizations.rawValue ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
 				}
 				Text("bottombar.healthcareproviders")
-					.rijksoverheidStyle(font: .bold, style: .body)
+					.typography(.bodyMedium, isBold: true)
 					.accessibilityIdentifier("bottombar.healthcareproviders")
 			}
 			.tag(DashboardTab.healthcareOrganizations.rawValue)
@@ -96,7 +96,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.settings.rawValue ? ImageResource.Tab.Selected.settings : ImageResource.Tab.Unselected.settings)
 				}
 				Text("bottombar.settings")
-					.rijksoverheidStyle(font: .bold, style: .body)
+					.typography(.bodyMedium, isBold: true)
 					.accessibilityIdentifier("bottombar.settings")
 			}
 			.tag(DashboardTab.settings.rawValue)

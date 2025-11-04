@@ -125,7 +125,7 @@ public struct ToastView: View {
 				.accessibilitySortPriority(980)
 				.accessibilityIdentifier("toast.subheading")
 			}
-			.rijksoverheidStyle(font: .regular, style: .body)
+			.typography(.bodyMedium)
 			
 			// Close Button
 			

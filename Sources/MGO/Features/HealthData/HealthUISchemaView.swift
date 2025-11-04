@@ -73,7 +73,7 @@ struct HealthUISchemaView: View {
 		if let schemaGroupLabel = schemaGroup.label {
 			// A schema group has a section label
 			Text(NSLocalizedString(schemaGroupLabel, comment: ""))
-				.rijksoverheidStyle(font: .bold, style: .body)
+				.typography(.bodyMedium, isBold: true)
 				.foregroundStyle(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
@@ -339,7 +339,7 @@ struct HealthUISchemaView: View {
 				}
 				let text = Sanitizer.strip(value) ?? unknown
 				Text(text)
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.accessibilityIdentifier(text)
 			}
 			
@@ -462,7 +462,7 @@ struct HealthUISchemaView: View {
 			
 			Label {
 				Text(text)
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.backport.underline(pattern: .dot)
 			} icon: {
 				Image(systemName: "questionmark.circle")

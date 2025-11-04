@@ -553,13 +553,13 @@ struct PinCodeView: View {
 		VStack(alignment: .center, spacing: ViewTraits.Heading.spacing, content: {
 			
 			Text(viewModel.state.title)
-				.rijksoverheidStyle(font: .bold, style: .title)
+				.typography(.headingExtraLarge)
 				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
 				.accessibilityAddTraits(.isHeader)
 				.accessibilityIdentifier("pincode.heading")
 			
 			Text(viewModel.state.message)
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
 				.multilineTextAlignment(viewModel.state.textAlignment)
 		})
@@ -596,7 +596,7 @@ struct PinCodeView: View {
 				Image(ImageResource.Icon.error)
 				
 				Text(error)
-					.rijksoverheidStyle(font: .bold, style: .body)
+					.typography(.bodyMedium, isBold: true)
 				
 				Spacer()
 			} else {
