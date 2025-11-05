@@ -50,7 +50,7 @@ struct HealthUISchemaView: View {
 			static let size: CGFloat = 32.0
 		}
 		enum QuestionMark {
-			static let size: CGFloat = 24
+			static let size: CGFloat = 20.0
 		}
 	}
 	
