@@ -73,7 +73,7 @@ struct HealthUISchemaView: View {
 		if let schemaGroupLabel = schemaGroup.label {
 			// A schema group has a section label
 			Text(NSLocalizedString(schemaGroupLabel, comment: ""))
-				.typography(.bodyMedium, isBold: true)
+				.typography(.headingMedium)
 				.foregroundStyle(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
