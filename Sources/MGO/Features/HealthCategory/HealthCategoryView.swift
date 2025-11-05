@@ -624,7 +624,7 @@ struct HealthCategoryView: View {
 				} label: {
 					if osVersionChecker.available(version: .iOS(.v26)) {
 						Image(ImageResource.Icon.more26)
-							.foregroundStyle(theme.actions.solid.background)
+							.foregroundStyle(theme.labels.primary)
 					} else {
 						Image(ImageResource.Icon.more)
 					}
