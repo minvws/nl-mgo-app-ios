@@ -6,7 +6,43 @@ Tool to generate pdfs
 
 ## Usage
 
-todo
+A PdfData Object is the base of our operations. It has String properties for the heading, subHeading and Footer, as well as an array of PdfGroupedTables.  As seen in the illustrations below, the heading and subheading are placed at the top, the footer at the bottom. 
+
+<img style="float: left;" src="./Illustrations/top.png" />
+
+<img style="float: left;" src="./Illustrations/bottom.png" />
+
+### PdfDrawElement
+
+Each of the elements on a PDF is a PdfDrawElement. You should create an array of those elements and render the pdf with:
+
+```swift
+let format = UIGraphicsPDFRendererFormat()
+
+// The engine to render the PDF
+let pdfRenderer = UIGraphicsPDFRenderer(
+	bounds: CGRect(
+		x: 0,
+		y: 0, 
+		width: 595.28, // A4 Paper Size
+		height: 841.89 // A4 Paper Size
+	 ),
+	format: format
+)
+			
+let data = pdfRenderer.pdfData { context in
+	// Loop over all the elements and draw them
+	elements.forEach { drawElement in
+  	// Draw the pdf element onto the canvas
+		drawElement.draw(context)
+	}
+}
+
+let document = PDFDocument(data: data) // <- this is the PDF Document you want.
+```
+
+
+
 
 ---
 
