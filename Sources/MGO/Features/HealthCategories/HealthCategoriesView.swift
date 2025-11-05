@@ -668,25 +668,39 @@ struct HealthCategoriesView: View {
 			placement: .topBarTrailing,
 			content: {
 				
-				Menu {
-					if viewModel.state.canTitleCollapse {
-						menuFavoritesOption()
+				if viewModel.state.canTitleCollapse && !viewModel.state.showRemoveHealthcareProvider {
+					// Show more button, but immediately show the favorites sheet
+					Button {
+						viewModel.reduce(.showFavorites)
+					} label: {
+						moreIcon()
 					}
-					if viewModel.state.showRemoveHealthcareProvider {
-						menuRemoveHealthcareOrganizationOption()
+				} else {
+					Menu {
+						if viewModel.state.canTitleCollapse {
+							menuFavoritesOption()
+						}
+						if viewModel.state.showRemoveHealthcareProvider {
+							menuRemoveHealthcareOrganizationOption()
+						}
+					} label: {
+						moreIcon()
 					}
-				} label: {
-					if osVersionChecker.available(version: .iOS(.v26)) {
-						Image(ImageResource.Icon.more26)
-							.foregroundStyle(theme.labels.primary)
-					} else {
-						Image(ImageResource.Icon.more)
-					}
+					.buttonStyle(ToolbarButtonStyle())
+					.accessibilityLabel("overview.menu")
 				}
-				.buttonStyle(ToolbarButtonStyle())
-				.accessibilityLabel("overview.menu")
 			}
 		)
+	}
+	
+	@ViewBuilder func moreIcon() -> some View {
+		
+		if osVersionChecker.available(version: .iOS(.v26)) {
+			Image(ImageResource.Icon.more26)
+				.foregroundStyle(theme.labels.primary)
+		} else {
+			Image(ImageResource.Icon.more)
+		}
 	}
 	
 	/// The favorites option
