@@ -35,8 +35,8 @@ struct HealthUISchemaView: View {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum List {
-			static let padding: CGFloat = 8
-			static let bottom: CGFloat = 16
+			static let padding: CGFloat = 12
+			static let bottom: CGFloat = 20
 			static let cornerRadius: CGFloat = 12
 		}
 		enum Row {
