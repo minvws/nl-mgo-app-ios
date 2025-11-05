@@ -62,6 +62,7 @@ struct PrivacyShieldView: View {
 		HStack(alignment: alignment, spacing: 0) {
 			
 			Image(shieldType.image)
+				.foregroundStyle(theme.categories.rijkslint)
 				.padding(.zero)
 			
 			Text(title)
