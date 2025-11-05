@@ -616,7 +616,7 @@ struct HealthCategoriesView: View {
 				.padding(.top, 2 * ViewTraits.General.padding)
 				.multilineTextAlignment(.center)
 			
-			CallToActionButton(emptyActionKey, style: .tertiary) {
+			CallToActionButton(emptyActionKey, style: .ghost) {
 				viewModel.reduce(.showFavorites)
 			}
 			.accessibilityIdentifier(emptyActionKey.stringKey)
@@ -678,7 +678,7 @@ struct HealthCategoriesView: View {
 				} label: {
 					if osVersionChecker.available(version: .iOS(.v26)) {
 						Image(ImageResource.Icon.more26)
-							.foregroundStyle(theme.actions.primary.background)
+							.foregroundStyle(theme.actions.solid.background)
 					} else {
 						Image(ImageResource.Icon.more)
 					}

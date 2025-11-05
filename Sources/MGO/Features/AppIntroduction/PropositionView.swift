@@ -97,7 +97,7 @@ struct PropositionView: View {
 				.typography(.bodyMedium)
 				.padding(.bottom, ViewTraits.General.padding)
 				.foregroundStyle(theme.labels.primary)
-				.tint(theme.actions.tertiary.text)
+				.tint(theme.actions.ghost.text)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				
 				VStack(spacing: ViewTraits.Items.bottom) {

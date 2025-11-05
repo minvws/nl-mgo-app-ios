@@ -7,7 +7,7 @@ import RijksoverheidFont
 import SwiftUI
 import Theme
 
-struct TertiaryButtonStyle: ButtonStyle {
+struct SolidButtonStyle: ButtonStyle {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -18,20 +18,24 @@ struct TertiaryButtonStyle: ButtonStyle {
 			static let insets = EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 24)
 		}
 		enum Button {
-			static let minimumHeight: CGFloat = 48
+			static let cornerRadius: CGFloat = 12
+			static let minimumHeight: CGFloat = 50
+			static let opacity: Double = 0.75
 		}
 	}
 	
-	/// Style the button to a destructive button
+	/// Style the button to a primary button
 	/// - Parameter configuration: the button configuration
-	/// - Returns: destructive button
+	/// - Returns: primary button
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
 			.typography(.bodyMedium, isBold: true)
-			.foregroundColor(configuration.isPressed ? theme.actions.tertiary.hover : theme.actions.tertiary.text)
+			.foregroundColor(theme.actions.solid.text.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
+			.tint(theme.actions.solid.text)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(Color.clear)
+			.background(theme.actions.solid.background.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
+			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

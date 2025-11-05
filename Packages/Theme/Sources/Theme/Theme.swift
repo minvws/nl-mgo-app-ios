@@ -64,15 +64,15 @@ public final class Theme: Themeable {
 	)
 	
 	@Published public var actions: Colors.Actions = Colors.Actions(
-		primary: Colors.Actions.Primary(
+		solid: Colors.Actions.Solid(
 			background: Color("actionsPrimaryBackground", bundle: .module),
 			text: Color("actionsPrimaryText", bundle: .module)
 		),
-		secondary: Colors.Actions.Secondary(
+		tonal: Colors.Actions.Tonal(
 			background: Color("actionsSecondaryBackground", bundle: .module),
 			text: Color("actionsSecondaryText", bundle: .module)
 		),
-		tertiary: Colors.Actions.Tertiary(
+		ghost: Colors.Actions.Ghost(
 			text: Color("actionsTertiaryText", bundle: .module),
 			hover: Color("actionsTertiaryHover", bundle: .module)
 		)

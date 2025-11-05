@@ -23,6 +23,6 @@ public struct ToolbarButtonStyle: ButtonStyle {
 		configuration.label
 			.typography(.bodyMedium, isBold: true)
 			.opacity(configuration.isPressed ? 0.5 : 1.0)
-			.foregroundColor(configuration.isPressed ? theme.actions.tertiary.hover : theme.actions.tertiary.text)
+			.foregroundColor(configuration.isPressed ? theme.actions.ghost.hover : theme.actions.ghost.text)
 	}
 }

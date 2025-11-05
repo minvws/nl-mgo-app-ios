@@ -209,7 +209,7 @@ struct AboutOpenSourceLibrariesView: View {
 				
 				Text(library.name)
 					.typography(.bodyMedium)
-					.foregroundStyle(theme.actions.tertiary.text)
+					.foregroundStyle(theme.actions.ghost.text)
 					 
 					 Spacer()
 					 

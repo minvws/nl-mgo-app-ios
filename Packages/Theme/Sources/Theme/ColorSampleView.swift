@@ -15,9 +15,9 @@ struct ColorSampleView: View {
 		static let labels = "Labels"
 		static let hover = "Hover"
 		static let invert = "Invert"
-		static let interactionPrimary = "Action Primary"
-		static let interactionSecondary = "Action Secondary"
-		static let interactionTertiary = "Action Tertiary"
+		static let interactionSolid = "Action Solid"
+		static let interactionTonal = "Action Tonal"
+		static let interactionGhost = "Action Ghost"
 		static let primary = "Primary"
 		static let secondary = "Secondary"
 		static let states = "States"
@@ -79,25 +79,25 @@ struct ColorSampleView: View {
 						colorSample(theme.states.critical, text: "Critical")
 					}
 					
-					Text(Texts.interactionPrimary).bold()
+					Text(Texts.interactionSolid).bold()
 					
 					HStack {
-						colorSample(theme.actions.primary.background, text: Texts.backgrounds)
-						colorSample(theme.actions.primary.text, text: Texts.text)
+						colorSample(theme.actions.solid.background, text: Texts.backgrounds)
+						colorSample(theme.actions.solid.text, text: Texts.text)
 					}
 					
-					Text(Texts.interactionSecondary).bold()
+					Text(Texts.interactionTonal).bold()
 					
 					HStack {
-						colorSample(theme.actions.secondary.background, text: Texts.backgrounds)
-						colorSample(theme.actions.secondary.text, text: Texts.text)
+						colorSample(theme.actions.tonal.background, text: Texts.backgrounds)
+						colorSample(theme.actions.tonal.text, text: Texts.text)
 					}
 					
-					Text(Texts.interactionTertiary).bold()
+					Text(Texts.interactionGhost).bold()
 					
 					HStack {
-						colorSample(theme.actions.tertiary.text, text: Texts.text)
-						colorSample(theme.actions.tertiary.hover, text: Texts.hover)
+						colorSample(theme.actions.ghost.text, text: Texts.text)
+						colorSample(theme.actions.ghost.hover, text: Texts.hover)
 					}
 					
 					Text(Texts.categories).bold()

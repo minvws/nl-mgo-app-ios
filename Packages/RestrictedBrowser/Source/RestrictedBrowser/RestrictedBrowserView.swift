@@ -66,6 +66,6 @@ struct NavigationBarButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.foregroundStyle(configuration.isPressed ? theme.actions.tertiary.hover : theme.actions.tertiary.text)
+			.foregroundStyle(configuration.isPressed ? theme.actions.ghost.hover : theme.actions.ghost.text)
 	}
 }

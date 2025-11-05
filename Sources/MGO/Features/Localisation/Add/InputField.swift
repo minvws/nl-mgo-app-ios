@@ -72,7 +72,7 @@ struct InputField: View {
 				.padding(.horizontal, ViewTraits.Input.horizontalPadding)
 				.padding(.vertical, ViewTraits.Input.verticalPadding)
 				.foregroundStyle(theme.labels.primary)
-				.accentColor(theme.actions.tertiary.text)
+				.accentColor(theme.actions.ghost.text)
 				.frame(maxWidth: .infinity, alignment: .leading)
 				.background(theme.backgrounds.secondary)
 				.cornerRadius(ViewTraits.Input.cornerRadius)
@@ -122,7 +122,7 @@ struct InputField: View {
 		guard !showError else {
 			return theme.states.critical
 		}
-		return isFieldFocused ? theme.actions.primary.text : theme.separators.primary
+		return isFieldFocused ? theme.actions.solid.text : theme.separators.primary
 	}
 }
 

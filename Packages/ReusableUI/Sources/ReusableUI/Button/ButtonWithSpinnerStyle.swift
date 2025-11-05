@@ -29,8 +29,8 @@ struct ButtonWithSpinnerStyle: ButtonStyle {
 		
 		configuration.label
 			.typography(.bodyMedium)
-			.foregroundColor(theme.actions.tertiary.text)
-			.tint(theme.actions.tertiary.text)
+			.foregroundColor(theme.actions.ghost.text)
+			.tint(theme.actions.ghost.text)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(Color.clear)
