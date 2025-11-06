@@ -19,7 +19,6 @@ struct HealthCategoryRowView: View {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Category {
-			
 			static let minHeight: CGFloat = 56
 		}
 		enum Text {
@@ -31,6 +30,7 @@ struct HealthCategoryRowView: View {
 		}
 		enum Spinner {
 			static let size: CGFloat = 22
+			static let minWidth: CGFloat = 24
 		}
 	}
 	
@@ -64,7 +64,7 @@ struct HealthCategoryRowView: View {
 			
 			Spacer()
 			
-			VStack {
+			VStack(alignment: .trailing) {
 				switch state {
 					case .loaded:
 						Image(systemName: "chevron.right")
@@ -78,9 +78,10 @@ struct HealthCategoryRowView: View {
 							.tint(theme.symbols.secondary)
 					
 					default:
-						EmptyView()
+						Spacer()
 				}
 			}
+			.frame(minWidth: ViewTraits.Spinner.minWidth)
 		}
 		.frame(minHeight: ViewTraits.Category.minHeight)
 		.accessibilityElement(children: .combine)
