@@ -16,6 +16,9 @@ struct FavoriteRowView: View {
 	/// The state
 	var state: CategoryState
 	
+	/// The action to be performed when the user presses this card
+	var perform: (() -> Void)?
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Category {
@@ -30,7 +33,12 @@ struct FavoriteRowView: View {
 		enum Accessory {
 			static let size: CGFloat = 22
 		}
+		enum General {
+			static let padding: CGFloat = 16
+		}
 	}
+	
+	@State var hover = false
 	
 	var body: some View {
 		
@@ -73,5 +81,12 @@ struct FavoriteRowView: View {
 		}
 		.frame(minHeight: ViewTraits.Category.minHeight)
 		.accessibilityElement(children: .combine)
+		.padding(ViewTraits.General.padding)
+		.background(hover ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
+		._onButtonGesture { pressed in
+			self.hover = pressed
+		} perform: {
+			perform?()
+		}
 	}
 }

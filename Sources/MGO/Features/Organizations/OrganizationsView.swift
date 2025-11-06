@@ -281,7 +281,12 @@ struct OrganizationsView: View {
 	///   - imageResource: the image resource for the trailing end
 	///   - action: the action when tapped on
 	/// - Returns: row view
-	@ViewBuilder func rowFor(title: String, imageResource: ImageResource, accessibilityIdentifier: String, action: @escaping () -> Void) -> some View {
+	@ViewBuilder func rowFor(
+		title: String,
+		imageResource: ImageResource,
+		accessibilityIdentifier: String,
+		action: @escaping () -> Void
+	) -> some View {
 		
 		Button {
 			action()

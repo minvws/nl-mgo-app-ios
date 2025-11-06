@@ -512,26 +512,29 @@ struct HealthCategoriesView: View {
 		asFavorite: Bool = false
 	) -> some View {
 		
-		Button {
-			viewModel.reduce(.categorySelected(category))
-		} label: {
-			if asFavorite {
-				FavoriteRowView(
-					category: category,
-					state: viewModel.state.buttonState[category.id] ?? .notAvailable
-				)
-				.contentShape(Rectangle())
-			} else {
+		if asFavorite {
+			
+			FavoriteRowView(
+				category: category,
+				state: viewModel.state.buttonState[category.id] ?? .notAvailable,
+				perform: {
+					viewModel.reduce(.categorySelected(category))
+				}
+			)
+			
+		} else {
+			Button {
+				viewModel.reduce(.categorySelected(category))
+			} label: {
 				HealthCategoryRowView(
 					category: category,
 					state: viewModel.state.buttonState[category.id] ?? .notAvailable
 				)
-				.contentShape(Rectangle())
 			}
+			.padding(.vertical, ViewTraits.List.padding)
+			.accessibilityIdentifier(category.id)
+			.contentShape(Rectangle())
 		}
-		.buttonStyle(.plain)
-		.padding(.vertical, ViewTraits.List.padding)
-		.accessibilityIdentifier(category.id)
 	}
 	
 	/// The list header
@@ -568,8 +571,6 @@ struct HealthCategoriesView: View {
 			LazyVGrid(columns: columns, spacing: ViewTraits.Favorites.gridSpacing) {
 				ForEach(viewModel.state.favorites) {
 					categoryView($0, asFavorite: true)
-						.padding(ViewTraits.General.padding)
-						.background(theme.backgrounds.secondary)
 						.cornerRadius(ViewTraits.Favorites.cornerRadius)
 				}
 			}
