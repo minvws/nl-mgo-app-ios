@@ -13,7 +13,10 @@ class HealthCategoryRowViewTests: XCTestCase {
 	@MainActor func test_empty() {
 		
 		// Given
-		let sut = HealthCategoryRowView(category: Generator.healthCategory, state: .empty)
+		let sut = HealthCategoryRowView(
+			category: Generator.healthCategory,
+			state: .empty
+		)
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)
@@ -32,7 +35,10 @@ class HealthCategoryRowViewTests: XCTestCase {
 	@MainActor func test_loading() {
 		
 		// Given
-		let sut = HealthCategoryRowView(category: Generator.healthCategory, state: .loading)
+		let sut = HealthCategoryRowView(
+			category: Generator.healthCategory,
+			state: .loading
+		)
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)
@@ -51,7 +57,10 @@ class HealthCategoryRowViewTests: XCTestCase {
 	@MainActor func test_loaded() {
 		
 		// Given
-		let sut = HealthCategoryRowView(category: Generator.healthCategory, state: .loaded)
+		let sut = HealthCategoryRowView(
+			category: Generator.healthCategory,
+			state: .loaded
+		)
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)
