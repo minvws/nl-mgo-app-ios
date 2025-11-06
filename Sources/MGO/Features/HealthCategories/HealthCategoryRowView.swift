@@ -67,7 +67,7 @@ struct HealthCategoryRowView: View {
 			VStack(alignment: .trailing) {
 				switch state {
 					case .loaded:
-						Image(systemName: "chevron.right")
+						Image(ImageResource.Icon.chevron)
 							.foregroundStyle(theme.symbols.secondary)
 							.frame(width: 12, height: 22)
 					

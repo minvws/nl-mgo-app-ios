@@ -52,7 +52,7 @@ struct FavoriteRowView: View {
 				
 				switch state {
 					case .loaded:
-						Image(systemName: "chevron.right")
+						Image(ImageResource.Icon.chevron)
 							.foregroundStyle(theme.symbols.secondary)
 							.frame(
 								width: ViewTraits.Accessory.size,
