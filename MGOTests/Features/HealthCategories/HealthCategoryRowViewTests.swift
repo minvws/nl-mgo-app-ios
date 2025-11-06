@@ -46,7 +46,7 @@ class HealthCategoryRowViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.light)),
-			as: .image
+			as: .image,
 		)
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.dark)),
