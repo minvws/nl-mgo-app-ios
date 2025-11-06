@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Frame 5771583.svg",
+      "filename" : "Categorie=Afspraken.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Categorie=Afspraken 1.svg",
       "idiom" : "universal"
     }
   ],
