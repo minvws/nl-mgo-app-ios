@@ -76,7 +76,7 @@ struct PatientFriendlyTermView: View {
 		HStack(alignment: .top, spacing: 0) {
 			if let title = viewModel.title {
 				SelectableTextView(
-					text: title.capitalizingFirstLetter(),
+					text: title,
 						textColor: theme.labels.primary,
 					font: UIFont(
 						name: RijksoverheidSansWebTextFont.bold.fontName,

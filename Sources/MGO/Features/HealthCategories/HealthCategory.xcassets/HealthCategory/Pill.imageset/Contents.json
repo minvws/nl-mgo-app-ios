@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Frame 5771583.svg",
+      "filename" : "Categorie=Medicijnen.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Categorie=Medicijnen 1.svg",
       "idiom" : "universal"
     }
   ],

@@ -11,7 +11,7 @@ extension SharedHealthCategories.Category {
 	/// Get the display icon for the category
 	/// - Parameter theme: the theme
 	/// - Returns: a view witch the right themed icon
-	@ViewBuilder func getIcon(_ theme: any Themeable) -> some View {
+	@ViewBuilder func getIcon() -> some View {
 		
 		switch id {
 			case "alerts":
@@ -19,7 +19,7 @@ extension SharedHealthCategories.Category {
 					.resizable()
 				
 			case "allergies":
-				Image(ImageResource.HealthCategory.allergies)
+				Image(ImageResource.HealthCategory.allergy)
 					.resizable()
 				
 			case "appointments":
@@ -55,7 +55,7 @@ extension SharedHealthCategories.Category {
 					.resizable()
 				
 			case "patient":
-				Image(ImageResource.HealthCategory.patient)
+				Image(ImageResource.HealthCategory.administration)
 					.resizable()
 				
 			case "care_team":

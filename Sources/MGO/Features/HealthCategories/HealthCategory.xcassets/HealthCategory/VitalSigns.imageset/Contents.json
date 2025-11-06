@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Frame 5771582.svg",
+      "filename" : "Categorie=Metingen.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Categorie=Metingen 1.svg",
       "idiom" : "universal"
     }
   ],

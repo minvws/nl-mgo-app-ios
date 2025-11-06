@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Frame 5771585.svg",
+      "filename" : "Categorie=Medische klachten.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Categorie=Medische klachten 1.svg",
       "idiom" : "universal"
     }
   ],

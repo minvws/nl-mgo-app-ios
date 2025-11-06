@@ -512,26 +512,29 @@ struct HealthCategoriesView: View {
 		asFavorite: Bool = false
 	) -> some View {
 		
-		Button {
-			viewModel.reduce(.categorySelected(category))
-		} label: {
-			if asFavorite {
-				FavoriteRowView(
-					category: category,
-					state: viewModel.state.buttonState[category.id] ?? .notAvailable
-				)
-				.contentShape(Rectangle())
-			} else {
+		if asFavorite {
+			
+			FavoriteRowView(
+				category: category,
+				state: viewModel.state.buttonState[category.id] ?? .notAvailable,
+				perform: {
+					viewModel.reduce(.categorySelected(category))
+				}
+			)
+			
+		} else {
+			Button {
+				viewModel.reduce(.categorySelected(category))
+			} label: {
 				HealthCategoryRowView(
 					category: category,
 					state: viewModel.state.buttonState[category.id] ?? .notAvailable
 				)
-				.contentShape(Rectangle())
 			}
+			.padding(.vertical, ViewTraits.List.padding)
+			.accessibilityIdentifier(category.id)
+			.contentShape(Rectangle())
 		}
-		.buttonStyle(.plain)
-		.padding(.vertical, ViewTraits.List.padding)
-		.accessibilityIdentifier(category.id)
 	}
 	
 	/// The list header
@@ -568,8 +571,6 @@ struct HealthCategoriesView: View {
 			LazyVGrid(columns: columns, spacing: ViewTraits.Favorites.gridSpacing) {
 				ForEach(viewModel.state.favorites) {
 					categoryView($0, asFavorite: true)
-						.padding(ViewTraits.General.padding)
-						.background(theme.backgrounds.secondary)
 						.cornerRadius(ViewTraits.Favorites.cornerRadius)
 				}
 			}
@@ -668,25 +669,39 @@ struct HealthCategoriesView: View {
 			placement: .topBarTrailing,
 			content: {
 				
-				Menu {
-					if viewModel.state.canTitleCollapse {
-						menuFavoritesOption()
+				if viewModel.state.canTitleCollapse && !viewModel.state.showRemoveHealthcareProvider {
+					// Show more button, but immediately show the favorites sheet
+					Button {
+						viewModel.reduce(.showFavorites)
+					} label: {
+						moreIcon()
 					}
-					if viewModel.state.showRemoveHealthcareProvider {
-						menuRemoveHealthcareOrganizationOption()
+				} else {
+					Menu {
+						if viewModel.state.canTitleCollapse {
+							menuFavoritesOption()
+						}
+						if viewModel.state.showRemoveHealthcareProvider {
+							menuRemoveHealthcareOrganizationOption()
+						}
+					} label: {
+						moreIcon()
 					}
-				} label: {
-					if osVersionChecker.available(version: .iOS(.v26)) {
-						Image(ImageResource.Icon.more26)
-							.foregroundStyle(theme.actions.solid.background)
-					} else {
-						Image(ImageResource.Icon.more)
-					}
+					.buttonStyle(ToolbarButtonStyle())
+					.accessibilityLabel("overview.menu")
 				}
-				.buttonStyle(ToolbarButtonStyle())
-				.accessibilityLabel("overview.menu")
 			}
 		)
+	}
+	
+	@ViewBuilder func moreIcon() -> some View {
+		
+		if osVersionChecker.available(version: .iOS(.v26)) {
+			Image(ImageResource.Icon.more26)
+				.foregroundStyle(theme.labels.primary)
+		} else {
+			Image(ImageResource.Icon.more)
+		}
 	}
 	
 	/// The favorites option

@@ -66,7 +66,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 			.foregroundColor: UIColor(Theme().labels.primary),
 			.font: UIFont(
 				name: RijksoverheidSansWebTextFont.bold.fontName,
-				size: Font.TextStyle.title.pointSize
+				size: Font.TextStyle.largeTitle.pointSize
 			) as Any
 		]
 		
