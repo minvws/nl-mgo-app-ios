@@ -19,7 +19,7 @@ extension SharedHealthCategories.Category {
 					.resizable()
 				
 			case "allergies":
-				Image(ImageResource.HealthCategory.allergies)
+				Image(ImageResource.HealthCategory.allergy)
 					.resizable()
 				
 			case "appointments":
