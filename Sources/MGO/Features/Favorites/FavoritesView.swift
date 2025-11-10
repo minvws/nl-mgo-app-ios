@@ -135,6 +135,7 @@ struct FavoritesView: View {
 			
 			Spacer()
 		}
+		.interactiveDismissDisabled(true) // Disable dragging by the user for this sheet
 		.navigationTitle("edit_overview.heading")
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.environment(\.editMode, $editMode)
