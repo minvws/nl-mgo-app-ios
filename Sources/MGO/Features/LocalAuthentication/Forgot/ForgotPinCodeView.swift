@@ -52,6 +52,9 @@ struct ForgotPinCodeView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Title {
@@ -106,12 +109,18 @@ struct ForgotPinCodeView: View {
 	@ViewBuilder func bottomView() -> some View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
-			CallToActionButton("forgot_pincode.button", style: .tonal) {
+			CallToActionButton(
+				"forgot_pincode.button",
+				style: .tonal(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.showDialog)
 			}
 			.accessibilityIdentifier("forgot_pincode.button")
 			
-			CallToActionButton("common.cancel") {
+			CallToActionButton(
+				"common.cancel",
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.cancelButtonPressed)
 			}
 			.accessibilityIdentifier("common.cancel")

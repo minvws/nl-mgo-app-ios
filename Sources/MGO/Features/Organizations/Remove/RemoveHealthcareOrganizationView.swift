@@ -145,12 +145,18 @@ struct RemoveHealthcareOrganizationView: View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
 			
-			CallToActionButton("remove_organization.yes_delete", style: .tonal) {
+			CallToActionButton(
+				"remove_organization.yes_delete",
+				style: .tonal(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.removeOrganization)
 			}
 			.accessibilityIdentifier("remove_organization.remove")
 			
-			CallToActionButton("remove_organization.no_cancel") {
+			CallToActionButton(
+				"remove_organization.no_cancel",
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.cancel)
 			}
 			.accessibilityIdentifier("remove_organization.cancel")
