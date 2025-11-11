@@ -23,7 +23,6 @@ public struct TypographyViewModifier: ViewModifier {
 				.RijksoverheidSansWebText
 					.relative(
 						isBold ? .bold : typography.font(),
-						size: typography.textStyle().pointSize,
 						relativeTo: typography.textStyle()
 					)
 			)

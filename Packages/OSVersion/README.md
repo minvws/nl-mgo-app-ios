@@ -1,46 +1,43 @@
-# FileStorage
+# OSVersion
 
 ## Overview
 
-This package provides fileStorage, a helper class to read and store files to disc.
+This package provides a testable OS Version Checker 
 
 ## Usage
 
-The FileStorage class contains four methods for creating, reading and deleting files. 
+How to check?
 
-### CRUD operations
-
-To store a file
 ```swift
 
-import FileStorage
+func someMethod(versionChecker: OSVersionProtocol) {
 
-let storage = FileStorage()
-let element: Codable = ...
-let fileName = "filename.json"
-let encoded = try JSONEncoder().encode(element)
-try storage.store(encoded, as: fileName)
-
-```
-
-To read a file
-```swift
-
-if let jsonData = storage.read(fileName: fileName), 
-	if let data = try JSONDecoder().decode([Object].self, from: jsonData) {
-	...
+	if osVersionChecker.available(version: .iOS(.v26)) {
+		...
+	}
 }
+
+let osVersionChecker = OSVersionChecker()
+
+someMethod(versionChecker: osVersionChecker)
+
 ```
 
-To check for the existence of a file
-```swift
-let exists = storage.fileExists(fileName) // True if the file exists, false otherwise
+How to test?
 
-```
-
-And to remove a file
 ```swift
-	storage.remove(fileName)
+
+func test_someMethod() {
+	
+	// Given
+	let osVersionChecker: OSVersionProtocol = OSVersionCheckerTrue() // OSVersionCheckerFalse()
+
+	// When
+	someMethod(versionChecker: osVersionChecker)
+	
+	// Then
+	#expect(....)
+}
 ```
 
 ---

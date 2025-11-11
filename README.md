@@ -5,9 +5,9 @@
 This repository contains the iOS release of the My Health Overview project.
 
 * The iOS app is located in the repository you are currently viewing.
-* The Android app can also be [found on GitHub](https://github.com/minvws/nl-mgo-app-android-private).
+* The Android app can also be [found on GitHub](https://github.com/minvws/nl-mgo-app-android).
 
-See minvws/**[nl-rdo-mgo-coordination-private](https://github.com/minvws/nl-rdo-mgo-coordination-private)** for further technical documentation.
+See minvws/**[nl-rdo-mgo-coordination](https://github.com/minvws/nl-rdo-mgo-coordination)** for further technical documentation.
 
 ## Disclaimer
 
@@ -42,31 +42,33 @@ There are a number of Swift Packages in `Packages/`, which the app target depend
 
 The majority of our (third-party) dependencies are included as Swift Packages. Here is an overview of what dependencies are used and why.
 
-* [AuthorizationMiddleware](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/AuthorizationMiddleware/README.md): Basic Authentication Middleware for the open-api generator.
-* [CopyImport](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/CopyImport/README.md): script to assist with importing copy.
-* [FeatureFlag](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/FeatureFlag/README.md): some of the features of the application are locked behind a feature flag. This package controls those flags.
-* [FHIRClient](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/FHIRClient/README.md): the client for all API calls to fetch the FHIR data. 
-* [FileStorage](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/FileStorage/README.md): helper to store and read files from local disk.
-* [GitHubArtifactDownload](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/GitHubArtifactDownload/README.md): script to assist with downloading the latest artifact for the Shared Core and Shared configurations
-* [HCIMCore](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/HCIMCore/README.md): the shared javascript library to parse FHIR data into Health and Care Information Models.
-* [JailBreakDetector](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/JailBreakDetector/README.md): helper to detect jail broken devices.
-* [LocalAuthenticationProvider](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/LocalAuthenticationProvider/README.md): class to authenticate with face id or touch id.
-* [LocalisationService](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/LocalisationService/README.md): open-api generated class to search for healthcare providers.
+* [AuthorizationMiddleware](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/AuthorizationMiddleware/README.md): Basic Authentication Middleware for the open-api generator.
+* [CopyImport](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/CopyImport/README.md): script to assist with importing copy.
+* [FeatureFlag](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/FeatureFlag/README.md): some of the features of the application are locked behind a feature flag. This package controls those flags.
+* [FHIRClient](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/FHIRClient/README.md): the client for all API calls to fetch the FHIR data. 
+* [FileStorage](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/FileStorage/README.md): helper to store and read files from local disk.
+* [GitHubArtifactDownload](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/GitHubArtifactDownload/README.md): script to assist with downloading the latest artifact for the Shared Core and Shared configurations
+* [HCIMCore](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/HCIMCore/README.md): the shared javascript library to parse FHIR data into Health and Care Information Models.
+* [JailBreakDetector](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/JailBreakDetector/README.md): helper to detect jail broken devices.
+* [LocalAuthenticationProvider](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/LocalAuthenticationProvider/README.md): class to authenticate with face id or touch id.
+* [LocalisationService](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/LocalisationService/README.md): open-api generated class to search for healthcare providers.
 * [Logging](https://github.com/minvws/nl-rdo-app-ios-modules): a tool for Logging, reused from CoronaCheck.
-* [MGORepository](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/MGORepository/README.md): The linking class between the HCIMs, the HCIM parser and the FHIR Client.
+
+* [MGORepository](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGORepository/README.md): The linking class between the HCIMs, the HCIM parser and the FHIR Client.
 * [NavigationStackBackport](https://github.com/lm/navigation-stack-backport): backport of the iOS 16 NavigationStack to iOS 15.
-* [NotificationCenter](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/NotificationCenter/README.md): helper protocol for the Notification Center.
-* [Observatory](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/Observatory/README.md): helper class to fascilitate subscription to changes.
-* [Patient Friendly Terms](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/PatientFriendlyTerms/README.md): open-api generated class to help download the latest Patient Friendly Terms.
-* [PdfExport](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/PdfExport/README.md): Tool to generate pdfs.
-* [RemoteAuthentication](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/RemoteAuthentication/README.md): helper class that helps with DigiD login. 
-* [RemoteConfiguration](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/RemoteConfiguration/README.md): On startup of the app, a remote configuration is fetched with the latest app settings.
-* [RestrictedBrowser](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/RestrictedBrowser/README.md): Downside of an in-app browser is the loss of Parental Control. As a solution, we came up with a restricted browser. While surfing the allowed domain, you remain in the in-app browser. When you navigate to another domain, you are redirected to the default browser.
-* [ReusableUI](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/ReusableUI/README.md): Downside of This package holds a small collection of reuseable visual elements.
-* [RijkoverheidFont](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/RijksoverheidFont/README.md): helper for using the Rijksoverheid font
-* [Sanitizer](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/Sanitizer/README.md): helper to remove malicious user input. 
-* [SecureUserSettings](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/SecureUserSettings/README.md): helper to safely persist user settings. 
-* [Theme](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/Theme/README.md): helper with all the styles and colors for the application.
+* [NotificationCenter](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/NotificationCenter/README.md): helper protocol for the Notification Center.
+* [Observatory](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/Observatory/README.md): helper class to fascilitate subscription to changes.
+* [OSVersion](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/OSVersion/README.md): helper class to determine which OS version we are running (testable).
+* [Patient Friendly Terms](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/PatientFriendlyTerms/README.md): open-api generated class to help download the latest Patient Friendly Terms.
+* [PdfExport](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/PdfExport/README.md): Tool to generate pdfs.
+* [RemoteAuthentication](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/RemoteAuthentication/README.md): helper class that helps with DigiD login. 
+* [RemoteConfiguration](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/RemoteConfiguration/README.md): On startup of the app, a remote configuration is fetched with the latest app settings.
+* [RestrictedBrowser](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/RestrictedBrowser/README.md): Downside of an in-app browser is the loss of Parental Control. As a solution, we came up with a restricted browser. While surfing the allowed domain, you remain in the in-app browser. When you navigate to another domain, you are redirected to the default browser.
+* [ReusableUI](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/ReusableUI/README.md): Downside of This package holds a small collection of reuseable visual elements.
+* [RijkoverheidFont](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/RijksoverheidFont/README.md): helper for using the Rijksoverheid font
+* [Sanitizer](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/Sanitizer/README.md): helper to remove malicious user input. 
+* [SecureUserSettings](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/SecureUserSettings/README.md): helper to safely persist user settings. 
+* [Theme](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/Theme/README.md): helper with all the styles and colors for the application.
 
 #### Development only
 
@@ -127,11 +129,11 @@ In order to facilitate CI and reproducible builds, this codebase can be built us
 
 ### HCIMCore
 
-Transforming the FHIR data into Health and Care Information Modules / Zorg Informatie Bouwstenen is handled by a [shared JavaScript Core](https://github.com/minvws/nl-mgo-app-web-private/actions/workflows/package-hcim-api.yml). A verion of that core is included in the app. If you want to build a new version of the hcim core for the app, you need to install [quicktype](https://github.com/glideapps/quicktype) `npm install -g quicktype` and run `make download_hcimcore`. You'll need a [private GitHub API key](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/managing-private-keys-for-github-apps) for this to work. 
+Transforming the FHIR data into Health and Care Information Modules / Zorg Informatie Bouwstenen is handled by a [shared JavaScript Core](https://github.com/minvws/nl-mgo-app-web/actions/workflows/package-hcim-api.yml). A verion of that core is included in the app. If you want to build a new version of the hcim core for the app, you need to install [quicktype](https://github.com/glideapps/quicktype) `npm install -g quicktype` and run `make download_hcimcore`. You'll need a [private GitHub API key](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/managing-private-keys-for-github-apps) for this to work. 
 
 ### Shared Configuration
 
-The [configurations](https://github.com/minvws/nl-mgo-app-web-private/actions/workflows/package-config.yml) for the data services and the health categories is included in the app and can be updated with `make download_shared_configuration`
+The [configurations](https://github.com/minvws/nl-mgo-app-web/actions/workflows/package-config.yml) for the data services and the health categories is included in the app and can be updated with `make download_shared_configuration`
 
 ### End 2 End Tests
 
@@ -162,6 +164,7 @@ Once the build is approved by Apple, we release the approved build manually usin
 Now that the release is completed, the private git repository should be "synced" with the public reposititory by running `make sync_repo`. It pushes new *non-RC* tags to the public repository. This command is part of the [RDO Repository Tools](https://github.com/minvws/nl-rdo-git-repository-tool). 
 
 ---
+
 
 ## Contribution process
 

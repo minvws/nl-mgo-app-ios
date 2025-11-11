@@ -1,46 +1,48 @@
-# FileStorage
+# Patient Friendly Terms
 
 ## Overview
 
-This package provides fileStorage, a helper class to read and store files to disc.
+This package is an open-api generated class to help download the latest Patient Friendly Terms
 
 ## Usage
 
-The FileStorage class contains four methods for creating, reading and deleting files. 
+Create a Patient Friendly Terms Repository with the server URL:
 
-### CRUD operations
-
-To store a file
 ```swift
 
-import FileStorage
-
-let storage = FileStorage()
-let element: Codable = ...
-let fileName = "filename.json"
-let encoded = try JSONEncoder().encode(element)
-try storage.store(encoded, as: fileName)
-
+let serverUrl = URL(string: "example.com")
+let repository = PatientFriendlyTermsRepository(
+	client: PatientFriendlyTermsAPIClient(serverUrl)
+)
 ```
 
-To read a file
+To load the terms from the server:
+```swift
+await repository.fetchTerms()
+```
+
+To check if a term exists:
 ```swift
 
-if let jsonData = storage.read(fileName: fileName), 
-	if let data = try JSONDecoder().decode([Object].self, from: jsonData) {
-	...
+let displayValue: DisplayValue = ....
+
+guard displayValue.system == PatientFriendlyTermsRepository.snomedCTSystem,
+	let code = displayValue.code else {
+	return nil
 }
-```
-
-To check for the existence of a file
-```swift
-let exists = storage.fileExists(fileName) // True if the file exists, false otherwise
+return repository.find(code) 
 
 ```
 
-And to remove a file
+How to use a term?
+
 ```swift
-	storage.remove(fileName)
+let term = PatientFriendlyTerm(
+	name: "name",
+	description: "description",
+	synonym: "synonym"
+)
+
 ```
 
 ---

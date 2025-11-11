@@ -72,69 +72,80 @@ The schema can be used to display the fields of a hcim in a generic way, reducin
 
 | GP (R3) | Definition |
 | -- | -- |
-| [Gp Diagnostic Result](Sources/SharedCore/HCIM/Generated/GpDiagnosticResult) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/1.3.4/files/113377 |
-| [Gp Encounter](Sources/SharedCore/HCIM/Generated/GpEncounter) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316991 |
-| [Gp Encounter Report](Sources/SharedCore/HCIM/Generated/GpEncounterReport) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316993 |
-| [Gp Journal Entry](Sources/SharedCore/HCIM/Generated/GpJournalEntry) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316995 |
-| [Gp Laboratory Result](Sources/SharedCore/HCIM/Generated/GpLaboratoryResult) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316997 |
+| [Gp Diagnostic Result](Sources/HCIMCore/HCIM/Generated/GpDiagnosticResult.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/1.3.4/files/113377 |
+| [Gp Encounter](Sources/HCIMCore/HCIM/Generated/GpEncounter.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316991 |
+| [Gp Encounter Report](Sources/HCIMCore/HCIM/Generated/GpEncounterReport.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316993 |
+| [Gp Journal Entry](Sources/HCIMCore/HCIM/Generated/GpJournalEntry.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316995 |
+| [Gp Laboratory Result](Sources/HCIMCore/HCIM/Generated/GpLaboratoryResult.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316997 |
 
 | Ihe Mhd Minimal Document (R3) | Definition |
 | -- | -- |
-| [Ihe Mhd Minimal Document Manifest](Sources/SharedCore/HCIM/Generated/IheMhdMinimalDocumentManifest) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317001 |
-| [Ihe Mhd Minimal Document Reference](Sources/SharedCore/HCIM/Generated/IheMhdMinimalDocumentReference) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317003 |
+| [Ihe Mhd Minimal Document Manifest](Sources/HCIMCore/HCIM/Generated/IheMhdMinimalDocumentManifest.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317001 |
+| [Ihe Mhd Minimal Document Reference](Sources/HCIMCore/HCIM/Generated/IheMhdMinimalDocumentReference.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317003 |
 
 | NL Core (R3) | Definition |
 | -- | -- |
-| [Nl Core Observation](Sources/SharedCore/HCIM/Generated/NlCoreObservation) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317032 |
-| [Nl Core Organization](Sources/SharedCore/HCIM/Generated/NlCoreOrganization) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317033 |
-| [Nl Core Patient](Sources/SharedCore/HCIM/Generated/NlCorePatient) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317041 |
-| [Nl Core Practitioner](Sources/SharedCore/HCIM/Generated/NlCorePractitioner) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317041 |
-| [Nl Core Practitioner Role](Sources/SharedCore/HCIM/Generated/NlCorePractitionerRole) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317053 |
+| [Nl Core Care Plan](Sources/HCIMCore/HCIM/Generated/NlCoreCarePlan.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.3.1/files/2980598 |
+| [Nl Core Care Team](Sources/HCIMCore/HCIM/Generated/NlCoreCareTeam.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.20/files/2741659 |
+| [Nl Core Episode Of Care](Sources/HCIMCore/HCIM/Generated/NlCoreEpisodeOfCare.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317023 |
+| [Nl Core Location](Sources/HCIMCore/HCIM/Generated/NlCoreLocation.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317029 |
+| [Nl Core Observation](Sources/HCIMCore/HCIM/Generated/NlCoreObservation.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317032 |
+| [Nl Core Organization](Sources/HCIMCore/HCIM/Generated/NlCoreOrganization.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317033 |
+| [Nl Core Patient](Sources/HCIMCore/HCIM/Generated/NlCorePatient.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317041 |
+| [Nl Core Practitioner](Sources/HCIMCore/HCIM/Generated/NlCorePractitioner.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317041 |
+| [Nl Core Practitioner Role](Sources/HCIMCore/HCIM/Generated/NlCorePractitionerRole.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317053 |
+| [Nl Core Related Person](Sources/HCIMCore/HCIM/Generated/NlCoreRelatedPerson.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317060 |
 
 | NL Core (R4) | Definition |
 | -- | -- |
-| [Nl Core Healtcare Provider](Sources/SharedCore/HCIM/Generated/R4NlCoreHealtcareProvider) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946116 |
-| [Nl Core Health Professional Practitioner](Sources/SharedCore/HCIM/Generated/R4NlCoreHealthProfessionalPractitioner) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946120|
-| [Nl Core Health Professional Practitioner Role](Sources/SharedCore/HCIM/Generated/R4NlCoreHealthProfessionalPractitionerRole) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/2628465|
-| [Nl Core Healthcare Provider Organization](Sources/SharedCore/HCIM/Generated/R4NlCoreHealthcareProviderOrganization) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946118|
-| [Nl Core Patient](Sources/SharedCore/HCIM/Generated/R4NlCorePatient) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946199|
-| [Nl Core Pharmaceutical Product](Sources/SharedCore/HCIM/Generated/R4NlCorePharmaceuticalProduct) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946208|
-| [Nl Core Vaccination Event](Sources/SharedCore/HCIM/Generated/R4NlCoreVaccinationEvent) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946266|
+| [Nl Core Healtcare Provider](Sources/HCIMCore/HCIM/Generated/R4NlCoreHealtcareProvider.swift) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946116 |
+| [Nl Core Healthcare Provider Organization](Sources/HCIMCore/HCIM/Generated/R4NlCoreHealthcareProviderOrganization.swift) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946118|
+| [Nl Core Health Professional Practitioner](Sources/HCIMCore/HCIM/Generated/R4NlCoreHealthProfessionalPractitioner.swift) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946120|
+| [Nl Core Health Professional Practitioner Role](Sources/HCIMCore/HCIM/Generated/R4NlCoreHealthProfessionalPractitionerRole.swift) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/2628465|
+| [Nl Core Patient](Sources/HCIMCore/HCIM/Generated/R4NlCorePatient.swift) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946199|
+| [Nl Core Pharmaceutical Product](Sources/HCIMCore/HCIM/Generated/R4NlCorePharmaceuticalProduct.swift) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946208|
+| [Nl Core Vaccination Event](Sources/HCIMCore/HCIM/Generated/R4NlCoreVaccinationEvent.swift) | https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core/0.8.0-beta.1/files/1946266|
 
 | Zib (R3) | Definition |
 | --- | -- |
-| [E Afspraak Appointment](Sources/SharedCore/HCIM/Generated/EAfspraakAppointment) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.eafspraak/1.0.6/files/714361/ |
-| [Zib Administration Agreement](Sources/SharedCore/HCIM/Generated/ZibAdministrationAgreement) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317124 |
-| [Zib Advance Directive](Sources/SharedCore/HCIM/Generated/ZibAdvanceDirective) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317129 |
-| [Zib Alcohol Use](Sources/SharedCore/HCIM/Generated/ZibAlcoholUse) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317134 |
-| [Zib Alert](Sources/SharedCore/HCIM/Generated/ZibAlert) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317136 |
-| [Zib Allergy Intolerance](Sources/SharedCore/HCIM/Generated/ZibAllergyIntolerance) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317138 |
-| [Zib Blood Pressure](Sources/SharedCore/HCIM/Generated/ZibBloodPressure) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317147 |
-| [Zib Body Height](Sources/SharedCore/HCIM/Generated/ZibBodyHeight) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317149 |
-| [Zib Body Weight](Sources/SharedCore/HCIM/Generated/ZibBodyWeight) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317153 |
-| [Zib Drug Use](Sources/SharedCore/HCIM/Generated/ZibDrugUse) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317175 |
-| [Zib Encounter](Sources/SharedCore/HCIM/Generated/ZibEncounter) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317177 |
-| [Zib Functional Or Mental Status](Sources/SharedCore/HCIM/Generated/ZibFunctionalOrMentalStatus) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317206 |
-| [Zib Laboratory Test Result Observation](Sources/SharedCore/HCIM/Generated/ZibLaboratoryTestResultObservation) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317239 |
-| [Zib Laboratory Test Result Specimen](Sources/SharedCore/HCIM/Generated/ZibLaboratoryTestResultSpecimen) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317241 |
-| [Zib Laboratory Test Result Specimen Isolate](Sources/SharedCore/HCIM/Generated/ZibLaboratoryTestResultSpecimenIsolate) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317243 |
-| [Zib Laboratory Test Result Substance](Sources/SharedCore/HCIM/Generated/ZibLaboratoryTestResultSubstance) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317246 |
-| [Zib Living Situation](Sources/SharedCore/HCIM/Generated/ZibLivingSituation) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317251 |
-| [Zib Medical Device](Sources/SharedCore/HCIM/Generated/ZibMedicalDevice) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317253 |
-| [Zib Medical Device Product](Sources/SharedCore/HCIM/Generated/ZibMedicalDeviceProduct) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317259 |
-| [Zib Medical Device Request](Sources/SharedCore/HCIM/Generated/ZibMedicalDeviceRequest) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317263 |
-| [Zib Medication Agreement](Sources/SharedCore/HCIM/Generated/ZibMedicationAgreement) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317273 |
-| [Zib Medication Use](Sources/SharedCore/HCIM/Generated/ZibMedicationUse) |  https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317279 |
-| [Zib Nutrition Advice](Sources/SharedCore/HCIM/Generated/ZibNutritionAdvice) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317294 |
-| [Zib Payer](Sources/SharedCore/HCIM/Generated/ZibPayer) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317307 |
-| [Zib Problem](Sources/SharedCore/HCIM/Generated/ZibProblem) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317327 |
-| [Zib Procedure](Sources/SharedCore/HCIM/Generated/ZibProcedure) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317337 |
-| [Zib Procedure Request](Sources/SharedCore/HCIM/Generated/ZibProcedureRequest) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317340 |
-| [Zib Product](Sources/SharedCore/HCIM/Generated/ZibProduct) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317343 |
-| [Zib Tobacco Use](Sources/SharedCore/HCIM/Generated/ZibTobaccoUse) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317376 |
-| [Zib Treatment Directive](Sources/SharedCore/HCIM/Generated/ZibTreatmentDirective) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317378 |
-| [Zib Vaccination](Sources/SharedCore/HCIM/Generated/ZibVaccination) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317388 |
-| [Zib Vaccination Recommendation](Sources/SharedCore/HCIM/Generated/ZibVaccinationRecommendation) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317390 |
+| [E Afspraak Appointment](Sources/HCIMCore/HCIM/Generated/EAfspraakAppointment.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.eafspraak/1.0.6/files/714361/ |
+| [Zib Administration Agreement](Sources/HCIMCore/HCIM/Generated/ZibAdministrationAgreement.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317124 |
+| [Zib Advance Directive](Sources/HCIMCore/HCIM/Generated/ZibAdvanceDirective.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317129 |
+| [Zib Alcohol Use](Sources/HCIMCore/HCIM/Generated/ZibAlcoholUse.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317134 |
+| [Zib Alert](Sources/HCIMCore/HCIM/Generated/ZibAlert.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317136 |
+| [Zib Allergy Intolerance](Sources/HCIMCore/HCIM/Generated/ZibAllergyIntolerance.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317138 |
+| [Zib Blood Pressure](Sources/HCIMCore/HCIM/Generated/ZibBloodPressure.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317147 |
+| [Zib Body Height](Sources/HCIMCore/HCIM/Generated/ZibBodyHeight.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317149 |
+| [Zib Body Weight](Sources/HCIMCore/HCIM/Generated/ZibBodyWeight.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317153 |
+| [Zib Drug Use](Sources/HCIMCore/HCIM/Generated/ZibDrugUse.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317175 |
+| [Zib Encounter](Sources/HCIMCore/HCIM/Generated/ZibEncounter.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317177 |
+| [Zib Family Situation](Sources/HCIMCore/HCIM/Generated/ZibFamilySituation.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.20/files/2741820 |
+| [Zib Functional Or Mental Status](Sources/HCIMCore/HCIM/Generated/ZibFunctionalOrMentalStatus.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317206 |
+| [Zib General Measurement](Sources/HCIMCore/HCIM/Generated/ZibGeneralMeasurement.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317209 |
+| [Zib Help From Others](Sources/HCIMCore/HCIM/Generated/ZibHelpFromOthers.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.3.1/files/2980662 |
+| [Zib Laboratory Test Result Observation](Sources/HCIMCore/HCIM/Generated/ZibLaboratoryTestResultObservation.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317239 |
+| [Zib Laboratory Test Result Specimen](Sources/HCIMCore/HCIM/Generated/ZibLaboratoryTestResultSpecimen.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317241 |
+| [Zib Laboratory Test Result Specimen Isolate](Sources/HCIMCore/HCIM/Generated/ZibLaboratoryTestResultSpecimenIsolate.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317243 |
+| [Zib Laboratory Test Result Substance](Sources/HCIMCore/HCIM/Generated/ZibLaboratoryTestResultSubstance.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317246 |
+| [Zib Living Situation](Sources/HCIMCore/HCIM/Generated/ZibLivingSituation.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317251 |
+| [Zib Medical Device](Sources/HCIMCore/HCIM/Generated/ZibMedicalDevice.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317253 |
+| [Zib Medical Device Product](Sources/HCIMCore/HCIM/Generated/ZibMedicalDeviceProduct.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317259 |
+| [Zib Medical Device Request](Sources/HCIMCore/HCIM/Generated/ZibMedicalDeviceRequest.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317263 |
+| [Zib Medication Agreement](Sources/HCIMCore/HCIM/Generated/ZibMedicationAgreement.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317273 |
+| [Zib Medication Use](Sources/HCIMCore/HCIM/Generated/ZibMedicationUse.swift) |  https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317279 |
+| [Zib Nutrition Advice](Sources/HCIMCore/HCIM/Generated/ZibNutritionAdvice.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317294 |
+| [Zib Participation In Society](Sources/HCIMCore/HCIM/Generated/ZibParticipationInSociety.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.3.1/files/2980686/ |
+| [Zib Payer](Sources/HCIMCore/HCIM/Generated/ZibPayer.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317307 |
+| [Zib Problem](Sources/HCIMCore/HCIM/Generated/ZibProblem.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317327 |
+| [Zib Procedure](Sources/HCIMCore/HCIM/Generated/ZibProcedure.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317337 |
+| [Zib Procedure Request](Sources/HCIMCore/HCIM/Generated/ZibProcedureRequest.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317340 |
+| [Zib Product](Sources/HCIMCore/HCIM/Generated/ZibProduct.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317343 |
+| [Zib Text Result](Sources/HCIMCore/HCIM/Generated/ZibTextResult.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317374 |
+| [Zib Tobacco Use](Sources/HCIMCore/HCIM/Generated/ZibTobaccoUse.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317376 |
+| [Zib Treatment Directive](Sources/HCIMCore/HCIM/Generated/ZibTreatmentDirective.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317378 |
+| [Zib Treatment Objective](Sources/HCIMCore/HCIM/Generated/ZibTreatmentObjective.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.3.1/files/2980713 |
+| [Zib Vaccination](Sources/HCIMCore/HCIM/Generated/ZibVaccination.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317388 |
+| [Zib Vaccination Recommendation](Sources/HCIMCore/HCIM/Generated/ZibVaccinationRecommendation.swift) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317390 |
 
 ---
 
@@ -150,4 +161,4 @@ Note that all commits should be signed using a [gpg key](https://docs.github.com
 
 ## License
 
-License is released under the EUPL 1.2 license. See [LICENSE](https://github.com/minvws/nl-mgo-app-ios-private?tab=License-1-ov-file#readme) for details.
+License is released under the EUPL 1.2 license. See [LICENSE](https://github.com/minvws/nl-mgo-app-ios?tab=License-1-ov-file#readme) for details.

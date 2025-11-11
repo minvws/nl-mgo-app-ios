@@ -38,7 +38,6 @@ struct KeyboardButtonStyle: ButtonStyle {
 				.RijksoverheidSansWebText
 					.relative(
 						RijksoverheidSansWebTextFont.regular,
-						size: Font.TextStyle.title.pointSize,
 						relativeTo: Font.TextStyle.title
 					)
 			)
