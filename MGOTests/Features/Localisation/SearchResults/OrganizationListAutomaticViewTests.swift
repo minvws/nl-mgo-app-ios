@@ -67,6 +67,30 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 	@MainActor func test_list_lightPortrait() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		let list: [OrganizationListSet] = [
+			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+			((Generator.healthcareOrganization("3", withLines: false), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
+		]
+		viewModel.state = .success(list)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.light)),
+			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
+		)
+	}
+	
+	@MainActor func test_list_lightPortrait_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
@@ -89,6 +113,30 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 	@MainActor func test_list_darkPortrait() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		let list: [OrganizationListSet] = [
+			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+			((Generator.healthcareOrganization("3", withLines: false), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
+		]
+		viewModel.state = .success(list)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.dark)),
+			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
+		)
+	}
+	
+	@MainActor func test_list_darkPortrait_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
@@ -111,6 +159,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 	@MainActor func test_list_lightLandscape() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 	let list: [OrganizationListSet] = [
 		((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
@@ -130,9 +179,56 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		)
 	}
 	
+	@MainActor func test_list_lightLandscape_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		createSut()
+		let list: [OrganizationListSet] = [
+			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+			((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
+		]
+		viewModel.state = .success(list)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.light)),
+			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0)
+		)
+	}
+	
 	@MainActor func test_list_darkLandscape() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		let list: [OrganizationListSet] = [
+			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+			((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
+		]
+		viewModel.state = .success(list)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.dark)),
+			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0)
+		)
+	}
+	
+	@MainActor func test_list_darkLandscape_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),

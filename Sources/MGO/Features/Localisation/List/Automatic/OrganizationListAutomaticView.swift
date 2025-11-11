@@ -307,7 +307,10 @@ struct OrganizationListAutomaticView: View {
 			.padding(.horizontal, ViewTraits.General.padding)
 		} bottomView: {
 			
-			CallToActionButton("common.to_overview") {
+			CallToActionButton(
+				"common.to_overview",
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.store)
 			}
 			.accessibilityIdentifier("common.to_overview")
