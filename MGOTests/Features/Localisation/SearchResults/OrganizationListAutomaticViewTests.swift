@@ -53,6 +53,22 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 	@MainActor func test_failure() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
+		viewModel.state = .failure(error)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_failure_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
 		viewModel.state = .failure(error)

@@ -654,7 +654,10 @@ struct HealthCategoriesView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton(Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
+			CallToActionButton(
+				Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations",
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.search)
 			}
 			.accessibilityIdentifier("common.add_organizations")

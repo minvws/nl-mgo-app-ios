@@ -74,9 +74,25 @@ final class OrganizationListManualViewTests: XCTestCase {
 	@MainActor func test_empty() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
 
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+		takeSnapShotsForiPad(content: content)
+	}
+	
+	@MainActor func test_empty_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		createSut()
+		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
+		
 		// When
 		let content = NavigationView { sut }
 		
@@ -104,6 +120,22 @@ final class OrganizationListManualViewTests: XCTestCase {
 	@MainActor func test_failure() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
+		viewModel.state = .failure(error)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_failure_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
 		viewModel.state = .failure(error)

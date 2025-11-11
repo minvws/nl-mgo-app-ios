@@ -33,7 +33,7 @@ public struct CallToActionButton: View {
 	public init(
 		_ key: LocalizedStringKey,
 		icon: Image? = nil,
-		style: CallToActionButtonStyle = .solid(rounded: false),
+		style: CallToActionButtonStyle,
 		action: ( () -> Void)? = nil
 	) {
 		self.key = key
@@ -207,4 +207,3 @@ private struct ButtonStyleApplier: ViewModifier {
 		Spacer()
 	}
 }
-
