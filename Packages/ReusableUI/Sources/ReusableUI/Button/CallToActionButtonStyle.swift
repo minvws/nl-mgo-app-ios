@@ -7,22 +7,25 @@ import Foundation
 
 /// All possible styles for CallToActionButton
 public enum CallToActionButtonStyle: Equatable {
-	case primaryWithLeadingIcon
-	case primaryWithLeadingSpinner
+	
+	case ghost
+	case solidLeadingIcon(rounded: Bool)
+	case solidLeadingSpinner(rounded: Bool)
 	case solid(rounded: Bool)
 	case tonal(rounded: Bool)
-	case ghost
 	case withIcon
 	case withSpinner
 	
 	public static func == (lhs: CallToActionButtonStyle, rhs: CallToActionButtonStyle) -> Bool {
 		switch (lhs, rhs) {
-			case (.primaryWithLeadingIcon, .primaryWithLeadingIcon),
-				(.primaryWithLeadingSpinner, .primaryWithLeadingSpinner),
-				(.ghost, .ghost),
+			case (.ghost, .ghost),
 				(.withIcon, .withIcon),
 				(.withSpinner, .withSpinner):
 				return true
+			case let (.solidLeadingIcon(left), .solidLeadingIcon(right)):
+				return left == right
+			case let (.solidLeadingSpinner(left), .solidLeadingSpinner(right)):
+				return left == right
 			case let (.solid(left), .solid(right)):
 				return left == right
 			case let (.tonal(left), .tonal(right)):

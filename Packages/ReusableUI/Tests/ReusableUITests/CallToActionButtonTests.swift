@@ -15,7 +15,23 @@ final class CallToActionButtonTests: XCTestCase {
 		let sut = CallToActionButton(
 			"DigiD",
 			icon: Image(systemName: "stethoscope"),
-			style: .primaryWithLeadingIcon
+			style: .solidLeadingIcon(rounded: false)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_primaryWithLeadingIcon_rounded() throws {
+		
+		// Given
+		let sut = CallToActionButton(
+			"DigiD",
+			icon: Image(systemName: "stethoscope"),
+			style: .solidLeadingIcon(rounded: true)
 		)
 		
 		// When
@@ -30,7 +46,22 @@ final class CallToActionButtonTests: XCTestCase {
 		// Given
 		let sut = CallToActionButton(
 			"Laden...",
-			style: .primaryWithLeadingSpinner
+			style: .solidLeadingSpinner(rounded: false)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_primaryWithLeadingSpinner_rounded() throws {
+		
+		// Given
+		let sut = CallToActionButton(
+			"Laden...",
+			style: .solidLeadingSpinner(rounded: true)
 		)
 		
 		// When

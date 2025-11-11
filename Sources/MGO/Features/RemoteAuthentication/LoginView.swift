@@ -91,6 +91,9 @@ struct LoginView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		
@@ -122,7 +125,7 @@ struct LoginView: View {
 					case .loading:
 						CallToActionButton(
 							"login.loading",
-							style: .primaryWithLeadingSpinner
+							style: .solidLeadingSpinner(rounded: osVersionChecker.available(version: .iOS(.v26)))
 						)
 						.accessibilityIdentifier("login.loading")
 						
@@ -130,7 +133,7 @@ struct LoginView: View {
 						CallToActionButton(
 							"login.digid",
 							icon: Image(ImageResource.RemoteAuthentication.digid),
-							style: .primaryWithLeadingIcon
+							style: .solidLeadingIcon(rounded: osVersionChecker.available(version: .iOS(.v26)))
 						) {
 							viewModel.reduce(.loginWithDigiD)
 						}

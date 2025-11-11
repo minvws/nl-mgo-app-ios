@@ -32,6 +32,21 @@ final class OrganizationsViewTests: XCTestCase {
 	@MainActor func test_dashboard_emptyList() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
+		createSut()
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_dashboard_emptyList_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		createSut()
 		

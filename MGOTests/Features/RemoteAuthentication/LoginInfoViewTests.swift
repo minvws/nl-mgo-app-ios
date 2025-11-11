@@ -5,6 +5,7 @@
 
 import MGOTest
 import MGOUI
+import MGOFoundation
 @testable import MGO
 
 final class LoginInfoViewTests: XCTestCase {
@@ -29,6 +30,20 @@ final class LoginInfoViewTests: XCTestCase {
 	@MainActor func test_loginInfoView() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_loginInfoView_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		
 		// When

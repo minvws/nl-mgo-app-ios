@@ -50,7 +50,7 @@ public struct CallToActionButton: View {
 	public init(
 		title: String,
 		icon: Image? = nil,
-		style: CallToActionButtonStyle = .solid(rounded: false),
+		style: CallToActionButtonStyle,
 		action: ( () -> Void)? = nil
 	) {
 		self.title = title
@@ -66,14 +66,14 @@ public struct CallToActionButton: View {
 					action?()
 				},
 				label: {
-					if style == .withIcon, let icon {
+					if case .withIcon = style, let icon {
 						HStack {
 							titleLabel()
 							Spacer()
 							icon
 						}
 						.contentShape(Rectangle())
-					} else if style == .primaryWithLeadingIcon, let icon {
+					} else if case .solidLeadingIcon = style, let icon {
 						HStack {
 							Spacer()
 							icon
@@ -81,14 +81,14 @@ public struct CallToActionButton: View {
 							Spacer()
 						}
 						.contentShape(Rectangle())
-					} else if style == .withSpinner {
+					} else if case .withSpinner = style {
 						HStack {
 							titleLabel()
 							Spacer()
 							ProgressView()
 								.progressViewStyle(.circular)
 						}
-					} else if style == .primaryWithLeadingSpinner {
+					} else if case .solidLeadingSpinner = style {
 						HStack {
 							Spacer()
 							ProgressView()
@@ -128,14 +128,14 @@ private struct ButtonStyleApplier: ViewModifier {
 	/// - Returns: the content with button style
 	func body(content: Content) -> some View {
 		switch style {
-			case .primaryWithLeadingIcon, .primaryWithLeadingSpinner:
-				content.buttonStyle(SolidButtonStyle(rounded: false))
-			case let .solid(rounded):
+			case .ghost:
+				content.buttonStyle(GhostButtonStyle())
+			case let .solid(rounded),
+				let .solidLeadingIcon(rounded: rounded),
+				let .solidLeadingSpinner(rounded: rounded):
 				content.buttonStyle(SolidButtonStyle(rounded: rounded))
 			case let .tonal(rounded):
 				content.buttonStyle(TonalButtonStyle(rounded: rounded))
-			case .ghost:
-				content.buttonStyle(GhostButtonStyle())
 			case .withIcon:
 				content.buttonStyle(ButtonWithIconStyle())
 			case .withSpinner:
@@ -146,24 +146,65 @@ private struct ButtonStyleApplier: ViewModifier {
 
 #Preview {
 	VStack {
-		CallToActionButton(".primaryWithLeadingIcon", icon: Image(systemName: "stethoscope"), style: .primaryWithLeadingIcon)
+		CallToActionButton(
+			".solidLeadingIcon(rounded: false)",
+			icon: Image(systemName: "stethoscope"),
+			style: .solidLeadingIcon(rounded: false)
+		)
 			.padding(16)
-		CallToActionButton(".primaryWithLeadingSpinner", style: .primaryWithLeadingSpinner)
+		CallToActionButton(
+			".solidLeadingIcon(rounded: true)",
+			icon: Image(systemName: "stethoscope"),
+			style: .solidLeadingIcon(rounded: true)
+		)
+		.padding(16)
+		CallToActionButton(
+			".solidLeadingSpinner(rounded: false)",
+			style: .solidLeadingSpinner(rounded: false)
+		)
+		.padding(16)
+		CallToActionButton(
+			".solidLeadingSpinner(rounded: true)",
+			style: .solidLeadingSpinner(rounded: true)
+		)
+		.padding(16)
+		CallToActionButton(
+			".solid(rounded: false)",
+			style: .solid(rounded: false)
+		)
 			.padding(16)
-		CallToActionButton(".solid(rounded: false)", style: .solid(rounded: false))
+		CallToActionButton(
+			".solid(rounded: true)",
+			style: .solid(rounded: true)
+		)
 			.padding(16)
-		CallToActionButton(".solid(rounded: true)", style: .solid(rounded: true))
+		CallToActionButton(
+			".tonal(rounded: false)",
+			style: .tonal(rounded: false)
+		)
 			.padding(16)
-		CallToActionButton(".tonal(rounded: false)", style: .tonal(rounded: false))
+		CallToActionButton(
+			".tonal(rounded: true)",
+			style: .tonal(rounded: true)
+		)
 			.padding(16)
-		CallToActionButton(".tonal(rounded: true)", style: .tonal(rounded: true))
+		CallToActionButton(
+			".ghost",
+			style: .ghost
+		)
 			.padding(16)
-		CallToActionButton(".ghost", style: .ghost)
+		CallToActionButton(
+			".withIcon",
+			icon: Image(systemName: "stethoscope"),
+			style: .withIcon
+		)
 			.padding(16)
-		CallToActionButton(".withIcon", icon: Image(systemName: "stethoscope"), style: .withIcon)
-			.padding(16)
-		CallToActionButton(".withSpinner", style: .withSpinner)
+		CallToActionButton(
+			".withSpinner",
+			style: .withSpinner
+		)
 			.padding(16)
 		Spacer()
 	}
 }
+

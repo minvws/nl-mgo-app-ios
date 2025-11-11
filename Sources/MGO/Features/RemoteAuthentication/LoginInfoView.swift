@@ -4,6 +4,7 @@
  */
 
 import MGOUI
+import MGOFoundation
 
 class LoginInfoViewModel: ObservableObject {
 	
@@ -40,6 +41,9 @@ struct LoginInfoView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Button {
@@ -65,7 +69,10 @@ struct LoginInfoView: View {
 			.padding(.horizontal, ViewTraits.General.spacing)
 			
 		} bottomView: {
-			CallToActionButton("common.next") {
+			CallToActionButton(
+				"common.next",
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.nextButttonPressed)
 			}
 			.accessibilityIdentifier("common.next")
