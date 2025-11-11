@@ -338,8 +338,8 @@ class HealthCategoriesViewModel: ObservableObject {
 	}
 }
 
-/// The view for an overview of all the health categories
 // swiftlint:disable type_body_length
+/// The view for an overview of all the health categories
 struct HealthCategoriesView: View {
 
 	/// The View Model
