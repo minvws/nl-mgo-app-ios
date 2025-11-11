@@ -60,49 +60,47 @@ public struct CallToActionButton: View {
 	}
 	
 	public var body: some View {
-		Group {
-			Button(
-				action: {
-					action?()
-				},
-				label: {
-					if case .withIcon = style, let icon {
-						HStack {
-							titleLabel()
-							Spacer()
-							icon
-						}
-						.contentShape(Rectangle())
-					} else if case .solidLeadingIcon = style, let icon {
-						HStack {
-							Spacer()
-							icon
-							titleLabel()
-							Spacer()
-						}
-						.contentShape(Rectangle())
-					} else if case .withSpinner = style {
-						HStack {
-							titleLabel()
-							Spacer()
-							ProgressView()
-								.progressViewStyle(.circular)
-						}
-					} else if case .solidLeadingSpinner = style {
-						HStack {
-							Spacer()
-							ProgressView()
-								.progressViewStyle(.circular)
-							titleLabel()
-							Spacer()
-							
-						}
-					} else {
+		Button(
+			action: {
+				action?()
+			},
+			label: {
+				if case .withIcon = style, let icon {
+					HStack {
 						titleLabel()
+						Spacer()
+						icon
 					}
+					.contentShape(Rectangle())
+				} else if case .solidLeadingIcon = style, let icon {
+					HStack {
+						Spacer()
+						icon
+						titleLabel()
+						Spacer()
+					}
+					.contentShape(Rectangle())
+				} else if case .withSpinner = style {
+					HStack {
+						titleLabel()
+						Spacer()
+						ProgressView()
+							.progressViewStyle(.circular)
+					}
+				} else if case .solidLeadingSpinner = style {
+					HStack {
+						Spacer()
+						ProgressView()
+							.progressViewStyle(.circular)
+						titleLabel()
+						Spacer()
+						
+					}
+				} else {
+					titleLabel()
 				}
-			)
-		}
+			}
+		)
 		.modifier(ButtonStyleApplier(style: style))
 	}
 	
