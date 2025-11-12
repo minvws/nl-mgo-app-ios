@@ -29,8 +29,12 @@ final class HealthDataViewTests: XCTestCase {
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		viewModel = HealthDataViewModel(
 			coordinator: coordinatorSpy,
+			config: HealthDataViewConfig(
+				backButtonTitle: "common.previous",
+				titleInline: false,
+				inSheet: false
+			),
 			schema: schema,
-			backButtonTitle: "common.previous",
 			healthcareOrganization: healthcareOrganization
 		)
 		sut = HealthDataView(viewModel: self.viewModel)

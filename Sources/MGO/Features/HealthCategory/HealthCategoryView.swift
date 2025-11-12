@@ -376,6 +376,7 @@ class HealthCategoryViewModel: ObservableObject {
 							params: [
 								"healthcareOrganization": self.getOrganization(record.organizationId),
 								"backButtonTitle": String(localized: self.translations.backButtonTitle),
+								"titleInline": false,
 								"resource": resource,
 								"uiSchema": uiSchema,
 								"inSheet": false

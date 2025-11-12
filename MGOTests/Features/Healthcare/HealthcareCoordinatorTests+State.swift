@@ -144,10 +144,13 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 			label: "zib details"
 		)
 		let state = HealthcareCoordination.State.showHealthData(
-			backButtonTitle: "Heading",
+			config: HealthDataViewConfig(
+				backButtonTitle: "Heading",
+				titleInline: false,
+				inSheet: false
+			),
 			schema: schema,
 			organization: healthcareOrganization,
-			inSheet: false
 		)
 		
 		// When
@@ -184,10 +187,13 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 			label: "zib details"
 		)
 		let state = HealthcareCoordination.State.showHealthData(
-			backButtonTitle: "Heading",
+			config: HealthDataViewConfig(
+				backButtonTitle: "Heading",
+				titleInline: false,
+				inSheet: true
+			),
 			schema: schema,
 			organization: healthcareOrganization,
-			inSheet: true
 		)
 		
 		// When

@@ -63,13 +63,13 @@ class HealthDataViewModel: ObservableObject {
 	/// - Parameter referenceResolver: the handler to resolve references
 	@MainActor init(
 		coordinator: (any Coordinator)? = nil,
+		config: HealthDataViewConfig,
 		schema: HealthUISchema,
-		backButtonTitle: String?,
 		healthcareOrganization: MgoOrganization,
 		referenceResolver: ReferenceResolverProtocol = ReferenceResolver()
 	) {
 		self.coordinator = coordinator
-		self.state = ZibDetailViewState(schema: schema, backButton: backButtonTitle)
+		self.state = ZibDetailViewState(schema: schema, backButton: config.backButtonTitle)
 		self.healthcareOrganization = healthcareOrganization
 		self.referenceResolver = referenceResolver
 		
@@ -201,6 +201,7 @@ class HealthDataViewModel: ObservableObject {
 					params: [
 						"healthcareOrganization": healthcareOrganization,
 						"backButtonTitle": "common.previous",
+						"titleInline": true,
 						"resource": resource,
 						"uiSchema": refSchema,
 						"inSheet": isReferenceValue
@@ -336,8 +337,12 @@ struct HealthDataView: View {
 			viewModel:
 				HealthDataViewModel(
 					coordinator: nil,
+					config: HealthDataViewConfig(
+						backButtonTitle: String(localized: "hc_medication.heading"),
+						titleInline: false,
+						inSheet: false
+					),
 					schema: PreviewContent.uiSchema,
-					backButtonTitle: String(localized: "hc_medication.heading"),
 					healthcareOrganization: PreviewContent.healthcareOrganization
 				)
 		)
