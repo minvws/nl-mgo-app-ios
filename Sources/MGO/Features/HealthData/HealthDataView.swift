@@ -10,6 +10,7 @@ struct ZibDetailViewState {
 	
 	var schema: HealthUISchema
 	var backButton: String?
+	var inline: Bool
 }
 
 typealias ReferenceStoreEntry = (resource: MgoResource, isReferenceValue: Bool, schema: HealthUISchema)
@@ -69,7 +70,11 @@ class HealthDataViewModel: ObservableObject {
 		referenceResolver: ReferenceResolverProtocol = ReferenceResolver()
 	) {
 		self.coordinator = coordinator
-		self.state = ZibDetailViewState(schema: schema, backButton: config.backButtonTitle)
+		self.state = ZibDetailViewState(
+			schema: schema,
+			backButton: config.backButtonTitle,
+			inline: config.titleInline
+		)
 		self.healthcareOrganization = healthcareOrganization
 		self.referenceResolver = referenceResolver
 		
@@ -270,6 +275,10 @@ struct HealthDataView: View {
 		}
 		.navigationBarHidden(false)
 		.navigationTitle(viewModel.state.schema.label)
+		.when(viewModel.state.inline, transform: { view in
+			view
+				.navigationBarTitleDisplayMode(.inline)
+		})
 		.when(isPresentedAsSheet, transform: { view in
 			view
 				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
