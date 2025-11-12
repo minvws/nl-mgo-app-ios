@@ -224,7 +224,10 @@ struct AddOrganizationView: View {
 			.padding(.horizontal, ViewTraits.General.padding)
 			
 		} bottomView: {
-			CallToActionButton("common.search") {
+			CallToActionButton(
+				"common.search",
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.search)
 			}
 			.padding(ViewTraits.General.padding)

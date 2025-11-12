@@ -76,7 +76,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	let button = Button(
 		action: { /* No Action for preview */ },
 		label: {
-			CallToActionButton("common.next")
+			CallToActionButton("common.next", style: .solid(rounded: true))
 		}
 	)
 		.padding(16)

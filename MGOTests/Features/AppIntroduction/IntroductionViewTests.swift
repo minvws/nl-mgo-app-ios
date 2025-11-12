@@ -5,6 +5,7 @@
 
 import MGOTest
 import MGOUI
+import MGOFoundation
 @testable import MGO
 
 final class IntroductionViewTests: XCTestCase {
@@ -23,6 +24,20 @@ final class IntroductionViewTests: XCTestCase {
 	@MainActor func test_appIntroductionView() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_appIntroductionView_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		
 		// When

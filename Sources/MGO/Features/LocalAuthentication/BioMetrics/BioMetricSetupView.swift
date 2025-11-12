@@ -138,6 +138,9 @@ struct BioMetricSetupView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
@@ -319,12 +322,20 @@ struct BioMetricSetupView: View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
 			
-			CallToActionButton("common.skip", style: .tonal) {
+			CallToActionButton(
+				"common.skip",
+				style: .tonal(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.proceedWithoutBioMetric)
 			}
 				.accessibilityIdentifier("common.skip")
 			
-			CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_setup.button.with_biometric", type: bioMetricType))) {
+			CallToActionButton(
+				LocalizedStringKey(
+					getBioMetricTypeInterpolatedText("biometric_setup.button.with_biometric", type: bioMetricType)
+				),
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				if bioMetricType == .touchID {
 					viewModel.reduce(.showTouchIDPopup)
 				} else {

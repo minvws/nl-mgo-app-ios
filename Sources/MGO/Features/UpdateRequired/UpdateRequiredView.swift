@@ -45,6 +45,9 @@ struct UpdateRequiredView: View {
 	
 	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
@@ -120,7 +123,10 @@ struct UpdateRequiredView: View {
 			}
 		} bottomView: {
 			
-			CallToActionButton("update_required.download") {
+			CallToActionButton(
+				"update_required.download",
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.actionButtonPressed)
 			}
 			.accessibilityIdentifier("update_required.download")

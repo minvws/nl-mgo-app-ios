@@ -12,6 +12,9 @@ struct TonalButtonStyle: ButtonStyle {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Use pill shaped rounded corners?
+	var rounded: Bool
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum ButtonTitle {
@@ -19,6 +22,7 @@ struct TonalButtonStyle: ButtonStyle {
 		}
 		enum Button {
 			static let cornerRadius: CGFloat = 12
+			static let roundedRadius: CGFloat = 1000
 			static let minimumHeight: CGFloat = 50
 			static let opacity: Double = 0.75
 		}
@@ -35,6 +39,6 @@ struct TonalButtonStyle: ButtonStyle {
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(theme.actions.tonal.background.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
-			.cornerRadius(ViewTraits.Button.cornerRadius)
+			.cornerRadius(rounded ? ViewTraits.Button.roundedRadius : ViewTraits.Button.cornerRadius)
 	}
 }

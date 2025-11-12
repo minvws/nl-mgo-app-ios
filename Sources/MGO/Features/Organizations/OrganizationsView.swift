@@ -169,6 +169,9 @@ struct OrganizationsView: View {
 	/// Are we scrolling
 	@State private var isScrolling: Bool = false
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -231,7 +234,10 @@ struct OrganizationsView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton(Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
+			CallToActionButton(
+				Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations",
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.search)
 			}
 			.accessibilityIdentifier("common.add_organizations")

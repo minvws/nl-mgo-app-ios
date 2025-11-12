@@ -6,6 +6,7 @@
 import MGOTest
 import MGOUI
 @testable import MGO
+import MGOFoundation
 
 final class AddOrganizationViewTests: XCTestCase {
 
@@ -30,6 +31,20 @@ final class AddOrganizationViewTests: XCTestCase {
 	@MainActor func test_addOrganizationView() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_addOrganizationView_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		
 		// When
@@ -42,6 +57,7 @@ final class AddOrganizationViewTests: XCTestCase {
 	@MainActor func test_addOrganizationView_isPresentedAsSheet() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		
 		// When
@@ -54,6 +70,7 @@ final class AddOrganizationViewTests: XCTestCase {
 	@MainActor func test_addOrganizationView_allFieldsBlank() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
@@ -68,6 +85,7 @@ final class AddOrganizationViewTests: XCTestCase {
 	@MainActor func test_addOrganizationView_nameOK() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		viewModel.state.name = "Tandarts Tandje Erbij"
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
@@ -83,6 +101,7 @@ final class AddOrganizationViewTests: XCTestCase {
 	@MainActor func test_addOrganizationView_cityOK() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		viewModel.state.city = "Roermond"
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
@@ -98,6 +117,7 @@ final class AddOrganizationViewTests: XCTestCase {
 	@MainActor func test_addOrganizationView_allFieldsOK() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		viewModel.state.city = "Roermond"
 		viewModel.state.name = "Tandarts Tandje Erbij"

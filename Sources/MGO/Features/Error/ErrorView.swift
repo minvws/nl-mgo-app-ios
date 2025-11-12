@@ -4,6 +4,7 @@
  */
 
 import MGOUI
+import MGOFoundation
 
 protocol ErrorViewModelProtocol: ObservableObject {
 	
@@ -78,6 +79,9 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 	/// The view model
 	@StateObject private var viewModel: ViewModel
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Initializer
 	/// - Parameter viewModel: the view model
 	init(viewModel: @autoclosure @escaping () -> ViewModel) {
@@ -136,7 +140,10 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 			}
 			.padding(.horizontal, ErrorViewViewTraits.General.padding)
 		} bottomView: {
-			CallToActionButton(viewModel.button) {
+			CallToActionButton(
+				viewModel.button,
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.action()
 			}
 			.accessibilityIdentifier("action_button")

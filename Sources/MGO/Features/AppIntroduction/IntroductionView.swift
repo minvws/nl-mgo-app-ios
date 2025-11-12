@@ -50,6 +50,9 @@ struct IntroductionView: View {
 	/// The size classes
 	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
@@ -131,7 +134,10 @@ struct IntroductionView: View {
 			}
 		} bottomView: {
 			
-			CallToActionButton("common.next") {
+			CallToActionButton(
+				"common.next",
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.nextButttonPressed)
 			}
 			.accessibilityIdentifier("common.next")

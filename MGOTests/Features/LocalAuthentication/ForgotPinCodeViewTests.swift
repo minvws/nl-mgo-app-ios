@@ -58,6 +58,20 @@ final class ForgotPinCodeViewTests: XCTestCase {
 	@MainActor func test_forgotPinCodeView() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_forgotPinCodeView_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		
 		// When

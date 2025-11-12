@@ -52,24 +52,20 @@ import ReusebleUI
 struct ButtonView: View {	
 	var body: some View {
 		VStack {
-			CallToActionButton(".digiD", icon: Image(systemName: "stethoscope"), style: .loginWithDigiD)
-				.padding(16)
-			CallToActionButton(".primary", style: .primary)
-				.padding(16)
-			CallToActionButton(".primaryCritical", style: .primaryCritical)
-				.padding(16)
-			CallToActionButton(".secondary", style: .secondary)
-				.padding(16)
-			CallToActionButton(".secondaryCritical", style: .secondaryCritical)
-				.padding(16)
-			CallToActionButton(".tertiary", style: .tertiary)
-				.padding(16)
-			CallToActionButton(".tertiaryCritical", style: .tertiaryCritical)
-				.padding(16)
-			CallToActionButton(".withIcon", icon: Image(systemName: "stethoscope"), style: .withIcon)
-				.padding(16)
-			CallToActionButton(".withSpinner", style: .withSpinner)
-				.padding(16)
+			CallToActionButton(".primaryWithLeadingIcon", icon: Image(systemName: "stethoscope"), style: .primaryWithLeadingIcon)
+			.padding(16)
+		CallToActionButton(".primaryWithLeadingSpinner", style: .primaryWithLeadingSpinner)
+			.padding(16)
+		CallToActionButton(".solid", style: .solid)
+			.padding(16)
+		CallToActionButton(".tonal", style: .tonal)
+			.padding(16)
+		CallToActionButton(".ghost", style: .ghost)
+			.padding(16)
+		CallToActionButton(".withIcon", icon: Image(systemName: "stethoscope"), style: .withIcon)
+			.padding(16)
+		CallToActionButton(".withSpinner", style: .withSpinner)
+			.padding(16)
 		}
 	}
 }

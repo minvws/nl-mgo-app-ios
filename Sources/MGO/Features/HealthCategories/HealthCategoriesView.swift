@@ -338,6 +338,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	}
 }
 
+// swiftlint:disable type_body_length
 /// The view for an overview of all the health categories
 struct HealthCategoriesView: View {
 
@@ -366,6 +367,7 @@ struct HealthCategoriesView: View {
 		enum List {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let headerInset = EdgeInsets(top: 24, leading: 0, bottom: 12, trailing: 0)
+			static let alternativeInset = EdgeInsets(top: 12, leading: 0, bottom: 12, trailing: 0)
 			static let spacing: CGFloat = 4
 			static let padding: CGFloat = 8
 			static let demoSpacing: CGFloat = 16
@@ -496,12 +498,23 @@ struct HealthCategoriesView: View {
 					.accessibilityAddTraits(.isHeader)
 			}
 			.listRowBackground(Color.clear)
-			.listRowInsets(ViewTraits.List.headerInset)
+			.listRowInsets(listHeaderInset(for: mainCategory))
 			
 			Section {
 				ForEach(filteredCategories) { categoryView($0) }
 			}
 		}
+	}
+	
+	/// Calculate the header inset (the first header on the organization page has a smaller inset)
+	/// - Parameter mainCategory: the main category
+	/// - Returns: the inset
+	func listHeaderInset(for mainCategory: SharedHealthCategories.MainCategory) -> EdgeInsets {
+		
+		if !viewModel.state.canTitleCollapse && mainCategory == viewModel.state.mainCategories.first {
+			return ViewTraits.List.alternativeInset
+		}
+		return ViewTraits.List.headerInset
 	}
 	
 	/// View for a category
@@ -534,6 +547,7 @@ struct HealthCategoriesView: View {
 			.padding(.vertical, ViewTraits.List.padding)
 			.accessibilityIdentifier(category.id)
 			.contentShape(Rectangle())
+			
 		}
 	}
 	
@@ -545,7 +559,7 @@ struct HealthCategoriesView: View {
 			VStack(spacing: ViewTraits.General.padding) {
 				heading()
 				subHeading()
-					.padding(.bottom, viewModel.state.canTitleCollapse ? 0 : ViewTraits.General.padding / 2)
+					.padding(.bottom, ViewTraits.General.padding)
 			}
 		}
 		.listRowBackground(Color.clear)
@@ -654,7 +668,10 @@ struct HealthCategoriesView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton(Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
+			CallToActionButton(
+				Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations",
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.search)
 			}
 			.accessibilityIdentifier("common.add_organizations")
@@ -728,6 +745,7 @@ struct HealthCategoriesView: View {
 		}
 	}
 }
+// swiftlint: enable type_body_length
 
 #Preview {
 	NavigationStackBackport.NavigationStack {

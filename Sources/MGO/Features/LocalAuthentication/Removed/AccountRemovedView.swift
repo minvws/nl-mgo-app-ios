@@ -41,6 +41,9 @@ struct AccountRemovedView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Text {
@@ -74,7 +77,10 @@ struct AccountRemovedView: View {
 			.padding(.horizontal, ViewTraits.General.spacing)
 			
 		} bottomView: {
-			CallToActionButton("account_removed.action") {
+			CallToActionButton(
+				"account_removed.action",
+				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.restart)
 			}
 			.accessibilityIdentifier("account_removed.action")
