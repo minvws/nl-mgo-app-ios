@@ -9,6 +9,7 @@ import MGOUI
 import PdfExport
 @testable import MGO
 
+// swiftlint:disable type_body_length
 final class HealthcareCoordinatorTests: XCTestCase {
 	
 	private var sut: HealthcareCoordinator!
@@ -490,3 +491,4 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.showFavorites
 	}
 }
+// swiftlint:enable type_body_length
