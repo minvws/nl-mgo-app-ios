@@ -21,6 +21,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		
 		let data = try getResource(resource)
 		let schema = try HealthUISchema(data: data)
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		sut = HealthUISchemaView(
 			schema: schema,
 			healthcareOrganization: healthcareOrganization,
