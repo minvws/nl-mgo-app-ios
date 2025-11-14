@@ -63,6 +63,20 @@
                 ]
             },
             {
+                "id": "mental_wellbeing",
+                "icon": "psychology",
+                "heading": "hc_mental.heading",
+                "subheading": "hc_mental.subheading",
+                "subcategories": [
+                    {
+                        "heading": "zib_functional_or_mental_status.heading",
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus"
+                        ]
+                    }
+                ]
+            },
+            {
                 "id": "lifestyle",
                 "icon": "nutrition",
                 "heading": "hc_lifestyle.heading",
@@ -91,77 +105,17 @@
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice"
                         ]
-                    }
-                ]
-            },
-            {
-                "id": "mental_wellbeing",
-                "icon": "psychology",
-                "heading": "hc_mental.heading",
-                "subheading": "hc_mental.subheading",
-                "subcategories": [
-                    {
-                        "heading": "zib_functional_or_mental_status.heading",
-                        "profiles": [
-                            "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus"
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "id": "examinations_results",
-        "heading": "mhc_examinations_results.heading",
-        "categories": [
-            {
-                "id": "measurements",
-                "icon": "vital_signs",
-                "heading": "hc_measurements.heading",
-                "subheading": "hc_measurements.subheading",
-                "subcategories": [
-                    {
-                        "heading": "zib_blood_pressure.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure"]
                     },
                     {
-                        "heading": "zib_body_weight.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight"]
-                    },
-                    {
-                        "heading": "zib_body_height.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight"]
-                    },
-                    {
-                        "heading": "gp_diagnostic_result.heading",
+                        "heading": "zib_familiy_situation.heading",
                         "profiles": [
-                            "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult"
-                        ]
-                    }
-                ]
-            },
-            {
-                "id": "lab_results",
-                "icon": "labs",
-                "heading": "hc_lab_results.heading",
-                "subheading": "hc_lab_results.subheading",
-                "subcategories": [
-                    {
-                        "heading": "zib_laboratory_test_result_observation.heading",
-                        "profiles": [
-                            "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation"
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-FamilySituation"
                         ]
                     },
                     {
-                        "heading": "gp_laboratory_result.heading",
+                        "heading": "zib_participation_in_society.heading",
                         "profiles": [
-                            "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult"
-                        ]
-                    },
-                    {
-                        "heading": "zib_laboratory_test_result_specimen.heading",
-                        "profiles": [
-                            "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen"
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-ParticipationInSociety"
                         ]
                     }
                 ]
@@ -188,6 +142,30 @@
                             "http://nictiz.nl/fhir/StructureDefinition/zib-ProcedureRequest",
                             "http://fhir.nl/fhir/StructureDefinition/nl-core-episodeofcare"
                         ]
+                    }
+                ]
+            },
+            {
+                "id": "plans",
+                "icon": "patient_list",
+                "heading": "hc_plans.heading",
+                "subheading": "hc_plans.subheading",
+                "subcategories": [
+                    {
+                        "heading": "zib_treatment_directive.heading",
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective"
+                        ]
+                    },
+                    {
+                        "heading": "zib_advance_directive.heading",
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective"
+                        ]
+                    },
+                    {
+                        "heading": "zib_care_plan.heading",
+                        "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-careplan"]
                     }
                 ]
             },
@@ -252,30 +230,6 @@
                 ]
             },
             {
-                "id": "plans",
-                "icon": "patient_list",
-                "heading": "hc_plans.heading",
-                "subheading": "hc_plans.subheading",
-                "subcategories": [
-                    {
-                        "heading": "zib_treatment_directive.heading",
-                        "profiles": [
-                            "http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective"
-                        ]
-                    },
-                    {
-                        "heading": "zib_advance_directive.heading",
-                        "profiles": [
-                            "http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective"
-                        ]
-                    },
-                    {
-                        "heading": "zib_care_plan.heading",
-                        "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-careplan"]
-                    }
-                ]
-            },
-            {
                 "id": "medical_devices",
                 "icon": "health_and_safety",
                 "heading": "hc_devices.heading",
@@ -288,6 +242,74 @@
                             "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceProduct",
                             "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceRequest"
                         ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "examinations_results",
+        "heading": "mhc_examinations_results.heading",
+        "categories": [
+            {
+                "id": "measurements",
+                "icon": "vital_signs",
+                "heading": "hc_measurements.heading",
+                "subheading": "hc_measurements.subheading",
+                "subcategories": [
+                    {
+                        "heading": "zib_blood_pressure.heading",
+                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure"]
+                    },
+                    {
+                        "heading": "zib_body_weight.heading",
+                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight"]
+                    },
+                    {
+                        "heading": "zib_body_height.heading",
+                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight"]
+                    },
+                    {
+                        "heading": "gp_diagnostic_result.heading",
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult"
+                        ]
+                    },
+                    {
+                        "heading": "zib_general_measurement.heading",
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-GeneralMeasurement"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "lab_results",
+                "icon": "labs",
+                "heading": "hc_lab_results.heading",
+                "subheading": "hc_lab_results.subheading",
+                "subcategories": [
+                    {
+                        "heading": "zib_laboratory_test_result_observation.heading",
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation"
+                        ]
+                    },
+                    {
+                        "heading": "gp_laboratory_result.heading",
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult"
+                        ]
+                    },
+                    {
+                        "heading": "zib_laboratory_test_result_specimen.heading",
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen"
+                        ]
+                    },
+                    {
+                        "heading": "zib_text_result.heading",
+                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-TextResult"]
                     }
                 ]
             }
@@ -317,6 +339,12 @@
                             "http://fhir.nl/fhir/StructureDefinition/nl-core-organization",
                             "http://fhir.nl/fhir/StructureDefinition/nl-core-patient"
                         ]
+                    },
+                    {
+                        "heading": "zib_contact_person.heading",
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/nl-core-ContactPerson"
+                        ]
                     }
                 ]
             },
@@ -328,7 +356,14 @@
                 "subcategories": [
                     {
                         "heading": "zib_care_team.heading",
-                        "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-careteam"]
+                        "profiles": [
+                            "http://fhir.nl/fhir/StructureDefinition/nl-core-careteam",
+                            "http://fhir.nl/fhir/StructureDefinition/nl-core-practitioner"
+                        ]
+                    },
+                    {
+                        "heading": "zib_help_from_others.heading",
+                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-HelpFromOthers"]
                     }
                 ]
             }

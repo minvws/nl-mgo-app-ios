@@ -103,7 +103,7 @@ download_shared_config:
 	@mkdir -p tmp/shared_config
 	
 	# Download
-	@cd Packages/GithubArtifactDownload/ && swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --branch "main" --workflow-id "187469215" --output ../../tmp/shared_config/artifact.zip
+	@cd Packages/GithubArtifactDownload/ && swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --branch "feat/mgo-941-bgggz-health-categories" --workflow-id "187469215" --output ../../tmp/shared_config/artifact.zip
 	
 	# Unpack
 	@cd tmp/shared_config && unzip artifact.zip

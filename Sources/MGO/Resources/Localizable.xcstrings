@@ -1781,7 +1781,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log in met DigiD"
+            "value" : "Bewijs wie je bent"
           }
         }
       }
@@ -1803,7 +1803,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Met DigiD laat je weten wie je bent. Zo kunnen we je gegevens veilig ophalen. Bij je huisarts, het ziekenhuis en andere zorgaanbieders."
+            "value" : "Kies de manier waarop je wilt inloggen. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
           }
         }
       }
@@ -3361,6 +3361,17 @@
         }
       }
     },
+    "zib_familiy_situation.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gezinssituatie"
+          }
+        }
+      }
+    },
     "zib_functional_or_mental_status.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3368,6 +3379,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mentaal welzijn"
+          }
+        }
+      }
+    },
+    "zib_general_measurement.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algemene meting"
+          }
+        }
+      }
+    },
+    "zib_help_from_others.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hulp van anderen"
           }
         }
       }
@@ -3460,6 +3493,17 @@
         }
       }
     },
+    "zib_participation_in_society.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Participatie in de maatschappij"
+          }
+        }
+      }
+    },
     "zib_patient.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3511,6 +3555,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Behandelingen en overdracht"
+          }
+        }
+      }
+    },
+    "zib_text_result.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekst uitslag"
           }
         }
       }
