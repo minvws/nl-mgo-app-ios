@@ -13,6 +13,9 @@ public struct CloseButtonViewModifier: ViewModifier {
 	/// Should we use glass style?
 	public var glassStyle: Bool = false
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	/// Create a Close Button in a toolbar
 	/// - Parameter content: the view to add the close button to
 	/// - Returns: view with toolbar and close button
@@ -31,6 +34,7 @@ public struct CloseButtonViewModifier: ViewModifier {
 				if glassStyle {
 					if #available(iOS 26.0, *) {
 						Button(role: .close) { action() }
+							.tint(theme.labels.primary)
 					}
 				} else {
 					CloseButton({
