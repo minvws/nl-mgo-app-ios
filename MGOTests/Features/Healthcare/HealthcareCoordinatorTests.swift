@@ -9,6 +9,7 @@ import MGOUI
 import PdfExport
 @testable import MGO
 
+// swiftlint:disable type_body_length
 final class HealthcareCoordinatorTests: XCTestCase {
 	
 	private var sut: HealthcareCoordinator!
@@ -362,6 +363,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				params: [
 					"resource": Data(),
 					"backButtonTitle": heading,
+					"titleInline": false,
 					"uiSchema": schema,
 					"healthcareOrganization": org,
 					"inSheet": false
@@ -373,10 +375,13 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath(
 			[
 				HealthcareCoordination.State.showHealthData(
-					backButtonTitle: heading,
+					config: HealthDataViewConfig(
+						backButtonTitle: heading,
+						titleInline: false,
+						inSheet: false
+					),
 					schema: schema,
 					organization: org,
-					inSheet: false
 				)
 			]
 		)
@@ -396,6 +401,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				params: [
 					"resource": Data(),
 					"backButtonTitle": heading,
+					"titleInline": true,
 					"uiSchema": schema,
 					"healthcareOrganization": org,
 					"inSheet": true
@@ -406,10 +412,13 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.path.isEmpty) == true
 		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.showHealthData(
-			backButtonTitle: nil,
+			config: HealthDataViewConfig(
+				backButtonTitle: nil,
+				titleInline: true,
+				inSheet: true
+			),
 			schema: schema,
 			organization: org,
-			inSheet: true
 		)
 	}
 	
@@ -482,3 +491,4 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.showFavorites
 	}
 }
+// swiftlint:enable type_body_length

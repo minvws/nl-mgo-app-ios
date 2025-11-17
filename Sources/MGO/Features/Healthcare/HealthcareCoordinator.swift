@@ -67,7 +67,7 @@ struct HealthcareCoordination {
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		case showHealthCategory(category: SharedHealthCategories.Category, organization: MgoOrganization?)
-		case showHealthData(backButtonTitle: String?, schema: HealthUISchema, organization: MgoOrganization, inSheet: Bool)
+		case showHealthData(config: HealthDataViewConfig, schema: HealthUISchema, organization: MgoOrganization)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		
 		// Favorites
@@ -289,18 +289,22 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		
 		guard action.identifier == Coordination.Action.showHealthData.identifier else { return false }
 		
-		if action.params.count == 5,
+		if action.params.count == 6,
 		   // let resource = action.params["resource"] as? MgoResouce,
 		   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 		   let backButtonTitle = action.params["backButtonTitle"] as? String,
+		   let titleInline = action.params["titleInline"] as? Bool,
 		   let inSheet = action.params["inSheet"] as? Bool,
 		   let schema = action.params["uiSchema"] as? HealthUISchema {
 			
 			let newState = HealthcareCoordination.State.showHealthData(
-				backButtonTitle: inSheet && rootStateForSheet == nil ? nil : backButtonTitle,
+				config: HealthDataViewConfig(
+					backButtonTitle: inSheet && rootStateForSheet == nil ? nil : backButtonTitle,
+					titleInline: titleInline,
+					inSheet: inSheet)
+				,
 				schema: schema,
 				organization: healthcareOrganization,
-				inSheet: inSheet
 			)
 			if inSheet {
 				if rootStateForSheet == nil {
@@ -407,16 +411,17 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				viewState(for: category, organization: organization)
 				.isPresentedAsSheet(false)
 				
-			case let .showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization, inSheet: inSheet):
+			case let .showHealthData(config: config, schema: schema, organization: organization):
+				
 				HealthDataView(
 					viewModel: HealthDataViewModel(
 						coordinator: self,
+						config: config,
 						schema: schema,
-						backButtonTitle: backButtonTitle,
-						healthcareOrganization: healthcareOrganization
+						healthcareOrganization: organization
 					)
 				)
-				.isPresentedAsSheet(inSheet)
+				.isPresentedAsSheet(config.inSheet)
 				
 			case let .exportHealthData(healthData):
 				HealthExportView(
