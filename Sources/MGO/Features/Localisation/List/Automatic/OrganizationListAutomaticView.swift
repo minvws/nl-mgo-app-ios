@@ -228,7 +228,7 @@ struct OrganizationListAutomaticView: View {
 			static let spacing: CGFloat = 8
 		}
 		enum Navigation {
-			static let padding: CGFloat = 8
+			static let padding: CGFloat = 52
 		}
 		enum List {
 			static let spacing: CGFloat = 8
@@ -261,7 +261,6 @@ struct OrganizationListAutomaticView: View {
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
-		.navigationBarBackButtonHidden(true)
 		.when(isPresentedAsSheet, transform: { view in
 			view
 				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
@@ -272,7 +271,6 @@ struct OrganizationListAutomaticView: View {
 			view
 				.layoutForIPad()
 		})
-
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
@@ -305,6 +303,10 @@ struct OrganizationListAutomaticView: View {
 				})
 			})
 			.padding(.horizontal, ViewTraits.General.padding)
+			.when(!isPresentedAsSheet, transform: { view in
+				view
+					.padding(.top, ViewTraits.Navigation.padding)
+			})
 		} bottomView: {
 			
 			CallToActionButton(
@@ -316,10 +318,6 @@ struct OrganizationListAutomaticView: View {
 			.accessibilityIdentifier("common.to_overview")
 			.padding(ViewTraits.Button.padding)
 		}
-		.navigationBarHidden(false)
-		.background(theme.backgrounds.primary.ignoresSafeArea())
-		.padding(.top, ViewTraits.Navigation.padding)
-		.layoutForIPad()
 	}
 	
 	/// Build the view for an organization
