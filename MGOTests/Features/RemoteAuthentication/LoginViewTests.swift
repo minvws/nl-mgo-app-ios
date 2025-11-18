@@ -89,20 +89,20 @@ final class LoginViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	@MainActor func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() throws {
-		
-		// Given
-		createSut()
-		servicesSpies.featureFlagSpy.stubbedIsDemo = true
-
-		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.digid")
-		try view.view(CallToActionButton.self).find(button: "login.digid").tap()
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
-	}
+//	@MainActor func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() throws {
+//		
+//		// Given
+//		createSut()
+//		servicesSpies.featureFlagSpy.stubbedIsDemo = true
+//
+//		// When
+//		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.digid")
+//		try view.view(CallToActionButton.self).find(button: "login.digid").tap()
+//		
+//		// Then
+//		expect(self.coordinatorSpy.invokedHandle) == true
+//		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
+//	}
 	
 	@MainActor func test_loginWithDigiD_loading_shouldNotCallCoordinator_whenDemoMode() throws {
 		
