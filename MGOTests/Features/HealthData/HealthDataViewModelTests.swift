@@ -27,6 +27,11 @@ final class HealthDataViewModelTests: XCTestCase {
 		
 		sut = HealthDataViewModel(
 			coordinator: coordinatorSpy,
+			config: HealthDataViewConfig(
+				backButtonTitle: "HealthCategoryDataViewModelTests",
+				titleInline: false,
+				inSheet: false
+			),
 			schema: HealthUISchema(
 				children: [
 					HealthUIGroup(
@@ -106,7 +111,6 @@ final class HealthDataViewModelTests: XCTestCase {
 				],
 				label: "test"
 			),
-			backButtonTitle: "HealthCategoryDataViewModelTests",
 			healthcareOrganization: Generator.healthcareOrganization("1"),
 			referenceResolver: referenceResolverSpy
 		)

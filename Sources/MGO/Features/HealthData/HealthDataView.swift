@@ -10,6 +10,7 @@ struct ZibDetailViewState {
 	
 	var schema: HealthUISchema
 	var backButton: String?
+	var inline: Bool
 }
 
 typealias ReferenceStoreEntry = (resource: MgoResource, isReferenceValue: Bool, schema: HealthUISchema)
@@ -63,13 +64,17 @@ class HealthDataViewModel: ObservableObject {
 	/// - Parameter referenceResolver: the handler to resolve references
 	@MainActor init(
 		coordinator: (any Coordinator)? = nil,
+		config: HealthDataViewConfig,
 		schema: HealthUISchema,
-		backButtonTitle: String?,
 		healthcareOrganization: MgoOrganization,
 		referenceResolver: ReferenceResolverProtocol = ReferenceResolver()
 	) {
 		self.coordinator = coordinator
-		self.state = ZibDetailViewState(schema: schema, backButton: backButtonTitle)
+		self.state = ZibDetailViewState(
+			schema: schema,
+			backButton: config.backButtonTitle,
+			inline: config.titleInline
+		)
 		self.healthcareOrganization = healthcareOrganization
 		self.referenceResolver = referenceResolver
 		
@@ -201,6 +206,7 @@ class HealthDataViewModel: ObservableObject {
 					params: [
 						"healthcareOrganization": healthcareOrganization,
 						"backButtonTitle": "common.previous",
+						"titleInline": true,
 						"resource": resource,
 						"uiSchema": refSchema,
 						"inSheet": isReferenceValue
@@ -249,16 +255,22 @@ struct HealthDataView: View {
 	
 	var body: some View {
 		
-		ScrollView {
-			
-			VStack(spacing: ViewTraits.General.padding) {
-				
-				content()
-				Spacer()
-			}
-			.padding(.top, ViewTraits.Navigation.padding)
-			.padding(.horizontal, ViewTraits.General.padding)
-		}
+		HealthUISchemaView(
+			schema: viewModel.state.schema,
+			healthcareOrganization: viewModel.healthcareOrganization,
+			referenceTapped: { reference in
+				if let reference {
+					viewModel.reduce(.reference(reference))
+				}
+			},
+			resolvedReferences: viewModel.resolvedReferences,
+			codeTapped: { displayCoding in
+				if let displayCoding {
+					viewModel.reduce(.term(displayCoding))
+				}
+			},
+			resolvedCodes: viewModel.resolvedCodes
+		)
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.navigationBarBackButtonHidden()
 		.when(viewModel.state.backButton != nil) { view in
@@ -269,6 +281,10 @@ struct HealthDataView: View {
 		}
 		.navigationBarHidden(false)
 		.navigationTitle(viewModel.state.schema.label)
+		.when(viewModel.state.inline, transform: { view in
+			view
+				.navigationBarTitleDisplayMode(.inline)
+		})
 		.when(isPresentedAsSheet, transform: { view in
 			view
 				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
@@ -285,26 +301,6 @@ struct HealthDataView: View {
 			content: {
 				sheetContent()
 			}
-		)
-	}
-	
-	@ViewBuilder private func content() -> some View {
-		
-		HealthUISchemaView(
-			schema: viewModel.state.schema,
-			healthcareOrganization: viewModel.healthcareOrganization,
-			referenceTapped: { reference in
-				if let reference {
-					viewModel.reduce(.reference(reference))
-				}
-			},
-			resolvedReferences: viewModel.resolvedReferences,
-			codeTapped: { displayCoding in
-				if let displayCoding {
-					viewModel.reduce(.term(displayCoding))
-				}
-			},
-			resolvedCodes: viewModel.resolvedCodes
 		)
 	}
 	
@@ -336,8 +332,12 @@ struct HealthDataView: View {
 			viewModel:
 				HealthDataViewModel(
 					coordinator: nil,
+					config: HealthDataViewConfig(
+						backButtonTitle: String(localized: "hc_medication.heading"),
+						titleInline: false,
+						inSheet: false
+					),
 					schema: PreviewContent.uiSchema,
-					backButtonTitle: String(localized: "hc_medication.heading"),
 					healthcareOrganization: PreviewContent.healthcareOrganization
 				)
 		)

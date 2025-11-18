@@ -114,7 +114,6 @@ struct SettingsView: View {
 			aboutTheApp()
 			reset()
 		}
-	
 		.backport.scrollContentBackground(.hidden)
 		.backport.contentMargins(ViewTraits.Navigation.padding)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)

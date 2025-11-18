@@ -260,7 +260,6 @@ struct FavoritesView: View {
 		}
 		.listRowBackground(Color.clear)
 		.listRowInsets(ViewTraits.List.headerInset)
-		
 	}
 	
 	/// The view for a main category
