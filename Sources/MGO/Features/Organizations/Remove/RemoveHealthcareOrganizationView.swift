@@ -122,14 +122,12 @@ struct RemoveHealthcareOrganizationView: View {
 					.accessibilityIdentifier("remove_organization.subheading")
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
+			.padding(.top, ViewTraits.Navigation.padding)
 			
 		} bottomView: {
 			
 			bottomView()
 		}
-		.padding(.top, ViewTraits.Navigation.padding)
-		.navigationBarBackButtonHidden(true)
-		.navigationBarHidden(false)
 		.when(isPresentedAsSheet, transform: { view in
 			view
 				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
