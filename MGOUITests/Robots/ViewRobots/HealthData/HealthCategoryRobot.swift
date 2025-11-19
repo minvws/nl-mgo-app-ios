@@ -27,7 +27,7 @@ import XCTest
 	}
 	
 	private func sectionButton(_ identifier: String) -> XCUIElement {
-		app.buttons[identifier]
+		app.staticTexts[identifier]
 	}
 	
 	// MARK: - Validations
@@ -60,7 +60,7 @@ import XCTest
 	
 	@discardableResult
 	func tapSectionRow(_ index: Int, section: Int) -> HealthUISchemaRobot {
-		sectionButton("category_element_\(section)_\(index)").tap()
+		sectionButton("category_element_\(section)_\(index)").firstMatch.tap()
 		return HealthUISchemaRobot(app)
 	}
 }

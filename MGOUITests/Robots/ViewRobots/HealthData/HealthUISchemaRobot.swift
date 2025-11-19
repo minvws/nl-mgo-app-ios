@@ -90,4 +90,14 @@ import XCTest
 		attachmentButton(heading).tap()
 		return DocumentViewerRobot(app)
 	}
+	
+	@discardableResult
+	func swipeDownToSection(_ name: String) -> Self {
+		
+		while !app.staticTexts[name].exists {
+			app.swipeUp()
+		}
+		
+		return self
+	}
 }

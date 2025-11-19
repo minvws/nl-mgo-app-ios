@@ -599,6 +599,7 @@ struct HealthCategoryView: View {
 					perform: element.action
 				)
 				.listRowInsets(ViewTraits.List.inset)
+				.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
 			}
 		}
 	}
