@@ -171,7 +171,7 @@ struct AddOrganizationView: View {
 			static let spacing: CGFloat = 8
 		}
 		enum Navigation {
-			static let padding: CGFloat = 8
+			static let padding: CGFloat = 52
 		}
 	}
 	
@@ -222,7 +222,10 @@ struct AddOrganizationView: View {
 				Spacer()
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
-			
+			.when(!isPresentedAsSheet, transform: { view in
+				view
+					.padding(.top, ViewTraits.Navigation.padding)
+			})
 		} bottomView: {
 			CallToActionButton(
 				"common.search",
@@ -238,10 +241,6 @@ struct AddOrganizationView: View {
 			viewModel.reduce(.endEditing)
 		}
 		.resignKeyboardOnDragGesture()
-		
-		.padding(.top, ViewTraits.Navigation.padding)
-		.navigationBarBackButtonHidden(true)
-		.navigationBarHidden(false)
 		.when(isPresentedAsSheet, transform: { view in
 			view
 				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {

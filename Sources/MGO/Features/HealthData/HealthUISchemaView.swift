@@ -6,6 +6,7 @@
 import MGOFoundation
 import MGOUI
 
+// swiftlint:disable type_body_length
 struct HealthUISchemaView: View {
 	
 	/// The schema
@@ -47,6 +48,9 @@ struct HealthUISchemaView: View {
 			static let spacing: CGFloat = 4
 			static let padding: CGFloat = 12
 		}
+		enum General {
+			static let padding: CGFloat = 16
+		}
 		enum Chevron {
 			static let size: CGFloat = 32.0
 		}
@@ -64,6 +68,7 @@ struct HealthUISchemaView: View {
 		}
 		.backport.listSectionSpacing(osVersionChecker.available(version: .iOS(.v26)) ? 0 : 16)
 		.backport.contentMargins(0)
+		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.padding(.bottom, ViewTraits.List.bottom)
 	}
 	
@@ -85,7 +90,9 @@ struct HealthUISchemaView: View {
 			}
 			.listRowBackground(Color.clear)
 			.listRowInsets(
-				schemaGroup == schema.children.first ? ViewTraits.List.alternativeInset : ViewTraits.List.headerInset
+				headerInset(
+					first: schemaGroup == schema.children.first
+				)
 			)
 		}
 		// A schema group consists of an array of UIElementProtocol structs
@@ -94,6 +101,18 @@ struct HealthUISchemaView: View {
 				viewFor(element)
 			}
 		}
+	}
+	
+	func headerInset(first: Bool) -> EdgeInsets {
+		
+		guard osVersionChecker.available(version: .iOS(.v17)) else {
+			return ViewTraits.List.zeroInset
+		}
+		
+		if first {
+			return ViewTraits.List.alternativeInset
+		}
+		return ViewTraits.List.headerInset
 	}
 	
 	/// Show a row of key: value for a UIElement
@@ -436,6 +455,7 @@ struct HealthUISchemaView: View {
 		.padding(.bottom, osVersionChecker.available(version: OSVersion.iOS(.v26)) ? 0 : -4)
 	}
 }
+// swiftlint:enable type_body_length
 
 #Preview {
 	ScrollView {

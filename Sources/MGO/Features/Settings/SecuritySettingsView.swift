@@ -123,6 +123,9 @@ struct SecuritySettingsView: View {
 		enum Navigation {
 			static let padding: CGFloat = 24
 		}
+		enum Footer {
+			static let inset: EdgeInsets = EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+		}
 	}
 	
 	var body: some View {
@@ -134,6 +137,7 @@ struct SecuritySettingsView: View {
 				Text("settings.security.biometric.subheading")
 					.typography(.bodySmall)
 					.foregroundStyle(theme.labels.secondary)
+					.listRowInsets(ViewTraits.Footer.inset)
 			}
 			.onChange(of: viewModel.state.bioMetricAuthenticationEnabled) { newValue in
 				viewModel.reduce(.biometricEnabled(newValue))

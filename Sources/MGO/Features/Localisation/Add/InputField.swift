@@ -28,6 +28,9 @@ struct InputField: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Image {
@@ -37,6 +40,7 @@ struct InputField: View {
 		}
 		enum Input {
 			static let cornerRadius: CGFloat = 12
+			static let newCornerRadius: CGFloat = 1000
 			static let inset: CGFloat = 0.5
 			static let horizontalPadding: CGFloat = 12
 			static let verticalPadding: CGFloat = 12
@@ -75,10 +79,18 @@ struct InputField: View {
 				.accentColor(theme.actions.ghost.text)
 				.frame(maxWidth: .infinity, alignment: .leading)
 				.background(theme.backgrounds.secondary)
-				.cornerRadius(ViewTraits.Input.cornerRadius)
+				.cornerRadius(
+					osVersionChecker
+						.available(version: .iOS(.v26)) ? ViewTraits.Input.newCornerRadius : ViewTraits.Input.cornerRadius
+				)
 				.accessibilityIdentifier("input")
 				.overlay(
-					RoundedRectangle(cornerRadius: ViewTraits.Input.cornerRadius)
+					RoundedRectangle(
+						cornerRadius: osVersionChecker
+							.available(
+								version: .iOS(.v26)
+							) ? ViewTraits.Input.newCornerRadius : ViewTraits.Input.cornerRadius
+					)
 						.inset(by: ViewTraits.Input.inset)
 						.stroke(getBorderColor(), lineWidth: isFieldFocused || showError ? 2 : 0)
 				)

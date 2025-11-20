@@ -128,14 +128,18 @@ private struct ButtonStyleApplier: ViewModifier {
 		switch style {
 			case .ghost:
 				content.buttonStyle(GhostButtonStyle())
+				
 			case let .solid(rounded),
 				let .solidLeadingIcon(rounded: rounded),
 				let .solidLeadingSpinner(rounded: rounded):
 				content.buttonStyle(SolidButtonStyle(rounded: rounded))
+				
 			case let .tonal(rounded):
 				content.buttonStyle(TonalButtonStyle(rounded: rounded))
+				
 			case .withIcon:
 				content.buttonStyle(ButtonWithIconStyle())
+				
 			case .withSpinner:
 				content.buttonStyle(ButtonWithSpinnerStyle())
 		}

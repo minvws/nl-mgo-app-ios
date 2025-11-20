@@ -32,6 +32,12 @@ struct AboutSafetyTipsView: View {
 		
 		List {
 			Section {
+				Text("settings.about_this_app.safety.subheading")
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.labels.primary)
+					.accessibilityIdentifier("settings.about_this_app.safety.subheading")
+					.padding(ViewTraits.General.padding)
+				
 				viewForSafetyTip(
 					heading: "settings.about_this_app_safety.security_phone.heading",
 					subheading: "settings.about_this_app_safety.security_phone.subheading"
@@ -56,9 +62,6 @@ struct AboutSafetyTipsView: View {
 					heading: "settings.about_this_app_safety.permissions.heading",
 					subheading: "settings.about_this_app_safety.permissions.subheading"
 				)
-
-			} header: {
-				header()
 			}
 			.listRowInsets(ViewTraits.General.inset)
 		}
@@ -73,28 +76,15 @@ struct AboutSafetyTipsView: View {
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
-	/// Get the header for the list
-	/// - Returns: the list header
-	@ViewBuilder private func header() -> some View {
-		
-		Text("settings.about_this_app.safety.subheading")
-			.typography(.bodyMedium)
-			.foregroundStyle(theme.labels.primary)
-			.textCase(nil)
-			.padding(.top, ViewTraits.Navigation.padding)
-			.when(isIOS16OrOlder) { view in
-				view
-					.padding(.bottom, ViewTraits.Navigation.padding)
-			}
-			.accessibilityIdentifier("settings.about_this_app.safety.subheading")
-	}
-	
 	/// Create a row for the safety tips
 	/// - Parameters:
 	///   - heading: the heading of the safety tip
 	///   - subheading: the body of the safety tip
 	/// - Returns: View with the safety tip
-	@ViewBuilder private func viewForSafetyTip(heading: LocalizedStringKey, subheading: LocalizedStringKey) -> some View {
+	@ViewBuilder private func viewForSafetyTip(
+		heading: LocalizedStringKey,
+		subheading: LocalizedStringKey
+	) -> some View {
 		
 		VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 			Text(heading)

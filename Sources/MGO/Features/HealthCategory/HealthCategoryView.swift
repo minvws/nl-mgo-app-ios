@@ -458,7 +458,6 @@ struct HealthCategoryView: View {
 			}
 		}
 		.backport.scrollContentBackground(.hidden)
-		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("overview.heading") {
 			viewModel.reduce(.backButtonPressed)
@@ -504,6 +503,7 @@ struct HealthCategoryView: View {
 				listOverviewBlocks(list: filterList(list))
 					.backport.listSectionSpacing(8)
 					.backport.contentMargins(0)
+					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 					
 			} else {
 				noItems()
@@ -599,6 +599,7 @@ struct HealthCategoryView: View {
 					perform: element.action
 				)
 				.listRowInsets(ViewTraits.List.inset)
+				.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
 			}
 		}
 	}

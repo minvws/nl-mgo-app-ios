@@ -152,9 +152,14 @@ struct AboutOpenSourceLibrariesView: View {
 		
 		List {
 			Section {
+				
+				Text("settings.about_this_app.open_source.subheading")
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.labels.primary)
+					.accessibilityIdentifier("settings.about_this_app.open_source.subheading")
+					.padding(ViewTraits.General.padding)
+				
 				list()
-			} header: {
-				header()
 			}
 			.listRowInsets(ViewTraits.General.inset)
 		}
@@ -167,22 +172,6 @@ struct AboutOpenSourceLibrariesView: View {
 		.navigationTitle("settings.about_this_app.open_source")
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgrounds.primary.ignoresSafeArea())
-	}
-	
-	/// Get the header for the list
-	/// - Returns: the list header
-	@ViewBuilder private func header() -> some View {
-		
-		Text("settings.about_this_app.open_source.subheading")
-			.typography(.bodyMedium)
-			.foregroundStyle(theme.labels.primary)
-			.textCase(nil)
-			.padding(.top, ViewTraits.Navigation.padding)
-			.when(isIOS16OrOlder) { view in
-				view
-					.padding(.bottom, ViewTraits.Navigation.padding)
-			}
-			.accessibilityIdentifier("settings.about_this_app.open_source.subheading")
 	}
 	
 	/// Get a list of libraries
@@ -209,7 +198,7 @@ struct AboutOpenSourceLibrariesView: View {
 				
 				Text(library.name)
 					.typography(.bodyMedium)
-					.foregroundStyle(theme.actions.ghost.text)
+					.foregroundStyle(theme.labels.primary)
 					 
 					 Spacer()
 					 

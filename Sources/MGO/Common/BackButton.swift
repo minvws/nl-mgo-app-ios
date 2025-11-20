@@ -9,6 +9,9 @@ import MGOFoundation
 /// A simple back button consisting of an left chevron and a previous text
 struct BackButton: View {
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	/// Dependency injectable OS Version Checker
 	@Injected(\.osVersionChecker) private var osVersionChecker
 	
@@ -50,6 +53,7 @@ struct BackButton: View {
 				label: {
 					Label(title, systemImage: "chevron.backward")
 						.labelStyle(IconOnlyLabelStyle())
+						.foregroundStyle(theme.labels.primary)
 				}
 			)
 			.accessibilityIdentifier(identifier)
@@ -65,6 +69,7 @@ struct BackButton: View {
 							.resizable()
 							.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
 							.padding(.trailing, ViewTraits.Image.padding)
+							.foregroundStyle(theme.labels.primary)
 						
 						Text(title)
 							.typography(.bodyMedium)

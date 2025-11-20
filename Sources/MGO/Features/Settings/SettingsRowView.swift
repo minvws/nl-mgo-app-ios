@@ -98,7 +98,7 @@ struct SettingsRowView: View {
 			
 			if showChevron || showExternalLink {
 				Image(showChevron ? ImageResource.Overview.chevronRight : ImageResource.Settings.arrowOutward)
-					.foregroundStyle(theme.symbols.primary)
+					.foregroundStyle(theme.symbols.secondary)
 					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
 					.accessibilityHidden(true)
 			}

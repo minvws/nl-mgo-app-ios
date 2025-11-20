@@ -337,7 +337,6 @@ class HealthCategoriesViewModel: ObservableObject {
 		state.buttonState[category.id] = .loading
 	}
 }
-
 // swiftlint:disable type_body_length
 /// The view for an overview of all the health categories
 struct HealthCategoriesView: View {
@@ -365,8 +364,9 @@ struct HealthCategoriesView: View {
 			static let padding: CGFloat = 16
 		}
 		enum List {
-			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+			static let zeroInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let headerInset = EdgeInsets(top: 24, leading: 0, bottom: 12, trailing: 0)
+			static let oldVersionInset = EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0)
 			static let alternativeInset = EdgeInsets(top: 12, leading: 0, bottom: 12, trailing: 0)
 			static let spacing: CGFloat = 4
 			static let padding: CGFloat = 8
@@ -403,7 +403,7 @@ struct HealthCategoriesView: View {
 				categoriesView()
 					.backport.listSectionSpacing(ViewTraits.List.spacing)
 					.backport.contentMargins(0)
-//					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
+					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 			}
 		} // VStack
 		.navigationBarBackButtonHidden()
@@ -445,7 +445,7 @@ struct HealthCategoriesView: View {
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityAddTraits(.isHeader)
 			.accessibilityIdentifier("healthcare_organizations.heading")
-			.padding(.top, ViewTraits.Navigation.padding)
+			.padding(.top, osVersionChecker.available(version: .iOS(.v17)) ? ViewTraits.Navigation.padding : 0)
 	}
 	
 	/// The view for the sub heading
@@ -511,6 +511,10 @@ struct HealthCategoriesView: View {
 	/// - Returns: the inset
 	func listHeaderInset(for mainCategory: SharedHealthCategories.MainCategory) -> EdgeInsets {
 		
+		guard osVersionChecker.available(version: .iOS(.v17)) else {
+			return ViewTraits.List.oldVersionInset
+		}
+		
 		if !viewModel.state.canTitleCollapse && mainCategory == viewModel.state.mainCategories.first {
 			return ViewTraits.List.alternativeInset
 		}
@@ -563,7 +567,7 @@ struct HealthCategoriesView: View {
 			}
 		}
 		.listRowBackground(Color.clear)
-		.listRowInsets(ViewTraits.List.rowInset)
+		.listRowInsets(ViewTraits.List.zeroInset)
 	}
 	
 	/// The favorites section
@@ -589,7 +593,7 @@ struct HealthCategoriesView: View {
 				}
 			}
 			.clipShape(Rectangle())
-			.listRowInsets(ViewTraits.List.rowInset)
+			.listRowInsets(ViewTraits.List.zeroInset)
 			.listRowBackground(Color.clear)
 		}
 	}
@@ -605,7 +609,7 @@ struct HealthCategoriesView: View {
 				.accessibilityAddTraits(.isHeader)
 		}
 		.listRowBackground(Color.clear)
-		.listRowInsets(ViewTraits.List.rowInset)
+		.listRowInsets(ViewTraits.List.zeroInset)
 	}
 	
 	/// The empty state when the user has no favorite categories

@@ -34,13 +34,13 @@ public extension Backport where Content: View {
 	/// - Parameter color: the background color
 	/// - Parameter placement: where to place this?
 	/// - Returns: View
-	@ViewBuilder func toolbarBackground(
-		_ color: Color,
+	@ViewBuilder func toolbarBackground<S>(
+		_ style: S,
 		for placement: Placement
-	) -> some View {
+	) -> some View where S: ShapeStyle {
 		if #available(iOS 16.0, *) {
 			content
-				.toolbarBackground(color, for: placement.cast())
+				.toolbarBackground(style, for: placement.cast())
 				.toolbarBackground(.visible, for: placement.cast())
 		} else {
 			content
