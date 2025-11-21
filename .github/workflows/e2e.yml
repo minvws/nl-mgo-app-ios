@@ -24,7 +24,7 @@ jobs:
           xcrun simctl boot "iPhone 17 Pro" || true
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Homebrew
         run: |
