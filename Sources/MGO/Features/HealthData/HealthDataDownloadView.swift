@@ -256,13 +256,13 @@ struct HealthDataDownloadView: View {
 							viewModel.showPreview = true
 						}
 					}
-					.sheet(isPresented: $viewModel.showPreview) {
+					.inspectableSheet(isPresented: $viewModel.showPreview, content: {
 						DocumentPreviewController($viewModel.showPreview, failedToOpen: $failedToOpenPreview, url: documentUrl)
 							.background(
 								colorScheme == .light ? ViewTraits.Preview.lightBackgroundColor : ViewTraits.Preview
 									.dardBackgroundColor)
 							.interactiveDismissDisabled(true)
-					}
+					})
 					.onChange(of: failedToOpenPreview) { newValue in
 						if newValue {
 							viewModel.reduce(.shareDocument(url: documentUrl))
