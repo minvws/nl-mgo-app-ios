@@ -217,6 +217,8 @@ struct HealthDataDownloadView: View {
 	
 	@State private var failedToOpenPreview: Bool = false
 	
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		
@@ -224,6 +226,10 @@ struct HealthDataDownloadView: View {
 			static let horizontal: CGFloat = 16
 			static let vertical: CGFloat = 24
 			static let spacing: CGFloat = 8
+		}
+		enum Preview {
+			static let lightBackgroundColor: Color = Color(hex: "FCFCFC")
+			static let dardBackgroundColor: Color = Color(hex: "E7E7E7")
 		}
 	}
 	
@@ -250,11 +256,13 @@ struct HealthDataDownloadView: View {
 							viewModel.showPreview = true
 						}
 					}
-					.sheet(isPresented: $viewModel.showPreview) {
+					.inspectableSheet(isPresented: $viewModel.showPreview, content: {
 						DocumentPreviewController($viewModel.showPreview, failedToOpen: $failedToOpenPreview, url: documentUrl)
-							.background(theme.backgrounds.primary)
+							.background(
+								colorScheme == .light ? ViewTraits.Preview.lightBackgroundColor : ViewTraits.Preview
+									.dardBackgroundColor)
 							.interactiveDismissDisabled(true)
-					}
+					})
 					.onChange(of: failedToOpenPreview) { newValue in
 						if newValue {
 							viewModel.reduce(.shareDocument(url: documentUrl))

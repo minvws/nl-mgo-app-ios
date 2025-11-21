@@ -15,7 +15,7 @@ struct ButtonWithIconStyle: ButtonStyle {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum ButtonTitle {
-			static let insets = EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 24)
+			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 		}
 		enum Button {
 			static let minimumHeight: CGFloat = 50

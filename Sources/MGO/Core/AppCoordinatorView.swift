@@ -14,9 +14,6 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	/// Closure used the handle inspection
 	var didAppear: ((Self) -> Void)?
 	
-	/// Should we show the alert after a screenshot was taken?
-	@State private var showScreenshotAlert = false
-	
 	/// Dependency injectable OS Version Checker
 	@Injected(\.osVersionChecker) private var osVersionChecker
 	
