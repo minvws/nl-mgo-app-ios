@@ -68,6 +68,7 @@ struct HealthUISchemaView: View {
 		}
 		.backport.listSectionSpacing(osVersionChecker.available(version: .iOS(.v26)) ? 0 : 16)
 		.backport.contentMargins(0)
+		.backport.scrollContentBackground(.hidden)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.padding(.bottom, ViewTraits.List.bottom)
 	}

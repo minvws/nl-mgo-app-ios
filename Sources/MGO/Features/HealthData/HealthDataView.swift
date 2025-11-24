@@ -308,20 +308,23 @@ struct HealthDataView: View {
 	/// - Returns: sheet content
 	@ViewBuilder private func sheetContent() -> some View {
 		
-		NavigationStackBackport.NavigationStack {
-			PatientFriendlyTermView(
-				viewModel: PatientFriendlyTermViewModel(
-					onClose: {
-						viewModel.reduce(.closeTermSheet)
-					},
-					term: viewModel.selectedPatientFriendlyTerm!
+		if let term = viewModel.selectedPatientFriendlyTerm {
+			
+			NavigationStackBackport.NavigationStack {
+				PatientFriendlyTermView(
+					viewModel: PatientFriendlyTermViewModel(
+						onClose: {
+							viewModel.reduce(.closeTermSheet)
+						},
+						term: term
+					)
 				)
-			)
-			.isPresentedAsSheet(!isIOS15)
-			.navigationBarBackButtonHidden(true)
-			.navigationBarTitleDisplayMode(.inline)
-			.backport.presentationContentInteraction(.scrolls)
-			.backport.presentationDragIndicator(UIDevice.current.userInterfaceIdiom == .pad ? Visibility.hidden : Visibility.visible) // Hide on iPad
+				.isPresentedAsSheet(!isIOS15, log: "healthDataView")
+				.navigationBarBackButtonHidden(true)
+				.navigationBarTitleDisplayMode(.inline)
+				.backport.presentationContentInteraction(.scrolls)
+				.backport.presentationDragIndicator(UIDevice.current.userInterfaceIdiom == .pad ? Visibility.hidden : Visibility.visible) // Hide on iPad
+			}
 		}
 	}
 }
