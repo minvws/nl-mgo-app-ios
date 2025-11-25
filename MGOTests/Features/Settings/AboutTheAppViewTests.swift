@@ -121,8 +121,9 @@ final class AboutTheAppViewTests: XCTestCase {
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "settings.about_this_app.version").button().tap()
-
+		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == false
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showVersion
 	}
 }

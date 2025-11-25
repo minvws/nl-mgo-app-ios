@@ -89,7 +89,7 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		sut.reduce(.showHCIMCoreVersion)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.sut.showHCIMCoreVersionDialog) == true
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showVersion
 	}
 }

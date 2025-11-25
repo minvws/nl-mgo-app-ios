@@ -69,7 +69,7 @@ struct BackButton: View {
 							.resizable()
 							.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
 							.padding(.trailing, ViewTraits.Image.padding)
-							.foregroundStyle(theme.labels.primary)
+							.foregroundStyle(theme.categories.rijkslint)
 						
 						Text(title)
 							.typography(.bodyMedium)

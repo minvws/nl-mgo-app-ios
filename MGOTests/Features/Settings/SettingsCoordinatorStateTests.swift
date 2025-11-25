@@ -161,4 +161,17 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		// Then
 		expect(webview) != nil
 	}
+	
+	@MainActor func test_coordinatorView_forVersion() throws {
+		
+		// Given
+		createSut()
+		let state = SettingsCoordination.State.version
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view), isRecording: true)
+	}
 }

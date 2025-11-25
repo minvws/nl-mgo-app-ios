@@ -11,12 +11,6 @@ class AboutTheAppViewModel: BaseViewModel {
 	/// The current version of the application
 	@Published var appVersion: String
 	
-	/// The current version of the shared core
-	@Published var hcimCoreVersion: String?
-	
-	/// Show the shared core version dialog
-	@Published var showHCIMCoreVersionDialog: Bool = false
-	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case showHCIMCoreVersion
@@ -33,11 +27,11 @@ class AboutTheAppViewModel: BaseViewModel {
 		appVersion = "\(Container.shared.appVersionSupplier().getCurrentVersion()) (\(Container.shared.appVersionSupplier().getCurrentBuild()))"
 		super.init(coordinator: coordinator)
 		
-		do {
-			hcimCoreVersion = try HCIMParser().getVersion()
-		} catch {
-			logError("No shared core version found: \(error)")
-		}
+//		do {
+//			hcimCoreVersion = try HCIMParser().getVersion()
+//		} catch {
+//			logError("No shared core version found: \(error)")
+//		}
 	}
 	
 	/// Handle any action
@@ -47,10 +41,8 @@ class AboutTheAppViewModel: BaseViewModel {
 		switch action {
 			
 			case .showHCIMCoreVersion:
-				if hcimCoreVersion != nil {
-					showHCIMCoreVersionDialog = true
-				}
-			
+				coordinator?.handle(Coordination.Action.showVersion)
+				
 			case .showSafety:
 				coordinator?.handle(Coordination.Action.showSafetyTips)
 			
@@ -159,7 +151,7 @@ struct AboutTheAppView: View {
 			SettingsRowView(
 				heading: "settings.about_this_app.version",
 				subHeading: LocalizedStringKey(viewModel.appVersion),
-				showChevron: false
+				showChevron: true
 			)
 		}
 		.accessibilityIdentifier("settings.about_this_app.version")
@@ -168,12 +160,6 @@ struct AboutTheAppView: View {
 			minHeight: ViewTraits.Button.minimumHeight
 		)
 		.listRowInsets(ViewTraits.General.inset)
-		.alert("settings.about_this_app.version", isPresented: $viewModel.showHCIMCoreVersionDialog) {
-			Button(String(localized: "common.ok").uppercased(), role: .cancel) { /* no action available */ }
-				.accessibilityIdentifier("common.ok")
-		} message: {
-			Text(viewModel.hcimCoreVersion ?? "")
-		}
 	}
 	
 	/// Get the view for the safety row
