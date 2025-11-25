@@ -319,7 +319,7 @@ struct HealthDataView: View {
 						term: term
 					)
 				)
-				.isPresentedAsSheet(!isIOS15, log: "healthDataView")
+				.isPresentedAsSheet(!isIOS15)
 				.navigationBarBackButtonHidden(true)
 				.navigationBarTitleDisplayMode(.inline)
 				.backport.presentationContentInteraction(.scrolls)
