@@ -55,6 +55,7 @@ struct ProductionApp: App {
 		secureUserSettings.enteredBackground = nil
 	}
 	
+	/// Show the privacy scene
 	@State private var showPrivacyScene: Bool = false
 	
 	var body: some Scene {

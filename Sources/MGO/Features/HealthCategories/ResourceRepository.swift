@@ -52,6 +52,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	)
 	
 	typealias MappedSolution = (
+		endpoint: DataServices.Endpoint,
 		categories: [SharedHealthCategories.Category],
 		fhirVersion: DataServices.FhirVersion,
 		dvaTarget: String,
@@ -154,36 +155,35 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// Load all the categories for a healthcare organization
 	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
 	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization) {
+		
 		logVerbose("ResourceRepository - LoadFor Org", healthcareOrganization.identifier)
-		var mapping: [DataServices.Endpoint: MappedSolution] = [:]
-		if let sharedCategories = try? SharedHealthCategories() {
-			for sharedCategory in sharedCategories.mainCategories.flatMap({ $0.categories }) {
-				for solution in collectEndpoints(healthcareOrganization, category: sharedCategory) {
-					if mapping[solution.endpoint] != nil {
-						mapping[solution.endpoint]?.categories.append(sharedCategory)
-					} else {
-						mapping[solution.endpoint] = (
-							[sharedCategory],
-							solution.fhirVersion,
-							solution.dvaTarget,
-							solution.dataServiceId,
-							solution.providerId
-						)
-					}
+		guard let sharedCategories = try? SharedHealthCategories() else { return }
+		
+		var mappings: [String: MappedSolution] = [:]
+		for sharedCategory in sharedCategories.mainCategories.flatMap({ $0.categories }) {
+			for solution in collectEndpoints(healthcareOrganization, category: sharedCategory) {
+				let key = solution.endpoint.id + solution.dataServiceId
+				if mappings[key] != nil {
+					mappings[key]?.categories.append(sharedCategory)
+				} else {
+					mappings[key] = MappedSolution(
+						endpoint: solution.endpoint,
+						categories: [sharedCategory],
+						fhirVersion: solution.fhirVersion,
+						dvaTarget: solution.dvaTarget,
+						dataServiceId: solution.dataServiceId,
+						providerId: solution.providerId
+					)
 				}
 			}
 		}
-		for (endpoint, mappedSolution) in mapping {
-			_Concurrency.Task(priority: .high) {
-				await loadEndpoint(healthcareOrganization, endpoint: endpoint, mapping: mappedSolution)
-			}
-		}
+		loadEndpoints(healthcareOrganization, mappings: mappings)
 	}
 	
 	/// Load all the categories for a category
 	/// - Parameter category: the category to load  for
 	@MainActor func loadFor(_ category: SharedHealthCategories.Category) {
-		logVerbose("ResourceRepository - LoadFor Cat", category)
+		logInfo("ResourceRepository - LoadFor Cat", category)
 		
 		guard let healthcareOrganizationRepository else { return }
 		
@@ -211,24 +211,36 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	) {
 		
 		logVerbose("ResourceRepository - LoadFor Org and Cat", healthcareOrganization.identifier, category.id)
-		var mapping: [DataServices.Endpoint: MappedSolution] = [:]
+		var mappings: [String: MappedSolution] = [:]
 		for solution in collectEndpoints(healthcareOrganization, category: category) {
-			if mapping[solution.endpoint] != nil {
-				mapping[solution.endpoint]?.categories.append(category)
+			let key = solution.endpoint.id + solution.dataServiceId
+			if mappings[key] != nil {
+				mappings[key]?.categories.append(category)
 			} else {
-				mapping[solution.endpoint] = (
-					[category],
-					solution.fhirVersion,
-					solution.dvaTarget,
-					solution.dataServiceId,
-					solution.providerId
+				mappings[key] = MappedSolution(
+					endpoint: solution.endpoint,
+					categories: [category],
+					fhirVersion: solution.fhirVersion,
+					dvaTarget: solution.dvaTarget,
+					dataServiceId: solution.dataServiceId,
+					providerId: solution.providerId
 				)
 			}
 		}
-		
-		for (endpoint, mappedSolution) in mapping {
+		loadEndpoints(healthcareOrganization, mappings: mappings)
+	}
+	
+	/// Load the resources
+	/// - Parameters:
+	///   - healthcareOrganization: healthcare organization
+	///   - mappings: the mapped solutions
+	@MainActor private func loadEndpoints(
+		_ healthcareOrganization: MgoOrganization,
+		mappings: [String: MappedSolution]
+	) {
+		for (_, mappedSolution) in mappings {
 			_Concurrency.Task(priority: .high) {
-				await loadEndpoint(healthcareOrganization, endpoint: endpoint, mapping: mappedSolution)
+				await loadEndpoint(healthcareOrganization, mapping: mappedSolution)
 			}
 		}
 	}
@@ -236,10 +248,9 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// Load the resources
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
-	///   - category: the category to load the resources for.
+	///   - mapping: the mapped solution
 	@MainActor func loadEndpoint(
 		_ healthcareOrganization: MgoOrganization,
-		endpoint: DataServices.Endpoint,
 		mapping: MappedSolution
 	) async {
 		
@@ -247,9 +258,9 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		var resourceError = false
 		
 		do {
-			logVerbose("ResourceRepository - calling endpoint for \(mapping.dvaTarget)", endpoint)
+			logVerbose("ResourceRepository - calling endpoint for \(mapping.dvaTarget)", mapping.endpoint)
 			let fhirBundle = try await repository.getBundleData(
-				endpoint: endpoint,
+				endpoint: mapping.endpoint,
 				fhirVersion: mapping.fhirVersion,
 				headers: MGORepositoryHeaders(
 					dvaTarget: mapping.dvaTarget,
@@ -301,6 +312,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			
 			// Check if the organization uses this data service
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: dataService.id) else {
+				logVerbose("No dvaTarget for", dataService.id, healthcareOrganization.identifier, category.heading)
 				continue
 			}
 			
