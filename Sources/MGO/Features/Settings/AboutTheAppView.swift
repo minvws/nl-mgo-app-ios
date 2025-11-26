@@ -26,12 +26,6 @@ class AboutTheAppViewModel: BaseViewModel {
 		
 		appVersion = "\(Container.shared.appVersionSupplier().getCurrentVersion()) (\(Container.shared.appVersionSupplier().getCurrentBuild()))"
 		super.init(coordinator: coordinator)
-		
-//		do {
-//			hcimCoreVersion = try HCIMParser().getVersion()
-//		} catch {
-//			logError("No shared core version found: \(error)")
-//		}
 	}
 	
 	/// Handle any action

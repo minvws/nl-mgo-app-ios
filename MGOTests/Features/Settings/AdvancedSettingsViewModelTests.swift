@@ -19,12 +19,17 @@ final class AdvancedSettingsViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
+	}
+	
+	@MainActor func setupSut() {
+		
 		sut = AdvancedSettingsViewModel(coordinator: coordinatorSpy)
 	}
 	
 	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.backButtonPressed)
@@ -37,6 +42,7 @@ final class AdvancedSettingsViewModelTests: XCTestCase {
 	@MainActor func test_automaticLocalization() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.automaticLocalization(false))
@@ -49,6 +55,7 @@ final class AdvancedSettingsViewModelTests: XCTestCase {
 	@MainActor func test_bypassPincode() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.bypassPincode(false))

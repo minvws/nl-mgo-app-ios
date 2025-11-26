@@ -38,6 +38,10 @@ protocol ResourceRepositoryProtocol {
 		serviceId: String,
 		path: String
 	) async throws -> FHIRBinary?
+	
+	/// Get the version of the shared library
+	/// - Returns: the shared version
+	@MainActor func getVersion() throws -> SharedVersion
 }
 
 /// Load the resources from the server
@@ -113,6 +117,12 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				self?.handleOrganizationChanges(organization, reason: reason)
 			}
 		}
+	}
+	
+	/// Get the version of the shared library
+	/// - Returns: the shared version
+	@MainActor func getVersion() throws -> SharedVersion {
+		return try repository.getVersion()
 	}
 	
 	/// Handle changes in the organizations list

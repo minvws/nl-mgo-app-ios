@@ -39,7 +39,7 @@ class SecuritySettingsViewModel: BaseViewModel {
 	/// Create a Security Settings Viewmodel
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter bioMetricType: what biometric type do we have? (FaceID, TouchID, OpticID)
-	init(
+	@MainActor init(
 		coordinator: (any Coordinator)?,
 		bioMetricType: () -> LocalAuthentication.BiometricType) {
 			

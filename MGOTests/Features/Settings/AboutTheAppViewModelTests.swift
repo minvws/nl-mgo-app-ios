@@ -18,12 +18,17 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
+	}
+	
+	@MainActor func setupSut() {
+		
 		sut = AboutTheAppViewModel(coordinator: coordinatorSpy)
 	}
 
 	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.backButtonPressed)
@@ -36,6 +41,7 @@ final class AboutTheAppViewModelTests: XCTestCase {
 	@MainActor func test_showSafety_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.showSafety)
@@ -48,6 +54,7 @@ final class AboutTheAppViewModelTests: XCTestCase {
 	@MainActor func test_showOpenSource_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.showOpenSource)
@@ -60,6 +67,7 @@ final class AboutTheAppViewModelTests: XCTestCase {
 	@MainActor func test_showAccessibility_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.showAccessibility)
@@ -72,6 +80,7 @@ final class AboutTheAppViewModelTests: XCTestCase {
 	@MainActor func test_showPrivacy_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.showPrivacy)
@@ -84,6 +93,7 @@ final class AboutTheAppViewModelTests: XCTestCase {
 	@MainActor func test_showHCIMCoreVersion_shouldShowDialog() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.showHCIMCoreVersion)
