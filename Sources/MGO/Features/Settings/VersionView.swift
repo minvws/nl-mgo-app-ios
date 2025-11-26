@@ -111,6 +111,8 @@ struct VersionView: View {
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
+	let unknown: String = String(localized: "common.unknown")
+	
 	/// The HCIM Package
 	/// - Returns: the HCIM Package
 	@ViewBuilder private func hcimPackage() -> some View {
@@ -120,15 +122,15 @@ struct VersionView: View {
 		Section {
 			row(
 				heading: "Versie",
-				value: viewModel.state?.hcim.version ?? String(localized: "common.unknown")
+				value: viewModel.state?.hcim.version ?? unknown
 			)
 			row(
 				heading: "Datum",
-				value: viewModel.state?.hcim.date ?? String(localized: "common.unknown")
+				value: viewModel.state?.hcim.date ?? unknown
 			)
 			row(
 				heading: "Git-ref",
-				value: viewModel.state?.hcim.git ?? String(localized: "common.unknown")
+				value: viewModel.state?.hcim.git ?? unknown
 			)
 		}
 	}
@@ -142,15 +144,15 @@ struct VersionView: View {
 		Section {
 			row(
 				heading: "Versie",
-				value: viewModel.state?.shared.version ?? String(localized: "common.unknown")
+				value: viewModel.state?.shared.version ?? unknown
 			)
 			row(
 				heading: "Datum",
-				value: viewModel.state?.shared.date ?? String(localized: "common.unknown")
+				value: viewModel.state?.shared.date ?? unknown
 			)
 			row(
 				heading: "Git-ref",
-				value: viewModel.state?.shared.git ?? String(localized: "common.unknown")
+				value: viewModel.state?.shared.git ?? unknown
 			)
 		}
 	}
@@ -164,7 +166,7 @@ struct VersionView: View {
 		Section {
 			row(
 				heading: "ETag",
-				value: patientFriendyTermsRepository.eTag ?? String(localized: "common.unknown")
+				value: patientFriendyTermsRepository.eTag ?? unknown
 			)
 		}
 	}
