@@ -27,11 +27,19 @@ class VersionViewModel: BaseViewModel {
 	
 	@Published var state: State?
 	
+	/// Dependency Injectable Resource Repository
+	@Injected(\.resourceRepository) private var resourceRepository
+	
 	@MainActor override init(coordinator: (any Coordinator)? = nil) {
+		super.init(coordinator: coordinator)
+		setState()
+	}
+	
+	@MainActor func setState() {
 		
 		do {
 			let hcimVersion = try HCIMParser().getVersion()
-			let sharedVersion = try Container.shared.resourceRepository().getVersion()
+			let sharedVersion = try resourceRepository.getVersion()
 			
 			state = State(
 				hcim: State.HcimVersion(
@@ -48,7 +56,6 @@ class VersionViewModel: BaseViewModel {
 		} catch {
 			logError("No version found: \(error)")
 		}
-		super.init(coordinator: coordinator)
 	}
 }
 

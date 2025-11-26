@@ -193,7 +193,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// Load all the categories for a category
 	/// - Parameter category: the category to load  for
 	@MainActor func loadFor(_ category: SharedHealthCategories.Category) {
-		logInfo("ResourceRepository - LoadFor Cat", category)
+		logVerbose("ResourceRepository - LoadFor Cat", category)
 		
 		guard let healthcareOrganizationRepository else { return }
 		

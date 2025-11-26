@@ -8,13 +8,17 @@ import MGOUI
 @testable import MGO
 
 class ResourceRepositorySpy: ResourceRepositoryProtocol {
+	
+	private let queue = DispatchQueue(label: "com.ResourceRepositorySpy.serialqueue.\(UUID().uuidString)")
 
 	var invokedLoad = false
 	var invokedLoadCount = 0
 	
 	func load() {
-		invokedLoad = true
-		invokedLoadCount += 1
+		queue.sync {
+			invokedLoad = true
+			invokedLoadCount += 1
+		}
 	}
 	
 	var invokedLoadForMgoOrganization = false
@@ -23,10 +27,12 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 	var invokedLoadForMgoOrganizationParametersList = [(healthcareOrganization: MgoOrganization, Void)]()
 	
 	func loadFor(_ healthcareOrganization: MgoOrganization) {
-		invokedLoadForMgoOrganization = true
-		invokedLoadForMgoOrganizationCount += 1
-		invokedLoadForMgoOrganizationParameters = (healthcareOrganization, ())
-		invokedLoadForMgoOrganizationParametersList.append((healthcareOrganization, ()))
+		queue.sync {
+			invokedLoadForMgoOrganization = true
+			invokedLoadForMgoOrganizationCount += 1
+			invokedLoadForMgoOrganizationParameters = (healthcareOrganization, ())
+			invokedLoadForMgoOrganizationParametersList.append((healthcareOrganization, ()))
+		}
 	}
 	
 	var invokedLoadForSharedHealthCategoriesCategory = false
@@ -35,10 +41,12 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 	var invokedLoadForSharedHealthCategoriesCategoryParametersList = [(category: SharedHealthCategories.Category, Void)]()
 	
 	func loadFor(_ category: SharedHealthCategories.Category) {
-		invokedLoadForSharedHealthCategoriesCategory = true
-		invokedLoadForSharedHealthCategoriesCategoryCount += 1
-		invokedLoadForSharedHealthCategoriesCategoryParameters = (category, ())
-		invokedLoadForSharedHealthCategoriesCategoryParametersList.append((category, ()))
+		queue.sync {
+			invokedLoadForSharedHealthCategoriesCategory = true
+			invokedLoadForSharedHealthCategoriesCategoryCount += 1
+			invokedLoadForSharedHealthCategoriesCategoryParameters = (category, ())
+			invokedLoadForSharedHealthCategoriesCategoryParametersList.append((category, ()))
+		}
 	}
 	
 	var invokedLoadResource = false
@@ -47,10 +55,12 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 	var invokedLoadResourceParametersList = [(healthcareOrganization: MgoOrganization, category: SharedHealthCategories.Category)]()
 	
 	func loadResource(_ healthcareOrganization: MgoOrganization, category: SharedHealthCategories.Category) {
-		invokedLoadResource = true
-		invokedLoadResourceCount += 1
-		invokedLoadResourceParameters = (healthcareOrganization, category)
-		invokedLoadResourceParametersList.append((healthcareOrganization, category))
+		queue.sync {
+			invokedLoadResource = true
+			invokedLoadResourceCount += 1
+			invokedLoadResourceParameters = (healthcareOrganization, category)
+			invokedLoadResourceParametersList.append((healthcareOrganization, category))
+		}
 	}
 	
 	var invokedLoadBinary = false
@@ -59,8 +69,6 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 	var invokedLoadBinaryParametersList = [(healthcareOrganization: MgoOrganization, serviceId: String, url: String)]()
 	var stubbedLoadBinary: FHIRBinary?
 	var stubbedLoadBinaryError: Error?
-	
-	private let queue = DispatchQueue(label: "com.ResourceRepositorySpy.serialqueue.\(UUID().uuidString)")
 	
 	func loadBinary(_ healthcareOrganization: MgoOrganization, serviceId: String, path: String) async throws -> FHIRBinary? {
 		

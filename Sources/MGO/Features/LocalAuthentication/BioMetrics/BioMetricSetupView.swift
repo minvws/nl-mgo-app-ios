@@ -36,6 +36,9 @@ class BioMetricSetupViewModel: ObservableObject {
 	/// Dependency injectable Secure User Settings
 	@Injected(\.secureUserSettings) private var secureUserSettings
 	
+	/// Dependency injectable Local Authentication Provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
+	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter bioMetricType: what biometric type do we have? (FaceID, TouchID, OpticID)
@@ -94,7 +97,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
-			let authenticated = try await Container.shared.localAuthenticationProvider().authenticate(
+			let authenticated = try await localAuthenticationProvider.authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
