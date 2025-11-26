@@ -9,12 +9,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     var f = n.default;
     if (typeof f == "function") {
       var a = function a2() {
-        var isInstance = false;
-        try {
-          isInstance = this instanceof a2;
-        } catch {
-        }
-        if (isInstance) {
+        if (this instanceof a2) {
           return Reflect.construct(f, arguments, this.constructor);
         }
         return f.apply(this, arguments);
@@ -43341,7 +43336,7 @@ ${indent}}` : "}";
     "r3.nl_core_address.line.house_number": [{ "type": 0, "value": "Huisnummer" }],
     "r3.nl_core_address.line.street_name": [{ "type": 0, "value": "Straatnaam" }],
     "r3.nl_core_address.line.unit_id": [{ "type": 0, "value": "Extra informatie" }],
-    "r3.nl_core_address.official": [{ "type": 0, "value": "Markeer een adres als een 'officieel geregistreerd adres." }],
+    "r3.nl_core_address.official": [{ "type": 0, "value": "Markeer een adres als een 'officieel geregistreerd adres'." }],
     "r3.nl_core_address.type": [{ "type": 0, "value": "Adres type" }],
     "r3.nl_core_address.use": [{ "type": 0, "value": "Adres soort" }],
     "r3.nl_core_careplan": [{ "type": 0, "value": "Zorgplan" }],

@@ -167,7 +167,11 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		// Given
 		createSut()
 		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedETag = "Test ETag"
-		servicesSpies.resourceRepositorySpy.stubbedGetVersionResult = SharedVersion(version: "test version", gitRef: "test", created: "today")
+		servicesSpies.resourceRepositorySpy.stubbedGetVersionResult = SharedVersion(
+			version: "test version",
+			gitRef: "test",
+			created: "today"
+		)
 		
 		let state = SettingsCoordination.State.version
 		
