@@ -65,4 +65,30 @@ class FHIRClientTests: XCTestCase {
 		}
 		.to( throwError())
 	}
+	
+	func test_readDataFrom_400_withBody() async throws {
+		
+		// Given
+		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
+		let client = FHIRClient(baseURL: serverUrl)
+		let parameters = RequestParameters(
+			[
+				(RequestParameterField.category, "urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3|6"),
+				(RequestParameterField.include, "MedicationStatement:medication")
+			]
+		)
+		stub(condition: isPath("/MedicationStatement")) { _ in
+			return HTTPStubsResponse(data: Data("404".utf8), statusCode: 404, headers: nil)
+		}
+		
+		// When
+		
+		// Then
+		await expect { try await client.readDataFrom(
+			"MedicationStatement",
+			parameters: parameters,
+			headers: RequestHeaders([RequestHeaderField.dvaTarget: "dvaTarget"]))
+		}
+		.to( throwError())
+	}
 }
