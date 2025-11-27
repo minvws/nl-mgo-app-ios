@@ -65,21 +65,7 @@ struct HealthCategoryRowView: View {
 			Spacer()
 			
 			VStack(alignment: .trailing) {
-				switch state {
-					case .loaded:
-						Image(ImageResource.Icon.chevron)
-							.foregroundStyle(theme.symbols.secondary)
-							.frame(width: 12, height: 22)
-					
-					case .loading:
-						ProgressView()
-							.progressViewStyle(.circular)
-							.frame(width: ViewTraits.Spinner.size, height: ViewTraits.Spinner.size)
-							.tint(theme.symbols.secondary)
-					
-					default:
-						Spacer()
-				}
+				CategoryStateView(state: state)
 			}
 			.frame(minWidth: ViewTraits.Spinner.minWidth)
 		}
