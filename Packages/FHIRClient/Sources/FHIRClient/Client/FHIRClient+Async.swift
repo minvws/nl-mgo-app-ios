@@ -35,10 +35,22 @@ extension FHIRClient {
 		if let error = response.error {
 			throw error
 		} else {
-			guard let body = response.body else {
+			guard response.status == 200, let body = response.body else {
+				/*
+				 A 404 might contain an 'OperationOutcome' body
+				 {
+					"resourceType": "OperationOutcome",
+					"issue": [{
+						"severity": "error",
+						"code": "not-found",
+						"diagnostics": "The resource is not supported by the server"
+					}]
+				 }
+				 */
 				throw FHIRError.responseNoResourceReceived
 			}
 			return body
 		}
 	}
 }
+
