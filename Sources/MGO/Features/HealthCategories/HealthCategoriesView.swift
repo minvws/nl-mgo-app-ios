@@ -52,7 +52,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		var favoritesStoreToken: Observatory.ObserverToken?
 	}
 	
-	private var tokens = Tokens()
+	private var observationTokens = Tokens()
 	
 	/// Dependency Healthcare Organization Store
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
@@ -137,7 +137,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	}
 	
 	@MainActor private func registerObservers() {
-		self.tokens.dataStoreToken = dataStore.observatory.append { [weak self] changed in
+		self.observationTokens.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
 				Task { @MainActor in
 					// Handle updates in the fetched data
@@ -146,14 +146,14 @@ class HealthCategoriesViewModel: ObservableObject {
 			}
 		}
 		
-		self.tokens.healthcareOrganizationStoreToken = healthcareOrganizationRepository.observatory.append { [weak self] _ in
+		self.observationTokens.healthcareOrganizationStoreToken = healthcareOrganizationRepository.observatory.append { [weak self] _ in
 			Task { @MainActor in
 				// Check if there are any healthcare organizations left.
 				self?.state.showEmptyView = self?.healthcareOrganizationRepository.organizations.isEmpty ?? true
 			}
 		}
 		
-		self.tokens.favoritesStoreToken = favoritesRepository.observatory.append { [weak self] _ in
+		self.observationTokens.favoritesStoreToken = favoritesRepository.observatory.append { [weak self] _ in
 			Task { @MainActor in
 				self?.prepareFavorites()
 			}
@@ -175,9 +175,9 @@ class HealthCategoriesViewModel: ObservableObject {
 	
 	deinit {
 		// Remove observers
-		tokens.dataStoreToken.map(dataStore.observatory.remove)
-		tokens.healthcareOrganizationStoreToken.map(healthcareOrganizationRepository.observatory.remove)
-		tokens.favoritesStoreToken.map(favoritesRepository.observatory.remove)
+		observationTokens.dataStoreToken.map(dataStore.observatory.remove)
+		observationTokens.healthcareOrganizationStoreToken.map(healthcareOrganizationRepository.observatory.remove)
+		observationTokens.favoritesStoreToken.map(favoritesRepository.observatory.remove)
 	}
 	
 	/// Handle any action
@@ -313,6 +313,10 @@ class HealthCategoriesViewModel: ObservableObject {
 		// There are records for all organizations.
 		// Let's check if any of them has data with an accepted profile
 		var hasAcceptedProfile = false
+		var hasError = false
+		for record in records where record.error {
+			hasError = true
+		}
 		for record in records where record.resources.isNotEmpty {
 			for resource in record.resources {
 				for profile in category.profiles() where resource.hasProfile(profile) {
@@ -320,7 +324,14 @@ class HealthCategoriesViewModel: ObservableObject {
 				}
 			}
 		}
-		state.buttonState[category.id] = hasAcceptedProfile ? .loaded : .empty
+		switch (hasError, hasAcceptedProfile) {
+			case (true, _):
+				state.buttonState[category.id] = .error
+			case (false, true):
+				state.buttonState[category.id] = .loaded
+			case (false, false):
+				state.buttonState[category.id] = .empty
+		}
 	}
 	
 	/// handle the failure path of the cache
