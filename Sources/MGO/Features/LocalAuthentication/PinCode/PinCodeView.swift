@@ -58,6 +58,9 @@ class PinCodeViewModel: ObservableObject {
 	/// Should we show the back button?
 	private var backButtonVisible = false
 	
+	/// Dependency injectable Notification Center
+	@Injected(\.notificationCenter) private var notificationCenter
+	
 	/// The access code
 	private var accessCode: [String] = [] {
 		didSet {
@@ -84,6 +87,9 @@ class PinCodeViewModel: ObservableObject {
 	
 	/// Dependency injectable Secure User Settings
 	@Injected(\.secureUserSettings) private var secureUserSettings
+	
+	/// Dependency injectable Local Authentication Provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
 	
 	/// Initializer
 	/// - Parameter pinLimit: the pin limit
@@ -205,7 +211,7 @@ class PinCodeViewModel: ObservableObject {
 		logDebug("Announcing: \(message)")
 		
 		delay(0.25) {
-			Container.shared.notificationCenter().post(notification: .announcement, argument: message)
+			self.notificationCenter.post(notification: .announcement, argument: message)
 		}
 	}
 	
@@ -358,7 +364,7 @@ class PinCodeViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
-			let validated = try await Container.shared.localAuthenticationProvider().authenticate(
+			let validated = try await localAuthenticationProvider.authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)

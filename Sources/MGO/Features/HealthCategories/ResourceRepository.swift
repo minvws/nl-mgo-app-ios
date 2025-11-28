@@ -38,6 +38,10 @@ protocol ResourceRepositoryProtocol {
 		serviceId: String,
 		path: String
 	) async throws -> FHIRBinary?
+	
+	/// Get the version of the shared library
+	/// - Returns: the shared version
+	@MainActor func getVersion() throws -> SharedVersion
 }
 
 /// Load the resources from the server
@@ -115,6 +119,12 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 	}
 	
+	/// Get the version of the shared library
+	/// - Returns: the shared version
+	@MainActor func getVersion() throws -> SharedVersion {
+		return try repository.getVersion()
+	}
+	
 	/// Handle changes in the organizations list
 	/// - Parameters:
 	///   - organization: optional organization added or removed
@@ -183,7 +193,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// Load all the categories for a category
 	/// - Parameter category: the category to load  for
 	@MainActor func loadFor(_ category: SharedHealthCategories.Category) {
-		logInfo("ResourceRepository - LoadFor Cat", category)
+		logVerbose("ResourceRepository - LoadFor Cat", category)
 		
 		guard let healthcareOrganizationRepository else { return }
 		

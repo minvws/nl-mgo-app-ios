@@ -28,13 +28,14 @@ nonisolated public class HCIMParser {
 	
 	/// What version of the shared core are we running?
 	/// - Returns: the version
-	public func getVersion() throws -> String {
+	public func getVersion() throws -> HCIMVersion {
 		
 		guard let parserPath = Bundle.module.path(forResource: "version", ofType: "json") else {
-			logError("HCIMParser: The parser file could not be found")
-			throw HCIMParserError.parserNotFound
+			logError("HCIMParser: The version file could not be found")
+			throw HCIMVersion.Error.noResource
 		}
-		return try String(contentsOfFile: parserPath)
+		
+		return try HCIMVersion(String(contentsOfFile: parserPath))
 	}
 	
 	/// Create the JavaScript Context

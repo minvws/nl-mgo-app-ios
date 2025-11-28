@@ -20,7 +20,7 @@ final class SecuritySettingsViewModelTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func setupSut(bioMetricType: () -> LocalAuthentication.BiometricType) {
+	@MainActor func setupSut(bioMetricType: () -> LocalAuthentication.BiometricType) {
 		
 		sut = SecuritySettingsViewModel(coordinator: coordinatorSpy, bioMetricType: bioMetricType)
 	}

@@ -136,6 +136,28 @@
         }
       }
     },
+    "add_organization.default_content_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waar wilt u uw zorggegevens ophalen?"
+          }
+        }
+      }
+    },
+    "add_organization.default_content_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bijvoorbeeld uw huisarts, ziekenhuis of apotheek."
+          }
+        }
+      }
+    },
     "add_organization.error_missing_city" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -209,6 +231,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zorgaanbieder niet aangesloten"
+          }
+        }
+      }
+    },
+    "add_organization.search_clear" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis selectie"
+          }
+        }
+      }
+    },
+    "add_organization.search_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bijv. Amsterdam UMC"
           }
         }
       }
@@ -571,7 +615,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen gegevens"
+            "value" : "Leeg"
           }
         }
       }
@@ -3148,6 +3192,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Touch ID"
+          }
+        }
+      }
+    },
+    "settings.version.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versie"
           }
         }
       }

@@ -10,6 +10,8 @@ import Logging
 
 public protocol PatientFriendlyTermsRepositoryProtocol {
 	
+	var eTag: String? { get set }
+	
 	/// Fetch the patient friendly terms
 	func fetchTerms() async
 	
@@ -58,7 +60,7 @@ public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProto
 	
 	/// The ETag for the terms
 	@FoilDefaultStorageOptional(key: eTagKey)
-	internal var eTag: String?
+	public var eTag: String?
 	
 	/// Create a Patient Friendly Terms Repository
 	/// - Parameters:

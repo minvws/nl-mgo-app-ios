@@ -41,6 +41,9 @@ enum HealthDataDownloadState: Equatable, Sendable {
 	/// The repository for binaries
 	private var fileStorage: FileStorageProtocol?
 	
+	/// Dependency Injectable Resource Repository
+	@Injected(\.resourceRepository) private var resourceRepository
+	
 	/// Create a Download View for a Download Binary
 	/// - Parameters:
 	///   - healthcareOrganization: the healthcare organization
@@ -178,7 +181,7 @@ enum HealthDataDownloadState: Equatable, Sendable {
 		
 		do {
 			if let documentService = DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.first(where: { $0.name == "Documents PDF/A" }),
-			   let binary = try await Container.shared.resourceRepository().loadBinary(
+			   let binary = try await resourceRepository.loadBinary(
 				healthcareOrganization,
 				serviceId: documentService.id,
 				path: externalUrl

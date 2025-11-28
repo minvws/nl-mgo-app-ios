@@ -18,7 +18,7 @@ class BaseViewModel: ObservableObject {
 	
 	/// Create the accessibility ViewModel
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil) {
+	@MainActor init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator
 	}
 	

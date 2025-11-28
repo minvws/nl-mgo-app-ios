@@ -161,4 +161,24 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		// Then
 		expect(webview) != nil
 	}
+	
+	@MainActor func test_coordinatorView_forVersion() throws {
+		
+		// Given
+		createSut()
+		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedETag = "Test ETag"
+		servicesSpies.resourceRepositorySpy.stubbedGetVersionResult = SharedVersion(
+			version: "test version",
+			gitRef: "test",
+			created: "today"
+		)
+		
+		let state = SettingsCoordination.State.version
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
 }

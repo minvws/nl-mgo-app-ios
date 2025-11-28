@@ -31,16 +31,23 @@ class SettingsViewModel: ObservableObject {
 		case showResetDialog
 	}
 	
+	/// Dependency injectable Local Authentication Provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
+	
 	/// Create the settings view model
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil) {
+	@MainActor init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator
+		setupButtons()
+	}
+	
+	@MainActor func setupButtons() {
 		
 		let release = Configuration().getRelease()
 		showAdvancedButton = release == Release.development // Show only in Dev
 		
 		// Show only when we have biometrics
-		showSecurityButton = Container.shared.localAuthenticationProvider().biometricType() != .none
+		showSecurityButton = localAuthenticationProvider.biometricType() != .none
 	}
 	
 	/// Handle any action

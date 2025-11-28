@@ -19,12 +19,12 @@ final class BaseViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = BaseViewModel(coordinator: self.coordinatorSpy)
 	}
 
 	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
+		sut = BaseViewModel(coordinator: self.coordinatorSpy)
 		
 		// When
 		sut.reduce(.backButtonPressed)

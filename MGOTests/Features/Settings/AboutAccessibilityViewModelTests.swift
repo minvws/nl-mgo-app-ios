@@ -19,12 +19,12 @@ final class AboutAccessibilityViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = AboutAccessibilityViewModel(coordinator: self.coordinatorSpy)
 	}
 	
 	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
+		sut = AboutAccessibilityViewModel(coordinator: self.coordinatorSpy)
 		
 		// When
 		sut.reduce(.backButtonPressed)

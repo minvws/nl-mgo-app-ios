@@ -6,6 +6,7 @@
 import Foundation
 import FHIRClient
 import HCIMCore
+import MGODebug
 
 /// The repository to fetch FHIR data and store as HCIM
 public actor MGORepository {
@@ -17,6 +18,18 @@ public actor MGORepository {
 	/// - Parameter client: the FHIR client
 	public init(client: FHIRClient) {
 		self.client = client
+	}
+	
+	/// What version of the shared core are we running?
+	/// - Returns: the version
+	@MainActor public func getVersion() throws -> SharedVersion {
+		
+		guard let parserPath = Bundle.module.path(forResource: "version", ofType: "json") else {
+			logError("MGORepository: The version file could not be found")
+			throw SharedVersion.Error.noResource
+		}
+		
+		return try SharedVersion(String(contentsOfFile: parserPath))
 	}
 	
 	/// Get the Bundle from a DVP Endpoint as data

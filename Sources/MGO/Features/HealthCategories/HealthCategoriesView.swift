@@ -123,7 +123,7 @@ class HealthCategoriesViewModel: ObservableObject {
 			heading: heading,
 			subheading: subheading,
 			canTitleCollapse: canTitleCollapse,
-			showEmptyView: Container.shared.healthcareOrganizationRepository().organizations.isEmpty,
+			showEmptyView: true,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			mainCategories: sharedHealthCategories?.mainCategories ?? [],
 			buttonState: initialButtonState,
@@ -131,6 +131,7 @@ class HealthCategoriesViewModel: ObservableObject {
 			backButtonTitle: backbuttonTitle,
 			belowIOS18: belowIOS18
 		)
+		self.state.showEmptyView = healthcareOrganizationRepository.organizations.isEmpty
 		prepareFavorites()
 		registerObservers()
 	}
@@ -354,6 +355,9 @@ struct HealthCategoriesView: View {
 	
 	/// Dependency injectable OS Version Checker
 	@Injected(\.osVersionChecker) private var osVersionChecker
+	
+	/// Dependency injectable Feature Flag Manager
+	@Injected(\.featureFlagManager) private var featureFlagManager
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -673,7 +677,7 @@ struct HealthCategoriesView: View {
 		} bottomView: {
 			
 			CallToActionButton(
-				Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations",
+				featureFlagManager.isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations",
 				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
 			) {
 				viewModel.reduce(.search)
