@@ -343,7 +343,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		// No records available. Keep in loading state.
 		guard case DataStoreError.noData = error else {
 			logError("Error", error)
-			state.buttonState[category.id] = .empty
+			state.buttonState[category.id] = .error
 			return
 		}
 		state.buttonState[category.id] = .loading
