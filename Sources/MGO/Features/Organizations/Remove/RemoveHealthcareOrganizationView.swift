@@ -153,7 +153,10 @@ struct RemoveHealthcareOrganizationView: View {
 			
 			CallToActionButton(
 				"remove_organization.no_cancel",
-				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
 			) {
 				viewModel.reduce(.cancel)
 			}

@@ -311,7 +311,10 @@ struct OrganizationListAutomaticView: View {
 			
 			CallToActionButton(
 				"common.to_overview",
-				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
 			) {
 				viewModel.reduce(.store)
 			}

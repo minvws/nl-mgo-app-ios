@@ -119,7 +119,10 @@ struct ForgotPinCodeView: View {
 			
 			CallToActionButton(
 				"common.cancel",
-				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
 			) {
 				viewModel.reduce(.cancelButtonPressed)
 			}

@@ -125,7 +125,10 @@ struct UpdateRequiredView: View {
 			
 			CallToActionButton(
 				"update_required.download",
-				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
 			) {
 				viewModel.reduce(.actionButtonPressed)
 			}

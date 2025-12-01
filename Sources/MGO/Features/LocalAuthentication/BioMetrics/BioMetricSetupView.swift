@@ -337,7 +337,10 @@ struct BioMetricSetupView: View {
 				LocalizedStringKey(
 					getBioMetricTypeInterpolatedText("biometric_setup.button.with_biometric", type: bioMetricType)
 				),
-				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
 			) {
 				if bioMetricType == .touchID {
 					viewModel.reduce(.showTouchIDPopup)

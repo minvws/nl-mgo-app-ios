@@ -76,7 +76,7 @@ final class CallToActionButtonTests: XCTestCase {
 		// Given
 		let sut = CallToActionButton(
 			"Solid",
-			style: .solid(rounded: false)
+			style: .solid(rounded: false, narrow: false)
 		)
 		
 		// When
@@ -90,8 +90,38 @@ final class CallToActionButtonTests: XCTestCase {
 		
 		// Given
 		let sut = CallToActionButton(
-			"Solid",
-			style: .solid(rounded: true)
+			"Solid Rounded",
+			style: .solid(rounded: true, narrow: false)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_primary_small() throws {
+		
+		// Given
+		let sut = CallToActionButton(
+			"Solid Narrow",
+			style: .solid(rounded: false, narrow: true)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+
+	func test_primary_roundedAndSmall() throws {
+		
+		// Given
+		let sut = CallToActionButton(
+			"Solid Narrow and Rounded",
+			style: .solid(rounded: true, narrow: true)
 		)
 		
 		// When
@@ -106,7 +136,7 @@ final class CallToActionButtonTests: XCTestCase {
 		// Given
 		let sut = CallToActionButton(
 			title: "Solid Title",
-			style: .solid(rounded: false)
+			style: .solid(rounded: false, narrow: false)
 		)
 		
 		// When
@@ -195,14 +225,15 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_solidStyle_equality() {
 		
 		// Given
-		let solidRounded = CallToActionButtonStyle.solid(rounded: true)
-		let solid = CallToActionButtonStyle.solid(rounded: false)
+		let solidRounded = CallToActionButtonStyle.solid(rounded: true, narrow: false)
+		let solid = CallToActionButtonStyle.solid(rounded: false, narrow: false)
 		
 		// When
 		
 		// Then
 		expect(solidRounded) != solid
-		expect(solidRounded) == CallToActionButtonStyle.solid(rounded: true)
+		expect(solidRounded) == CallToActionButtonStyle.solid(rounded: true, narrow: false)
+		expect(solidRounded) != CallToActionButtonStyle.solid(rounded: true, narrow: true)
 	}
 	
 	func test_tonalStyle_equality() {
