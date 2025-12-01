@@ -16,6 +16,19 @@ enum HealthCategoriesViewMode {
 	case all
 }
 
+/// The error state for the overview
+enum HealthCategoriesErrorState: Equatable {
+	
+	/// No error
+	case none
+	
+	/// We are reloading
+	case loading
+	
+	/// There is an error
+	case error(heading: String, subHeading: String)
+}
+
 struct HealthCategoriesViewState {
 	
 	var heading: String
@@ -23,6 +36,7 @@ struct HealthCategoriesViewState {
 	var canTitleCollapse: Bool
 	var showEmptyView: Bool
 	var showRemoveHealthcareProvider: Bool
+	var errorState: HealthCategoriesErrorState
 	var mainCategories: [SharedHealthCategories.MainCategory]
 	var buttonState: [String: CategoryState]
 	var favorites: [SharedHealthCategories.Category]
@@ -125,6 +139,8 @@ class HealthCategoriesViewModel: ObservableObject {
 			canTitleCollapse: canTitleCollapse,
 			showEmptyView: true,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
+			errorState: .none,
+//			errorState: .error(heading: "Gegevens niet opgehaald", subHeading: "Helaas konden we door een probleem aan onze kant uw gegevens niet ophalen."),
 			mainCategories: sharedHealthCategories?.mainCategories ?? [],
 			buttonState: initialButtonState,
 			favorites: [],
@@ -380,9 +396,9 @@ struct HealthCategoriesView: View {
 		}
 		enum List {
 			static let zeroInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-			static let headerInset = EdgeInsets(top: 24, leading: 0, bottom: 12, trailing: 0)
+			static let headerInset = EdgeInsets(top: 32, leading: 16, bottom: 12, trailing: 16)
 			static let oldVersionInset = EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0)
-			static let alternativeInset = EdgeInsets(top: 12, leading: 0, bottom: 12, trailing: 0)
+			static let alternativeInset = EdgeInsets(top: 8, leading: 16, bottom: 12, trailing: 16)
 			static let spacing: CGFloat = 4
 			static let padding: CGFloat = 8
 			static let demoSpacing: CGFloat = 16
@@ -480,10 +496,17 @@ struct HealthCategoriesView: View {
 		
 		List {
 			
+			if !viewModel.state.canTitleCollapse {
+				listHeader()
+			}
+			if viewModel.state.errorState != .none {
+				Section {
+					ErrorStateCardView(state: viewModel.state.errorState)
+				}
+			}
+			
 			if viewModel.state.canTitleCollapse {
 				favorites()
-			} else {
-				listHeader()
 			}
 			
 			ForEach(viewModel.state.mainCategories) { mainCategoryView($0) }
@@ -530,7 +553,9 @@ struct HealthCategoriesView: View {
 			return ViewTraits.List.oldVersionInset
 		}
 		
-		if !viewModel.state.canTitleCollapse && mainCategory == viewModel.state.mainCategories.first {
+		if !viewModel.state.canTitleCollapse &&
+			mainCategory == viewModel.state.mainCategories.first &&
+			viewModel.state.errorState == .none {
 			return ViewTraits.List.alternativeInset
 		}
 		return ViewTraits.List.headerInset
@@ -582,7 +607,7 @@ struct HealthCategoriesView: View {
 			}
 		}
 		.listRowBackground(Color.clear)
-		.listRowInsets(ViewTraits.List.zeroInset)
+		.listRowInsets(ViewTraits.List.alternativeInset)
 	}
 	
 	/// The favorites section
@@ -624,7 +649,9 @@ struct HealthCategoriesView: View {
 				.accessibilityAddTraits(.isHeader)
 		}
 		.listRowBackground(Color.clear)
-		.listRowInsets(ViewTraits.List.zeroInset)
+		.listRowInsets(
+			viewModel.state.errorState == .none ? ViewTraits.List.alternativeInset : ViewTraits.List.headerInset
+		)
 	}
 	
 	/// The empty state when the user has no favorite categories
@@ -689,7 +716,10 @@ struct HealthCategoriesView: View {
 			
 			CallToActionButton(
 				featureFlagManager.isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations",
-				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
 			) {
 				viewModel.reduce(.search)
 			}

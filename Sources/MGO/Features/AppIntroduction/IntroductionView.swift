@@ -136,7 +136,10 @@ struct IntroductionView: View {
 			
 			CallToActionButton(
 				"common.next",
-				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
 			) {
 				viewModel.reduce(.nextButttonPressed)
 			}

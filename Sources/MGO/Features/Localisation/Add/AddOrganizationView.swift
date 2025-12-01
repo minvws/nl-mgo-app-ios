@@ -229,7 +229,10 @@ struct AddOrganizationView: View {
 		} bottomView: {
 			CallToActionButton(
 				"common.search",
-				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
 			) {
 				viewModel.reduce(.search)
 			}

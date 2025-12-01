@@ -142,7 +142,10 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 		} bottomView: {
 			CallToActionButton(
 				viewModel.button,
-				style: .solid(rounded: osVersionChecker.available(version: .iOS(.v26)))
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
 			) {
 				viewModel.action()
 			}

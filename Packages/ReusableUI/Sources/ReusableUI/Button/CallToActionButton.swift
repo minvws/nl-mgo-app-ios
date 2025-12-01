@@ -129,10 +129,12 @@ private struct ButtonStyleApplier: ViewModifier {
 			case .ghost:
 				content.buttonStyle(GhostButtonStyle())
 				
-			case let .solid(rounded),
-				let .solidLeadingIcon(rounded: rounded),
+			case let .solid(rounded, narrow):
+				content.buttonStyle(SolidButtonStyle(rounded: rounded, narrow: narrow))
+
+			case let .solidLeadingIcon(rounded: rounded),
 				let .solidLeadingSpinner(rounded: rounded):
-				content.buttonStyle(SolidButtonStyle(rounded: rounded))
+				content.buttonStyle(SolidButtonStyle(rounded: rounded, narrow: false))
 				
 			case let .tonal(rounded):
 				content.buttonStyle(TonalButtonStyle(rounded: rounded))
@@ -171,13 +173,23 @@ private struct ButtonStyleApplier: ViewModifier {
 		)
 		.padding(16)
 		CallToActionButton(
-			".solid(rounded: false)",
-			style: .solid(rounded: false)
+			".solid(rounded: false, narrow: false)",
+			style: .solid(rounded: false, narrow: false)
 		)
 			.padding(16)
 		CallToActionButton(
-			".solid(rounded: true)",
-			style: .solid(rounded: true)
+			".solid(rounded: false, narrow: true)",
+			style: .solid(rounded: false, narrow: true)
+		)
+		.padding(16)
+		CallToActionButton(
+			".solid(rounded: true, narrow: false)",
+			style: .solid(rounded: true, narrow: false)
+		)
+		.padding(16)
+		CallToActionButton(
+			".solid(rounded: true, narrow: true)",
+			style: .solid(rounded: true, narrow: true)
 		)
 			.padding(16)
 		CallToActionButton(

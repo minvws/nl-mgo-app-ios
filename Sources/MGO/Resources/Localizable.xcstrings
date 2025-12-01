@@ -120,7 +120,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgaanbieder al toevoegd"
+            "value" : "Al toevoegd"
           }
         }
       }
@@ -759,6 +759,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja"
+          }
+        }
+      }
+    },
+    "dialog.add_organization_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ toevoegen?"
+          }
+        }
+      }
+    },
+    "dialog.add_organization_no" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nee"
+          }
+        }
+      }
+    },
+    "dialog.add_organization_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als deze zorgaanbieder gegevens over u heeft, staan die straks in uw overzicht."
+          }
+        }
+      }
+    },
+    "dialog.add_organization_yes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja, toevoegen"
           }
         }
       }
@@ -2046,6 +2090,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voeg een zorgaanbieder toe"
+          }
+        }
+      }
+    },
+    "overview.errorstate.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens ophalen ..."
           }
         }
       }
@@ -3390,6 +3445,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Behandelaren"
+          }
+        }
+      }
+    },
+    "zib_contact_person.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persoonlijke gegevens"
           }
         }
       }
