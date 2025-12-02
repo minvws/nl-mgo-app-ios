@@ -246,7 +246,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 
 		// Always allow the update app action
 		if action.identifier == Coordination.Action.showAppStore.identifier {
-			#warning("The appstore url needs to be updated (MGO-548)")
+			#warning("Rool, 03/06/2024: The appstore url needs to be updated (MGO-548)")
 			guard let appStoreUrl = URL(string: "https://apps.apple.com") else { return }
 			browser.handleUnallowedDomain(appStoreUrl)
 			return

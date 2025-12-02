@@ -20,7 +20,7 @@ public class Configuration {
 	}
 }
 
-#warning("The production endpoints still point to acceptance. This needs to be changed to production")
+#warning("Rool, 28/01/2025: The production endpoints still point to acceptance. This needs to be changed to production")
 
 extension Configuration {
 	
