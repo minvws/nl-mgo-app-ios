@@ -123,6 +123,7 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 		}
 		
 		do {
+			#warning("Rool, 02/12/2025: fix non-sendable warning")
 			searchResultsList = try await localisationServiceClient.searchDemoOrganizations()
 			logDebug("We found \(searchResultsList.count) organizations.")
 			
@@ -159,7 +160,7 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 			)
 		}
 		if list.isEmpty {
-			#warning("We should have an empty state for automatic localization")
+			#warning("Rool, 02/12/2024: We should have an empty state for automatic localization")
 			state = .failure(LocalisationServiceClientError.noOrganizations)
 		} else {
 			state = .success(list)
