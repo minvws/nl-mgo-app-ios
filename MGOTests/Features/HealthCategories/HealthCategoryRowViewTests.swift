@@ -79,12 +79,35 @@ class HealthCategoryRowViewTests: XCTestCase {
 		)
 	}
 	
-	@MainActor func test_error() {
+	@MainActor func test_clientError() {
 		
 		// Given
 		let sut = HealthCategoryRowView(
 			category: Generator.healthCategory,
-			state: .error
+			state: .clientError
+		)
+		
+		// When
+		let view = sut.frame(width: 380, height: 200)
+			.background(Theme().backgrounds.primary)
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
+	}
+	
+	@MainActor func test_serverError() {
+		
+		// Given
+		let sut = HealthCategoryRowView(
+			category: Generator.healthCategory,
+			state: .serverError
 		)
 		
 		// When

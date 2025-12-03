@@ -7,6 +7,8 @@ import Foundation
 
 public class NetworkAvailabilityCheckerSpy: NetworkAvailabilityChecking, @unchecked Sendable {
 	
+	public init() { /* Public initializer */ }
+	
 	private let queue = DispatchQueue(label: "com.NetworkAvailabilityCheckerSpy.serialqueue.\(UUID().uuidString)")
 	
 	public var stubbedIsNetworkAvailable: Bool! = true
