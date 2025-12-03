@@ -44,6 +44,11 @@ protocol ResourceRepositoryProtocol {
 	@MainActor func getVersion() throws -> SharedVersion
 }
 
+enum ResourceRepositoryError: Int {
+	case client = -1
+	case server = 1
+}
+
 /// Load the resources from the server
 class ResourceRepository: ResourceRepositoryProtocol {
 	
@@ -85,25 +90,33 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// The MGO repository to fetch FHIR objects
 	private var repository: MGORepository
 	
+	/// The network availability checker
+	private var networkAvailabilityChecker: NetworkAvailabilityChecking
+	
 	/// Create the Resource Repository
 	/// - Parameters:
 	///   - healthcareOrganizationRepository: the repository for healthcare organizations
 	///   - dataRepository: the repository for data storage
+	///   - networkAvailabilityChecker: do we have network availability
+	///   - featureFlagManager: the feature flag manager
 	///   - serverUrl: the url of the server
 	///   - username: the authentication username
 	///   - password: the authentication password
 	@MainActor init(
 		healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol,
 		dataRepository: MgoDataStoreProtocol,
+		networkAvailabilityChecker: NetworkAvailabilityChecking,
 		featureFlagManager: FeatureFlagManaging,
 		serverUrl: Foundation.URL,
 		username: String?,
-		password: String?) {
+		password: String?
+	) {
 		
 		self.healthcareOrganizationRepository = healthcareOrganizationRepository
 		self.dataRepository = dataRepository
 		self.featureFlagManager = featureFlagManager
 		self.repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
+		self.networkAvailabilityChecker = networkAvailabilityChecker
 		self.username = username
 		self.password = password
 		registerObservers()
@@ -265,29 +278,33 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	) async {
 		
 		var mgoResources = [MgoResource]()
-		var resourceError = false
+		var resourceError: ResourceRepositoryError?
 		
-		do {
-			logVerbose("ResourceRepository - calling endpoint for \(mapping.dvaTarget)", mapping.endpoint)
-			let fhirBundle = try await repository.getBundleData(
-				endpoint: mapping.endpoint,
-				fhirVersion: mapping.fhirVersion,
-				headers: MGORepositoryHeaders(
-					dvaTarget: mapping.dvaTarget,
-					dataServiceId: mapping.dataServiceId,
-					medmijId: mapping.providerId,
-					username: username,
-					password: password
+		if await networkAvailabilityChecker.isNetworkAvailable() {
+			do {
+				logVerbose("ResourceRepository - calling endpoint for \(mapping.dvaTarget)", mapping.endpoint)
+				let fhirBundle = try await repository.getBundleData(
+					endpoint: mapping.endpoint,
+					fhirVersion: mapping.fhirVersion,
+					headers: MGORepositoryHeaders(
+						dvaTarget: mapping.dvaTarget,
+						dataServiceId: mapping.dataServiceId,
+						medmijId: mapping.providerId,
+						username: username,
+						password: password
+					)
 				)
-			)
-			
-			mgoResources = try await repository.process(
-				fhirBundle,
-				fhirVersion: mapping.fhirVersion.rawValue
-			)
-		} catch {
-			logError("ResourceRepository", error)
-			resourceError = true
+				
+				mgoResources = try await repository.process(
+					fhirBundle,
+					fhirVersion: mapping.fhirVersion.rawValue
+				)
+			} catch {
+				logError("ResourceRepository", error)
+				resourceError = ResourceRepositoryError.server // Network / Parse error
+			}
+		} else {
+			resourceError = .client // No internet
 		}
 		
 		for category in mapping.categories {
@@ -296,7 +313,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				categoryId: category.id,
 				organizationId: healthcareOrganization.identifier,
 				resources: mgoResources,
-				error: resourceError
+				error: resourceError?.rawValue
 			)
 			logVerbose("ResourceRepository - Adding to the store", recordToStore)
 			

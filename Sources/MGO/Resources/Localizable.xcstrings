@@ -906,6 +906,61 @@
         }
       }
     },
+    "errorstate.clientside.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er ging iets mis bij het ophalen. Controleer uw verbinding en probeer het opnieuw."
+          }
+        }
+      }
+    },
+    "errorstate.error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen gegevens opgehaald"
+          }
+        }
+      }
+    },
+    "errorstate.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens ophalen…"
+          }
+        }
+      }
+    },
+    "errorstate.partial_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet alle gegevens zijn opgehaald"
+          }
+        }
+      }
+    },
+    "errorstate.serverside.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit komt door een storing bij ons. Probeer het later opnieuw."
+          }
+        }
+      }
+    },
     "export_pdf.close" : {
       "extractionState" : "manual",
       "localizations" : {

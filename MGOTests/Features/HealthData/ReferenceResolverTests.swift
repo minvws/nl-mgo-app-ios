@@ -92,7 +92,7 @@ class ReferenceResolverTests: XCTestCase {
 			categoryId: "1",
 			organizationId: organization.identification,
 			resources: [resource],
-			error: false
+			error: nil
 		)
 		servicesSpies.dataStoreSpy.stubbedGetOrganizationIdResult = .success([record])
 		reference = "Condition/3c77bb22-795d-4e5e-815e-1db080fca69f"

@@ -26,7 +26,7 @@ class ReferenceResolver: ReferenceResolverProtocol {
 			// Loop over all records
 			for record in records {
 				
-				guard !record.error else { continue }
+				guard record.error == nil else { continue }
 				
 				let resources = record.resources.filter { resource in
 					return resource.isReference(reference)

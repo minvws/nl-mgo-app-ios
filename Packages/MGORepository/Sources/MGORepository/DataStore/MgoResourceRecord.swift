@@ -9,5 +9,5 @@ public typealias MgoResourceRecord = (
 	categoryId: String,
 	organizationId: String,
 	resources: [MgoResource],
-	error: Bool
+	error: Int?
 )

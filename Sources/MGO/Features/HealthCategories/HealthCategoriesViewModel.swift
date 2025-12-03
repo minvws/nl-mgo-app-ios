@@ -84,6 +84,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	enum Action {
 		case backButtonPressed
 		case refresh
+		case retry
 		case categorySelected(SharedHealthCategories.Category)
 		case removeHealthcareOrganization
 		case onAppear
@@ -140,7 +141,6 @@ class HealthCategoriesViewModel: ObservableObject {
 			showEmptyView: true,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			errorState: .none,
-//			errorState: .error(heading: "Gegevens niet opgehaald", subHeading: "Helaas konden we door een probleem aan onze kant uw gegevens niet ophalen."),
 			mainCategories: sharedHealthCategories?.mainCategories ?? [],
 			buttonState: initialButtonState,
 			favorites: [],
@@ -206,6 +206,12 @@ class HealthCategoriesViewModel: ObservableObject {
 				
 			case .search:
 				coordinator?.handle(Coordination.Action.addHealthcareOrganization)
+			
+			case .retry:
+				withAnimation {
+					state.errorState = .loading
+				}
+				reduce(.refresh)
 				
 			case .refresh:
 				if case let .single(healthcareOrganization) = mode {
@@ -270,8 +276,47 @@ class HealthCategoriesViewModel: ObservableObject {
 				handleCacheResult(cacheResult, category: category)
 			}
 		}
+		updateErrorState()
 	}
-
+	
+	/// Update the error state
+	@MainActor private func updateErrorState() {
+		
+		var hasClientError = false
+		var hasServerError = false
+		var hasContent = false
+		var stillLoading = false
+		
+		for (_, buttonState) in state.buttonState {
+			switch buttonState {
+				case .clientError:
+					hasClientError = true
+				case .serverError:
+					hasServerError = true
+				case .loaded:
+					hasContent = true
+				case .loading:
+					stillLoading = true
+				default:
+					// empty and notAvailable
+					break
+			}
+		}
+		
+		guard !stillLoading else {
+			return
+		}
+		
+		if hasClientError || hasServerError {
+			state.errorState = .error(
+				heading: String(localized: hasContent ? "errorstate.partial_error" : "errorstate.error"),
+				subHeading: String(localized: hasClientError ? "errorstate.clientside.heading" : "errorstate.serverside.heading")
+			)
+		} else {
+			state.errorState = .none
+		}
+	}
+	
 	/// Update the state
 	/// - Parameter button: the button to update
 	@MainActor private func handleCacheResult(
@@ -329,9 +374,11 @@ class HealthCategoriesViewModel: ObservableObject {
 		// There are records for all organizations.
 		// Let's check if any of them has data with an accepted profile
 		var hasAcceptedProfile = false
-		var hasError = false
-		for record in records where record.error {
-			hasError = true
+		var hasClientError = false
+		var hasServerError = false
+		for record in records where record.error != nil {
+			hasClientError = record.error == ResourceRepositoryError.client.rawValue
+			hasServerError = record.error == ResourceRepositoryError.server.rawValue
 		}
 		for record in records where record.resources.isNotEmpty {
 			for resource in record.resources {
@@ -340,12 +387,14 @@ class HealthCategoriesViewModel: ObservableObject {
 				}
 			}
 		}
-		switch (hasError, hasAcceptedProfile) {
-			case (true, _):
-				state.buttonState[category.id] = .error
-			case (false, true):
+		switch (hasClientError, hasServerError, hasAcceptedProfile) {
+			case (true, _, _):
+				state.buttonState[category.id] = .clientError
+			case (false, true, _):
+				state.buttonState[category.id] = .serverError
+			case (false, false, true):
 				state.buttonState[category.id] = .loaded
-			case (false, false):
+			case (false, false, false):
 				state.buttonState[category.id] = .empty
 		}
 	}
@@ -354,12 +403,15 @@ class HealthCategoriesViewModel: ObservableObject {
 	/// - Parameters:
 	///   - category: the category
 	///   - error: the error
-	private func handleCacheMiss(_ category: SharedHealthCategories.Category, error: Error) {
+	private func handleCacheMiss(
+		_ category: SharedHealthCategories.Category,
+		error: Error
+	) {
 		
 		// No records available. Keep in loading state.
 		guard case DataStoreError.noData = error else {
 			logError("Error", error)
-			state.buttonState[category.id] = .error
+			state.buttonState[category.id] = .serverError
 			return
 		}
 		state.buttonState[category.id] = .loading

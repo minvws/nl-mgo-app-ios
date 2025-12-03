@@ -21,6 +21,9 @@ enum CategoryState: String, CaseIterable {
 	/// This category is not yet implemented.
 	case notAvailable
 	
-	/// There was an error fetching all the data
-	case error
+	/// There was an error fetching all the data on the client
+	case clientError
+	
+	/// There was an error fetching all the data on the server
+	case serverError
 }

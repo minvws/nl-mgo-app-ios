@@ -142,7 +142,10 @@ struct HealthCategoriesView: View {
 			}
 			if viewModel.state.errorState != .none {
 				Section {
-					ErrorStateCardView(state: viewModel.state.errorState)
+					ErrorStateCardView(
+						state: viewModel.state.errorState) {
+							viewModel.reduce(.retry)
+						}
 				}
 			}
 			
