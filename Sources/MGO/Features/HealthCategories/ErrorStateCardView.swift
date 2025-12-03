@@ -32,6 +32,9 @@ struct ErrorStateCardView: View {
 		enum Section {
 			static let minHeight: CGFloat = 124
 		}
+		enum Title {
+			static let spacing: CGFloat = 4
+		}
 	}
 	
 	var body: some View {
@@ -40,20 +43,23 @@ struct ErrorStateCardView: View {
 			case .none:
 				EmptyView()
 			case .loading:
-				loadingState()
+				loadingCard()
 			case .error(let heading, let subHeading):
-				errorState(heading: heading, subHeading: subHeading)
+				errorCard(heading: heading, subHeading: subHeading)
 		}
 	}
 	
+	@State var progressId = 0
+	
 	/// The view for the loading state
 	/// - Returns: the loading state view
-	@ViewBuilder private func loadingState() -> some View {
+	@ViewBuilder private func loadingCard() -> some View {
 		HStack {
 			Spacer()
 			
 			VStack(alignment: .center, spacing: ViewTraits.Loading.spacing) {
 				ProgressView()
+					.id(progressId)
 					.progressViewStyle(.circular)
 					.scaleEffect(ViewTraits.Loading.size / 22)
 					.frame(
@@ -61,7 +67,10 @@ struct ErrorStateCardView: View {
 						height: ViewTraits.Loading.size
 					)
 					.tint(theme.symbols.secondary)
-				Text("overview.errorstate.loading")
+					.onAppear {
+						progressId += 1
+					}
+				Text("errorstate.loading")
 					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.secondary)
 			}
@@ -76,7 +85,10 @@ struct ErrorStateCardView: View {
 	///   - heading: the title for the card
 	///   - subHeading: the sub title for the card
 	/// - Returns: the card in error state
-	@ViewBuilder private func errorState(heading: String, subHeading: String) -> some View {
+	@ViewBuilder private func errorCard(
+		heading: String,
+		subHeading: String
+	) -> some View {
 		VStack(alignment: .leading, spacing: 16, content: {
 			HStack(alignment: .top, spacing: 8, content: {
 				
@@ -87,15 +99,7 @@ struct ErrorStateCardView: View {
 						height: ViewTraits.Icon.size
 					)
 				
-				VStack(alignment: .leading, spacing: 4) {
-					Text(heading)
-						.typography(.bodyMedium, isBold: true)
-						.foregroundStyle(theme.labels.primary)
-					Text(subHeading)
-						.typography(.bodyMedium)
-						.foregroundStyle(theme.labels.secondary)
-					
-				}
+				errorTitle(heading: heading, subHeading: subHeading)
 			})
 			
 			CallToActionButton(
@@ -109,5 +113,28 @@ struct ErrorStateCardView: View {
 			}
 		})
 		.frame(minHeight: ViewTraits.Section.minHeight)
+	}
+	
+	/// Error Title View
+	/// - Parameters:
+	///   - heading: the title for the card
+	///   - subHeading: the sub title for the card
+	/// - Returns: View for the title
+	@ViewBuilder private func errorTitle(
+		heading: String,
+		subHeading: String
+	) -> some View {
+		
+		VStack(alignment: .leading, spacing: ViewTraits.Title.spacing) {
+			
+			Text(heading)
+				.typography(.bodyMedium, isBold: true)
+				.foregroundStyle(theme.labels.primary)
+			
+			Text(subHeading)
+				.typography(.bodyMedium)
+				.foregroundStyle(theme.labels.secondary)
+			
+		}
 	}
 }

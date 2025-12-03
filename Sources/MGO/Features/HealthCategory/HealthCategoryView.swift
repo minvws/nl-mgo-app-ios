@@ -329,7 +329,7 @@ class HealthCategoryViewModel: ObservableObject {
 				)
 				for record in records {
 					subCat.rows.append(contentsOf: parseRecord(record, acceptedProfile: profile))
-					partial = partial || record.error
+					partial = partial || record.error != nil
 				}
 				// There might be another subcategory with the same heading.
 				// Append to that subcategory rather then append as a new subcategory

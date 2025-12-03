@@ -20,6 +20,7 @@ public actor MGORepository {
 		self.client = client
 	}
 	
+#warning("Rool, 02/12/2025: Should this be a mainactor function on this actor?")
 	/// What version of the shared core are we running?
 	/// - Returns: the version
 	@MainActor public func getVersion() throws -> SharedVersion {

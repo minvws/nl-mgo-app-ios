@@ -41,7 +41,7 @@ struct CategoryStateView: View {
 					)
 					.tint(theme.symbols.secondary)
 				
-			case .error:
+			case .clientError, .serverError:
 				Image(ImageResource.Icon.syncProblem)
 					.foregroundStyle(theme.symbols.primary)
 					.frame(
