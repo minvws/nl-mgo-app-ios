@@ -33,19 +33,6 @@ public enum FHIRError: Error, CustomStringConvertible {
 	}
 }
 
-extension Error {
-	
-	/**
-	Converts any `Error` into `FHIRError`; returns self if the receiver is a FHIRError already.
-	*/
-	public var asFHIRError: FHIRError {
-		if let ferr = self as? FHIRError {
-			return ferr
-		}
-		return FHIRError.error("\(localizedDescription)")
-	}
-}
-
 extension String {
 	/**
 	Convenience getter using `NSLocalizedString()` with no comment.
