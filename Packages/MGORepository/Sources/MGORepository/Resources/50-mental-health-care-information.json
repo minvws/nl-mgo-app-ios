@@ -26,7 +26,7 @@
         },
         {
             "id": "functionalOrMentalStatus",
-            "path": "/Observation/$lastn?category=http://snomed.info/sct|118228005,http://snomed.info/sct|384821006",
+            "path": "/Observation?category=http://snomed.info/sct|118228005,http://snomed.info/sct|384821006",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus"]
         },
         {
