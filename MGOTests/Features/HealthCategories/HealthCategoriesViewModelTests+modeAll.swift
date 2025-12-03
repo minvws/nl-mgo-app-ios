@@ -56,7 +56,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 			categoryId: "medication",
 			organizationId: healthcareOrganization.identifier,
 			resources: [resource],
-			error: false
+			error: nil
 		)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
@@ -70,7 +70,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.loaded))
 	}
 	
-	@MainActor func test_loadMedication_withErrorData() throws {
+	@MainActor func test_loadMedication_withServerErrorData() throws {
 		
 		// Given
 		setupSut()
@@ -78,7 +78,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 			categoryId: "medication",
 			organizationId: healthcareOrganization.identifier,
 			resources: [],
-			error: true
+			error: ResourceRepositoryError.server.rawValue
 		)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
@@ -89,7 +89,29 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.error))
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.serverError))
+	}
+	
+	@MainActor func test_loadMedication_withClientErrorData() throws {
+		
+		// Given
+		setupSut()
+		let mgoResource = MgoResourceRecord(
+			categoryId: "medication",
+			organizationId: healthcareOrganization.identifier,
+			resources: [],
+			error: ResourceRepositoryError.client.rawValue
+		)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+			[mgoResource, mgoResource, mgoResource, mgoResource]
+		)
+		expect(self.sut.state.buttonState["medication"]) == .loading
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.clientError))
 	}
 	
 	@MainActor func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
@@ -100,7 +122,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 			categoryId: "medication",
 			organizationId: healthcareOrganization.identifier,
 			resources: [],
-			error: false
+			error: nil
 		)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
@@ -139,7 +161,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.error), timeout: .seconds(5))
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.serverError), timeout: .seconds(5))
 	}
 	
 	@MainActor func test_refresh() {
