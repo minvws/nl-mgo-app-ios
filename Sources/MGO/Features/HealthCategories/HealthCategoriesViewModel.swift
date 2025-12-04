@@ -44,6 +44,7 @@ struct HealthCategoriesViewState {
 	var belowIOS18: Bool
 }
 
+// swiftlint:disable type_body_length
 class HealthCategoriesViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
@@ -191,9 +192,15 @@ class HealthCategoriesViewModel: ObservableObject {
 	
 	deinit {
 		// Remove observers
-		observationTokens.dataStoreToken.map(dataStore.observatory.remove)
-		observationTokens.healthcareOrganizationStoreToken.map(healthcareOrganizationRepository.observatory.remove)
-		observationTokens.favoritesStoreToken.map(favoritesRepository.observatory.remove)
+		observationTokens.dataStoreToken.map(
+			dataStore.observatory.remove
+		)
+		observationTokens.healthcareOrganizationStoreToken.map(
+			healthcareOrganizationRepository.observatory.remove
+		)
+		observationTokens.favoritesStoreToken.map(
+			favoritesRepository.observatory.remove
+		)
 	}
 	
 	/// Handle any action
@@ -383,7 +390,11 @@ class HealthCategoriesViewModel: ObservableObject {
 		
 		switch cacheResult {
 			case let .success(records):
-				handleCacheHit(category, records: records, expectedNumberOfResults: expectedNumberOfResults)
+				handleCacheHit(
+					category,
+					records: records,
+					expectedNumberOfResults: expectedNumberOfResults
+				)
 			case let .failure(error):
 				handleCacheMiss(category, error: error)
 		}
@@ -452,3 +463,4 @@ class HealthCategoriesViewModel: ObservableObject {
 		state.buttonState[category.id] = .loading
 	}
 }
+// swiftlint: enable type_body_length

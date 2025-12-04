@@ -107,6 +107,7 @@ struct AppCoordination {
 		case dashboard
 	}
 }
+
 // swiftlint:disable type_body_length
 final class AppCoordinator: AppCoordinatorProtocol {
 	
