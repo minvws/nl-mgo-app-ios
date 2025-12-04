@@ -47,19 +47,10 @@ struct HealthCategoryRowView: View {
 				Text(category.localizedHeading())
 					.typography(.bodyMedium, isBold: true)
 					.foregroundColor(theme.labels.primary)
-				
-				if state == .empty {
 					
-					Text("common.no_data")
-						.typography(.bodyMedium)
-						.foregroundColor(theme.labels.secondary)
-					
-				} else {
-					
-					Text(category.localizedSubheading())
-						.typography(.bodyMedium)
-						.foregroundColor(theme.labels.secondary)
-				}
+				Text(category.localizedSubheading())
+					.typography(.bodyMedium)
+					.foregroundColor(theme.labels.secondary)
 			}
 			
 			Spacer()

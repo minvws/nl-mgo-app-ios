@@ -40,5 +40,4 @@ final class ErrorStateCardViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-	
 }
