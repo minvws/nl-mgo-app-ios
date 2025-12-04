@@ -2149,6 +2149,17 @@
         }
       }
     },
+    "overview.errorstate.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens ophalen ..."
+          }
+        }
+      }
+    },
     "overview.favorites.empty.action" : {
       "extractionState" : "manual",
       "localizations" : {
