@@ -120,7 +120,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgaanbieder al toevoegd"
+            "value" : "Al toevoegd"
           }
         }
       }
@@ -759,6 +759,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja"
+          }
+        }
+      }
+    },
+    "dialog.add_organization_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ toevoegen?"
+          }
+        }
+      }
+    },
+    "dialog.add_organization_no" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nee"
+          }
+        }
+      }
+    },
+    "dialog.add_organization_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als deze zorgaanbieder gegevens over u heeft, staan die straks in uw overzicht."
+          }
+        }
+      }
+    },
+    "dialog.add_organization_yes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja, toevoegen"
           }
         }
       }
@@ -1704,7 +1748,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Met deze app heb je je gezondheidsgegevens van de overheid en je zorgaanbieders altijd bij de hand. Veilig en overzichtelijk, op één plek."
+            "value" : "Met deze app heeft u al uw gegevens over gezondheid en zorg veilig op één plek."
           }
         }
       }
@@ -2496,7 +2540,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hoe de app omgaat met je gegevens"
+            "value" : "Hoe de app omgaat met uw gegevens"
           }
         }
       }
@@ -2507,7 +2551,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens worden **beveiligd** en via een **veilige verbinding** opgehaald."
+            "value" : "Uw gegevens worden **beveiligd** en via een **veilige verbinding** opgehaald."
           }
         }
       }
@@ -2518,7 +2562,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens komen direct van de zorgaanbieder die je kiest. **Alleen jij hebt toegang.**"
+            "value" : "Uw gegevens komen direct van de zorgaanbieder die u kiest. **Alleen u heeft toegang.**"
           }
         }
       }
@@ -2529,7 +2573,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "**Je kiest zelf** hoe je je gegevens wilt gebruiken en of je ze deelt met anderen."
+            "value" : "**U kiest zelf** hoe u uw gegevens wilt gebruiken en of u ze deelt met anderen."
           }
         }
       }
@@ -2540,7 +2584,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt de gegevens in je overzicht altijd **verwijderen of opnieuw ophalen**."
+            "value" : "U kunt de gegevens in uw overzicht altijd **verwijderen of opnieuw ophalen**."
           }
         }
       }
@@ -2551,7 +2595,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In de [%@](privacyverklaring) staat hoe Mijn Gezondheidsoverzicht je gegevens gebruikt en beschermt. Dit zijn de belangrijkste punten:"
+            "value" : "In de [%@](privacyverklaring) staat hoe Mijn Gezondheidsoverzicht uw gegevens gebruikt en beschermt. Dit zijn de belangrijkste punten:"
           }
         }
       }
@@ -3390,6 +3434,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Behandelaren"
+          }
+        }
+      }
+    },
+    "zib_contact_person.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persoonlijke gegevens"
           }
         }
       }
