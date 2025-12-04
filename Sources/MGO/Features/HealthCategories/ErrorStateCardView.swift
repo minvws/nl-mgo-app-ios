@@ -58,18 +58,8 @@ struct ErrorStateCardView: View {
 			Spacer()
 			
 			VStack(alignment: .center, spacing: ViewTraits.Loading.spacing) {
-				ProgressView()
-					.id(progressId)
-					.progressViewStyle(.circular)
-					.scaleEffect(ViewTraits.Loading.size / 22)
-					.frame(
-						width: ViewTraits.Loading.size,
-						height: ViewTraits.Loading.size
-					)
-					.tint(theme.symbols.secondary)
-					.onAppear {
-						progressId += 1
-					}
+				progressView()
+					
 				Text("errorstate.loading")
 					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.secondary)
@@ -78,6 +68,24 @@ struct ErrorStateCardView: View {
 			
 			Spacer()
 		}
+	}
+	
+	/// The progress view
+	/// - Returns: progress view
+	@ViewBuilder private func progressView() -> some View {
+		
+		ProgressView()
+			.id(progressId)
+			.progressViewStyle(.circular)
+			.scaleEffect(ViewTraits.Loading.size / 22)
+			.frame(
+				width: ViewTraits.Loading.size,
+				height: ViewTraits.Loading.size
+			)
+			.tint(theme.symbols.secondary)
+			.onAppear {
+				progressId += 1
+			}
 	}
 	
 	/// The view for the error state

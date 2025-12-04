@@ -141,14 +141,8 @@ struct HealthCategoriesView: View {
 				listHeader()
 			}
 			if viewModel.state.errorState != .none {
-				Section {
-					ErrorStateCardView(
-						state: viewModel.state.errorState) {
-							viewModel.reduce(.retry)
-						}
-				}
+				errorCard()
 			}
-			
 			if viewModel.state.canTitleCollapse {
 				favorites()
 			}
@@ -157,6 +151,17 @@ struct HealthCategoriesView: View {
 		} // List
 		.backport.scrollContentBackground(.hidden)
 		.listStyle(.insetGrouped)
+	}
+	
+	/// The error card
+	/// - Returns: error card
+	@ViewBuilder private func errorCard() -> some View {
+		
+		Section {
+			ErrorStateCardView(state: viewModel.state.errorState) {
+				viewModel.reduce(.retry)
+			}
+		}
 	}
 	
 	/// The view for a main category
