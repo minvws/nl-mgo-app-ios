@@ -301,7 +301,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForSharedHealthCategoriesCategoryCount).toEventually(equal(1), timeout: .seconds(5))
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForSharedHealthCategoriesCategoriesCount).toEventually(equal(1), timeout: .seconds(5))
 	}
 	
 	@MainActor func test_handleDataStoreChanges() throws {

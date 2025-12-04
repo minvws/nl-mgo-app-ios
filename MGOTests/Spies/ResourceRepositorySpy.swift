@@ -35,31 +35,31 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 		}
 	}
 	
-	var invokedLoadForSharedHealthCategoriesCategory = false
-	var invokedLoadForSharedHealthCategoriesCategoryCount = 0
-	var invokedLoadForSharedHealthCategoriesCategoryParameters: (category: SharedHealthCategories.Category, Void)?
-	var invokedLoadForSharedHealthCategoriesCategoryParametersList = [(category: SharedHealthCategories.Category, Void)]()
+	var invokedLoadForSharedHealthCategoriesCategories = false
+	var invokedLoadForSharedHealthCategoriesCategoriesCount = 0
+	var invokedLoadForSharedHealthCategoriesCategoriesParameters: (categories: [SharedHealthCategories.Category], Void)?
+	var invokedLoadForSharedHealthCategoriesCategoriesParametersList = [(categories: [SharedHealthCategories.Category], Void)]()
 	
-	func loadFor(_ category: SharedHealthCategories.Category) {
+	func loadFor(_ categories: [SharedHealthCategories.Category]) {
 		queue.sync {
-			invokedLoadForSharedHealthCategoriesCategory = true
-			invokedLoadForSharedHealthCategoriesCategoryCount += 1
-			invokedLoadForSharedHealthCategoriesCategoryParameters = (category, ())
-			invokedLoadForSharedHealthCategoriesCategoryParametersList.append((category, ()))
+			invokedLoadForSharedHealthCategoriesCategories = true
+			invokedLoadForSharedHealthCategoriesCategoriesCount += 1
+			invokedLoadForSharedHealthCategoriesCategoriesParameters = (categories, ())
+			invokedLoadForSharedHealthCategoriesCategoriesParametersList.append((categories, ()))
 		}
 	}
 	
 	var invokedLoadResource = false
 	var invokedLoadResourceCount = 0
-	var invokedLoadResourceParameters: (healthcareOrganization: MgoOrganization, category: SharedHealthCategories.Category)?
-	var invokedLoadResourceParametersList = [(healthcareOrganization: MgoOrganization, category: SharedHealthCategories.Category)]()
+	var invokedLoadResourceParameters: (healthcareOrganization: MgoOrganization, categories: [SharedHealthCategories.Category])?
+	var invokedLoadResourceParametersList = [(healthcareOrganization: MgoOrganization, categories: [SharedHealthCategories.Category])]()
 	
-	func loadResource(_ healthcareOrganization: MgoOrganization, category: SharedHealthCategories.Category) {
+	func loadResource(_ healthcareOrganization: MgoOrganization, categories: [SharedHealthCategories.Category]) {
 		queue.sync {
 			invokedLoadResource = true
 			invokedLoadResourceCount += 1
-			invokedLoadResourceParameters = (healthcareOrganization, category)
-			invokedLoadResourceParametersList.append((healthcareOrganization, category))
+			invokedLoadResourceParameters = (healthcareOrganization, categories)
+			invokedLoadResourceParametersList.append((healthcareOrganization, categories))
 		}
 	}
 	

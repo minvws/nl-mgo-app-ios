@@ -237,15 +237,16 @@ class HealthCategoryViewModel: ObservableObject {
 		}
 	}
 	
+	/// Retry the failed category
 	@MainActor private func retry() {
 		
 		state = .loading
 		dataStore.removeRecords(for: category.id, organizationId: organization?.identifier)
 		
 		if let organization {
-			resourceRepository.loadResource(organization, category: category)
+			resourceRepository.loadResource(organization, categories: [category])
 		} else {
-			resourceRepository.loadFor(category)
+			resourceRepository.loadFor([category])
 		}
 	}
 	

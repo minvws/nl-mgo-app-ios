@@ -208,10 +208,7 @@ class HealthCategoriesViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.addHealthcareOrganization)
 			
 			case .retry:
-				withAnimation {
-					state.errorState = .loading
-				}
-				reduce(.refresh)
+				retry()
 				
 			case .refresh:
 				if case let .single(healthcareOrganization) = mode {
@@ -254,6 +251,42 @@ class HealthCategoriesViewModel: ObservableObject {
 					coordinator?.handle(.showFavorites)
 				}
 		}
+	}
+	
+	/// Retry the failed categories
+	@MainActor private func retry() {
+		
+		withAnimation {
+			state.errorState = .loading
+		}
+		
+		// Create a list of all the categories where (one of) the call
+		// resulted in an error
+		let faultyCategories: [SharedHealthCategories.Category] = state.buttonState
+			.filter { (key: String, value: CategoryState) in
+				value == .serverError || value == .clientError
+			}
+			.keys
+			.compactMap { key in
+				try? SharedHealthCategories().findCategory(id: key)
+			}
+		
+		// Remove existing data for the faulty categories
+		// Ask the repository to load for the faulty categories
+		if case let .single(healthcareOrganization) = mode {
+			faultyCategories.forEach {
+				dataStore
+					.removeRecords(
+						for: $0.id,
+						organizationId: healthcareOrganization.identifier
+					)
+			}
+			resourceRepository.loadResource(healthcareOrganization, categories: faultyCategories)
+		} else {
+			faultyCategories.forEach { dataStore.removeRecords(for: $0.id, organizationId: nil) }
+			resourceRepository.loadFor(faultyCategories)
+		}
+		updateState()
 	}
 	
 	/// The store has changed, update the
