@@ -340,13 +340,15 @@ class HealthCategoriesViewModel: ObservableObject {
 			return
 		}
 		
-		if hasClientError || hasServerError {
-			state.errorState = .error(
-				heading: String(localized: hasContent ? "errorstate.partial_error" : "errorstate.error"),
-				subHeading: String(localized: hasClientError ? "errorstate.clientside.heading" : "errorstate.serverside.heading")
-			)
-		} else {
-			state.errorState = .none
+		withAnimation {
+			if hasClientError || hasServerError {
+				state.errorState = .error(
+					heading: String(localized: hasContent ? "errorstate.partial_error" : "errorstate.error"),
+					subHeading: String(localized: hasClientError ? "errorstate.clientside.heading" : "errorstate.serverside.heading")
+				)
+			} else {
+				state.errorState = .none
+			}
 		}
 	}
 	
