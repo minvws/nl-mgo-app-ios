@@ -181,6 +181,25 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 0
 	}
 	
+	@MainActor func test_retry() {
+		
+		// Given
+		setupSut()
+		self.sut.state.buttonState["medication"] = .clientError
+		
+		// When
+		sut.reduce(.retry)
+		
+		// Then
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == false
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 0
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 0
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForSharedHealthCategoriesCategoriesCount) == 1
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount) == 0
+	}
+	
 	@MainActor func test_searchButtonPressed_shouldCallCoordinator() {
 		
 		// Given
