@@ -10,6 +10,7 @@ import MGOUI
 
 final class ErrorStateCardViewTests: XCTestCase {
 	
+	@MainActor
 	func test_loading() {
 		
 		// Given
@@ -23,6 +24,7 @@ final class ErrorStateCardViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
+	@MainActor
 	func test_error() {
 		
 		// Given
