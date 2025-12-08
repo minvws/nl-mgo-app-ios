@@ -77,10 +77,6 @@ struct ButtonView: View {
 
 One common element in the UI is to make a view look like a card. The `.cardify()` modifier makes any view look like a card. 
 
-A much used loader has its own LoadingCardView with a title:
-
-<img style="float: left;" src="illustrations/LoadingCard.png" />
-
 For errors and and other feedback, we have a NotificationCard with an image, title and message. 
 
 <img style="float: left;" src="illustrations/NotificationCard.png" />
