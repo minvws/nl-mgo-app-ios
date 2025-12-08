@@ -906,6 +906,61 @@
         }
       }
     },
+    "errorstate.clientside.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er ging iets mis bij het ophalen. Controleer uw verbinding en probeer het opnieuw."
+          }
+        }
+      }
+    },
+    "errorstate.error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen gegevens opgehaald"
+          }
+        }
+      }
+    },
+    "errorstate.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens ophalen…"
+          }
+        }
+      }
+    },
+    "errorstate.partial_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet alle gegevens zijn opgehaald"
+          }
+        }
+      }
+    },
+    "errorstate.serverside.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit komt door een storing bij ons. Probeer het later opnieuw."
+          }
+        }
+      }
+    },
     "export_pdf.close" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1869,7 +1924,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bewijs wie je bent"
+            "value" : "Bewijs wie u bent"
           }
         }
       }
@@ -1891,7 +1946,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kies de manier waarop je wilt inloggen. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
+            "value" : "Kies de manier waarop u wilt inloggen. Zo kunnen we uw gegevens veilig ophalen bij uw huisarts, ziekenhuis en andere zorgaanbieders."
           }
         }
       }
@@ -2090,6 +2145,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voeg een zorgaanbieder toe"
+          }
+        }
+      }
+    },
+    "overview.errorstate.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens ophalen ..."
           }
         }
       }

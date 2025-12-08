@@ -364,6 +364,7 @@ class PinCodeViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
+			#warning("Rool, 02/12/2025: fix non-sendable warning")
 			let validated = try await localAuthenticationProvider.authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))

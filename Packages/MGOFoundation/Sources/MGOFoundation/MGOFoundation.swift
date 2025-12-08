@@ -16,6 +16,7 @@
 @_exported import LocalisationService
 @_exported import MGODebug
 @_exported import MGORepository
+@_exported import NetworkAvailability
 @_exported import NotificationCenter
 @_exported import Observatory
 @_exported import PatientFriendlyTerms

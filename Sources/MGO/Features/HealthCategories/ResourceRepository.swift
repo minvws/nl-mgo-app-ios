@@ -14,17 +14,17 @@ protocol ResourceRepositoryProtocol {
 	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
 	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization)
 	
-	/// Load all the categories for a category
-	/// - Parameter category: the category to load  for
-	@MainActor func loadFor(_ category: SharedHealthCategories.Category)
+	/// Load all the categories for an array of categories
+	/// - Parameter category: the categories to load  for
+	@MainActor func loadFor(_ categories: [SharedHealthCategories.Category])
 	
 	/// Load the resources
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
-	///   - category: the category to load the resources for.
+	///   - categories: the categories to load the resources for.
 	@MainActor func loadResource(
 		_ healthcareOrganization: MgoOrganization,
-		category: SharedHealthCategories.Category
+		categories: [SharedHealthCategories.Category]
 	)
 	
 	/// Load a binary object
@@ -42,6 +42,11 @@ protocol ResourceRepositoryProtocol {
 	/// Get the version of the shared library
 	/// - Returns: the shared version
 	@MainActor func getVersion() throws -> SharedVersion
+}
+
+enum ResourceRepositoryError: Int {
+	case client = -1
+	case server = 1
 }
 
 /// Load the resources from the server
@@ -85,25 +90,33 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// The MGO repository to fetch FHIR objects
 	private var repository: MGORepository
 	
+	/// The network availability checker
+	private var networkAvailabilityChecker: NetworkAvailabilityChecking
+	
 	/// Create the Resource Repository
 	/// - Parameters:
 	///   - healthcareOrganizationRepository: the repository for healthcare organizations
 	///   - dataRepository: the repository for data storage
+	///   - networkAvailabilityChecker: do we have network availability
+	///   - featureFlagManager: the feature flag manager
 	///   - serverUrl: the url of the server
 	///   - username: the authentication username
 	///   - password: the authentication password
 	@MainActor init(
 		healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol,
 		dataRepository: MgoDataStoreProtocol,
+		networkAvailabilityChecker: NetworkAvailabilityChecking,
 		featureFlagManager: FeatureFlagManaging,
 		serverUrl: Foundation.URL,
 		username: String?,
-		password: String?) {
+		password: String?
+	) {
 		
 		self.healthcareOrganizationRepository = healthcareOrganizationRepository
 		self.dataRepository = dataRepository
 		self.featureFlagManager = featureFlagManager
 		self.repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
+		self.networkAvailabilityChecker = networkAvailabilityChecker
 		self.username = username
 		self.password = password
 		registerObservers()
@@ -162,6 +175,15 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 	}
 	
+	/// Load all the categories for all the stored healthcare organizations
+	@MainActor func load() {
+		
+		guard let healthcareOrganizationRepository else { return }
+		for healthcareOrganization in healthcareOrganizationRepository.organizations {
+			loadFor(healthcareOrganization)
+		}
+	}
+	
 	/// Load all the categories for a healthcare organization
 	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
 	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization) {
@@ -191,53 +213,46 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	}
 	
 	/// Load all the categories for a category
-	/// - Parameter category: the category to load  for
-	@MainActor func loadFor(_ category: SharedHealthCategories.Category) {
-		logVerbose("ResourceRepository - LoadFor Cat", category)
+	/// - Parameter categories: the categories to load  for
+	@MainActor func loadFor(_ categories: [SharedHealthCategories.Category]) {
+		
+		logVerbose("ResourceRepository - LoadFor Categories", categories)
 		
 		guard let healthcareOrganizationRepository else { return }
 		
-		for healthcareOrganization in healthcareOrganizationRepository.organizations {
-			loadResource(healthcareOrganization, category: category)
-		}
-	}
-	
-	/// Load all the categories for all the stored healthcare organizations
-	@MainActor func load() {
-		
-		guard let healthcareOrganizationRepository else { return }
-		for healthcareOrganization in healthcareOrganizationRepository.organizations {
-			loadFor(healthcareOrganization)
+		healthcareOrganizationRepository.organizations.forEach { organization in
+			loadResource(organization, categories: categories)
 		}
 	}
 	
 	/// Load the resources
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
-	///   - category: the category to load the resources for.
+	///   - categories: the categories to load the resources for.
 	@MainActor func loadResource(
 		_ healthcareOrganization: MgoOrganization,
-		category: SharedHealthCategories.Category
+		categories: [SharedHealthCategories.Category]
 	) {
-		
-		logVerbose("ResourceRepository - LoadFor Org and Cat", healthcareOrganization.identifier, category.id)
-		var mappings: [String: MappedSolution] = [:]
-		for solution in collectEndpoints(healthcareOrganization, category: category) {
-			let key = solution.endpoint.id + solution.dataServiceId
-			if mappings[key] != nil {
-				mappings[key]?.categories.append(category)
-			} else {
-				mappings[key] = MappedSolution(
-					endpoint: solution.endpoint,
-					categories: [category],
-					fhirVersion: solution.fhirVersion,
-					dvaTarget: solution.dvaTarget,
-					dataServiceId: solution.dataServiceId,
-					providerId: solution.providerId
-				)
+		categories.forEach { category in
+			logVerbose("ResourceRepository - LoadFor Org and Cat", healthcareOrganization.identifier, category.id)
+			var mappings: [String: MappedSolution] = [:]
+			for solution in collectEndpoints(healthcareOrganization, category: category) {
+				let key = solution.endpoint.id + solution.dataServiceId
+				if mappings[key] != nil {
+					mappings[key]?.categories.append(category)
+				} else {
+					mappings[key] = MappedSolution(
+						endpoint: solution.endpoint,
+						categories: [category],
+						fhirVersion: solution.fhirVersion,
+						dvaTarget: solution.dvaTarget,
+						dataServiceId: solution.dataServiceId,
+						providerId: solution.providerId
+					)
+				}
 			}
+			loadEndpoints(healthcareOrganization, mappings: mappings)
 		}
-		loadEndpoints(healthcareOrganization, mappings: mappings)
 	}
 	
 	/// Load the resources
@@ -265,29 +280,33 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	) async {
 		
 		var mgoResources = [MgoResource]()
-		var resourceError = false
+		var resourceError: ResourceRepositoryError?
 		
-		do {
-			logVerbose("ResourceRepository - calling endpoint for \(mapping.dvaTarget)", mapping.endpoint)
-			let fhirBundle = try await repository.getBundleData(
-				endpoint: mapping.endpoint,
-				fhirVersion: mapping.fhirVersion,
-				headers: MGORepositoryHeaders(
-					dvaTarget: mapping.dvaTarget,
-					dataServiceId: mapping.dataServiceId,
-					medmijId: mapping.providerId,
-					username: username,
-					password: password
+		if await networkAvailabilityChecker.isNetworkAvailable() {
+			do {
+				logVerbose("ResourceRepository - calling endpoint for \(mapping.dvaTarget)", mapping.endpoint)
+				let fhirBundle = try await repository.getBundleData(
+					endpoint: mapping.endpoint,
+					fhirVersion: mapping.fhirVersion,
+					headers: MGORepositoryHeaders(
+						dvaTarget: mapping.dvaTarget,
+						dataServiceId: mapping.dataServiceId,
+						medmijId: mapping.providerId,
+						username: username,
+						password: password
+					)
 				)
-			)
-			
-			mgoResources = try await repository.process(
-				fhirBundle,
-				fhirVersion: mapping.fhirVersion.rawValue
-			)
-		} catch {
-			logError("ResourceRepository", error)
-			resourceError = true
+				
+				mgoResources = try await repository.process(
+					fhirBundle,
+					fhirVersion: mapping.fhirVersion.rawValue
+				)
+			} catch {
+				logError("ResourceRepository", error)
+				resourceError = ResourceRepositoryError.server // Network / Parse error
+			}
+		} else {
+			resourceError = .client // No internet
 		}
 		
 		for category in mapping.categories {
@@ -296,7 +315,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				categoryId: category.id,
 				organizationId: healthcareOrganization.identifier,
 				resources: mgoResources,
-				error: resourceError
+				error: resourceError?.rawValue
 			)
 			logVerbose("ResourceRepository - Adding to the store", recordToStore)
 			

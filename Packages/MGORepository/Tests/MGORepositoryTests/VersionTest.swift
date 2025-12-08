@@ -23,7 +23,7 @@ struct SharedVersionTests {
 		
 		// Then
 		#expect(result.version == "main")
-		#expect(result.gitRef == "aeb3319adce9873d7456987d433b24bfb9c320ce")
-		#expect(result.created == "2025-11-26T14:42:53")
+		#expect(result.gitRef == "8f19abe7615ba8e27c5e3b8ee8561660eee316bb")
+		#expect(result.created == "2025-12-02T15:40:28")
 	}
 }

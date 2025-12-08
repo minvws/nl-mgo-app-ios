@@ -122,6 +122,7 @@ extension Container {
 			ResourceRepository(
 				healthcareOrganizationRepository: self.healthcareOrganizationRepository(),
 				dataRepository: self.dataStore(),
+				networkAvailabilityChecker: self.networkAvailabilityChecker(),
 				featureFlagManager: self.featureFlagManager(),
 				serverUrl: Configuration().urlForDVP(),
 				username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
@@ -135,6 +136,12 @@ extension Container {
 	var notificationCenter: Factory<NotificationCenterProtocol> {
 		Factory(self) { NotificationCenter.default }
 			.shared
+	}
+	
+	/// Checking the network
+	var networkAvailabilityChecker: Factory<NetworkAvailabilityChecking> {
+		Factory(self) { NetworkAvailabilityChecker() }
+			.singleton
 	}
 	
 	/// What is the date

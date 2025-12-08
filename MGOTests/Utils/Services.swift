@@ -49,6 +49,11 @@ import MGOUI
 		return spy
 	}()
 	
+	var networkAvailabilityCheckerSpy: NetworkAvailabilityCheckerSpy = {
+		let spy = NetworkAvailabilityCheckerSpy()
+		return spy
+	}()
+	
 	var notificationCenterSpy: NotificationCenterSpy = {
 		let spy = NotificationCenterSpy()
 		spy.stubbedAddObserverForNameResult = NSObject()
@@ -119,6 +124,8 @@ func setupServicesSpies() -> ServicesSpies {
 		.register { spies.remoteConfigurationRepositorySpy }
 	Container.shared.resourceRepository
 		.register { spies.resourceRepositorySpy }
+	Container.shared.networkAvailabilityChecker
+		.register { spies.networkAvailabilityCheckerSpy }
 	Container.shared.notificationCenter
 		.register { spies.notificationCenterSpy }
 	Container.shared.now

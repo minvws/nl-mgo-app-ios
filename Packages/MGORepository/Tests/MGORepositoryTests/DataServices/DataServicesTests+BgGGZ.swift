@@ -50,7 +50,7 @@ class DataServicesBgGGZTests {
 		#expect(dataService.endpoints[3].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective")
 		
 		#expect(dataService.endpoints[4].id == "functionalOrMentalStatus")
-		#expect(dataService.endpoints[4].getPath() == "/Observation/$lastn?category=http://snomed.info/sct|118228005,http://snomed.info/sct|384821006")
+		#expect(dataService.endpoints[4].getPath() == "/Observation?category=http://snomed.info/sct|118228005,http://snomed.info/sct|384821006")
 		#expect(dataService.endpoints[4].profiles.count == 1)
 		#expect(dataService.endpoints[4].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus")
 		

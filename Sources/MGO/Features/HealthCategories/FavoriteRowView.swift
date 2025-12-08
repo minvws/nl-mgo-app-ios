@@ -50,27 +50,7 @@ struct FavoriteRowView: View {
 				
 				Spacer()
 				
-				switch state {
-					case .loaded:
-						Image(ImageResource.Icon.chevron)
-							.foregroundStyle(theme.symbols.secondary)
-							.frame(
-								width: ViewTraits.Accessory.size,
-								height: ViewTraits.Accessory.size
-							)
-						
-					case .loading:
-						ProgressView()
-							.progressViewStyle(.circular)
-							.frame(
-								width: ViewTraits.Accessory.size,
-								height: ViewTraits.Accessory.size
-							)
-							.tint(theme.symbols.secondary)
-						
-					default:
-						EmptyView()
-				}
+				CategoryStateView(state: state)
 			}
 			
 			Spacer()

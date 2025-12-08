@@ -38,6 +38,8 @@ packages:
     path: ./Packages/MGOTest
   MGOUI:
     path: ./Packages/MGOUI
+  NetworkAvailability:
+    path: ./Packages/NetworkAvailability
   NotificationCenter:
     path: ./Packages/NotificationCenter
   Observatory:

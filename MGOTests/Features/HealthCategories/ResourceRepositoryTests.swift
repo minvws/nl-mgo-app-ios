@@ -21,6 +21,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		sut = ResourceRepository(
 			healthcareOrganizationRepository: servicesSpies.healthcareOrganizationStoreSpy,
 			dataRepository: servicesSpies.dataStoreSpy,
+			networkAvailabilityChecker: servicesSpies.networkAvailabilityCheckerSpy,
 			featureFlagManager: servicesSpies.featureFlagSpy,
 			serverUrl: url,
 			username: "test",
@@ -167,7 +168,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		sut.loadFor(Generator.healthCategory)
+		sut.loadFor([Generator.healthCategory])
 		
 		// Then
 		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
@@ -189,7 +190,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		sut.loadFor(Generator.healthCategory)
+		sut.loadFor([Generator.healthCategory])
 		
 		// Then
 		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)

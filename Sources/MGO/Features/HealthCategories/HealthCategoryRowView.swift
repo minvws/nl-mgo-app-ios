@@ -47,39 +47,16 @@ struct HealthCategoryRowView: View {
 				Text(category.localizedHeading())
 					.typography(.bodyMedium, isBold: true)
 					.foregroundColor(theme.labels.primary)
-				
-				if state == .empty {
 					
-					Text("common.no_data")
-						.typography(.bodyMedium)
-						.foregroundColor(theme.labels.secondary)
-					
-				} else {
-					
-					Text(category.localizedSubheading())
-						.typography(.bodyMedium)
-						.foregroundColor(theme.labels.secondary)
-				}
+				Text(category.localizedSubheading())
+					.typography(.bodyMedium)
+					.foregroundColor(theme.labels.secondary)
 			}
 			
 			Spacer()
 			
 			VStack(alignment: .trailing) {
-				switch state {
-					case .loaded:
-						Image(ImageResource.Icon.chevron)
-							.foregroundStyle(theme.symbols.secondary)
-							.frame(width: 12, height: 22)
-					
-					case .loading:
-						ProgressView()
-							.progressViewStyle(.circular)
-							.frame(width: ViewTraits.Spinner.size, height: ViewTraits.Spinner.size)
-							.tint(theme.symbols.secondary)
-					
-					default:
-						Spacer()
-				}
+				CategoryStateView(state: state)
 			}
 			.frame(minWidth: ViewTraits.Spinner.minWidth)
 		}

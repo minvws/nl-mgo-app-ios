@@ -20,6 +20,7 @@ class HealthCategoryRowViewTests: XCTestCase {
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
 		assertSnapshot(
@@ -42,11 +43,12 @@ class HealthCategoryRowViewTests: XCTestCase {
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.light)),
-			as: .image,
+			as: .image
 		)
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.dark)),
@@ -64,6 +66,7 @@ class HealthCategoryRowViewTests: XCTestCase {
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
 		assertSnapshot(
@@ -73,6 +76,52 @@ class HealthCategoryRowViewTests: XCTestCase {
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.dark)),
 			as: .image(precision: 0.95)
+		)
+	}
+	
+	@MainActor func test_clientError() {
+		
+		// Given
+		let sut = HealthCategoryRowView(
+			category: Generator.healthCategory,
+			state: .clientError
+		)
+		
+		// When
+		let view = sut.frame(width: 380, height: 200)
+			.background(Theme().backgrounds.primary)
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
+	}
+	
+	@MainActor func test_serverError() {
+		
+		// Given
+		let sut = HealthCategoryRowView(
+			category: Generator.healthCategory,
+			state: .serverError
+		)
+		
+		// When
+		let view = sut.frame(width: 380, height: 200)
+			.background(Theme().backgrounds.primary)
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
 		)
 	}
 }

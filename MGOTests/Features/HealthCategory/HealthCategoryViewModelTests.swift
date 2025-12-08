@@ -49,7 +49,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	///   - resources: the resources for the record
 	///   - error: boolean indicating fetch error
 	/// - Returns: resource record
-	private func resourceRecord(_ resources: [Data] = [], error: Bool = false) -> MgoResourceRecord {
+	private func resourceRecord(_ resources: [Data] = [], error: Int? = nil) -> MgoResourceRecord {
 		
 		return MgoResourceRecord(
 			categoryId: "medication",
@@ -134,7 +134,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		try setupSut(organization: healthcareOrganization)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
 			[
-				resourceRecord([], error: true)
+				resourceRecord([], error: 404)
 			]
 		)
 		
@@ -301,7 +301,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForSharedHealthCategoriesCategoryCount).toEventually(equal(1), timeout: .seconds(5))
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForSharedHealthCategoriesCategoriesCount).toEventually(equal(1), timeout: .seconds(5))
 	}
 	
 	@MainActor func test_handleDataStoreChanges() throws {
@@ -426,7 +426,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		try setupSut(organization: healthcareOrganization, categoryName: "medication")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
 			[
-				resourceRecord([], error: true)
+				resourceRecord([], error: 404)
 			]
 		)
 		sut.reduce(.onAppear)

@@ -98,6 +98,50 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.loaded), timeout: .seconds(5))
 	}
 	
+	@MainActor func test_loadMedication_withServerErrorData() throws {
+		
+		// Given
+		createSut()
+		let mgoResource = MgoResourceRecord(
+			categoryId: "medication",
+			organizationId: healthcareOrganization.identifier,
+			resources: [],
+			error: ResourceRepositoryError.server.rawValue
+		)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[mgoResource, mgoResource, mgoResource, mgoResource]
+		)
+		expect(self.sut.state.buttonState["medication"]) == .loading
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.serverError), timeout: .seconds(5))
+	}
+	
+	@MainActor func test_loadMedication_withClientErrorData() throws {
+		
+		// Given
+		createSut()
+		let mgoResource = MgoResourceRecord(
+			categoryId: "medication",
+			organizationId: healthcareOrganization.identifier,
+			resources: [],
+			error: ResourceRepositoryError.client.rawValue
+		)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[mgoResource, mgoResource, mgoResource, mgoResource]
+		)
+		expect(self.sut.state.buttonState["medication"]) == .loading
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.clientError), timeout: .seconds(5))
+	}
+	
 	@MainActor func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
 		
 		// Given
@@ -134,18 +178,18 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.loading))
 	}
 	
-	@MainActor func test_loadMedication_dataError_stateShouldBeEmpty() throws {
+	@MainActor func test_loadMedication_dataError_stateShouldBeError() throws {
 		
 		// Given
 		createSut()
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .failure(NSError(domain: "test_loadMedication_cacheMiss_dataError", code: 404))
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .failure(NSError(domain: "test_loadMedication_dataError_stateShouldBeEmpty", code: 404))
 		expect(self.sut.state.buttonState["medication"]) == .loading
 	
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.empty))
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.serverError))
 	}
 	
 	@MainActor func test_refresh() {
@@ -162,6 +206,25 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 0
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 1
+	}
+	
+	@MainActor func test_retry() {
+		
+		// Given
+		createSut()
+		self.sut.state.buttonState["medication"] = .clientError
+		
+		// When
+		sut.reduce(.retry)
+		
+		// Then
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == false
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 0
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 0
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForSharedHealthCategoriesCategoriesCount) == 0
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount) == 1
 	}
 	
 	@MainActor func test_showFavorites_modeAll_shouldCallCoordinator() {

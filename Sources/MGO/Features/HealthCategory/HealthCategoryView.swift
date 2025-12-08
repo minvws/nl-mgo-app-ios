@@ -237,15 +237,16 @@ class HealthCategoryViewModel: ObservableObject {
 		}
 	}
 	
+	/// Retry the failed category
 	@MainActor private func retry() {
 		
 		state = .loading
 		dataStore.removeRecords(for: category.id, organizationId: organization?.identifier)
 		
 		if let organization {
-			resourceRepository.loadResource(organization, category: category)
+			resourceRepository.loadResource(organization, categories: [category])
 		} else {
-			resourceRepository.loadFor(category)
+			resourceRepository.loadFor([category])
 		}
 	}
 	
@@ -329,7 +330,7 @@ class HealthCategoryViewModel: ObservableObject {
 				)
 				for record in records {
 					subCat.rows.append(contentsOf: parseRecord(record, acceptedProfile: profile))
-					partial = partial || record.error
+					partial = partial || record.error != nil
 				}
 				// There might be another subcategory with the same heading.
 				// Append to that subcategory rather then append as a new subcategory

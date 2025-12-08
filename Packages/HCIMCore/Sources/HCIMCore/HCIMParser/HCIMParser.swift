@@ -111,10 +111,17 @@ nonisolated public class HCIMParser {
 	/// - Parameter fhirResource: resource to parse
 	/// - Parameter fhirVersion: the FHIR version of the expected resource, defaults to `R3`
 	/// - Returns: HCIM as data
-	public func transformFHIRResourceIntoHCIM(_ fhirResource: Data, fhirVersion: String = "R3") -> Data? {
+	public func transformFHIRResourceIntoHCIM(
+		_ fhirResource: Data,
+		fhirVersion: String = "R3"
+	) -> Data? {
 		
 		do {
-			let resourcesJSValue = try callJSMethod(.resource, with: fhirResource, fhirVersion: fhirVersion)
+			let resourcesJSValue = try callJSMethod(
+				.resource,
+				with: fhirResource,
+				fhirVersion: fhirVersion
+			)
 			return Data(resourcesJSValue.toString().utf8)
 			
 		} catch {
@@ -126,17 +133,31 @@ nonisolated public class HCIMParser {
 	/// get the details for a resource, i.e. transform a HCIM object into a details HealthUISchema
 	/// - Parameter resource: the HCIM resource
 	/// - Returns: Generated HealthUISchema
-	public func getDetails(_ resource: Data, organizationName: String?) -> HealthUISchema? {
+	public func getDetails(
+		_ resource: Data,
+		organizationName: String?
+	) -> HealthUISchema? {
 		
-		return getSchema(.details, resource: resource, organizationName: organizationName)
+		return getSchema(
+			.details,
+			resource: resource,
+			organizationName: organizationName
+		)
 	}
 	
 	/// get the summary for a resource, i.e. transform a HCIM object into a summary HealthUISchema
 	/// - Parameter resource: the HCIM resource
 	/// - Returns: Generated HealthUISchema
-	public func getSummary(_ resource: Data, organizationName: String?) -> HealthUISchema? {
+	public func getSummary(
+		_ resource: Data,
+		organizationName: String?
+	) -> HealthUISchema? {
 		
-		return getSchema(.summary, resource: resource, organizationName: organizationName)
+		return getSchema(
+			.summary,
+			resource: resource,
+			organizationName: organizationName
+		)
 	}
 	
 	// MARK: Private helpers
@@ -196,10 +217,18 @@ nonisolated public class HCIMParser {
 	/// - Parameter method: the javascript method to be used for this call
 	/// - Parameter resource: the HCIM resource
 	/// - Returns: Generated UISchema
-	private func getSchema(_ method: ParseMethod, resource: Data, organizationName: String?) -> HealthUISchema? {
+	private func getSchema(
+		_ method: ParseMethod,
+		resource: Data,
+		organizationName: String?
+	) -> HealthUISchema? {
 		
 		do {
-			let resourcesJSValue = try callJSMethod(method, with: resource, organizationName: organizationName)
+			let resourcesJSValue = try callJSMethod(
+				method,
+				with: resource,
+				organizationName: organizationName
+			)
 			if let object = resourcesJSValue.toString() {
 				return try HealthUISchema(object)
 			}
