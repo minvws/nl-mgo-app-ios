@@ -45,7 +45,7 @@ struct FavoriteRowView: View {
 		VStack(alignment: .leading, spacing: ViewTraits.Text.spacing) {
 			HStack(alignment: .top, spacing: 0) {
 				
-				category.getIcon()
+				category.getIconWithBackground()
 					.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
 				
 				Spacer()

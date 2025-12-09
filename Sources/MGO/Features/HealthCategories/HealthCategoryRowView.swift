@@ -38,7 +38,7 @@ struct HealthCategoryRowView: View {
 		
 		HStack(alignment: .top, spacing: 0) {
 			
-			category.getIcon()
+			category.getIconWithBackground()
 				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
 				.padding(.trailing, ViewTraits.Icon.padding)
 			
