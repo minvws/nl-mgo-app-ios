@@ -104,69 +104,6 @@ Whenever you want to give some haptic feedback to the user, you can use `Haptic.
 
 There is a viewModifier variant, `Text("Press me").hapticFeedback(HapticFeedback.medium)`
 
-### Feedback Banner
-
-A simple view to diplay feedback to the user. 
-
-```swift
-import ReuseableUI
-
-class ContentViewModel: ObservableObject {
-
-  /// A list of all the actions this viewModel can handle
-	enum Action {
-		case closeBanner
-	}
-	
-	/// Any banner to display?
-	@Published var banner: Banner?
-	
-	/// Intitializer
-	/// - Parameter showBanner: should we show a banner
-	init(showBanner: Bool = false) {
-		if showBanner {
-			banner = Banner(
-				title: String(localized: "title"),
-				subtitle: String(localized: "subtitle"),
-				type: .success
-			)
-		}
-	}
-	
-	/// Handle any action
-	/// - Parameter action: the action to be handled
-	func reduce(_ action: ContentViewModel.Action) {
-		switch action {
-			case .closeBanner:
-				banner = nil
-		}
-	}
-}
-
-struct ContentView: View {
-	
-	/// The view model
-	@StateObject var viewModel: ContentViewModel
-	...
-  var body: some View {
-	  if let banner = viewModel.banner {
-			
-		  BannerView(banner) {
-			 // User pressed on the close button
-			  withAnimation {
-				  viewModel.reduce(.closeBanner)
-			 }
-		 }
-	 }
-    ...
- }
-}
-```
-
-There are four different types of Banner: **.info**, **.warning**, **.error** and **.success**
-
-<img style="float: left;" src="illustrations/Banner.png" />
-
 ### Feedback Toast
 
 Another way to display feedback to the user is through a toast. 
