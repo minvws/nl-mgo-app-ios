@@ -8,12 +8,14 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class AlertsHealthCategoryViewTests: XCTestCase {
+class AlertsHealthCategoryViewTests: XCTestCase {
+	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: HealthCategoryViewModel!
 	private var healthcareOrganization: MgoOrganization!
 	private var sut: HealthCategoryView!
+	private var categoryId: String!
 	
 	private let item = Generator.healthCategoryBlock()
 	
@@ -25,10 +27,11 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 		healthcareOrganization = Generator.healthcareOrganization("1")
 	}
 	
-	@MainActor private func createSut() throws {
+	@MainActor func createSut(_ categoryId: String = "alerts") throws {
 
+		self.categoryId = categoryId
 		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "alerts"))
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: categoryId))
 		let translations = try XCTUnwrap(HealthCategoryViewTranslationsFactory.makeTranslations(for: category))
 		
 		viewModel = HealthCategoryViewModel(
@@ -43,6 +46,7 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	@MainActor func test_stateLoading() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try createSut()
 		viewModel.state = .loading
 		
@@ -50,49 +54,104 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)", precision: 0.95, )
 	}
 	
-	@MainActor func test_stateEmptyList() throws {
+	@MainActor func test_stateEmptyListNoError() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try createSut()
 		let content = NavigationView { sut }
 		
 		// When
-		viewModel.state = .list(items: [])
+		viewModel.state = .list(items: [], errorState: .none)
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
 	}
 	
-	@MainActor func test_stateEmptyPartialList() throws {
+	@MainActor func test_stateEmptyListLoadingState() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try createSut()
 		let content = NavigationView { sut }
 		
 		// When
-		viewModel.state = .partial(items: [])
+		viewModel.state = .list(items: [], errorState: .loading)
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
 	}
 	
-	@MainActor func test_stateList() throws {
+	@MainActor func test_stateEmptyListErrorState() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try createSut()
 		let content = NavigationView { sut }
 		
 		// When
-		viewModel.state = .list(items: [item])
-		
+		viewModel.state = .list(
+			items: [],
+			errorState: .error(
+				heading: "Error",
+				subHeading: "Er is een fout opgetreden"
+			)
+		)
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
 	}
 	
-	@MainActor func test_stateList_iOS26() throws {
+	@MainActor func test_stateNotEmptyListNoError() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		try createSut()
+		let content = NavigationView { sut }
+		
+		// When
+		viewModel.state = .list(items: [item], errorState: .none)
+		
+		// Then
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
+	}
+	
+	@MainActor func test_stateNotEmptyListLoadingState() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		try createSut()
+		let content = NavigationView { sut }
+		
+		// When
+		viewModel.state = .list(items: [item], errorState: .loading)
+		
+		// Then
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
+	}
+	
+	@MainActor func test_stateNotEmptyListErrorState() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		try createSut()
+		let content = NavigationView { sut }
+		
+		// When
+		viewModel.state = .list(
+			items: [item],
+			errorState: .error(
+				heading: "Error",
+				subHeading: "Er is een fout opgetreden"
+			)
+		)
+		// Then
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
+	}
+	
+	@MainActor func test_stateNotEmptyListNoError_iOS26() throws {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
@@ -100,37 +159,42 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// When
-		viewModel.state = .list(items: [item])
+		viewModel.state = .list(items: [item], errorState: .none)
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
 	}
 	
-	@MainActor func disabled_test_search_itemNotFound() throws {
+	@MainActor func test_stateNotEmptyListLoadingState_iOS26() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		try createSut()
 		let content = NavigationView { sut }
-		viewModel.state = .list(items: [item])
 		
 		// When
-		viewModel.searchText = "MGO"
+		viewModel.state = .list(items: [item], errorState: .loading)
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
 	}
 	
-	@MainActor func disabled_test_search_itemFound() throws {
+	@MainActor func test_stateNotEmptyListErrorState_iOS26() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		try createSut()
 		let content = NavigationView { sut }
-		viewModel.state = .list(items: [item])
 		
 		// When
-		viewModel.searchText = "health"
-		
+		viewModel.state = .list(
+			items: [item],
+			errorState: .error(
+				heading: "Error",
+				subHeading: "Er is een fout opgetreden"
+			)
+		)
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
 	}
 }

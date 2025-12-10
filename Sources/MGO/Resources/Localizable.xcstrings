@@ -1753,13 +1753,24 @@
         }
       }
     },
+    "health_category.empty.action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ga naar overzicht"
+          }
+        }
+      }
+    },
     "health_category.empty.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen gegevens gevonden "
+            "value" : "Deze category is nog leeg"
           }
         }
       }
@@ -1770,7 +1781,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Er is hier niets opgeslagen."
+            "value" : "Hier is niets opgeslagen. Zodra uw zorgaanbieders informatie toevoegen, staat die hier."
           }
         }
       }
@@ -2145,17 +2156,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voeg een zorgaanbieder toe"
-          }
-        }
-      }
-    },
-    "overview.errorstate.loading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gegevens ophalen ..."
           }
         }
       }
@@ -3510,7 +3510,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Persoonlijke gegevens"
+            "value" : "Administratie"
           }
         }
       }
