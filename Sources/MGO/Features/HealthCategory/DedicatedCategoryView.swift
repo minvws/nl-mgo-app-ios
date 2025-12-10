@@ -39,6 +39,14 @@ final class HealthCategoryViewTranslationsFactory {
 					noSearchResults: "hc_appointments.no_search_results",
 					backButtonTitle: String.LocalizationValue(stringLiteral: "hc_appointments.heading")
 				)
+			
+			case "documents":
+				return HealthCategoryViewTranslations(
+					heading: "hc_documents.heading",
+					search: "hc_documents.search",
+					noSearchResults: "hc_documents.no_search_results",
+					backButtonTitle: String.LocalizationValue(stringLiteral: "hc_documents.heading")
+				)
 				
 			case "problems":
 				return HealthCategoryViewTranslations(
@@ -162,18 +170,17 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 		)
 	}
 	
-	override func sortRecords(
-		records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthCategoryBlock]
-		) {
+	@MainActor override func sortRecords(
+		records: [MgoResourceRecord]
+	) -> (subCategories: [HealthCategoryBlock], clientError: Bool, serverError: Bool) {
 		
-		let (partial, subCategories) = super.sortRecords(records: records)
+		let (subCategories, clientError, serverError) = super.sortRecords(records: records)
 		
 		guard Container.shared.featureFlagManager().isDemo, let subCategory = subCategories.first else {
-			return (partial, subCategories)
+			return (subCategories, clientError, serverError)
 		}
 		
 		return (
-			partial,
 			[
 				HealthCategoryBlock(
 					heading: subCategory.heading,
@@ -186,7 +193,9 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 						(row.heading == "Verwijsbrief" && row.subHeading == "Huisartspraktijk Heideroosje")
 					}
 				)
-			]
+			],
+			clientError,
+			serverError
 		)
 	}
 }
