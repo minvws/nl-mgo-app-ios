@@ -8,6 +8,7 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
+// swiftlint:disable type_body_length
 final class HealthCategoryViewModelTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
@@ -98,8 +99,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).to(beEmpty())
+		if case let HealthCategoryViewState.list(items, errorState) = sut.state {
+			expect(items).to(haveCount(1))
+			expect(items.first?.rows).to(beEmpty())
+			expect(errorState) == HealthCategoriesErrorState.none
 		} else {
 			fail("Invalid state")
 		}
@@ -121,20 +124,22 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).to(beEmpty())
+		if case let HealthCategoryViewState.list(items, errorState) = sut.state {
+			expect(items).to(haveCount(1))
+			expect(items.first?.rows).to(beEmpty())
+			expect(errorState) == HealthCategoriesErrorState.none
 		} else {
 			fail("Invalid state")
 		}
 	}
 	
-	@MainActor func test_loadResources_error() throws {
+	@MainActor func test_loadResources_serverError() throws {
 		
 		// Given
 		try setupSut(organization: healthcareOrganization)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
 			[
-				resourceRecord([], error: 404)
+				resourceRecord([], error: 1)
 			]
 		)
 		
@@ -143,8 +148,40 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.partial(items) = sut.state {
-			expect(items).toNot(beEmpty())
+		if case let HealthCategoryViewState.list(items, errorState) = sut.state {
+			expect(items).to(haveCount(1))
+			expect(items.first?.rows).to(beEmpty())
+			expect(errorState) == HealthCategoriesErrorState.error(
+				heading: "Geen gegevens opgehaald",
+				subHeading: "Dit komt door een storing bij ons. Probeer het later opnieuw."
+			)
+		} else {
+			fail("Invalid state")
+		}
+	}
+	
+	@MainActor func test_loadResources_clientError() throws {
+		
+		// Given
+		try setupSut(organization: healthcareOrganization)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord([], error: -1)
+			]
+		)
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+		if case let HealthCategoryViewState.list(items, errorState) = sut.state {
+			expect(items).to(haveCount(1))
+			expect(items.first?.rows).to(beEmpty())
+			expect(errorState) == HealthCategoriesErrorState.error(
+				heading: "Geen gegevens opgehaald",
+				subHeading: "Er ging iets mis bij het ophalen. Controleer uw verbinding en probeer het opnieuw."
+			)
 		} else {
 			fail("Invalid state")
 		}
@@ -166,11 +203,12 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.list(items) = sut.state {
+		if case let HealthCategoryViewState.list(items, errorState) = sut.state {
 			expect(items).toEventually(haveCount(3))
 			expect(items[0].rows).toNot(beEmpty())
 			expect(items[1].rows).to(beEmpty())
 			expect(items[2].rows).to(beEmpty())
+			expect(errorState) == HealthCategoriesErrorState.none
 		} else {
 			fail("Invalid state")
 		}
@@ -193,11 +231,12 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.list(items) = sut.state {
+		if case let HealthCategoryViewState.list(items, errorState) = sut.state {
 			expect(items).toEventually(haveCount(3))
 			expect(items[0].rows).toNot(beEmpty())
 			expect(items[1].rows).to(beEmpty())
 			expect(items[2].rows).to(beEmpty())
+			expect(errorState) == HealthCategoriesErrorState.none
 		} else {
 			fail("Invalid state")
 		}
@@ -218,7 +257,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// When
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.list(items) = sut.state {
+		if case let HealthCategoryViewState.list(items, _) = sut.state {
 			items.first?.rows.first?.action?()
 		} else {
 			fail("Invalid state")
@@ -250,7 +289,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.list(items) = sut.state {
+		if case let HealthCategoryViewState.list(items, _) = sut.state {
 			expect(items).toEventually(haveCount(3))
 			expect(items[0].rows).toNot(beEmpty())
 			expect(items[1].rows).to(beEmpty())
@@ -271,8 +310,9 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.list(items) = sut.state {
+		if case let HealthCategoryViewState.list(items, errorState) = sut.state {
 			expect(items).to(beEmpty())
+			expect(errorState) == HealthCategoriesErrorState.none
 		} else {
 			fail("Invalid state")
 		}
@@ -322,9 +362,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.list(items) = sut.state {
+		if case let HealthCategoryViewState.list(items, errorState) = sut.state {
 			expect(items).toEventually(haveCount(3))
 			expect(items[0].rows).toNot(beEmpty())
+			expect(errorState) == HealthCategoriesErrorState.none
 		} else {
 			fail("Invalid state")
 		}
@@ -345,8 +386,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).toEventually(beEmpty())
+		if case let HealthCategoryViewState.list(items, errorState) = sut.state {
+			expect(items).toEventually(haveCount(1))
+			expect(items.first?.rows).toEventually(beEmpty())
+			expect(errorState) == HealthCategoriesErrorState.none
 		} else {
 			fail("Invalid state")
 		}
@@ -456,3 +499,4 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 	}
 }
+// swiftlint:enable type_body_length
