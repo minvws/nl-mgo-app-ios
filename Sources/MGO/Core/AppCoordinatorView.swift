@@ -14,8 +14,8 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	/// Closure used the handle inspection
 	var didAppear: ((Self) -> Void)?
 	
-	/// Should we show the alert after a screenshot was taken?§
-	@State private var showScreenshotAlert = false
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
 	
 	/// Initializer
 	/// - Parameter appCoordinator: An AppCoordinatorProtocol class
@@ -87,7 +87,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 				}
 				.when(withCloseButton) { view in
 					view
-						.withToolbarCloseButton {
+						.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
 							appCoordinator.handle(Coordination.Action.closeSheet)
 						}
 				}

@@ -11,12 +11,6 @@ class AboutTheAppViewModel: BaseViewModel {
 	/// The current version of the application
 	@Published var appVersion: String
 	
-	/// The current version of the shared core
-	@Published var hcimCoreVersion: String?
-	
-	/// Show the shared core version dialog
-	@Published var showHCIMCoreVersionDialog: Bool = false
-	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case showHCIMCoreVersion
@@ -32,12 +26,6 @@ class AboutTheAppViewModel: BaseViewModel {
 		
 		appVersion = "\(Container.shared.appVersionSupplier().getCurrentVersion()) (\(Container.shared.appVersionSupplier().getCurrentBuild()))"
 		super.init(coordinator: coordinator)
-		
-		do {
-			hcimCoreVersion = try HCIMParser().getVersion()
-		} catch {
-			logError("No shared core version found: \(error)")
-		}
 	}
 	
 	/// Handle any action
@@ -47,10 +35,8 @@ class AboutTheAppViewModel: BaseViewModel {
 		switch action {
 			
 			case .showHCIMCoreVersion:
-				if hcimCoreVersion != nil {
-					showHCIMCoreVersionDialog = true
-				}
-			
+				coordinator?.handle(Coordination.Action.showVersion)
+				
 			case .showSafety:
 				coordinator?.handle(Coordination.Action.showSafetyTips)
 			
@@ -74,6 +60,11 @@ struct AboutTheAppView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// The horizontal size classes (to determine the layout)
+	@Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+	
+	@State private var contentSize: CGSize = .zero
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -85,9 +76,6 @@ struct AboutTheAppView: View {
 		}
 		enum Button {
 			static let minimumHeight: CGFloat = 50
-		}
-		enum Logo {
-			static let maxHeight: CGFloat = 150
 		}
 	}
 	
@@ -115,32 +103,36 @@ struct AboutTheAppView: View {
 		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationTitle("settings.about_this_app.heading")
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	@ViewBuilder private func header() -> some View {
 		VStack(alignment: .leading, spacing: 0) {
-			
-			HStack {
+			HStack(alignment: .top) {
 				Spacer()
 				
-				Image(ImageResource.Settings.logo)
-					.resizable()
-					.scaledToFit()
-					.accessibilityLabel(Text("settings.about_this_app.logo_accessibility"))
-					.accessibilityIdentifier("settings.about_this_app.logo")
-					.frame(maxHeight: ViewTraits.Logo.maxHeight)
+				Image(
+					horizontalSizeClass == .regular ? ImageResource.Settings.Rijkslint.basis : ImageResource.Settings.Rijkslint.compact
+				)
+				.accessibilityLabel(Text("settings.about_this_app.logo_accessibility"))
+				.accessibilityIdentifier("settings.about_this_app.logo")
+				.frame(maxWidth: max(0, contentSize.width - 32))
 				
 				Spacer()
 			}
+			.frame(maxWidth: .infinity, alignment: .top)
 			
 			Text("common.app_name")
-				.rijksoverheidStyle(font: .bold, style: .body)
-				.foregroundStyle(theme.contentPrimary)
-				.padding(ViewTraits.General.padding)
+				.typography(.bodyMedium, isBold: true)
+				.foregroundStyle(theme.labels.primary)
+				.fixedSize(horizontal: false, vertical: true)
 				.accessibilityIdentifier("common.app_name")
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.padding(.top, -16)
 		}
+		.padding(.top, -16)
 		.listRowInsets(ViewTraits.General.inset)
+		.readSize($contentSize)
 	}
 	
 	/// Get the view for the version row
@@ -153,7 +145,7 @@ struct AboutTheAppView: View {
 			SettingsRowView(
 				heading: "settings.about_this_app.version",
 				subHeading: LocalizedStringKey(viewModel.appVersion),
-				showChevron: false
+				showChevron: true
 			)
 		}
 		.accessibilityIdentifier("settings.about_this_app.version")
@@ -162,12 +154,6 @@ struct AboutTheAppView: View {
 			minHeight: ViewTraits.Button.minimumHeight
 		)
 		.listRowInsets(ViewTraits.General.inset)
-		.alert("settings.about_this_app.version", isPresented: $viewModel.showHCIMCoreVersionDialog) {
-			Button(String(localized: "common.ok").uppercased(), role: .cancel) { /* no action available */ }
-				.accessibilityIdentifier("common.ok")
-		} message: {
-			Text(viewModel.hcimCoreVersion ?? "")
-		}
 	}
 	
 	/// Get the view for the safety row

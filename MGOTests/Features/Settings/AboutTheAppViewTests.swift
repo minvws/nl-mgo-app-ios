@@ -23,7 +23,11 @@ final class AboutTheAppViewTests: XCTestCase {
 	
 	@MainActor private func createSut() {
 		
-		sut = AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: self.coordinatorSpy))
+		sut = AboutTheAppView(
+			viewModel: AboutTheAppViewModel(
+				coordinator: self.coordinatorSpy
+			)
+		)
 	}
 
 	@MainActor func test_aboutTheAppView() {
@@ -36,6 +40,7 @@ final class AboutTheAppViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
+		takeSnapShotsForiPad(content: content)
 	}
 	
 	@MainActor func test_backbuttonPressed() throws {
@@ -116,8 +121,9 @@ final class AboutTheAppViewTests: XCTestCase {
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "settings.about_this_app.version").button().tap()
-
+		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == false
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showVersion
 	}
 }

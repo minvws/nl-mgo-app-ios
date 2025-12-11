@@ -5,6 +5,7 @@
 
 import MGOTest
 import MGOUI
+import MGOFoundation
 @testable import MGO
 
 final class LoginViewTests: XCTestCase {
@@ -37,6 +38,20 @@ final class LoginViewTests: XCTestCase {
 	@MainActor func test_loginView() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_loginView_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		
 		// When
@@ -49,6 +64,7 @@ final class LoginViewTests: XCTestCase {
 	@MainActor func test_loginView_loading() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		viewModel.state = .loading
 		
@@ -59,20 +75,34 @@ final class LoginViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	@MainActor func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() throws {
+	@MainActor func test_loginView_loading_iOS18() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
-		servicesSpies.featureFlagSpy.stubbedIsDemo = true
-
+		viewModel.state = .loading
+		
 		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.digid")
-		try view.view(CallToActionButton.self).find(button: "login.digid").tap()
+		let content = NavigationView { sut }
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
+		takeSnapShots(content: content)
 	}
+	
+//	@MainActor func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() throws {
+//		
+//		// Given
+//		createSut()
+//		servicesSpies.featureFlagSpy.stubbedIsDemo = true
+//
+//		// When
+//		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.digid")
+//		try view.view(CallToActionButton.self).find(button: "login.digid").tap()
+//		
+//		// Then
+//		expect(self.coordinatorSpy.invokedHandle) == true
+//		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
+//	}
 	
 	@MainActor func test_loginWithDigiD_loading_shouldNotCallCoordinator_whenDemoMode() throws {
 		

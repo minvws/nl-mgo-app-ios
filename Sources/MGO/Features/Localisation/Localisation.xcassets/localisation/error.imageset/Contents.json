@@ -3,6 +3,16 @@
     {
       "filename" : "notification icons.svg",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "notification icons dark.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {

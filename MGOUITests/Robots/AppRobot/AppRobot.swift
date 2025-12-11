@@ -114,12 +114,19 @@ class AppRobot: Robot {
 	func navigateToOverviewWithPDFA() -> HealthCategoriesRobot {
 		self.navigateToOverview(organization: 6)
 	}
+
+	/// Launch the app with a BgLZ Healthcare organization
+	/// - Returns: Health Categories Robot for the overview
+	@discardableResult
+	func navigateToOverviewWithLongTermCare() -> HealthCategoriesRobot {
+		self.navigateToOverview(organization: 7)
+	}
 	
 	/// Launch the app with a Vaccination Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithVaccination() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: 7)
+		self.navigateToOverview(organization: 8)
 	}
 	
 	/// Enable the biometric face ID login

@@ -45,6 +45,9 @@ struct UpdateRequiredView: View {
 	
 	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
@@ -86,21 +89,24 @@ struct UpdateRequiredView: View {
 				}
 				
 				Text("update_required.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
+					.typography(.headingExtraLarge)
 					.padding(ViewTraits.Title.insets)
 					.accessibilityAddTraits(.isHeader)
 					.fixedSize(horizontal: false, vertical: true)
 					.accessibilityIdentifier("update_required.heading")
 				
-				SplittedText(key: "update_required.subheading", spacing: ViewTraits.Text.spacing)
-					.rijksoverheidStyle(font: .regular, style: .body)
+				SplittedText(
+					key: "update_required.subheading",
+					spacing: ViewTraits.Text.spacing
+				)
+					.typography(.bodyMedium)
 					.padding(ViewTraits.Text.insets)
 					.accessibilityIdentifier("update_required.subheading")
 				
 				Spacer()
 			}
 			.frame(maxWidth: .infinity, alignment: .topLeading)
-			.foregroundStyle(theme.contentPrimary)
+			.foregroundStyle(theme.labels.primary)
 			.onRotate { newOrientation in
 				
 				// Always show on iPad
@@ -117,7 +123,13 @@ struct UpdateRequiredView: View {
 			}
 		} bottomView: {
 			
-			CallToActionButton("update_required.download") {
+			CallToActionButton(
+				"update_required.download",
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
 				viewModel.reduce(.actionButtonPressed)
 			}
 			.accessibilityIdentifier("update_required.download")
@@ -126,7 +138,7 @@ struct UpdateRequiredView: View {
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 }

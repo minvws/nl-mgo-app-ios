@@ -12,7 +12,11 @@ final class NotificationCardViewTests: XCTestCase {
 	func test_notificationCard() throws {
 		
 		// Given
-		let sut = NotificationCardView(icon: Image(systemName: "stethoscope"), title: "stethoscope", message: "info about stethoscope")
+		let sut = NotificationCardView(
+			icon: Image(systemName: "stethoscope"),
+			title: "stethoscope",
+			message: "info about stethoscope"
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)

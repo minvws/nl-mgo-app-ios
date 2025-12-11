@@ -26,17 +26,23 @@ struct DocumentPreviewController: UIViewControllerRepresentable {
 		controller.delegate = context.coordinator
 		
 		controller.navigationItem.rightBarButtonItem = UIBarButtonItem(
-			barButtonSystemItem: .done, target: context.coordinator,
+			barButtonSystemItem: .done,
+			target: context.coordinator,
 			action: #selector(context.coordinator.dismiss)
 		)
 		
-		let navigationController = UINavigationController(rootViewController: controller)
+		let navigationController = UINavigationController(
+			rootViewController: controller
+		)
 		return navigationController
 	}
 	
 	// MARK: UIViewControllerRepresentable
 	
-	func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+	func updateUIViewController(
+		_ uiViewController: UINavigationController,
+		context: Context
+	) {
 		/* No operation */
 	}
 	

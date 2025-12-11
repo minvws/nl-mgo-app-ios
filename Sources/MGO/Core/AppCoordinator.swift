@@ -107,6 +107,7 @@ struct AppCoordination {
 		case dashboard
 	}
 }
+
 // swiftlint:disable type_body_length
 final class AppCoordinator: AppCoordinatorProtocol {
 	
@@ -195,8 +196,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	@MainActor private func registerObservers() {
 		
 		// Listen to changes in the remote configuration
-		self.observerToken = remoteConfigurationRepository.observatory.append { @MainActor [weak self] remoteConfiguration in
-			self?.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
+		self.observerToken = remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
+			Task { @MainActor in
+				self?.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
+			}
 		}
 		
 		// Listen for authentication notification
@@ -244,7 +247,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 
 		// Always allow the update app action
 		if action.identifier == Coordination.Action.showAppStore.identifier {
-			#warning("The appstore url needs to be updated (MGO-548)")
+			#warning("Rool, 03/06/2024: The appstore url needs to be updated (MGO-548)")
 			guard let appStoreUrl = URL(string: "https://apps.apple.com") else { return }
 			browser.handleUnallowedDomain(appStoreUrl)
 			return
@@ -544,12 +547,22 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Reset the navigation stack with this new root  state
 	/// - Parameter state: the new root state.
 	@MainActor private func resetNavigationStack(with state: AppCoordination.State) {
-		
-		var transaction = Transaction()
-		transaction.disablesAnimations = true
-		withTransaction(transaction) {
-			path.removeLast(path.count)
-			rootState = state
+		// Ensure mutations to @Published properties happen on the main thread
+		let performReset = {
+			var transaction = Transaction()
+			transaction.disablesAnimations = true
+			withTransaction(transaction) {
+				self.path.removeLast(self.path.count)
+				self.rootState = state
+			}
+		}
+
+		if Thread.isMainThread {
+			performReset()
+		} else {
+			DispatchQueue.main.async {
+				performReset()
+			}
 		}
 	}
 	

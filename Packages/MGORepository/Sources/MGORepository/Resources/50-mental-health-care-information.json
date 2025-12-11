@@ -1,0 +1,100 @@
+{
+    "id": "50",
+    "name": "Mental Health Care Information",
+    "fhirVersion": "3.0",
+    "fhirVersionEnum": "R3",
+    "endpoints": [
+        {
+            "id": "patient",
+            "path": "/Patient?_include=Patient:general-practitioner",
+            "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-patient"]
+        },
+        {
+            "id": "payer",
+            "path": "/Coverage?_include=Coverage:payor:Patient&_include=Coverage:payor:Organization",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Payer"]
+        },
+        {
+            "id": "treatmentDirective",
+            "path": "/Consent?category=http://snomed.info/sct|11291000146105",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective"]
+        },
+        {
+            "id": "advanceDirective",
+            "path": "/Consent?category=http://snomed.info/sct|11341000146107",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective"]
+        },
+        {
+            "id": "functionalOrMentalStatus",
+            "path": "/Observation?category=http://snomed.info/sct|118228005,http://snomed.info/sct|384821006",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus"]
+        },
+        {
+            "id": "problem",
+            "path": "/Condition",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Problem"]
+        },
+        {
+            "id": "drugUse",
+            "path": "/Observation?code=http://snomed.info/sct|228366006",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse"]
+        },
+        {
+            "id": "alcoholUse",
+            "path": "/Observation?code=http://snomed.info/sct|228273003",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse"]
+        },
+        {
+            "id": "tobaccoUse",
+            "path": "/Observation?code=http://snomed.info/sct|365980008",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-TobaccoUse"]
+        },
+        {
+            "id": "livingSituation",
+            "path": "/Observation/$lastn?code=http://snomed.info/sct|365508006",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation"]
+        },
+        {
+            "id": "familySituation",
+            "path": "/Observation?code=http://snomed.info/sct|365470003",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-FamilySituation"]
+        },
+        {
+            "id": "participationInSociety",
+            "path": "/Observation?code=http://snomed.info/sct|314845004",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-ParticipationInSociety"]
+        },
+        {
+            "id": "helpFromOthers",
+            "path": "/CarePlan?category=http://snomed.info/sct|243114000",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-HelpFromOthers"]
+        },
+        {
+            "id": "laboratoryTestResult",
+            "path": "/Observation/$lastn?category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen",
+            "profiles": [
+                "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation"
+            ]
+        },
+        {
+            "id": "generalMeasurement",
+            "path": "/Observation?category=http://hl7.org/fhir/observation-category|survey",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-GeneralMeasurement"]
+        },
+        {
+            "id": "procedure",
+            "path": "/Procedure",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Procedure"]
+        },
+        {
+            "id": "textResult",
+            "path": "/DiagnosticReport",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-TextReport"]
+        },
+        {
+            "id": "careteam",
+            "path": "/CareTeam?_include=CareTeam:participant",
+            "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-careteam"]
+        }
+    ]
+}

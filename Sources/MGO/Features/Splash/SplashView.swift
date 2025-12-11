@@ -5,7 +5,6 @@
 
 import MGOUI
 import MGOFoundation
-import PatientFriendlyTerms
 
 final class SplashViewModel: ObservableObject {
 	
@@ -79,10 +78,11 @@ final class SplashViewModel: ObservableObject {
 	private func setupObservers() {
 		
 		// Listen to changes in the remote configuration
-		observerToken = remoteConfigurationRepository.observatory.append { @MainActor [weak self] _ in
-	
-			logDebug("LaunchViewModel: config loaded")
-			self?.reduce(.loaded)
+		observerToken = remoteConfigurationRepository.observatory.append { [weak self] _ in
+			Task { @MainActor in
+				logDebug("LaunchViewModel: config loaded")
+				self?.reduce(.loaded)
+			}
 		}
 	}
 	

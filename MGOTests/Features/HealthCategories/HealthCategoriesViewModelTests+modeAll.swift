@@ -56,7 +56,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 			categoryId: "medication",
 			organizationId: healthcareOrganization.identifier,
 			resources: [resource],
-			error: false
+			error: nil
 		)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
@@ -70,6 +70,50 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.loaded))
 	}
 	
+	@MainActor func test_loadMedication_withServerErrorData() throws {
+		
+		// Given
+		setupSut()
+		let mgoResource = MgoResourceRecord(
+			categoryId: "medication",
+			organizationId: healthcareOrganization.identifier,
+			resources: [],
+			error: ResourceRepositoryError.server.rawValue
+		)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+			[mgoResource, mgoResource, mgoResource, mgoResource]
+		)
+		expect(self.sut.state.buttonState["medication"]) == .loading
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.serverError))
+	}
+	
+	@MainActor func test_loadMedication_withClientErrorData() throws {
+		
+		// Given
+		setupSut()
+		let mgoResource = MgoResourceRecord(
+			categoryId: "medication",
+			organizationId: healthcareOrganization.identifier,
+			resources: [],
+			error: ResourceRepositoryError.client.rawValue
+		)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+			[mgoResource, mgoResource, mgoResource, mgoResource]
+		)
+		expect(self.sut.state.buttonState["medication"]) == .loading
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.clientError))
+	}
+	
 	@MainActor func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
 		
 		// Given
@@ -78,7 +122,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 			categoryId: "medication",
 			organizationId: healthcareOrganization.identifier,
 			resources: [],
-			error: false
+			error: nil
 		)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
@@ -106,7 +150,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.loading))
 	}
 	
-	@MainActor func test_loadMedication_dataError_stateShouldBeEmpty() throws {
+	@MainActor func test_loadMedication_dataError_stateShouldBeError() throws {
 		
 		// Given
 		setupSut()
@@ -117,7 +161,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.empty), timeout: .seconds(5))
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.serverError), timeout: .seconds(5))
 	}
 	
 	@MainActor func test_refresh() {
@@ -135,6 +179,25 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == true
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 1
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 0
+	}
+	
+	@MainActor func test_retry() {
+		
+		// Given
+		setupSut()
+		self.sut.state.buttonState["medication"] = .clientError
+		
+		// When
+		sut.reduce(.retry)
+		
+		// Then
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == false
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 0
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 0
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForSharedHealthCategoriesCategoriesCount) == 1
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount) == 0
 	}
 	
 	@MainActor func test_searchButtonPressed_shouldCallCoordinator() {
@@ -166,9 +229,60 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		
 		// When
 		
 		// Then
 		expect(self.sut.state.showEmptyView) == true
+	}
+	
+	@MainActor func test_observe_favoriteRepository() throws {
+		
+		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
+		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		expect(self.sut.state.favorites).to(beEmpty())
+		
+		// When
+		try Container.shared.favoritesRepository().store(Generator.healthCategory)
+		
+		// Then
+		expect(self.sut.state.favorites).toEventuallyNot(beEmpty())
+		Container.shared.favoritesRepository().wipePersistedData()
+	}
+	
+	@MainActor func test_observe_healthcareOrganizationRepository() throws {
+	
+		// Given
+		Container.shared.healthcareOrganizationRepository
+			.register { HealthcareOrganizationRepository() }
+		let healthcareOrganizationRepository = Container.shared.healthcareOrganizationRepository()
+		
+		healthcareOrganizationRepository.wipePersistedData()
+		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		expect(self.sut.state.showEmptyView) == true
+		
+		// When
+		try healthcareOrganizationRepository
+			.store(Generator.healthcareOrganization("1"))
+		
+		// Then
+		expect(self.sut.state.showEmptyView).toEventually(beFalse())
+		healthcareOrganizationRepository.wipePersistedData()
+	}
+	
+	@MainActor func test_observe_dataStore() throws {
+		
+		// Given
+		Container.shared.dataStore
+			.register { InMemoryDataStore() }
+		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		sut.state.buttonState = [:]
+		
+		// When
+		Container.shared.dataStore().observatory.notifyObservers(newValue: true)
+		
+		// Then
+		expect(self.sut.state.buttonState).toEventuallyNot(beEmpty())
 	}
 }

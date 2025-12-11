@@ -1,0 +1,26 @@
+{
+  "images" : [
+    {
+      "filename" : "LOGO_VWS_NL_RGB_COMPACT_BLAUW.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "LOGO_VWS_NL_RGB_COMPACT_WIT.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true,
+    "template-rendering-intent" : "original"
+  }
+}

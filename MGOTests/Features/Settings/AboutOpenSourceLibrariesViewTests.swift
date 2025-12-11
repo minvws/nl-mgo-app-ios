@@ -23,7 +23,11 @@ final class AboutOpenSourceLibrariesViewTests: XCTestCase {
 	
 	@MainActor private func createSut() {
 		
-		sut = AboutOpenSourceLibrariesView(viewModel: AboutOpenSourceLibrariesViewModel(coordinator: self.coordinatorSpy))
+		sut = AboutOpenSourceLibrariesView(
+			viewModel: AboutOpenSourceLibrariesViewModel(
+				coordinator: self.coordinatorSpy
+			)
+		)
 	}
 
 	@MainActor func test_aboutOpenSourceLibrariesView() {

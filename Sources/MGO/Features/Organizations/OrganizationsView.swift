@@ -56,7 +56,9 @@ class OrganizationsViewModel: ObservableObject {
 	@MainActor private func registerObservers() {
 		
 		self.observerToken = healthcareOrganizationRepository.observatory.append { [weak self] _, reason in
-			self?.handleOrganizationChanges(reason)
+			Task { @MainActor in
+				self?.handleOrganizationChanges(reason)
+			}
 		}
 	}
 	
@@ -167,6 +169,9 @@ struct OrganizationsView: View {
 	/// Are we scrolling
 	@State private var isScrolling: Bool = false
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -202,7 +207,7 @@ struct OrganizationsView: View {
 		.navigationBarBackButtonHidden()
 		.navigationBarHidden(false)
 		.navigationTitle("organizations.heading")
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
@@ -221,7 +226,7 @@ struct OrganizationsView: View {
 				icon: Image(ImageResource.Woman.womanWithPhone),
 				heading: "common.no_organizations_heading",
 				subHeading: "common.no_organizations_subheading",
-				subHeadingForegroundColor: theme.contentPrimary
+				subHeadingForegroundColor: theme.labels.primary
 			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
@@ -229,7 +234,13 @@ struct OrganizationsView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton(Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
+			CallToActionButton(
+				Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations",
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
 				viewModel.reduce(.search)
 			}
 			.accessibilityIdentifier("common.add_organizations")
@@ -279,20 +290,25 @@ struct OrganizationsView: View {
 	///   - imageResource: the image resource for the trailing end
 	///   - action: the action when tapped on
 	/// - Returns: row view
-	@ViewBuilder func rowFor(title: String, imageResource: ImageResource, accessibilityIdentifier: String, action: @escaping () -> Void) -> some View {
+	@ViewBuilder func rowFor(
+		title: String,
+		imageResource: ImageResource,
+		accessibilityIdentifier: String,
+		action: @escaping () -> Void
+	) -> some View {
 		
 		Button {
 			action()
 		} label: {
 			HStack {
 				Text(title)
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.labels.primary)
 				
 				Spacer()
 				
 				Image(imageResource)
-					.foregroundColor(theme.symbolSecondary)
+					.foregroundColor(theme.symbols.secondary)
 			}
 			.padding(ViewTraits.List.padding)
 		}

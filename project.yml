@@ -38,10 +38,14 @@ packages:
     path: ./Packages/MGOTest
   MGOUI:
     path: ./Packages/MGOUI
+  NetworkAvailability:
+    path: ./Packages/NetworkAvailability
   NotificationCenter:
     path: ./Packages/NotificationCenter
   Observatory:
     path: ./Packages/Observatory
+  OSVersion:
+    path: ./Packages/OSVersion
   PatientFriendlyTerms:
     path: ./Packages/PatientFriendlyTerms
   PdfExport:
@@ -103,6 +107,8 @@ settings:
     ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS: true
     ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: true
     SWIFT_STRICT_CONCURRENCY: complete
+    SWIFT_ENABLE_EXPLICIT_MODULES: false
+    
     FRAMEWORK_SEARCH_PATHS:
       - "$(inherited)"
       - "$(PROJECT_DIR)"
@@ -439,6 +445,9 @@ schemes:
           parallelizable: false
           randomExecutionOrder: true
         - package: Observatory/ObservatoryTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: OSVersion/OSVersionTests
           randomExecutionOrder: true
           parallelizable: false
         - package: PatientFriendlyTerms/PatientFriendlyTermsTests

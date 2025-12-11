@@ -41,6 +41,9 @@ struct AccountRemovedView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Text {
@@ -67,14 +70,20 @@ struct AccountRemovedView: View {
 				subHeading: "account_removed.subheading",
 				textAlignment: .leading,
 				textSpacing: ViewTraits.Text.spacing,
-				titleStyle: .title,
-				subHeadingForegroundColor: theme.contentPrimary
+				titleStyle: .headingLarge,
+				subHeadingForegroundColor: theme.labels.primary
 			)
 			.padding(.top, ViewTraits.Navigation.padding)
 			.padding(.horizontal, ViewTraits.General.spacing)
 			
 		} bottomView: {
-			CallToActionButton("account_removed.action") {
+			CallToActionButton(
+				"account_removed.action",
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
 				viewModel.reduce(.restart)
 			}
 			.accessibilityIdentifier("account_removed.action")
@@ -82,7 +91,7 @@ struct AccountRemovedView: View {
 		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarHidden(false)
-		.background(theme.backgroundPrimary)
+		.background(theme.backgrounds.primary)
 		.layoutForIPad()
 	}
 }

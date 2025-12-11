@@ -52,6 +52,9 @@ struct ForgotPinCodeView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Title {
@@ -74,14 +77,14 @@ struct ForgotPinCodeView: View {
 		ScrollViewWithFixedBottom {
 			VStack {
 				Text("forgot_pincode.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
+					.typography(.headingExtraLarge)
 					.padding(ViewTraits.Title.insets)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilityIdentifier("forgot_pincode.heading")
 				
 				Text("forgot_pincode.subheading")
-					.rijksoverheidStyle(font: .regular, style: .body)
+					.typography(.bodyMedium)
 					.padding(ViewTraits.Text.insets)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityIdentifier("forgot_pincode.subheading")
@@ -92,7 +95,7 @@ struct ForgotPinCodeView: View {
 			
 			bottomView()
 		}
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.alert("forgot_pincode.dialog.heading", isPresented: $viewModel.showDialog) {
 			Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }.accessibilityIdentifier("common.no")
 			Button("common.yes", role: .destructive) { viewModel.reduce(.recreateAccount) }.accessibilityIdentifier("common.yes")
@@ -106,17 +109,36 @@ struct ForgotPinCodeView: View {
 	@ViewBuilder func bottomView() -> some View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
-			CallToActionButton("forgot_pincode.button", style: .secondary) {
+			CallToActionButton(
+				"forgot_pincode.button",
+				style: .tonal(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.showDialog)
 			}
 			.accessibilityIdentifier("forgot_pincode.button")
 			
-			CallToActionButton("common.cancel") {
+			CallToActionButton(
+				"common.cancel",
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
 				viewModel.reduce(.cancelButtonPressed)
 			}
 			.accessibilityIdentifier("common.cancel")
 			
 		}
 		.padding(ViewTraits.Button.insets)
+	}
+}
+
+#Preview {
+	NavigationView {
+		ForgotPinCodeView(
+			viewModel: ForgotPinCodeViewModel(
+				coordinator: nil
+			)
+		)
 	}
 }

@@ -91,14 +91,28 @@ struct LoginView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		
 		enum Button {
 			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+			static let cornerRadius: CGFloat = 12
+			static let roundedRadius: CGFloat = 1000
+			static let minimumHeight: CGFloat = 50
+			static let opacity: Double = 0.75
+		}
+		enum Icon {
+			static let opacity: Double = 0.50
 		}
 		enum General {
 			static let spacing: CGFloat = 16
+		}
+		
+		enum ButtonTitle {
+			static let insets = EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 24)
 		}
 	}
 	
@@ -111,8 +125,8 @@ struct LoginView: View {
 				subHeading: "login.subheading",
 				textAlignment: .leading,
 				textSpacing: ViewTraits.General.spacing,
-				titleStyle: .largeTitle,
-				subHeadingForegroundColor: theme.contentPrimary
+				titleStyle: .headingExtraLarge,
+				subHeadingForegroundColor: theme.labels.primary
 			)
 			.padding(.horizontal, ViewTraits.General.spacing)
 			
@@ -122,27 +136,53 @@ struct LoginView: View {
 					case .loading:
 						CallToActionButton(
 							"login.loading",
-							style: .primaryWithLeadingSpinner
+							style: .solidLeadingSpinner(rounded: osVersionChecker.available(version: .iOS(.v26)))
 						)
 						.accessibilityIdentifier("login.loading")
 						
 					case .idle:
-						CallToActionButton(
-							"login.digid",
-							icon: Image(ImageResource.RemoteAuthentication.digid),
-							style: .primaryWithLeadingIcon
-						) {
-							viewModel.reduce(.loginWithDigiD)
-						}
-						.accessibilityIdentifier("login.digid")
+						digidButton()
 				}
 			}
 			.padding(ViewTraits.Button.insets)
 		}
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
+	}
+	
+	/// has the user pressed (but no released) the button
+	@State private var onHover = false
+	
+	/// The button to use DigiD for authentication
+	/// - Returns: the button
+	@ViewBuilder private func digidButton() -> some View {
+		
+		HStack {
+			Spacer()
+			
+			Image(ImageResource.RemoteAuthentication.digid)
+				.opacity(onHover ? ViewTraits.Icon.opacity : 1)
+			
+			Text("login.digid")
+				.typography(.bodyMedium, isBold: true)
+			
+			Spacer()
+		}
+		.foregroundColor(theme.actions.solid.text.opacity(onHover ? ViewTraits.Button.opacity : 1))
+		.tint(theme.actions.solid.text)
+		.padding(ViewTraits.ButtonTitle.insets)
+		.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
+		.background(theme.actions.solid.background.opacity(onHover ? ViewTraits.Button.opacity : 1))
+		.cornerRadius(osVersionChecker.available(version: .iOS(.v26)) ? ViewTraits.Button.roundedRadius : ViewTraits.Button.cornerRadius)
+		.accessibilityAddTraits(.isButton)
+		.accessibilityIdentifier("login.digid")
+		._onButtonGesture { pressed in
+			self.onHover = pressed
+		} perform: {
+			viewModel.reduce(.loginWithDigiD)
+		}
 	}
 }
 

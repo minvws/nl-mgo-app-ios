@@ -31,7 +31,10 @@ class ReferenceResolverTests: XCTestCase {
 		servicesSpies.dataStoreSpy.stubbedGetOrganizationIdResult = .failure(DataStoreError.noData)
 		
 		// When
-		let resolved = sut.resolve(reference: reference, healthcareOrganization: organization)
+		let resolved = sut.resolve(
+			reference: reference,
+			healthcareOrganization: organization
+		)
 		
 		// Then
 		expect(resolved) == nil
@@ -49,7 +52,10 @@ class ReferenceResolverTests: XCTestCase {
 		servicesSpies.dataStoreSpy.stubbedGetOrganizationIdResult = .success([record])
 		
 		// When
-		let resolved = sut.resolve(reference: reference, healthcareOrganization: organization)
+		let resolved = sut.resolve(
+			reference: reference,
+			healthcareOrganization: organization
+		)
 		
 		// Then
 		expect(resolved) == nil
@@ -69,7 +75,10 @@ class ReferenceResolverTests: XCTestCase {
 		servicesSpies.dataStoreSpy.stubbedGetOrganizationIdResult = .success([record])
 		
 		// When
-		let resolved = sut.resolve(reference: reference, healthcareOrganization: organization)
+		let resolved = sut.resolve(
+			reference: reference,
+			healthcareOrganization: organization
+		)
 		
 		// Then
 		expect(resolved) == nil
@@ -83,18 +92,21 @@ class ReferenceResolverTests: XCTestCase {
 			categoryId: "1",
 			organizationId: organization.identification,
 			resources: [resource],
-			error: false
+			error: nil
 		)
 		servicesSpies.dataStoreSpy.stubbedGetOrganizationIdResult = .success([record])
 		reference = "Condition/3c77bb22-795d-4e5e-815e-1db080fca69f"
 		
 		// When
-		let resolved = sut.resolve(reference: reference, healthcareOrganization: organization)
+		let resolved = sut.resolve(
+			reference: reference,
+			healthcareOrganization: organization
+		)
 		let (data, schema) = try XCTUnwrap(resolved)
 		
 		// Then
 		expect(data) == resource
-		expect(schema.label) == "Concern"
+		expect(schema.label) == "Medische klacht"
 		expect(schema.children.first?.label) == nil
 		expect(schema.children.first?.children.count) == 2
 	}

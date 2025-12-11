@@ -4,6 +4,7 @@
  */
 
 import MGOUI
+import MGOFoundation
 
 protocol ErrorViewModelProtocol: ObservableObject {
 	
@@ -78,6 +79,9 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 	/// The view model
 	@StateObject private var viewModel: ViewModel
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Initializer
 	/// - Parameter viewModel: the view model
 	init(viewModel: @autoclosure @escaping () -> ViewModel) {
@@ -107,8 +111,8 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 			VStack(spacing: ErrorViewViewTraits.General.spacing) {
 				
 				Text(viewModel.title)
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.headingExtraLarge)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 				
@@ -128,22 +132,28 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 					.padding(.horizontal, padding)
 				
 				viewModel.viewForBody()
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 				
 				Spacer()
 			}
 			.padding(.horizontal, ErrorViewViewTraits.General.padding)
 		} bottomView: {
-			CallToActionButton(viewModel.button) {
+			CallToActionButton(
+				viewModel.button,
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
 				viewModel.action()
 			}
 			.accessibilityIdentifier("action_button")
 			.padding(ErrorViewViewTraits.General.padding)
 		}
 		.padding(.top, ErrorViewViewTraits.Navigation.padding)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 }
 

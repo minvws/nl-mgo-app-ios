@@ -39,7 +39,7 @@ class SecuritySettingsViewModel: BaseViewModel {
 	/// Create a Security Settings Viewmodel
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter bioMetricType: what biometric type do we have? (FaceID, TouchID, OpticID)
-	init(
+	@MainActor init(
 		coordinator: (any Coordinator)?,
 		bioMetricType: () -> LocalAuthentication.BiometricType) {
 			
@@ -123,6 +123,9 @@ struct SecuritySettingsView: View {
 		enum Navigation {
 			static let padding: CGFloat = 24
 		}
+		enum Footer {
+			static let inset: EdgeInsets = EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+		}
 	}
 	
 	var body: some View {
@@ -132,8 +135,9 @@ struct SecuritySettingsView: View {
 				toggleView()
 			} footer: {
 				Text("settings.security.biometric.subheading")
-					.rijksoverheidStyle(font: .regular, style: .callout)
-					.foregroundStyle(theme.contentSecondary)
+					.typography(.bodySmall)
+					.foregroundStyle(theme.labels.secondary)
+					.listRowInsets(ViewTraits.Footer.inset)
 			}
 			.onChange(of: viewModel.state.bioMetricAuthenticationEnabled) { newValue in
 				viewModel.reduce(.biometricEnabled(newValue))
@@ -164,7 +168,7 @@ struct SecuritySettingsView: View {
 		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationTitle("settings.security.heading")
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// The view for the toggle
@@ -173,11 +177,11 @@ struct SecuritySettingsView: View {
 		
 		Toggle(isOn: $viewModel.state.bioMetricAuthenticationEnabled) {
 			Text(LocalizedStringKey(label(viewModel.state.bioMetricType)))
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.typography(.bodyMedium)
+				.foregroundStyle(theme.labels.primary)
 		}
 			.toggleStyle(.switch)
-			.tint(theme.interactionPrimaryDefaultBackground)
+			.tint(theme.actions.solid.background)
 			.accessibilityIdentifier("settings.security.toggle")
 	}
 	

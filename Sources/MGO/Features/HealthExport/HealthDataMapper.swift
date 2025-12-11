@@ -36,7 +36,7 @@ class HealthDataMapper {
 		let date = Container.shared.now()()
 		
 		return PdfData(
-			heading: String(localized: String.LocalizationValue(stringLiteral: category.heading)),
+			heading: category.localizedHeading(),
 			subHeading: String(
 				format: String(localized: "export_pdf.subheading"),
 				arguments: [
@@ -89,18 +89,33 @@ class HealthDataMapper {
 	@MainActor private func mapElement(_ element: UIElementProtocol) -> PdfSubTablePair? {
 		
 		if element is SingleValue,
-		   let value = (element as? SingleValue)?.display {
-			return PdfSubTablePair(key: element.label, value: value)
+		   let display = (element as? SingleValue)?.value?.display {
+			return PdfSubTablePair(key: element.label, value: display)
 		}
+		
 		if element is MultipleValues,
-		   let value = (element as? MultipleValues)?.display?.joined(separator: ", ") {
-			return PdfSubTablePair(key: element.label, value: value)
+		   let display = (element as? MultipleValues)?.value {
+			let values = display
+				.compactMap { $0.display }
+			
+			return PdfSubTablePair(
+				key: element.label,
+				value: values.joined(separator: ", ")
+			)
 		}
+		
 		if element is MultipleGroupedValues,
-		   let display = (element as? MultipleGroupedValues)?.display {
-			let value = display.map { $0.joined(separator: ", ") }.joined(separator: ", ")
-			return PdfSubTablePair(key: element.label, value: value)
+		   let display = (element as? MultipleGroupedValues)?.value {
+			let values = display
+				.flatMap { $0 }
+				.compactMap { $0.display }
+			
+			return PdfSubTablePair(
+				key: element.label,
+				value: values.joined(separator: ", ")
+			)
 		}
+
 		if element is ReferenceValue,
 		   let value = (element as? ReferenceValue)?.display {
 			return PdfSubTablePair(key: element.label, value: value)

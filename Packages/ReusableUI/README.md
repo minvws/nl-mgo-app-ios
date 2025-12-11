@@ -52,24 +52,20 @@ import ReusebleUI
 struct ButtonView: View {	
 	var body: some View {
 		VStack {
-			CallToActionButton(".digiD", icon: Image(systemName: "stethoscope"), style: .loginWithDigiD)
-				.padding(16)
-			CallToActionButton(".primary", style: .primary)
-				.padding(16)
-			CallToActionButton(".primaryCritical", style: .primaryCritical)
-				.padding(16)
-			CallToActionButton(".secondary", style: .secondary)
-				.padding(16)
-			CallToActionButton(".secondaryCritical", style: .secondaryCritical)
-				.padding(16)
-			CallToActionButton(".tertiary", style: .tertiary)
-				.padding(16)
-			CallToActionButton(".tertiaryCritical", style: .tertiaryCritical)
-				.padding(16)
-			CallToActionButton(".withIcon", icon: Image(systemName: "stethoscope"), style: .withIcon)
-				.padding(16)
-			CallToActionButton(".withSpinner", style: .withSpinner)
-				.padding(16)
+			CallToActionButton(".primaryWithLeadingIcon", icon: Image(systemName: "stethoscope"), style: .primaryWithLeadingIcon)
+			.padding(16)
+		CallToActionButton(".primaryWithLeadingSpinner", style: .primaryWithLeadingSpinner)
+			.padding(16)
+		CallToActionButton(".solid", style: .solid)
+			.padding(16)
+		CallToActionButton(".tonal", style: .tonal)
+			.padding(16)
+		CallToActionButton(".ghost", style: .ghost)
+			.padding(16)
+		CallToActionButton(".withIcon", icon: Image(systemName: "stethoscope"), style: .withIcon)
+			.padding(16)
+		CallToActionButton(".withSpinner", style: .withSpinner)
+			.padding(16)
 		}
 	}
 }
@@ -80,10 +76,6 @@ struct ButtonView: View {
 ### Card
 
 One common element in the UI is to make a view look like a card. The `.cardify()` modifier makes any view look like a card. 
-
-A much used loader has its own LoadingCardView with a title:
-
-<img style="float: left;" src="illustrations/LoadingCard.png" />
 
 For errors and and other feedback, we have a NotificationCard with an image, title and message. 
 
@@ -111,69 +103,6 @@ Which draws something like
 Whenever you want to give some haptic feedback to the user, you can use `Haptic.light()`, `Haptic.medium()` or `Haptic.heavy()`
 
 There is a viewModifier variant, `Text("Press me").hapticFeedback(HapticFeedback.medium)`
-
-### Feedback Banner
-
-A simple view to diplay feedback to the user. 
-
-```swift
-import ReuseableUI
-
-class ContentViewModel: ObservableObject {
-
-  /// A list of all the actions this viewModel can handle
-	enum Action {
-		case closeBanner
-	}
-	
-	/// Any banner to display?
-	@Published var banner: Banner?
-	
-	/// Intitializer
-	/// - Parameter showBanner: should we show a banner
-	init(showBanner: Bool = false) {
-		if showBanner {
-			banner = Banner(
-				title: String(localized: "title"),
-				subtitle: String(localized: "subtitle"),
-				type: .success
-			)
-		}
-	}
-	
-	/// Handle any action
-	/// - Parameter action: the action to be handled
-	func reduce(_ action: ContentViewModel.Action) {
-		switch action {
-			case .closeBanner:
-				banner = nil
-		}
-	}
-}
-
-struct ContentView: View {
-	
-	/// The view model
-	@StateObject var viewModel: ContentViewModel
-	...
-  var body: some View {
-	  if let banner = viewModel.banner {
-			
-		  BannerView(banner) {
-			 // User pressed on the close button
-			  withAnimation {
-				  viewModel.reduce(.closeBanner)
-			 }
-		 }
-	 }
-    ...
- }
-}
-```
-
-There are four different types of Banner: **.info**, **.warning**, **.error** and **.success**
-
-<img style="float: left;" src="illustrations/Banner.png" />
 
 ### Feedback Toast
 
@@ -245,7 +174,7 @@ A reoccurring view in our project is a large image with content underneath.
 		subHeading: "SubHeading",
 		textAlignment: .center,
 		textSpacing: 8,
-		titleStyle: .largeTitle,
+		titleStyle: .headingExtraLarge,
 		subHeadingForegroundColor: Color.pink
 	)
 
@@ -267,4 +196,4 @@ Note that all commits should be signed using a [gpg key](https://docs.github.com
 
 ## License
 
-License is released under the EUPL 1.2 license. See [LICENSE](https://github.com/minvws/nl-mgo-app-ios-private?tab=License-1-ov-file#readme) for details.
+License is released under the EUPL 1.2 license. See [LICENSE](https://github.com/minvws/nl-mgo-app-ios?tab=License-1-ov-file#readme) for details.

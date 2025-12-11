@@ -19,6 +19,7 @@ extension Coordination.Action {
 	@MainActor static let showOpenSourceLibraries = Coordination.Action(identifier: "showOpenSourceLibraries")
 	@MainActor static let showSafetyTips = Coordination.Action(identifier: "showSafetyTips")
 	@MainActor static let showSecuritySettings = Coordination.Action(identifier: "showSecuritySettings")
+	@MainActor static let showVersion = Coordination.Action(identifier: "showVersion")
 }
 
 protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
@@ -53,6 +54,7 @@ struct SettingsCoordination {
 		case aboutAccessibility
 		case aboutSafetyTips
 		case aboutOpenSourceLibraries
+		case version
 		case browser(URL, String?)
 	}
 }
@@ -152,6 +154,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			
 			case .showSafetyTips:
 				path.append(SettingsCoordination.State.aboutSafetyTips)
+				
+			case .showVersion:
+				path.append(SettingsCoordination.State.version)
 			
 			default:
 				logWarning("Settings Coordinator does not handle \(action)")
@@ -227,6 +232,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			
 			case .settings:
 				SettingsView(viewModel: SettingsViewModel(coordinator: self))
+				
+			case .version:
+				VersionView(viewModel: VersionViewModel(coordinator: self))
 			
 			default:
 				EmptyView()

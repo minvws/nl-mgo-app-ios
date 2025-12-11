@@ -132,7 +132,7 @@ class PatientFriendlyTermsAPIClientTests {
 		// Then
 		await #expect {
 			// When
-			try _ = try await sut.fetchTerms(eTag: eTag)
+			_ = try await sut.fetchTerms(eTag: eTag)
 		} throws: { error in
 			guard let error = error as? PatientFriendlyTermsAPIClientError else {
 				return false

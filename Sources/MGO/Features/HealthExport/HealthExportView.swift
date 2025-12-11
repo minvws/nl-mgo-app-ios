@@ -44,6 +44,9 @@ class HealthExportViewModel: ObservableObject {
 	/// The path to the generated pdf
 	@Published var pdfUrl: URL?
 	
+	/// Should we render for iPad?
+	@Published var forIpad: Bool = false
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -56,16 +59,19 @@ class HealthExportViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	/// - Parameter healthData: the health data to export
 	/// - Parameter storage: the file storage system
-	init(
+	/// - Parameter forIpad: should we render for iPad
+	@MainActor init(
 		coordinator: (any Coordinator)? = nil,
 		healthData: PdfData,
-		storage: FileStorageProtocol = FileStorage(subDirectory: HealthDirectory.export)
+		storage: FileStorageProtocol = FileStorage(subDirectory: HealthDirectory.export),
+		forIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
 	) {
 		self.coordinator = coordinator
 		self.state = .loading
 		self.title = healthData.heading
 		self.storage = storage
 		self.dataSource = healthData
+		self.forIpad = forIpad
 		
 		// The factory for all the PDF draw elements
 		factory = PdfDrawElementFactory(theme: theme)
@@ -350,6 +356,9 @@ struct HealthExportView: View {
 	/// Are we presented in a sheet?
 	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -371,8 +380,8 @@ struct HealthExportView: View {
 					Spacer()
 					
 					ProgressView("pdf_viewer.loading")
-						.foregroundStyle(theme.contentSecondary)
-						.rijksoverheidStyle(font: .regular, style: .body)
+						.foregroundStyle(theme.labels.secondary)
+						.typography(.bodyMedium)
 				
 					Spacer()
 					
@@ -381,29 +390,16 @@ struct HealthExportView: View {
 					PDFKitView(pdfDocument)
 						.padding(.horizontal, ViewTraits.General.padding)
 					
-					if #available(iOS 16.0, *) {
-						if let pdfUrl = viewModel.pdfUrl {
-							HStack {
-								ShareLink(item: pdfUrl) {
-									Image(systemName: "square.and.arrow.up")
-										.resizable()
-										.scaledToFit()
-										.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
-								}
-								.accessibilityLabel("export_pdf.share")
-								.accessibilityIdentifier("export_pdf.share")
-								Spacer()
-							}
-							.padding(.horizontal, ViewTraits.General.padding)
-							.padding(.top, ViewTraits.General.padding)
-							.background(theme.backgroundSecondary)
-						}
+					if !viewModel.forIpad {
+						shareButton()
+					} else {
+						Spacer(minLength: 32)
 					}
 			}
 		}
 		.interactiveDismissDisabled(true) // Disable dragging by the user for this sheet
 		.frame(maxWidth: .infinity)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
@@ -414,6 +410,7 @@ struct HealthExportView: View {
 				.toolbar(content: close)
 		})
 		.when(!isPresentedAsSheet, transform: { view in
+			// Happens on iOS 15
 			view
 				.toolbar(content: shareTopBarTrailing)
 				.navigationBarItems(leading: BackButton {
@@ -421,7 +418,21 @@ struct HealthExportView: View {
 				})
 				.navigationBarTitleDisplayMode(.inline)
 		})
+		.when(viewModel.forIpad, transform: { view in
+			view
+				.toolbar(content: shareTopBarLeading)
+		})
+	}
+	
+	@ViewBuilder private func shareButton() -> some View {
 		
+		HStack {
+			shareLink(viewModel.pdfUrl)
+			Spacer()
+		}
+		.padding(.horizontal, ViewTraits.General.padding)
+		.padding(.top, ViewTraits.General.padding)
+		.background(theme.backgrounds.secondary)
 	}
 	
 	/// Content for the close button toolbar
@@ -430,11 +441,24 @@ struct HealthExportView: View {
 		ToolbarItemGroup(
 			placement: .topBarTrailing,
 			content: {
-				Button("export_pdf.close") {
-					viewModel.reduce(.closeSheet)
+				
+				let closeKey: LocalizedStringKey = "export_pdf.close"
+				
+				if osVersionChecker.available(version: .iOS(.v26)) {
+					if #available(iOS 26.0, *) {
+						Button(role: .close) {
+							viewModel.reduce(.closeSheet)
+						}
+						.accessibilityLabel(closeKey)
+					}
+				} else {
+					
+					Button(closeKey) {
+						viewModel.reduce(.closeSheet)
+					}
+					.buttonStyle(ToolbarButtonStyle())
+					.accessibilityIdentifier("export_pdf.close")
 				}
-				.buttonStyle(ToolbarButtonStyle())
-				.accessibilityIdentifier("export_pdf.close")
 			}
 		)
 	}
@@ -455,5 +479,35 @@ struct HealthExportView: View {
 				
 			}
 		)
+	}
+	
+	/// Content for the share button toolbar
+	/// - Returns: the share button in a toolbar
+	@ToolbarContentBuilder private func shareTopBarLeading() -> some ToolbarContent {
+		ToolbarItemGroup(
+			placement: .topBarLeading,
+			content: {
+				shareLink(viewModel.pdfUrl)
+			}
+		)
+	}
+	
+	/// The share link for the pdf (iOS 16 and up_
+	/// - Parameter url: the url to the pdf
+	/// - Returns: share link for the pdf
+	@ViewBuilder func shareLink(_ url: URL?) -> some View {
+		
+		if #available(iOS 16.0, *) {
+			if let url {
+				ShareLink(item: url) {
+					Image(systemName: "square.and.arrow.up")
+						.resizable()
+						.scaledToFit()
+						.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
+				}
+				.accessibilityLabel("export_pdf.share")
+				.accessibilityIdentifier("export_pdf.share")
+			}
+		}
 	}
 }

@@ -12,10 +12,11 @@ import Foundation
 
 // MARK: - TentacledGiven
 public struct TentacledGiven: Codable, Hashable, Sendable {
-    public let birthName, initials: [PrimitiveValueTypeOfStringString]?
+    public let birthName, callName, initials: [PrimitiveValueTypeOfStringString]?
 
-    public init(birthName: [PrimitiveValueTypeOfStringString]?, initials: [PrimitiveValueTypeOfStringString]?) {
+    public init(birthName: [PrimitiveValueTypeOfStringString]?, callName: [PrimitiveValueTypeOfStringString]?, initials: [PrimitiveValueTypeOfStringString]?) {
         self.birthName = birthName
+        self.callName = callName
         self.initials = initials
     }
 }
@@ -40,10 +41,12 @@ public extension TentacledGiven {
 
     func with(
         birthName: [PrimitiveValueTypeOfStringString]?? = nil,
+        callName: [PrimitiveValueTypeOfStringString]?? = nil,
         initials: [PrimitiveValueTypeOfStringString]?? = nil
     ) -> TentacledGiven {
         return TentacledGiven(
             birthName: birthName ?? self.birthName,
+            callName: callName ?? self.callName,
             initials: initials ?? self.initials
         )
     }

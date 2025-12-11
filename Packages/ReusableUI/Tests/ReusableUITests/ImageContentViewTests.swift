@@ -16,7 +16,7 @@ final class ImageContentViewTests: XCTestCase {
 			icon: Image(systemName: "42.circle"),
 			heading: "Heading",
 			subHeading: "SubHeading",
-			titleStyle: .largeTitle,
+			titleStyle: .headingExtraLarge,
 			subHeadingForegroundColor: Color.pink
 		)
 		
@@ -34,7 +34,7 @@ final class ImageContentViewTests: XCTestCase {
 			icon: Image(systemName: "42.circle"),
 			heading: "Heading",
 			subHeading: "SubHeading",
-			titleStyle: .largeTitle,
+			titleStyle: .headingExtraLarge,
 			subHeadingForegroundColor: Color.pink
 		)
 		

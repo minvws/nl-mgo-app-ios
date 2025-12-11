@@ -1,5 +1,5 @@
 {
-  "originHash" : "cfc48282c521f0d3bc2b6a9ed913658bd404c4c189c42dda598d270e1f097f97",
+  "originHash" : "bc78ec0e00d663f6126edf2cb396d5c61fd016d85d746d542d054bc52dfdc7e5",
   "pins" : [
     {
       "identity" : "example-package-figlet",
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-http-types",
       "state" : {
-        "revision" : "a0a57e949a8903563aba4615869310c0ebf14c03",
-        "version" : "1.4.0"
+        "revision" : "45eb0224913ea070ec4fba17291b9e7ecf4749ca",
+        "version" : "1.5.1"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-openapi-runtime",
       "state" : {
-        "revision" : "8f33cc5dfe81169fb167da73584b9c72c3e8bc23",
-        "version" : "1.8.2"
+        "revision" : "7722cf8eac05c1f1b5b05895b04cfcc29576d9be",
+        "version" : "1.8.3"
       }
     },
     {

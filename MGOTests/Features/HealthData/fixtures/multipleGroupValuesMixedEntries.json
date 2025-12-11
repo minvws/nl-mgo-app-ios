@@ -6,11 +6,27 @@
 			"children": [
 				{
 					"label": "The label",
-					"display": [
-						["Single Entry in an array"],
-						["Single Entry in another array", "Second Entry in another array"],
-						["Single Entry in the third array"]
+					"value": [
+						[
+							{
+								"display":"Single Entry in an array"
+							}
+						],
+						[
+							{
+								"display":"Single Entry in another array"
+							},
+							{
+								"display":"Second Entry in another array"
+							}
+						],
+						[
+							{
+								"display":"Single Entry in the third array"
+							}
+						]
 					],
+					"display": null,
 					"type": "MULTIPLE_GROUPED_VALUES",
 					"reference": null,
 					"url": null

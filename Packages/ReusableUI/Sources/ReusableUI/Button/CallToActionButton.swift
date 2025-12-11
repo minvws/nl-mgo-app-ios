@@ -23,28 +23,19 @@ public struct CallToActionButton: View {
 	public var action: (() -> Void)?
 	
 	/// The button style (primary, secondary)
-	public var style: Style
-	
-	/// All possible styles
-	public enum Style {
-		case primaryWithLeadingIcon
-		case primaryWithLeadingSpinner
-		case primary
-		case primaryCritical
-		case secondary
-		case secondaryCritical
-		case tertiary
-		case tertiaryCritical
-		case withIcon
-		case withSpinner
-	}
+	public var style: CallToActionButtonStyle
 	
 	/// Create a Call To Action Button
 	/// - Parameter title: The key of the localized text to be displayed as title
 	/// - Parameter icon: the optional icon to display
 	/// - Parameter style: the style to display in
 	/// - Parameter action: the optional action to perform
-	public init(_ key: LocalizedStringKey, icon: Image? = nil, style: Style = .primary, action: ( () -> Void)? = nil) {
+	public init(
+		_ key: LocalizedStringKey,
+		icon: Image? = nil,
+		style: CallToActionButtonStyle,
+		action: ( () -> Void)? = nil
+	) {
 		self.key = key
 		self.style = style
 		self.action = action
@@ -56,7 +47,12 @@ public struct CallToActionButton: View {
 	/// - Parameter icon: the optional icon to display
 	/// - Parameter style: the style to display in
 	/// - Parameter action: the optional action to perform
-	public init(title: String, icon: Image? = nil, style: Style = .primary, action: ( () -> Void)? = nil) {
+	public init(
+		title: String,
+		icon: Image? = nil,
+		style: CallToActionButtonStyle,
+		action: ( () -> Void)? = nil
+	) {
 		self.title = title
 		self.style = style
 		self.action = action
@@ -64,20 +60,19 @@ public struct CallToActionButton: View {
 	}
 	
 	public var body: some View {
-		
 		Button(
 			action: {
 				action?()
 			},
 			label: {
-				if style == .withIcon, let icon {
+				if case .withIcon = style, let icon {
 					HStack {
 						titleLabel()
 						Spacer()
 						icon
 					}
 					.contentShape(Rectangle())
-				} else if style == .primaryWithLeadingIcon, let icon {
+				} else if case .solidLeadingIcon = style, let icon {
 					HStack {
 						Spacer()
 						icon
@@ -85,14 +80,14 @@ public struct CallToActionButton: View {
 						Spacer()
 					}
 					.contentShape(Rectangle())
-				} else if style == .withSpinner {
+				} else if case .withSpinner = style {
 					HStack {
 						titleLabel()
 						Spacer()
 						ProgressView()
 							.progressViewStyle(.circular)
 					}
-				} else if style == .primaryWithLeadingSpinner {
+				} else if case .solidLeadingSpinner = style {
 					HStack {
 						Spacer()
 						ProgressView()
@@ -106,30 +101,7 @@ public struct CallToActionButton: View {
 				}
 			}
 		)
-		.when(style == .primaryWithLeadingIcon || style == .primaryWithLeadingSpinner || style == .primary, transform: { button in
-			button.buttonStyle(PrimaryDefaultButtonStyle())
-		})
-		.when(style == .primaryCritical, transform: { button in
-			button.buttonStyle(PrimaryCriticalButtonStyle())
-		})
-		.when(style == .secondary, transform: { button in
-			button.buttonStyle(SecondaryDefaultButtonStyle())
-		})
-		.when(style == .secondaryCritical, transform: { button in
-			button.buttonStyle(SecondaryCriticalButtonStyle())
-		})
-		.when(style == .tertiary, transform: { button in
-			button.buttonStyle(TertiaryButtonStyle())
-		})
-		.when(style == .tertiaryCritical, transform: { button in
-			button.buttonStyle(TertiaryCriticalButtonStyle())
-		})
-		.when(style == .withIcon, transform: { button in
-			button.buttonStyle(ButtonWithIconStyle())
-		})
-		.when(style == .withSpinner, transform: { button in
-			button.buttonStyle(ButtonWithSpinnerStyle())
-		})
+		.modifier(ButtonStyleApplier(style: style))
 	}
 	
 	/// Get the view for the title
@@ -144,27 +116,107 @@ public struct CallToActionButton: View {
 	}
 }
 
+private struct ButtonStyleApplier: ViewModifier {
+	
+	/// The style to apply
+	let style: CallToActionButtonStyle
+	
+	/// Applying the button style
+	/// - Parameter content: the content
+	/// - Returns: the content with button style
+	func body(content: Content) -> some View {
+		switch style {
+			case .ghost:
+				content.buttonStyle(GhostButtonStyle())
+				
+			case let .solid(rounded, narrow):
+				content.buttonStyle(SolidButtonStyle(rounded: rounded, narrow: narrow))
+
+			case let .solidLeadingIcon(rounded: rounded),
+				let .solidLeadingSpinner(rounded: rounded):
+				content.buttonStyle(SolidButtonStyle(rounded: rounded, narrow: false))
+				
+			case let .tonal(rounded):
+				content.buttonStyle(TonalButtonStyle(rounded: rounded))
+				
+			case .withIcon:
+				content.buttonStyle(ButtonWithIconStyle())
+				
+			case .withSpinner:
+				content.buttonStyle(ButtonWithSpinnerStyle())
+		}
+	}
+}
+
 #Preview {
 	VStack {
-		CallToActionButton(".primaryWithLeadingIcon", icon: Image(systemName: "stethoscope"), style: .primaryWithLeadingIcon)
+		CallToActionButton(
+			".solidLeadingIcon(rounded: false)",
+			icon: Image(systemName: "stethoscope"),
+			style: .solidLeadingIcon(rounded: false)
+		)
 			.padding(16)
-		CallToActionButton(".primaryWithLeadingSpinner", style: .primaryWithLeadingSpinner)
+		CallToActionButton(
+			".solidLeadingIcon(rounded: true)",
+			icon: Image(systemName: "stethoscope"),
+			style: .solidLeadingIcon(rounded: true)
+		)
+		.padding(16)
+		CallToActionButton(
+			".solidLeadingSpinner(rounded: false)",
+			style: .solidLeadingSpinner(rounded: false)
+		)
+		.padding(16)
+		CallToActionButton(
+			".solidLeadingSpinner(rounded: true)",
+			style: .solidLeadingSpinner(rounded: true)
+		)
+		.padding(16)
+		CallToActionButton(
+			".solid(rounded: false, narrow: false)",
+			style: .solid(rounded: false, narrow: false)
+		)
 			.padding(16)
-		CallToActionButton(".primary", style: .primary)
+		CallToActionButton(
+			".solid(rounded: false, narrow: true)",
+			style: .solid(rounded: false, narrow: true)
+		)
+		.padding(16)
+		CallToActionButton(
+			".solid(rounded: true, narrow: false)",
+			style: .solid(rounded: true, narrow: false)
+		)
+		.padding(16)
+		CallToActionButton(
+			".solid(rounded: true, narrow: true)",
+			style: .solid(rounded: true, narrow: true)
+		)
 			.padding(16)
-		CallToActionButton(".primaryCritical", style: .primaryCritical)
+		CallToActionButton(
+			".tonal(rounded: false)",
+			style: .tonal(rounded: false)
+		)
 			.padding(16)
-		CallToActionButton(".secondary", style: .secondary)
+		CallToActionButton(
+			".tonal(rounded: true)",
+			style: .tonal(rounded: true)
+		)
 			.padding(16)
-		CallToActionButton(".secondaryCritical", style: .secondaryCritical)
+		CallToActionButton(
+			".ghost",
+			style: .ghost
+		)
 			.padding(16)
-		CallToActionButton(".tertiary", style: .tertiary)
+		CallToActionButton(
+			".withIcon",
+			icon: Image(systemName: "stethoscope"),
+			style: .withIcon
+		)
 			.padding(16)
-		CallToActionButton(".tertiaryCritical", style: .tertiaryCritical)
-			.padding(16)
-		CallToActionButton(".withIcon", icon: Image(systemName: "stethoscope"), style: .withIcon)
-			.padding(16)
-		CallToActionButton(".withSpinner", style: .withSpinner)
+		CallToActionButton(
+			".withSpinner",
+			style: .withSpinner
+		)
 			.padding(16)
 		Spacer()
 	}

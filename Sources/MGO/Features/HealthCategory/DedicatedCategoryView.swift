@@ -39,6 +39,14 @@ final class HealthCategoryViewTranslationsFactory {
 					noSearchResults: "hc_appointments.no_search_results",
 					backButtonTitle: String.LocalizationValue(stringLiteral: "hc_appointments.heading")
 				)
+			
+			case "documents":
+				return HealthCategoryViewTranslations(
+					heading: "hc_documents.heading",
+					search: "hc_documents.search",
+					noSearchResults: "hc_documents.no_search_results",
+					backButtonTitle: String.LocalizationValue(stringLiteral: "hc_documents.heading")
+				)
 				
 			case "problems":
 				return HealthCategoryViewTranslations(
@@ -104,12 +112,12 @@ final class HealthCategoryViewTranslationsFactory {
 					backButtonTitle: String.LocalizationValue(stringLiteral: "hc_patient.heading")
 				)
 				
-			case "payment":
+			case "care_team":
 				return HealthCategoryViewTranslations(
-					heading: "hc_payment.heading",
-					search: "hc_payment.search",
-					noSearchResults: "hc_payment.no_search_results",
-					backButtonTitle: String.LocalizationValue(stringLiteral: "hc_payment.heading")
+					heading: "hc_care_team.heading",
+					search: "hc_care_team.search",
+					noSearchResults: "hc_care_team.no_search_results",
+					backButtonTitle: String.LocalizationValue(stringLiteral: "hc_care_team.heading")
 				)
 				
 			case "plans":
@@ -162,28 +170,32 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 		)
 	}
 	
-	override func sortRecords(
-		records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthCategoryBlock]
-		) {
+	@MainActor override func sortRecords(
+		records: [MgoResourceRecord]
+	) -> (subCategories: [HealthCategoryBlock], clientError: Bool, serverError: Bool) {
 		
-		let (partial, subCategories) = super.sortRecords(records: records)
+		let (subCategories, clientError, serverError) = super.sortRecords(records: records)
 		
 		guard Container.shared.featureFlagManager().isDemo, let subCategory = subCategories.first else {
-			return (partial, subCategories)
+			return (subCategories, clientError, serverError)
 		}
+		
 		return (
-			partial,
 			[
 				HealthCategoryBlock(
 					heading: subCategory.heading,
 					rows: subCategory.rows.filter { row in
-						(row.heading == "Consult dermatologie" && row.subHeading == "Ziekenhuis Nieuw Juinen") ||
-						(row.heading == "Voorlopig ontslagbericht" && row.subHeading == "Ziekenhuis Nieuw Juinen") ||
-						(row.heading == "Ontslagbrief" && row.subHeading == "Ziekenhuis Nieuw Juinen") ||
+						(row.subHeading == "Ziekenhuis Nieuw Juinen" &&
+						 (row.heading == "Consult dermatologie" ||
+						  row.heading == "Voorlopig ontslagbericht" ||
+						  row.heading == "Ontslagbrief")
+						) ||
 						(row.heading == "Verwijsbrief" && row.subHeading == "Huisartspraktijk Heideroosje")
 					}
 				)
-			]
+			],
+			clientError,
+			serverError
 		)
 	}
 }

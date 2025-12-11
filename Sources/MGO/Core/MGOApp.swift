@@ -31,21 +31,83 @@ struct ProductionApp: App {
 	/// The application appearance for light / dark / system mode
 	@AppStorage("AppAppearance") private var selectedAppearance: AppAppearance = .system
 	
+	/// Which scene phase is the app?
+	@Environment(\.scenePhase) private var phase
+	
+	/// Dependency injectable Secure User Settings
+	@Injected(\.secureUserSettings) private var secureUserSettings
+	
+	/// Dependency injectable Local authentication provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
+	
+	/// Dependency injectable Notification Center
+	@Injected(\.notificationCenter) private var notificationCenter
+	
 	/// The application coordinator to determine what view to show
 	private var coordinator: AppCoordinator
+	
+	/// How many seconds must we be in the background before we show the local authentication view upon reentry?
+	internal let localAuthenticationTimeOut: TimeInterval = 120
 	
 	/// Create the production app
 	init() {
 		coordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		secureUserSettings.enteredBackground = nil
 	}
+	
+	/// Show the privacy scene
+	@State private var showPrivacyScene: Bool = false
 	
 	var body: some Scene {
 		WindowGroup {
-			GeometryReader { geo in
-				AppCoordinatorView<AppCoordinator>(appCoordinator: coordinator)
-					.environment(\.safeAreaInsets, geo.safeAreaInsets)
-					.preferredColorScheme(selectedAppearance.colorScheme)
+			ZStack {
+				GeometryReader { geo in
+					AppCoordinatorView<AppCoordinator>(appCoordinator: coordinator)
+						.environment(\.safeAreaInsets, geo.safeAreaInsets)
+						.preferredColorScheme(selectedAppearance.colorScheme)
+				}
+				
+				SnapshotView(showSpinner: .constant(false))
+					.opacity(showPrivacyScene ? 1 : 0)
 			}
+		}
+		.onChange(of: phase) { newPhase in
+			switch newPhase {
+				case .active:
+					becomesActive()
+					
+				case .inactive, .background:
+					becomesInactive()
+					
+				default:
+					break
+			}
+		}
+	}
+	
+	/// Handle the app when we become inactive (i.e. show privacy scene)
+	private func becomesInactive() {
+		showPrivacyScene = true
+		// Mark the date
+		guard secureUserSettings.enteredBackground == nil else { return }
+		let timeStamp = Container.shared.now()()
+		secureUserSettings.enteredBackground = timeStamp
+		logWarning("App: Became inactive, marking enteredBackground at", timeStamp)
+	}
+	
+	/// Handle the app when we become active (again).
+	private func becomesActive() {
+		showPrivacyScene = false
+		
+		// Check the timestamp we entered the background.
+		guard let enteredBackground = secureUserSettings.enteredBackground else { return }
+		
+		if Date().timeIntervalSince(enteredBackground) >= localAuthenticationTimeOut {
+			logWarning("App: We are in the background longer then \(localAuthenticationTimeOut) seconds. Post show Local Authentication")
+			notificationCenter.post(name: .showLocalAuthentication, object: nil)
+		} else {
+			logVerbose("App: We returned in time, reset enteredBackground to nil.")
+			secureUserSettings.enteredBackground = nil
 		}
 	}
 }
@@ -54,10 +116,10 @@ struct TestApp: App {
 	
 	init() {
 		
-		// Only run tests on a iPhone 16 Pro (screenshot dimensions will differ on other devices)
+		// Only run tests on a iPhone 17 Pro (screenshot dimensions will differ on other devices)
 		let device = UIDevice.current.name
-		if device != "iPhone 16 Pro" {
-			fatalError("Switch to using iPhone 16 Pro for these tests.")
+		if device != "iPhone 17 Pro" {
+			fatalError("Switch to using iPhone 17 Pro for these tests.")
 		}
 		
 		// Speedup animation

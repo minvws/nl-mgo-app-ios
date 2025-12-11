@@ -33,6 +33,20 @@ class BioMetricSetupViewTests: XCTestCase {
 	@MainActor func test_bioMetricSetup_faceID() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		let sut = createSut(bioMetricType: { .faceID })
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_bioMetricSetup_faceID_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		let sut = createSut(bioMetricType: { .faceID })
 		
 		// When
@@ -45,6 +59,20 @@ class BioMetricSetupViewTests: XCTestCase {
 	@MainActor func test_bioMetricSetup_touchID() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		let sut = createSut(bioMetricType: { .touchID })
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_bioMetricSetup_touchID_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		let sut = createSut(bioMetricType: { .touchID })
 		
 		// When
@@ -57,6 +85,20 @@ class BioMetricSetupViewTests: XCTestCase {
 	@MainActor func test_bioMetricSetup_opticID() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		let sut = createSut(bioMetricType: { .opticID })
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_bioMetricSetup_opticID_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		let sut = createSut(bioMetricType: { .opticID })
 		
 		// When

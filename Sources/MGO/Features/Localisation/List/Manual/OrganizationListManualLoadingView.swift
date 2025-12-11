@@ -29,8 +29,8 @@ struct OrganizationListManualLoadingView: View {
 		VStack {
 			
 			Text("organization_search.heading")
-				.rijksoverheidStyle(font: .bold, style: .title)
-				.foregroundStyle(theme.contentPrimary)
+				.typography(.headingExtraLarge)
+				.foregroundStyle(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
 			
@@ -43,8 +43,8 @@ struct OrganizationListManualLoadingView: View {
 						.padding(.bottom, 20)
 					
 					Text("organization_search.searching")
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundStyle(theme.contentPrimary)
+						.typography(.bodyMedium)
+						.foregroundStyle(theme.labels.primary)
 				}
 			}
 			Spacer()

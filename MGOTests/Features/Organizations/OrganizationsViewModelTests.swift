@@ -167,4 +167,26 @@ final class OrganizationsViewModelTests: XCTestCase {
 		expect(self.sut.toast?.heading) == "Zorgaanbieders aangepast"
 		expect(self.sut.toast?.subheading) == "Herstel"
 	}
+	
+	@MainActor func test_observe_healthcareOrganizationRepository() throws {
+		
+		// Given
+		Container.shared.healthcareOrganizationRepository
+			.register { HealthcareOrganizationRepository() }
+		let healthcareOrganizationRepository = Container.shared.healthcareOrganizationRepository()
+		healthcareOrganizationRepository.wipePersistedData()
+		let organization = Generator.healthcareOrganization("1")
+		try healthcareOrganizationRepository.set([organization])
+		
+		createSut()
+		expect(self.sut.toast) == nil
+		
+		// When
+		try healthcareOrganizationRepository
+			.remove(organization)
+		
+		// Then
+		expect(self.sut.toast).toEventuallyNot(beNil())
+		healthcareOrganizationRepository.wipePersistedData()
+	}
 }

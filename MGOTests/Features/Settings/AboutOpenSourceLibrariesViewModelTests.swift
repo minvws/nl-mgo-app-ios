@@ -19,12 +19,19 @@ final class AboutOpenSourceLibrariesViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = AboutOpenSourceLibrariesViewModel(coordinator: self.coordinatorSpy)
+	}
+	
+	@MainActor func setupSut() {
+		
+		sut = AboutOpenSourceLibrariesViewModel(
+			coordinator: self.coordinatorSpy
+		)
 	}
 	
 	@MainActor func test_backButtonPressed() throws {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.backButtonPressed)
@@ -37,6 +44,7 @@ final class AboutOpenSourceLibrariesViewModelTests: XCTestCase {
 	@MainActor func test_handleOpenUrl() throws {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.openUrl("https://example.com"))
@@ -48,9 +56,10 @@ final class AboutOpenSourceLibrariesViewModelTests: XCTestCase {
 		expect(params.params["urlString"]) != nil
 	}
 	
-	func test_libraries() throws {
+	@MainActor func test_libraries() throws {
 		
 		// Given
+		setupSut()
 		let expectedLibrary = AboutOpenSourceLibrariesViewModel.Library(
 			name: "DeviceKit (MIT)",
 			urlString: "https://github.com/devicekit/DeviceKit?tab=MIT-1-ov-file#readme" // NOSONAR

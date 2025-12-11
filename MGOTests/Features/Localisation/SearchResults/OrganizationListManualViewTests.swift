@@ -29,7 +29,10 @@ final class OrganizationListManualViewTests: XCTestCase {
 		)
 	}
 	
-	@MainActor private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
+	@MainActor private func createSut(
+		city: String = "Roermond",
+		name: String = "Tandarts Tandje Erbij"
+	) {
 		
 		viewModel = OrganizationListManualViewModel(
 			coordinator: coordinatorSpy,
@@ -71,9 +74,25 @@ final class OrganizationListManualViewTests: XCTestCase {
 	@MainActor func test_empty() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
 
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+		takeSnapShotsForiPad(content: content)
+	}
+	
+	@MainActor func test_empty_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		createSut()
+		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
+		
 		// When
 		let content = NavigationView { sut }
 		
@@ -101,6 +120,22 @@ final class OrganizationListManualViewTests: XCTestCase {
 	@MainActor func test_failure() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
+		viewModel.state = .failure(error)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_failure_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
 		viewModel.state = .failure(error)
@@ -147,7 +182,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone16Pro(.portrait), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
 		)
 	}
 	
@@ -169,7 +204,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone16Pro(.portrait), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
 		)
 	}
 	
@@ -191,7 +226,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone16Pro(.landscape), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0)
 		)
 	}
 	
@@ -213,7 +248,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone16Pro(.landscape), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0)
 		)
 	}
 }

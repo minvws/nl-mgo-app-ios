@@ -25,7 +25,7 @@ import XCTest
 	// MARK: - Elements
 	
 	private var digidButton: XCUIElement {
-		app.buttons["login.digid"]
+		app.buttons["Log in met DigiD"]
 	}
 	
 	private var titleLabel: XCUIElement {

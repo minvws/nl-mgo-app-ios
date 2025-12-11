@@ -19,7 +19,7 @@ import XCTest
 	// MARK: - Elements
 	
 	private func titleLabel(_ title: String) -> XCUIElement {
-		app.navigationBars.staticTexts[title]
+		app.staticTexts[title]
 	}
 
 	private func headingLabel(_ heading: String) -> XCUIElement {
@@ -169,7 +169,7 @@ import XCTest
 	@discardableResult
 	func swipeToBottomCategory() -> Self {
 		
-		while !app.buttons["payment"].exists {
+		while !app.buttons["care_team"].exists {
 			app.swipeUp()
 		}
 		
@@ -230,24 +230,38 @@ import XCTest
 		.verifyCategoryExists("problems")
 		.verifyCategoryExists("allergies")
 		.verifyCategoryExists("alerts")
+		.swipeDownToCategory("vaccinations")
 		.verifyCategoryExists("vaccinations")
-		.verifyCategoryExists("lifestyle")
+		.swipeDownToCategory("mental_wellbeing")
 		.verifyCategoryExists("mental_wellbeing")
-		.swipeDownToCategory("medication")
-		.verifyHeadingExists("Onderzoeken en uitslagen")
-		.verifyCategoryExists("measurements")
-		.verifyCategoryExists("lab_results")
-		.verifyHeadingExists("Zorg en behandeling")
+		.swipeDownToCategory("lifestyle")
+		.verifyCategoryExists("lifestyle")
+		
+		.swipeDownToCategory("treatments")
+		.verifyHeadingExists("Zorg")
 		.verifyCategoryExists("treatments")
-		.verifyCategoryExists("medication")
-		.verifyCategoryExists("appointments")
-		.swipeDownToCategory("payment")
-		.verifyCategoryExists("documents")
+		.swipeDownToCategory("plans")
 		.verifyCategoryExists("plans")
+		.swipeDownToCategory("medication")
+		.verifyCategoryExists("medication")
+		.swipeDownToCategory("appointments")
+		.verifyCategoryExists("appointments")
+		.swipeDownToCategory("documents")
+		.verifyCategoryExists("documents")
+		.swipeDownToCategory("medical_devices")
 		.verifyCategoryExists("medical_devices")
-		.verifyHeadingExists("Persoonlijk en administratie")
+
+		.swipeDownToCategory("measurements")
+		.verifyHeadingExists("Onderzoek")
+		.verifyCategoryExists("measurements")
+		.swipeDownToCategory("lab_results")
+		.verifyCategoryExists("lab_results")
+		
+		.swipeDownToCategory("patient")
+		.verifyHeadingExists("Persoonlijk")
 		.verifyCategoryExists("patient")
-		.verifyCategoryExists("payment")
+		.swipeDownToCategory("care_team")
+		.verifyCategoryExists("care_team")
 		
 		return self
 	}

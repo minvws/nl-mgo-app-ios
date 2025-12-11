@@ -1,2 +1,3 @@
-* @minvws/nl-rdo-mgo-app-codeowners
+* @minvws/nl-rdo-mgo-client-codeowners
+# Last match takes precedence
 .github/CODEOWNERS @minvws/irealisatie-operations

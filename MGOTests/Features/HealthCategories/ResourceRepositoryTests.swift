@@ -21,6 +21,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		sut = ResourceRepository(
 			healthcareOrganizationRepository: servicesSpies.healthcareOrganizationStoreSpy,
 			dataRepository: servicesSpies.dataStoreSpy,
+			networkAvailabilityChecker: servicesSpies.networkAvailabilityCheckerSpy,
 			featureFlagManager: servicesSpies.featureFlagSpy,
 			serverUrl: url,
 			username: "test",
@@ -66,7 +67,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(30), timeout: .seconds(10))
+			.toEventually(equal(28), timeout: .seconds(10))
 	}
 	
 	@MainActor func test_load_oneOrganization_demoMode() throws {
@@ -86,7 +87,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(2), timeout: .seconds(10))
+			.toEventually(equal(3), timeout: .seconds(10))
 	}
 	
 	@MainActor func test_load_twoOrganizations() throws {
@@ -108,7 +109,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(60), timeout: .seconds(15))
+			.toEventually(equal(56), timeout: .seconds(15))
 	}
 	
 	@MainActor func test_load_twoOrganizations_demoMode() throws {
@@ -131,7 +132,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(4), timeout: .seconds(10))
+			.toEventually(equal(6), timeout: .seconds(10))
 	}
 	
 	@MainActor func test_loadForOrganization() throws {
@@ -150,7 +151,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(30), timeout: .seconds(10))
+			.toEventually(equal(28), timeout: .seconds(10))
 	}
 	
 	@MainActor func test_loadForCategory_oneOrganization() async throws {
@@ -167,10 +168,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		await sut.loadFor(Generator.healthCategory)
+		sut.loadFor([Generator.healthCategory])
 		
 		// Then
-		await expect { await self.servicesSpies.dataStoreSpy.invokedStoreCount }
+		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
 			.toEventually(equal(3), timeout: .seconds(10))
 	}
 	
@@ -189,7 +190,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		await sut.loadFor(Generator.healthCategory)
+		sut.loadFor([Generator.healthCategory])
 		
 		// Then
 		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
@@ -208,7 +209,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let hcim = try await sut.loadBinary(organization, serviceId: "48", url: url)
+		let hcim = try await sut.loadBinary(organization, serviceId: "48", path: url)
 		
 		// Then
 		expect(hcim?.contentType) == "application/pdf"
@@ -222,7 +223,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		let url = "https://example.com/Binary/file1"
 		
 		// When
-		let hcim = try await sut.loadBinary(organization, serviceId: "48", url: url)
+		let hcim = try await sut.loadBinary(organization, serviceId: "48", path: url)
 		
 		// Then
 		expect(hcim) == nil
@@ -240,7 +241,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let hcim = try await sut.loadBinary(organization, serviceId: "48", url: url)
+		let hcim = try await sut.loadBinary(organization, serviceId: "48", path: url)
 		
 		// Then
 		expect(hcim) == nil
@@ -262,7 +263,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(30), timeout: .seconds(10))
+			.toEventually(equal(28), timeout: .seconds(10))
 	}
 	
 	@MainActor func test_handleOrganizationChanges_removed() throws {

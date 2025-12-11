@@ -15,7 +15,7 @@ struct ButtonWithIconStyle: ButtonStyle {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum ButtonTitle {
-			static let insets = EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 24)
+			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 		}
 		enum Button {
 			static let minimumHeight: CGFloat = 50
@@ -28,11 +28,11 @@ struct ButtonWithIconStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundColor(theme.interactionTertiaryDefaultText)
-			.tint(configuration.isPressed ? theme.interactionTertiaryDefaultText.opacity(0.50) : theme.interactionTertiaryDefaultText)
+			.typography(.bodyMedium)
+			.foregroundColor(theme.actions.ghost.text)
+			.tint(configuration.isPressed ? theme.actions.ghost.text.opacity(0.50) : theme.actions.ghost.text)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.backgroundTertiary : theme.backgroundSecondary)
+			.background(configuration.isPressed ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
 	}
 }

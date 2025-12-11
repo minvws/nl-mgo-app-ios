@@ -5,6 +5,7 @@
 
 import MGOTest
 import MGOFoundation
+import MGOUI
 @testable import MGO
 
 ///
@@ -45,6 +46,11 @@ import MGOFoundation
 
 	var jailBreakSpy: JailBreakProtocolSpy = {
 		let spy = JailBreakProtocolSpy()
+		return spy
+	}()
+	
+	var networkAvailabilityCheckerSpy: NetworkAvailabilityCheckerSpy = {
+		let spy = NetworkAvailabilityCheckerSpy()
 		return spy
 	}()
 	
@@ -97,6 +103,9 @@ func setupServicesSpies() -> ServicesSpies {
 		.register { @MainActor in spies.appVersionSupplierSpy }
 	Container.shared.dataStore
 		.register { spies.dataStoreSpy }
+	Container.shared.favoritesRepository.register {
+		FileRepository<SharedHealthCategories.Category>(fileName: "favorites-test.json")
+	}
 	Container.shared.featureFlagManager
 		.register { @MainActor in spies.featureFlagSpy }
 	Container.shared.healthcareOrganizationRepository
@@ -107,12 +116,16 @@ func setupServicesSpies() -> ServicesSpies {
 		.register { spies.localAuthenticationProviderSpy }
 	Container.shared.localisationServiceClient
 		.register { spies.localisationServiceClientSpy }
+	Container.shared.osVersionChecker
+		.register { OSVersionChecker() }
 	Container.shared.patientFriendyTermsRepository
 		.register { spies.patientFriendlyTermsRepositorySpy }
 	Container.shared.remoteConfigurationRepository
 		.register { spies.remoteConfigurationRepositorySpy }
 	Container.shared.resourceRepository
 		.register { spies.resourceRepositorySpy }
+	Container.shared.networkAvailabilityChecker
+		.register { spies.networkAvailabilityCheckerSpy }
 	Container.shared.notificationCenter
 		.register { spies.notificationCenterSpy }
 	Container.shared.now

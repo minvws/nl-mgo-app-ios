@@ -54,11 +54,8 @@ enum HealthCategoryViewState: Equatable {
 	/// The data is being loading
 	case loading
 	
-	/// All the data is available
-	case list(items: [HealthCategoryBlock])
-	
-	/// Only partial data is available
-	case partial(items: [HealthCategoryBlock])
+	/// The data is available (with errors)
+	case list(items: [HealthCategoryBlock], errorState: HealthCategoriesErrorState)
 	
 	/// Equality
 	/// - Parameters:
@@ -71,23 +68,14 @@ enum HealthCategoryViewState: Equatable {
 			case (.loading, .loading):
 				return true
 			
-			case let(.list(lhsList), .list(rhsList)):
+			case let(.list(lhsList, lhsError), .list(rhsList, rhsError)):
 			
-				guard lhsList.count == rhsList.count else { return false }
+				guard lhsError == rhsError, lhsList.count == rhsList.count else { return false }
 				var result = true
 				for index in lhsList.indices {
 					result = result && lhsList[index] == rhsList[index]
 				}
 				return result
-			
-			case let(.partial(lhsList), .partial(rhsList)):
-		
-				guard lhsList.count == rhsList.count else { return false }
-				var result = true
-				for index in lhsList.indices {
-					result = result && lhsList[index] == rhsList[index]
-				}
-			return result
 			
 			default:
 				return false
@@ -129,10 +117,7 @@ class HealthCategoryViewModel: ObservableObject {
 	private var organization: MgoOrganization?
 	
 	/// The category to show
-	private var category: SharedHealthCategories.Category
-	
-	/// The text to filter the results on. 
-	@Published var searchText = ""
+	@Published var category: SharedHealthCategories.Category
 	
 	/// Token for the data store observatory
 	private var dataStoreToken: Observatory.ObserverToken?
@@ -183,8 +168,10 @@ class HealthCategoryViewModel: ObservableObject {
 	@MainActor private func registerObservers() {
 		self.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
-				// Handle updates in the fetched data
-				self?.handleDataStoreChanges()
+				Task { @MainActor in
+					// Handle updates in the fetched data
+					self?.handleDataStoreChanges()
+				}
 			}
 		}
 	}
@@ -217,10 +204,7 @@ class HealthCategoryViewModel: ObservableObject {
 			case .exportHealthData:
 			
 				var blocks = [HealthCategoryBlock]()
-				if case let .list(items) = state {
-					blocks = items
-				}
-				if case let .partial(items) = state {
+				if case let .list(items, _) = state {
 					blocks = items
 				}
 				
@@ -235,15 +219,22 @@ class HealthCategoryViewModel: ObservableObject {
 		}
 	}
 	
+	/// Retry the failed category
 	@MainActor private func retry() {
 		
-		state = .loading
+		if case let .list(items, _) = state {
+			if items.flatMap({ $0.rows }).isNotEmpty {
+				// Partial
+				state = .list(items: items, errorState: .loading)
+			} else {
+				state = .loading
+			}
+		}
 		dataStore.removeRecords(for: category.id, organizationId: organization?.identifier)
-		
 		if let organization {
-			resourceRepository.loadResource(organization, category: category)
+			resourceRepository.loadResource(organization, categories: [category])
 		} else {
-			resourceRepository.loadFor(category)
+			resourceRepository.loadFor([category])
 		}
 	}
 	
@@ -288,23 +279,32 @@ class HealthCategoryViewModel: ObservableObject {
 				}
 				
 				let sorted = sortRecords(records: records)
-				if sorted.partial {
-					state = .partial(items: sorted.subCategories)
-				} else {
-					// Check if we have any rows with an accepted profile
-					var hasRows = false
-					for subCategory in sorted.subCategories where subCategory.rows.isNotEmpty {
-						hasRows = true
+				
+				withAnimation {
+					if sorted.clientError || sorted.serverError {
+						
+						state =
+							.list(
+								items: sorted.subCategories,
+								errorState: .error(
+									heading: String(
+										localized: sorted.subCategories.flatMap { $0.rows }.isNotEmpty ? "errorstate.partial_error" : "errorstate.error"
+									),
+									subHeading: String(
+										localized: sorted.clientError ? "errorstate.clientside.heading" : "errorstate.serverside.heading"
+									)
+								)
+							)
+					} else {
+						state =
+							.list(
+								items: sorted.subCategories,
+								errorState: .none
+							)
 					}
-					guard hasRows else {
-						state = .list(items: [])
-						return
-					}
-					
-					state = .list(items: sorted.subCategories)
 				}
 			case .failure:
-				state = .list(items: [])
+				state = .list(items: [], errorState: .none)
 		}
 	}
 	
@@ -312,22 +312,25 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Parameter records: the records to sort
 	/// - Returns: sorted sub categories
 	@MainActor internal func sortRecords(
-		records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthCategoryBlock]
-		) {
+		records: [MgoResourceRecord]
+	) -> (subCategories: [HealthCategoryBlock], clientError: Bool, serverError: Bool) {
 		
 		var items = [HealthCategoryBlock]()
-		var partial = false
+		var hasClientError = false
+		var hasServerError = false
 		
 		// Create list of subcategories
 		for subcategory in category.subcategories {
 			for profile in subcategory.profiles {
 				var subCat = HealthCategoryBlock(
-					heading: String(localized: String.LocalizationValue(stringLiteral: subcategory.heading)),
+					heading: subcategory.localized(),
 					rows: []
 				)
 				for record in records {
 					subCat.rows.append(contentsOf: parseRecord(record, acceptedProfile: profile))
-					partial = partial || record.error
+					hasClientError = hasClientError || record.error == ResourceRepositoryError.client.rawValue
+					hasServerError = hasServerError || record.error == ResourceRepositoryError.server.rawValue
+					
 				}
 				// There might be another subcategory with the same heading.
 				// Append to that subcategory rather then append as a new subcategory
@@ -343,7 +346,7 @@ class HealthCategoryViewModel: ObservableObject {
 				}
 			}
 		}
-		return (partial, items)
+		return (items, hasClientError, hasServerError)
 	}
 	
 	/// Extract rows from the data store records
@@ -374,6 +377,7 @@ class HealthCategoryViewModel: ObservableObject {
 							params: [
 								"healthcareOrganization": self.getOrganization(record.organizationId),
 								"backButtonTitle": String(localized: self.translations.backButtonTitle),
+								"titleInline": false,
 								"resource": resource,
 								"uiSchema": uiSchema,
 								"inSheet": false
@@ -399,7 +403,8 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Returns: optional name
 	func getOrganization(_ identifier: String) -> MgoOrganization? {
 		
-		return healthcareOrganizationRepository.organizations.first { $0.identifier == identifier }
+		return healthcareOrganizationRepository.organizations
+			.first { $0.identifier == identifier }
 	}
 }
 
@@ -411,157 +416,158 @@ struct HealthCategoryView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
-	@State private var showBanner = true
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
 	
 	/// Magic Numbers
 	private struct ViewTraits {
-		enum Navigation {
-			static let padding: CGFloat = 8
-		}
 		enum General {
 			static let padding: CGFloat = 16
 		}
 		enum List {
-			static let top: CGFloat = 8
-			static let spacing: CGFloat = 8
-			static let cornerRadius: CGFloat = 12
+			static let inset: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+			static let headerInset: EdgeInsets = EdgeInsets(top: 24, leading: 16, bottom: 2, trailing: 16)
 		}
-		enum NoResults {
-			static let width: CGFloat = 0.5
-			static let padding: CGFloat = 16
-			static let top: CGFloat = 50
-			static let spacing: CGFloat = 8
+		enum FullScreen {
+			static let textSpacing: CGFloat = 8
+			static let iconSize: CGFloat = 50
 		}
 	}
 	
 	var body: some View {
 		
-		ScrollView {
+		Group {
 			
 			switch viewModel.state {
 				case .loading:
+					fullScreenLoadingScreen()
 					
-					Spacer()
-					LoadingCardView(
-						title: "common.loading",
-						showBorder: false
-					)
-					
-				case let .list(items):
-					
-					listOverview(list: items)
-				
-				case let .partial(items: items):
-				
-					if showBanner {
-						BannerView(
-							Feedback(
-								title: String(localized: "common.failed_to_load_data"),
-								subtitle: String(localized: "common.error_in_system"),
-								actionTitle: String(localized: "common.try_again"),
-								type: .warning,
-								perform: {
-									viewModel.reduce(.retry)
-								}
-							)
-						) {
-							withAnimation {
-								showBanner = false
-							}
-						}
-						.padding(.horizontal, ViewTraits.General.padding)
+				case let .list(items, errorState):
+					if items.flatMap({ $0.rows }).isEmpty {
+						fullScreenEmptyScreen(errorState)
+					} else {
+						listOverview(
+							list: items,
+							errorState: errorState
+						)
 					}
-					listOverview(list: items)
 			}
-			Spacer()
 		}
+		.backport.scrollContentBackground(.hidden)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("overview.heading") {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
 		.navigationTitle(String(localized: viewModel.translations.heading))
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
 	}
 	
-	/// Create the list state view
-	/// - Returns: View when the user has some stored healthcare organizations
-	@ViewBuilder func listOverview(list: [HealthCategoryBlock]) -> some View {
-	
-		VStack {
-			if list.isNotEmpty {
-				listOverviewBlocks(list: filterList(list))
-			} else {
-				noItems()
-			}
-		}
-		.padding(.horizontal, ViewTraits.General.padding)
-	}
-	
-	/// Get the filtered search result list
-	/// - Parameter list: the original list
-	/// - Returns: filtered list
-	private func filterList(_ list: [HealthCategoryBlock]) -> [HealthCategoryBlock] {
-		
-		guard viewModel.searchText.isNotEmpty else {
-			return list
-		}
-		
-		var result = [HealthCategoryBlock]()
-		for sub in list {
-			let filteredItems = sub.rows.filter {
-				($0.heading.localizedCaseInsensitiveContains(viewModel.searchText.lowercased())) ||
-				$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
-			}
-			if filteredItems.isNotEmpty {
-				result.append(HealthCategoryBlock(heading: sub.heading, rows: filteredItems))
-			}
-		}
-		return result
-	}
-	
-	/// Create the list state view
-	/// - Returns: View when the user has some stored healthcare organizations
-	@ViewBuilder func listOverviewBlocks(list: [HealthCategoryBlock]) -> some View {
+	/// The full screen loading state
+	/// - Returns: the full screen loading state
+	@ViewBuilder private func fullScreenLoadingScreen() -> some View {
 		
 		VStack {
+			Spacer()
+			ErrorStateCardView(state: .loading)
+			Spacer()
+		}
+	}
+	
+	/// The full screen empty screens
+	/// - Parameter errorState: the error state
+	/// - Returns: the full screen empty screen for the error state
+	@ViewBuilder private func fullScreenEmptyScreen(
+		_ errorState: HealthCategoriesErrorState
+	) -> some View {
+		
+		switch errorState {
+			case .none:
+				fullScreenPage(
+					image: viewModel.category.getEmptyIcon(),
+					heading: String(localized: "health_category.empty.heading"),
+					subHeading: String(localized: "health_category.empty.subheading"),
+					actionTitle: "health_category.empty.action"
+				) {
+					viewModel.reduce(.backButtonPressed)
+				}
+				
+			case .loading:
+				// Should not happen
+				fullScreenLoadingScreen()
+				
+			case .error(let heading, let subHeading):
+				
+				fullScreenPage(
+					image: Image(ImageResource.Icon.syncProblem),
+					heading: heading,
+					subHeading: subHeading,
+					actionTitle: "common.try_again"
+				) {
+					viewModel.reduce(.retry)
+				}
+		}
+	}
+	
+	/// Create the list state view
+	/// - Returns: View when the user has some stored healthcare organizations
+	@ViewBuilder func listOverview(
+		list: [HealthCategoryBlock],
+		errorState: HealthCategoriesErrorState
+	) -> some View {
+		
+		List {
 			
-			if list.isEmpty {
-				noSearchItems()
-			} else {
-				VStack(alignment: .leading, spacing: ViewTraits.List.spacing, content: {
-					
-					ForEach(Array(list.enumerated()), id: \.offset) { subCategoryIndex, subCategory in
-					
-						if subCategory.rows.isNotEmpty {
-							blockView(
-								showHeading: Container.shared.featureFlagManager().isDemo ? true : list.filter { $0.rows.isNotEmpty }.count != 1,
-								subCategory: subCategory,
-								subCategoryIndex: subCategoryIndex
-							)
+			switch errorState {
+				case .none:
+					EmptyView()
+				case .loading:
+					Section {
+						ErrorStateCardView(state: .loading)
+					}
+				case .error(let heading, let subHeading):
+					Section {
+						ErrorStateCardView(state: .error(heading: heading, subHeading: subHeading)) {
+							viewModel.reduce(.retry)
 						}
 					}
-				})
-				.padding(.top, ViewTraits.Navigation.padding)
-				.toolbar(content: pdfExportToolbarContent)
 			}
+			
+			listOverviewBlocks(list: list)
+				.backport.listSectionSpacing(8)
+				.backport.contentMargins(0)
+				.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		}
-		.when(Configuration().getRelease() != .demo) { view in
-			view
-//				.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
-		}
-		.rijksoverheidStyle(font: .regular, style: .body)
-		.foregroundColor(theme.contentSecondary)
-		.alert(String(localized: "export_pdf.dialog.heading"), isPresented: $viewModel.showExportAlert) {
+		.toolbar(content: pdfExportToolbarContent)
+		.alert(
+			String(localized: "export_pdf.dialog.heading"),
+			isPresented: $viewModel.showExportAlert
+		) {
 			Button("export_pdf.dialog.create_document") { viewModel.reduce(.exportHealthData) }
 				.keyboardShortcut(.defaultAction)
 			Button("common.cancel") { viewModel.reduce(.cancelExportAlert) }
 				.keyboardShortcut(.cancelAction)
 		} message: {
 			Text("export_pdf.dialog.subheading")
+		}
+	}
+	
+	/// Create the list state view
+	/// - Returns: View when the user has some stored healthcare organizations
+	@ViewBuilder func listOverviewBlocks(list: [HealthCategoryBlock]) -> some View {
+		
+		ForEach(Array(list.enumerated()), id: \.offset) { subCategoryIndex, subCategory in
+			
+			if subCategory.rows.isNotEmpty {
+				blockView(
+					showHeading: Container.shared.featureFlagManager().isDemo ? true : list.filter { $0.rows.isNotEmpty }.count != 1,
+					subCategory: subCategory,
+					subCategoryIndex: subCategoryIndex
+				)
+			}
 		}
 	}
 	
@@ -574,35 +580,31 @@ struct HealthCategoryView: View {
 	@ViewBuilder private func blockView(
 		showHeading: Bool,
 		subCategory: HealthCategoryBlock,
-		subCategoryIndex: Int) -> some View {
+		subCategoryIndex: Int
+	) -> some View {
+		
 		if showHeading {
-			Text(subCategory.heading)
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundColor(theme.contentPrimary)
-				.padding(.top, ViewTraits.List.top)
+			
+			Section {
+				Text(subCategory.heading)
+					.typography(.headingMedium)
+					.foregroundColor(theme.labels.primary)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityAddTraits(.isHeader)
+			}
+			.listRowBackground(Color.clear)
+			.listRowInsets(ViewTraits.List.headerInset)
 		}
 		
 		ForEach(Array(subCategory.rows.enumerated()), id: \.offset) { index, element in
-			
-			ZStack {
-				Rectangle()
-					.foregroundStyle(.clear)
-					.accessibilityLabel(String(
-						format: String(localized: "medication_overview.voiceover"),
-						arguments: ["\(element.heading)", "\(element.subHeading ?? "")"]
-					))
-					.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
-					.accessibilityAddTraits(.isButton)
-				
+			Section {
 				ActionCardView(
 					title: LocalizedStringKey(stringLiteral: element.heading),
 					message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
 					perform: element.action
 				)
-				.cornerRadius(ViewTraits.List.cornerRadius)
-			}
-			.onTapGesture {
-				element.action?()
+				.listRowInsets(ViewTraits.List.inset)
+				.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
 			}
 		}
 	}
@@ -613,12 +615,16 @@ struct HealthCategoryView: View {
 		ToolbarItemGroup(
 			placement: .topBarTrailing,
 			content: {
-				Spacer()
 				
 				Menu {
 					menuExportPDFOption()
 				} label: {
-					Image(ImageResource.Icon.more)
+					if osVersionChecker.available(version: .iOS(.v26)) {
+						Image(ImageResource.Icon.more26)
+							.foregroundStyle(theme.labels.primary)
+					} else {
+						Image(ImageResource.Icon.more)
+					}
 				}
 				.buttonStyle(ToolbarButtonStyle())
 				.accessibilityLabel("export_pdf.menu")
@@ -634,38 +640,67 @@ struct HealthCategoryView: View {
 			viewModel.reduce(.showExportAlert)
 		} label: {
 			Label("export_pdf.menu.save_pdf", systemImage: "arrow.down.document")
-				.tint(theme.contentPrimary)
+				.tint(theme.labels.primary)
 		}
 	}
-	
-	/// The view for no search items
-	/// - Returns: view
-	@ViewBuilder func noSearchItems() -> some View {
+
+	/// Full Screen page
+	/// - Parameters:
+	///   - image: the image to display
+	///   - heading: the heading of the page
+	///   - subHeading: the sub heading of the page
+	///   - actionTitle: the title of the action
+	///   - action: the action
+	/// - Returns: Full Screen page
+	@ViewBuilder private func fullScreenPage(
+		image: Image,
+		heading: String,
+		subHeading: String,
+		actionTitle: LocalizedStringKey,
+		action: (() -> Void)?
+	) -> some View {
 		
-		ImageContentView(
-			icon: Image(ImageResource.Woman.womanWithPhoneExclamation),
-			heading: viewModel.translations.noSearchResults,
-			subHeading: "health_category.search_again",
-			subHeadingForegroundColor: theme.contentPrimary
-		)
-			.frame(maxWidth: .infinity)
+		VStack(alignment: .center, spacing: ViewTraits.FullScreen.textSpacing, content: {
+			Spacer()
+			
+			HStack {
+				Spacer()
+				image
+					.resizable()
+					.frame(
+						width: ViewTraits.FullScreen.iconSize,
+						height: ViewTraits.FullScreen.iconSize,
+						alignment: .center
+					)
+					.foregroundStyle(theme.symbols.primary)
+				Spacer()
+			}
+			.padding(.bottom, ViewTraits.General.padding)
+			
+			Text(heading)
+				.typography(.headingSmall)
+				.foregroundStyle(theme.labels.primary)
+				.accessibilityAddTraits(.isHeader)
+			
+			Text(subHeading)
+				.typography(.bodyMedium)
+				.foregroundStyle(theme.labels.secondary)
+				.multilineTextAlignment(.center)
+			
+			Spacer()
+			
+			CallToActionButton(
+				actionTitle,
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
+				action?()
+			}
 			.padding(.horizontal, ViewTraits.General.padding)
-			.padding(.top, ViewTraits.NoResults.top)
-	}
-	
-	/// The view for no  items
-	/// - Returns: view
-	@ViewBuilder func noItems() -> some View {
-		
-		ImageContentView(
-			icon: Image(ImageResource.Woman.womanWithPhone),
-			heading: "health_category.empty.heading",
-			subHeading: "health_category.empty.subheading",
-			subHeadingForegroundColor: theme.contentPrimary
-		)
-			.frame(maxWidth: .infinity)
-			.padding(.horizontal, ViewTraits.General.padding)
-			.padding(.top, ViewTraits.NoResults.top)
+			.padding(.bottom, ViewTraits.General.padding)
+		})
 	}
 }
 

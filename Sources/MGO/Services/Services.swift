@@ -4,6 +4,7 @@
  */
 	
 import MGOFoundation
+import MGOUI
 
 extension Container {
 	
@@ -22,6 +23,11 @@ extension Container {
 	/// Holding all the feature flags
 	var featureFlagManager: Factory<FeatureFlagManaging> {
 		Factory(self) { @MainActor in FeatureFlagManager() }
+			.singleton
+	}
+	
+	var favoritesRepository: Factory<FileRepository<SharedHealthCategories.Category>> {
+		Factory(self) { FileRepository<SharedHealthCategories.Category>(fileName: "favorites.json") }
 			.singleton
 	}
 	
@@ -79,6 +85,14 @@ extension Container {
 		.singleton
 	}
 	
+	/// The os Version Checker
+	var osVersionChecker: Factory<OSVersionProtocol> {
+		Factory(self) {
+			OSVersionChecker()
+		}
+		.shared
+	}
+	
 	/// The remote configuration repository
 	var remoteConfigurationRepository: Factory<RemoteConfigurationRepositoryProtocol> {
 		Factory(self) {
@@ -108,6 +122,7 @@ extension Container {
 			ResourceRepository(
 				healthcareOrganizationRepository: self.healthcareOrganizationRepository(),
 				dataRepository: self.dataStore(),
+				networkAvailabilityChecker: self.networkAvailabilityChecker(),
 				featureFlagManager: self.featureFlagManager(),
 				serverUrl: Configuration().urlForDVP(),
 				username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
@@ -121,6 +136,12 @@ extension Container {
 	var notificationCenter: Factory<NotificationCenterProtocol> {
 		Factory(self) { NotificationCenter.default }
 			.shared
+	}
+	
+	/// Checking the network
+	var networkAvailabilityChecker: Factory<NetworkAvailabilityChecking> {
+		Factory(self) { NetworkAvailabilityChecker() }
+			.singleton
 	}
 	
 	/// What is the date

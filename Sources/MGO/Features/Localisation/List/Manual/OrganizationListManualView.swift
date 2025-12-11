@@ -216,6 +216,9 @@ struct OrganizationListManualView: View {
 	/// Are we presented in a sheet?
 	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -257,7 +260,7 @@ struct OrganizationListManualView: View {
 		.navigationBarBackButtonHidden(true)
 		.when(isPresentedAsSheet, transform: { view in
 			view
-				.withToolbarCloseButton {
+				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
 					viewModel.reduce(.closeSheet)
 				}
 		})
@@ -270,7 +273,7 @@ struct OrganizationListManualView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	@ViewBuilder func listSearchResults(_ list: [OrganizationListSet]) -> some View {
@@ -280,8 +283,8 @@ struct OrganizationListManualView: View {
 			VStack(alignment: .leading) {
 				
 				Text("organization_search.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.headingExtraLarge)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilityIdentifier("organization_search.heading")

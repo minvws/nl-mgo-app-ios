@@ -27,7 +27,10 @@ final class HealthCategoriesViewTests: XCTestCase {
 	
 	@MainActor private func createSut() {
 		
-		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .single(healthcareOrganization))
+		viewModel = HealthCategoriesViewModel(
+			coordinator: coordinatorSpy,
+			mode: .single(healthcareOrganization)
+		)
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 	}
 	
@@ -47,7 +50,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		sut.viewModel.state.belowIOS18 = true
+		viewModel.state.belowIOS18 = true
 		
 		// When
 		let content = NavigationView { sut }
@@ -71,6 +74,22 @@ final class HealthCategoriesViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
+	@MainActor func test_initialState_multipleMode_withFavorite() throws {
+		
+		// Given
+		try Container.shared.favoritesRepository().store(Generator.healthCategory)
+		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
+		sut = HealthCategoriesView(viewModel: self.viewModel)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+		Container.shared.favoritesRepository().wipePersistedData()
+	}
+	
 	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
@@ -83,22 +102,6 @@ final class HealthCategoriesViewTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
-	}
-	
-	@MainActor func test_removeOrganization() throws {
-		
-		// Given
-		createSut()
-		let content = NavigationView { sut }
-		
-		// When
-		let view = try content.inspect().find(viewWithAccessibilityIdentifier: "organizations.remove_organization")
-		try view.view(CallToActionButton.self).find(button: "organizations.remove_organization").tap()
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.removeHealthcareOrganization.identifier
 	}
 	
 	@MainActor func test_addHealthcareOrganization_noOrganizations() throws {
@@ -143,6 +146,35 @@ final class HealthCategoriesViewTests: XCTestCase {
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 		sut = HealthCategoriesView(viewModel: self.viewModel)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
+	@MainActor func test_showFavorites() throws {
+		
+		// Given
+		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
+		sut = HealthCategoriesView(viewModel: self.viewModel)
+		
+		// When
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.favorites.empty.action")
+		try view.view(CallToActionButton.self).find(button: "overview.favorites.empty.action").tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showFavorites
+	}
+	
+	@MainActor func test_toolbar() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }

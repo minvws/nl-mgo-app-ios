@@ -159,6 +159,9 @@ struct AddOrganizationView: View {
 	
 	@FocusState var isCityFieldFocused: Bool
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -168,7 +171,7 @@ struct AddOrganizationView: View {
 			static let spacing: CGFloat = 8
 		}
 		enum Navigation {
-			static let padding: CGFloat = 8
+			static let padding: CGFloat = 52
 		}
 	}
 	
@@ -179,8 +182,8 @@ struct AddOrganizationView: View {
 			VStack {
 				
 				Text("add_organization.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.headingExtraLarge)
+					.foregroundStyle(theme.labels.primary)
 					.padding(.bottom, ViewTraits.General.padding)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
@@ -219,9 +222,18 @@ struct AddOrganizationView: View {
 				Spacer()
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
-			
+			.when(!isPresentedAsSheet, transform: { view in
+				view
+					.padding(.top, ViewTraits.Navigation.padding)
+			})
 		} bottomView: {
-			CallToActionButton("common.search") {
+			CallToActionButton(
+				"common.search",
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
 				viewModel.reduce(.search)
 			}
 			.padding(ViewTraits.General.padding)
@@ -232,13 +244,9 @@ struct AddOrganizationView: View {
 			viewModel.reduce(.endEditing)
 		}
 		.resignKeyboardOnDragGesture()
-		
-		.padding(.top, ViewTraits.Navigation.padding)
-		.navigationBarBackButtonHidden(true)
-		.navigationBarHidden(false)
 		.when(isPresentedAsSheet, transform: { view in
 			view
-				.withToolbarCloseButton {
+				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
 					viewModel.reduce(.closeSheet)
 				}
 		})
@@ -246,7 +254,7 @@ struct AddOrganizationView: View {
 			view
 				.layoutForIPad()
 		})
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 }
 

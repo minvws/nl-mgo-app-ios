@@ -12,14 +12,14 @@ import Foundation
 
 // MARK: - MultipleGroupedValues
 public struct MultipleGroupedValues: Codable, Hashable, Sendable {
-    public let display: [[String]]?
     public let label: String
     public let type: MultipleGroupedValuesType
+    public let value: [[DisplayValue]]?
 
-    public init(display: [[String]]?, label: String, type: MultipleGroupedValuesType) {
-        self.display = display
+    public init(label: String, type: MultipleGroupedValuesType, value: [[DisplayValue]]?) {
         self.label = label
         self.type = type
+        self.value = value
     }
 }
 
@@ -42,14 +42,14 @@ public extension MultipleGroupedValues {
     }
 
     func with(
-        display: [[String]]?? = nil,
         label: String? = nil,
-        type: MultipleGroupedValuesType? = nil
+        type: MultipleGroupedValuesType? = nil,
+        value: [[DisplayValue]]?? = nil
     ) -> MultipleGroupedValues {
         return MultipleGroupedValues(
-            display: display ?? self.display,
             label: label ?? self.label,
-            type: type ?? self.type
+            type: type ?? self.type,
+            value: value ?? self.value
         )
     }
 

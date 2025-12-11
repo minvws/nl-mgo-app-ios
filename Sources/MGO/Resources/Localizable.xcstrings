@@ -120,7 +120,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgaanbieder al toevoegd"
+            "value" : "Al toevoegd"
           }
         }
       }
@@ -132,6 +132,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plaats"
+          }
+        }
+      }
+    },
+    "add_organization.default_content_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waar wilt u uw zorggegevens ophalen?"
+          }
+        }
+      }
+    },
+    "add_organization.default_content_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bijvoorbeeld uw huisarts, ziekenhuis of apotheek."
           }
         }
       }
@@ -209,6 +231,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zorgaanbieder niet aangesloten"
+          }
+        }
+      }
+    },
+    "add_organization.search_clear" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis selectie"
+          }
+        }
+      }
+    },
+    "add_organization.search_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bijv. Amsterdam UMC"
           }
         }
       }
@@ -571,7 +615,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen gegevens"
+            "value" : "Leeg"
           }
         }
       }
@@ -719,6 +763,50 @@
         }
       }
     },
+    "dialog.add_organization_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ toevoegen?"
+          }
+        }
+      }
+    },
+    "dialog.add_organization_no" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nee"
+          }
+        }
+      }
+    },
+    "dialog.add_organization_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als deze zorgaanbieder gegevens over u heeft, staan die straks in uw overzicht."
+          }
+        }
+      }
+    },
+    "dialog.add_organization_yes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja, toevoegen"
+          }
+        }
+      }
+    },
     "dialog.remove_organization_heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -814,6 +902,61 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Opslaan"
+          }
+        }
+      }
+    },
+    "errorstate.clientside.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er ging iets mis bij het ophalen. Controleer uw verbinding en probeer het opnieuw."
+          }
+        }
+      }
+    },
+    "errorstate.error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen gegevens opgehaald"
+          }
+        }
+      }
+    },
+    "errorstate.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens ophalen…"
+          }
+        }
+      }
+    },
+    "errorstate.partial_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet alle gegevens zijn opgehaald"
+          }
+        }
+      }
+    },
+    "errorstate.serverside.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit komt door een storing bij ons. Probeer het later opnieuw."
           }
         }
       }
@@ -934,7 +1077,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opgeslagen op %1$@ om %2$@ uur"
+            "value" : "Gemaakt op %1$@ om %2$@ uur"
           }
         }
       }
@@ -1044,7 +1187,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Belangrijke dingen waar zorgverleners op moeten letten"
+            "value" : "Belangrijke dingen waar zorgverleners op moeten letten."
           }
         }
       }
@@ -1055,7 +1198,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allergieën"
+            "value" : "Allergieën en intoleranties"
           }
         }
       }
@@ -1077,7 +1220,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dingen waar je niet tegen kunt, zoals medicijnen of eten"
+            "value" : "Dingen waar u niet tegen kunt. Zoals bepaald eten of medicijnen."
           }
         }
       }
@@ -1110,7 +1253,51 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die je al hebt gehad of die nog komen"
+            "value" : "Uw afspraken met zorgverleners. En contacten die u hebt gehad."
+          }
+        }
+      }
+    },
+    "hc_care_plan.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelplan"
+          }
+        }
+      }
+    },
+    "hc_care_plan.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je wensen, wensen en afspraken over je behandeling."
+          }
+        }
+      }
+    },
+    "hc_care_team.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelaren"
+          }
+        }
+      }
+    },
+    "hc_care_team.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De mensen en organisaties die bij uw zorg betrokken zijn."
           }
         }
       }
@@ -1143,7 +1330,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Medische hulpmiddelen"
+            "value" : "Hulpmiddelen"
           }
         }
       }
@@ -1154,7 +1341,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle medische hulpmiddel gegevens"
+            "value" : "Alle hulpmiddel gegevens"
           }
         }
       }
@@ -1165,7 +1352,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgspullen die je gebruikt, zoals een bril of rollator"
+            "value" : "Medische hulpmiddelen die u gebruikt. Zoals een bril of rollator."
           }
         }
       }
@@ -1220,7 +1407,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Brieven, verslagen en medische beelden zoals foto's of scans"
+            "value" : "Brieven, verslagen, foto’s en scans van zorgverleners."
           }
         }
       }
@@ -1253,7 +1440,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resultaten van onderzoeken en tests die je hebt gehad"
+            "value" : "Uw waarden zoals bloeddruk en hartslag. En uw lengte en gewicht."
           }
         }
       }
@@ -1264,7 +1451,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leefstijl"
+            "value" : "Leefstijl en situatie"
           }
         }
       }
@@ -1286,7 +1473,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bijvoorbeeld of je rookt of drinkt, wat je eet en hoeveel je beweegt"
+            "value" : "Informatie over hoe u leeft en woont. En wat u elke dag doet."
           }
         }
       }
@@ -1352,7 +1539,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die je nu of eerder hebt gebruikt"
+            "value" : "Die u nu gebruikt of vroeger gebruikte. En afspraken daarover."
           }
         }
       }
@@ -1385,7 +1572,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hoe het geestelijk met je gaat, zoals stress en somberheid"
+            "value" : "Hoe het geestelijk met u gaat. Zoals angst, stress of somberheid."
           }
         }
       }
@@ -1418,18 +1605,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je naam, adres, geboortedatum en gezinssituatie"
-          }
-        }
-      }
-    },
-    "hc_payment.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zorgkosten"
+            "value" : "Uw betaalgegevens, persoonlijke gegevens en contactpersonen."
           }
         }
       }
@@ -1484,7 +1660,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat je belangrijk vindt in je behandeling zoals wensen en doelen"
+            "value" : "Uw doelen, wensen en afspraken over uw behandeling."
           }
         }
       }
@@ -1495,7 +1671,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gezondheidsproblemen"
+            "value" : "Medische klachten"
           }
         }
       }
@@ -1506,7 +1682,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dingen waar je last van hebt, zoals pijn of ziekte"
+            "value" : "Klachten waar u last van hebt. Zoals pijn of ziekte."
           }
         }
       }
@@ -1539,7 +1715,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Behandelingen en operaties die je hebt gehad of nog krijgt"
+            "value" : "Behandelingen en operaties die u hebt gehad. Of die u nog krijgt."
           }
         }
       }
@@ -1572,7 +1748,18 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prikken die je hebt gehad, zoals tegen griep of corona"
+            "value" : "Prikken die u hebt gehad. Zoals tegen griep of corona."
+          }
+        }
+      }
+    },
+    "health_category.empty.action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ga naar overzicht"
           }
         }
       }
@@ -1583,7 +1770,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen gegevens gevonden "
+            "value" : "Deze categorie is nog leeg"
           }
         }
       }
@@ -1594,7 +1781,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Er is hier niets opgeslagen."
+            "value" : "Hier is niets opgeslagen. Zodra uw zorgaanbieders informatie toevoegen, staat die hier."
           }
         }
       }
@@ -1627,7 +1814,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Met deze app heb je je gezondheidsgegevens van de overheid en je zorgaanbieders altijd bij de hand. Veilig en overzichtelijk, op één plek."
+            "value" : "Met deze app heeft u al uw gegevens over gezondheid en zorg veilig op één plek."
           }
         }
       }
@@ -1661,6 +1848,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Let op: je apparaat is gejailbreakt. Je gegevens zijn mogelijk niet veilig."
+          }
+        }
+      }
+    },
+    "login_failed.dialog.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen niet gelukt"
+          }
+        }
+      }
+    },
+    "login_failed.dialog.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met DigiD is niet gelukt. Probeer het opnieuw."
           }
         }
       }
@@ -1726,7 +1935,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log in met DigiD"
+            "value" : "Bewijs wie u bent"
           }
         }
       }
@@ -1748,7 +1957,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Met DigiD laat je weten wie je bent. Zo kunnen we je gegevens veilig ophalen. Bij je huisarts, het ziekenhuis en andere zorgaanbieders."
+            "value" : "Kies de manier waarop u wilt inloggen. Zo kunnen we uw gegevens veilig ophalen bij uw huisarts, ziekenhuis en andere zorgaanbieders."
           }
         }
       }
@@ -1781,7 +1990,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorg en behandeling"
+            "value" : "Zorg"
           }
         }
       }
@@ -1792,7 +2001,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Onderzoeken en uitslagen"
+            "value" : "Onderzoek"
           }
         }
       }
@@ -1814,7 +2023,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Persoonlijk en administratie"
+            "value" : "Persoonlijk"
           }
         }
       }
@@ -1951,7 +2160,7 @@
         }
       }
     },
-    "overview.favorites.action" : {
+    "overview.favorites.empty.action" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1962,13 +2171,24 @@
         }
       }
     },
+    "overview.favorites.empty.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg hier uw favorieten toe.\nDan staan ze altijd bovenaan."
+          }
+        }
+      }
+    },
     "overview.favorites.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg hier je favorieten toe.\nZo staan die altijd bovenaan."
+            "value" : "Favorieten"
           }
         }
       }
@@ -2035,6 +2255,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ bekijken?"
+          }
+        }
+      }
+    },
+    "patientfriendlyterms.synonym" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere naam: %1$@"
           }
         }
       }
@@ -2375,7 +2606,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hoe de app omgaat met je gegevens"
+            "value" : "Hoe de app omgaat met uw gegevens"
           }
         }
       }
@@ -2386,7 +2617,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens worden **beveiligd** en via een **veilige verbinding** opgehaald."
+            "value" : "Uw gegevens worden **beveiligd** en via een **veilige verbinding** opgehaald."
           }
         }
       }
@@ -2397,7 +2628,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens komen direct van de zorgaanbieder die je kiest. **Alleen jij hebt toegang.**"
+            "value" : "Uw gegevens komen direct van de zorgaanbieder die u kiest. **Alleen u heeft toegang.**"
           }
         }
       }
@@ -2408,7 +2639,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "**Je kiest zelf** hoe je je gegevens wilt gebruiken en of je ze deelt met anderen."
+            "value" : "**U kiest zelf** hoe u uw gegevens wilt gebruiken en of u ze deelt met anderen."
           }
         }
       }
@@ -2419,7 +2650,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt de gegevens in je overzicht altijd **verwijderen of opnieuw ophalen**."
+            "value" : "U kunt de gegevens in uw overzicht altijd **verwijderen of opnieuw ophalen**."
           }
         }
       }
@@ -2430,7 +2661,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In de [%@](privacyverklaring) staat hoe Mijn Gezondheidsoverzicht je gegevens gebruikt en beschermt. Dit zijn de belangrijkste punten:"
+            "value" : "In de [%@](privacyverklaring) staat hoe Mijn Gezondheidsoverzicht uw gegevens gebruikt en beschermt. Dit zijn de belangrijkste punten:"
           }
         }
       }
@@ -2971,7 +3202,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App leegmaken"
+            "value" : "Opnieuw instellen"
           }
         }
       }
@@ -2982,7 +3213,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wil je de app leegmaken?"
+            "value" : "App opnieuw instellen?"
           }
         }
       }
@@ -3004,7 +3235,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App leegmaken"
+            "value" : "App opnieuw instellen"
           }
         }
       }
@@ -3015,7 +3246,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je verwijdert al je bewaarde zorgaanbieders en je toegangscode."
+            "value" : "Je bewaarde zorgaanbieders worden verwijderd. Je medische gegevens blijven bewaard."
           }
         }
       }
@@ -3071,6 +3302,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Touch ID"
+          }
+        }
+      }
+    },
+    "settings.version.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versie"
           }
         }
       }
@@ -3202,7 +3444,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allergieën"
+            "value" : "Allergiën en intoleranties"
           }
         }
       }
@@ -3240,6 +3482,39 @@
         }
       }
     },
+    "zib_care_plan.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelplan"
+          }
+        }
+      }
+    },
+    "zib_care_team.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelaren"
+          }
+        }
+      }
+    },
+    "zib_contact_person.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administratie"
+          }
+        }
+      }
+    },
     "zib_drug_use.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3262,6 +3537,17 @@
         }
       }
     },
+    "zib_familiy_situation.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gezinssituatie"
+          }
+        }
+      }
+    },
     "zib_functional_or_mental_status.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3269,6 +3555,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mentaal welzijn"
+          }
+        }
+      }
+    },
+    "zib_general_measurement.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algemene meting"
+          }
+        }
+      }
+    },
+    "zib_help_from_others.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hulp van anderen"
           }
         }
       }
@@ -3323,7 +3631,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Medische hulpmiddelen"
+            "value" : "Hulpmiddelen"
           }
         }
       }
@@ -3357,6 +3665,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voedingsadvies"
+          }
+        }
+      }
+    },
+    "zib_participation_in_society.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Participatie in de maatschappij"
           }
         }
       }
@@ -3412,6 +3731,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Behandelingen en overdracht"
+          }
+        }
+      }
+    },
+    "zib_text_result.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekst uitslag"
           }
         }
       }

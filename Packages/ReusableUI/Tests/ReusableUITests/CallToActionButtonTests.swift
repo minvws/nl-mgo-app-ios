@@ -12,7 +12,27 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_primaryWithLeadingIcon() throws {
 		
 		// Given
-		let sut = CallToActionButton("DigiD", icon: Image(systemName: "stethoscope"), style: .primaryWithLeadingIcon)
+		let sut = CallToActionButton(
+			"DigiD",
+			icon: Image(systemName: "stethoscope"),
+			style: .solidLeadingIcon(rounded: false)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_primaryWithLeadingIcon_rounded() throws {
+		
+		// Given
+		let sut = CallToActionButton(
+			"DigiD",
+			icon: Image(systemName: "stethoscope"),
+			style: .solidLeadingIcon(rounded: true)
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -24,7 +44,25 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_primaryWithLeadingSpinner() throws {
 		
 		// Given
-		let sut = CallToActionButton("Laden...", style: .primaryWithLeadingSpinner)
+		let sut = CallToActionButton(
+			"Laden...",
+			style: .solidLeadingSpinner(rounded: false)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_primaryWithLeadingSpinner_rounded() throws {
+		
+		// Given
+		let sut = CallToActionButton(
+			"Laden...",
+			style: .solidLeadingSpinner(rounded: true)
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -36,7 +74,55 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_primary() throws {
 		
 		// Given
-		let sut = CallToActionButton("Primary", style: .primary)
+		let sut = CallToActionButton(
+			"Solid",
+			style: .solid(rounded: false, narrow: false)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_primary_rounded() throws {
+		
+		// Given
+		let sut = CallToActionButton(
+			"Solid Rounded",
+			style: .solid(rounded: true, narrow: false)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_primary_small() throws {
+		
+		// Given
+		let sut = CallToActionButton(
+			"Solid Narrow",
+			style: .solid(rounded: false, narrow: true)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+
+	func test_primary_roundedAndSmall() throws {
+		
+		// Given
+		let sut = CallToActionButton(
+			"Solid Narrow and Rounded",
+			style: .solid(rounded: true, narrow: true)
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -48,19 +134,10 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_primary_asTitle() throws {
 		
 		// Given
-		let sut = CallToActionButton(title: "Primary Title", style: .primary)
-		
-		// When
-		let view = sut.frame(width: 300, height: 200)
-		
-		// Then
-		assertSnapshot(of: view, as: .image)
-	}
-	
-	func test_primaryCritical() throws {
-		
-		// Given
-		let sut = CallToActionButton("Primary Critical", style: .primaryCritical)
+		let sut = CallToActionButton(
+			title: "Solid Title",
+			style: .solid(rounded: false, narrow: false)
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -72,7 +149,10 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_secondary() throws {
 		
 		// Given
-		let sut = CallToActionButton("Secondary", style: .secondary)
+		let sut = CallToActionButton(
+			"Tonal",
+			style: .tonal(rounded: false)
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -81,10 +161,13 @@ final class CallToActionButtonTests: XCTestCase {
 		assertSnapshot(of: view, as: .image)
 	}
 	
-	func test_secondaryCritical() throws {
+	func test_secondary_rounded() throws {
 		
 		// Given
-		let sut = CallToActionButton("Secondary Critical", style: .secondaryCritical)
+		let sut = CallToActionButton(
+			"Tonal",
+			style: .tonal(rounded: true)
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -96,19 +179,10 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_tertiary() throws {
 		
 		// Given
-		let sut = CallToActionButton("Tertiary", style: .tertiary)
-		
-		// When
-		let view = sut.frame(width: 300, height: 200)
-		
-		// Then
-		assertSnapshot(of: view, as: .image)
-	}
-	
-	func test_tertiaryCritical() throws {
-		
-		// Given
-		let sut = CallToActionButton("Tertiary Critical", style: .tertiaryCritical)
+		let sut = CallToActionButton(
+			"Ghost",
+			style: .ghost
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -120,7 +194,11 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_withIcon() throws {
 		
 		// Given
-		let sut = CallToActionButton("With Icon", icon: Image(systemName: "stethoscope"), style: .withIcon)
+		let sut = CallToActionButton(
+			"With Icon",
+			icon: Image(systemName: "stethoscope"),
+			style: .withIcon
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -132,12 +210,42 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_withSpinner() throws {
 		
 		// Given
-		let sut = CallToActionButton("With Spinner", style: .withSpinner)
+		let sut = CallToActionButton(
+			"With Spinner",
+			style: .withSpinner
+		)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
 		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_solidStyle_equality() {
+		
+		// Given
+		let solidRounded = CallToActionButtonStyle.solid(rounded: true, narrow: false)
+		let solid = CallToActionButtonStyle.solid(rounded: false, narrow: false)
+		
+		// When
+		
+		// Then
+		expect(solidRounded) != solid
+		expect(solidRounded) == CallToActionButtonStyle.solid(rounded: true, narrow: false)
+		expect(solidRounded) != CallToActionButtonStyle.solid(rounded: true, narrow: true)
+	}
+	
+	func test_tonalStyle_equality() {
+		
+		// Given
+		let tonalRounded = CallToActionButtonStyle.tonal(rounded: true)
+		let tonal = CallToActionButtonStyle.tonal(rounded: false)
+		
+		// When
+		
+		// Then
+		expect(tonalRounded) != tonal
+		expect(tonalRounded) == CallToActionButtonStyle.tonal(rounded: true)
 	}
 }

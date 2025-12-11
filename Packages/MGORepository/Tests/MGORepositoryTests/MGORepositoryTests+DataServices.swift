@@ -29,7 +29,7 @@ final class MGORepositoryDataServicesTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("bundle")
-		let endpoint = DataServices.Endpoint(id: "test", url: "/TestPath", profiles: ["test"])
+		let endpoint = DataServices.Endpoint(id: "test", path: "/TestPath", profiles: ["test"])
 		
 		stub(condition: isPath("/TestPath")) { request in
 			expect(request.allHTTPHeaderFields?["Accept"]) == "application/json+fhir; fhirVersion=3.0"
@@ -40,9 +40,13 @@ final class MGORepositoryDataServicesTests: XCTestCase {
 		let data = try await sut.getBundleData(
 			endpoint: endpoint,
 			fhirVersion: DataServices.FhirVersion.r3,
-			dvaTarget: "test",
-			username: nil,
-			password: nil
+			headers: MGORepositoryHeaders(
+				dvaTarget: "test",
+				dataServiceId: "dataserviceid",
+				medmijId: nil,
+				username: nil,
+				password: nil
+			)
 		)
 		
 		// Then
@@ -53,7 +57,7 @@ final class MGORepositoryDataServicesTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("bundle")
-		let endpoint = DataServices.Endpoint(id: "test", url: "/TestPath", profiles: ["test"])
+		let endpoint = DataServices.Endpoint(id: "test", path: "/TestPath", profiles: ["test"])
 		
 		stub(condition: isPath("/TestPath")) { request in
 			expect(request.allHTTPHeaderFields?["Accept"]) == "application/json+fhir; fhirVersion=4.0"
@@ -64,9 +68,13 @@ final class MGORepositoryDataServicesTests: XCTestCase {
 		let data = try await sut.getBundleData(
 			endpoint: endpoint,
 			fhirVersion: DataServices.FhirVersion.r4,
-			dvaTarget: "test",
-			username: nil,
-			password: nil
+			headers: MGORepositoryHeaders(
+				dvaTarget: "test",
+				dataServiceId: "dataserviceid",
+				medmijId: "medmij.id",
+				username: nil,
+				password: nil
+			)
 		)
 		
 		// Then

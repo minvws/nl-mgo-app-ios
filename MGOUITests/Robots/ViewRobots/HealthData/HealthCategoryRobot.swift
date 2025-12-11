@@ -19,7 +19,7 @@ import XCTest
 	// MARK: - Elements
 	
 	private func headingLabel(_ heading: String) -> XCUIElement {
-		app.navigationBars.staticTexts[heading]
+		app.staticTexts[heading]
 	}
 
 	private func sectionLabel(_ section: String) -> XCUIElement {
@@ -27,7 +27,7 @@ import XCTest
 	}
 	
 	private func sectionButton(_ identifier: String) -> XCUIElement {
-		app.buttons[identifier]
+		app.staticTexts[identifier]
 	}
 	
 	// MARK: - Validations
@@ -60,7 +60,7 @@ import XCTest
 	
 	@discardableResult
 	func tapSectionRow(_ index: Int, section: Int) -> HealthUISchemaRobot {
-		sectionButton("category_element_\(section)_\(index)").tap()
+		sectionButton("category_element_\(section)_\(index)").firstMatch.tap()
 		return HealthUISchemaRobot(app)
 	}
 }

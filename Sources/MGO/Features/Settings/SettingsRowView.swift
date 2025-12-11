@@ -75,7 +75,7 @@ struct SettingsRowView: View {
 			
 			if let icon, let iconBackground {
 				icon
-					.foregroundStyle(theme.backgroundSecondary)
+					.foregroundStyle(theme.backgrounds.secondary)
 					.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size, alignment: .center)
 					.background(iconBackground)
 					.cornerRadius(ViewTraits.Icon.cornerRadius)
@@ -83,22 +83,22 @@ struct SettingsRowView: View {
 			}
 			
 			Text(heading)
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.typography(.bodyMedium)
+				.foregroundStyle(theme.labels.primary)
 				.frame(minHeight: ViewTraits.Icon.size)
 			
 			Spacer()
 			
 			if let subHeading {
 				Text(subHeading)
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentSecondary)
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.labels.secondary)
 					.frame(minHeight: ViewTraits.Icon.size)
 			}
 			
 			if showChevron || showExternalLink {
 				Image(showChevron ? ImageResource.Overview.chevronRight : ImageResource.Settings.arrowOutward)
-					.foregroundStyle(theme.symbolPrimary)
+					.foregroundStyle(theme.symbols.secondary)
 					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
 					.accessibilityHidden(true)
 			}

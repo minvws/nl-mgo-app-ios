@@ -68,8 +68,14 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		
 		self.parentCoordinator = parentCoordinator
 		self.settingsCoordinator = SettingsCoordinator(parentCoordinator: self)
-		self.healthCategoriesCoordinator = HealthcareCoordinator(parentCoordinator: self, rootState: .showHealthCategories)
-		self.healthcareOrganizationsCoordinator = HealthcareCoordinator(parentCoordinator: self, rootState: .organizations)
+		self.healthCategoriesCoordinator = HealthcareCoordinator(
+			parentCoordinator: self,
+			rootState: .showHealthCategories
+		)
+		self.healthcareOrganizationsCoordinator = HealthcareCoordinator(
+			parentCoordinator: self,
+			rootState: .organizations
+		)
 	}
 	
 	/// Handle tab switch
@@ -77,11 +83,17 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		
 		switch selectedTab {
 			case DashboardTab.healthCategories.rawValue:
-				healthCategoriesCoordinator.path.removeLast(healthCategoriesCoordinator.path.count)
+				healthCategoriesCoordinator.path.removeLast(
+					healthCategoriesCoordinator.path.count
+				)
 			case DashboardTab.healthcareOrganizations.rawValue:
-				healthcareOrganizationsCoordinator.path.removeLast(healthcareOrganizationsCoordinator.path.count)
+				healthcareOrganizationsCoordinator.path.removeLast(
+					healthcareOrganizationsCoordinator.path.count
+				)
 			case DashboardTab.settings.rawValue:
-				settingsCoordinator.path.removeLast(settingsCoordinator.path.count)
+				settingsCoordinator.path.removeLast(
+					settingsCoordinator.path.count
+				)
 			default: logError("Dashboard Coordinator does not handle tab", selectedTab)
 		}
 	}
@@ -101,7 +113,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the DashboardCoordination State
 	/// - Returns: A view for that state
-	@MainActor @ViewBuilder func view(for state: DashboardCoordination.State?) -> some View {
+	@MainActor @ViewBuilder func view(
+		for state: DashboardCoordination.State?
+	) -> some View {
 		
 		switch state {
 			

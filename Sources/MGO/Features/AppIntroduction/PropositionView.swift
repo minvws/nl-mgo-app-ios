@@ -4,6 +4,7 @@
  */
 
 import MGOUI
+import MGOFoundation
 
 class PropositionViewModel: ObservableObject {
 	
@@ -46,6 +47,9 @@ struct PropositionView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -68,8 +72,8 @@ struct PropositionView: View {
 			VStack(spacing: 0) {
 				
 				Text("proposition.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.headingExtraLarge)
+					.foregroundStyle(theme.labels.primary)
 					.padding(.bottom, ViewTraits.General.padding)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
@@ -94,10 +98,10 @@ struct PropositionView: View {
 					}
 				}
 				.environment(\.openURL, OpenURLAction(handler: handleURL))
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.padding(.bottom, ViewTraits.General.padding)
-				.foregroundStyle(theme.contentPrimary)
-				.tint(theme.interactionTertiaryDefaultText)
+				.foregroundStyle(theme.labels.primary)
+				.tint(theme.actions.ghost.text)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				
 				VStack(spacing: ViewTraits.Items.bottom) {
@@ -117,7 +121,13 @@ struct PropositionView: View {
 			.padding(.top, ViewTraits.Navigation.padding)
 		} bottomView: {
 			
-			CallToActionButton("common.next") {
+			CallToActionButton(
+				"common.next",
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
 				viewModel.reduce(.nextButttonPressed)
 			}
 			.accessibilityIdentifier("common.next")
@@ -127,7 +137,7 @@ struct PropositionView: View {
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)
 		})
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 	

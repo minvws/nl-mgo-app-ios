@@ -27,41 +27,90 @@ final class HealthDataViewModelTests: XCTestCase {
 		
 		sut = HealthDataViewModel(
 			coordinator: coordinatorSpy,
-			schema: HealthUISchema(children: [HealthUIGroup(
+			config: HealthDataViewConfig(
+				backButtonTitle: "HealthCategoryDataViewModelTests",
+				titleInline: false,
+				inSheet: false
+			),
+			schema: HealthUISchema(
 				children: [
-					UIElement(
-						display: UIElementDisplay.string("single value"),
-						label: "label single value",
-						type: .singleValue,
-						reference: nil,
-						url: nil
-					),
-					UIElement(
-						display: UIElementDisplay.string("reference value"),
-						label: "label reference",
-						type: .referenceValue,
-						reference: "test_resolveReference",
-						url: "reference/link"
-					),
-					UIElement(
-						display: nil,
-						label: "label reference link",
-						type: .referenceLink,
-						reference: "test_resolveReferenceLink",
-						url: "reference/link"
-					),
-					UIElement(
-						display: nil,
-						label: "label download link",
-						type: .downloadLink,
-						reference: nil,
-						url: "https://www.apple.com"
+					HealthUIGroup(
+						children: [
+							UIElement(
+								label: "label single value",
+								type: .singleValue,
+								value: UIElementValue
+									.displayValue(
+										DisplayValue(
+											code: nil,
+											display: "single value",
+											system: nil
+										)
+									),
+								display: nil,
+								reference: nil,
+								url: nil
+							),
+							UIElement(
+								label: "label reference",
+								type: .referenceValue,
+								value: nil,
+								display: "reference value",
+								reference: "test_resolveReference",
+								url: "reference/link"
+							),
+							UIElement(
+								label: "label reference link",
+								type: .referenceLink,
+								value: nil,
+								display: nil,
+								reference: "test_resolveReferenceLink",
+								url: "reference/link"
+							),
+							UIElement(
+								label: "label download link",
+								type: .downloadLink,
+								value: nil,
+								display: nil,
+								reference: nil,
+								url: "https://www.apple.com"
+							),
+							UIElement(
+								label: "label snomed code",
+								type: .singleValue,
+								value: UIElementValue
+									.displayValue(
+										DisplayValue(
+											code: "code",
+											display: "display",
+											system: "http://snomed.info/sct"
+										)
+									),
+								display: nil,
+								reference: nil,
+								url: nil
+							),
+							UIElement(
+								label: "label non snomed code",
+								type: .singleValue,
+								value: UIElementValue
+									.displayValue(
+										DisplayValue(
+											code: "code",
+											display: "display",
+											system: "syste,"
+										)
+									),
+								display: nil,
+								reference: nil,
+								url: nil
+							)
+						],
+						label: "Section Header first group"
 					)
 				],
-				label: "Section Header first group")
-			],
-			label: "test"),
-			backButtonTitle: "HealthCategoryDataViewModelTests",
+				label: "test"
+			),
 			healthcareOrganization: Generator.healthcareOrganization("1"),
 			referenceResolver: referenceResolverSpy
 		)
@@ -91,6 +140,19 @@ final class HealthDataViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
+	}
+
+	@MainActor func test_closeSheet_shouldCallCoordinator() {
+		
+		// Given
+		setupSut()
+		
+		// When
+		sut.reduce(.closeSheet)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
 	}
 	
 	@MainActor func test_resolveReferenceValue_shouldCallCoordinator() throws {
@@ -167,5 +229,64 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect(params.params["resource"] as? MgoResource) == Data()
 		expect(params.params["backButtonTitle"] as? String) == "common.previous"
 		expect((params.params["uiSchema"] as? HealthUISchema)?.label) == schema.label
+	}
+	
+	@MainActor func test_resolve_term() {
+		
+		// Given
+		let term = PatientFriendlyTerm(description: "Test")
+		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedFindResult = term
+		setupSut()
+		
+		// When
+		sut.reduce(
+			.term(
+				DisplayValue(
+					code: "code",
+					display: "display",
+					system: "http://snomed.info/sct"
+				)
+			)
+		)
+		
+		// Then
+		expect(self.sut.selectedPatientFriendlyTerm) == term
+	}
+	
+	@MainActor func test_resolve_invalidTerm() {
+		
+		// Given
+		let term = PatientFriendlyTerm(description: "Test")
+		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedFindResult = term
+		setupSut()
+		
+		// When
+		sut.reduce(
+			.term(
+				DisplayValue(
+					code: "other code",
+					display: "display",
+					system: "http://snomed.info/sct"
+				)
+			)
+		)
+		
+		// Then
+		expect(self.sut.selectedPatientFriendlyTerm) == nil
+	}
+	
+	@MainActor func test_resolve_closeTermSheet() {
+		
+		// Given
+		let term = PatientFriendlyTerm(description: "Test")
+		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedFindResult = term
+		setupSut()
+		sut.selectedPatientFriendlyTerm = term
+		
+		// When
+		sut.reduce(.closeTermSheet)
+		
+		// Then
+		expect(self.sut.selectedPatientFriendlyTerm) == nil
 	}
 }

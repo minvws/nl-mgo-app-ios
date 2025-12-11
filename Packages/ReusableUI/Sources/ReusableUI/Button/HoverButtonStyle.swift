@@ -21,6 +21,6 @@ public struct HoverButtonStyle: ButtonStyle {
 	public func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.background(configuration.isPressed ? theme.backgroundTertiary : theme.backgroundSecondary)
+			.background(configuration.isPressed ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
 	}
 }

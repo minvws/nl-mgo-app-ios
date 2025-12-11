@@ -123,6 +123,7 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 		}
 		
 		do {
+			#warning("Rool, 02/12/2025: fix non-sendable warning")
 			searchResultsList = try await localisationServiceClient.searchDemoOrganizations()
 			logDebug("We found \(searchResultsList.count) organizations.")
 			
@@ -159,7 +160,7 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 			)
 		}
 		if list.isEmpty {
-			#warning("We should have an empty state for automatic localization")
+			#warning("Rool, 02/12/2024: We should have an empty state for automatic localization")
 			state = .failure(LocalisationServiceClientError.noOrganizations)
 		} else {
 			state = .success(list)
@@ -216,6 +217,9 @@ struct OrganizationListAutomaticView: View {
 	/// Are we presented in a sheet?
 	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -225,7 +229,7 @@ struct OrganizationListAutomaticView: View {
 			static let spacing: CGFloat = 8
 		}
 		enum Navigation {
-			static let padding: CGFloat = 8
+			static let padding: CGFloat = 52
 		}
 		enum List {
 			static let spacing: CGFloat = 8
@@ -258,10 +262,9 @@ struct OrganizationListAutomaticView: View {
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
-		.navigationBarBackButtonHidden(true)
 		.when(isPresentedAsSheet, transform: { view in
 			view
-				.withToolbarCloseButton {
+				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
 					viewModel.reduce(.closeSheet)
 				}
 		})
@@ -269,8 +272,7 @@ struct OrganizationListAutomaticView: View {
 			view
 				.layoutForIPad()
 		})
-
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// Create a list of organizations
@@ -283,15 +285,15 @@ struct OrganizationListAutomaticView: View {
 			VStack(alignment: .leading, spacing: ViewTraits.General.padding, content: {
 				
 				Text("organization_search.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.headingExtraLarge)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilityIdentifier("organization_search.heading")
 				
 				Text("organization_search.subheading")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityIdentifier("organization_search.subheading")
 				
@@ -302,18 +304,24 @@ struct OrganizationListAutomaticView: View {
 				})
 			})
 			.padding(.horizontal, ViewTraits.General.padding)
+			.when(!isPresentedAsSheet, transform: { view in
+				view
+					.padding(.top, ViewTraits.Navigation.padding)
+			})
 		} bottomView: {
 			
-			CallToActionButton("common.to_overview") {
+			CallToActionButton(
+				"common.to_overview",
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
 				viewModel.reduce(.store)
 			}
 			.accessibilityIdentifier("common.to_overview")
 			.padding(ViewTraits.Button.padding)
 		}
-		.navigationBarHidden(false)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.padding(.top, ViewTraits.Navigation.padding)
-		.layoutForIPad()
 	}
 	
 	/// Build the view for an organization

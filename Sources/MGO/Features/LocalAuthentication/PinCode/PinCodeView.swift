@@ -58,6 +58,9 @@ class PinCodeViewModel: ObservableObject {
 	/// Should we show the back button?
 	private var backButtonVisible = false
 	
+	/// Dependency injectable Notification Center
+	@Injected(\.notificationCenter) private var notificationCenter
+	
 	/// The access code
 	private var accessCode: [String] = [] {
 		didSet {
@@ -84,6 +87,9 @@ class PinCodeViewModel: ObservableObject {
 	
 	/// Dependency injectable Secure User Settings
 	@Injected(\.secureUserSettings) private var secureUserSettings
+	
+	/// Dependency injectable Local Authentication Provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
 	
 	/// Initializer
 	/// - Parameter pinLimit: the pin limit
@@ -205,7 +211,7 @@ class PinCodeViewModel: ObservableObject {
 		logDebug("Announcing: \(message)")
 		
 		delay(0.25) {
-			Container.shared.notificationCenter().post(notification: .announcement, argument: message)
+			self.notificationCenter.post(notification: .announcement, argument: message)
 		}
 	}
 	
@@ -358,7 +364,8 @@ class PinCodeViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
-			let validated = try await Container.shared.localAuthenticationProvider().authenticate(
+			#warning("Rool, 02/12/2025: fix non-sendable warning")
+			let validated = try await localAuthenticationProvider.authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
@@ -512,7 +519,7 @@ struct PinCodeView: View {
 					Text("pincode.opticid.lockout")
 			}
 		}
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 	
@@ -553,13 +560,13 @@ struct PinCodeView: View {
 		VStack(alignment: .center, spacing: ViewTraits.Heading.spacing, content: {
 			
 			Text(viewModel.state.title)
-				.rijksoverheidStyle(font: .bold, style: .title)
+				.typography(.headingExtraLarge)
 				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
 				.accessibilityAddTraits(.isHeader)
 				.accessibilityIdentifier("pincode.heading")
 			
 			Text(viewModel.state.message)
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
 				.multilineTextAlignment(viewModel.state.textAlignment)
 		})
@@ -596,14 +603,14 @@ struct PinCodeView: View {
 				Image(ImageResource.Icon.error)
 				
 				Text(error)
-					.rijksoverheidStyle(font: .bold, style: .body)
+					.typography(.bodyMedium, isBold: true)
 				
 				Spacer()
 			} else {
 				Spacer()
 			}
 		}
-		.foregroundStyle(theme.sentimentCritical)
+		.foregroundStyle(theme.states.critical)
 		.frame(minHeight: ViewTraits.Feedback.minHeight, alignment: .top)
 	}
 	

@@ -40,7 +40,7 @@ public struct AccordionView<Content: View>: View {
 			HStack(alignment: .top, spacing: 0) {
 				
 				Text(title)
-					.rijksoverheidStyle(font: .bold, style: .body)
+					.typography(.bodyMedium, isBold: true)
 				
 				Spacer()
 				
@@ -50,7 +50,7 @@ public struct AccordionView<Content: View>: View {
 					.accessibilityRemoveTraits(.isImage)
 					.accessibilityAddTraits(.isButton)
 			}
-			.foregroundColor(theme.contentPrimary)
+			.foregroundColor(theme.labels.primary)
 			.when(!UIAccessibility.isVoiceOverRunning, transform: { view in
 				view
 					.contentShape(Rectangle())
@@ -70,12 +70,12 @@ public struct AccordionView<Content: View>: View {
 			}
 		}
 		.padding(16)
-		.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
-		.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
+		.background(onHover ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
+		.shadow(color: theme.labels.primary.opacity(0.05), radius: 1, x: 0, y: 1)
 		.overlay(
 			RoundedRectangle(cornerRadius: 8)
 				.inset(by: 0.5)
-				.stroke(theme.borderPrimary, lineWidth: 1)
+				.stroke(theme.separators.primary, lineWidth: 1)
 		)
 	}
 }

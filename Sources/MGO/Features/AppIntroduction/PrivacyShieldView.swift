@@ -62,12 +62,13 @@ struct PrivacyShieldView: View {
 		HStack(alignment: alignment, spacing: 0) {
 			
 			Image(shieldType.image)
+				.foregroundStyle(theme.categories.rijkslint)
 				.padding(.zero)
 			
 			Text(title)
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.padding(.leading, ViewTraits.Text.leading)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 		}
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.accessibilityElement(children: .combine)

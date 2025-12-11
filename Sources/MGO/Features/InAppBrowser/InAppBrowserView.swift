@@ -26,7 +26,7 @@ class InAppBrowserViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case backButtonPressed
+		case closeButtonPressed
 	}
 	
 	/// Create an inn app browser view model
@@ -54,7 +54,7 @@ class InAppBrowserViewModel: ObservableObject {
 	@MainActor func reduce(_ action: InAppBrowserViewModel.Action) {
 		
 		switch action {
-			case .backButtonPressed:
+			case .closeButtonPressed:
 				coordinator?.handle(closeAction)
 		}
 	}
@@ -67,6 +67,9 @@ struct InAppBrowserView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
 	
 	var body: some View {
 		
@@ -81,20 +84,36 @@ struct InAppBrowserView: View {
 		.navigationTitle(viewModel.title ?? "")
 		.navigationBarBackButtonHidden(true)
 		.navigationBarTitleDisplayMode(.inline)
-		.navigationBarItems(
-			leading:
-				Button(
-					action: {
-						viewModel.reduce(.backButtonPressed)
-					},
-					label: {
-						Text("common.close")
-							.rijksoverheidStyle(font: .regular, style: .body)
+		.toolbar(content: leadingToolbarContent)
+		.background(theme.backgrounds.primary.ignoresSafeArea())
+	}
+	
+	/// Get the leading toolbar content
+	/// - Returns: the toolbar content
+	@ToolbarContentBuilder private func leadingToolbarContent() -> some ToolbarContent {
+		
+		let closeKey: LocalizedStringKey = "common.close"
+		
+		ToolbarItem(placement: .cancellationAction) {
+			if osVersionChecker.available(version: .iOS(.v26)) {
+				if #available(iOS 26.0, *) {
+					Button(role: .close) {
+						viewModel.reduce(.closeButtonPressed)
 					}
-				)
+					.accessibilityLabel(closeKey)
+					.accessibilityIdentifier(closeKey.stringKey)
+				}
+			} else {
+				Button {
+					viewModel.reduce(.closeButtonPressed)
+				} label: {
+					Text(closeKey)
+						.typography(.bodyMedium)
+				}
 				.buttonStyle(BackButtonStyle())
-				.accessibilityIdentifier("common.close")
-		)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+				.accessibilityLabel(closeKey)
+				.accessibilityIdentifier(closeKey.stringKey)
+			}
+		}
 	}
 }

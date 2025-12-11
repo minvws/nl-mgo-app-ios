@@ -23,7 +23,11 @@ final class AboutAccessibilityViewTests: XCTestCase {
 	
 	@MainActor private func createSut() {
 		
-		sut = AboutAccessibilityView(viewModel: AboutAccessibilityViewModel(coordinator: self.coordinatorSpy))
+		sut = AboutAccessibilityView(
+			viewModel: AboutAccessibilityViewModel(
+				coordinator: self.coordinatorSpy
+			)
+		)
 	}
 
 	@MainActor func test_aboutAccessibilityView() {

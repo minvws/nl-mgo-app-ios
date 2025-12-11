@@ -41,6 +41,9 @@ enum HealthDataDownloadState: Equatable, Sendable {
 	/// The repository for binaries
 	private var fileStorage: FileStorageProtocol?
 	
+	/// Dependency Injectable Resource Repository
+	@Injected(\.resourceRepository) private var resourceRepository
+	
 	/// Create a Download View for a Download Binary
 	/// - Parameters:
 	///   - healthcareOrganization: the healthcare organization
@@ -178,10 +181,10 @@ enum HealthDataDownloadState: Equatable, Sendable {
 		
 		do {
 			if let documentService = DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.first(where: { $0.name == "Documents PDF/A" }),
-			   let binary = try await Container.shared.resourceRepository().loadBinary(
+			   let binary = try await resourceRepository.loadBinary(
 				healthcareOrganization,
 				serviceId: documentService.id,
-				url: externalUrl
+				path: externalUrl
 			) {
 				logInfo("binary", binary.contentType)
 				
@@ -217,6 +220,8 @@ struct HealthDataDownloadView: View {
 	
 	@State private var failedToOpenPreview: Bool = false
 	
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		
@@ -224,6 +229,10 @@ struct HealthDataDownloadView: View {
 			static let horizontal: CGFloat = 16
 			static let vertical: CGFloat = 24
 			static let spacing: CGFloat = 8
+		}
+		enum Preview {
+			static let lightBackgroundColor: Color = Color(hex: "FCFCFC")
+			static let dardBackgroundColor: Color = Color(hex: "E7E7E7")
 		}
 	}
 	
@@ -250,11 +259,13 @@ struct HealthDataDownloadView: View {
 							viewModel.showPreview = true
 						}
 					}
-					.sheet(isPresented: $viewModel.showPreview) {
+					.inspectableSheet(isPresented: $viewModel.showPreview, content: {
 						DocumentPreviewController($viewModel.showPreview, failedToOpen: $failedToOpenPreview, url: documentUrl)
-							.background(theme.backgroundPrimary)
+							.background(
+								colorScheme == .light ? ViewTraits.Preview.lightBackgroundColor : ViewTraits.Preview
+									.dardBackgroundColor)
 							.interactiveDismissDisabled(true)
-					}
+					})
 					.onChange(of: failedToOpenPreview) { newValue in
 						if newValue {
 							viewModel.reduce(.shareDocument(url: documentUrl))
@@ -279,13 +290,13 @@ struct HealthDataDownloadView: View {
 			case .noDocument:
 				feedbackView(
 					"hc_documents.no_document",
-					iconColor: theme.sentimentInformation
+					iconColor: theme.states.informative
 				)
 			
 			case .error:
 				feedbackView(
 					"hc_documents.error",
-					iconColor: theme.sentimentCritical,
+					iconColor: theme.states.critical,
 					actionTitle: "common.try_again") {
 						viewModel.reduce(.download)
 					}
@@ -311,8 +322,8 @@ struct HealthDataDownloadView: View {
 			
 			Text(text)
 				.multilineTextAlignment(.center)
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.typography(.bodyMedium)
+				.foregroundStyle(theme.labels.primary)
 			
 			if let actionTitle {
 				Button {

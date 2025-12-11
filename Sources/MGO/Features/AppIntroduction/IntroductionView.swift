@@ -50,6 +50,9 @@ struct IntroductionView: View {
 	/// The size classes
 	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
@@ -96,14 +99,14 @@ struct IntroductionView: View {
 				VStack(alignment: .leading) {
 					
 					Text("introduction.heading")
-						.rijksoverheidStyle(font: .bold, style: .title)
+						.typography(.headingExtraLarge)
 						.padding(ViewTraits.Title.insets)
 						.accessibilityAddTraits(.isHeader)
 						.fixedSize(horizontal: false, vertical: true)
 						.accessibilityIdentifier("introduction.heading")
 					
 					SplittedText(key: "introduction.subheading", spacing: ViewTraits.Text.spacing)
-						.rijksoverheidStyle(font: .regular, style: .body)
+						.typography(.bodyMedium)
 						.padding(ViewTraits.Text.insets)
 						.fixedSize(horizontal: false, vertical: true)
 						.accessibilityIdentifier("introduction.subheading")
@@ -114,7 +117,7 @@ struct IntroductionView: View {
 			.padding(.top, ViewTraits.Navigation.padding)
 			.readSize($contentSize)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
-			.foregroundStyle(theme.contentPrimary)
+			.foregroundStyle(theme.labels.primary)
 			.onRotate { newOrientation in
 				
 				// Always show on iPad
@@ -131,7 +134,13 @@ struct IntroductionView: View {
 			}
 		} bottomView: {
 			
-			CallToActionButton("common.next") {
+			CallToActionButton(
+				"common.next",
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
 				viewModel.reduce(.nextButttonPressed)
 			}
 			.accessibilityIdentifier("common.next")
@@ -139,7 +148,7 @@ struct IntroductionView: View {
 		}
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 }

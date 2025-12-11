@@ -28,6 +28,9 @@ struct InputField: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Image {
@@ -37,6 +40,7 @@ struct InputField: View {
 		}
 		enum Input {
 			static let cornerRadius: CGFloat = 12
+			static let newCornerRadius: CGFloat = 1000
 			static let inset: CGFloat = 0.5
 			static let horizontalPadding: CGFloat = 12
 			static let verticalPadding: CGFloat = 12
@@ -60,8 +64,8 @@ struct InputField: View {
 				.when(required, transform: { text in
 					text + Text(verbatim: " ") + Text("common.required")
 				})
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.typography(.bodyMedium)
+				.foregroundStyle(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.onTapGesture {
 					isFieldFocused.toggle()
@@ -71,14 +75,22 @@ struct InputField: View {
 				.focused($isFieldFocused)
 				.padding(.horizontal, ViewTraits.Input.horizontalPadding)
 				.padding(.vertical, ViewTraits.Input.verticalPadding)
-				.foregroundStyle(theme.contentPrimary)
-				.accentColor(theme.interactionTertiaryDefaultText)
+				.foregroundStyle(theme.labels.primary)
+				.accentColor(theme.actions.ghost.text)
 				.frame(maxWidth: .infinity, alignment: .leading)
-				.background(theme.backgroundSecondary)
-				.cornerRadius(ViewTraits.Input.cornerRadius)
+				.background(theme.backgrounds.secondary)
+				.cornerRadius(
+					osVersionChecker
+						.available(version: .iOS(.v26)) ? ViewTraits.Input.newCornerRadius : ViewTraits.Input.cornerRadius
+				)
 				.accessibilityIdentifier("input")
 				.overlay(
-					RoundedRectangle(cornerRadius: ViewTraits.Input.cornerRadius)
+					RoundedRectangle(
+						cornerRadius: osVersionChecker
+							.available(
+								version: .iOS(.v26)
+							) ? ViewTraits.Input.newCornerRadius : ViewTraits.Input.cornerRadius
+					)
 						.inset(by: ViewTraits.Input.inset)
 						.stroke(getBorderColor(), lineWidth: isFieldFocused || showError ? 2 : 0)
 				)
@@ -105,9 +117,9 @@ struct InputField: View {
 						.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
 					
 					Text(errorMessage)
-						.rijksoverheidStyle(font: .bold, style: .body)
+						.typography(.bodyMedium, isBold: true)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
-						.foregroundStyle(theme.sentimentCritical)
+						.foregroundStyle(theme.states.critical)
 				}
 				.onTapGesture {
 					isFieldFocused.toggle()
@@ -120,9 +132,9 @@ struct InputField: View {
 	private func getBorderColor() -> Color {
 		
 		guard !showError else {
-			return theme.sentimentCritical
+			return theme.states.critical
 		}
-		return isFieldFocused ? theme.interactionPrimaryDefaultText : theme.borderPrimary
+		return isFieldFocused ? theme.actions.solid.text : theme.separators.primary
 	}
 }
 
@@ -146,5 +158,5 @@ struct InputField: View {
 		)
 		.padding(16)
 	}
-	.background(Theme().backgroundPrimary)
+	.background(Theme().backgrounds.primary)
 }

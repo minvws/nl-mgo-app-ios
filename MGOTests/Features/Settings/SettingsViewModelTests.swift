@@ -19,12 +19,17 @@ final class SettingsViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
+	}
+	
+	@MainActor func setupSut() {
+		
 		sut = SettingsViewModel(coordinator: coordinatorSpy)
 	}
 	
 	@MainActor func test_showResetDialog_shouldShowDialog() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.showResetDialog)
@@ -37,6 +42,7 @@ final class SettingsViewModelTests: XCTestCase {
 	@MainActor func test_cancelDialog_shouldRemoveDialog() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.cancelDialog)
@@ -49,6 +55,7 @@ final class SettingsViewModelTests: XCTestCase {
 	@MainActor func test_displaySettings_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.displaySettings)
@@ -61,6 +68,7 @@ final class SettingsViewModelTests: XCTestCase {
 	@MainActor func test_securitySettings_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.securitySettings)
@@ -73,6 +81,7 @@ final class SettingsViewModelTests: XCTestCase {
 	@MainActor func test_advancedSettings_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.advancedSettings)
@@ -85,6 +94,7 @@ final class SettingsViewModelTests: XCTestCase {
 	@MainActor func test_aboutTheApp_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.aboutTheApp)
@@ -97,6 +107,7 @@ final class SettingsViewModelTests: XCTestCase {
 	@MainActor func test_resetApplication_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.resetApplication)

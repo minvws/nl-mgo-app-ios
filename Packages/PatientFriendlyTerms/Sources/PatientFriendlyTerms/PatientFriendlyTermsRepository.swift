@@ -10,14 +10,24 @@ import Logging
 
 public protocol PatientFriendlyTermsRepositoryProtocol {
 	
+	var eTag: String? { get set }
+	
 	/// Fetch the patient friendly terms
 	func fetchTerms() async
+	
+	/// Find a patient friendly term
+	/// - Parameter code: the SnomedCT code
+	/// - Returns: a patient friendly term for that code
+	func find(_ code: String) -> PatientFriendlyTerm?
 	
 	/// Remove the patient friendly terms from storage
 	func wipePersistedData()
 }
 
 public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProtocol {
+	
+	/// The SnomedCT system
+	public static let snomedCTSystem: String = "http://snomed.info/sct" // NOSONAR
 	
 	@usableFromInline
 	static let directory = "PFT"
@@ -50,7 +60,7 @@ public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProto
 	
 	/// The ETag for the terms
 	@FoilDefaultStorageOptional(key: eTagKey)
-	internal var eTag: String?
+	public var eTag: String?
 	
 	/// Create a Patient Friendly Terms Repository
 	/// - Parameters:
@@ -75,10 +85,12 @@ public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProto
 					try storage.store(encoded, as: fileName)
 					self.eTag = newETag
 					logDebug("PFTRep - Stored \(body.additionalProperties.count) patient friendly terms with eTag: \(String(describing: self.eTag))")
+					loadData()
 				}
 				case 304:
 					logDebug("PFTRep - 304 Not Modified")
 					self.eTag = newETag
+					loadData()
 				default:
 					break
 			}
@@ -92,5 +104,29 @@ public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProto
 		
 		storage.remove(fileName)
 		eTag = nil
+	}
+	
+	/// The Patient Friendly Terms
+	internal var terms: [String: PatientFriendlyTerm] = [:]
+	
+	// Load all the data
+	private func loadData() {
+		if let data = storage.read(fileName: fileName) {
+			
+			let decoded = try? JSONDecoder().decode(PatientFriendlyTerms.self, from: data)
+			terms = decoded?.additionalProperties ?? [:]
+		}
+	}
+	
+	/// Find a patient friendly term
+	/// - Parameter code: the SnomedCT code
+	/// - Returns: a patient friendly term for that code
+	public func find(_ code: String) -> PatientFriendlyTerm? {
+		
+		if terms.isEmpty {
+			loadData()
+		}
+		
+		return terms[code]
 	}
 }

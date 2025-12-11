@@ -13,39 +13,115 @@ class HealthCategoryRowViewTests: XCTestCase {
 	@MainActor func test_empty() {
 		
 		// Given
-		let sut = HealthCategoryRowView(category: Generator.healthCategory, state: .empty)
+		let sut = HealthCategoryRowView(
+			category: Generator.healthCategory,
+			state: .empty
+		)
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.light)), as: .image)
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
 	}
 	
 	@MainActor func test_loading() {
 		
 		// Given
-		let sut = HealthCategoryRowView(category: Generator.healthCategory, state: .loading)
+		let sut = HealthCategoryRowView(
+			category: Generator.healthCategory,
+			state: .loading
+		)
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.light)), as: .image)
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
 	}
 	
 	@MainActor func test_loaded() {
 		
 		// Given
-		let sut = HealthCategoryRowView(category: Generator.healthCategory, state: .loaded)
+		let sut = HealthCategoryRowView(
+			category: Generator.healthCategory,
+			state: .loaded
+		)
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.light)), as: .image(precision: 0.95))
-		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image(precision: 0.95))
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image(precision: 0.95)
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image(precision: 0.95)
+		)
+	}
+	
+	@MainActor func test_clientError() {
+		
+		// Given
+		let sut = HealthCategoryRowView(
+			category: Generator.healthCategory,
+			state: .clientError
+		)
+		
+		// When
+		let view = sut.frame(width: 380, height: 200)
+			.background(Theme().backgrounds.primary)
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
+	}
+	
+	@MainActor func test_serverError() {
+		
+		// Given
+		let sut = HealthCategoryRowView(
+			category: Generator.healthCategory,
+			state: .serverError
+		)
+		
+		// When
+		let view = sut.frame(width: 380, height: 200)
+			.background(Theme().backgrounds.primary)
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
 	}
 }

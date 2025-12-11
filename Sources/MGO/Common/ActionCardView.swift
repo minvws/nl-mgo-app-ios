@@ -42,27 +42,27 @@ struct ActionCardView: View {
 				VStack(alignment: .leading, spacing: ViewTraits.General.spacing) {
 					
 					Text(title)
-						.rijksoverheidStyle(font: .bold, style: .body)
+						.typography(.bodyMedium, isBold: true)
 						.multilineTextAlignment(.leading)
-						.foregroundColor(theme.contentPrimary)
+						.foregroundColor(theme.labels.primary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 					
 					Text(message)
-						.rijksoverheidStyle(font: .regular, style: .body)
+						.typography(.bodyMedium)
 						.multilineTextAlignment(.leading)
-						.foregroundColor(theme.contentSecondary)
+						.foregroundColor(theme.labels.secondary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 				}
 				
 				Image(ImageResource.Overview.chevronRight)
-					.foregroundStyle(theme.symbolPrimary)
+					.foregroundStyle(theme.symbols.primary)
 					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
 					.accessibilityHidden(true)
 				
 			}
 			.accessibilityElement(children: .combine)
 			.padding(ViewTraits.General.padding)
-			.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
+			.background(onHover ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
 			
 		}
 		._onButtonGesture { pressed in

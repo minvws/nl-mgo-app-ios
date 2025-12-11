@@ -14,7 +14,7 @@ import Foundation
 public struct NameClass: Codable, Hashable, Sendable {
     public let profile: PurpleProfile
     public let family: R4NlCoreNameInformationFamily?
-    public let given: IndecentGiven?
+    public let given: HilariousGiven?
     public let period: MgoPeriod?
     public let r4NlCoreNameInformationPrefix, suffix: [PrimitiveValueTypeOfStringString]?
     public let text: PrimitiveValueTypeOfStringString?
@@ -26,7 +26,7 @@ public struct NameClass: Codable, Hashable, Sendable {
         case suffix, text
     }
 
-    public init(profile: PurpleProfile, family: R4NlCoreNameInformationFamily?, given: IndecentGiven?, period: MgoPeriod?, r4NlCoreNameInformationPrefix: [PrimitiveValueTypeOfStringString]?, suffix: [PrimitiveValueTypeOfStringString]?, text: PrimitiveValueTypeOfStringString?) {
+    public init(profile: PurpleProfile, family: R4NlCoreNameInformationFamily?, given: HilariousGiven?, period: MgoPeriod?, r4NlCoreNameInformationPrefix: [PrimitiveValueTypeOfStringString]?, suffix: [PrimitiveValueTypeOfStringString]?, text: PrimitiveValueTypeOfStringString?) {
         self.profile = profile
         self.family = family
         self.given = given
@@ -58,7 +58,7 @@ public extension NameClass {
     func with(
         profile: PurpleProfile? = nil,
         family: R4NlCoreNameInformationFamily?? = nil,
-        given: IndecentGiven?? = nil,
+        given: HilariousGiven?? = nil,
         period: MgoPeriod?? = nil,
         r4NlCoreNameInformationPrefix: [PrimitiveValueTypeOfStringString]?? = nil,
         suffix: [PrimitiveValueTypeOfStringString]?? = nil,

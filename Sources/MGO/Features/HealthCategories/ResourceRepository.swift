@@ -14,15 +14,18 @@ protocol ResourceRepositoryProtocol {
 	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
 	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization)
 	
-	/// Load all the categories for a category
-	/// - Parameter category: the category to load  for
-	@MainActor func loadFor(_ category: SharedHealthCategories.Category)
+	/// Load all the categories for an array of categories
+	/// - Parameter category: the categories to load  for
+	@MainActor func loadFor(_ categories: [SharedHealthCategories.Category])
 	
 	/// Load the resources
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
-	///   - category: the category to load the resources for.
-	@MainActor func loadResource(_ healthcareOrganization: MgoOrganization, category: SharedHealthCategories.Category)
+	///   - categories: the categories to load the resources for.
+	@MainActor func loadResource(
+		_ healthcareOrganization: MgoOrganization,
+		categories: [SharedHealthCategories.Category]
+	)
 	
 	/// Load a binary object
 	/// - Parameters:
@@ -33,7 +36,17 @@ protocol ResourceRepositoryProtocol {
 	@MainActor func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		url: String) async throws -> FHIRBinary?
+		path: String
+	) async throws -> FHIRBinary?
+	
+	/// Get the version of the shared library
+	/// - Returns: the shared version
+	@MainActor func getVersion() throws -> SharedVersion
+}
+
+enum ResourceRepositoryError: Int {
+	case client = -1
+	case server = 1
 }
 
 /// Load the resources from the server
@@ -42,13 +55,18 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	typealias Solution = (
 		endpoint: DataServices.Endpoint,
 		fhirVersion: DataServices.FhirVersion,
-		dvaTarget: String
+		dvaTarget: String,
+		dataServiceId: String,
+		providerId: String?
 	)
 	
 	typealias MappedSolution = (
+		endpoint: DataServices.Endpoint,
 		categories: [SharedHealthCategories.Category],
 		fhirVersion: DataServices.FhirVersion,
-		dvaTarget: String
+		dvaTarget: String,
+		dataServiceId: String,
+		providerId: String?
 	)
 	
 	/// Token for the observatory (needed for unregister)
@@ -72,25 +90,33 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// The MGO repository to fetch FHIR objects
 	private var repository: MGORepository
 	
+	/// The network availability checker
+	private var networkAvailabilityChecker: NetworkAvailabilityChecking
+	
 	/// Create the Resource Repository
 	/// - Parameters:
 	///   - healthcareOrganizationRepository: the repository for healthcare organizations
 	///   - dataRepository: the repository for data storage
+	///   - networkAvailabilityChecker: do we have network availability
+	///   - featureFlagManager: the feature flag manager
 	///   - serverUrl: the url of the server
 	///   - username: the authentication username
 	///   - password: the authentication password
 	@MainActor init(
 		healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol,
 		dataRepository: MgoDataStoreProtocol,
+		networkAvailabilityChecker: NetworkAvailabilityChecking,
 		featureFlagManager: FeatureFlagManaging,
 		serverUrl: Foundation.URL,
 		username: String?,
-		password: String?) {
+		password: String?
+	) {
 		
 		self.healthcareOrganizationRepository = healthcareOrganizationRepository
 		self.dataRepository = dataRepository
 		self.featureFlagManager = featureFlagManager
 		self.repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
+		self.networkAvailabilityChecker = networkAvailabilityChecker
 		self.username = username
 		self.password = password
 		registerObservers()
@@ -100,8 +126,16 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	@MainActor private func registerObservers() {
 		
 		self.observerToken = healthcareOrganizationRepository?.observatory.append { [weak self] organization, reason in
-			self?.handleOrganizationChanges(organization, reason: reason)
+			Task { @MainActor in
+				self?.handleOrganizationChanges(organization, reason: reason)
+			}
 		}
+	}
+	
+	/// Get the version of the shared library
+	/// - Returns: the shared version
+	@MainActor func getVersion() throws -> SharedVersion {
+		return try repository.getVersion()
 	}
 	
 	/// Handle changes in the organizations list
@@ -141,41 +175,6 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 	}
 	
-	/// Load all the categories for a healthcare organization
-	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
-	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization) {
-		logVerbose("ResourceRepository - LoadFor Org", healthcareOrganization.identifier)
-		var mapping: [DataServices.Endpoint: MappedSolution] = [:]
-		if let sharedCategories = try? SharedHealthCategories() {
-			for sharedCategory in sharedCategories.mainCategories.flatMap({ $0.categories }) {
-				for solution in collectEndpoints(healthcareOrganization, category: sharedCategory) {
-					if mapping[solution.endpoint] != nil {
-						mapping[solution.endpoint]?.categories.append(sharedCategory)
-					} else {
-						mapping[solution.endpoint] = ([sharedCategory], solution.fhirVersion, solution.dvaTarget)
-					}
-				}
-			}
-		}
-		for (endpoint, mappedSolution) in mapping {
-			_Concurrency.Task(priority: .high) {
-				await loadEndpoint(healthcareOrganization, endpoint: endpoint, mapping: mappedSolution)
-			}
-		}
-	}
-	
-	/// Load all the categories for a category
-	/// - Parameter category: the category to load  for
-	@MainActor func loadFor(_ category: SharedHealthCategories.Category) {
-		logVerbose("ResourceRepository - LoadFor Cat", category)
-		
-		guard let healthcareOrganizationRepository else { return }
-		
-		for healthcareOrganization in healthcareOrganizationRepository.organizations {
-			loadResource(healthcareOrganization, category: category)
-		}
-	}
-	
 	/// Load all the categories for all the stored healthcare organizations
 	@MainActor func load() {
 		
@@ -185,28 +184,88 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 	}
 	
+	/// Load all the categories for a healthcare organization
+	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
+	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization) {
+		
+		logVerbose("ResourceRepository - LoadFor Org", healthcareOrganization.identifier)
+		guard let sharedCategories = try? SharedHealthCategories() else { return }
+		
+		var mappings: [String: MappedSolution] = [:]
+		for sharedCategory in sharedCategories.mainCategories.flatMap({ $0.categories }) {
+			for solution in collectEndpoints(healthcareOrganization, category: sharedCategory) {
+				let key = solution.endpoint.id + solution.dataServiceId
+				if mappings[key] != nil {
+					mappings[key]?.categories.append(sharedCategory)
+				} else {
+					mappings[key] = MappedSolution(
+						endpoint: solution.endpoint,
+						categories: [sharedCategory],
+						fhirVersion: solution.fhirVersion,
+						dvaTarget: solution.dvaTarget,
+						dataServiceId: solution.dataServiceId,
+						providerId: solution.providerId
+					)
+				}
+			}
+		}
+		loadEndpoints(healthcareOrganization, mappings: mappings)
+	}
+	
+	/// Load all the categories for a category
+	/// - Parameter categories: the categories to load  for
+	@MainActor func loadFor(_ categories: [SharedHealthCategories.Category]) {
+		
+		logVerbose("ResourceRepository - LoadFor Categories", categories)
+		
+		guard let healthcareOrganizationRepository else { return }
+		
+		healthcareOrganizationRepository.organizations.forEach { organization in
+			loadResource(organization, categories: categories)
+		}
+	}
+	
 	/// Load the resources
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
-	///   - category: the category to load the resources for.
+	///   - categories: the categories to load the resources for.
 	@MainActor func loadResource(
 		_ healthcareOrganization: MgoOrganization,
-		category: SharedHealthCategories.Category
+		categories: [SharedHealthCategories.Category]
 	) {
-		
-		logVerbose("ResourceRepository - LoadFor Org and Cat", healthcareOrganization.identifier, category.id)
-		var mapping: [DataServices.Endpoint: MappedSolution] = [:]
-		for solution in collectEndpoints(healthcareOrganization, category: category) {
-			if mapping[solution.endpoint] != nil {
-				mapping[solution.endpoint]?.categories.append(category)
-			} else {
-				mapping[solution.endpoint] = ([category], solution.fhirVersion, solution.dvaTarget)
+		categories.forEach { category in
+			logVerbose("ResourceRepository - LoadFor Org and Cat", healthcareOrganization.identifier, category.id)
+			var mappings: [String: MappedSolution] = [:]
+			for solution in collectEndpoints(healthcareOrganization, category: category) {
+				let key = solution.endpoint.id + solution.dataServiceId
+				if mappings[key] != nil {
+					mappings[key]?.categories.append(category)
+				} else {
+					mappings[key] = MappedSolution(
+						endpoint: solution.endpoint,
+						categories: [category],
+						fhirVersion: solution.fhirVersion,
+						dvaTarget: solution.dvaTarget,
+						dataServiceId: solution.dataServiceId,
+						providerId: solution.providerId
+					)
+				}
 			}
+			loadEndpoints(healthcareOrganization, mappings: mappings)
 		}
-		
-		for (endpoint, mappedSolution) in mapping {
+	}
+	
+	/// Load the resources
+	/// - Parameters:
+	///   - healthcareOrganization: healthcare organization
+	///   - mappings: the mapped solutions
+	@MainActor private func loadEndpoints(
+		_ healthcareOrganization: MgoOrganization,
+		mappings: [String: MappedSolution]
+	) {
+		for (_, mappedSolution) in mappings {
 			_Concurrency.Task(priority: .high) {
-				await loadEndpoint(healthcareOrganization, endpoint: endpoint, mapping: mappedSolution)
+				await loadEndpoint(healthcareOrganization, mapping: mappedSolution)
 			}
 		}
 	}
@@ -214,33 +273,40 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// Load the resources
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
-	///   - category: the category to load the resources for.
+	///   - mapping: the mapped solution
 	@MainActor func loadEndpoint(
 		_ healthcareOrganization: MgoOrganization,
-		endpoint: DataServices.Endpoint,
 		mapping: MappedSolution
 	) async {
 		
 		var mgoResources = [MgoResource]()
-		var resourceError = false
+		var resourceError: ResourceRepositoryError?
 		
-		do {
-			logVerbose("ResourceRepository - calling endpoint for \(mapping.dvaTarget)", endpoint)
-			let fhirBundle = try await repository.getBundleData(
-				endpoint: endpoint,
-				fhirVersion: mapping.fhirVersion,
-				dvaTarget: mapping.dvaTarget,
-				username: username,
-				password: password
-			)
-			
-			mgoResources = try await repository.process(
-				fhirBundle,
-				fhirVersion: mapping.fhirVersion.rawValue
-			)
-		} catch {
-			logError("ResourceRepository", error)
-			resourceError = true
+		if await networkAvailabilityChecker.isNetworkAvailable() {
+			do {
+				logVerbose("ResourceRepository - calling endpoint for \(mapping.dvaTarget)", mapping.endpoint)
+				let fhirBundle = try await repository.getBundleData(
+					endpoint: mapping.endpoint,
+					fhirVersion: mapping.fhirVersion,
+					headers: MGORepositoryHeaders(
+						dvaTarget: mapping.dvaTarget,
+						dataServiceId: mapping.dataServiceId,
+						medmijId: mapping.providerId,
+						username: username,
+						password: password
+					)
+				)
+				
+				mgoResources = try await repository.process(
+					fhirBundle,
+					fhirVersion: mapping.fhirVersion.rawValue
+				)
+			} catch {
+				logError("ResourceRepository", error)
+				resourceError = ResourceRepositoryError.server // Network / Parse error
+			}
+		} else {
+			resourceError = .client // No internet
 		}
 		
 		for category in mapping.categories {
@@ -249,7 +315,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				categoryId: category.id,
 				organizationId: healthcareOrganization.identifier,
 				resources: mgoResources,
-				error: resourceError
+				error: resourceError?.rawValue
 			)
 			logVerbose("ResourceRepository - Adding to the store", recordToStore)
 			
@@ -270,11 +336,12 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	) -> [Solution] {
 		
 		logVerbose("\n\n collectEndpoints for category:", category.id)
-		var results = [(DataServices.Endpoint, DataServices.FhirVersion, String)]()
+		var results = [(DataServices.Endpoint, DataServices.FhirVersion, String, String, String?)]()
 		for dataService in DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services {
 			
 			// Check if the organization uses this data service
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: dataService.id) else {
+				logVerbose("No dvaTarget for", dataService.id, healthcareOrganization.identifier, category.heading)
 				continue
 			}
 			
@@ -282,8 +349,10 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				results.append(
 					(
 						endpoint: endpoint,
-						fhirVersion: dataService.fhirVersion,
-						dvaTarget: dvaTarget
+						fhirVersion: dataService.fhirVersionEnum,
+						dvaTarget: dvaTarget,
+						dataServiceId: dataService.id,
+						providerId: healthcareOrganization.medmij_id
 					)
 				)
 			}
@@ -318,12 +387,12 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
 	///   - serviceId: the id of the data service
-	///   - url: reference url
+	///   - path: reference path
 	/// - Returns: Binary Object
 	@MainActor func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		url: String
+		path: String
 	) async throws -> FHIRBinary? {
 			
 		// The binary call also needs the DVA Target header
@@ -333,14 +402,18 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 		
 		do {
-			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", url)
+			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", path)
 			
 			let data = try await repository.getBundleData(
-				endpoint: DataServices.Endpoint(id: "binary", url: url, profiles: []),
-				fhirVersion: dataService.fhirVersion,
-				dvaTarget: dvaTarget,
-				username: username,
-				password: password
+				endpoint: DataServices.Endpoint(id: "binary", path: path, profiles: []),
+				fhirVersion: dataService.fhirVersionEnum,
+				headers: MGORepositoryHeaders(
+					dvaTarget: dvaTarget,
+					dataServiceId: serviceId,
+					medmijId: healthcareOrganization.identifier,
+					username: username,
+					password: password
+				)
 			)
 			
 			let binary = try FHIRBinary(data: data)

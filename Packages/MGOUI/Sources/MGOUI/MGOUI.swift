@@ -7,6 +7,7 @@
 @_exported import SwiftUI
 
 // Internal
+@_exported import OSVersion
 @_exported import ReusableUI
 @_exported import RijksoverheidFont
 @_exported import Theme

@@ -31,16 +31,23 @@ class SettingsViewModel: ObservableObject {
 		case showResetDialog
 	}
 	
+	/// Dependency injectable Local Authentication Provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
+	
 	/// Create the settings view model
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil) {
+	@MainActor init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator
+		setupButtons()
+	}
+	
+	@MainActor func setupButtons() {
 		
 		let release = Configuration().getRelease()
 		showAdvancedButton = release == Release.development // Show only in Dev
 		
 		// Show only when we have biometrics
-		showSecurityButton = Container.shared.localAuthenticationProvider().biometricType() != .none
+		showSecurityButton = localAuthenticationProvider.biometricType() != .none
 	}
 	
 	/// Handle any action
@@ -114,12 +121,11 @@ struct SettingsView: View {
 			aboutTheApp()
 			reset()
 		}
-	
 		.backport.scrollContentBackground(.hidden)
 		.backport.contentMargins(ViewTraits.Navigation.padding)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.navigationTitle("settings.heading")
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// Get the view for the display settings option
@@ -131,7 +137,7 @@ struct SettingsView: View {
 		} label: {
 			SettingsRowView(
 				icon: Image(ImageResource.Settings.display),
-				iconBackground: theme.procedures,
+				iconBackground: theme.categories.allergies,
 				heading: "settings.display.heading",
 				subHeading: selectedAppearance.key
 			)
@@ -149,7 +155,7 @@ struct SettingsView: View {
 		} label: {
 			SettingsRowView(
 				icon: Image(ImageResource.Settings.lock),
-				iconBackground: theme.rijksLint,
+				iconBackground: theme.categories.laboratory,
 				heading: "settings.security.heading"
 			)
 		}
@@ -167,7 +173,7 @@ struct SettingsView: View {
 			} label: {
 				SettingsRowView(
 					icon: Image(ImageResource.Settings.advanced),
-					iconBackground: theme.vitals,
+					iconBackground: theme.categories.vitals,
 					heading: "settings.advanced.heading"
 				)
 			}
@@ -175,8 +181,8 @@ struct SettingsView: View {
 			.listRowInsets(ViewTraits.General.inset)
 		} footer: {
 			Text("settings.advanced.subheading")
-				.rijksoverheidStyle(font: .regular, style: .callout)
-				.foregroundStyle(theme.contentSecondary)
+				.typography(.bodySmall)
+				.foregroundStyle(theme.labels.secondary)
 		}
 	}
 	
@@ -206,8 +212,8 @@ struct SettingsView: View {
 				viewModel.reduce(.showResetDialog)
 			} label: {
 				Text("settings.reset_app.heading")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.sentimentCritical)
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.states.critical)
 					.frame(
 						maxWidth: .infinity,
 						minHeight: ViewTraits.Button.minimumHeight,
@@ -218,8 +224,8 @@ struct SettingsView: View {
 			.listRowInsets(ViewTraits.General.inset)
 		} footer: {
 			Text("settings.reset_app.subheading")
-				.rijksoverheidStyle(font: .regular, style: .callout)
-				.foregroundStyle(theme.contentSecondary)
+				.typography(.bodySmall)
+				.foregroundStyle(theme.labels.secondary)
 		}
 		.alert(
 			"settings.reset_app.dialog.heading",

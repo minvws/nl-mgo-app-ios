@@ -46,8 +46,8 @@ struct DisplaySettingsView: View {
 				
 			} footer: {
 				Text(shouldLayoutForiPad ? "settings.display.footer_ipad" : "settings.display.footer")
-					.rijksoverheidStyle(font: .regular, style: .callout)
-					.foregroundStyle(theme.contentSecondary)
+					.typography(.bodySmall)
+					.foregroundStyle(theme.labels.secondary)
 			}
 		}
 		.backport.scrollContentBackground(.hidden)
@@ -59,7 +59,7 @@ struct DisplaySettingsView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// Build a button for a display mode option
@@ -75,8 +75,8 @@ struct DisplaySettingsView: View {
 			HStack(spacing: 0) {
 				
 				Text(title)
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.labels.primary)
 					.frame(minHeight: ViewTraits.Icon.size)
 				
 				if selectedAppearance == appearance {

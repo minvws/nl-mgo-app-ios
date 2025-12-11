@@ -15,8 +15,8 @@ let package = Package(
 	dependencies: [
 		
 		// External
-		.package(url: "https://github.com/apple/swift-http-types", exact: "1.4.0"),
-		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.2"),
+		.package(url: "https://github.com/apple/swift-http-types", exact: "1.5.1"),
+		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.3"),
 		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")

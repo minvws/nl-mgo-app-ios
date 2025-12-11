@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  DEVELOPER_DIR: /Applications/Xcode_16.4.0.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode_26.1.app/Contents/Developer
   APPSTORE_KEY_BASE64_FILENAME: appstore-apikey.p8
   FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 180
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
@@ -16,10 +16,10 @@ env:
 jobs:
   upload:
     if: github.event.repository.name == 'nl-mgo-app-ios-private'
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -77,14 +77,14 @@ jobs:
           bundle exec fastlane ios ship_app_to_testflight
 
       - name: Archive MGO
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: MGO App
           path: MGO.ipa
           retention-days: 30
 
       - name: Archive MGO dSYMs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: MGO App dSYMs
           path: MGO.app.dSYM.zip

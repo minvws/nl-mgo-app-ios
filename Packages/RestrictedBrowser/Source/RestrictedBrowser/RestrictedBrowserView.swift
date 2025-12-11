@@ -26,18 +26,19 @@ public struct RestrictedBrowserView: View {
 		VStack(spacing: 0) {
 			
 			Divider()
-				.overlay(theme.borderSecondary)
+				.overlay(theme.separators.secondary)
 			
 			WebView(viewModel: viewModel, url: viewModel.url)
-				.background(theme.backgroundPrimary)
-				.backport.toolbarBackground(theme.backgroundSecondary, for: .navigationBar)
+				.background(theme.backgrounds.primary)
+				.backport.toolbarBackground(theme.backgrounds.secondary, for: .navigationBar)
 				.toolbar(
 					content: {
 						ToolbarItemGroup(
 							placement: .topBarTrailing,
 							content: {
-								Spacer()
-								
+								if #unavailable(iOS 26) {
+									Spacer()
+								}
 								Button {
 									viewModel.reduce(.safariButtonPressed)
 								} label: {
@@ -65,6 +66,6 @@ struct NavigationBarButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.foregroundStyle(configuration.isPressed ? theme.interactionTertiaryDefaultTextHover : theme.interactionTertiaryDefaultText)
+			.foregroundStyle(configuration.isPressed ? theme.actions.ghost.hover : theme.actions.ghost.text)
 	}
 }

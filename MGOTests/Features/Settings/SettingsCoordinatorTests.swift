@@ -198,4 +198,16 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.parentCoordinator.invokedHandle) == true
 		expect(self.parentCoordinator.invokedHandleParameters?.0) == Coordination.Action.resetApplication
 	}
+	
+	@MainActor func test_coordinatorHandle_showVersion() {
+		
+		// Given
+		createSut()
+		
+		// When
+		sut.handle(Coordination.Action.showVersion)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.version])
+	}
 }

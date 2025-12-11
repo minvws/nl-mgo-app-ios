@@ -19,7 +19,6 @@ struct HealthCategoryRowView: View {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Category {
-			
 			static let minHeight: CGFloat = 56
 		}
 		enum Text {
@@ -31,6 +30,7 @@ struct HealthCategoryRowView: View {
 		}
 		enum Spinner {
 			static let size: CGFloat = 22
+			static let minWidth: CGFloat = 24
 		}
 	}
 	
@@ -38,52 +38,28 @@ struct HealthCategoryRowView: View {
 		
 		HStack(alignment: .top, spacing: 0) {
 			
-			category.getIcon(theme)
+			category.getIconWithBackground()
 				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
 				.padding(.trailing, ViewTraits.Icon.padding)
 			
 			VStack(alignment: .leading, spacing: ViewTraits.Text.spacing) {
 				
-				Text(String(localized: String.LocalizationValue(stringLiteral: category.heading)))
-					.rijksoverheidStyle(font: .bold, style: .body)
-					.foregroundColor(theme.contentPrimary)
-				
-				if state == .empty {
+				Text(category.localizedHeading())
+					.typography(.bodyMedium, isBold: true)
+					.foregroundColor(theme.labels.primary)
 					
-					Text("common.no_data")
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundColor(theme.contentSecondary)
-					
-				} else {
-					
-					Text(String(localized: String.LocalizationValue(stringLiteral: category.subheading)))
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundColor(theme.contentSecondary)
-					
-				}
+				Text(category.localizedSubheading())
+					.typography(.bodyMedium)
+					.foregroundColor(theme.labels.secondary)
 			}
 			
 			Spacer()
 			
-			VStack {
-				switch state {
-					case .loaded:
-						Image(systemName: "chevron.right")
-							.foregroundStyle(theme.symbolSecondary)
-							.frame(width: 12, height: 22)
-					
-					case .loading:
-						ProgressView()
-							.progressViewStyle(.circular)
-							.frame(width: ViewTraits.Spinner.size, height: ViewTraits.Spinner.size)
-							.tint(theme.symbolSecondary)
-					
-					default:
-						EmptyView()
-				}
+			VStack(alignment: .trailing) {
+				CategoryStateView(state: state)
 			}
+			.frame(minWidth: ViewTraits.Spinner.minWidth)
 		}
-		.background(theme.backgroundSecondary)
 		.frame(minHeight: ViewTraits.Category.minHeight)
 		.accessibilityElement(children: .combine)
 	}

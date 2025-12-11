@@ -36,6 +36,9 @@ class BioMetricSetupViewModel: ObservableObject {
 	/// Dependency injectable Secure User Settings
 	@Injected(\.secureUserSettings) private var secureUserSettings
 	
+	/// Dependency injectable Local Authentication Provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
+	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter bioMetricType: what biometric type do we have? (FaceID, TouchID, OpticID)
@@ -94,7 +97,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
-			let authenticated = try await Container.shared.localAuthenticationProvider().authenticate(
+			let authenticated = try await localAuthenticationProvider.authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
@@ -137,6 +140,9 @@ struct BioMetricSetupView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
 	
 	/// Magic numbers
 	private struct ViewTraits {
@@ -193,7 +199,7 @@ struct BioMetricSetupView: View {
 					Text("pincode.opticid.lockout")
 			}
 		}
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 	
@@ -206,21 +212,21 @@ struct BioMetricSetupView: View {
 			HStack {
 				Spacer()
 				getBioMetricImage(type: bioMetricType)
-					.foregroundStyle(theme.interactionPrimaryDefaultBackground)
+					.foregroundStyle(theme.actions.solid.background)
 					.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
 					.padding(.top, ViewTraits.Image.top)
 				Spacer()
 			}
 			
 			Text(LocalizedStringKey(bioMetricTypedHeading(bioMetricType)))
-				.rijksoverheidStyle(font: .bold, style: .title)
+				.typography(.headingExtraLarge)
 				.padding(ViewTraits.Title.insets)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
 				.accessibilityIdentifier("biometric_setup.heading")
 			
 			Text(LocalizedStringKey(bioMetricTypedIntro(bioMetricType)))
-				.rijksoverheidStyle(font: .regular, style: .body)
+				.typography(.bodyMedium)
 				.padding(ViewTraits.Text.insets)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityIdentifier("biometric_setup.subheading")
@@ -319,12 +325,23 @@ struct BioMetricSetupView: View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
 			
-			CallToActionButton("common.skip", style: .secondary) {
+			CallToActionButton(
+				"common.skip",
+				style: .tonal(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.proceedWithoutBioMetric)
 			}
 				.accessibilityIdentifier("common.skip")
 			
-			CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_setup.button.with_biometric", type: bioMetricType))) {
+			CallToActionButton(
+				LocalizedStringKey(
+					getBioMetricTypeInterpolatedText("biometric_setup.button.with_biometric", type: bioMetricType)
+				),
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
 				if bioMetricType == .touchID {
 					viewModel.reduce(.showTouchIDPopup)
 				} else {

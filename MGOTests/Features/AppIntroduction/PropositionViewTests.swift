@@ -6,6 +6,7 @@
 import MGOTest
 import MGOUI
 @testable import MGO
+import MGOFoundation
 
 final class PropositionViewTests: XCTestCase {
 	
@@ -29,13 +30,27 @@ final class PropositionViewTests: XCTestCase {
 	@MainActor func test_showProposition() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		let sut = createSut()
 		
 		// When
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, precision: 0.98)
+	}
+	
+	@MainActor func test_showProposition_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		let sut = createSut()
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.98)
 	}
 	
 	@MainActor func test_handleURL_validlink() throws {

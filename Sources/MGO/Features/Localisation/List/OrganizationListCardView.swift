@@ -68,15 +68,15 @@ struct OrganizationListCardView: View {
 			VStack(alignment: .leading, spacing: 0) {
 				
 				Text(model.name)
-					.rijksoverheidStyle(font: .bold, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.bodyMedium, isBold: true)
+					.foregroundStyle(theme.labels.primary)
 					.fixedSize(horizontal: false, vertical: true)
 					.padding(.bottom, ViewTraits.Title.padding)
 				
 				if let address = model.address, address.isNotEmpty {
 					Text(address)
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundStyle(theme.contentSecondary)
+						.typography(.bodyMedium)
+						.foregroundStyle(theme.labels.secondary)
 				}
 				
 				if model.postalCode != nil || model.city != nil {
@@ -88,8 +88,8 @@ struct OrganizationListCardView: View {
 							Text(city)
 						}
 					}
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentSecondary)
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.labels.secondary)
 				}
 				if state != .regular {
 					organizationStatusView(state)
@@ -100,7 +100,7 @@ struct OrganizationListCardView: View {
 			
 			if state == .regular {
 				Image(ImageResource.Localisation.Icon.add)
-					.foregroundStyle(colorScheme == .dark ? theme.interactionTertiaryDefaultText : theme.interactionPrimaryDefaultBackground)
+					.foregroundStyle(colorScheme == .dark ? theme.actions.ghost.text : theme.actions.solid.background)
 					.font(Font.title2.bold())
 			}
 			if case let .automatic(isSelected) = state {
@@ -108,7 +108,7 @@ struct OrganizationListCardView: View {
 					Image(ImageResource.Localisation.Icon.checked)
 				} else {
 					Image(ImageResource.Localisation.Icon.circle)
-						.foregroundStyle(theme.symbolPrimary)
+						.foregroundStyle(theme.symbols.primary)
 				}
 			}
 		}
@@ -116,11 +116,11 @@ struct OrganizationListCardView: View {
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.when(state == .notParticipating || state == .selected, transform: { view in
-			view.background(theme.backgroundSecondary.opacity(ViewTraits.Box.opacity))
+			view.background(theme.backgrounds.secondary.opacity(ViewTraits.Box.opacity))
 		})
 		.when(state != .notParticipating && state != .selected, transform: { view in
 			view
-				.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
+				.background(onHover ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
 		})
 		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius))
 		._onButtonGesture { pressed in
@@ -143,17 +143,17 @@ struct OrganizationListCardView: View {
 						
 						Image(ImageResource.Localisation.Icon.info)
 						Text("add_organization.not_participating")
-							.foregroundStyle(theme.sentimentInformation)
+							.foregroundStyle(theme.states.informative)
 					}
 					if case .selected
 						= state {
 							
 						Image(ImageResource.Localisation.Icon.checkCircle)
 						Text("add_organization.already_added")
-							.foregroundStyle(theme.sentimentPositive)
+							.foregroundStyle(theme.states.positive)
 					}
 				}
-				.rijksoverheidStyle(font: .bold, style: .body)
+				.typography(.bodyMedium, isBold: true)
 				.multilineTextAlignment(.leading)
 				.frame(maxWidth: .infinity, alignment: .leading)
 				.padding(.top, ViewTraits.Selected.padding)
@@ -220,5 +220,5 @@ struct OrganizationListCardView: View {
 		)
 	}
 	.padding(16)
-	.background(Theme().backgroundPrimary)
+	.background(Theme().backgrounds.primary)
 }

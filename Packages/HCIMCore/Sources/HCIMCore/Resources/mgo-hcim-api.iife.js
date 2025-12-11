@@ -1,4 +1,4 @@
-var HcimApi = function(exports) {
+var HcimApi = (function(exports) {
   "use strict";var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
@@ -38,7 +38,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     } : function(obj) {
       return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
     };
-    var jsx = function() {
+    var jsx = (function() {
       var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 60103;
       return function createRawReactElement(type, props, key, children) {
         var defaultProps = type && type.defaultProps;
@@ -73,7 +73,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           _owner: null
         };
       };
-    }();
+    })();
     var asyncToGenerator = function(fn) {
       return function() {
         var gen = fn.apply(this, arguments);
@@ -105,7 +105,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         throw new TypeError("Cannot call a class as a function");
       }
     };
-    var createClass = /* @__PURE__ */ function() {
+    var createClass = /* @__PURE__ */ (function() {
       function defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
           var descriptor = props[i];
@@ -120,7 +120,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         if (staticProps) defineProperties(Constructor, staticProps);
         return Constructor;
       };
-    }();
+    })();
     var defineEnumerableProperties = function(obj, descs) {
       for (var key in descs) {
         var desc = descs[key];
@@ -266,7 +266,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }
       return value2;
     };
-    var slicedToArray = /* @__PURE__ */ function() {
+    var slicedToArray = /* @__PURE__ */ (function() {
       function sliceIterator(arr, i) {
         var _arr = [];
         var _n = true;
@@ -298,7 +298,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           throw new TypeError("Invalid attempt to destructure non-iterable instance");
         }
       };
-    }();
+    })();
     var slicedToArrayLoose = function(arr, i) {
       if (Array.isArray(arr)) {
         return arr;
@@ -373,7 +373,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       extends: _extends,
       instanceof: _instanceof
     });
-    var realDefineProp = function() {
+    var realDefineProp = (function() {
       var sentinel = function sentinel2() {
       };
       try {
@@ -387,7 +387,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       } catch (e) {
         return false;
       }
-    }();
+    })();
     var es3 = !realDefineProp && !Object.prototype.__defineGetter__;
     var hop = Object.prototype.hasOwnProperty;
     var defineProperty2 = realDefineProp ? Object.defineProperty : function(obj, name, desc) {
@@ -2531,7 +2531,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       return { value: op[0] ? op[1] : void 0, done: true };
     }
   }
-  var __createBinding = Object.create ? function(o, m, k, k2) {
+  var __createBinding = Object.create ? (function(o, m, k, k2) {
     if (k2 === void 0) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -2540,10 +2540,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       } };
     }
     Object.defineProperty(o, k2, desc);
-  } : function(o, m, k, k2) {
+  }) : (function(o, m, k, k2) {
     if (k2 === void 0) k2 = k;
     o[k2] = m[k];
-  };
+  });
   function __exportStar(m, o) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
   }
@@ -2680,9 +2680,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return cooked;
   }
-  var __setModuleDefault = Object.create ? function(o, v) {
+  var __setModuleDefault = Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
-  } : function(o, v) {
+  }) : function(o, v) {
     o["default"] = v;
   };
   var ownKeys = function(o) {
@@ -2930,7 +2930,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     // 0 to EXP_LIMIT
     // The minimum exponent value, beneath which underflow to zero occurs.
     // JavaScript numbers: -324  (5e-324)
-    minE: -9e15,
+    minE: -EXP_LIMIT,
     // -1 to -EXP_LIMIT
     // The maximum exponent value, above which overflow to Infinity occurs.
     // JavaScript numbers: 308  (1.7976931348623157e+308)
@@ -3910,7 +3910,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     Ctor.precision -= k;
     return x;
   }
-  var divide = /* @__PURE__ */ function() {
+  var divide = /* @__PURE__ */ (function() {
     function multiplyInteger(x, k, base) {
       var temp, carry = 0, i = x.length;
       for (x = x.slice(); i--; ) {
@@ -4068,7 +4068,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }
       return q;
     };
-  }();
+  })();
   function finalise(x, sd, rm, isTruncated) {
     var digits, i, j, k, rd, roundUp, w, xd, xdi, Ctor = x.constructor;
     out: if (sd != null) {
@@ -4685,7 +4685,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       0,
       8,
       "toExpNeg",
-      -9e15,
+      -EXP_LIMIT,
       0,
       "toExpPos",
       0,
@@ -4694,7 +4694,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       0,
       EXP_LIMIT,
       "minE",
-      -9e15,
+      -EXP_LIMIT,
       0,
       "modulo",
       0,
@@ -5078,7 +5078,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   var ObjectWithoutPrototypeCache = (
     /** @class */
-    function() {
+    (function() {
       function ObjectWithoutPrototypeCache2() {
         this.cache = /* @__PURE__ */ Object.create(null);
       }
@@ -5089,7 +5089,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         this.cache[key] = value2;
       };
       return ObjectWithoutPrototypeCache2;
-    }()
+    })()
   );
   var cacheDefault = {
     create: function create() {
@@ -29614,7 +29614,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     var Locale2 = (
       /** @class */
-      function() {
+      (function() {
         function Locale3(tag2, opts) {
           var newTarget = this && this instanceof Locale3 ? this.constructor : void 0;
           if (!newTarget) {
@@ -29868,7 +29868,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         Locale3.relevantExtensionKeys = RELEVANT_EXTENSION_KEYS;
         Locale3.polyfilled = true;
         return Locale3;
-      }()
+      })()
     );
     intlLocale.Locale = Locale2;
     try {
@@ -29995,7 +29995,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           // 0 to EXP_LIMIT
           // The minimum exponent value, beneath which underflow to zero occurs.
           // JavaScript numbers: -324  (5e-324)
-          minE: -9e15,
+          minE: -EXP_LIMIT2,
           // -1 to -EXP_LIMIT
           // The maximum exponent value, above which overflow to Infinity occurs.
           // JavaScript numbers: 308  (1.7976931348623157e+308)
@@ -30975,7 +30975,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           Ctor.precision -= k;
           return x;
         }
-        var divide2 = /* @__PURE__ */ function() {
+        var divide2 = /* @__PURE__ */ (function() {
           function multiplyInteger(x, k, base) {
             var temp, carry = 0, i = x.length;
             for (x = x.slice(); i--; ) {
@@ -31133,7 +31133,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             }
             return q;
           };
-        }();
+        })();
         function finalise2(x, sd, rm, isTruncated) {
           var digits, i, j, k, rd, roundUp, w, xd, xdi, Ctor = x.constructor;
           out: if (sd != null) {
@@ -31750,7 +31750,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             0,
             8,
             "toExpNeg",
-            -9e15,
+            -EXP_LIMIT2,
             0,
             "toExpPos",
             0,
@@ -31759,7 +31759,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             0,
             EXP_LIMIT2,
             "minE",
-            -9e15,
+            -EXP_LIMIT2,
             0,
             "modulo",
             0,
@@ -34721,7 +34721,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     var PluralRules = (
       /** @class */
-      function() {
+      (function() {
         function PluralRules2(locales, options) {
           var newTarget = this && this instanceof PluralRules2 ? this.constructor : void 0;
           if (!newTarget) {
@@ -34791,7 +34791,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         PluralRules2.relevantExtensionKeys = [];
         PluralRules2.polyfilled = true;
         return PluralRules2;
-      }()
+      })()
     );
     intlPluralrules.PluralRules = PluralRules;
     try {
@@ -35096,7 +35096,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     var get_internal_slots_1 = tslib_1.__importDefault(requireGet_internal_slots());
     var RelativeTimeFormat = (
       /** @class */
-      function() {
+      (function() {
         function RelativeTimeFormat2(locales, options) {
           var newTarget = this && this instanceof RelativeTimeFormat2 ? this.constructor : void 0;
           if (!newTarget) {
@@ -35177,7 +35177,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         RelativeTimeFormat2.relevantExtensionKeys = ["nu"];
         RelativeTimeFormat2.polyfilled = true;
         return RelativeTimeFormat2;
-      }()
+      })()
     );
     intlRelativetimeformat.default = RelativeTimeFormat;
     try {
@@ -41956,25 +41956,28 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const NUMBER_REGEX = /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/;
   function isSafeNumber(value2, config2) {
+    if (isInteger(value2)) {
+      return Number.isSafeInteger(Number.parseInt(value2, 10));
+    }
     const num = Number.parseFloat(value2);
-    const str = String(num);
-    if (value2 === str) {
+    const parsed = String(num);
+    if (value2 === parsed) {
       return true;
     }
-    const valueDigits = countSignificantDigits(value2);
-    const strDigits = countSignificantDigits(str);
-    if (valueDigits === strDigits) {
+    const valueDigits = extractSignificantDigits(value2);
+    const parsedDigits = extractSignificantDigits(parsed);
+    if (valueDigits === parsedDigits) {
       return true;
     }
     return false;
   }
-  let UnsafeNumberReason = /* @__PURE__ */ function(UnsafeNumberReason2) {
+  let UnsafeNumberReason = /* @__PURE__ */ (function(UnsafeNumberReason2) {
     UnsafeNumberReason2["underflow"] = "underflow";
     UnsafeNumberReason2["overflow"] = "overflow";
     UnsafeNumberReason2["truncate_integer"] = "truncate_integer";
     UnsafeNumberReason2["truncate_float"] = "truncate_float";
     return UnsafeNumberReason2;
-  }({});
+  })({});
   function getUnsafeNumberReason(value2) {
     if (isSafeNumber(value2)) {
       return void 0;
@@ -41991,7 +41994,19 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return UnsafeNumberReason.truncate_float;
   }
-  function countSignificantDigits(value2) {
+  function extractSignificantDigits(value2) {
+    const {
+      start,
+      end
+    } = getSignificantDigitRange(value2);
+    const digits = value2.substring(start, end);
+    const dot = digits.indexOf(".");
+    if (dot === -1) {
+      return digits;
+    }
+    return digits.substring(0, dot) + digits.substring(dot + 1);
+  }
+  function getSignificantDigitRange(value2) {
     let start = 0;
     if (value2[0] === "-") {
       start++;
@@ -42006,15 +42021,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     if (end === -1) {
       end = value2.length;
     }
-    while (value2[end - 1] === "0" || value2[end - 1] === ".") {
+    while ((value2[end - 1] === "0" || value2[end - 1] === ".") && end > start) {
       end--;
     }
-    let digits = end >= start ? end - start : 0;
-    const dot = value2.indexOf(".", start);
-    if (dot !== -1 && dot < end) {
-      digits--;
-    }
-    return digits;
+    return {
+      start,
+      end
+    };
   }
   class LosslessNumber {
     constructor(value2) {
@@ -42581,10 +42594,10 @@ ${indent}}` : "}";
     return tag2 == funcTag$1 || tag2 == genTag || tag2 == asyncTag || tag2 == proxyTag;
   }
   var coreJsData = root["__core-js_shared__"];
-  var maskSrcKey = function() {
+  var maskSrcKey = (function() {
     var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "");
     return uid ? "Symbol(src)_1." + uid : "";
-  }();
+  })();
   function isMasked(func) {
     return !!maskSrcKey && maskSrcKey in func;
   }
@@ -42645,9 +42658,9 @@ ${indent}}` : "}";
   var objectProto$2 = Object.prototype;
   var hasOwnProperty$2 = objectProto$2.hasOwnProperty;
   var propertyIsEnumerable = objectProto$2.propertyIsEnumerable;
-  var isArguments = baseIsArguments(/* @__PURE__ */ function() {
+  var isArguments = baseIsArguments(/* @__PURE__ */ (function() {
     return arguments;
-  }()) ? baseIsArguments : function(value2) {
+  })()) ? baseIsArguments : function(value2) {
     return isObjectLike(value2) && hasOwnProperty$2.call(value2, "callee") && !propertyIsEnumerable.call(value2, "callee");
   };
   function stubFalse() {
@@ -42676,7 +42689,7 @@ ${indent}}` : "}";
   var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
   var moduleExports = freeModule && freeModule.exports === freeExports;
   var freeProcess = moduleExports && freeGlobal.process;
-  var nodeUtil = function() {
+  var nodeUtil = (function() {
     try {
       var types2 = freeModule && freeModule.require && freeModule.require("util").types;
       if (types2) {
@@ -42685,7 +42698,7 @@ ${indent}}` : "}";
       return freeProcess && freeProcess.binding && freeProcess.binding("util");
     } catch (e) {
     }
-  }();
+  })();
   var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
   var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
   function overArg(func, transform) {
@@ -42732,7 +42745,7 @@ ${indent}}` : "}";
   function castSlice(array, start, end) {
     var length = array.length;
     end = end === void 0 ? length : end;
-    return false ? array : baseSlice(array, start, end);
+    return !start && end >= length ? array : baseSlice(array, start, end);
   }
   var rsAstralRange$2 = "\\ud800-\\udfff", rsComboMarksRange$3 = "\\u0300-\\u036f", reComboHalfMarksRange$3 = "\\ufe20-\\ufe2f", rsComboSymbolsRange$3 = "\\u20d0-\\u20ff", rsComboRange$3 = rsComboMarksRange$3 + reComboHalfMarksRange$3 + rsComboSymbolsRange$3, rsVarRange$2 = "\\ufe0e\\ufe0f";
   var rsZWJ$2 = "\\u200d";
@@ -43083,70 +43096,11 @@ ${indent}}` : "}";
       return [];
     return resources;
   }
-  function isEmptyUiEntry(uiField) {
-    switch (uiField.type) {
-      case "REFERENCE_VALUE":
-      case "REFERENCE_LINK":
-      case "DOWNLOAD_BINARY":
-        return isNullish(uiField.reference);
-      case "SINGLE_VALUE":
-        return isNullish(uiField.display);
-      case "MULTIPLE_VALUES":
-      case "MULTIPLE_GROUPED_VALUES":
-        return isNullish(uiField.display) || !uiField.display.flat().length;
-      case "DOWNLOAD_LINK":
-        return isNullish(uiField.url);
-      default:
-        throw new Error(`Unknown UI entry type: ${JSON.stringify(uiField)}`);
-    }
-  }
-  function getChildren(value2) {
-    if (isNullish(value2))
-      return [];
-    if (Array.isArray(value2)) {
-      return value2.map((x) => x.children).flat();
-    }
-    return value2.children;
-  }
-  function numberToString(value2) {
-    if (isNullish(value2))
-      return;
-    return value2.toString();
-  }
-  function isUiSchemaGroup(schema) {
-    return schema.children?.some((x) => typeof x.type === "string");
-  }
-  function processGroup(group, { formatMessage: formatMessage2 }) {
-    return {
-      ...group,
-      children: group.children.map((entry) => {
-        return isEmptyUiEntry(entry) && !["DOWNLOAD_LINK", "DOWNLOAD_BINARY"].includes(entry.type) ? {
-          label: entry.label,
-          type: "SINGLE_VALUE",
-          display: formatMessage2("fhir.empty_value")
-        } : entry;
-      })
-    };
-  }
-  function setEmptyEntries(context) {
-    return (schema) => {
-      if (Array.isArray(schema)) {
-        return schema.map((x) => processGroup(x, context));
-      }
-      if (isUiSchemaGroup(schema)) {
-        return processGroup(schema, context);
-      }
-      return {
-        ...schema,
-        children: schema.children.map((x) => processGroup(x, context))
-      };
-    };
-  }
   function organization({ formatMessage: formatMessage2 }, organization2) {
     return {
       type: "SINGLE_VALUE",
       label: formatMessage2(`summary.organization`),
-      display: organization2?.name
+      value: { display: organization2?.name }
     };
   }
   function summaryOptions({ formatMessage: formatMessage2 }, i18n2, resource) {
@@ -43256,6 +43210,7 @@ ${indent}}` : "}";
     "fhir.x.date": [{ "type": 0, "value": "Datum" }],
     "fhir.x.date_time": [{ "type": 0, "value": "Datum" }],
     "fhir.x.device": [{ "type": 0, "value": "Apparaat" }],
+    "fhir.x.diagnosis": [{ "type": 0, "value": "Diagnosis" }],
     "fhir.x.effective_date_time": [{ "type": 0, "value": "Datum" }],
     "fhir.x.effective_period": [{ "type": 0, "value": "Periode" }],
     "fhir.x.email_addresses": [{ "type": 0, "value": "E-mailadres" }],
@@ -43292,7 +43247,6 @@ ${indent}}` : "}";
     "fhir.x.type": [{ "type": 0, "value": "Type" }]
   };
   const r3ResourceLabels = {
-    "fhir.x.diagnosis": [{ "type": 0, "value": "Diagnosis" }],
     "r3.e_afspraak_appointment": [{ "type": 0, "value": "Afspraak" }],
     "r3.e_afspraak_appointment.appointment_type": [{ "type": 0, "value": "Contact type" }],
     "r3.e_afspraak_appointment.created": [{ "type": 0, "value": "Datum" }],
@@ -43382,9 +43336,19 @@ ${indent}}` : "}";
     "r3.nl_core_address.line.house_number": [{ "type": 0, "value": "Huisnummer" }],
     "r3.nl_core_address.line.street_name": [{ "type": 0, "value": "Straatnaam" }],
     "r3.nl_core_address.line.unit_id": [{ "type": 0, "value": "Extra informatie" }],
-    "r3.nl_core_address.official": [{ "type": 0, "value": "Markeer een adres als een 'officieel geregistreerd adres." }],
+    "r3.nl_core_address.official": [{ "type": 0, "value": "Markeer een adres als een 'officieel geregistreerd adres'." }],
     "r3.nl_core_address.type": [{ "type": 0, "value": "Adres type" }],
     "r3.nl_core_address.use": [{ "type": 0, "value": "Adres soort" }],
+    "r3.nl_core_careplan": [{ "type": 0, "value": "Zorgplan" }],
+    "r3.nl_core_careplan.activity": [{ "type": 0, "value": "Verpleegkundige handeling" }],
+    "r3.nl_core_careplan.activity.nursing_intervention": [{ "type": 0, "value": "Verpleegkundige actie" }],
+    "r3.nl_core_careplan.activity.nursing_intervention.comment": [{ "type": 0, "value": "Opmerkingen" }],
+    "r3.nl_core_careplan.activity.nursing_intervention.detail.description": [{ "type": 0, "value": "Instructie" }],
+    "r3.nl_core_careplan.activity.nursing_intervention.detail.scheduled_timing": [{ "type": 0, "value": "Frequentie" }],
+    "r3.nl_core_careplan.activity.nursing_intervention.outcome_codeable_concept": [{ "type": 0, "value": "Zorgresultaat" }],
+    "r3.nl_core_careplan.activity.nursing_intervention.reference": [{ "type": 0, "value": "Aanvrager" }],
+    "r3.nl_core_careplan.goal": [{ "type": 0, "value": "Behandeldoel" }],
+    "r3.nl_core_careteam": [{ "type": 0, "value": "Zorgteam" }],
     "r3.nl_core_episodeofcare": [{ "type": 0, "value": "Episode" }],
     "r3.nl_core_episodeofcare.type": [{ "type": 0, "value": "Concern label" }],
     "r3.nl_core_humanname": [{ "type": 0, "value": "Naam" }],
@@ -43392,6 +43356,9 @@ ${indent}}` : "}";
     "r3.nl_core_humanname.given.call_name": [{ "type": 0, "value": "Roepnaam" }],
     "r3.nl_core_humanname.given.initials": [{ "type": 0, "value": "Initialen" }],
     "r3.nl_core_humanname.text": [{ "type": 0, "value": "Naam" }],
+    "r3.nl_core_location": [{ "type": 0, "value": "Locatie" }],
+    "r3.nl_core_location.managing_organization": [{ "type": 0, "value": "Organisatie" }],
+    "r3.nl_core_location.physical_type": [{ "type": 0, "value": "Contact locatie type" }],
     "r3.nl_core_observation": [{ "type": 0, "value": "Observatie" }],
     "r3.nl_core_organization.type": [{ "type": 0, "value": "Organisatie type" }],
     "r3.nl_core_patient.communication.comment": [{ "type": 0, "value": "Toelichting" }],
@@ -43403,6 +43370,7 @@ ${indent}}` : "}";
     "r3.nl_core_patient.life_stance": [{ "type": 0, "value": "Levensovertuiging" }],
     "r3.nl_core_patient.nationality.code": [{ "type": 0, "value": "Nationaliteit" }],
     "r3.nl_core_practitionerrole": [{ "type": 0, "value": "Zorgverlener rol" }],
+    "r3.nl_core_relatedperson": [{ "type": 0, "value": "Gerelateerd persoon" }],
     "r3.zib_administration_agreement.performer": [{ "type": 0, "value": "Uitvoerder" }],
     "r3.zib_administration_agreement.performer.actor": [{ "type": 0, "value": "Specialist" }],
     "r3.zib_administration_agreement.performer.on_behalf_of": [{ "type": 0, "value": "Op verzoek van" }],
@@ -43420,6 +43388,10 @@ ${indent}}` : "}";
     "r3.zib_body_weight.clothing": [{ "type": 0, "value": "Kleding" }],
     "r3.zib_encounter.hospitalization": [{ "type": 0, "value": "Opname" }],
     "r3.zib_encounter.participant": [{ "type": 0, "value": "Zorgverlener" }],
+    "r3.zib_family_situation.children": [{ "type": 0, "value": "Kinderen" }],
+    "r3.zib_family_situation.children.living_at_home": [{ "type": 0, "value": "Thuiswonend" }],
+    "r3.zib_help_from_others": [{ "type": 0, "value": "Hulp van anderen" }],
+    "r3.zib_help_from_others.activity.detail": [{ "type": 0, "value": "Hulp van anderen" }],
     "r3.zib_laboratory_test_result_observation.context": [{ "type": 0, "value": "Verband" }],
     "r3.zib_laboratory_test_result_observation.general_test_information": [{ "type": 0, "value": "Algemene testinformatie" }],
     "r3.zib_laboratory_test_result_observation.interpretation": [{ "type": 0, "value": "Interpretatie" }],
@@ -43458,8 +43430,19 @@ ${indent}}` : "}";
     "r3.zib_nutrition_advice.oral_diet.texture.modifier": [{ "type": 0, "value": "Aangepast" }],
     "r3.zib_nutrition_advice.oral_diet.type": [{ "type": 0, "value": "Dieet type" }],
     "r3.zib_nutrition_advice.orderer": [{ "type": 0, "value": "Auteur" }],
+    "r3.zib_participation_in_society.component": [{ "type": 0, "value": "Participatie in maatschappij" }],
     "r3.zib_payer.beneficiary": [{ "type": 0, "value": "Onderwerp (Patiënt)" }],
-    "r3.zib_problem.asserter": [{ "type": 0, "value": "Bron" }],
+    "r3.zib_problem": [{ "type": 0, "value": "Medische klacht" }],
+    "r3.zib_problem.abatement_date_time": [{ "type": 0, "value": "Wanneer gestopt" }],
+    "r3.zib_problem.asserter": [{ "type": 0, "value": "Vastgelegd door (zorgverlener)" }],
+    "r3.zib_problem.body_site": [{ "type": 0, "value": "Plaats in het lichaam" }],
+    "r3.zib_problem.body_site.laterality": [{ "type": 0, "value": "Aangedane kant" }],
+    "r3.zib_problem.category": [{ "type": 0, "value": "Soort klacht" }],
+    "r3.zib_problem.clinical_status": [{ "type": 0, "value": "Huidige status" }],
+    "r3.zib_problem.code": [{ "type": 0, "value": "Medische klacht of aandoening" }],
+    "r3.zib_problem.note": [{ "type": 0, "value": "Opmerkingen" }],
+    "r3.zib_problem.onset_date_time": [{ "type": 0, "value": "Wanneer begonnen" }],
+    "r3.zib_problem.verification_status": [{ "type": 0, "value": "Bevestigd of vermoed" }],
     "r3.zib_procedure.based_on": [{ "type": 0, "value": "Verrichting" }],
     "r3.zib_procedure.body_site.procedure_laterality": [{ "type": 0, "value": "Zijde" }],
     "r3.zib_procedure.focal_device": [{ "type": 0, "value": "Medisch hulpmiddel" }],
@@ -43474,6 +43457,9 @@ ${indent}}` : "}";
     "r3.zib_procedure_request.occurrence_period": [{ "type": 0, "value": "Periode" }],
     "r3.zib_procedure_request.occurrence_timing.repeat": [{ "type": 0, "value": "Herhaling" }],
     "r3.zib_product.code": [{ "type": 0, "value": "Product" }],
+    "r3.zib_text_result.conclusion": [{ "type": 0, "value": "Tekst uitslag resultaat" }],
+    "r3.zib_text_result.performer": [{ "type": 0, "value": "Uitvoerder" }],
+    "r3.zib_text_result.performer.actor": [{ "type": 0, "value": "Uitvoerder" }],
     "r3.zib_treatment_directive.additional_sources": [{ "type": 0, "value": "Aanvullende bronnen" }],
     "r3.zib_treatment_directive.additional_sources.value": [{ "type": 0, "value": "Aanvullende bronnen" }],
     "r3.zib_treatment_directive.comment": [{ "type": 0, "value": "Toelichting" }],
@@ -43486,6 +43472,8 @@ ${indent}}` : "}";
     "r3.zib_treatment_directive.source_reference": [{ "type": 0, "value": "Bron referentie" }],
     "r3.zib_treatment_directive.verification": [{ "type": 0, "value": "Verificatie" }],
     "r3.zib_treatment_directive.verified": [{ "type": 0, "value": "Bevestigd" }],
+    "r3.zib_treatment_objective.expressed_by": [{ "type": 0, "value": "Auteur" }],
+    "r3.zib_treatment_objective.target.measure": [{ "type": 0, "value": "Streefwaarde / gewenste gezondheidstoestand" }],
     "r3.zib_vaccination.report_origin": [{ "type": 0, "value": "Informatiebron" }],
     "r3.zib_vaccination_recommendation": [{ "type": 0, "value": "Vaccinatieadvies" }],
     "r3.zib_vaccination_recommendation.recommendation": [{ "type": 0, "value": "Vaccinatieadvies" }],
@@ -43572,6 +43560,11 @@ ${indent}}` : "}";
     "summary.r3.zib_medication_use.prescriber": [{ "type": 0, "value": "Specialist" }],
     "summary.r3.zib_medication_use.show_details": [{ "type": 0, "value": "Bekijk alle medicijngegevens" }],
     "summary.r3.zib_medication_use.status": [{ "type": 0, "value": "Status" }],
+    "summary.r3.zib_problem.group_about": [{ "type": 0, "value": "Over de klacht" }],
+    "summary.r3.zib_problem.group_body_site": [{ "type": 0, "value": "Anatomische locatie" }],
+    "summary.r3.zib_problem.group_health_professional": [{ "type": 0, "value": "Zorgverlener" }],
+    "summary.r3.zib_problem.group_period_of_time": [{ "type": 0, "value": "Periode" }],
+    "summary.r3.zib_problem.show_details": [{ "type": 0, "value": "Bekijk alle probleem gegevens" }],
     "summary.r4.nl_core_vaccination_event.group_performer": [{ "type": 0, "value": "Gegeven door" }],
     "summary.r4.nl_core_vaccination_event.show_details": [{ "type": 0, "value": "Bekijk alle vaccinatiegegevens" }]
   };
@@ -47511,7 +47504,7 @@ ${indent}}` : "}";
   }
   var Parser = (
     /** @class */
-    function() {
+    (function() {
       function Parser2(message, options) {
         if (options === void 0) {
           options = {};
@@ -48163,7 +48156,7 @@ ${indent}}` : "}";
         return nextCode !== null && nextCode !== void 0 ? nextCode : null;
       };
       return Parser2;
-    }()
+    })()
   );
   function _isAlpha(codepoint) {
     return codepoint >= 97 && codepoint <= 122 || codepoint >= 65 && codepoint <= 90;
@@ -48222,7 +48215,7 @@ ${indent}}` : "}";
   })(ErrorCode || (ErrorCode = {}));
   var FormatError = (
     /** @class */
-    function(_super) {
+    (function(_super) {
       __extends(FormatError2, _super);
       function FormatError2(msg, code2, originalMessage) {
         var _this = _super.call(this, msg) || this;
@@ -48234,37 +48227,37 @@ ${indent}}` : "}";
         return "[formatjs Error: ".concat(this.code, "] ").concat(this.message);
       };
       return FormatError2;
-    }(Error)
+    })(Error)
   );
   var InvalidValueError = (
     /** @class */
-    function(_super) {
+    (function(_super) {
       __extends(InvalidValueError2, _super);
       function InvalidValueError2(variableId, value2, options, originalMessage) {
         return _super.call(this, 'Invalid values for "'.concat(variableId, '": "').concat(value2, '". Options are "').concat(Object.keys(options).join('", "'), '"'), ErrorCode.INVALID_VALUE, originalMessage) || this;
       }
       return InvalidValueError2;
-    }(FormatError)
+    })(FormatError)
   );
   var InvalidValueTypeError = (
     /** @class */
-    function(_super) {
+    (function(_super) {
       __extends(InvalidValueTypeError2, _super);
       function InvalidValueTypeError2(value2, type, originalMessage) {
         return _super.call(this, 'Value for "'.concat(value2, '" must be of type ').concat(type), ErrorCode.INVALID_VALUE, originalMessage) || this;
       }
       return InvalidValueTypeError2;
-    }(FormatError)
+    })(FormatError)
   );
   var MissingValueError = (
     /** @class */
-    function(_super) {
+    (function(_super) {
       __extends(MissingValueError2, _super);
       function MissingValueError2(variableId, originalMessage) {
         return _super.call(this, 'The intl string context variable "'.concat(variableId, '" was not provided to the string "').concat(originalMessage, '"'), ErrorCode.MISSING_VALUE, originalMessage) || this;
       }
       return MissingValueError2;
-    }(FormatError)
+    })(FormatError)
   );
   var PART_TYPE;
   (function(PART_TYPE2) {
@@ -48482,7 +48475,7 @@ ${indent}}` : "}";
   }
   var IntlMessageFormat = (
     /** @class */
-    function() {
+    (function() {
       function IntlMessageFormat2(message, locales, overrideFormats, opts) {
         if (locales === void 0) {
           locales = IntlMessageFormat2.defaultLocale;
@@ -48625,7 +48618,7 @@ ${indent}}` : "}";
         }
       };
       return IntlMessageFormat2;
-    }()
+    })()
   );
   var IntlErrorCode;
   (function(IntlErrorCode2) {
@@ -48637,7 +48630,7 @@ ${indent}}` : "}";
   })(IntlErrorCode || (IntlErrorCode = {}));
   var IntlError = (
     /** @class */
-    function(_super) {
+    (function(_super) {
       __extends(IntlError2, _super);
       function IntlError2(code2, message, exception) {
         var _this = this;
@@ -48650,41 +48643,41 @@ ${indent}}` : "}";
         return _this;
       }
       return IntlError2;
-    }(Error)
+    })(Error)
   );
   var UnsupportedFormatterError = (
     /** @class */
-    function(_super) {
+    (function(_super) {
       __extends(UnsupportedFormatterError2, _super);
       function UnsupportedFormatterError2(message, exception) {
         return _super.call(this, IntlErrorCode.UNSUPPORTED_FORMATTER, message, exception) || this;
       }
       return UnsupportedFormatterError2;
-    }(IntlError)
+    })(IntlError)
   );
   var InvalidConfigError = (
     /** @class */
-    function(_super) {
+    (function(_super) {
       __extends(InvalidConfigError2, _super);
       function InvalidConfigError2(message, exception) {
         return _super.call(this, IntlErrorCode.INVALID_CONFIG, message, exception) || this;
       }
       return InvalidConfigError2;
-    }(IntlError)
+    })(IntlError)
   );
   var MissingDataError = (
     /** @class */
-    function(_super) {
+    (function(_super) {
       __extends(MissingDataError2, _super);
       function MissingDataError2(message, exception) {
         return _super.call(this, IntlErrorCode.MISSING_DATA, message, exception) || this;
       }
       return MissingDataError2;
-    }(IntlError)
+    })(IntlError)
   );
   var IntlFormatError = (
     /** @class */
-    function(_super) {
+    (function(_super) {
       __extends(IntlFormatError2, _super);
       function IntlFormatError2(message, locale, exception) {
         var _this = _super.call(this, IntlErrorCode.FORMAT_ERROR, "".concat(message, "\nLocale: ").concat(locale, "\n"), exception) || this;
@@ -48692,11 +48685,11 @@ ${indent}}` : "}";
         return _this;
       }
       return IntlFormatError2;
-    }(IntlError)
+    })(IntlError)
   );
   var MessageFormatError = (
     /** @class */
-    function(_super) {
+    (function(_super) {
       __extends(MessageFormatError2, _super);
       function MessageFormatError2(message, locale, descriptor, exception) {
         var _this = _super.call(this, "".concat(message, "\nMessageID: ").concat(descriptor === null || descriptor === void 0 ? void 0 : descriptor.id, "\nDefault Message: ").concat(descriptor === null || descriptor === void 0 ? void 0 : descriptor.defaultMessage, "\nDescription: ").concat(descriptor === null || descriptor === void 0 ? void 0 : descriptor.description, "\n"), locale, exception) || this;
@@ -48705,11 +48698,11 @@ ${indent}}` : "}";
         return _this;
       }
       return MessageFormatError2;
-    }(IntlFormatError)
+    })(IntlFormatError)
   );
   var MissingTranslationError = (
     /** @class */
-    function(_super) {
+    (function(_super) {
       __extends(MissingTranslationError2, _super);
       function MissingTranslationError2(descriptor, locale) {
         var _this = _super.call(this, IntlErrorCode.MISSING_TRANSLATION, 'Missing message: "'.concat(descriptor.id, '" for locale "').concat(locale, '", using ').concat(descriptor.defaultMessage ? "default message (".concat(typeof descriptor.defaultMessage === "string" ? descriptor.defaultMessage : descriptor.defaultMessage.map(function(e) {
@@ -48720,7 +48713,7 @@ ${indent}}` : "}";
         return _this;
       }
       return MissingTranslationError2;
-    }(IntlError)
+    })(IntlError)
   );
   function invariant(condition, message, Err) {
     if (Err === void 0) {
@@ -49799,6 +49792,66 @@ ${indent}}` : "}";
       formatLabel: createLabelFormatter(intl2)
     };
   }
+  function isUiSchemaGroup(schema) {
+    return schema.children?.some((x) => typeof x.type === "string");
+  }
+  function getChildren(value2) {
+    if (isNullish(value2))
+      return [];
+    if (Array.isArray(value2)) {
+      return value2.map((x) => x.children).flat();
+    }
+    return value2.children;
+  }
+  function isEmptyUiEntry(uiField) {
+    switch (uiField.type) {
+      case "REFERENCE_VALUE":
+        return isNullish(uiField.reference) && isNullish(uiField.display);
+      case "REFERENCE_LINK":
+      case "DOWNLOAD_BINARY":
+        return isNullish(uiField.reference);
+      case "SINGLE_VALUE":
+        return isNullish(uiField.value?.display);
+      case "MULTIPLE_VALUES":
+      case "MULTIPLE_GROUPED_VALUES":
+        return isNullish(uiField.value) || !uiField.value.flat().length;
+      case "DOWNLOAD_LINK":
+        return isNullish(uiField.url);
+      default:
+        throw new Error(`Unknown UI entry type: ${JSON.stringify(uiField)}`);
+    }
+  }
+  function numberToString(value2) {
+    if (isNullish(value2))
+      return;
+    return value2.toString();
+  }
+  function processGroup(group, { formatMessage: formatMessage2 }) {
+    return {
+      ...group,
+      children: group.children.map((entry) => {
+        return isEmptyUiEntry(entry) && !["DOWNLOAD_LINK", "DOWNLOAD_BINARY"].includes(entry.type) ? {
+          label: entry.label,
+          type: "SINGLE_VALUE",
+          value: { display: formatMessage2("fhir.empty_value") }
+        } : entry;
+      })
+    };
+  }
+  function setEmptyEntries(context) {
+    return (schema) => {
+      if (Array.isArray(schema)) {
+        return schema.map((x) => processGroup(x, context));
+      }
+      if (isUiSchemaGroup(schema)) {
+        return processGroup(schema, context);
+      }
+      return {
+        ...schema,
+        children: schema.children.map((x) => processGroup(x, context))
+      };
+    };
+  }
   const attachment = ({ formatMessage: formatMessage2 }) => (value2) => {
     const label = value2?.title ?? formatMessage2("fhir.unknown");
     if (isBinaryReference(value2?.url)) {
@@ -49818,19 +49871,21 @@ ${indent}}` : "}";
     return value2?.startsWith("Binary/");
   }
   const annotationDisplay = (value2) => {
-    return value2?.text;
+    return {
+      display: value2?.text
+    };
   };
   const annotation = ({ formatLabel }) => (label, value2, options = {}) => {
     if (Array.isArray(value2)) {
       return {
         label: formatLabel(label, value2, options.defaultLabel),
         type: "MULTIPLE_VALUES",
-        display: value2.map(annotationDisplay).filter(isNonNullish)
+        value: value2.map(annotationDisplay).filter(isNonNullish)
       };
     }
     return {
       label: formatLabel(label, value2, options.defaultLabel),
-      display: annotationDisplay(value2),
+      value: annotationDisplay(value2),
       type: "SINGLE_VALUE"
     };
   };
@@ -49839,7 +49894,7 @@ ${indent}}` : "}";
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: isNonNullish(value2?.value) ? truthyString : void 0
+      value: isNonNullish(value2?.value) ? { display: truthyString } : void 0
     };
   };
   function valueOf(value2) {
@@ -49862,21 +49917,21 @@ ${indent}}` : "}";
           return;
         }
         if (i18nCode && hasMessage(i18nKey)) {
-          return formatMessage2(i18nKey);
+          return { display: formatMessage2(i18nKey) };
         }
-        return codeValue;
+        return { display: codeValue };
       }
       if (Array.isArray(value2)) {
         return {
           label: formatLabel(label, value2, defaultLabel),
           type: "MULTIPLE_VALUES",
-          display: value2.map(translateCode).filter(isNonNullish)
+          value: value2.map(translateCode).filter(isNonNullish)
         };
       }
       return {
         label: formatLabel(label, value2, defaultLabel),
         type: "SINGLE_VALUE",
-        display: translateCode(value2)
+        value: translateCode(value2)
       };
     };
   }
@@ -49908,43 +49963,47 @@ ${indent}}` : "}";
     const systemString = `${display ?? ""} ${codeInSystemString ? "(" + codeInSystemString + ")" : ""}`.trim();
     return systemString === "" ? void 0 : systemString;
   };
-  const codeableDisplay = (context) => (value2) => {
-    if (value2?.text?.length) {
-      return [value2.text];
-    }
-    const formatSystem = system(context);
-    return value2?.coding.map(formatSystem).filter(isNonNullish) ?? [];
-  };
-  const codeableConcept = (context) => (label, value2, options = {}) => {
-    const { formatLabel } = context;
-    const display = codeableDisplay(context);
-    if (Array.isArray(value2)) {
-      return {
-        label: formatLabel(label, value2, options.defaultLabel),
-        type: "MULTIPLE_GROUPED_VALUES",
-        display: value2.map(display)
-      };
-    }
-    return {
-      label: formatLabel(label, value2, options.defaultLabel),
-      type: "MULTIPLE_VALUES",
-      display: display(value2)
-    };
+  const codingToDisplay = (uiContext) => {
+    const display = system(uiContext);
+    return (value2) => ({
+      display: display(value2),
+      code: value2?.code,
+      system: value2?.system
+    });
   };
   const coding = (context) => (label, value2, options = {}) => {
     const { formatLabel } = context;
-    const display = system(context);
+    const formatCoding = codingToDisplay(context);
     if (Array.isArray(value2)) {
       return {
         label: formatLabel(label, value2, options.defaultLabel),
         type: "MULTIPLE_VALUES",
-        display: value2.map(display).filter(isNonNullish)
+        value: value2.map(formatCoding).filter((item) => isNonNullish(item.display))
       };
     }
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: display(value2)
+      value: formatCoding(value2)
+    };
+  };
+  const codeableConcept = (context) => (label, value2, options = {}) => {
+    const { formatLabel } = context;
+    const formatCoding = codingToDisplay(context);
+    const formatCodeableConcept = (value3) => {
+      return value3?.coding.map(formatCoding);
+    };
+    if (Array.isArray(value2)) {
+      return {
+        label: formatLabel(label, value2, options.defaultLabel),
+        type: "MULTIPLE_GROUPED_VALUES",
+        value: value2.map(formatCodeableConcept).filter(isNonNullish)
+      };
+    }
+    return {
+      label: formatLabel(label, value2, options.defaultLabel),
+      type: "MULTIPLE_VALUES",
+      value: formatCodeableConcept(value2)
     };
   };
   const milliseconds = /T\d\d:\d\d:\d\d\.\d+/i;
@@ -49996,7 +50055,7 @@ ${indent}}` : "}";
     return {
       label: i18nContext.formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: date$1(i18nContext)(value2?.value)
+      value: { display: date$1(i18nContext)(value2?.value) }
     };
   };
   const dateTime = (context) => (label, value2, options = {}) => {
@@ -50006,20 +50065,20 @@ ${indent}}` : "}";
       return {
         label: formatLabel(label, value2, options.defaultLabel),
         type: "MULTIPLE_VALUES",
-        display: value2.map((x) => formatDate2(valueOf(x))).filter(isNonNullish)
+        value: value2.map((x) => ({ display: formatDate2(valueOf(x)) }))
       };
     }
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: formatDate2(valueOf(value2))
+      value: { display: formatDate2(valueOf(value2)) }
     };
   };
   const decimal = ({ formatLabel }) => (label, value2, options = {}) => {
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: numberToString(value2?.value)
+      value: { display: numberToString(value2?.value) }
     };
   };
   const systemValue = ({ formatMessage: formatMessage2, hasMessage }) => (value2) => {
@@ -50041,7 +50100,7 @@ ${indent}}` : "}";
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: `SINGLE_VALUE`,
-      display: systemValue(context)(value2)
+      value: { display: systemValue(context)(value2) }
     };
   };
   const duration = quantity;
@@ -50050,13 +50109,13 @@ ${indent}}` : "}";
       return {
         label: formatLabel(label, value2, options.defaultLabel),
         type: "MULTIPLE_VALUES",
-        display: value2?.map((x) => x?.value).filter(isNonNullish)
+        value: value2.map((x) => ({ display: x?.value }))
       };
     }
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: value2?.value
+      value: { display: value2?.value }
     };
   };
   const instant = (context) => (label, value2, options = {}) => {
@@ -50066,27 +50125,27 @@ ${indent}}` : "}";
       return {
         label: formatLabel(label, value2, options.defaultLabel),
         type: "MULTIPLE_VALUES",
-        display: value2.map((x) => formatDate2(x.value)).filter(isNonNullish)
+        value: value2.map((x) => ({ display: formatDate2(x.value) }))
       };
     }
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: formatDate2(value2?.value)
+      value: { display: formatDate2(value2?.value) }
     };
   };
   const integer = ({ formatLabel }) => (label, value2, options = {}) => {
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: numberToString(value2?.value)
+      value: { display: numberToString(value2?.value) }
     };
   };
   const integer64 = ({ formatLabel }) => (label, value2, options = {}) => {
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: numberToString(value2?.value)
+      value: { display: numberToString(value2?.value) }
     };
   };
   const period = (context) => (label, value2) => {
@@ -50098,12 +50157,12 @@ ${indent}}` : "}";
       {
         label: formatLabel(startLabel, value2, `fhir.period.start`),
         type: `SINGLE_VALUE`,
-        display: formatDate2(value2?.start)
+        value: { display: formatDate2(value2?.start) }
       },
       {
         label: formatLabel(endLabel, value2, `fhir.period.end`),
         type: `SINGLE_VALUE`,
-        display: formatDate2(value2?.end)
+        value: { display: formatDate2(value2?.end) }
       }
     ];
   };
@@ -50111,7 +50170,7 @@ ${indent}}` : "}";
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: numberToString(value2?.value)
+      value: { display: numberToString(value2?.value) }
     };
   };
   const range = (context) => (label, value2) => {
@@ -50123,12 +50182,12 @@ ${indent}}` : "}";
       {
         label: formatLabel(lowLabel, value2, `fhir.range.low`),
         type: `SINGLE_VALUE`,
-        display: formatSystemValue(value2?.low)
+        value: { display: formatSystemValue(value2?.low) }
       },
       {
         label: formatLabel(highLabel, value2, `fhir.range.high`),
         type: `SINGLE_VALUE`,
-        display: formatSystemValue(value2?.high)
+        value: { display: formatSystemValue(value2?.high) }
       }
     ];
   };
@@ -50141,12 +50200,12 @@ ${indent}}` : "}";
       {
         label: formatLabel(numeratorLabel, value2, `fhir.ratio.numerator`),
         type: `SINGLE_VALUE`,
-        display: formatSystemValue(value2?.numerator)
+        value: { display: formatSystemValue(value2?.numerator) }
       },
       {
         label: formatLabel(denominatorLabel, value2, `fhir.ratio.denominator`),
         type: `SINGLE_VALUE`,
-        display: formatSystemValue(value2?.denominator)
+        value: { display: formatSystemValue(value2?.denominator) }
       }
     ];
   };
@@ -50155,14 +50214,14 @@ ${indent}}` : "}";
       return {
         label: formatLabel(label, value2, options.defaultLabel),
         type: "MULTIPLE_VALUES",
-        display: value2.map((x) => x.display).filter(isNonNullish)
+        value: value2.map((x) => ({ display: x.display }))
       };
     }
     if (isSummary) {
       return {
         label: formatLabel(label, value2, options.defaultLabel),
         type: "SINGLE_VALUE",
-        display: value2?.display
+        value: { display: value2?.display }
       };
     }
     return {
@@ -50177,7 +50236,7 @@ ${indent}}` : "}";
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: `SINGLE_VALUE`,
-      display: systemValue(context)(value2)
+      value: { display: systemValue(context)(value2) }
     };
   };
   const string = ({ formatLabel }) => (label, value2, options = {}) => {
@@ -50185,13 +50244,13 @@ ${indent}}` : "}";
       return {
         label: formatLabel(label, value2, options.defaultLabel),
         type: "MULTIPLE_VALUES",
-        display: value2.map((x) => valueOf(x)).filter(isNonNullish)
+        value: value2.map((x) => ({ display: valueOf(x) }))
       };
     }
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: valueOf(value2)
+      value: { display: valueOf(value2) }
     };
   };
   const sampledData = (context) => (label, value2) => {
@@ -50233,20 +50292,20 @@ ${indent}}` : "}";
       return {
         label: formatLabel(label, value2, options.defaultLabel),
         type: "MULTIPLE_VALUES",
-        display: value2.map(valueOf).filter(isNonNullish)
+        value: value2.map((x) => ({ display: valueOf(x) }))
       };
     }
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: valueOf(value2)
+      value: { display: valueOf(value2) }
     };
   };
   const unsignedInt = ({ formatLabel }) => (label, value2, options = {}) => {
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: numberToString(valueOf(value2))
+      value: { display: numberToString(valueOf(value2)) }
     };
   };
   const timing = (context) => (label, value2) => {
@@ -50381,14 +50440,14 @@ ${indent}}` : "}";
   const valueWithMax = ({ formatLabel }) => (label, value2, max2) => {
     return {
       label: formatLabel(label, value2),
-      display: format.valueWithMaxValue(value2, max2),
+      value: { display: format.valueWithMaxValue(value2, max2) },
       type: "SINGLE_VALUE"
     };
   };
   const valueWithUnit = ({ formatLabel }) => (label, value2, unit) => {
     return {
       label: formatLabel(label, value2),
-      display: format.valueWithUnit(valueOf(value2), valueOf(unit)),
+      value: { display: format.valueWithUnit(valueOf(value2), valueOf(unit)) },
       type: "SINGLE_VALUE"
     };
   };
@@ -50537,7 +50596,7 @@ ${indent}}` : "}";
       {
         label: context.formatLabel(path, null),
         type: "SINGLE_VALUE",
-        display: void 0
+        value: void 0
       }
     ];
   }
@@ -50593,7 +50652,7 @@ ${indent}}` : "}";
         elements.push({
           label: context.formatLabel(valuePath, null),
           type: "SINGLE_VALUE",
-          display: void 0
+          value: void 0
         });
       } else {
         elements.push(...processValue(context, valuePath, value3));
@@ -50673,7 +50732,7 @@ ${indent}}` : "}";
     const resourceTyped = value2;
     return !!resourceTyped?.resourceType && !!resourceTyped?.profile;
   }
-  const profile$X = "http://fhir.nl/fhir/StructureDefinition/nl-core-observation";
+  const profile$13 = "http://fhir.nl/fhir/StructureDefinition/nl-core-observation";
   function parseNlCoreObservationBase(resource) {
     return {
       identifier: map(resource.identifier, identifier$1),
@@ -50701,7 +50760,7 @@ ${indent}}` : "}";
   function parseNlCoreObservation(resource) {
     const { effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$X, FhirVersion.R3),
+      ...resourceMeta(resource, profile$13, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -50711,11 +50770,11 @@ ${indent}}` : "}";
     };
   }
   const nlCoreObservation = {
-    profile: profile$X,
+    profile: profile$13,
     parse: parseNlCoreObservation,
     uiSchema: generateUiSchema
   };
-  const profile$W = "http://nictiz.nl/fhir/StructureDefinition/zib-GeneralMeasurement";
+  const profile$12 = "http://nictiz.nl/fhir/StructureDefinition/zib-GeneralMeasurement";
   function parseZibGeneralMeasurementBase(resource) {
     return {
       // HCIM GeneralMeasurement-v3.0(2017EN)
@@ -50737,19 +50796,19 @@ ${indent}}` : "}";
   }
   function parseZibGeneralMeasurement(resource) {
     return {
-      ...resourceMeta(resource, profile$W, FhirVersion.R3),
+      ...resourceMeta(resource, profile$12, FhirVersion.R3),
       ...parseZibGeneralMeasurementBase(resource)
     };
   }
   const zibGeneralMeasurement = {
-    profile: profile$W,
+    profile: profile$12,
     parse: parseZibGeneralMeasurement,
     uiSchema: generateUiSchema
   };
-  const profile$V = "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult";
+  const profile$11 = "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult";
   function parseGpDiagnosticResult(resource) {
     return {
-      ...resourceMeta(resource, profile$V, FhirVersion.R3),
+      ...resourceMeta(resource, profile$11, FhirVersion.R3),
       ...parseZibGeneralMeasurementBase(resource),
       episodeOfCare: extensionMultiple(
         resource,
@@ -50760,11 +50819,11 @@ ${indent}}` : "}";
     };
   }
   const gpDiagnosticResult = {
-    profile: profile$V,
+    profile: profile$11,
     parse: parseGpDiagnosticResult,
     uiSchema: generateUiSchema
   };
-  const profile$U = "http://nictiz.nl/fhir/StructureDefinition/zib-Encounter";
+  const profile$10 = "http://nictiz.nl/fhir/StructureDefinition/zib-Encounter";
   function parseZibEncounterBase(resource) {
     return {
       // HCIM BasicElements-v1.0(2017EN)
@@ -50794,31 +50853,31 @@ ${indent}}` : "}";
   }
   function parseZibEncounter(resource) {
     return {
-      ...resourceMeta(resource, profile$U, FhirVersion.R3),
+      ...resourceMeta(resource, profile$10, FhirVersion.R3),
       ...parseZibEncounterBase(resource)
     };
   }
   const zibEncounter = {
-    profile: profile$U,
+    profile: profile$10,
     parse: parseZibEncounter,
     uiSchema: generateUiSchema
   };
-  const profile$T = "http://nictiz.nl/fhir/StructureDefinition/gp-Encounter";
+  const profile$$ = "http://nictiz.nl/fhir/StructureDefinition/gp-Encounter";
   function parseGpEncounter(resource) {
     return {
-      ...resourceMeta(resource, profile$T, FhirVersion.R3),
+      ...resourceMeta(resource, profile$$, FhirVersion.R3),
       ...parseZibEncounterBase(resource)
     };
   }
   const gpEncounter = {
-    profile: profile$T,
+    profile: profile$$,
     parse: parseGpEncounter,
     uiSchema: generateUiSchema
   };
-  const profile$S = "http://nictiz.nl/fhir/StructureDefinition/gp-EncounterReport";
+  const profile$_ = "http://nictiz.nl/fhir/StructureDefinition/gp-EncounterReport";
   function parseGpEncounterReport(resource) {
     return {
-      ...resourceMeta(resource, profile$S, FhirVersion.R3),
+      ...resourceMeta(resource, profile$_, FhirVersion.R3),
       identifier: identifier$1(resource.identifier),
       status: string$1(resource.status),
       type: map(resource.type.coding, coding$1),
@@ -50833,18 +50892,18 @@ ${indent}}` : "}";
     };
   }
   const gpEncounterReport = {
-    profile: profile$S,
+    profile: profile$_,
     parse: parseGpEncounterReport,
     uiSchema: generateUiSchema
   };
   function omitUndefined(value2) {
     return Object.fromEntries(Object.entries(value2).filter(([_, propValue]) => propValue !== void 0));
   }
-  const profile$R = "http://nictiz.nl/fhir/StructureDefinition/gp-JournalEntry";
+  const profile$Z = "http://nictiz.nl/fhir/StructureDefinition/gp-JournalEntry";
   function parseGpJournalEntry(resource) {
     const { identifier: identifier2, subject, effectiveDateTime, effectivePeriod, performer, valueString } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$R, FhirVersion.R3),
+      ...resourceMeta(resource, profile$Z, FhirVersion.R3),
       identifier: identifier2,
       subject,
       performer,
@@ -50881,7 +50940,7 @@ ${indent}}` : "}";
     };
   }
   const gpJournalEntry = {
-    profile: profile$R,
+    profile: profile$Z,
     parse: parseGpJournalEntry,
     uiSchema: generateUiSchema
   };
@@ -50979,7 +51038,7 @@ ${indent}}` : "}";
     Snomed2["SUSCEPTIBLE"] = "131196009";
   })(Snomed || (Snomed = {}));
   const i18n$4 = "r3.zib_laboratory_test_result_observation";
-  const summary$5 = (resource, context) => {
+  const summary$6 = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     const formatSystemCode = systemCode(context);
     const referenceRangeSummary = map(resource.referenceRange, (referenceRange) => {
@@ -51024,7 +51083,7 @@ ${indent}}` : "}";
       ]
     };
   };
-  const profile$Q = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
+  const profile$Y = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
   function parseZibLaboratoryTestResultObservationBase(resource) {
     return {
       // HCIM BasicElements-v1.0(2017EN)
@@ -51083,41 +51142,107 @@ ${indent}}` : "}";
   }
   function parseZibLaboratoryTestResultObservation(resource) {
     return {
-      ...resourceMeta(resource, profile$Q, FhirVersion.R3),
+      ...resourceMeta(resource, profile$Y, FhirVersion.R3),
       ...parseZibLaboratoryTestResultObservationBase(resource)
     };
   }
   const zibLaboratoryTestResultObservation = {
-    profile: profile$Q,
+    profile: profile$Y,
     parse: parseZibLaboratoryTestResultObservation,
     uiSchema: generateUiSchema,
-    summary: summary$5
+    summary: summary$6
   };
   const i18n$3 = "r3.gp_laboratory_result";
-  const summary$4 = (resource, context) => {
+  const summary$5 = (resource, context) => {
     const { formatMessage: formatMessage2 } = context;
     return {
       ...zibLaboratoryTestResultObservation.summary(resource, context),
       label: capitalize(resource.context?.display) || formatMessage2(i18n$3)
     };
   };
-  const profile$P = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
+  const profile$X = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
   function parseGpLaboratoryResult(resource) {
     return {
-      ...resourceMeta(resource, profile$P, FhirVersion.R3),
+      ...resourceMeta(resource, profile$X, FhirVersion.R3),
       ...parseZibLaboratoryTestResultObservationBase(resource)
     };
   }
   const gpLaboratoryResult = {
-    profile: profile$P,
+    profile: profile$X,
     parse: parseGpLaboratoryResult,
     uiSchema: generateUiSchema,
-    summary: summary$4
+    summary: summary$5
   };
-  const profile$O = "http://fhir.nl/fhir/StructureDefinition/nl-core-episodeofcare";
+  const profile$W = "http://fhir.nl/fhir/StructureDefinition/nl-core-careplan";
+  function parseNlCoreCarePlan(resource) {
+    return {
+      ...resourceMeta(resource, profile$W, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)	nl-core-careplan
+      identifier: map(resource.identifier, identifier$1),
+      subject: reference$1(resource.subject),
+      period: period$1(resource.period),
+      // HCIM NursingIntervention-v3.2(2018EN)
+      goal: map(resource.goal, reference$1),
+      activity: map(resource.activity, (activity) => ({
+        nursingIntervention: {
+          // HCIM OutcomeOfCare-v3.1 (2017EN)
+          outcomeReference: map(activity.outcomeReference, reference$1),
+          outcomeCodeableConcept: map(activity.outcomeCodeableConcept, codeableConcept$1),
+          // HCIM NursingIntervention-v3.2(2018EN)
+          comment: extension(
+            activity,
+            "http://nictiz.nl/fhir/StructureDefinition/Comment",
+            // NOSONAR
+            "string"
+          ),
+          reference: reference$1(activity.reference),
+          detail: {
+            medicalDevice: extensionMultiple(
+              activity.detail,
+              "http://nictiz.nl/fhir/StructureDefinition/extension-medicaldevice",
+              // NOSONAR
+              "reference"
+            ),
+            code: codeableConcept$1(activity.detail?.code),
+            reasonReference: map(activity.detail?.reasonReference, reference$1),
+            goal: map(activity.detail?.goal, reference$1),
+            scheduledTiming: timing$1(activity.detail?.scheduledTiming),
+            performer: map(activity.detail?.performer, reference$1),
+            description: string$1(activity.detail?.description)
+          }
+        }
+      }))
+    };
+  }
+  const nlCoreCarePlan = {
+    profile: profile$W,
+    parse: parseNlCoreCarePlan,
+    uiSchema: generateUiSchema
+  };
+  const profile$V = "http://fhir.nl/fhir/StructureDefinition/nl-core-careteam";
+  function parseNlCoreCareTeam(resource) {
+    return {
+      ...resourceMeta(resource, profile$V, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)
+      identifier: map(resource.identifier, identifier$1),
+      subject: reference$1(resource.subject),
+      period: period$1(resource.period),
+      participant: map(resource.participant, (participant) => ({
+        participant: reference$1(participant.member),
+        // HCIM HealthProfessional-v3.2(2017EN)
+        healthProfessionalRole: codeableConcept$1(participant.role)
+      }))
+    };
+  }
+  const nlCoreCareTeam = {
+    profile: profile$V,
+    parse: parseNlCoreCareTeam,
+    uiSchema: generateUiSchema
+  };
+  const profile$U = "http://fhir.nl/fhir/StructureDefinition/nl-core-episodeofcare";
   function parseNlCoreEpisodeofcare(resource) {
     return {
-      ...resourceMeta(resource, profile$O, FhirVersion.R3),
+      ...resourceMeta(resource, profile$U, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.patient),
@@ -51133,14 +51258,14 @@ ${indent}}` : "}";
     };
   }
   const nlCoreEpisodeofcare = {
-    profile: profile$O,
+    profile: profile$U,
     parse: parseNlCoreEpisodeofcare,
     uiSchema: generateUiSchema
   };
-  const profile$N = "http://fhir.nl/fhir/StructureDefinition/nl-core-address";
+  const profile$T = "http://fhir.nl/fhir/StructureDefinition/nl-core-address";
   function parseNlCoreAddress(value2) {
     return {
-      _profile: profile$N,
+      _profile: profile$T,
       // HCIM AddressInformation-v1.0(2017EN)
       addressType: extension(
         value2,
@@ -51194,10 +51319,10 @@ ${indent}}` : "}";
       country: string$1(value2?.country)
     };
   }
-  const profile$M = "http://fhir.nl/fhir/StructureDefinition/nl-core-contactpoint";
+  const profile$S = "http://fhir.nl/fhir/StructureDefinition/nl-core-contactpoint";
   function parseNlCoreContactpoint(value2) {
     return {
-      _profile: profile$M,
+      _profile: profile$S,
       // HCIM ContactInformation-v1.0(2017EN)
       telecomType: extension(
         value2,
@@ -51210,7 +51335,7 @@ ${indent}}` : "}";
       use: code$1(value2?.use)
     };
   }
-  const profile$L = "http://fhir.nl/fhir/StructureDefinition/nl-core-humanname";
+  const profile$R = "http://fhir.nl/fhir/StructureDefinition/nl-core-humanname";
   function parseNlCoreHumanname(value2) {
     const birthNames = filterPrimitiveByExtension(value2, "given", {
       url: "http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier",
@@ -51228,7 +51353,7 @@ ${indent}}` : "}";
       valueCode: "CL"
     });
     return {
-      _profile: profile$L,
+      _profile: profile$R,
       // HCIM NameInformation-v1.0.1(2017EN)
       humannameAssemblyOrder: extension(
         value2,
@@ -51297,11 +51422,11 @@ ${indent}}` : "}";
       ]
     };
   };
-  const profile$K = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationSchedule";
+  const profile$Q = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationSchedule";
   function parseZibAdministrationSchedule(value2) {
     const { repeat: repeat2 } = value2 ?? {};
     return {
-      _profile: profile$K,
+      _profile: profile$Q,
       repeat: {
         // HCIM InstructionsForUse-v1.1(2017EN)
         ...oneOfValueX$1(repeat2, ["duration", "range", "period"], "bounds"),
@@ -51352,7 +51477,7 @@ ${indent}}` : "}";
       hcimInstructionsForUse.AdministeringSchedule
     ];
   };
-  const summary$3 = (resource, context) => {
+  const summary$4 = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     return {
       label: formatMessage2(`summary.${i18n$2}`, { sequence: resource.sequence?.value }),
@@ -51362,10 +51487,10 @@ ${indent}}` : "}";
       ]
     };
   };
-  const profile$J = "http://nictiz.nl/fhir/StructureDefinition/zib-InstructionsForUse";
+  const profile$P = "http://nictiz.nl/fhir/StructureDefinition/zib-InstructionsForUse";
   function parseZibInstructionsForUse(value2) {
     return {
-      _profile: profile$J,
+      _profile: profile$P,
       // HCIM InstructionsForUse-v1.1(2017EN)
       sequence: integer$1(value2?.sequence),
       text: string$1(value2?.text),
@@ -51381,12 +51506,12 @@ ${indent}}` : "}";
   const zibInstructionsForUse = {
     parse: parseZibInstructionsForUse,
     uiSchemaGroup,
-    summary: summary$3
+    summary: summary$4
   };
-  const profile$I = "http://fhir.nl/fhir/StructureDefinition/nl-core-organization";
+  const profile$O = "http://fhir.nl/fhir/StructureDefinition/nl-core-organization";
   function parseNlCoreOrganization(resource) {
     return {
-      ...resourceMeta(resource, profile$I, FhirVersion.R3),
+      ...resourceMeta(resource, profile$O, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       // HCIM Payer-v3.1(2017EN)
@@ -51408,7 +51533,7 @@ ${indent}}` : "}";
     };
   }
   const nlCoreOrganization = {
-    profile: profile$I,
+    profile: profile$O,
     parse: parseNlCoreOrganization,
     uiSchema: generateUiSchema
   };
@@ -51523,7 +51648,7 @@ ${indent}}` : "}";
       display: "Wettelijke vertegenwoordiger"
     }
   ].map((x) => ({ ...x, system: "urn:oid:2.16.840.1.113883.2.4.3.11.22.472" }));
-  const profile$H = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
+  const profile$N = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
   function parseLanguageProficiency$1(communication) {
     const result = {
       languageControlListening: void 0,
@@ -51550,7 +51675,7 @@ ${indent}}` : "}";
   }
   function parseNlCorePatient$1(resource) {
     return {
-      ...resourceMeta(resource, profile$H, FhirVersion.R3),
+      ...resourceMeta(resource, profile$N, FhirVersion.R3),
       // HCIM LifeStance-v3.1(2017EN)
       lifeStance: extensionMultiple(
         resource,
@@ -51635,14 +51760,14 @@ ${indent}}` : "}";
     };
   }
   const nlCorePatient = {
-    profile: profile$H,
+    profile: profile$N,
     parse: parseNlCorePatient$1,
     uiSchema: generateUiSchema
   };
-  const profile$G = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitioner";
+  const profile$M = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitioner";
   function parseNlCorePractitioner(resource) {
     return {
-      ...resourceMeta(resource, profile$G, FhirVersion.R3),
+      ...resourceMeta(resource, profile$M, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: {
         uzi: identifier$1(resource.identifier?.find(
@@ -51672,14 +51797,14 @@ ${indent}}` : "}";
     };
   }
   const nlCorePractitioner = {
-    profile: profile$G,
+    profile: profile$M,
     parse: parseNlCorePractitioner,
     uiSchema: generateUiSchema
   };
-  const profile$F = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitionerrole";
+  const profile$L = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitionerrole";
   function parseNlCorePractitionerRole(resource) {
     return {
-      ...resourceMeta(resource, profile$F, FhirVersion.R3),
+      ...resourceMeta(resource, profile$L, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       // HCIM ContactInformation-v1.0(2017EN)
@@ -51690,14 +51815,42 @@ ${indent}}` : "}";
     };
   }
   const nlCorePractitionerRole = {
-    profile: profile$F,
+    profile: profile$L,
     parse: parseNlCorePractitionerRole,
     uiSchema: generateUiSchema
   };
-  const profile$E = "http://nictiz.nl/fhir/StructureDefinition/eAfspraak-Appointment";
+  const profile$K = "http://fhir.nl/fhir/StructureDefinition/nl-core-relatedperson";
+  function parseNlCoreRelatedPerson(resource) {
+    return {
+      ...resourceMeta(resource, profile$K, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)
+      identifier: map(resource.identifier, identifier$1),
+      patient: reference$1(resource.patient),
+      period: period$1(resource.period),
+      // HCIM ContactPerson-v3.1(2017EN)
+      // HCIM Payer-v3.1(2017EN)
+      // HCIM ContactInformation-v1.0(2017EN)
+      name: map(resource.name, parseNlCoreHumanname),
+      telecom: map(resource.telecom, parseNlCoreContactpoint),
+      address: map(resource.address, parseNlCoreAddress),
+      role: extension(
+        resource,
+        "http://fhir.nl/fhir/StructureDefinition/nl-core-relatedperson-role",
+        // NOSONAR
+        "codeableConcept"
+      ),
+      relationship: codeableConcept$1(resource.relationship)
+    };
+  }
+  const nlCoreRelatedPerson = {
+    profile: profile$K,
+    parse: parseNlCoreRelatedPerson,
+    uiSchema: generateUiSchema
+  };
+  const profile$J = "http://nictiz.nl/fhir/StructureDefinition/eAfspraak-Appointment";
   function parseEAfspraakAppointment(resource) {
     return {
-      ...resourceMeta(resource, profile$E, FhirVersion.R3),
+      ...resourceMeta(resource, profile$J, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       start: dateTime$1(resource.start),
@@ -51752,14 +51905,14 @@ ${indent}}` : "}";
     };
   }
   const eAfspraakAppointment = {
-    profile: profile$E,
+    profile: profile$J,
     parse: parseEAfspraakAppointment,
     uiSchema: generateUiSchema
   };
-  const profile$D = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement";
+  const profile$I = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement";
   function parseZibAdministrationAgreement(resource) {
     return {
-      ...resourceMeta(resource, profile$D, FhirVersion.R3),
+      ...resourceMeta(resource, profile$I, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.subject),
@@ -51826,7 +51979,7 @@ ${indent}}` : "}";
     };
   }
   const zibAdministrationAgreement = {
-    profile: profile$D,
+    profile: profile$I,
     parse: parseZibAdministrationAgreement,
     uiSchema: generateUiSchema
   };
@@ -51883,10 +52036,10 @@ ${indent}}` : "}";
       code: "DO"
     }
   ];
-  const profile$C = "http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective";
+  const profile$H = "http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective";
   function parseZibAdvanceDirective(resource) {
     return {
-      ...resourceMeta(resource, profile$C, FhirVersion.R3),
+      ...resourceMeta(resource, profile$H, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier$1(resource.identifier),
       dateTime: dateTime$1(resource.dateTime),
@@ -51911,15 +52064,15 @@ ${indent}}` : "}";
     };
   }
   const zibAdvanceDirective = {
-    profile: profile$C,
+    profile: profile$H,
     parse: parseZibAdvanceDirective,
     uiSchema: generateUiSchema
   };
-  const profile$B = "http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse";
+  const profile$G = "http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse";
   function parseZibAlcoholUse(resource) {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueCodeableConcept } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$B, FhirVersion.R3),
+      ...resourceMeta(resource, profile$G, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -51942,14 +52095,14 @@ ${indent}}` : "}";
     };
   }
   const zibAlcoholUse = {
-    profile: profile$B,
+    profile: profile$G,
     parse: parseZibAlcoholUse,
     uiSchema: generateUiSchema
   };
-  const profile$A = "http://nictiz.nl/fhir/StructureDefinition/zib-Alert";
+  const profile$F = "http://nictiz.nl/fhir/StructureDefinition/zib-Alert";
   function parseZibAlert(resource) {
     return {
-      ...resourceMeta(resource, profile$A, FhirVersion.R3),
+      ...resourceMeta(resource, profile$F, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       author: reference$1(resource.author),
@@ -51967,11 +52120,11 @@ ${indent}}` : "}";
     };
   }
   const zibAlert = {
-    profile: profile$A,
+    profile: profile$F,
     parse: parseZibAlert,
     uiSchema: generateUiSchema
   };
-  const profile$z = "http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance";
+  const profile$E = "http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance";
   function parseZibAllergyIntolerance(resource) {
     const category = map(resource._category, (category2) => ({
       allergieCategorieCodelijst: extension(
@@ -51997,7 +52150,7 @@ ${indent}}` : "}";
       exposureRoute: codeableConcept$1(reaction2.exposureRoute)
     }));
     return {
-      ...resourceMeta(resource, profile$z, FhirVersion.R3),
+      ...resourceMeta(resource, profile$E, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.patient),
@@ -52030,15 +52183,15 @@ ${indent}}` : "}";
     };
   }
   const zibAllergyIntolerance = {
-    profile: profile$z,
+    profile: profile$E,
     parse: parseZibAllergyIntolerance,
     uiSchema: generateUiSchema
   };
-  const profile$y = "http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure";
+  const profile$D = "http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure";
   function parseZibBloodPressure(resource) {
     const { bodySite, comment, effectiveDateTime, effectivePeriod, identifier: identifier2, method, performer, subject } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$y, FhirVersion.R3),
+      ...resourceMeta(resource, profile$D, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52099,15 +52252,15 @@ ${indent}}` : "}";
     };
   }
   const zibBloodPressure = {
-    profile: profile$y,
+    profile: profile$D,
     parse: parseZibBloodPressure,
     uiSchema: generateUiSchema
   };
-  const profile$x = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight";
+  const profile$C = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight";
   function parseZibBodyHeight(resource) {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueQuantity } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$x, FhirVersion.R3),
+      ...resourceMeta(resource, profile$C, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52121,15 +52274,15 @@ ${indent}}` : "}";
     };
   }
   const zibBodyHeight = {
-    profile: profile$x,
+    profile: profile$C,
     parse: parseZibBodyHeight,
     uiSchema: generateUiSchema
   };
-  const profile$w = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight";
+  const profile$B = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight";
   function parseZibBodyWeight(resource) {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueQuantity } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$w, FhirVersion.R3),
+      ...resourceMeta(resource, profile$B, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52152,15 +52305,15 @@ ${indent}}` : "}";
     };
   }
   const zibBodyWeight = {
-    profile: profile$w,
+    profile: profile$B,
     parse: parseZibBodyWeight,
     uiSchema: generateUiSchema
   };
-  const profile$v = "http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse";
+  const profile$A = "http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse";
   function parseZibDrugUse(resource) {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueCodeableConcept } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$v, FhirVersion.R3),
+      ...resourceMeta(resource, profile$A, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52199,15 +52352,92 @@ ${indent}}` : "}";
     };
   }
   const zibDrugUse = {
-    profile: profile$v,
+    profile: profile$A,
     parse: parseZibDrugUse,
     uiSchema: generateUiSchema
   };
-  const profile$u = "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus";
+  const profile$z = "http://nictiz.nl/fhir/StructureDefinition/zib-FamilySituation";
+  function parseChildren(children) {
+    return {
+      children: map(children, (child) => ({
+        dateTime: dateTime$1(child.valueDateTime),
+        livingAtHome: extension(
+          child,
+          "http://nictiz.nl/fhir/StructureDefinition/zib-FamilySituation-LivingAtHomeIndicator",
+          // NOSONAR
+          "boolean"
+        )
+      }))
+    };
+  }
+  function parseZibFamilySituation(resource) {
+    const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject } = parseNlCoreObservationBase(resource);
+    const children = getObservationComponents(resource.component ?? [], {
+      system: "http://snomed.info/sct",
+      // NOSONAR
+      code: "67822003"
+    });
+    return {
+      ...resourceMeta(resource, profile$z, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)
+      identifier: identifier2,
+      subject,
+      ...omitUndefined({
+        effectiveDateTime,
+        effectivePeriod
+      }),
+      performer,
+      // HCIM FamilySituation-v3.0(2017EN)
+      comment,
+      component: {
+        ...parseObservationComponents(resource.component, {
+          familyComposition: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "224130005"
+            },
+            type: "codeableConcept"
+          },
+          numberOfChildren: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "224118004"
+            },
+            type: "quantity"
+          },
+          numberOfChildrenLivingAtHome: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "55811000146107"
+            },
+            type: "quantity"
+          },
+          careResponsibility: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "406192005"
+            },
+            type: "string"
+          }
+        })
+      },
+      ...parseChildren(children)
+    };
+  }
+  const zibFamilySituation = {
+    profile: profile$z,
+    parse: parseZibFamilySituation,
+    uiSchema: generateUiSchema
+  };
+  const profile$y = "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus";
   function parseZibFunctionalOrMentalStatus(resource) {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueCodeableConcept } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$u, FhirVersion.R3),
+      ...resourceMeta(resource, profile$y, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52227,15 +52457,40 @@ ${indent}}` : "}";
     };
   }
   const zibFunctionalOrMentalStatus = {
-    profile: profile$u,
+    profile: profile$y,
     parse: parseZibFunctionalOrMentalStatus,
     uiSchema: generateUiSchema
   };
-  const profile$t = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen";
+  const profile$x = "http://nictiz.nl/fhir/StructureDefinition/zib-HelpFromOthers";
+  function parseZibHelpFromOthers(resource) {
+    return {
+      ...resourceMeta(resource, profile$x, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)
+      identifier: map(resource.identifier, identifier$1),
+      subject: reference$1(resource.subject),
+      period: period$1(resource.period),
+      // HCIM HelpFromOthers-v3.0(2017EN)
+      activity: map(resource.activity, (activity) => ({
+        detail: {
+          category: codeableConcept$1(activity.detail?.category),
+          code: string$1(activity.detail?.code?.text),
+          scheduledString: string$1(activity.detail?.scheduledString),
+          performer: map(activity.detail?.performer, reference$1),
+          description: string$1(activity.detail?.description)
+        }
+      }))
+    };
+  }
+  const zibHelpFromOthers = {
+    profile: profile$x,
+    parse: parseZibHelpFromOthers,
+    uiSchema: generateUiSchema
+  };
+  const profile$w = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen";
   function parseZibLaboratoryTestResultSpecimen(resource) {
     const collection = resource.collection;
     return {
-      ...resourceMeta(resource, profile$t, FhirVersion.R3),
+      ...resourceMeta(resource, profile$w, FhirVersion.R3),
       // HCIM LaboratoryTestResult-v4.1(2017EN)
       identifier: map(resource.identifier, identifier$1),
       type: codeableConcept$1(resource.type),
@@ -52270,15 +52525,15 @@ ${indent}}` : "}";
     };
   }
   const zibLaboratoryTestResultSpecimen = {
-    profile: profile$t,
+    profile: profile$w,
     parse: parseZibLaboratoryTestResultSpecimen,
     uiSchema: generateUiSchema
   };
-  const profile$s = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen-Isolate";
+  const profile$v = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen-Isolate";
   function parseZibLaboratoryTestResultSpecimenIsolate(resource) {
     const collection = resource.collection;
     return {
-      ...resourceMeta(resource, profile$s, FhirVersion.R3),
+      ...resourceMeta(resource, profile$v, FhirVersion.R3),
       // HCIM LaboratoryTestResult-v4.1(2017EN)
       identifier: map(resource.identifier, identifier$1),
       type: codeableConcept$1(resource.type),
@@ -52313,28 +52568,28 @@ ${indent}}` : "}";
     };
   }
   const zibLaboratoryTestResultSpecimenIsolate = {
-    profile: profile$s,
+    profile: profile$v,
     parse: parseZibLaboratoryTestResultSpecimenIsolate,
     uiSchema: generateUiSchema
   };
-  const profile$r = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Substance";
+  const profile$u = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Substance";
   function parseZibLaboratoryTestResultSubstance(resource) {
     return {
-      ...resourceMeta(resource, profile$r, FhirVersion.R3),
+      ...resourceMeta(resource, profile$u, FhirVersion.R3),
       // HCIM LaboratoryTestResult-v4.1(2017EN)
       code: codeableConcept$1(resource.code)
     };
   }
   const zibLaboratoryTestResultSubstance = {
-    profile: profile$r,
+    profile: profile$u,
     parse: parseZibLaboratoryTestResultSubstance,
     uiSchema: generateUiSchema
   };
-  const profile$q = "http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation";
+  const profile$t = "http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation";
   const parseZibLivingSituation = (resource) => {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueCodeableConcept } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$q, FhirVersion.R3),
+      ...resourceMeta(resource, profile$t, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52347,11 +52602,11 @@ ${indent}}` : "}";
     };
   };
   const zibLivingSituation = {
-    profile: profile$q,
+    profile: profile$t,
     parse: parseZibLivingSituation,
     uiSchema: generateUiSchema
   };
-  const profile$p = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDevice";
+  const profile$s = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDevice";
   function parseZibMedicalDevice(resource) {
     const indicationProblem = map(resource.indication, (indication) => {
       return extension(
@@ -52372,7 +52627,7 @@ ${indent}}` : "}";
       text: string$1(resource.bodySite?.text)
     };
     return {
-      ...resourceMeta(resource, profile$p, FhirVersion.R3),
+      ...resourceMeta(resource, profile$s, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -52398,14 +52653,14 @@ ${indent}}` : "}";
     };
   }
   const zibMedicalDevice = {
-    profile: profile$p,
+    profile: profile$s,
     parse: parseZibMedicalDevice,
     uiSchema: generateUiSchema
   };
-  const profile$o = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceProduct";
+  const profile$r = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceProduct";
   function parseZibMedicalDeviceProduct(resource) {
     return {
-      ...resourceMeta(resource, profile$o, FhirVersion.R3),
+      ...resourceMeta(resource, profile$r, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.patient),
@@ -52422,14 +52677,14 @@ ${indent}}` : "}";
     };
   }
   const zibMedicalDeviceProduct = {
-    profile: profile$o,
+    profile: profile$r,
     parse: parseZibMedicalDeviceProduct,
     uiSchema: generateUiSchema
   };
-  const profile$n = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceRequest";
+  const profile$q = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceRequest";
   function parseZibMedicalDeviceRequest(resource) {
     return {
-      ...resourceMeta(resource, profile$n, FhirVersion.R3),
+      ...resourceMeta(resource, profile$q, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -52453,14 +52708,14 @@ ${indent}}` : "}";
     };
   }
   const zibMedicalDeviceRequest = {
-    profile: profile$n,
+    profile: profile$q,
     parse: parseZibMedicalDeviceRequest,
     uiSchema: generateUiSchema
   };
-  const profile$m = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement";
+  const profile$p = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement";
   function parseZibMedicationAgreement(resource) {
     return {
-      ...resourceMeta(resource, profile$m, FhirVersion.R3),
+      ...resourceMeta(resource, profile$p, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.subject),
@@ -52513,11 +52768,11 @@ ${indent}}` : "}";
     };
   }
   const zibMedicationAgreement = {
-    profile: profile$m,
+    profile: profile$p,
     parse: parseZibMedicationAgreement,
     uiSchema: generateUiSchema
   };
-  const summary$2 = (resource, context) => {
+  const summary$3 = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     const instructions = map(resource.dosage, (x) => zibInstructionsForUse.summary(x, context), true);
     const hasSingleInstruction = instructions.length === 1;
@@ -52550,10 +52805,10 @@ ${indent}}` : "}";
       ]
     };
   };
-  const profile$l = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse";
+  const profile$o = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse";
   function parseZibMedicationUse(resource) {
     return {
-      ...resourceMeta(resource, profile$l, FhirVersion.R3),
+      ...resourceMeta(resource, profile$o, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       author: extension(
         resource,
@@ -52619,16 +52874,16 @@ ${indent}}` : "}";
     };
   }
   const zibMedicationUse = {
-    profile: profile$l,
+    profile: profile$o,
     parse: parseZibMedicationUse,
-    summary: summary$2,
+    summary: summary$3,
     uiSchema: generateUiSchema
   };
-  const profile$k = "http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice";
+  const profile$n = "http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice";
   function parseZibNutritionAdvice(resource) {
     const { oralDiet } = resource;
     return {
-      ...resourceMeta(resource, profile$k, FhirVersion.R3),
+      ...resourceMeta(resource, profile$n, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.patient),
@@ -52652,11 +52907,61 @@ ${indent}}` : "}";
     };
   }
   const zibNutritionAdvice = {
-    profile: profile$k,
+    profile: profile$n,
     parse: parseZibNutritionAdvice,
     uiSchema: generateUiSchema
   };
-  const profile$j = "http://nictiz.nl/fhir/StructureDefinition/zib-Payer";
+  const profile$m = "http://nictiz.nl/fhir/StructureDefinition/zib-ParticipationInSociety";
+  function parseZibParticipationInSociety(resource) {
+    const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject } = parseNlCoreObservationBase(resource);
+    return {
+      ...resourceMeta(resource, profile$m, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)
+      identifier: identifier2,
+      subject,
+      ...omitUndefined({
+        effectiveDateTime,
+        effectivePeriod
+      }),
+      performer,
+      // HCIM ParticipationInSociety-v3.1(2017EN)
+      comment,
+      component: {
+        ...parseObservationComponents(resource.component, {
+          socialNetwork: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "365469004"
+            },
+            type: "string"
+          },
+          hobby: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "405081003"
+            },
+            type: "string"
+          },
+          workSituation: {
+            coding: {
+              system: "http://snomed.info/sct",
+              // NOSONAR
+              code: "364703007"
+            },
+            type: "string"
+          }
+        })
+      }
+    };
+  }
+  const zibParticipationInSociety = {
+    profile: profile$m,
+    parse: parseZibParticipationInSociety,
+    uiSchema: generateUiSchema
+  };
+  const profile$l = "http://nictiz.nl/fhir/StructureDefinition/zib-Payer";
   function parseZibPayer(resource) {
     const payor = resource.payor?.map((payor2) => {
       return {
@@ -52676,7 +52981,7 @@ ${indent}}` : "}";
       };
     });
     return {
-      ...resourceMeta(resource, profile$j, FhirVersion.R3),
+      ...resourceMeta(resource, profile$l, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       beneficiary: reference$1(resource.beneficiary),
@@ -52688,14 +52993,64 @@ ${indent}}` : "}";
     };
   }
   const zibPayer = {
-    profile: profile$j,
+    profile: profile$l,
     parse: parseZibPayer,
     uiSchema: generateUiSchema
   };
-  const profile$i = "http://nictiz.nl/fhir/StructureDefinition/zib-Problem";
+  const summary$2 = (resource, context) => {
+    const { ui, formatMessage: formatMessage2 } = context;
+    const i18n2 = "r3.zib_problem";
+    const bodySites = resource.bodySite?.map((bodySite) => ({
+      label: formatMessage2(`summary.${i18n2}.group_body_site`),
+      children: [
+        ui.codeableConcept(`${i18n2}.body_site`, bodySite),
+        ui.codeableConcept(`${i18n2}.body_site.laterality`, bodySite.laterality)
+      ]
+    })) ?? [
+      {
+        label: formatMessage2(`summary.${i18n2}.group_body_site`),
+        children: [
+          ui.codeableConcept(`${i18n2}.body_site`, void 0),
+          ui.codeableConcept(`${i18n2}.body_site.laterality`, void 0)
+        ]
+      }
+    ];
+    const hasSingleBodySite = bodySites.length === 1;
+    const label = resource.code?.coding.map((x) => x.display).join(", ") ?? formatMessage2(i18n2);
+    return {
+      label,
+      children: [
+        {
+          label: formatMessage2(`summary.${i18n2}.group_about`),
+          children: [
+            ui.codeableConcept(`${i18n2}.code`, resource.code),
+            ui.codeableConcept(`${i18n2}.category`, resource.category),
+            ...hasSingleBodySite ? bodySites[0].children : [],
+            ui.codeableConcept(`${i18n2}.verification_status`, resource.verificationStatus.verificatieStatusCodelijst),
+            ui.codeableConcept(`${i18n2}.clinical_status`, resource.clinicalStatus.problemStatusCodelist),
+            ui.annotation(`${i18n2}.note`, resource.note)
+          ]
+        },
+        ...bodySites.length > 1 ? bodySites : [],
+        {
+          label: formatMessage2(`summary.${i18n2}.group_period_of_time`),
+          children: [
+            ui.dateTime(`${i18n2}.onset_date_time`, resource.onsetDateTime),
+            ui.dateTime(`${i18n2}.abatement_date_time`, resource.abatementDateTime)
+          ]
+        },
+        {
+          label: formatMessage2(`summary.${i18n2}.group_health_professional`),
+          children: [ui.reference(`${i18n2}.asserter`, resource.asserter)]
+        },
+        common.summaryOptions(context, i18n2, resource)
+      ]
+    };
+  };
+  const profile$k = "http://nictiz.nl/fhir/StructureDefinition/zib-Problem";
   function parseZibProblem(resource) {
     return {
-      ...resourceMeta(resource, profile$i, FhirVersion.R3),
+      ...resourceMeta(resource, profile$k, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -52734,9 +53089,10 @@ ${indent}}` : "}";
     };
   }
   const zibProblem = {
-    profile: profile$i,
+    profile: profile$k,
     parse: parseZibProblem,
-    uiSchema: generateUiSchema
+    uiSchema: generateUiSchema,
+    summary: summary$2
   };
   function parseFocalDevice(value2) {
     return {
@@ -52749,10 +53105,10 @@ ${indent}}` : "}";
       healthProfessionalRole: codeableConcept$1(value2?.role)
     };
   }
-  const profile$h = "http://nictiz.nl/fhir/StructureDefinition/zib-Procedure";
+  const profile$j = "http://nictiz.nl/fhir/StructureDefinition/zib-Procedure";
   function parseZibProcedure(resource) {
     return {
-      ...resourceMeta(resource, profile$h, FhirVersion.R3),
+      ...resourceMeta(resource, profile$j, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -52784,14 +53140,14 @@ ${indent}}` : "}";
     };
   }
   const zibProcedure = {
-    profile: profile$h,
+    profile: profile$j,
     parse: parseZibProcedure,
     uiSchema: generateUiSchema
   };
-  const profile$g = "http://nictiz.nl/fhir/StructureDefinition/zib-ProcedureRequest";
+  const profile$i = "http://nictiz.nl/fhir/StructureDefinition/zib-ProcedureRequest";
   function parseZibProcedureRequest(resource) {
     return {
-      ...resourceMeta(resource, profile$g, FhirVersion.R3),
+      ...resourceMeta(resource, profile$i, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
@@ -52829,14 +53185,14 @@ ${indent}}` : "}";
     };
   }
   const zibProcedureRequest = {
-    profile: profile$g,
+    profile: profile$i,
     parse: parseZibProcedureRequest,
     uiSchema: generateUiSchema
   };
-  const profile$f = "http://nictiz.nl/fhir/StructureDefinition/zib-Product";
+  const profile$h = "http://nictiz.nl/fhir/StructureDefinition/zib-Product";
   function parseZibProduct(resource) {
     return {
-      ...resourceMeta(resource, profile$f, FhirVersion.R3),
+      ...resourceMeta(resource, profile$h, FhirVersion.R3),
       // HCIM PharmaceuticalProduct-v2.0(2017EN)
       description: extension(
         resource,
@@ -52856,15 +53212,48 @@ ${indent}}` : "}";
     };
   }
   const zibProduct = {
-    profile: profile$f,
+    profile: profile$h,
     parse: parseZibProduct,
     uiSchema: generateUiSchema
   };
-  const profile$e = "http://nictiz.nl/fhir/StructureDefinition/zib-TobaccoUse";
+  const profile$g = "http://nictiz.nl/fhir/StructureDefinition/zib-TextResult";
+  function parseZibTextResult(resource) {
+    return {
+      ...resourceMeta(resource, profile$g, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)
+      identifier: map(resource.identifier, identifier$1),
+      ...oneOfValueX$1(resource, ["dateTime", "period"], "effective"),
+      // HCIM BasicElements-v1.0(2017EN) && hcim-patient-v3.1-2017EN
+      subject: reference$1(resource.subject),
+      performer: map(resource.performer, (performer) => ({
+        // HCIM BasicElements-v1.0(2017EN)
+        actor: reference$1(performer.actor),
+        // HCIM HealthProfessional-v3.2(2017EN)
+        role: {
+          healthProfessionalRole: codeableConcept$1(performer.role)
+        }
+      })),
+      // HCIM TextResult-v4.1(2017EN)
+      status: extension(
+        resource._status,
+        "http://nictiz.nl/fhir/StructureDefinition/code-specification",
+        // NOSONAR
+        "codeableConcept"
+      ),
+      code: codeableConcept$1(resource.code),
+      conclusion: string$1(resource.conclusion)
+    };
+  }
+  const zibTextResult = {
+    profile: profile$g,
+    parse: parseZibTextResult,
+    uiSchema: generateUiSchema
+  };
+  const profile$f = "http://nictiz.nl/fhir/StructureDefinition/zib-TobaccoUse";
   function parseZibTobaccoUse(resource) {
     const { comment, effectiveDateTime, effectivePeriod, identifier: identifier2, performer, subject, valueCodeableConcept } = parseNlCoreObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$e, FhirVersion.R3),
+      ...resourceMeta(resource, profile$f, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier2,
       subject,
@@ -52903,11 +53292,11 @@ ${indent}}` : "}";
     };
   }
   const zibTobaccoUse = {
-    profile: profile$e,
+    profile: profile$f,
     parse: parseZibTobaccoUse,
     uiSchema: generateUiSchema
   };
-  const profile$d = "http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective";
+  const profile$e = "http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective";
   function parseZibTreatmentDirective(resource) {
     const verification = customExtension(
       resource,
@@ -52922,7 +53311,7 @@ ${indent}}` : "}";
       }
     );
     return {
-      ...resourceMeta(resource, profile$d, FhirVersion.R3),
+      ...resourceMeta(resource, profile$e, FhirVersion.R3),
       // HCIM BasicElements-v1.0(2017EN)
       identifier: identifier$1(resource.identifier),
       patient: reference$1(resource.patient),
@@ -52965,8 +53354,30 @@ ${indent}}` : "}";
     };
   }
   const zibTreatmentDirective = {
-    profile: profile$d,
+    profile: profile$e,
     parse: parseZibTreatmentDirective,
+    uiSchema: generateUiSchema
+  };
+  const profile$d = "http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentObjective";
+  function parseZibTreatmentObjective(resource) {
+    return {
+      ...resourceMeta(resource, profile$d, FhirVersion.R3),
+      // HCIM BasicElements-v1.0(2017EN)
+      identifier: map(resource.identifier, identifier$1),
+      subject: reference$1(resource.subject),
+      expressedBy: reference$1(resource.expressedBy),
+      // HCIM TreatmentObjective-v3.1(2017EN)
+      description: codeableConcept$1(resource.description),
+      target: {
+        measure: codeableConcept$1(resource.target?.measure),
+        ...oneOfValueX$1(resource.target, ["range", "quantity", "codeableConcept"], "detail")
+      },
+      addresses: map(resource.addresses, reference$1)
+    };
+  }
+  const zibTreatmentObjective = {
+    profile: profile$d,
+    parse: parseZibTreatmentObjective,
     uiSchema: generateUiSchema
   };
   const profile$c = "http://nictiz.nl/fhir/StructureDefinition/zib-Vaccination";
@@ -53098,12 +53509,15 @@ ${indent}}` : "}";
     gpJournalEntry,
     gpLaboratoryResult,
     iheMhdMinimalDocumentReference,
+    nlCoreCarePlan,
+    nlCoreCareTeam,
     nlCoreEpisodeofcare,
     nlCoreObservation,
     nlCoreOrganization,
     nlCorePatient,
     nlCorePractitioner,
     nlCorePractitionerRole,
+    nlCoreRelatedPerson,
     zibAdministrationAgreement,
     zibAdvanceDirective,
     zibAlcoholUse,
@@ -53114,8 +53528,10 @@ ${indent}}` : "}";
     zibBodyWeight,
     zibDrugUse,
     zibEncounter,
+    zibFamilySituation,
     zibFunctionalOrMentalStatus,
     zibGeneralMeasurement,
+    zibHelpFromOthers,
     zibLaboratoryTestResultObservation,
     zibLaboratoryTestResultSpecimen,
     zibLaboratoryTestResultSpecimenIsolate,
@@ -53127,13 +53543,16 @@ ${indent}}` : "}";
     zibMedicationAgreement,
     zibMedicationUse,
     zibNutritionAdvice,
+    zibParticipationInSociety,
     zibPayer,
     zibProblem,
     zibProcedure,
     zibProcedureRequest,
     zibProduct,
+    zibTextResult,
     zibTobaccoUse,
     zibTreatmentDirective,
+    zibTreatmentObjective,
     zibVaccination,
     zibVaccinationRecommendation
   }, Symbol.toStringTag, { value: "Module" }));
@@ -53901,4 +54320,4 @@ ${indent}}` : "}";
   exports.getSummaryJson = getSummaryJson;
   Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
   return exports;
-}({});
+})({});

@@ -62,6 +62,9 @@ struct RemoveHealthcareOrganizationView: View {
 	/// Are we presented in a sheet?
 	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -92,7 +95,7 @@ struct RemoveHealthcareOrganizationView: View {
 					Image(ImageResource.Details.bigTrashcan)
 						.background {
 							Circle()
-								.foregroundStyle(theme.backgroundSecondary)
+								.foregroundStyle(theme.backgrounds.secondary)
 						}
 					Spacer()
 				}
@@ -103,8 +106,8 @@ struct RemoveHealthcareOrganizationView: View {
 					format: String(localized: "remove_organization.heading"),
 					arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 				))
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.headingExtraLarge)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilityIdentifier("remove_organization.heading")
@@ -113,27 +116,25 @@ struct RemoveHealthcareOrganizationView: View {
 						format: String(localized: "remove_organization.subheading"),
 						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 				))
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityIdentifier("remove_organization.subheading")
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
+			.padding(.top, ViewTraits.Navigation.padding)
 			
 		} bottomView: {
 			
 			bottomView()
 		}
-		.padding(.top, ViewTraits.Navigation.padding)
-		.navigationBarBackButtonHidden(true)
-		.navigationBarHidden(false)
 		.when(isPresentedAsSheet, transform: { view in
 			view
-				.withToolbarCloseButton {
+				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
 					viewModel.reduce(.closeSheet)
 				}
 		})
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// Get the call to action buttons view
@@ -142,12 +143,21 @@ struct RemoveHealthcareOrganizationView: View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
 			
-			CallToActionButton("remove_organization.yes_delete", style: .secondary) {
+			CallToActionButton(
+				"remove_organization.yes_delete",
+				style: .tonal(rounded: osVersionChecker.available(version: .iOS(.v26)))
+			) {
 				viewModel.reduce(.removeOrganization)
 			}
 			.accessibilityIdentifier("remove_organization.remove")
 			
-			CallToActionButton("remove_organization.no_cancel") {
+			CallToActionButton(
+				"remove_organization.no_cancel",
+				style: .solid(
+					rounded: osVersionChecker.available(version: .iOS(.v26)),
+					narrow: false
+				)
+			) {
 				viewModel.reduce(.cancel)
 			}
 			.accessibilityIdentifier("remove_organization.cancel")

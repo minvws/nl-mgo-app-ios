@@ -34,7 +34,7 @@ public struct DataServices: Sendable {
 		public let id: String
 		
 		/// The relative url to the resource
-		private let url: String
+		private let path: String
 		
 		/// The profiles this endpoint is good for
 		public let profiles: [String]
@@ -42,11 +42,11 @@ public struct DataServices: Sendable {
 		/// Create an endpoint
 		/// - Parameters:
 		///   - id:  The identifier of the endpoint
-		///   - url: The relative url to the resource
+		///   - path: The relative path to the resource
 		///   - profiles: The profiles this endpoint is good for
-		public init(id: String, url: String, profiles: [String]) {
+		public init(id: String, path: String, profiles: [String]) {
 			self.id = id
-			self.url = url
+			self.path = path
 			self.profiles = profiles
 		}
 		
@@ -58,11 +58,11 @@ public struct DataServices: Sendable {
 			return formater
 		}()
 		
-		/// Get the url for this endpoint
+		/// Get the path for this endpoint
 		/// - Parameter date: optional date
-		/// - Returns: the url for this endpoint
-		public func getUrl(_ date: Date = Date()) -> String {
-			return url.replacingOccurrences(of: "{{today}}", with: DataServices.Endpoint.dateFormatter.string(from: date))
+		/// - Returns: the path for this endpoint
+		public func getPath(_ date: Date = Date()) -> String {
+			return path.replacingOccurrences(of: "{{today}}", with: DataServices.Endpoint.dateFormatter.string(from: date))
 		}
 	}
 	
@@ -75,24 +75,14 @@ public struct DataServices: Sendable {
 		/// The name of the data service
 		public let name: String
 		
-		/// The FHIR version of the data service
-		public let fhirVersion: FhirVersion
+		/// The FHIR version of the data service (as Enum)
+		public let fhirVersionEnum: FhirVersion
+		
+		/// The FHIR version of the data service (as String)
+		public let fhirVersion: String
 		
 		/// The endpoints for the data service
 		public let endpoints: [Endpoint]
-		
-		/// Create a Data Service
-		/// - Parameters:
-		///   - id: The identifier of the data service
-		///   - name: The name of the data service
-		///   - fhirVersion: The FHIR version of the data service
-		///   - endpoints: The endpoints for the data service
-		public init(id: String, name: String, fhirVersion: FhirVersion, endpoints: [Endpoint]) {
-			self.id = id
-			self.name = name
-			self.fhirVersion = fhirVersion
-			self.endpoints = endpoints
-		}
 	}
 	
 	/// the Health Categories Error

@@ -25,7 +25,7 @@ struct SnapshotView: View {
 		GeometryReader { geometry in
 			ZStack {
 				
-				theme.backgroundPrimary
+				theme.backgrounds.primary
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
 				
 				Image(ImageResource.splashLogo)
@@ -42,12 +42,12 @@ struct SnapshotView: View {
 							Spacer()
 							
 							ProgressView()
-								.tint(theme.contentPrimary.opacity(ViewTraits.General.opacity))
+								.tint(theme.labels.primary.opacity(ViewTraits.General.opacity))
 								.accessibilityHidden(true)
 							
 							Text("common.loading")
-								.foregroundStyle(theme.contentPrimary.opacity(ViewTraits.General.opacity))
-								.rijksoverheidStyle(font: .regular, style: .body)
+								.foregroundStyle(theme.labels.primary.opacity(ViewTraits.General.opacity))
+								.typography(.bodyMedium)
 							
 							Spacer()
 						}

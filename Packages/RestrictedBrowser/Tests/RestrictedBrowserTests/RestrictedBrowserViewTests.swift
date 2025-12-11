@@ -23,7 +23,7 @@ final class RestrictedBrowserViewTests: XCTestCase {
 	}
 	
 	@MainActor func test_restrictedBrowserView_dark() throws {
-	
+		
 		// Given
 		try setupSut()
 		

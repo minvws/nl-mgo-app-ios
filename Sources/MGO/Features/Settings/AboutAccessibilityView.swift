@@ -47,7 +47,7 @@ struct AboutAccessibilityView: View {
 		})
 		.navigationTitle("settings.accessibility.heading")
 		.navigationBarTitleDisplayMode(.inline)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// Get the sub heading
@@ -55,8 +55,8 @@ struct AboutAccessibilityView: View {
 	@ViewBuilder private func subheading() -> some View {
 		
 		Text("settings.accessibility.subheading")
-			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundStyle(theme.contentPrimary)
+			.typography(.bodyMedium)
+			.foregroundStyle(theme.labels.primary)
 			.accessibilityIdentifier("settings.accessibility.subheading")
 	}
 }

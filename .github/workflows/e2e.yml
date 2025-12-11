@@ -8,23 +8,23 @@ on:
   workflow_dispatch:
 
 env:
-  DEVELOPER_DIR: /Applications/Xcode_16.4.0.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode_26.1.app/Contents/Developer
   FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 180
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
   
 jobs:
   test:
-    runs-on: macos-15
+    runs-on: macos-26
     name: Build & run end to end tests
     timeout-minutes: 120
     steps:
       - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
         # 🧐 when changing below, don't forget to also change the device name in the Fastfile too: 
         run: | 
-          xcrun simctl boot "iPhone 16 Pro" || true
+          xcrun simctl boot "iPhone 17 Pro" || true
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Homebrew
         run: |
@@ -62,7 +62,7 @@ jobs:
           bundle exec fastlane ios e2e_ci
 
       - name: Archive test artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: ${{ always() }}
         with:
           name: test-output

@@ -33,23 +33,23 @@ public struct ToastView: View {
 	var backgroundColor: Color {
 		switch feedback.type {
 			case .info:
-				theme.sentimentInformation
+				theme.states.informative
 			case .warning:
-				theme.sentimentWarning
+				theme.states.warning
 			case .error:
-				theme.sentimentCritical
+				theme.states.critical
 			case .success:
-				theme.sentimentPositive
+				theme.states.positive
 		}
 	}
 	
 	var foregroundColor: Color {
 		switch feedback.type {
 			case .info, .error, .success:
-				theme.backgroundSecondary
+				theme.backgrounds.secondary
 			case .warning:
 			// Different color for orange, white on orange is not accessible.
-				colorScheme == .light ?	theme.contentPrimary : theme.backgroundSecondary
+				colorScheme == .light ?	theme.labels.primary : theme.backgrounds.secondary
 		}
 	}
 	
@@ -125,7 +125,7 @@ public struct ToastView: View {
 				.accessibilitySortPriority(980)
 				.accessibilityIdentifier("toast.subheading")
 			}
-			.rijksoverheidStyle(font: .regular, style: .body)
+			.typography(.bodyMedium)
 			
 			// Close Button
 			

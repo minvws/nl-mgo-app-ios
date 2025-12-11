@@ -13,8 +13,8 @@ import Foundation
 // MARK: - R4NlCorePatientName
 public struct R4NlCorePatientName: Codable, Hashable, Sendable {
     public let profile: PurpleProfile
-    public let family: StickyFamily?
-    public let given: HilariousGiven?
+    public let family: IndigoFamily?
+    public let given: AmbitiousGiven?
     public let period: MgoPeriod?
     public let namePrefix, suffix: [PrimitiveValueTypeOfStringString]?
     public let text: PrimitiveValueTypeOfStringString?
@@ -26,7 +26,7 @@ public struct R4NlCorePatientName: Codable, Hashable, Sendable {
         case suffix, text
     }
 
-    public init(profile: PurpleProfile, family: StickyFamily?, given: HilariousGiven?, period: MgoPeriod?, namePrefix: [PrimitiveValueTypeOfStringString]?, suffix: [PrimitiveValueTypeOfStringString]?, text: PrimitiveValueTypeOfStringString?) {
+    public init(profile: PurpleProfile, family: IndigoFamily?, given: AmbitiousGiven?, period: MgoPeriod?, namePrefix: [PrimitiveValueTypeOfStringString]?, suffix: [PrimitiveValueTypeOfStringString]?, text: PrimitiveValueTypeOfStringString?) {
         self.profile = profile
         self.family = family
         self.given = given
@@ -57,8 +57,8 @@ public extension R4NlCorePatientName {
 
     func with(
         profile: PurpleProfile? = nil,
-        family: StickyFamily?? = nil,
-        given: HilariousGiven?? = nil,
+        family: IndigoFamily?? = nil,
+        given: AmbitiousGiven?? = nil,
         period: MgoPeriod?? = nil,
         namePrefix: [PrimitiveValueTypeOfStringString]?? = nil,
         suffix: [PrimitiveValueTypeOfStringString]?? = nil,
