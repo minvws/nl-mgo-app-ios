@@ -1,5 +1,5 @@
 {
-  "originHash" : "657c063a3b56d3b77327ac97ba10c69cede2b63b8764f6afb7497abd080cec9e",
+  "originHash" : "100bde6867580ae4bc535c5f7f7f5e58495e6f2627e345fbd716ca82419c607c",
   "pins" : [
     {
       "identity" : "lrucache",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scinfu/SwiftSoup",
       "state" : {
-        "revision" : "c1f3348d1845302b8e99b1c0787d9417ffa11053",
-        "version" : "2.11.2"
+        "revision" : "d86f244ed497d48012782e2f59c985a55e77b3f5",
+        "version" : "2.11.3"
       }
     }
   ],
