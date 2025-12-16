@@ -54,7 +54,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: content, name: "\(categoryId)_\(#function)", precision: 0.95, )
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)", precision: 0.95)
 	}
 	
 	@MainActor func test_stateEmptyListNoError() throws {
