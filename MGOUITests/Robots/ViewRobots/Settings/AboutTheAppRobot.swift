@@ -42,10 +42,6 @@ import XCTest
 		app.buttons["settings.about_this_app.version"]
 	}
 	
-	private var alertOkButton: XCUIElement {
-		app.buttons["common.ok"]
-	}
-	
 	private var safetyTipsButton: XCUIElement {
 		app.buttons["settings.about_this_app.safety"]
 	}
@@ -89,12 +85,6 @@ import XCTest
 	}
 	
 	@discardableResult
-	func verifyAlertOkButtonExists() -> Self {
-		XCTAssertTrue(alertOkButton.exists)
-		return self
-	}
-	
-	@discardableResult
 	func verifySafetyTipsButtonExists() -> Self {
 		XCTAssertTrue(safetyTipsButton.exists)
 		return self
@@ -127,15 +117,9 @@ import XCTest
 	}
 	
 	@discardableResult
-	func tapVersionButton() -> Self {
+	func tapVersionButton() -> AboutVersionRobot {
 		versionButton.tap()
-		return self
-	}
-	
-	@discardableResult
-	func tapAlertOkButton() -> Self {
-		alertOkButton.tap()
-		return self
+		return AboutVersionRobot(app)
 	}
 	
 	@discardableResult

@@ -114,13 +114,13 @@ import XCTest
 	
 	@discardableResult
 	func tapAlertCancelButton() -> Self {
-		alertCancelButton.tap()
+		alertCancelButton.firstMatch.tap()
 		return self
 	}
 	
 	@discardableResult
 	func tapAlertOkButton() -> IntroductionRobot {
-		alertOkButton.tap()
+		alertOkButton.firstMatch.tap()
 		return IntroductionRobot(app)
 	}
 	

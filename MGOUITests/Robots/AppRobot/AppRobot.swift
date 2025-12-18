@@ -72,6 +72,22 @@ class AppRobot: Robot {
 	@discardableResult
 	func navigateToOverview(organization index: Int) -> HealthCategoriesRobot {
 		self
+			.navigateToOverview()
+			.verifyAddOrganizationsButtonExists()
+			.tapAddOrganizationsButton()
+			.enterSearchFields(name: "test", place: "test")
+			.tapSearchButton()
+			.swipeToListElement(at: index)
+			.tapListElement(at: index)
+		
+		return HealthCategoriesRobot(app)
+	}
+	
+	/// Launch the app with a Healthcare organization
+	/// - Returns: Health Categories Robot for the overview
+	@discardableResult
+	func navigateToOverviewWithDigiD(organization index: Int) -> HealthCategoriesRobot {
+		self
 			.launchApp(withPincode: "12345")
 			.enterConfirmationPinCode("12345")
 			.tapLoginWithDigiDButton()
