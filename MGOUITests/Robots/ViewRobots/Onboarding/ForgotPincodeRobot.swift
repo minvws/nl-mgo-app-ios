@@ -37,7 +37,7 @@ import XCTest
 	}
 	
 	private var closeSheetButton: XCUIElement {
-		app.buttons["common.close"]
+		app.buttons["Sluit"]
 	}
 	
 	private var newAccountButton: XCUIElement {
@@ -94,13 +94,13 @@ import XCTest
 	
 	@discardableResult
 	func verifyAlertCancelButtonExists() -> Self {
-		XCTAssertTrue(noButton.exists)
+		XCTAssertTrue(noButton.firstMatch.exists)
 		return self
 	}
 	
 	@discardableResult
 	func verifyAlertOkButtonExists() -> Self {
-		XCTAssertTrue(yesButton.exists)
+		XCTAssertTrue(yesButton.firstMatch.exists)
 		return self
 	}
 	
@@ -126,13 +126,13 @@ import XCTest
 	
 	@discardableResult
 	func tapAlertCancelButton() -> Self {
-		noButton.tap()
+		noButton.firstMatch.tap()
 		return self
 	}
 	
 	@discardableResult
 	func tapAlertOkButton() -> AccountRemovedRobot {
-		yesButton.tap()
+		yesButton.firstMatch.tap()
 		return AccountRemovedRobot(app)
 	}
 	
