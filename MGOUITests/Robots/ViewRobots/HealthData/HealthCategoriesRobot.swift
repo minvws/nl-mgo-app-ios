@@ -62,6 +62,10 @@ import XCTest
 		app.buttons["toast.close"]
 	}
 	
+	private var addOrganizationsButton: XCUIElement {
+		app.buttons["common.add_organizations"]
+	}
+	
 	// MARK: - Validations
 	
 	@discardableResult
@@ -127,6 +131,12 @@ import XCTest
 	@discardableResult
 	func verifyToastCloseExists() -> Self {
 		XCTAssertTrue(toastCloseButton.exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifyAddOrganizationsButtonExists() -> Self {
+		XCTAssertTrue(addOrganizationsButton.exists)
 		return self
 	}
 	
@@ -222,6 +232,12 @@ import XCTest
 	func tapToastRecoverButton() -> Self {
 		toastRecoverButton.tap()
 		return self
+	}
+	
+	@discardableResult
+	func tapAddOrganizationsButton() -> AddOrganizationRobot {
+		addOrganizationsButton.tap()
+		return AddOrganizationRobot(app)
 	}
 	
 	func verifyAllCategories() -> Self {
