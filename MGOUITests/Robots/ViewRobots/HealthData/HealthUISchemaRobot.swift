@@ -100,4 +100,24 @@ import XCTest
 		
 		return self
 	}
+	
+	@discardableResult
+	func swipeDownToRowHeading(_ heading: String) -> Self {
+		
+		while !app.textViews[String(heading.prefix(128))].exists {
+			app.swipeUp()
+		}
+		
+		return self
+	}
+	
+	@discardableResult
+	func swipeDownToReferenceButton(_ heading: String, value: String) -> Self {
+		
+		while !referenceButton("\(heading), \(value)").exists {
+			app.swipeUp()
+		}
+		
+		return self
+	}
 }
