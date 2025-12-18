@@ -98,7 +98,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ga naar het overzicht"
+            "value" : "Ga naar mijn overzicht"
           }
         }
       }
@@ -439,7 +439,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgaanbieders"
+            "value" : "Uw zorgaanbieders"
           }
         }
       }
@@ -472,7 +472,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg zorgaanbieders toe"
+            "value" : "Voeg een zorgaanbieder toe"
           }
         }
       }
@@ -517,6 +517,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sluiten"
+          }
+        }
+      }
+    },
+    "common.data_not_retrieved_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens niet opgehaald"
+          }
+        }
+      }
+    },
+    "common.data_not_retrieved_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We kunnen door een probleem uw gegevens nu niet ophalen."
           }
         }
       }
@@ -1187,7 +1209,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Belangrijke dingen waar zorgverleners op moeten letten."
+            "value" : "Belangrijke dingen waar uw zorgverleners op moeten letten."
           }
         }
       }
@@ -1363,7 +1385,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sorry, we kunnen de bijlage nu niet ophalen."
+            "value" : "Sorry, we kunnen de bijlage(n) nu niet ophalen."
           }
         }
       }
@@ -1396,7 +1418,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen bijlage gevonden. Klopt dit niet? Vraag je zorgaanbieder om hulp."
+            "value" : "Geen bijlage(n) gevonden. Klopt dit niet? Vraag je zorgaanbieder om hulp."
           }
         }
       }
@@ -1935,7 +1957,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bewijs wie u bent"
+            "value" : "Inloggen"
           }
         }
       }
@@ -1957,7 +1979,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kies de manier waarop u wilt inloggen. Zo kunnen we uw gegevens veilig ophalen bij uw huisarts, ziekenhuis en andere zorgaanbieders."
+            "value" : "Met DigiD laat u weten wie u bent. Zo kunnen we uw gegevens veilig ophalen. Bij uw huisarts, het ziekenhuis en andere zorgaanbieders."
           }
         }
       }
@@ -2133,7 +2155,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgaanbieders"
+            "value" : "Uw zorgaanbieders"
           }
         }
       }
@@ -2221,7 +2243,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg zorgaanbieders toe"
+            "value" : "Voeg een zorgaanbieder toe"
           }
         }
       }
@@ -3400,7 +3422,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hoe je je medicijnen krijgt"
+            "value" : "Hoe u uw medicijnen krijgt"
           }
         }
       }
@@ -3642,7 +3664,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afspraken over je medicijnen"
+            "value" : "Afspraken over uw medicijnen"
           }
         }
       }
@@ -3653,7 +3675,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat je nu gebruikt"
+            "value" : "Wat u nu gebruikt"
           }
         }
       }
