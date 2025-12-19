@@ -14,6 +14,7 @@ final class HealthDataFlowTests: XCTestCase {
 	 ✅ Verify the laboratory result flow for a GP healthcare organization
 	 ✅ Verify the document flow for a PDFA healthcare organization
 	 ✅ Verify the vaccination flow for a Vaccination healthcare organization
+	 ✅ Verify the care-team flow for a BgLZ healthcare organization
 	 */
 	
 	@MainActor
@@ -32,13 +33,13 @@ final class HealthDataFlowTests: XCTestCase {
 			.swipeUpToCategory("medication")
 			.tapHealthCategory("medication")
 			.verifyHeadingExists("Medicijnen")
-			.verifySectionExists("Wat je nu gebruikt")
+			.verifySectionExists("Wat u nu gebruikt")
 			.verifySectionButtonExists(0, section: 0)
 			.verifySectionRowExists("Zestril tablet 10mg, Kwalificatie Medmij: BGZ")
-			.verifySectionExists("Afspraken over je medicijnen")
+			.verifySectionExists("Afspraken over uw medicijnen")
 			.verifySectionButtonExists(0, section: 1)
 			.verifySectionRowExists("a257c163-5250-4589-9e0d-dfecf807ce0c, Kwalificatie Medmij: BGZ")
-			.verifySectionExists("Hoe je je medicijnen krijgt")
+			.verifySectionExists("Hoe u uw medicijnen krijgt")
 			.verifySectionButtonExists(0, section: 2)
 			.verifySectionRowExists("94611f8e-588c-406e-b9d7-ede20a2d996a, Kwalificatie Medmij: BGZ")
 			.tapSectionRow(0, section: 0)

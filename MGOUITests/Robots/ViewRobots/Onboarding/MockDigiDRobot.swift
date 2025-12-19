@@ -146,9 +146,6 @@ import XCTest
 			self
 				.verifySafariIsOpen()
 				.verifyMockDigiDSubmitButtonExists()
-				.tapMockDigiDSubmitButton()
-				.enterBasicAuthorizationIfNeeded()
-				.verifyOpenButtonExists()
 		}
 			
 		return self

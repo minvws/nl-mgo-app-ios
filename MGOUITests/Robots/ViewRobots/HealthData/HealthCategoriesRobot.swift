@@ -66,6 +66,10 @@ import XCTest
 		app.buttons["common.add_organizations"]
 	}
 	
+	private var menuButton: XCUIElement {
+		app.buttons["overview.menu"]
+	}
+	
 	// MARK: - Validations
 	
 	@discardableResult
@@ -167,22 +171,8 @@ import XCTest
 	}
 	
 	@discardableResult
-	func swipeToRemoveHealthcareOrganizationButton() -> Self {
-		
-		while !removeHealthcareOrganizationButton.exists {
-			app.swipeUp()
-		}
-		
-		return self
-	}
-	
-	@discardableResult
-	func swipeToBottomCategory() -> Self {
-		
-		while !app.buttons["care_team"].exists {
-			app.swipeUp()
-		}
-		
+	func tapMenu() -> Self {
+		menuButton.tap()
 		return self
 	}
 	
