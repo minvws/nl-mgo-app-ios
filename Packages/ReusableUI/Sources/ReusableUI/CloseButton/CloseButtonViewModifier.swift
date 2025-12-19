@@ -35,6 +35,7 @@ public struct CloseButtonViewModifier: ViewModifier {
 					if #available(iOS 26.0, *) {
 						Button(role: .close) { action() }
 							.tint(theme.labels.primary)
+							.accessibilityIdentifier("common.close")
 					}
 				} else {
 					CloseButton({

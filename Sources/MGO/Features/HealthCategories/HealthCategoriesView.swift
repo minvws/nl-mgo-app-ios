@@ -406,6 +406,7 @@ struct HealthCategoriesView: View {
 					}
 					.buttonStyle(ToolbarButtonStyle())
 					.accessibilityLabel("overview.menu")
+					.accessibilityIdentifier("overview.menu")
 				}
 			}
 		)
@@ -431,6 +432,7 @@ struct HealthCategoriesView: View {
 			Label(emptyActionKey, systemImage: "star")
 				.tint(theme.labels.primary)
 		}
+		.accessibilityIdentifier("favorites")
 	}
 	
 	/// The remove healthcare organization option
@@ -443,6 +445,7 @@ struct HealthCategoriesView: View {
 			Label("organizations.remove_organization", systemImage: "trash")
 				.tint(theme.states.critical)
 		}
+		.accessibilityIdentifier("organizations.remove_organization")
 	}
 }
 // swiftlint: enable type_body_length
