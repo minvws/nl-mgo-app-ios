@@ -119,6 +119,7 @@ struct ErrorStateCardView: View {
 			) {
 				action?()
 			}
+			.accessibilityIdentifier("common.try_again")
 		})
 		.frame(minHeight: ViewTraits.Section.minHeight)
 	}
