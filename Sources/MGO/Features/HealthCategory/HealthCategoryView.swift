@@ -230,11 +230,32 @@ class HealthCategoryViewModel: ObservableObject {
 				state = .loading
 			}
 		}
-		dataStore.removeRecords(for: category.id, organizationId: organization?.identifier)
-		if let organization {
-			resourceRepository.loadResource(organization, categories: [category])
-		} else {
-			resourceRepository.loadFor([category])
+		
+		let cacheResult: Result<[MgoResourceRecord], Error> = {
+			if let organization {
+				return dataStore.get(
+					categoryId: category.id,
+					organizationId: organization.identifier
+				)
+			} else {
+				return dataStore.get(categoryId: category.id)
+			}
+		}()
+		
+		if case let .success(records) = cacheResult {
+			let faultyRecords = records.filter { $0.error != nil }
+			
+			faultyRecords.forEach { record in
+				
+				guard let faultyOrganization = getOrganization(record.organizationId) else {
+					return
+				}
+				dataStore.removeRecords(
+					for: record.categoryId,
+					organizationId: record.organizationId
+				)
+				resourceRepository.loadResource(faultyOrganization, categories: [category])
+			}
 		}
 	}
 	
