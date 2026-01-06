@@ -230,11 +230,36 @@ class HealthCategoryViewModel: ObservableObject {
 				state = .loading
 			}
 		}
-		dataStore.removeRecords(for: category.id, organizationId: organization?.identifier)
+		
+		let cacheResult = getStoredResourceRecords()
+		if case let .success(records) = cacheResult {
+			let faultyRecords = records.filter { $0.error != nil }
+			
+			faultyRecords.forEach { record in
+				
+				guard let faultyOrganization = getOrganization(record.organizationId) else {
+					return
+				}
+				dataStore.removeRecords(
+					for: record.categoryId,
+					organizationId: record.organizationId
+				)
+				resourceRepository.loadResource(faultyOrganization, categories: [category])
+			}
+		}
+	}
+	
+	/// Get the stored resourced from the caches
+	/// - Returns: cache results
+	@MainActor
+	private func getStoredResourceRecords() -> Result<[MgoResourceRecord], Error> {
 		if let organization {
-			resourceRepository.loadResource(organization, categories: [category])
+			return dataStore.get(
+				categoryId: category.id,
+				organizationId: organization.identifier
+			)
 		} else {
-			resourceRepository.loadFor([category])
+			return dataStore.get(categoryId: category.id)
 		}
 	}
 	
@@ -259,18 +284,7 @@ class HealthCategoryViewModel: ObservableObject {
 	@MainActor
 	private func loadResources(threshold: Int = 0) async {
 		
-		let cacheResult: Result<[MgoResourceRecord], Error> = {
-			if let organization {
-				return dataStore.get(
-					categoryId: category.id,
-					organizationId: organization.identifier
-				)
-			} else {
-				return dataStore.get(categoryId: category.id)
-			}
-		}()
-		
-		switch cacheResult {
+		switch getStoredResourceRecords() {
 			case .success(let records):
 				guard records.count >= threshold else {
 					// Not all results are in. Keep loading state
