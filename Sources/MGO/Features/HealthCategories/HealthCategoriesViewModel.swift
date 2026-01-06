@@ -215,9 +215,11 @@ class HealthCategoriesViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.addHealthcareOrganization)
 			
 			case .retry:
+				Haptic.light()
 				retry()
 				
 			case .refresh:
+				Haptic.light()
 				if case let .single(healthcareOrganization) = mode {
 					dataStore.removeRecords(for: healthcareOrganization.identifier)
 					resourceRepository.loadFor(healthcareOrganization)
