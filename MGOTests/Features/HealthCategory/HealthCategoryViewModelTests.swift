@@ -322,6 +322,12 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Given
 		try setupSut(organization: healthcareOrganization)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord([], error: 1)
+			]
+		)
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		
 		// When
 		sut.reduce(.retry)
@@ -334,14 +340,20 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_retry_noOrganization() throws {
 		
 		// Given
-		try setupSut(organization: nil)
+		try setupSut(organization: healthcareOrganization)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord([], error: 1)
+			]
+		)
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		
 		// When
 		sut.reduce(.retry)
 		
 		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForSharedHealthCategoriesCategoriesCount).toEventually(equal(1), timeout: .seconds(5))
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == false
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount) == 0
 	}
 	
 	@MainActor func test_handleDataStoreChanges() throws {

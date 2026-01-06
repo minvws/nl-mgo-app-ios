@@ -231,17 +231,7 @@ class HealthCategoryViewModel: ObservableObject {
 			}
 		}
 		
-		let cacheResult: Result<[MgoResourceRecord], Error> = {
-			if let organization {
-				return dataStore.get(
-					categoryId: category.id,
-					organizationId: organization.identifier
-				)
-			} else {
-				return dataStore.get(categoryId: category.id)
-			}
-		}()
-		
+		let cacheResult = getStoredResourceRecords()
 		if case let .success(records) = cacheResult {
 			let faultyRecords = records.filter { $0.error != nil }
 			
@@ -256,6 +246,20 @@ class HealthCategoryViewModel: ObservableObject {
 				)
 				resourceRepository.loadResource(faultyOrganization, categories: [category])
 			}
+		}
+	}
+	
+	/// Get the stored resourced from the caches
+	/// - Returns: cache results
+	@MainActor
+	private func getStoredResourceRecords() -> Result<[MgoResourceRecord], Error> {
+		if let organization {
+			return dataStore.get(
+				categoryId: category.id,
+				organizationId: organization.identifier
+			)
+		} else {
+			return dataStore.get(categoryId: category.id)
 		}
 	}
 	
@@ -280,18 +284,7 @@ class HealthCategoryViewModel: ObservableObject {
 	@MainActor
 	private func loadResources(threshold: Int = 0) async {
 		
-		let cacheResult: Result<[MgoResourceRecord], Error> = {
-			if let organization {
-				return dataStore.get(
-					categoryId: category.id,
-					organizationId: organization.identifier
-				)
-			} else {
-				return dataStore.get(categoryId: category.id)
-			}
-		}()
-		
-		switch cacheResult {
+		switch getStoredResourceRecords() {
 			case .success(let records):
 				guard records.count >= threshold else {
 					// Not all results are in. Keep loading state
