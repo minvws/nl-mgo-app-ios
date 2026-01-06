@@ -192,8 +192,8 @@ class HealthCategoryViewModel: ObservableObject {
 				}
 			
 			case .retry:
-				retry()
 				Haptic.light()
+				retry()
 		
 			case .showExportAlert:
 				showExportAlert = true
@@ -273,8 +273,7 @@ class HealthCategoryViewModel: ObservableObject {
 		switch cacheResult {
 			case .success(let records):
 				guard records.count >= threshold else {
-					// Not all results are in. Keep loading
-					state = .loading
+					// Not all results are in. Keep loading state
 					return
 				}
 				
