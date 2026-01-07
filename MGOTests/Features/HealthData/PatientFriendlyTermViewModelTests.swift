@@ -16,7 +16,7 @@ final class PatientFriendlyTermViewModelTests: XCTestCase {
 		synonym: "een andere benaming voor deze term"
 	)
 	
-	@MainActor func test_reduce_closeSheet() {
+	@MainActor func test_reduce_closeSheet() async {
 		
 		// Given
 		var onClosePressed = false
@@ -26,6 +26,6 @@ final class PatientFriendlyTermViewModelTests: XCTestCase {
 		sut.reduce(.closeSheet)
 		
 		// Then
-		expect(onClosePressed).toEventually(beTrue())
+		await expect(onClosePressed).toEventually(beTrue())
 	}
 }
