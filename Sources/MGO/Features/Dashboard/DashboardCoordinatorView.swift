@@ -128,6 +128,9 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 		let tabBarAppearance = UITabBarAppearance()
 		tabBarAppearance.configureWithTransparentBackground()
 		
+		let normalColor = UIColor(osVersionChecker
+			.available(version: .iOS(.v26)) ? theme.labels.primary : theme.symbols.primary
+		)
 		for appearance in [tabBarAppearance.stackedLayoutAppearance,
 						   tabBarAppearance.inlineLayoutAppearance,
 						   tabBarAppearance.compactInlineLayoutAppearance] {
@@ -138,9 +141,9 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				.foregroundColor: UIColor(theme.categories.rijkslint),
 				.paragraphStyle: NSParagraphStyle.default
 			]
-			appearance.normal.iconColor = UIColor(theme.symbols.primary)
+			appearance.normal.iconColor = normalColor
 			appearance.normal.titleTextAttributes = [
-				.foregroundColor: UIColor(theme.symbols.primary),
+				.foregroundColor: normalColor,
 				.paragraphStyle: NSParagraphStyle.default
 			]
 		}
