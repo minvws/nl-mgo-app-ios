@@ -62,7 +62,6 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.healthCategories.rawValue ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
 				}
 				Text("bottombar.overview")
-					.typography(.bodyMedium, isBold: true)
 					.accessibilityIdentifier("bottombar.overview")
 			}
 			.tag(DashboardTab.healthCategories.rawValue)
@@ -79,7 +78,6 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.healthcareOrganizations.rawValue ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
 				}
 				Text("bottombar.healthcareproviders")
-					.typography(.bodyMedium, isBold: true)
 					.accessibilityIdentifier("bottombar.healthcareproviders")
 			}
 			.tag(DashboardTab.healthcareOrganizations.rawValue)
@@ -96,7 +94,6 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.settings.rawValue ? ImageResource.Tab.Selected.settings : ImageResource.Tab.Unselected.settings)
 				}
 				Text("bottombar.settings")
-					.typography(.bodyMedium, isBold: true)
 					.accessibilityIdentifier("bottombar.settings")
 			}
 			.tag(DashboardTab.settings.rawValue)
@@ -139,12 +136,20 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 			appearance.selected.titleTextAttributes =
 			[
 				.foregroundColor: UIColor(theme.categories.rijkslint),
-				.paragraphStyle: NSParagraphStyle.default
+				.paragraphStyle: NSParagraphStyle.default,
+				.font: UIFont(
+					name: RijksoverheidSansWebTextFont.bold.fontName,
+					size: 10
+				) as Any
 			]
 			appearance.normal.iconColor = normalColor
 			appearance.normal.titleTextAttributes = [
 				.foregroundColor: normalColor,
-				.paragraphStyle: NSParagraphStyle.default
+				.paragraphStyle: NSParagraphStyle.default,
+				.font: UIFont(
+					name: RijksoverheidSansWebTextFont.bold.fontName,
+					size: 10
+				) as Any
 			]
 		}
 		
