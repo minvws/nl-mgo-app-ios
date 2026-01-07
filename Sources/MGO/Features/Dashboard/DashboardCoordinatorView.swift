@@ -40,6 +40,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				
 			}
 		}
+		.tint(theme.categories.rijkslint)
 		.onAppear(perform: {
 			styleStandardAppearance()
 			styleScrollEdgeAppearance()
