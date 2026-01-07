@@ -39,8 +39,8 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				settingsTab()
 				
 			}
-			.tint(theme.actions.ghost.text)
 		}
+		.tint(theme.categories.rijkslint)
 		.onAppear(perform: {
 			styleStandardAppearance()
 			styleScrollEdgeAppearance()
@@ -62,7 +62,6 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.healthCategories.rawValue ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
 				}
 				Text("bottombar.overview")
-					.typography(.bodyMedium, isBold: true)
 					.accessibilityIdentifier("bottombar.overview")
 			}
 			.tag(DashboardTab.healthCategories.rawValue)
@@ -79,7 +78,6 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.healthcareOrganizations.rawValue ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
 				}
 				Text("bottombar.healthcareproviders")
-					.typography(.bodyMedium, isBold: true)
 					.accessibilityIdentifier("bottombar.healthcareproviders")
 			}
 			.tag(DashboardTab.healthcareOrganizations.rawValue)
@@ -96,7 +94,6 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.settings.rawValue ? ImageResource.Tab.Selected.settings : ImageResource.Tab.Unselected.settings)
 				}
 				Text("bottombar.settings")
-					.typography(.bodyMedium, isBold: true)
 					.accessibilityIdentifier("bottombar.settings")
 			}
 			.tag(DashboardTab.settings.rawValue)
@@ -128,6 +125,9 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 		let tabBarAppearance = UITabBarAppearance()
 		tabBarAppearance.configureWithTransparentBackground()
 		
+		let normalColor = UIColor(osVersionChecker
+			.available(version: .iOS(.v26)) ? theme.labels.primary : theme.symbols.primary
+		)
 		for appearance in [tabBarAppearance.stackedLayoutAppearance,
 						   tabBarAppearance.inlineLayoutAppearance,
 						   tabBarAppearance.compactInlineLayoutAppearance] {
@@ -136,12 +136,20 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 			appearance.selected.titleTextAttributes =
 			[
 				.foregroundColor: UIColor(theme.categories.rijkslint),
-				.paragraphStyle: NSParagraphStyle.default
+				.paragraphStyle: NSParagraphStyle.default,
+				.font: UIFont(
+					name: RijksoverheidSansWebTextFont.bold.fontName,
+					size: 10
+				) as Any
 			]
-			appearance.normal.iconColor = UIColor(theme.symbols.primary)
+			appearance.normal.iconColor = normalColor
 			appearance.normal.titleTextAttributes = [
-				.foregroundColor: UIColor(theme.symbols.primary),
-				.paragraphStyle: NSParagraphStyle.default
+				.foregroundColor: normalColor,
+				.paragraphStyle: NSParagraphStyle.default,
+				.font: UIFont(
+					name: RijksoverheidSansWebTextFont.bold.fontName,
+					size: 10
+				) as Any
 			]
 		}
 		
