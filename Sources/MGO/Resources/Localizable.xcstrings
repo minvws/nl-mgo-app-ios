@@ -21,7 +21,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je account is verwijderd"
+            "value" : "Uw account is verwijderd"
           }
         }
       }
@@ -32,7 +32,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens zijn verwijderd van je telefoon. Ze blijven wel veilig bewaard bij je zorgaanbieders. Als je een nieuw account maakt, kun je je gegevens opnieuw ophalen."
+            "value" : "Uw gegevens zijn verwijderd van uw telefoon. Ze blijven wel veilig bewaard bij uw zorgaanbieders. Als u een nieuw account maakt, kunt u uw gegevens opnieuw ophalen."
           }
         }
       }
@@ -54,7 +54,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welke zorgaanbieders wil je in je overzicht tonen?"
+            "value" : "Welke zorgaanbieders wilt u in uw overzicht tonen?"
           }
         }
       }
@@ -76,7 +76,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt nog geen zorgaanbieders toegevoegd aan deze lijst. Je kunt dit nu doen, of later via je profiel."
+            "value" : "U heeft nog geen zorgaanbieders toegevoegd aan deze lijst. U kunt dit nu doen, of later via uw profiel."
           }
         }
       }
@@ -87,7 +87,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt zelf zorgaanbieders toevoegen of verwijderen. Dit kun je ook later in je profiel doen."
+            "value" : "U kunt zelf zorgaanbieders toevoegen of verwijderen. Dit kunt u ook later in uw profiel doen."
           }
         }
       }
@@ -208,7 +208,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welke zorgaanbieder wil je toevoegen?"
+            "value" : "Welke zorgaanbieder wilt u toevoegen?"
           }
         }
       }
@@ -252,7 +252,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bijv. Amsterdam UMC"
+            "value" : "Bijvoorbeeld Amsterdam UMC"
           }
         }
       }
@@ -307,7 +307,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wil je toestaan dat deze app Face ID gebruikt?"
+            "value" : "Wilt u toestaan dat deze app Face ID gebruikt?"
           }
         }
       }
@@ -329,7 +329,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plaats je vinger om te bevestigen"
+            "value" : "Plaats uw vinger om te bevestigen"
           }
         }
       }
@@ -362,7 +362,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met gezichtsherkenning. Zo log je de volgende keer sneller in. Je kunt je toegangscode ook blijven gebruiken."
+            "value" : "Beveilig de app met gezichtsherkenning. Zo logt u de volgende keer sneller in. U kunt uw toegangscode ook blijven gebruiken."
           }
         }
       }
@@ -395,7 +395,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met oogherkenning. Zo log je de volgende keer sneller in. Je kunt je toegangscode ook blijven gebruiken."
+            "value" : "Beveilig de app met oogherkenning. Zo logt u de volgende keer sneller in. U kunt uw toegangscode ook blijven gebruiken."
           }
         }
       }
@@ -428,7 +428,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met je vingerafdruk. Zo log je de volgende keer sneller in. Je kunt je toegangscode ook blijven gebruiken."
+            "value" : "Beveilig de app met uw vingerafdruk. Zo logt u de volgende keer sneller in. U kunt uw toegangscode ook blijven gebruiken."
           }
         }
       }
@@ -648,7 +648,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt nog geen zorgaanbieders toegevoegd"
+            "value" : "U heeft nog geen zorgaanbieders toegevoegd"
           }
         }
       }
@@ -659,7 +659,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg zorgaanbieders toe om gegevens over je gezondheid te zien."
+            "value" : "Voeg zorgaanbieders toe om gegevens over uw gezondheid te zien."
           }
         }
       }
@@ -857,7 +857,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We halen je dossier van deze zorgaanbieder niet op. Je kunt deze later alsnog toevoegen via je profiel."
+            "value" : "We halen uw dossier van deze zorgaanbieder niet op. U kunt deze later alsnog toevoegen via uw profiel."
           }
         }
       }
@@ -890,7 +890,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt nog geen favorieten gekozen. Klik op het plusje (+) om iets toe te voegen."
+            "value" : "U heeft nog geen favorieten gekozen. Klik op het plusje (+) om iets toe te voegen."
           }
         }
       }
@@ -989,7 +989,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gereed"
+            "value" : "Klaar"
           }
         }
       }
@@ -1022,7 +1022,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je maakt een document met je medische gegevens. Die kun je daarna op je telefoon opslaan."
+            "value" : "U maakt een document met uw medische gegevens. Die kunt u daarna op uw telefoon opslaan."
           }
         }
       }
@@ -1033,7 +1033,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dit document is gemaakt met Mijn Gezondheidsoverzicht. Het bevat jouw medische gegevens,\nafkomstig van zorgaanbieders die jij hebt toegevoegd. Jij bent zelf verantwoordelijk voor wat je\nmet deze informatie doet. De gegevens zijn niet gecontroleerd op juistheid of volledigheid."
+            "value" : "Dit document is gemaakt met Mijn Gezondheidsoverzicht. Het bevat uw medische gegevens,\nvan zorgaanbieders die u heeft toegevoegd. U bent zelf verantwoordelijk voor wat u\nmet deze informatie doet. Er is niet gecontroleerd of de gegevens juist of compleet zijn."
           }
         }
       }
@@ -1132,7 +1132,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt je gegevens straks opnieuw ophalen. Het andere account wordt verwijderd."
+            "value" : "U kunt uw gegevens straks opnieuw ophalen. Het andere account wordt verwijderd."
           }
         }
       }
@@ -1143,7 +1143,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt je toegangscode niet aanpassen"
+            "value" : "U kunt uw toegangscode niet aanpassen"
           }
         }
       }
@@ -1154,7 +1154,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt wel een nieuwe toegangscode instellen als je een nieuw account aanmaakt."
+            "value" : "U kunt wel een nieuwe toegangscode instellen als u een nieuw account aanmaakt."
           }
         }
       }
@@ -1275,7 +1275,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uw afspraken met zorgverleners. En contacten die u hebt gehad."
+            "value" : "Uw afspraken met zorgverleners. En contacten die u heeft gehad."
           }
         }
       }
@@ -1297,7 +1297,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je wensen, wensen en afspraken over je behandeling."
+            "value" : "Uw wensen, wensen en afspraken over uw behandeling."
           }
         }
       }
@@ -1418,7 +1418,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen bijlage(n) gevonden. Klopt dit niet? Vraag je zorgaanbieder om hulp."
+            "value" : "Geen bijlage(n) gevonden. Klopt dit niet? Vraag uw zorgaanbieder om hulp."
           }
         }
       }
@@ -1528,7 +1528,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zoals bloeddruk, hartslag, lengte en gewicht"
+            "value" : "Zoals bloeddruk, hartslag, lengte en gewicht."
           }
         }
       }
@@ -1583,7 +1583,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All mentaal welzijngegevens"
+            "value" : "Alle mentaal welzijn gegevens"
           }
         }
       }
@@ -1649,7 +1649,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je betalingen en verzekeringen"
+            "value" : "Uw betalingen en verzekeringen."
           }
         }
       }
@@ -1671,7 +1671,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle behandelwens/plan gegevens"
+            "value" : "Alle behandelwens- of plan gegevens"
           }
         }
       }
@@ -1704,7 +1704,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Klachten waar u last van hebt. Zoals pijn of ziekte."
+            "value" : "Klachten waar u last van heeft. Zoals pijn of ziekte."
           }
         }
       }
@@ -1737,7 +1737,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Behandelingen en operaties die u hebt gehad. Of die u nog krijgt."
+            "value" : "Behandelingen en operaties die u heeft gehad. Of die u nog krijgt."
           }
         }
       }
@@ -1770,7 +1770,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prikken die u hebt gehad. Zoals tegen griep of corona."
+            "value" : "Prikken die u heeft gehad. Zoals tegen griep of corona."
           }
         }
       }
@@ -1781,7 +1781,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ga naar overzicht"
+            "value" : "Terug naar overzicht"
           }
         }
       }
@@ -1804,6 +1804,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hier is niets opgeslagen. Zodra uw zorgaanbieders informatie toevoegen, staat die hier."
+          }
+        }
+      }
+    },
+    "health_category.errornodata.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen gegevens opgehaald"
+          }
+        }
+      }
+    },
+    "health_category.errornodata.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit komt door een storing bij ons. Probeer het later opnieuw."
           }
         }
       }
@@ -1869,7 +1891,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Let op: je apparaat is gejailbreakt. Je gegevens zijn mogelijk niet veilig."
+            "value" : "Let op: uw apparaat is gejailbreakt. Uw gegevens zijn mogelijk niet veilig."
           }
         }
       }
@@ -1902,7 +1924,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je bent nu ingelogd met DigiD"
+            "value" : "U bent nu ingelogd met DigiD"
           }
         }
       }
@@ -1913,7 +1935,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Normaal zou je nu naar de website of app van DigiD gaan om je te identificeren. Voor deze demo hoeft dat niet en ben je ingelogd met een fictief account, als **Johan Helleman**. De gegevens die je ziet, zijn niet echt."
+            "value" : "Normaal zou u nu naar de website of app van DigiD gaan om u te identificeren. Voor deze demo hoeft dat niet en bent u ingelogd met een fictief account. Als **Johan Helleman**. De gegevens die u ziet, zijn niet echt."
           }
         }
       }
@@ -1935,7 +1957,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Probeer het nog een keer"
+            "value" : "Probeer het nog een keer."
           }
         }
       }
@@ -2001,7 +2023,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door je zorgaanbieder."
+            "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door uw zorgaanbieder."
           }
         }
       }
@@ -2056,7 +2078,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welke zorgaanbieders wil je in de app tonen?"
+            "value" : "Welke zorgaanbieders wilt u in de app tonen?"
           }
         }
       }
@@ -2089,7 +2111,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt gezocht naar **%1$@** in **%2$@**."
+            "value" : "U heeft gezocht naar **%1$@** in **%2$@**."
           }
         }
       }
@@ -2111,7 +2133,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vul de juiste naam in. Je vindt deze op de rekening. Of vraag aan de zorgaanbieder hoe je hun naam schrijft."
+            "value" : "Vul de juiste naam in. U vindt deze op de rekening. Of vraag aan de zorgaanbieder hoe u hun naam schrijft."
           }
         }
       }
@@ -2144,7 +2166,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welke wil je toevoegen aan de app? Je kunt dit later altijd veranderen."
+            "value" : "Welke wilt u toevoegen aan de app? U kunt dit later altijd veranderen."
           }
         }
       }
@@ -2254,7 +2276,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens van deze zorgaanbieder"
+            "value" : "Uw gegevens van deze zorgaanbieder."
           }
         }
       }
@@ -2265,7 +2287,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens van alle zorgaanbieders"
+            "value" : "Uw gegevens van alle zorgaanbieders."
           }
         }
       }
@@ -2331,7 +2353,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bevestig je toegangscode"
+            "value" : "Bevestig uw toegangscode"
           }
         }
       }
@@ -2353,7 +2375,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voer je 5-cijferige code nog een keer in."
+            "value" : "Voer uw 5-cijferige code nog een keer in."
           }
         }
       }
@@ -2364,7 +2386,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kies je toegangscode"
+            "value" : "Kies uw toegangscode"
           }
         }
       }
@@ -2375,7 +2397,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345."
+            "value" : "U heeft een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345."
           }
         }
       }
@@ -2551,7 +2573,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voer je toegangscode in om door te gaan"
+            "value" : "Voer uw toegangscode in om door te gaan."
           }
         }
       }
@@ -2716,7 +2738,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daarmee verwijder je deze gegevens uit de app. Je gegevens blijven altijd bewaard bij de zorgaanbieder zelf. Je kunt %1$@ later altijd weer toevoegen aan de app."
+            "value" : "Daarmee verwijdert u deze gegevens uit de app. Uw gegevens blijven altijd bewaard bij de zorgaanbieder zelf. U kunt %1$@ later altijd weer toevoegen aan de app."
           }
         }
       }
@@ -2760,7 +2782,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt een afbeelding opgeslagen van je medische gegevens. Wees voorzichtig met delen of opslaan."
+            "value" : "U heeft een afbeelding opgeslagen van uw medische gegevens. Wees voorzichtig met delen of opslaan."
           }
         }
       }
@@ -2782,7 +2804,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Houd je mobiel en apps up-to-date. Zet automatische updates aan of kijk regelmatig in de App Store of er nieuwe updates zijn."
+            "value" : "Houd u mobiel en apps up-to-date. Zet automatische updates aan of kijk regelmatig in de App Store of er nieuwe updates zijn."
           }
         }
       }
@@ -2804,7 +2826,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sommige apps vragen om toegang tot je locatie of andere persoonlijke gegevens. Kijk goed welke toestemming je geeft, en of dat echt nodig is."
+            "value" : "Sommige apps vragen om toegang tot uw locatie of andere persoonlijke gegevens. Kijk goed welke toestemming u geeft. En of dat echt nodig is."
           }
         }
       }
@@ -2815,7 +2837,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Houd je wachtwoord voor jezelf"
+            "value" : "Houd u wachtwoord voor uzelf"
           }
         }
       }
@@ -2826,7 +2848,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deel je wachtwoord of pincode nooit met anderen. Ook niet met familie of vrienden. Je gegevens zijn van jou."
+            "value" : "Deel uw wachtwoord of pincode nooit met anderen. Ook niet met familie of vrienden. Uw gegevens zijn alleen van u."
           }
         }
       }
@@ -2848,7 +2870,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Openbare wifi-netwerken, zoals in cafés of treinen, zijn minder veilig. Gebruik liever 4G of 5G. Dat beschermt je gegevens beter."
+            "value" : "Openbare wifi-netwerken, zoals in cafés of treinen, zijn minder veilig. Gebruik liever 4G of 5G. Dat beschermt u gegevens beter."
           }
         }
       }
@@ -2870,7 +2892,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gebruik alleen apps uit de App Store. Zo voorkom je dat er virussen of nep-apps op je mobiel komen."
+            "value" : "Gebruik alleen apps uit de App Store. Zo voorkomt u dat er virussen of nep-apps op uw mobiel komen."
           }
         }
       }
@@ -2881,7 +2903,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig je mobiel"
+            "value" : "Beveilig uw mobiel"
           }
         }
       }
@@ -2892,7 +2914,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stel een sterk wachtwoord of een pincode in die moeilijk te raden is. Zo voorkom je dat anderen bij je gegevens kunnen als je je mobiel kwijtraakt."
+            "value" : "Stel een sterk wachtwoord of een pincode in die moeilijk te raden is. Zo voorkomt u dat anderen toegang tot uw gegevens krijgen als u uw mobiel kwijtraakt."
           }
         }
       }
@@ -2925,7 +2947,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Logo van het Ministerie van Volksgezondheid, Welzijn en Sport"
+            "value" : "Logo van het Ministerie van Volksgezondheid, Welzijn en Sport."
           }
         }
       }
@@ -2939,7 +2961,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open-source bibliotheken"
+            "value" : "Open source bibliotheken"
           }
         }
       }
@@ -2950,7 +2972,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze app is gebouwd met open-source software. Dat is software waarvan de broncode openbaar is en die je vrij mag gebruiken. Wel moet je de bijbehorende licentie delen.\n\nHierna zie je een overzicht van de licenties van de open-source bibliotheken in deze app. De ontwikkelaars hebben deze licenties in het Engels geschreven. Er is geen Nederlandse vertaling."
+            "value" : "Deze app is gebouwd met open-source software. Dat is software waarvan de broncode openbaar is en die u vrij mag gebruiken. Wel moet u de licentie die erbij hoort delen.\n\nHierna ziet u een overzicht van de licenties van de open-source bibliotheken in deze app. De ontwikkelaars hebben deze licenties in het Engels geschreven. Er is geen Nederlandse vertaling."
           }
         }
       }
@@ -2961,7 +2983,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je privacy en persoonsgegevens"
+            "value" : "Uw privacy en persoonsgegevens"
           }
         }
       }
@@ -2983,7 +3005,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De Rijksoverheid heeft deze app goed beveiligd. Maar je kunt zelf ook dingen doen om je mobiel en je gegevens veilig te houden. Hier zijn een paar tips:"
+            "value" : "De Rijksoverheid heeft deze app goed beveiligd. Maar u kunt zelf ook uw mobiel en uw gegevens extra veilig houden. Hier zijn een paar tips:"
           }
         }
       }
@@ -3060,7 +3082,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De Rijksoverheid vindt het belangrijk dat iedereen deze app goed kan gebruiken. Dus ook als je minder goed ziet, moeite hebt met lezen of navigeren, of technologie op een andere manier gebruikt. Daarom zorgen we ervoor dat de app zo toegankelijk mogelijk is.\n\nKom je toch iets tegen dat niet goed werkt of lastig is om te gebruiken? Laat het ons weten. Dan kijken we wat we kunnen verbeteren."
+            "value" : "De Rijksoverheid vindt het belangrijk dat iedereen deze app goed kan gebruiken. Dus ook als u minder goed ziet, moeite heeft met lezen of navigeren, of technologie op een andere manier gebruikt. Daarom zorgen we ervoor dat de app zo toegankelijk mogelijk is.\n\nKomt u toch iets tegen dat niet goed werkt of lastig is om te gebruiken? Laat het ons weten. Dan kijken we wat we kunnen verbeteren."
           }
         }
       }
@@ -3082,7 +3104,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instellingen voor ontwikkelaars"
+            "value" : "Instellingen voor ontwikkelaars."
           }
         }
       }
@@ -3104,7 +3126,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“Systeem” volgt de instellingen van je telefoon."
+            "value" : "“Systeem” volgt de instellingen van uw telefoon."
           }
         }
       }
@@ -3115,7 +3137,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“Systeem” volgt de instellingen van je tablet."
+            "value" : "“Systeem” volgt de instellingen van uw tablet."
           }
         }
       }
@@ -3246,7 +3268,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je verwijdert je zorgaanbieders en toegangscode. Je gegevens blijven bij je zorgaanbieders bewaard."
+            "value" : "U verwijdert uw zorgaanbieders en toegangscode. Uw gegevens blijven bij uw zorgaanbieders bewaard."
           }
         }
       }
@@ -3268,7 +3290,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je bewaarde zorgaanbieders worden verwijderd. Je medische gegevens blijven bewaard."
+            "value" : "Uw bewaarde zorgaanbieders worden verwijderd. Uw medische gegevens blijven bewaard."
           }
         }
       }
@@ -3279,7 +3301,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gebruik dit in plaats van je toegangscode om veilig en nog sneller in te loggen"
+            "value" : "Gebruik dit in plaats van uw toegangscode om veilig en nog sneller in te loggen."
           }
         }
       }
@@ -3411,7 +3433,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt de nieuwste versie van de app nodig om verder te gaan."
+            "value" : "U heeft de nieuwste versie van de app nodig om verder te gaan."
           }
         }
       }
@@ -3466,7 +3488,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allergiën en intoleranties"
+            "value" : "Allergieën en intoleranties"
           }
         }
       }
@@ -3697,7 +3719,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Participatie in de maatschappij"
+            "value" : "Meedoen in de maatschappij"
           }
         }
       }
@@ -3708,7 +3730,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Persoonsgegevens, Burgerlijke staat & contactpersonen"
+            "value" : "Persoonsgegevens, burgerlijke staat & contactpersonen"
           }
         }
       }
