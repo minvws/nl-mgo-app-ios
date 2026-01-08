@@ -11,13 +11,6 @@ public struct CloseButton: View {
 	/// The action to execute when the user presses the button
 	private var action: (() -> Void)?
 	
-	/// Magic Numbers
-	private struct ViewTraits {
-		enum Image {
-			static let size: CGFloat = 28
-		}
-	}
-	
 	/// Create a close button
 	/// - Parameter action: Optional closure to be executed when the user presses the button
 	public init(_ action: (() -> Void)?) {

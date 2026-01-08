@@ -27,6 +27,20 @@ final class PatientFriendlyTermViewTests: XCTestCase {
 	@MainActor func test_PatientFriendlyTermView() throws {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_PatientFriendlyTermView_iOS18() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut()
 		
 		// When
