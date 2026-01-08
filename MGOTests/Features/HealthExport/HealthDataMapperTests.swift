@@ -32,7 +32,7 @@ final class HealthDataMapperTests: XCTestCase {
 		expect(pdfData) != nil
 		expect(pdfData?.heading) == "Medicijnen"
 		expect(pdfData?.subHeading) == "Gemaakt op 15 jun 2025 om 17:06 uur"
-		expect(pdfData?.footer) == "Dit document is gemaakt met Mijn Gezondheidsoverzicht. Het bevat jouw medische gegevens,\nafkomstig van zorgaanbieders die jij hebt toegevoegd. Jij bent zelf verantwoordelijk voor wat je\nmet deze informatie doet. De gegevens zijn niet gecontroleerd op juistheid of volledigheid."
+		expect(pdfData?.footer) == "Dit document is gemaakt met Mijn Gezondheidsoverzicht. Het bevat uw medische gegevens,\nvan zorgaanbieders die u heeft toegevoegd. U bent zelf verantwoordelijk voor wat u\nmet deze informatie doet. Er is niet gecontroleerd of de gegevens juist of compleet zijn."
 		expect(pdfData?.tables.isEmpty) == true
 	}
 	
@@ -50,7 +50,7 @@ final class HealthDataMapperTests: XCTestCase {
 		expect(pdfData) != nil
 		expect(pdfData?.heading) == "Medicijnen"
 		expect(pdfData?.subHeading) == "Gemaakt op 15 jun 2025 om 17:06 uur"
-		expect(pdfData?.footer) == "Dit document is gemaakt met Mijn Gezondheidsoverzicht. Het bevat jouw medische gegevens,\nafkomstig van zorgaanbieders die jij hebt toegevoegd. Jij bent zelf verantwoordelijk voor wat je\nmet deze informatie doet. De gegevens zijn niet gecontroleerd op juistheid of volledigheid."
+		expect(pdfData?.footer) == "Dit document is gemaakt met Mijn Gezondheidsoverzicht. Het bevat uw medische gegevens,\nvan zorgaanbieders die u heeft toegevoegd. U bent zelf verantwoordelijk voor wat u\nmet deze informatie doet. Er is niet gecontroleerd of de gegevens juist of compleet zijn."
 		expect(pdfData?.tables).to(haveCount(1))
 		
 		let groupedTables = try XCTUnwrap(pdfData?.tables.first)
