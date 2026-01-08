@@ -58,6 +58,9 @@ struct PatientFriendlyTermView: View {
 	/// Are we presented in a sheet?
 	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -80,7 +83,7 @@ struct PatientFriendlyTermView: View {
 						textColor: theme.labels.primary,
 					font: UIFont(
 						name: RijksoverheidSansWebTextFont.bold.fontName,
-						size: Font.TextStyle.headline.pointSize
+						size: Font.TextStyle.title2.pointSize
 					)
 				)
 				.accessibilityAddTraits(.isHeader)
@@ -91,8 +94,9 @@ struct PatientFriendlyTermView: View {
 			CloseButton({
 				viewModel.reduce(.closeSheet)
 			})
-			.buttonStyle(CloseButtonStyle())
+			.buttonStyle(CloseButtonStyle(small: !osVersionChecker.available(version: .iOS(.v26))))
 		}
+		.padding(.top, osVersionChecker.available(version: .iOS(.v26)) ? 5 : 3)
 	}
 	
 	/// The synonym
