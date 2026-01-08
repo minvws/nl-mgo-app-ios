@@ -139,7 +139,7 @@ struct VersionView: View {
 	/// - Returns: the Shared Config
 	@ViewBuilder private func sharedConfig() -> some View {
 		
-		sectionHeading("Shared Config")
+		sectionHeading("Health Categories Config")
 		
 		Section {
 			row(
