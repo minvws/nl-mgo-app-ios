@@ -37,9 +37,9 @@ struct HealthCategoriesView: View {
 		}
 		enum List {
 			static let zeroInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-			static let headerInset = EdgeInsets(top: 32, leading: 16, bottom: 12, trailing: 16)
+			static let headerInset = EdgeInsets(top: 32, leading: 16, bottom: 8, trailing: 16)
 			static let oldVersionInset = EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0)
-			static let alternativeInset = EdgeInsets(top: 8, leading: 16, bottom: 12, trailing: 16)
+			static let alternativeInset = EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
 			static let spacing: CGFloat = 4
 			static let padding: CGFloat = 8
 			static let demoSpacing: CGFloat = 16
@@ -73,7 +73,10 @@ struct HealthCategoriesView: View {
 				noHealthcareOrganizationView()
 			} else {
 				categoriesView()
-					.backport.listSectionSpacing(ViewTraits.List.spacing)
+					.backport
+					.listSectionSpacing(
+						osVersionChecker.available(version: .iOS(.v26)) ? 0 : ViewTraits.List.spacing
+					)
 					.backport.contentMargins(0)
 					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 			}
@@ -136,10 +139,7 @@ struct HealthCategoriesView: View {
 	@ViewBuilder func categoriesView() -> some View {
 		
 		List {
-			
-			if !viewModel.state.canTitleCollapse {
-				listHeader()
-			}
+			listHeader()
 			if viewModel.state.errorState != .none {
 				errorCard()
 			}
@@ -184,7 +184,7 @@ struct HealthCategoriesView: View {
 					.foregroundColor(theme.labels.primary)
 					.accessibilityAddTraits(.isHeader)
 			}
-			.listRowBackground(Color.clear)
+			.listRowBackground(Color.green)
 			.listRowInsets(listHeaderInset(for: mainCategory))
 			
 			Section {
@@ -252,7 +252,9 @@ struct HealthCategoriesView: View {
 		
 		Section {
 			VStack(spacing: ViewTraits.General.padding) {
-				heading()
+				if !viewModel.state.canTitleCollapse {
+					heading()
+				}
 				subHeading()
 					.padding(.bottom, ViewTraits.General.padding)
 			}
@@ -267,42 +269,53 @@ struct HealthCategoriesView: View {
 		
 		favoritesHeader()
 		
-		if viewModel.state.favorites.isEmpty {
+//		if viewModel.state.favorites.isEmpty {
 			
 			favoritesEmptyView()
-		} else {
-			
-			let horizontalPadding = 2 * ViewTraits.General.padding
-			let availableWidth = max(0, contentSize.width - horizontalPadding)
-			let numberOfColumns = max(2, Int(availableWidth / ViewTraits.Favorites.minWidth))
-			let columns = Array(repeating: GridItem(.flexible()), count: numberOfColumns)
-			
-			LazyVGrid(columns: columns, spacing: ViewTraits.Favorites.gridSpacing) {
-				ForEach(viewModel.state.favorites) {
-					categoryView($0, asFavorite: true)
-						.cornerRadius(ViewTraits.Favorites.cornerRadius)
-				}
-			}
-			.clipShape(Rectangle())
-			.listRowInsets(ViewTraits.List.zeroInset)
-			.listRowBackground(Color.clear)
-		}
+			.background(.brown)
+//		} else {
+//			
+//			let horizontalPadding = 2 * ViewTraits.General.padding
+//			let availableWidth = max(0, contentSize.width - horizontalPadding)
+//			let numberOfColumns = max(2, Int(availableWidth / ViewTraits.Favorites.minWidth))
+//			let columns = Array(repeating: GridItem(.flexible()), count: numberOfColumns)
+//			
+//			LazyVGrid(columns: columns, spacing: ViewTraits.Favorites.gridSpacing) {
+//				ForEach(viewModel.state.favorites) {
+//					categoryView($0, asFavorite: true)
+//						.cornerRadius(ViewTraits.Favorites.cornerRadius)
+//				}
+//			}
+//			.clipShape(Rectangle())
+//			.listRowInsets(ViewTraits.List.zeroInset)
+//			.listRowBackground(Color.clear)
+//		}
 	}
 	
 	/// The heading for the favorite section
 	/// - Returns: view for the favorite header
 	@ViewBuilder private func favoritesHeader() -> some View {
 		Section {
-			Text("overview.favorites.heading")
-				.typography(.headingMedium)
-				.foregroundColor(theme.labels.primary)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityAddTraits(.isHeader)
+			HStack {
+				Text("overview.favorites.heading")
+					.typography(.headingMedium)
+					.foregroundColor(theme.labels.primary)
+					.accessibilityAddTraits(.isHeader)
+				
+				Spacer()
+				
+				Button(emptyActionKey) {
+					viewModel.reduce(.showFavorites)
+				}.buttonStyle(SectionButtonStyle())
+				.accessibilityIdentifier(emptyActionKey.stringKey)
+				.background(.cyan)
+			}
+			.background(.red)
 		}
-		.listRowBackground(Color.clear)
 		.listRowInsets(
-			viewModel.state.errorState == .none ? ViewTraits.List.alternativeInset : ViewTraits.List.headerInset
+			ViewTraits.List.headerInset
 		)
+		.listRowBackground(Color.orange)
 	}
 	
 	/// The empty state when the user has no favorite categories
@@ -320,28 +333,19 @@ struct HealthCategoriesView: View {
 	/// - Returns: view for the add favorites button
 	@ViewBuilder private func addFavoriteCategoriesButton() -> some View {
 		
-		VStack(spacing: 0) {
-			
-			Text("overview.favorites.empty.heading")
-				.typography(.bodyMedium)
-				.foregroundStyle(theme.labels.primary)
-				.padding(.top, 2 * ViewTraits.General.padding)
-				.multilineTextAlignment(.center)
-			
-			CallToActionButton(emptyActionKey, style: .ghost) {
-				viewModel.reduce(.showFavorites)
-			}
-			.accessibilityIdentifier(emptyActionKey.stringKey)
-			.padding(.bottom, ViewTraits.General.padding)
-		}
-		.overlay(
-			RoundedRectangle(cornerRadius: ViewTraits.Favorites.cornerRadius)
-				.inset(by: ViewTraits.Favorites.inset)
-				.stroke(
-					theme.separators.primary,
-					style: ViewTraits.Favorites.style
-				)
-		)
+		Text("overview.favorites.empty.heading")
+			.typography(.bodyMedium)
+			.foregroundStyle(theme.labels.primary)
+			.padding(.horizontal, ViewTraits.General.padding)
+			.frame(maxWidth: .infinity, alignment: .leading)
+			.overlay(
+				RoundedRectangle(cornerRadius: ViewTraits.Favorites.cornerRadius)
+					.inset(by: ViewTraits.Favorites.inset)
+					.stroke(
+						theme.separators.primary,
+						style: ViewTraits.Favorites.style
+					)
+			)
 	}
 	
 	/// The language key for adding favorite categories
@@ -395,9 +399,6 @@ struct HealthCategoriesView: View {
 					}
 				} else {
 					Menu {
-						if viewModel.state.canTitleCollapse {
-							menuFavoritesOption()
-						}
 						if viewModel.state.showRemoveHealthcareProvider {
 							menuRemoveHealthcareOrganizationOption()
 						}
@@ -420,19 +421,6 @@ struct HealthCategoriesView: View {
 		} else {
 			Image(ImageResource.Icon.more)
 		}
-	}
-	
-	/// The favorites option
-	/// - Returns: view
-	@ViewBuilder func menuFavoritesOption() -> some View {
-		
-		Button {
-			viewModel.reduce(.showFavorites)
-		} label: {
-			Label(emptyActionKey, systemImage: "star")
-				.tint(theme.labels.primary)
-		}
-		.accessibilityIdentifier("favorites")
 	}
 	
 	/// The remove healthcare organization option

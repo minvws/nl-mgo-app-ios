@@ -104,7 +104,7 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .single(let mgoOrganization):
 				mgoOrganization.display_name
 			case .all:
-				String(localized: "overview.heading")
+				String(localized: "overview.heading.welcome")
 		}
 		
 		let subheading: String = switch mode {

@@ -890,7 +890,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "U heeft nog geen favorieten gekozen. Klik op het plusje (+) om iets toe te voegen."
+            "value" : "U heeft nog geen onderdelen toegevoegd. Klik op het plusje (+) om iets toe te voegen."
           }
         }
       }
@@ -901,7 +901,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Favorieten"
+            "value" : "Vaak gebruikt"
           }
         }
       }
@@ -912,7 +912,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Overzicht aanpassen"
+            "value" : "Vaak gebruikt"
           }
         }
       }
@@ -2210,7 +2210,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg favorieten toe"
+            "value" : "Toevoegen"
           }
         }
       }
@@ -2221,7 +2221,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg hier uw favorieten toe.\nDan staan ze altijd bovenaan."
+            "value" : "Voeg onderdelen toe die u vaak gebruikt.\nDeze komen bovenaan te staan."
           }
         }
       }
@@ -2232,7 +2232,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Favorieten"
+            "value" : "Vaak gebruikt"
           }
         }
       }
@@ -2244,6 +2244,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Overzicht"
+          }
+        }
+      }
+    },
+    "overview.heading.welcome" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welkom"
           }
         }
       }
@@ -2287,7 +2298,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uw gegevens van alle zorgaanbieders."
+            "value" : "Dit is uw overzicht met gegevens van de zorgaanbieders die u hebt toegevoegd."
           }
         }
       }
