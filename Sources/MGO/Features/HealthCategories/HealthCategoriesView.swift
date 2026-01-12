@@ -37,13 +37,16 @@ struct HealthCategoriesView: View {
 		}
 		enum List {
 			static let zeroInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-			static let headerInset = EdgeInsets(top: 32, leading: 16, bottom: 8, trailing: 16)
-			static let oldVersionInset = EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0)
-			static let alternativeInset = EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+			static let favoritesHeaderInset = EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+			static let favoritesHeaderErrorInset = EdgeInsets(top: 28, leading: 16, bottom: 8, trailing: 16)
+			static let headerInset = EdgeInsets(top: 10, leading: 0, bottom: 16, trailing: 0)
+			static let oldVersionInset = EdgeInsets(top: 8, leading: 16, bottom: 0, trailing: 16)
+			static let categoryHeaderInset = EdgeInsets(top: 28, leading: 16, bottom: 8, trailing: 16)
 			static let spacing: CGFloat = 4
 			static let padding: CGFloat = 8
 			static let demoSpacing: CGFloat = 16
 			static let bottom: CGFloat = 16
+			static let headerSpacing: CGFloat = 10
 		}
 		enum NoResults {
 			static let top: CGFloat = 44
@@ -184,32 +187,14 @@ struct HealthCategoriesView: View {
 					.foregroundColor(theme.labels.primary)
 					.accessibilityAddTraits(.isHeader)
 			}
-			.listRowBackground(Color.green)
-			.listRowInsets(listHeaderInset(for: mainCategory))
+			.listRowBackground(Color.clear)
+			.listRowInsets(osVersionChecker.available(version: .iOS(.v17)) ? ViewTraits.List.oldVersionInset : ViewTraits.List.categoryHeaderInset
+			)
 			
 			Section {
 				ForEach(filteredCategories) { categoryView($0) }
 			}
 		}
-	}
-	
-	/// Calculate the header inset (the first header on the organization page has a smaller inset)
-	/// - Parameter mainCategory: the main category
-	/// - Returns: the inset
-	func listHeaderInset(
-		for mainCategory: SharedHealthCategories.MainCategory
-	) -> EdgeInsets {
-		
-		guard osVersionChecker.available(version: .iOS(.v17)) else {
-			return ViewTraits.List.oldVersionInset
-		}
-		
-		if !viewModel.state.canTitleCollapse &&
-			mainCategory == viewModel.state.mainCategories.first &&
-			viewModel.state.errorState == .none {
-			return ViewTraits.List.alternativeInset
-		}
-		return ViewTraits.List.headerInset
 	}
 	
 	/// View for a category
@@ -251,16 +236,15 @@ struct HealthCategoriesView: View {
 	@ViewBuilder private func listHeader() -> some View {
 		
 		Section {
-			VStack(spacing: ViewTraits.General.padding) {
+			VStack(spacing: ViewTraits.List.headerSpacing) {
 				if !viewModel.state.canTitleCollapse {
 					heading()
 				}
 				subHeading()
-					.padding(.bottom, ViewTraits.General.padding)
 			}
 		}
 		.listRowBackground(Color.clear)
-		.listRowInsets(ViewTraits.List.alternativeInset)
+		.listRowInsets(ViewTraits.List.headerInset)
 	}
 	
 	/// The favorites section
@@ -269,27 +253,26 @@ struct HealthCategoriesView: View {
 		
 		favoritesHeader()
 		
-//		if viewModel.state.favorites.isEmpty {
+		if viewModel.state.favorites.isEmpty {
 			
 			favoritesEmptyView()
-			.background(.brown)
-//		} else {
-//			
-//			let horizontalPadding = 2 * ViewTraits.General.padding
-//			let availableWidth = max(0, contentSize.width - horizontalPadding)
-//			let numberOfColumns = max(2, Int(availableWidth / ViewTraits.Favorites.minWidth))
-//			let columns = Array(repeating: GridItem(.flexible()), count: numberOfColumns)
-//			
-//			LazyVGrid(columns: columns, spacing: ViewTraits.Favorites.gridSpacing) {
-//				ForEach(viewModel.state.favorites) {
-//					categoryView($0, asFavorite: true)
-//						.cornerRadius(ViewTraits.Favorites.cornerRadius)
-//				}
-//			}
-//			.clipShape(Rectangle())
-//			.listRowInsets(ViewTraits.List.zeroInset)
-//			.listRowBackground(Color.clear)
-//		}
+		} else {
+			
+			let horizontalPadding = 2 * ViewTraits.General.padding
+			let availableWidth = max(0, contentSize.width - horizontalPadding)
+			let numberOfColumns = max(2, Int(availableWidth / ViewTraits.Favorites.minWidth))
+			let columns = Array(repeating: GridItem(.flexible()), count: numberOfColumns)
+			
+			LazyVGrid(columns: columns, spacing: ViewTraits.Favorites.gridSpacing) {
+				ForEach(viewModel.state.favorites) {
+					categoryView($0, asFavorite: true)
+						.cornerRadius(ViewTraits.Favorites.cornerRadius)
+				}
+			}
+			.clipShape(Rectangle())
+			.listRowInsets(ViewTraits.List.zeroInset)
+			.listRowBackground(Color.teal)
+		}
 	}
 	
 	/// The heading for the favorite section
@@ -308,14 +291,13 @@ struct HealthCategoriesView: View {
 					viewModel.reduce(.showFavorites)
 				}.buttonStyle(SectionButtonStyle())
 				.accessibilityIdentifier(emptyActionKey.stringKey)
-				.background(.cyan)
 			}
-			.background(.red)
 		}
 		.listRowInsets(
-			ViewTraits.List.headerInset
+			viewModel.state.errorState == .none ?
+			ViewTraits.List.favoritesHeaderInset : ViewTraits.List.favoritesHeaderErrorInset
 		)
-		.listRowBackground(Color.orange)
+		.listRowBackground(Color.clear)
 	}
 	
 	/// The empty state when the user has no favorite categories
@@ -336,7 +318,7 @@ struct HealthCategoriesView: View {
 		Text("overview.favorites.empty.heading")
 			.typography(.bodyMedium)
 			.foregroundStyle(theme.labels.primary)
-			.padding(.horizontal, ViewTraits.General.padding)
+			.padding(ViewTraits.General.padding)
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.overlay(
 				RoundedRectangle(cornerRadius: ViewTraits.Favorites.cornerRadius)
@@ -346,6 +328,7 @@ struct HealthCategoriesView: View {
 						style: ViewTraits.Favorites.style
 					)
 			)
+		
 	}
 	
 	/// The language key for adding favorite categories
