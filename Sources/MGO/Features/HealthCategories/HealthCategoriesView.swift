@@ -98,7 +98,7 @@ struct HealthCategoriesView: View {
 			view
 				.navigationBarTitleDisplayMode(.inline)
 		}
-		.when(!viewModel.state.showEmptyView) { view in
+		.when(viewModel.state.showRemoveHealthcareProvider) { view in
 			view
 				.toolbar(content: toolbarContent)
 		}
@@ -346,7 +346,6 @@ struct HealthCategoriesView: View {
 						style: ViewTraits.Favorites.style
 					)
 			)
-		
 	}
 	
 	/// Create the empty state view
@@ -387,26 +386,16 @@ struct HealthCategoriesView: View {
 		ToolbarItemGroup(
 			placement: .topBarTrailing,
 			content: {
-				
-				if viewModel.state.canTitleCollapse && !viewModel.state.showRemoveHealthcareProvider {
-					// Show more button, but immediately show the favorites sheet
-					Button {
-						viewModel.reduce(.showFavorites)
-					} label: {
-						moreIcon()
+				Menu {
+					if viewModel.state.showRemoveHealthcareProvider {
+						menuRemoveHealthcareOrganizationOption()
 					}
-				} else {
-					Menu {
-						if viewModel.state.showRemoveHealthcareProvider {
-							menuRemoveHealthcareOrganizationOption()
-						}
-					} label: {
-						moreIcon()
-					}
-					.buttonStyle(ToolbarButtonStyle())
-					.accessibilityLabel("overview.menu")
-					.accessibilityIdentifier("overview.menu")
+				} label: {
+					moreIcon()
 				}
+				.buttonStyle(ToolbarButtonStyle())
+				.accessibilityLabel("overview.menu")
+				.accessibilityIdentifier("overview.menu")
 			}
 		)
 	}
