@@ -254,25 +254,30 @@ struct HealthCategoriesView: View {
 		favoritesHeader()
 		
 		if viewModel.state.favorites.isEmpty {
-			
 			favoritesEmptyView()
 		} else {
-			
-			let horizontalPadding = 2 * ViewTraits.General.padding
-			let availableWidth = max(0, contentSize.width - horizontalPadding)
-			let numberOfColumns = max(2, Int(availableWidth / ViewTraits.Favorites.minWidth))
-			let columns = Array(repeating: GridItem(.flexible()), count: numberOfColumns)
-			
-			LazyVGrid(columns: columns, spacing: ViewTraits.Favorites.gridSpacing) {
-				ForEach(viewModel.state.favorites) {
-					categoryView($0, asFavorite: true)
-						.cornerRadius(ViewTraits.Favorites.cornerRadius)
-				}
-			}
-			.clipShape(Rectangle())
-			.listRowInsets(ViewTraits.List.zeroInset)
-			.listRowBackground(Color.teal)
+			favoritesGridView()
 		}
+	}
+	
+	/// The grid view for the favorite categories
+	/// - Returns: the favorite categories in a grid view
+	@ViewBuilder private func favoritesGridView() -> some View {
+		
+		let horizontalPadding = 2 * ViewTraits.General.padding
+		let availableWidth = max(0, contentSize.width - horizontalPadding)
+		let numberOfColumns = max(2, Int(availableWidth / ViewTraits.Favorites.minWidth))
+		let columns = Array(repeating: GridItem(.flexible()), count: numberOfColumns)
+		
+		LazyVGrid(columns: columns, spacing: ViewTraits.Favorites.gridSpacing) {
+			ForEach(viewModel.state.favorites) {
+				categoryView($0, asFavorite: true)
+					.cornerRadius(ViewTraits.Favorites.cornerRadius)
+			}
+		}
+		.clipShape(Rectangle())
+		.listRowInsets(ViewTraits.List.zeroInset)
+		.listRowBackground(Color.clear)
 	}
 	
 	/// The heading for the favorite section
@@ -287,10 +292,7 @@ struct HealthCategoriesView: View {
 				
 				Spacer()
 				
-				Button(emptyActionKey) {
-					viewModel.reduce(.showFavorites)
-				}.buttonStyle(SectionButtonStyle())
-				.accessibilityIdentifier(emptyActionKey.stringKey)
+				favoritesHeaderButton()
 			}
 		}
 		.listRowInsets(
@@ -298,6 +300,22 @@ struct HealthCategoriesView: View {
 			ViewTraits.List.favoritesHeaderInset : ViewTraits.List.favoritesHeaderErrorInset
 		)
 		.listRowBackground(Color.clear)
+	}
+	
+	/// The action button for the favorites
+	/// - Returns: action button
+	@ViewBuilder private func favoritesHeaderButton() -> some View {
+		if viewModel.state.favorites.isEmpty {
+			Button("overview.favorites.empty.action") {
+				viewModel.reduce(.showFavorites)
+			}.buttonStyle(SectionButtonStyle())
+				.accessibilityIdentifier("overview.favorites.empty.action")
+		} else {
+			Button("overview.favorites.add") {
+				viewModel.reduce(.showFavorites)
+			}.buttonStyle(SectionButtonStyle())
+				.accessibilityIdentifier("overview.favorites.add")
+		}
 	}
 	
 	/// The empty state when the user has no favorite categories
@@ -330,9 +348,6 @@ struct HealthCategoriesView: View {
 			)
 		
 	}
-	
-	/// The language key for adding favorite categories
-	let emptyActionKey: LocalizedStringKey = "overview.favorites.empty.action"
 	
 	/// Create the empty state view
 	/// - Returns: View when the user has no stored healthcare organizations
