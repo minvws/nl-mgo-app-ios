@@ -468,7 +468,7 @@ struct HealthCategoryView: View {
 		}
 		.backport.scrollContentBackground(.hidden)
 		.navigationBarBackButtonHidden()
-		.navigationBarItems(leading: BackButton("overview.heading") {
+		.navigationBarItems(leading: BackButton("bottombar.overview") {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
