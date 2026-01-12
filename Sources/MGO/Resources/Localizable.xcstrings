@@ -2193,6 +2193,28 @@
         }
       }
     },
+    "overview_favorites_action_add" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toevoegen"
+          }
+        }
+      }
+    },
+    "overview_favorites_action_edit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aanpassen"
+          }
+        }
+      }
+    },
     "overview.add_organization" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2211,17 +2233,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aanpassen"
-          }
-        }
-      }
-    },
-    "overview.favorites.empty.action" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toevoegen"
           }
         }
       }

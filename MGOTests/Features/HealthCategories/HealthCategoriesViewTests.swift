@@ -162,13 +162,33 @@ final class HealthCategoriesViewTests: XCTestCase {
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 		
 		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.favorites.empty.action")
-		try view.view(CallToActionButton.self).find(button: "overview.favorites.empty.action").tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "overview_favorites_action_add")
+		try view.button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showFavorites
+		
 	}
+	
+	@MainActor func test_editFavorites() throws {
+		
+		// Given
+		try Container.shared.favoritesRepository().store(Generator.healthCategory)
+		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
+		sut = HealthCategoriesView(viewModel: self.viewModel)
+		
+		// When
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "overview_favorites_action_edit")
+		try view.button().tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showFavorites
+		Container.shared.favoritesRepository().wipePersistedData()
+	}
+	
 	
 	@MainActor func test_toolbar() throws {
 		

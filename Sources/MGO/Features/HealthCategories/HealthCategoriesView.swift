@@ -304,15 +304,15 @@ struct HealthCategoriesView: View {
 	/// - Returns: action button
 	@ViewBuilder private func favoritesHeaderButton() -> some View {
 		if viewModel.state.favorites.isEmpty {
-			Button("overview.favorites.empty.action") {
+			Button("overview_favorites_action_add") {
 				viewModel.reduce(.showFavorites)
 			}.buttonStyle(SectionButtonStyle())
-				.accessibilityIdentifier("overview.favorites.empty.action")
+				.accessibilityIdentifier("overview_favorites_action_add")
 		} else {
-			Button("overview.favorites.add") {
+			Button("overview_favorites_action_edit") {
 				viewModel.reduce(.showFavorites)
 			}.buttonStyle(SectionButtonStyle())
-				.accessibilityIdentifier("overview.favorites.add")
+				.accessibilityIdentifier("overview_favorites_action_edit")
 		}
 	}
 	
