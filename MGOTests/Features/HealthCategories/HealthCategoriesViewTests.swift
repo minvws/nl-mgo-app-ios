@@ -189,7 +189,6 @@ final class HealthCategoriesViewTests: XCTestCase {
 		Container.shared.favoritesRepository().wipePersistedData()
 	}
 	
-	
 	@MainActor func test_toolbar() throws {
 		
 		// Given
