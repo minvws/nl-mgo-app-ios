@@ -44,8 +44,6 @@ struct HealthCategoriesView: View {
 			static let categoryHeaderInset = EdgeInsets(top: 28, leading: 16, bottom: 8, trailing: 16)
 			static let spacing: CGFloat = 4
 			static let padding: CGFloat = 8
-			static let demoSpacing: CGFloat = 16
-			static let bottom: CGFloat = 16
 			static let headerSpacing: CGFloat = 10
 		}
 		enum NoResults {
