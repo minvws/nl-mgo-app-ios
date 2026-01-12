@@ -890,7 +890,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "U heeft nog geen favorieten gekozen. Klik op het plusje (+) om iets toe te voegen."
+            "value" : "U heeft nog geen onderdelen toegevoegd. Klik op het plusje (+) om iets toe te voegen."
           }
         }
       }
@@ -901,7 +901,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Favorieten"
+            "value" : "Vaak gebruikt"
           }
         }
       }
@@ -912,7 +912,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Overzicht aanpassen"
+            "value" : "Vaak gebruikt"
           }
         }
       }
@@ -2193,6 +2193,28 @@
         }
       }
     },
+    "overview_favorites_action_add" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toevoegen"
+          }
+        }
+      }
+    },
+    "overview_favorites_action_edit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aanpassen"
+          }
+        }
+      }
+    },
     "overview.add_organization" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2204,13 +2226,13 @@
         }
       }
     },
-    "overview.favorites.empty.action" : {
+    "overview.favorites.add" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg favorieten toe"
+            "value" : "Aanpassen"
           }
         }
       }
@@ -2221,7 +2243,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg hier uw favorieten toe.\nDan staan ze altijd bovenaan."
+            "value" : "Voeg onderdelen toe die u vaak gebruikt.\nDeze komen bovenaan te staan."
           }
         }
       }
@@ -2232,7 +2254,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Favorieten"
+            "value" : "Vaak gebruikt"
           }
         }
       }
@@ -2243,7 +2265,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Overzicht"
+            "value" : "Welkom"
           }
         }
       }
@@ -2287,7 +2309,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uw gegevens van alle zorgaanbieders."
+            "value" : "Dit is uw overzicht met gegevens van de zorgaanbieders die u hebt toegevoegd."
           }
         }
       }
