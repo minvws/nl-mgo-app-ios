@@ -31,7 +31,10 @@ public actor FHIRClient {
 	- parameter for: The path in the absolute URL
 	*/
 	public func absoluteURL(for path: String) -> URL? {
-		return URL(string: path, relativeTo: baseURL)
+		
+		var myPath = path
+		myPath = myPath.replacingOccurrences(of: "|", with: "%7C")
+		return URL(string: myPath, relativeTo: baseURL)
 	}
 	
 	// MARK: - Requests
