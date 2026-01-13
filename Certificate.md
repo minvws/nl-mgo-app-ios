@@ -56,7 +56,7 @@ Step-by-Step Guide:
 
 17. Locate your .p12 file in the terminal and run `cat [certificateName] | base64 > [certificateName].b64` 
 
-18. Go to [Github Secrets](https://github.com/minvws/nl-mgo-app-ios-private/settings/secrets/actions) and update the DIST_CERT_CONTENTS with the content of the .b64 file, and update DIST_CERT_PASSWORD with the password from step 7
+18. Go to [Github Secrets](https://github.com/minvws/nl-mgo-app-ios-private/settings/secrets/actions) and update the DIST_CERT_CONTENTS with the content of the .b64 file, and update DIST_CERT_PASSWORD with the password from step 14
 
 19. Update the [Provisioning Profiles](https://developer.apple.com/account/resources/profiles/list) with the new certificate.
 
