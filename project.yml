@@ -90,6 +90,7 @@ fileGroups:
   - Scripts
   - Makefile
   - README.md
+  - Certificate.md
   - LICENSES
   - REUSE.toml
 
