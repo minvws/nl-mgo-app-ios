@@ -629,32 +629,23 @@ struct HealthCategoryView: View {
 			placement: .topBarTrailing,
 			content: {
 				
-				Menu {
-					menuExportPDFOption()
-				} label: {
-					if osVersionChecker.available(version: .iOS(.v26)) {
-						Image(ImageResource.Icon.more26)
-							.foregroundStyle(theme.labels.primary)
-					} else {
-						Image(ImageResource.Icon.more)
+				if osVersionChecker.available(version: .iOS(.v26)) {
+					Button("export_pdf.menu.save_pdf", systemImage: "square.and.arrow.down") {
+						viewModel.reduce(.showExportAlert)
 					}
+					.tint(theme.labels.primary)
+					.accessibilityLabel("export_pdf.menu")
+				} else {
+					Button {
+						viewModel.reduce(.showExportAlert)
+					} label: {
+						Image(ImageResource.Icon.download)
+					}
+					.tint(theme.labels.primary)
+					.accessibilityLabel("export_pdf.menu")
 				}
-				.buttonStyle(ToolbarButtonStyle())
-				.accessibilityLabel("export_pdf.menu")
 			}
 		)
-	}
-	
-	/// The export pdf option
-	/// - Returns: view
-	@ViewBuilder func menuExportPDFOption() -> some View {
-		
-		Button {
-			viewModel.reduce(.showExportAlert)
-		} label: {
-			Label("export_pdf.menu.save_pdf", systemImage: "arrow.down.document")
-				.tint(theme.labels.primary)
-		}
 	}
 
 	/// Full Screen page
