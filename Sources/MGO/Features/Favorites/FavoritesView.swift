@@ -311,7 +311,7 @@ struct FavoritesView: View {
 			// of the whole view, which renders the drag and drop unusable.
 			.buttonStyle(PlainButtonStyle())
 			
-			category.getIconWithBackground()
+			category.getIconWithBackground(theme: theme)
 				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
 				.padding(.trailing, ViewTraits.Icon.padding)
 			
