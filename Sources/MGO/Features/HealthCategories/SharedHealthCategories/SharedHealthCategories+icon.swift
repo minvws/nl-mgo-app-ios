@@ -19,6 +19,7 @@ extension SharedHealthCategories.Category {
 			getIcon()
 				.resizable()
 				.tint(color)
+				.foregroundStyle(color)
 		}
 		.padding(4)
 		.frame(width: 32, height: 32, alignment: .center)

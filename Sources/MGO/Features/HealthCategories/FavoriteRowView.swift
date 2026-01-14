@@ -27,9 +27,6 @@ struct FavoriteRowView: View {
 		enum Text {
 			static let spacing: CGFloat = 8
 		}
-		enum Icon {
-			static let size: CGFloat = 32
-		}
 		enum Accessory {
 			static let size: CGFloat = 22
 		}
@@ -45,8 +42,7 @@ struct FavoriteRowView: View {
 		VStack(alignment: .leading, spacing: ViewTraits.Text.spacing) {
 			HStack(alignment: .top, spacing: 0) {
 				
-				category.getIconWithBackground(theme: theme)
-					.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
+				HealthCategoryIconView(category: category)
 				
 				Spacer()
 				
