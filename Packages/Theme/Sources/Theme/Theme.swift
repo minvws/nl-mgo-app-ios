@@ -57,7 +57,7 @@ public final class Theme: Themeable {
 		problems: Color("categoriesProblems", bundle: .module),
 		personal: Color("categoriesPersonal", bundle: .module),
 		warning: Color("categoriesWarning", bundle: .module),
-		payer: Color("categoriesPayer", bundle: .module),
+		providers: Color("categoriesProvider", bundle: .module),
 		procedures: Color("categoriesProcedures", bundle: .module),
 		lifestyle: Color("categoriesLifestyle", bundle: .module),
 		plan: Color("categoriesPlan", bundle: .module)
