@@ -147,10 +147,14 @@ struct PatientFriendlyTermView: View {
 			.padding(.horizontal, ViewTraits.General.padding)
 			.padding(.top, ViewTraits.Navigation.padding)
 		}
-		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.when(isPresentedAsSheet, transform: { view in
 			view
+				.background(theme.backgrounds.secondary.ignoresSafeArea())
 				.backport.presentationDetents([.medium])
+		})
+		.when(!isPresentedAsSheet, transform: { view in
+			view
+				.background(theme.backgrounds.primary.ignoresSafeArea())
 		})
 	}
 }

@@ -31,7 +31,7 @@ final class PatientFriendlyTermViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -44,7 +44,33 @@ final class PatientFriendlyTermViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_PatientFriendlyTermView_asSheet() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let content = NavigationView { sut.isPresentedAsSheet(true) }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_PatientFriendlyTermView_iOS18_asSheet() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		createSut()
+		
+		// When
+		let content = NavigationView { sut.isPresentedAsSheet(true) }
 		
 		// Then
 		takeSnapShots(content: content)
