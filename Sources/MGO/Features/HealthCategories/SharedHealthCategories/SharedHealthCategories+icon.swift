@@ -128,7 +128,7 @@ extension SharedHealthCategories.Category {
 				theme.categories.providers
 				
 			case "plans":
-				theme.categories.contacts
+				theme.categories.plan
 				
 			case "problems":
 				theme.categories.problems
