@@ -49,6 +49,11 @@ struct CategoryStateView: View {
 						height: ViewTraits.Accessory.size
 					)
 				
+			case .empty:
+				Text("common.no_data")
+					.typography(.bodySmall)
+					.foregroundStyle(theme.labels.secondary)
+				
 			default:
 				Spacer()
 		}

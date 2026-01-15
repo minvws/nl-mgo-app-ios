@@ -1,17 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Categorie=Behandelingen.svg",
-      "idiom" : "universal"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "Categorie=Behandelingen 1.svg",
+      "filename" : "medical_services.svg",
       "idiom" : "universal"
     }
   ],
@@ -21,6 +11,6 @@
   },
   "properties" : {
     "preserves-vector-representation" : true,
-    "template-rendering-intent" : "original"
+    "template-rendering-intent" : "template"
   }
 }

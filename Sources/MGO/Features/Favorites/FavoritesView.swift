@@ -109,7 +109,6 @@ struct FavoritesView: View {
 			static let padding: CGFloat = 16
 		}
 		enum Icon {
-			static let size: CGFloat = 32
 			static let padding: CGFloat = 16
 		}
 		enum Action {
@@ -311,8 +310,7 @@ struct FavoritesView: View {
 			// of the whole view, which renders the drag and drop unusable.
 			.buttonStyle(PlainButtonStyle())
 			
-			category.getIconWithBackground()
-				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
+			HealthCategoryIconView(category: category)
 				.padding(.trailing, ViewTraits.Icon.padding)
 			
 			Text(category.localizedHeading())
