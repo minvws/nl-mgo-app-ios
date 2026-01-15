@@ -38,8 +38,8 @@ struct HealthUISchemaView: View {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum List {
-			static let headerInset: EdgeInsets = EdgeInsets(top: 32, leading: 0, bottom: 12, trailing: 0)
-			static let alternativeInset = EdgeInsets(top: 8, leading: 0, bottom: 12, trailing: 0)
+			static let headerInset: EdgeInsets = EdgeInsets(top: 24, leading: 16, bottom: 8, trailing: 16)
+			static let alternativeInset = EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
 			static let inset: EdgeInsets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 			static let zeroInset: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let bottom: CGFloat = 16
@@ -66,11 +66,10 @@ struct HealthUISchemaView: View {
 				viewFor(schemaGroup)
 			}
 		}
-		.backport.listSectionSpacing(osVersionChecker.available(version: .iOS(.v26)) ? 0 : 16)
+		.backport.listSectionSpacing(osVersionChecker.available(version: .iOS(.v26)) ? 0 : 8)
 		.backport.contentMargins(0)
 		.backport.scrollContentBackground(.hidden)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
-		.padding(.bottom, ViewTraits.List.bottom)
 	}
 	
 	// MARK: - viewFor methods -
@@ -100,6 +99,12 @@ struct HealthUISchemaView: View {
 		Section {
 			ForEach(Array(schemaGroup.uiElements.enumerated()), id: \.offset) { _, element in
 				viewFor(element)
+			}
+		} footer: {
+			if schemaGroup == schema.children.last {
+				Rectangle()
+					.fill(.clear)
+					.frame(height: ViewTraits.List.bottom)
 			}
 		}
 	}
