@@ -70,7 +70,6 @@ struct HealthUISchemaView: View {
 		.backport.contentMargins(0)
 		.backport.scrollContentBackground(.hidden)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
-		.padding(.bottom, ViewTraits.List.bottom)
 	}
 	
 	// MARK: - viewFor methods -
@@ -100,6 +99,12 @@ struct HealthUISchemaView: View {
 		Section {
 			ForEach(Array(schemaGroup.uiElements.enumerated()), id: \.offset) { _, element in
 				viewFor(element)
+			}
+		} footer: {
+			if schemaGroup == schema.children.last {
+				Rectangle()
+					.fill(.clear)
+					.frame(height: ViewTraits.List.bottom)
 			}
 		}
 	}
