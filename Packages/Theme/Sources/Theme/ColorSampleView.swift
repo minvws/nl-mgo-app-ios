@@ -125,13 +125,14 @@ struct ColorSampleView: View {
 					
 					HStack {
 						colorSample(theme.categories.warning, text: "Warning")
-						colorSample(theme.categories.payer, text: "Payer")
+						colorSample(theme.categories.providers, text: "Providers")
 						colorSample(theme.categories.vaccinations, text: "Vaccinations")
 						colorSample(theme.categories.procedures, text: "Procedures")
 					}
 					
 					HStack {
 						colorSample(theme.categories.lifestyle, text: "Lifestyle")
+						colorSample(theme.categories.plan, text: "Plan")
 					}
 				}
 			}

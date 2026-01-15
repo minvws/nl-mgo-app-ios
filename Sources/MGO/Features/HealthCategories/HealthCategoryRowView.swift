@@ -25,7 +25,7 @@ struct HealthCategoryRowView: View {
 			static let spacing: CGFloat = 4
 		}
 		enum Icon {
-			static let size: CGFloat = 32
+//			static let size: CGFloat = 32
 			static let padding: CGFloat = 16
 		}
 		enum Spinner {
@@ -38,8 +38,7 @@ struct HealthCategoryRowView: View {
 		
 		HStack(alignment: .top, spacing: 0) {
 			
-			category.getIconWithBackground()
-				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
+			HealthCategoryIconView(category: category)
 				.padding(.trailing, ViewTraits.Icon.padding)
 			
 			VStack(alignment: .leading, spacing: ViewTraits.Text.spacing) {

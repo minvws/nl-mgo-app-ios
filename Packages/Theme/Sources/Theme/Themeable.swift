@@ -54,7 +54,7 @@ public struct Colors {
 		public let problems: Color
 		public let personal: Color
 		public let warning: Color
-		public let payer: Color
+		public let providers: Color
 		public let procedures: Color
 		public let lifestyle: Color
 		public let plan: Color

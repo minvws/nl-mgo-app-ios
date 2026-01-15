@@ -500,7 +500,7 @@ struct HealthCategoryView: View {
 		switch errorState {
 			case .none:
 				fullScreenPage(
-					image: viewModel.category.getEmptyIcon(),
+					image: viewModel.category.getIcon(),
 					heading: String(localized: "health_category.empty.heading"),
 					subHeading: String(localized: "health_category.empty.subheading"),
 					actionTitle: "health_category.empty.action"

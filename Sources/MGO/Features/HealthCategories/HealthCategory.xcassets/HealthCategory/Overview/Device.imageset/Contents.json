@@ -1,17 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Categorie=Medische hulpmiddelen.svg",
-      "idiom" : "universal"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "Categorie=Medische hulpmiddelen 1.svg",
+      "filename" : "health_and_safety.svg",
       "idiom" : "universal"
     }
   ],
@@ -21,6 +11,6 @@
   },
   "properties" : {
     "preserves-vector-representation" : true,
-    "template-rendering-intent" : "original"
+    "template-rendering-intent" : "template"
   }
 }

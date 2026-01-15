@@ -11,82 +11,26 @@ extension SharedHealthCategories.Category {
 	/// Get the display icon for the category
 	/// - Parameter theme: the theme
 	/// - Returns: a view witch the right themed icon
-	@ViewBuilder func getIconWithBackground() -> some View {
+	@ViewBuilder func getIconWithBackground(theme: any Themeable) -> some View {
 		
-		switch id {
-			case "alerts":
-				Image(ImageResource.HealthCategory.Overview.alert)
-					.resizable()
-				
-			case "allergies":
-				Image(ImageResource.HealthCategory.Overview.allergy)
-					.resizable()
-				
-			case "appointments":
-				Image(ImageResource.HealthCategory.Overview.appointment)
-					.resizable()
-				
-			case "documents":
-				Image(ImageResource.HealthCategory.Overview.folder)
-					.resizable()
-				
-			case "medication":
-				Image(ImageResource.HealthCategory.Overview.pill)
-					.resizable()
-				
-			case "medical_devices":
-				Image(ImageResource.HealthCategory.Overview.device)
-					.resizable()
-				
-			case "mental_wellbeing":
-				Image(ImageResource.HealthCategory.Overview.mentalWellbeing)
-					.resizable()
-				
-			case "measurements":
-				Image(ImageResource.HealthCategory.Overview.vitalSigns)
-					.resizable()
-				
-			case "lab_results":
-				Image(ImageResource.HealthCategory.Overview.tube)
-					.resizable()
-				
-			case "lifestyle":
-				Image(ImageResource.HealthCategory.Overview.lifestyle)
-					.resizable()
-				
-			case "patient":
-				Image(ImageResource.HealthCategory.Overview.administration)
-					.resizable()
-				
-			case "care_team":
-				Image(ImageResource.HealthCategory.Overview.careTeam)
-					.resizable()
-				
-			case "plans":
-				Image(ImageResource.HealthCategory.Overview.plans)
-					.resizable()
-				
-			case "problems":
-				Image(ImageResource.HealthCategory.Overview.problems)
-					.resizable()
-				
-			case "treatments":
-				Image(ImageResource.HealthCategory.Overview.case)
-					.resizable()
-				
-			case "vaccinations":
-				Image(ImageResource.HealthCategory.Overview.syringe)
-					.resizable()
-				
-			default:
-				EmptyView()
+		let color = getColor(theme: theme)
+		
+		HStack(alignment: .center, spacing: 0) {
+			getIcon()
+				.resizable()
+				.tint(color)
+				.foregroundStyle(color)
 		}
+		.padding(4)
+		.frame(width: 32, height: 32, alignment: .center)
+		.background(color.opacity(0.15))
+		.cornerRadius(8)
 	}
 	
 	/// Get the empty icon for the category
 	/// - Parameter theme: the theme
 	/// - Returns: a view witch the right themed icon
-	func getEmptyIcon() -> Image {
+	func getIcon() -> Image {
 		
 		switch id {
 			case "alerts":
@@ -139,6 +83,65 @@ extension SharedHealthCategories.Category {
 				
 			default:
 				Image(systemName: "stethoscope")
+		}
+	}
+	
+	/// Get the color for the category
+	/// - Parameter theme: the theme
+	/// - Returns: a color
+	func getColor(theme: any Themeable) -> Color {
+		
+		switch id {
+			case "alerts":
+				theme.categories.warning
+				
+			case "allergies":
+				theme.categories.allergies
+				
+			case "appointments":
+				theme.categories.contacts
+				
+			case "documents":
+				theme.categories.documents
+				
+			case "medication":
+				theme.categories.medication
+				
+			case "medical_devices":
+				theme.categories.device
+				
+			case "mental_wellbeing":
+				theme.categories.functional
+				
+			case "measurements":
+				theme.categories.vitals
+				
+			case "lab_results":
+				theme.categories.laboratory
+				
+			case "lifestyle":
+				theme.categories.lifestyle
+				
+			case "patient":
+				theme.categories.personal
+				
+			case "care_team":
+				theme.categories.providers
+				
+			case "plans":
+				theme.categories.plan
+				
+			case "problems":
+				theme.categories.problems
+				
+			case "treatments":
+				theme.categories.treatment
+				
+			case "vaccinations":
+				theme.categories.vaccinations
+				
+			default:
+				theme.categories.rijkslint
 		}
 	}
 }
