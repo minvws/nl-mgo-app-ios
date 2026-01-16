@@ -29,7 +29,7 @@ import XCTest
 	}
 	
 	private var alertSubHeadingLabel: XCUIElement {
-		app.staticTexts["Je kunt je gegevens straks opnieuw ophalen. Het andere account wordt verwijderd."]
+		app.staticTexts["U kunt uw gegevens straks opnieuw ophalen. Het andere account wordt verwijderd."]
 	}
 
 	private var cancelButton: XCUIElement {
