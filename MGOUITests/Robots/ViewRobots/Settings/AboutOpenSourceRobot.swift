@@ -27,7 +27,7 @@ import XCTest
 	}
 	
 	private var titleLabel: XCUIElement {
-		app.navigationBars.staticTexts["Open-source bibliotheken"]
+		app.navigationBars.staticTexts["Open source bibliotheken"]
 	}
 	
 	private var subHeadingLabel: XCUIElement {

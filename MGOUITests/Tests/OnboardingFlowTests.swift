@@ -46,7 +46,7 @@ final class OnboardingFlowTests: XCTestCase {
 			.launchApp()
 			.tapNextButton()
 			.tapNextButton()
-			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
+			.verifySubHeadingExists("U heeft een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
 			.enterPinCode("11111")
 			.verifyErrorTextExists("Code is te simpel en dus onveilig")
 	}
@@ -57,9 +57,9 @@ final class OnboardingFlowTests: XCTestCase {
 			.launchApp()
 			.tapNextButton()
 			.tapNextButton()
-			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
+			.verifySubHeadingExists("U heeft een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
 			.enterPinCode("12369")
-			.verifySubHeadingExists("Voer je 5-cijferige code nog een keer in.")
+			.verifySubHeadingExists("Voer uw 5-cijferige code nog een keer in.")
 			.enterPinCode("11111")
 			.verifyErrorTextExists("Code is anders dan de vorige")
 	}
@@ -72,9 +72,9 @@ final class OnboardingFlowTests: XCTestCase {
 			.launchApp()
 			.tapNextButton()
 			.tapNextButton()
-			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
+			.verifySubHeadingExists("U heeft een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
 			.enterPinCode("12369")
-			.verifySubHeadingExists("Voer je 5-cijferige code nog een keer in.")
+			.verifySubHeadingExists("Voer uw 5-cijferige code nog een keer in.")
 			.enterConfirmationPinCodeWithBioMetric("12369")
 			.verifySubHeadingExists()
 			.verifyBioMetricsButtonExists()
@@ -99,24 +99,6 @@ final class OnboardingFlowTests: XCTestCase {
 			.tapLoginWithDigiDButton()
 			.verifySafariIsOpen()
 			.verifyMockDigiDWebsite()
-	}
-	
-	@MainActor
-	func testOnboardingFlow_searchForHealthcareOrganization() {
-		
-		AppRobot()
-			.launchApp(withPincode: "12345")
-			.enterConfirmationPinCode("12345")
-			.tapLoginWithDigiDButton()
-			.performCompleteDigiDLogin()
-			.verifyNameFieldExists()
-			.verifyCityFieldExists()
-			.enterSearchFields(name: "test", place: "test")
-			.verifySearchButtonExists()
-			.tapSearchButton()
-			.swipeToListElement(at: 4)
-			.verifyListElementExists(at: 4)
-			.tapListElement(at: 4)
 	}
 	
 	@MainActor

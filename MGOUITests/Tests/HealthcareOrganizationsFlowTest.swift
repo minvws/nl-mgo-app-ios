@@ -35,7 +35,7 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
-			.verifyTitleExists("Overzicht")
+			.verifyTitleExists("Welkom")
 			.tapHealthcareOrganizationTab()
 			.tapHealthcareOrganizationButton("Kwalificatie Medmij: BGZ")
 			.verifyHeadingExists("Kwalificatie Medmij: BGZ")
@@ -51,7 +51,7 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
-			.verifyTitleExists("Overzicht")
+			.verifyTitleExists("Welkom")
 			.tapHealthcareOrganizationTab()
 			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
 			.verifyHeadingExists(self.healthcareOrganizationName)
@@ -69,7 +69,7 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
-			.verifyTitleExists("Overzicht")
+			.verifyTitleExists("Welkom")
 			.tapHealthcareOrganizationTab()
 			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
 			.verifyHeadingExists(self.healthcareOrganizationName)
@@ -87,7 +87,7 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
-			.verifyTitleExists("Overzicht")
+			.verifyTitleExists("Welkom")
 			.tapHealthcareOrganizationTab()
 			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
 			.verifyHeadingExists(self.healthcareOrganizationName)
@@ -109,7 +109,7 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
-			.verifyTitleExists("Overzicht")
+			.verifyTitleExists("Welkom")
 			.tapHealthcareOrganizationTab()
 			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
 			.verifyHeadingExists(self.healthcareOrganizationName)
