@@ -20,7 +20,7 @@ let package = Package(
 		.package(name: "Observatory", path: "../Observatory"),
 		
 		// External
-		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.3"),
+		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.4"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.9.0"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.2.0"),
 		
