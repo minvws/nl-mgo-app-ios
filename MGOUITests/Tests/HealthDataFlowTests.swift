@@ -98,6 +98,7 @@ final class HealthDataFlowTests: XCTestCase {
 			.swipeDownToRowHeading("Volgnummer")
 			.verifySectionRowExists("Toedientijd", value: "Niet bekend")
 			.verifySectionRowExists("Volgnummer", value: "1")
+			.swipeDownToRowHeading("Weekdagen")
 			.verifySectionRowExists("Weekdagen", value: "Niet bekend")
 			.verifySectionRowExists("Zo nodig", value: "Niet bekend")
 	}
