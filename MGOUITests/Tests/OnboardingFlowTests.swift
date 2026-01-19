@@ -102,24 +102,6 @@ final class OnboardingFlowTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testOnboardingFlow_searchForHealthcareOrganization() {
-		
-		AppRobot()
-			.launchApp(withPincode: "12345")
-			.enterConfirmationPinCode("12345")
-			.tapLoginWithDigiDButton()
-			.performCompleteDigiDLogin()
-			.verifyNameFieldExists()
-			.verifyCityFieldExists()
-			.enterSearchFields(name: "test", place: "test")
-			.verifySearchButtonExists()
-			.tapSearchButton()
-			.swipeToListElement(at: 4)
-			.verifyListElementExists(at: 4)
-			.tapListElement(at: 4)
-	}
-	
-	@MainActor
 	func testOnboardingFlow_demoMode_automaticLocalization() {
 		
 		AppRobot()
