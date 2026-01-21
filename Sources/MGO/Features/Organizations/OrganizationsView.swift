@@ -29,6 +29,9 @@ class OrganizationsViewModel: ObservableObject {
 	/// A list of the organizations when the page was loaded
 	private var originalOrganizations: [MgoOrganization] = []
 	
+	/// The toast auto closure task
+	private var dismissTask: Task<Void, Never>?
+	
 	/// Dependency Healthcare Organization Store
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
 	
@@ -105,12 +108,12 @@ class OrganizationsViewModel: ObservableObject {
 				loadHealthcareOrganizations()
 			
 			case .search:
-				toast = nil
+				closeToast()
 				updateOriginalOrganizations()
 				coordinator?.handle(Coordination.Action.addHealthcareOrganization)
 			
 			case .details(let healthcareOrganization):
-				toast = nil
+				closeToast()
 				updateOriginalOrganizations()
 				coordinator?.handle(Coordination.Action(
 					identifier: Coordination.Action.showHealthcareOrganization.identifier,
@@ -118,7 +121,7 @@ class OrganizationsViewModel: ObservableObject {
 				)
 			
 			case .closeToast:
-				toast = nil
+				closeToast()
 				updateOriginalOrganizations()
 			
 			case let .showToast(title, subtitle):
@@ -130,14 +133,22 @@ class OrganizationsViewModel: ObservableObject {
 						self?.reduce(.undo)
 					}
 				)
+				startToastAutoClose()
 			
 			case .undo:
 				try? healthcareOrganizationRepository.set(originalOrganizations)
 				loadHealthcareOrganizations()
-				withAnimation {
-					Haptic.heavy()
-					self.toast = nil
-				}
+				
+				Haptic.heavy()
+				closeToast()
+		}
+	}
+	
+	/// Close the toast
+	private func closeToast() {
+		dismissTask?.cancel()
+		withAnimation {
+			toast = nil
 		}
 	}
 	
@@ -154,6 +165,24 @@ class OrganizationsViewModel: ObservableObject {
 			state = .empty
 		} else {
 			state = .list(organizations)
+		}
+	}
+	
+	/// The auto closure timer
+	@MainActor
+	private func startToastAutoClose() {
+		// Cancel any previous task
+		dismissTask?.cancel()
+		
+		// Start a new task that waits for `duration` seconds
+		dismissTask = Task {
+			try? await Task.sleep(nanoseconds: UInt64(4 * 1_000_000_000))
+			// Only hide if the task hasn't been cancelled
+			if !Task.isCancelled {
+				await MainActor.run {
+					withAnimation { toast = nil }
+				}
+			}
 		}
 	}
 }
@@ -211,7 +240,7 @@ struct OrganizationsView: View {
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
-		.toast(viewModel.toast) {
+		.toast(viewModel.toast, rounded: osVersionChecker.available(version: .iOS(.v26))) {
 			viewModel.reduce(.closeToast)
 		}
 	}
