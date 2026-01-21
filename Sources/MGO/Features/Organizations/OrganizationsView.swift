@@ -133,6 +133,7 @@ class OrganizationsViewModel: ObservableObject {
 						self?.reduce(.undo)
 					}
 				)
+				Haptic.medium()
 				startToastAutoClose()
 			
 			case .undo:
