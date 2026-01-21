@@ -12,6 +12,9 @@ public struct ToastView: View {
 	/// The Banner to display
 	public var feedback: Feedback
 	
+	/// Should we use the rounded corners as of iOS 26?
+	public var rounded: Bool
+	
 	/// The action to be performed when the user presses this card
 	public var closeAction: (() -> Void)?
 	
@@ -21,8 +24,10 @@ public struct ToastView: View {
 	///   - perform: The action to perform when the user presses on the close button
 	public init(
 		_ feedback: Feedback,
+		rounded: Bool,
 		closeAction: (() -> Void)? = nil) {
 			self.feedback = feedback
+			self.rounded = rounded
 			self.closeAction = closeAction
 		}
 	
@@ -65,6 +70,7 @@ public struct ToastView: View {
 			static let spacing: CGFloat = 8
 			static let padding: CGFloat = 16
 			static let cornerRadius: CGFloat = 12
+			static let roundedRadius: CGFloat = 1000
 		}
 		enum Button {
 			static let size: CGFloat = 40
@@ -144,16 +150,18 @@ public struct ToastView: View {
 		.padding(.horizontal, ViewTraits.Toast.padding)
 		.frame(maxWidth: .infinity)
 		.background(backgroundColor)
-		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.Toast.cornerRadius))
+		.clipShape(
+			RoundedRectangle(cornerRadius: rounded ? ViewTraits.Toast.roundedRadius : ViewTraits.Toast.cornerRadius)
+		)
 	}
 }
 
 #Preview {
 	VStack {
-		ToastView(Feedback(title: "Title", subtitle: "Text", type: .info))
-		ToastView(Feedback(title: "Title", subtitle: "Text", type: .warning))
-		ToastView(Feedback(title: "Title", subtitle: "Text", type: .error))
-		ToastView(Feedback(title: "Title", subtitle: "Text", type: .success))
+		ToastView(Feedback(title: "Title", subtitle: "Text", type: .info), rounded: true)
+		ToastView(Feedback(title: "Title", subtitle: "Text", type: .warning), rounded: true)
+		ToastView(Feedback(title: "Title", subtitle: "Text", type: .error), rounded: true)
+		ToastView(Feedback(title: "Title", subtitle: "Text", type: .success), rounded: true)
 	}
 	.padding(16)
 }

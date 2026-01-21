@@ -17,7 +17,35 @@ final class ToastViewTests: XCTestCase {
 				title: "Test Banner",
 				subtitle: "Type Info",
 				type: .info
+			),
+			rounded: false
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
+	}
+	
+	func test_toast_info_rounded() {
+		
+		// Given
+		let sut = ToastView(
+			Feedback(
+				title: "Test Banner",
+				subtitle: "Type Info",
+				type: .info
 			)
+			,
+			rounded: true
 		)
 		
 		// When
@@ -42,7 +70,34 @@ final class ToastViewTests: XCTestCase {
 				title: "Test Banner Test Banner Test Banner Test Banner",
 				subtitle: "Type Info Type Info Type Info",
 				type: .info
-			)
+			),
+			rounded: false
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
+	}
+	
+	func test_toast_info_longerTexts_rounded() {
+		
+		// Given
+		let sut = ToastView(
+			Feedback(
+				title: "Test Banner Test Banner Test Banner Test Banner",
+				subtitle: "Type Info Type Info Type Info",
+				type: .info
+			),
+			rounded: true
 		)
 		
 		// When
@@ -67,7 +122,34 @@ final class ToastViewTests: XCTestCase {
 				title: "Test Banner",
 				subtitle: "Type Warning",
 				type: .warning
-			)
+			),
+			rounded: false
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
+	}
+	
+	func test_toast_warning_rounded() {
+		
+		// Given
+		let sut = ToastView(
+			Feedback(
+				title: "Test Banner",
+				subtitle: "Type Warning",
+				type: .warning
+			),
+			rounded: true
 		)
 		
 		// When
@@ -92,7 +174,34 @@ final class ToastViewTests: XCTestCase {
 				title: "Test Banner",
 				subtitle: "Type Error",
 				type: .error
-			)
+			),
+			rounded: false
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
+	}
+	
+	func test_toast_error_rounded() {
+		
+		// Given
+		let sut = ToastView(
+			Feedback(
+				title: "Test Banner",
+				subtitle: "Type Error",
+				type: .error
+			),
+			rounded: true
 		)
 		
 		// When
@@ -117,7 +226,34 @@ final class ToastViewTests: XCTestCase {
 				title: "Test Banner",
 				subtitle: "Type Success",
 				type: .success
-			)
+			),
+			rounded: false
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
+	}
+	
+	func test_toast_success_rounded() {
+		
+		// Given
+		let sut = ToastView(
+			Feedback(
+				title: "Test Banner",
+				subtitle: "Type Success",
+				type: .success
+			),
+			rounded: true
 		)
 		
 		// When
@@ -149,6 +285,7 @@ final class ToastViewTests: XCTestCase {
 					actionTapped = true
 				}
 			),
+			rounded: false,
 			closeAction: {
 				closedTapped = true
 			}
@@ -177,6 +314,7 @@ final class ToastViewTests: XCTestCase {
 					actionTapped = true
 				}
 			),
+			rounded: false,
 			closeAction: {
 				closedTapped = true
 			}
