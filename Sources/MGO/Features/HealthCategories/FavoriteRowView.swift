@@ -42,7 +42,7 @@ struct FavoriteRowView: View {
 		VStack(alignment: .leading, spacing: ViewTraits.Text.spacing) {
 			HStack(alignment: .top, spacing: 0) {
 				
-				HealthCategoryIconView(category: category)
+				HealthCategoryIconView(category: category, state: state)
 				
 				Spacer()
 				

@@ -10,10 +10,14 @@ extension SharedHealthCategories.Category {
 	
 	/// Get the display icon for the category
 	/// - Parameter theme: the theme
+	/// - Parameter overrideColor: a fixed color to use instead of the category color
 	/// - Returns: a view witch the right themed icon
-	@ViewBuilder func getIconWithBackground(theme: any Themeable) -> some View {
+	@ViewBuilder func getIconWithBackground(
+		theme: any Themeable,
+		overrideColor: Color? = nil
+	) -> some View {
 		
-		let color = getColor(theme: theme)
+		let color = overrideColor ?? getColor(theme: theme)
 		
 		HStack(alignment: .center, spacing: 0) {
 			getIcon()
