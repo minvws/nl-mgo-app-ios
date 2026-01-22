@@ -109,6 +109,32 @@ final class OrganizationsViewTests: XCTestCase {
 	@MainActor func test_dashboard_threeOrganizations_toast() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		let healthcareOrganization = Generator.healthcareOrganization("1")
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
+			healthcareOrganization,
+			Generator.healthcareOrganization("2"),
+			Generator.healthcareOrganization("3")
+		]
+		createSut()
+		
+		viewModel.toast = Feedback(
+			title: String(localized: "toast.organizations_changed.heading"),
+			subtitle: String(localized: "toast.organizations_changed.subheading"),
+			type: .success
+		)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_dashboard_threeOrganizations_toast_iOS26() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
 			healthcareOrganization,
