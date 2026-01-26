@@ -310,7 +310,7 @@ struct FavoritesView: View {
 			// of the whole view, which renders the drag and drop unusable.
 			.buttonStyle(PlainButtonStyle())
 			
-			HealthCategoryIconView(category: category)
+			HealthCategoryIconView(category: category, state: nil)
 				.padding(.trailing, ViewTraits.Icon.padding)
 			
 			Text(category.localizedHeading())

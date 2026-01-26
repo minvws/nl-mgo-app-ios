@@ -9,6 +9,9 @@ struct HealthCategoryIconView: View {
 	
 	var category: SharedHealthCategories.Category
 	
+	/// The state
+	var state: CategoryState?
+	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
@@ -21,7 +24,12 @@ struct HealthCategoryIconView: View {
 	
 	var body: some View {
 	
-		category.getIconWithBackground(theme: theme)
+		category
+			.getIconWithBackground(
+				theme: theme,
+				overrideColor: state == .empty ? theme.symbols.secondary
+				: nil
+			)
 			.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
 	}
 	
