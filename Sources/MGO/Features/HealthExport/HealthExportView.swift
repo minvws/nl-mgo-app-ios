@@ -450,6 +450,7 @@ struct HealthExportView: View {
 							viewModel.reduce(.closeSheet)
 						}
 						.accessibilityLabel(closeKey)
+						.tint(theme.labels.primary)
 					}
 				} else {
 					
