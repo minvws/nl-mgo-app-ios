@@ -156,6 +156,7 @@ struct FavoritesView: View {
 					viewModel.reduce(.closeButtonPressed)
 				}
 				.accessibilityLabel(cancelKey)
+				.tint(theme.labels.primary)
 				
 			} else {
 				Button {
