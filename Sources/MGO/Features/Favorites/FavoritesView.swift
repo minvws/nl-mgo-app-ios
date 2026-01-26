@@ -126,14 +126,16 @@ struct FavoritesView: View {
 	
 	var body: some View {
 		
-		VStack {
+		List {
+			favoritesView()
 			
-			categoriesView()
-				.backport.listSectionSpacing(ViewTraits.List.spacing)
-				.backport.contentMargins(0)
+			ForEach(viewModel.state.mainCategories, id: \.id) { mainCategoryView($0) }
 			
-			Spacer()
-		}
+		} // List
+		.backport.scrollContentBackground(.hidden)
+		.listStyle(.insetGrouped)
+		.backport.listSectionSpacing(ViewTraits.List.spacing)
+		.backport.contentMargins(0)
 		.interactiveDismissDisabled(true) // Disable dragging by the user for this sheet
 		.navigationTitle("edit_overview.heading")
 		.background(theme.backgrounds.primary.ignoresSafeArea())
@@ -189,20 +191,6 @@ struct FavoritesView: View {
 				.accessibilityLabel(saveKey)
 			}
 		}
-	}
-	
-	/// The view for the categories
-	/// - Returns: category view
-	@ViewBuilder func categoriesView() -> some View {
-		
-		List {
-			favoritesView()
-			
-			ForEach(viewModel.state.mainCategories, id: \.id) { mainCategoryView($0) }
-			
-		} // List
-		.backport.scrollContentBackground(.hidden)
-		.listStyle(.insetGrouped)
 	}
 	
 	/// The view for the favorites
