@@ -333,7 +333,7 @@ struct HealthCategoriesView: View {
 		
 		Text("overview.favorites.empty.heading")
 			.typography(.bodyMedium)
-			.foregroundStyle(theme.labels.primary)
+			.foregroundStyle(theme.labels.secondary)
 			.padding(ViewTraits.General.padding)
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.overlay(
