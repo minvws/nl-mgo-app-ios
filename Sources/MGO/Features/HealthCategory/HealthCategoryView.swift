@@ -560,8 +560,7 @@ struct HealthCategoryView: View {
 			isPresented: $viewModel.showExportAlert
 		) {
 			Button("export_pdf.dialog.create_document") { viewModel.reduce(.exportHealthData) }
-				.keyboardShortcut(.defaultAction)
-			Button("common.cancel") { viewModel.reduce(.cancelExportAlert) }
+			Button("common.cancel", role: ButtonRole.cancel) { viewModel.reduce(.cancelExportAlert) }
 				.keyboardShortcut(.cancelAction)
 		} message: {
 			Text("export_pdf.dialog.subheading")
