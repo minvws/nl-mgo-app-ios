@@ -543,4 +543,3 @@ struct HealthExportView: View {
 		}
 	}
 }
-
