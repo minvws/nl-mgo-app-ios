@@ -376,25 +376,10 @@ struct HealthExportView: View {
 			
 			switch viewModel.state {
 				case .loading:
+					loadingView
 				
-					Spacer()
-					
-					ProgressView("pdf_viewer.loading")
-						.foregroundStyle(theme.labels.secondary)
-						.typography(.bodyMedium)
-				
-					Spacer()
-					
 				case .document(let pdfDocument):
-					
-					PDFKitView(pdfDocument)
-						.padding(.horizontal, ViewTraits.General.padding)
-					
-					if !viewModel.forIpad {
-						shareButton()
-					} else {
-						Spacer(minLength: 32)
-					}
+					pdfContent(pdfDocument: pdfDocument)
 			}
 		}
 		.interactiveDismissDisabled(true) // Disable dragging by the user for this sheet
@@ -418,13 +403,46 @@ struct HealthExportView: View {
 				})
 				.navigationBarTitleDisplayMode(.inline)
 		})
-		.when(viewModel.forIpad, transform: { view in
-			view
-				.toolbar(content: shareTopBarLeading)
-		})
 	}
 	
-	@ViewBuilder private func shareButton() -> some View {
+	/// Document rendering
+	@ViewBuilder private func pdfContent(pdfDocument: PDFDocument) -> some View {
+		
+		PDFKitView(pdfDocument)
+			.padding(.horizontal, ViewTraits.General.padding)
+			.when(osVersionChecker.available(version: .iOS(.v26))) { view in
+				ZStack {
+					view
+						.ignoresSafeArea(edges: .bottom)
+						.toolbar(content: shareBottomBarTrailing)
+				}
+			}
+			.when(!osVersionChecker.available(version: .iOS(.v26)) && !viewModel.forIpad) { view in
+				Group {
+					view
+					shareButton
+				}
+			}
+			.when(!osVersionChecker.available(version: .iOS(.v26)) && viewModel.forIpad) { view in
+				view
+					.toolbar(content: shareTopBarLeading)
+			}
+	}
+	
+	/// The loading state for the view
+	@ViewBuilder private var loadingView: some View {
+		
+		Spacer()
+		
+		ProgressView("pdf_viewer.loading")
+			.foregroundStyle(theme.labels.secondary)
+			.typography(.bodyMedium)
+		
+		Spacer()
+	}
+	
+	/// The share button
+	@ViewBuilder private var shareButton: some View {
 		
 		HStack {
 			shareLink(viewModel.pdfUrl)
@@ -450,6 +468,7 @@ struct HealthExportView: View {
 							viewModel.reduce(.closeSheet)
 						}
 						.accessibilityLabel(closeKey)
+						.tint(theme.labels.primary)
 					}
 				} else {
 					
@@ -492,7 +511,20 @@ struct HealthExportView: View {
 		)
 	}
 	
-	/// The share link for the pdf (iOS 16 and up_
+	/// Content for the share button toolbar
+	/// - Returns: the share button in a toolbar
+	@ToolbarContentBuilder private func shareBottomBarTrailing() -> some ToolbarContent {
+		ToolbarItemGroup(
+			placement: .bottomBar,
+			content: {
+				Spacer()
+				shareLink(viewModel.pdfUrl)
+					.tint(theme.labels.primary)
+			}
+		)
+	}
+	
+	/// The share link for the pdf (iOS 16 and up)
 	/// - Parameter url: the url to the pdf
 	/// - Returns: share link for the pdf
 	@ViewBuilder func shareLink(_ url: URL?) -> some View {

@@ -22,3 +22,13 @@ public class ExportTheme {
 	// Border
 	@Published public var border: Color = Color("Border", bundle: .module)
 }
+
+/// The color theme for the view
+public class ViewTheme {
+	
+	/// Create an view theme
+	public init() { /* Public initializer needed for public access */ }
+	
+	// Background
+	@Published public var primaryBackground: Color = Color("Background", bundle: .module)
+}

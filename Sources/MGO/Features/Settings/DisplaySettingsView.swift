@@ -67,10 +67,16 @@ struct DisplaySettingsView: View {
 	///   - title: the title of the button
 	///   - appearance: the appearance to select
 	/// - Returns: View to select a display mode option
-	@ViewBuilder private func displayModeOption(_ title: LocalizedStringKey, appearance: AppAppearance) -> some View {
+	@ViewBuilder private func displayModeOption(
+		_ title: LocalizedStringKey,
+		appearance: AppAppearance
+	) -> some View {
 		
 		Button {
-			selectedAppearance = appearance
+			if selectedAppearance != appearance {
+				selectedAppearance = appearance
+				Haptic.light()
+			}
 		} label: {
 			HStack(spacing: 0) {
 				

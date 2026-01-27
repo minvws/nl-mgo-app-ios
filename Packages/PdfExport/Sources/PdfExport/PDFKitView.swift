@@ -23,8 +23,10 @@ public struct PDFKitView: UIViewRepresentable {
 	public func makeUIView(context: Context) -> PDFView {
 		let pdfView = PDFView()
 		pdfView.document = document
+		pdfView.pageShadowsEnabled = false
 		pdfView.autoScales = true
-		
+		pdfView.backgroundColor = UIColor(ViewTheme().primaryBackground)
+		pdfView.displayMode = .singlePageContinuous
 		return pdfView
 	}
 	

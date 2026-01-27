@@ -100,6 +100,7 @@ struct InAppBrowserView: View {
 					Button(role: .close) {
 						viewModel.reduce(.closeButtonPressed)
 					}
+					.tint(theme.labels.primary)
 					.accessibilityLabel(closeKey)
 					.accessibilityIdentifier(closeKey.stringKey)
 				}

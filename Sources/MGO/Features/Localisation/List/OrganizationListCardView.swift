@@ -41,11 +41,15 @@ struct OrganizationListCardView: View {
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
 			static let padding: CGFloat = 16
 			static let cornerRadius: CGFloat = 12
+			static let roundedRadius: CGFloat = 26
 		}
 		enum Title {
 			static let padding: CGFloat = 4
@@ -122,7 +126,14 @@ struct OrganizationListCardView: View {
 			view
 				.background(onHover ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
 		})
-		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius))
+		.clipShape(
+			RoundedRectangle(
+				cornerRadius: osVersionChecker
+					.available(
+						version: .iOS(.v26)
+					) ? ViewTraits.General.roundedRadius : ViewTraits.General.cornerRadius
+			)
+		)
 		._onButtonGesture { pressed in
 			self.onHover = pressed
 		} perform: {
