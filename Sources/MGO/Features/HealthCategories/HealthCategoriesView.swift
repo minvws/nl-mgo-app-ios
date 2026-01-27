@@ -37,12 +37,14 @@ struct HealthCategoriesView: View {
 		}
 		enum List {
 			static let zeroInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-			static let favoritesHeaderInset = EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
-			static let favoritesHeaderErrorInset = EdgeInsets(top: 28, leading: 16, bottom: 8, trailing: 16)
+			static let favoritesHeaderInset = EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 16)
+			static let favoritesHeaderErrorInset = EdgeInsets(top: 28, leading: 0, bottom: 8, trailing: 16)
 			static let headerInset = EdgeInsets(top: 10, leading: 0, bottom: 16, trailing: 0)
-			static let oldVersionInset = EdgeInsets(top: 8, leading: 16, bottom: 0, trailing: 16)
-			static let categoryHeaderInset = EdgeInsets(top: 28, leading: 16, bottom: 8, trailing: 16)
+			static let oldVersionInset = EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 16)
+			static let categoryHeaderInset = EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 16)
 			static let spacing: CGFloat = 4
+			static let categoryHeaderTopPadding: CGFloat = 24
+			static let categoryHeaderBottomPadding: CGFloat = 10
 			static let padding: CGFloat = 8
 			static let headerSpacing: CGFloat = 10
 		}
@@ -184,6 +186,13 @@ struct HealthCategoriesView: View {
 					.typography(.headingMedium)
 					.foregroundColor(theme.labels.primary)
 					.accessibilityAddTraits(.isHeader)
+					.padding(.top, ViewTraits.List.categoryHeaderTopPadding)
+					.padding(.bottom, ViewTraits.List.categoryHeaderBottomPadding)
+					.padding(
+						.leading,
+						osVersionChecker.available(version: .iOS(.v26)) ? ViewTraits
+							.General.padding : 0
+					)
 			}
 			.listRowBackground(Color.clear)
 			.listRowInsets(osVersionChecker.available(version: .iOS(.v17)) ? ViewTraits.List.oldVersionInset : ViewTraits.List.categoryHeaderInset
@@ -292,6 +301,12 @@ struct HealthCategoriesView: View {
 				
 				favoritesHeaderButton()
 			}
+			.padding(
+				.leading,
+				osVersionChecker.available(version: .iOS(.v26)) ? ViewTraits
+					.General.padding : 0
+			)
+			
 		}
 		.listRowInsets(
 			viewModel.state.errorState == .none ?
