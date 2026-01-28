@@ -81,6 +81,8 @@ struct HealthUISchemaView: View {
 	/// - Returns: block view
 	@ViewBuilder private func viewFor(_ schemaGroup: HealthUIGroup) -> some View {
 		
+		let isFirstSchemaGroup = schemaGroup == schema.children.first
+		
 		if let schemaGroupLabel = schemaGroup.label {
 			Section {
 				// A schema group has a section label
@@ -89,13 +91,14 @@ struct HealthUISchemaView: View {
 					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
-					.padding(.top, ViewTraits.List.categoryHeaderTopPadding)
+					.padding(.top, isFirstSchemaGroup ? 0 : ViewTraits.List.categoryHeaderTopPadding
+					)
 					.padding(.bottom, ViewTraits.List.categoryHeaderBottomPadding)
 			}
 			.listRowBackground(Color.clear)
 			.listRowInsets(
 				headerInset(
-					first: schemaGroup == schema.children.first
+					first: isFirstSchemaGroup
 				)
 			)
 		}
@@ -113,6 +116,9 @@ struct HealthUISchemaView: View {
 		}
 	}
 	
+	/// The inset for the header
+	/// - Parameter first: is this the first header
+	/// - Returns: the inset for the header
 	func headerInset(first: Bool) -> EdgeInsets {
 		
 		guard osVersionChecker.available(version: .iOS(.v17)) else {
