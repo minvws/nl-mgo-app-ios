@@ -468,7 +468,7 @@ struct HealthUISchemaView: View {
 		)
 		.accessibilityIdentifier(accessibilityIdentifier)
 		.accessibilityAddTraits(.isHeader)
-		.padding(.bottom, osVersionChecker.available(version: OSVersion.iOS(.v26)) ? 0 : -4)
+		.padding(.bottom, osVersionChecker.available(version: OSVersion.iOS(.v26)) ? 0 : -8)
 	}
 }
 // swiftlint:enable type_body_length
