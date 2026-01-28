@@ -598,6 +598,11 @@ struct HealthCategoryView: View {
 		
 		if showHeading {
 			
+			let inset = osVersionChecker
+				.available(
+					version: .iOS(.v26)
+				) ? ViewTraits.List.headerInset : ViewTraits.List.oldVersionInset
+			
 			Section {
 				Text(subCategory.heading)
 					.typography(.headingMedium)
@@ -606,12 +611,21 @@ struct HealthCategoryView: View {
 					.accessibilityAddTraits(.isHeader)
 			}
 			.listRowBackground(Color.clear)
-			.listRowInsets(
-				osVersionChecker
-					.available(
-						version: .iOS(.v26)
-					) ? ViewTraits.List.headerInset : ViewTraits.List.oldVersionInset
-			)
+			.when(subCategoryIndex == 0) { view in
+				view
+					.listRowInsets(
+						EdgeInsets(
+							top: 8,
+							leading: inset.leading,
+							bottom: inset.bottom,
+							trailing: inset.trailing
+						)
+					)
+			}
+			.when(subCategoryIndex != 0) { view in
+				view
+					.listRowInsets(inset)
+			}
 		}
 		
 		ForEach(Array(subCategory.rows.enumerated()), id: \.offset) { index, element in
