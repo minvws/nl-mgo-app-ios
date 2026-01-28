@@ -139,7 +139,26 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 							url: nil
 						)
 					],
-					label: "section heading")
+					label: "section heading 1"
+				),
+				HealthUIGroup(
+					children: [
+						UIElement(
+							label: "label",
+							type: .singleValue,
+							value: UIElementValue
+								.displayValue(DisplayValue(
+									code: nil,
+									display: "value 2",
+									system: nil)
+								),
+							display: nil,
+							reference: nil,
+							url: nil
+						)
+					],
+					label: "section heading 2"
+				)
 			],
 			label: "zib details"
 		)
