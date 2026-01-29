@@ -51,16 +51,4 @@ public extension SharedCategoriesVersion {
 		}
 		try self.init(data: data)
 	}
-	
-	init(fromURL url: URL) throws {
-		try self.init(data: try Data(contentsOf: url))
-	}
-	
-	func jsonData() throws -> Data {
-		return try newJSONEncoder().encode(self)
-	}
-	
-	func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-		return String(data: try self.jsonData(), encoding: encoding)
-	}
 }
