@@ -895,17 +895,6 @@
         }
       }
     },
-    "edit_overview.favorites.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vaak gebruikt"
-          }
-        }
-      }
-    },
     "edit_overview.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -945,7 +934,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen gegevens opgehaald"
+            "value" : "Gegevens niet opgehaald"
           }
         }
       }
@@ -978,7 +967,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dit komt door een storing bij ons. Probeer het later opnieuw."
+            "value" : "Helaas konden we door een probleem aan onze kant uw gegevens niet ophalen."
           }
         }
       }
@@ -989,7 +978,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Klaar"
+            "value" : "Gereed"
           }
         }
       }
@@ -2188,7 +2177,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verwijder zorgaanbieder"
+            "value" : "Verwijderen"
           }
         }
       }
@@ -2892,7 +2881,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Openbare wifi-netwerken, zoals in cafés of treinen, zijn minder veilig. Gebruik liever 4G of 5G. Dat beschermt u gegevens beter."
+            "value" : "Openbare wifi-netwerken, zoals in cafés of treinen, zijn minder veilig. Gebruik liever 4G of 5G. Dat beschermt uw gegevens beter."
           }
         }
       }

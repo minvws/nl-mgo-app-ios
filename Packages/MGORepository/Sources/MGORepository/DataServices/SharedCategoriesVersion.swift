@@ -13,7 +13,7 @@ import Foundation
  }
 */
 
-public struct SharedVersion: Codable, Equatable, Sendable {
+public struct SharedCategoriesVersion: Codable, Equatable, Sendable {
 	public let version: String
 	public let gitRef: String
 	public let created: String?
@@ -40,9 +40,9 @@ public struct SharedVersion: Codable, Equatable, Sendable {
 
 // MARK: HCIMVersion convenience initializers and mutators
 
-public extension SharedVersion {
+public extension SharedCategoriesVersion {
 	init(data: Data) throws {
-		self = try newJSONDecoder().decode(SharedVersion.self, from: data)
+		self = try newJSONDecoder().decode(SharedCategoriesVersion.self, from: data)
 	}
 	
 	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
