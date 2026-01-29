@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let extensionValueOfStructure040324747767269975 = try ExtensionValueOfStructure0_40324747767269975(json)
+//   let extensionValueOfStructure06254709299269776 = try ExtensionValueOfStructure0_6254709299269776(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - ExtensionValueOfStructure0_40324747767269975
-public struct ExtensionValueOfStructure0_40324747767269975: Codable, Hashable, Sendable {
+// MARK: - ExtensionValueOfStructure0_6254709299269776
+public struct ExtensionValueOfStructure0_6254709299269776: Codable, Hashable, Sendable {
     public let ext: Bool
     public let accountNumber, bankcode, bankName: ExtensionValueOfMgoString?
 
@@ -28,11 +28,11 @@ public struct ExtensionValueOfStructure0_40324747767269975: Codable, Hashable, S
     }
 }
 
-// MARK: ExtensionValueOfStructure0_40324747767269975 convenience initializers and mutators
+// MARK: ExtensionValueOfStructure0_6254709299269776 convenience initializers and mutators
 
-public extension ExtensionValueOfStructure0_40324747767269975 {
+public extension ExtensionValueOfStructure0_6254709299269776 {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(ExtensionValueOfStructure0_40324747767269975.self, from: data)
+        self = try newJSONDecoder().decode(ExtensionValueOfStructure0_6254709299269776.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -51,8 +51,8 @@ public extension ExtensionValueOfStructure0_40324747767269975 {
         accountNumber: ExtensionValueOfMgoString?? = nil,
         bankcode: ExtensionValueOfMgoString?? = nil,
         bankName: ExtensionValueOfMgoString?? = nil
-    ) -> ExtensionValueOfStructure0_40324747767269975 {
-        return ExtensionValueOfStructure0_40324747767269975(
+    ) -> ExtensionValueOfStructure0_6254709299269776 {
+        return ExtensionValueOfStructure0_6254709299269776(
             ext: ext ?? self.ext,
             accountNumber: accountNumber ?? self.accountNumber,
             bankcode: bankcode ?? self.bankcode,

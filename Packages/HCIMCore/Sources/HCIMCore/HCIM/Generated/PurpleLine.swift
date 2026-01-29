@@ -12,20 +12,17 @@ import Foundation
 
 // MARK: - PurpleLine
 public struct PurpleLine: Codable, Hashable, Sendable {
-    public let additionalLocator, buildingNumberSuffix, houseNumber, streetName: PrimitiveValueTypeOfStringString?
-    public let unitID: PrimitiveValueTypeOfStringString?
+    public let additionalInformation, countryCode, houseNumber, houseNumberAddition: PrimitiveValueTypeOfStringString?
+    public let houseNumberIndiciation, houseNumberLetter, streetName: PrimitiveValueTypeOfStringString?
 
-    public enum CodingKeys: String, CodingKey {
-        case additionalLocator, buildingNumberSuffix, houseNumber, streetName
-        case unitID = "unitId"
-    }
-
-    public init(additionalLocator: PrimitiveValueTypeOfStringString?, buildingNumberSuffix: PrimitiveValueTypeOfStringString?, houseNumber: PrimitiveValueTypeOfStringString?, streetName: PrimitiveValueTypeOfStringString?, unitID: PrimitiveValueTypeOfStringString?) {
-        self.additionalLocator = additionalLocator
-        self.buildingNumberSuffix = buildingNumberSuffix
+    public init(additionalInformation: PrimitiveValueTypeOfStringString?, countryCode: PrimitiveValueTypeOfStringString?, houseNumber: PrimitiveValueTypeOfStringString?, houseNumberAddition: PrimitiveValueTypeOfStringString?, houseNumberIndiciation: PrimitiveValueTypeOfStringString?, houseNumberLetter: PrimitiveValueTypeOfStringString?, streetName: PrimitiveValueTypeOfStringString?) {
+        self.additionalInformation = additionalInformation
+        self.countryCode = countryCode
         self.houseNumber = houseNumber
+        self.houseNumberAddition = houseNumberAddition
+        self.houseNumberIndiciation = houseNumberIndiciation
+        self.houseNumberLetter = houseNumberLetter
         self.streetName = streetName
-        self.unitID = unitID
     }
 }
 
@@ -48,18 +45,22 @@ public extension PurpleLine {
     }
 
     func with(
-        additionalLocator: PrimitiveValueTypeOfStringString?? = nil,
-        buildingNumberSuffix: PrimitiveValueTypeOfStringString?? = nil,
+        additionalInformation: PrimitiveValueTypeOfStringString?? = nil,
+        countryCode: PrimitiveValueTypeOfStringString?? = nil,
         houseNumber: PrimitiveValueTypeOfStringString?? = nil,
-        streetName: PrimitiveValueTypeOfStringString?? = nil,
-        unitID: PrimitiveValueTypeOfStringString?? = nil
+        houseNumberAddition: PrimitiveValueTypeOfStringString?? = nil,
+        houseNumberIndiciation: PrimitiveValueTypeOfStringString?? = nil,
+        houseNumberLetter: PrimitiveValueTypeOfStringString?? = nil,
+        streetName: PrimitiveValueTypeOfStringString?? = nil
     ) -> PurpleLine {
         return PurpleLine(
-            additionalLocator: additionalLocator ?? self.additionalLocator,
-            buildingNumberSuffix: buildingNumberSuffix ?? self.buildingNumberSuffix,
+            additionalInformation: additionalInformation ?? self.additionalInformation,
+            countryCode: countryCode ?? self.countryCode,
             houseNumber: houseNumber ?? self.houseNumber,
-            streetName: streetName ?? self.streetName,
-            unitID: unitID ?? self.unitID
+            houseNumberAddition: houseNumberAddition ?? self.houseNumberAddition,
+            houseNumberIndiciation: houseNumberIndiciation ?? self.houseNumberIndiciation,
+            houseNumberLetter: houseNumberLetter ?? self.houseNumberLetter,
+            streetName: streetName ?? self.streetName
         )
     }
 

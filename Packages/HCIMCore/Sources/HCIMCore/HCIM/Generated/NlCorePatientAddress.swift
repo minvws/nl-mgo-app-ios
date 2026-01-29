@@ -15,7 +15,7 @@ public struct NlCorePatientAddress: Codable, Hashable, Sendable {
     public let profile: NlCoreAddressProfile
     public let addressType: MgoCodeableConcept?
     public let city, country, district: PrimitiveValueTypeOfStringString?
-    public let line: [FluffyLine]?
+    public let line: [NlCoreAddressStreetNameHouseNumber]?
     public let official: PrimitiveValueTypeOfBooleanBoolean?
     public let postalCode: PrimitiveValueTypeOfStringString?
     public let type, use: MgoCodeOfString?
@@ -25,7 +25,7 @@ public struct NlCorePatientAddress: Codable, Hashable, Sendable {
         case addressType, city, country, district, line, official, postalCode, type, use
     }
 
-    public init(profile: NlCoreAddressProfile, addressType: MgoCodeableConcept?, city: PrimitiveValueTypeOfStringString?, country: PrimitiveValueTypeOfStringString?, district: PrimitiveValueTypeOfStringString?, line: [FluffyLine]?, official: PrimitiveValueTypeOfBooleanBoolean?, postalCode: PrimitiveValueTypeOfStringString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
+    public init(profile: NlCoreAddressProfile, addressType: MgoCodeableConcept?, city: PrimitiveValueTypeOfStringString?, country: PrimitiveValueTypeOfStringString?, district: PrimitiveValueTypeOfStringString?, line: [NlCoreAddressStreetNameHouseNumber]?, official: PrimitiveValueTypeOfBooleanBoolean?, postalCode: PrimitiveValueTypeOfStringString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
         self.profile = profile
         self.addressType = addressType
         self.city = city
@@ -63,7 +63,7 @@ public extension NlCorePatientAddress {
         city: PrimitiveValueTypeOfStringString?? = nil,
         country: PrimitiveValueTypeOfStringString?? = nil,
         district: PrimitiveValueTypeOfStringString?? = nil,
-        line: [FluffyLine]?? = nil,
+        line: [NlCoreAddressStreetNameHouseNumber]?? = nil,
         official: PrimitiveValueTypeOfBooleanBoolean?? = nil,
         postalCode: PrimitiveValueTypeOfStringString?? = nil,
         type: MgoCodeOfString?? = nil,

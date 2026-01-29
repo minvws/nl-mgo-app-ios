@@ -94,7 +94,7 @@ download_hcimcore:
 
 	# Generate HCIMs from schema/json/types.json
 	@rm -f packages/HCIMCore/Sources/HCIMCore/HCIM/Generated/*
-	@quicktype --src "./tmp/hcimcore/mgo-hcim-api.types.json#/definitions/" --src-lang schema --access-level public --protocol hashable --sendable --multi-file-output --out ./Packages/HCIMCore/Sources/HCIMCore/HCIM/Generated/Types.swift --swift-5-support
+	@quicktype --src "./tmp/hcimcore/mgo-hcim-api.schema.json#/definitions/" --src-lang schema --access-level public --protocol hashable --sendable --multi-file-output --out ./Packages/HCIMCore/Sources/HCIMCore/HCIM/Generated/Types.swift --swift-5-support
 
 	# Cleanup
 	@rm -rf "tmp/hcimcore"

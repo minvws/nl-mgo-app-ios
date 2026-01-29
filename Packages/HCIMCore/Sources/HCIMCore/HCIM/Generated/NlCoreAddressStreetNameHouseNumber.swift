@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let stickyLine = try StickyLine(json)
+//   let nlCoreAddressStreetNameHouseNumber = try NlCoreAddressStreetNameHouseNumber(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,30 +10,25 @@
 
 import Foundation
 
-// MARK: - StickyLine
-public struct StickyLine: Codable, Hashable, Sendable {
-    public let additionalLocator, buildingNumberSuffix, houseNumber, streetName: PrimitiveValueTypeOfStringString?
+// MARK: - NlCoreAddressStreetNameHouseNumber
+public struct NlCoreAddressStreetNameHouseNumber: Codable, Hashable, Sendable {
+    public let additionalLocator, buildingNumbersuffix, houseNumber, streetName: PrimitiveValueTypeOfStringString?
     public let unitID: PrimitiveValueTypeOfStringString?
 
-    public enum CodingKeys: String, CodingKey {
-        case additionalLocator, buildingNumberSuffix, houseNumber, streetName
-        case unitID = "unitId"
-    }
-
-    public init(additionalLocator: PrimitiveValueTypeOfStringString?, buildingNumberSuffix: PrimitiveValueTypeOfStringString?, houseNumber: PrimitiveValueTypeOfStringString?, streetName: PrimitiveValueTypeOfStringString?, unitID: PrimitiveValueTypeOfStringString?) {
+    public init(additionalLocator: PrimitiveValueTypeOfStringString?, buildingNumbersuffix: PrimitiveValueTypeOfStringString?, houseNumber: PrimitiveValueTypeOfStringString?, streetName: PrimitiveValueTypeOfStringString?, unitID: PrimitiveValueTypeOfStringString?) {
         self.additionalLocator = additionalLocator
-        self.buildingNumberSuffix = buildingNumberSuffix
+        self.buildingNumbersuffix = buildingNumbersuffix
         self.houseNumber = houseNumber
         self.streetName = streetName
         self.unitID = unitID
     }
 }
 
-// MARK: StickyLine convenience initializers and mutators
+// MARK: NlCoreAddressStreetNameHouseNumber convenience initializers and mutators
 
-public extension StickyLine {
+public extension NlCoreAddressStreetNameHouseNumber {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(StickyLine.self, from: data)
+        self = try newJSONDecoder().decode(NlCoreAddressStreetNameHouseNumber.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -49,14 +44,14 @@ public extension StickyLine {
 
     func with(
         additionalLocator: PrimitiveValueTypeOfStringString?? = nil,
-        buildingNumberSuffix: PrimitiveValueTypeOfStringString?? = nil,
+        buildingNumbersuffix: PrimitiveValueTypeOfStringString?? = nil,
         houseNumber: PrimitiveValueTypeOfStringString?? = nil,
         streetName: PrimitiveValueTypeOfStringString?? = nil,
         unitID: PrimitiveValueTypeOfStringString?? = nil
-    ) -> StickyLine {
-        return StickyLine(
+    ) -> NlCoreAddressStreetNameHouseNumber {
+        return NlCoreAddressStreetNameHouseNumber(
             additionalLocator: additionalLocator ?? self.additionalLocator,
-            buildingNumberSuffix: buildingNumberSuffix ?? self.buildingNumberSuffix,
+            buildingNumbersuffix: buildingNumbersuffix ?? self.buildingNumbersuffix,
             houseNumber: houseNumber ?? self.houseNumber,
             streetName: streetName ?? self.streetName,
             unitID: unitID ?? self.unitID
