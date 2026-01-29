@@ -321,7 +321,7 @@
         "categories": [
             {
                 "id": "patient",
-                "icon": "person",
+                "icon": "medical_information",
                 "heading": "hc_patient.heading",
                 "subheading": "hc_patient.subheading",
                 "subcategories": [
