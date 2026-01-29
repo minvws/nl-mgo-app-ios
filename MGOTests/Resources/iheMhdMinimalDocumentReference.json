@@ -61,7 +61,7 @@
     ],
     "relatesTo": null,
     "securityLabel": null,
-    "content": {
+    "content": [{
         "attachment": {
             "_type": "attachment",
             "contentType": "application/pdf",
@@ -74,7 +74,7 @@
             "creation": null
         },
         "format": null
-    },
+    }],
     "context": {
         "period": null,
         "facilityType": null,
