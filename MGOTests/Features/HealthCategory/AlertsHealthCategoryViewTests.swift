@@ -118,6 +118,20 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
 	}
 	
+	@MainActor func test_stateNotEmptyListsNoError() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		try createSut()
+		let content = NavigationView { sut }
+		
+		// When
+		viewModel.state = .list(items: [item, item, item], errorState: .none)
+		
+		// Then
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
+	}
+	
 	@MainActor func test_stateNotEmptyListLoadingState() throws {
 		
 		// Given
@@ -160,6 +174,20 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		
 		// When
 		viewModel.state = .list(items: [item], errorState: .none)
+		
+		// Then
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
+	}
+	
+	@MainActor func test_stateNotEmptyListsNoError_iOS26() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		try createSut()
+		let content = NavigationView { sut }
+		
+		// When
+		viewModel.state = .list(items: [item, item, item], errorState: .none)
 		
 		// Then
 		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")

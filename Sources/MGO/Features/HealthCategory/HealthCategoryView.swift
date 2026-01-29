@@ -439,6 +439,7 @@ struct HealthCategoryView: View {
 		}
 		enum List {
 			static let inset: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+			static let oldVersionInset: EdgeInsets = EdgeInsets(top: 24, leading: 0, bottom: 2, trailing: 16)
 			static let headerInset: EdgeInsets = EdgeInsets(top: 24, leading: 16, bottom: 2, trailing: 16)
 		}
 		enum FullScreen {
@@ -597,6 +598,11 @@ struct HealthCategoryView: View {
 		
 		if showHeading {
 			
+			let inset = osVersionChecker
+				.available(
+					version: .iOS(.v26)
+				) ? ViewTraits.List.headerInset : ViewTraits.List.oldVersionInset
+			
 			Section {
 				Text(subCategory.heading)
 					.typography(.headingMedium)
@@ -605,7 +611,21 @@ struct HealthCategoryView: View {
 					.accessibilityAddTraits(.isHeader)
 			}
 			.listRowBackground(Color.clear)
-			.listRowInsets(ViewTraits.List.headerInset)
+			.when(subCategoryIndex == 0) { view in
+				view
+					.listRowInsets(
+						EdgeInsets(
+							top: 8,
+							leading: inset.leading,
+							bottom: inset.bottom,
+							trailing: inset.trailing
+						)
+					)
+			}
+			.when(subCategoryIndex != 0) { view in
+				view
+					.listRowInsets(inset)
+			}
 		}
 		
 		ForEach(Array(subCategory.rows.enumerated()), id: \.offset) { index, element in

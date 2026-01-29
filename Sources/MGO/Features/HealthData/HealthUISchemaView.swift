@@ -38,11 +38,13 @@ struct HealthUISchemaView: View {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum List {
-			static let headerInset: EdgeInsets = EdgeInsets(top: 24, leading: 16, bottom: 8, trailing: 16)
+			static let headerInset: EdgeInsets = EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16)
 			static let alternativeInset = EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
 			static let inset: EdgeInsets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 			static let zeroInset: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let bottom: CGFloat = 16
+			static let categoryHeaderTopPadding: CGFloat = 24
+			static let categoryHeaderBottomPadding: CGFloat = 10
 		}
 		enum Row {
 			static let spacing: CGFloat = 4
@@ -66,7 +68,7 @@ struct HealthUISchemaView: View {
 				viewFor(schemaGroup)
 			}
 		}
-		.backport.listSectionSpacing(osVersionChecker.available(version: .iOS(.v26)) ? 0 : 8)
+		.backport.listSectionSpacing(osVersionChecker.available(version: .iOS(.v26)) ? 0 : 4)
 		.backport.contentMargins(0)
 		.backport.scrollContentBackground(.hidden)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
@@ -79,6 +81,8 @@ struct HealthUISchemaView: View {
 	/// - Returns: block view
 	@ViewBuilder private func viewFor(_ schemaGroup: HealthUIGroup) -> some View {
 		
+		let isFirstSchemaGroup = schemaGroup == schema.children.first
+		
 		if let schemaGroupLabel = schemaGroup.label {
 			Section {
 				// A schema group has a section label
@@ -87,11 +91,14 @@ struct HealthUISchemaView: View {
 					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
+					.padding(.top, isFirstSchemaGroup ? 0 : ViewTraits.List.categoryHeaderTopPadding
+					)
+					.padding(.bottom, ViewTraits.List.categoryHeaderBottomPadding)
 			}
 			.listRowBackground(Color.clear)
 			.listRowInsets(
 				headerInset(
-					first: schemaGroup == schema.children.first
+					first: isFirstSchemaGroup
 				)
 			)
 		}
@@ -109,16 +116,25 @@ struct HealthUISchemaView: View {
 		}
 	}
 	
+	/// The inset for the header
+	/// - Parameter first: is this the first header
+	/// - Returns: the inset for the header
 	func headerInset(first: Bool) -> EdgeInsets {
 		
 		guard osVersionChecker.available(version: .iOS(.v17)) else {
 			return ViewTraits.List.zeroInset
 		}
 		
+		var inset: EdgeInsets = ViewTraits.List.headerInset
+		
 		if first {
-			return ViewTraits.List.alternativeInset
+			inset = ViewTraits.List.alternativeInset
 		}
-		return ViewTraits.List.headerInset
+		
+		inset.leading = osVersionChecker
+			.available(version: .iOS(.v26)) ? ViewTraits.General.padding : 0
+		
+		return inset
 	}
 	
 	/// Show a row of key: value for a UIElement
@@ -458,7 +474,7 @@ struct HealthUISchemaView: View {
 		)
 		.accessibilityIdentifier(accessibilityIdentifier)
 		.accessibilityAddTraits(.isHeader)
-		.padding(.bottom, osVersionChecker.available(version: OSVersion.iOS(.v26)) ? 0 : -4)
+		.padding(.bottom, osVersionChecker.available(version: OSVersion.iOS(.v26)) ? 0 : -8)
 	}
 }
 // swiftlint:enable type_body_length

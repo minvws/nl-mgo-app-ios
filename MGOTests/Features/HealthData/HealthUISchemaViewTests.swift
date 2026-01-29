@@ -17,7 +17,10 @@ final class HealthUISchemaViewTests: XCTestCase {
 		healthcareOrganization = Generator.healthcareOrganization("1")
 	}
 	
-	@MainActor func setupSut(_ resource: String, resolvedReferences: [String: Bool] = [:]) throws {
+	@MainActor func setupSut(
+		_ resource: String,
+		resolvedReferences: [String: Bool] = [:]
+	) throws {
 		
 		let data = try getResource(resource)
 		let schema = try HealthUISchema(data: data)
