@@ -13,7 +13,7 @@ import Foundation
  }
 */
 
-public struct SharedVersion: Codable, Equatable, Sendable {
+public struct SharedCategoriesVersion: Codable, Equatable, Sendable {
 	public let version: String
 	public let gitRef: String
 	public let created: String?
@@ -40,9 +40,9 @@ public struct SharedVersion: Codable, Equatable, Sendable {
 
 // MARK: HCIMVersion convenience initializers and mutators
 
-public extension SharedVersion {
+public extension SharedCategoriesVersion {
 	init(data: Data) throws {
-		self = try newJSONDecoder().decode(SharedVersion.self, from: data)
+		self = try newJSONDecoder().decode(SharedCategoriesVersion.self, from: data)
 	}
 	
 	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -50,17 +50,5 @@ public extension SharedVersion {
 			throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
 		}
 		try self.init(data: data)
-	}
-	
-	init(fromURL url: URL) throws {
-		try self.init(data: try Data(contentsOf: url))
-	}
-	
-	func jsonData() throws -> Data {
-		return try newJSONEncoder().encode(self)
-	}
-	
-	func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-		return String(data: try self.jsonData(), encoding: encoding)
 	}
 }

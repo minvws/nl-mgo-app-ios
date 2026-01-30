@@ -198,7 +198,7 @@ struct FavoritesView: View {
 	/// - Returns: favorites view
 	@ViewBuilder private func favoritesView() -> some View {
 		
-		sectionHeader(String(localized: "edit_overview.favorites.heading"))
+		sectionHeader(String(localized: "edit_overview.heading"))
 		
 		Section {
 			if viewModel.state.favorites.isEmpty {

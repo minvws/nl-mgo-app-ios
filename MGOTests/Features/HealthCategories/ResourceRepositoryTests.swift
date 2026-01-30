@@ -298,4 +298,18 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == true
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(0))
 	}
+	
+	@MainActor func test_version() async throws {
+		
+		// Given
+		try createSut()
+		
+		// When
+		let result = try sut.getVersion()
+		
+		// Then
+		expect(result.version) == "main-1838907"
+		expect(result.gitRef) == "18389071ae95fe16b1d56f0a5fd5773368decaae"
+		expect(result.created) == "2026-01-28T14:12:35"
+	}
 }

@@ -19,11 +19,11 @@ struct SharedVersionTests {
 		let sut = MGORepository(client: client)
 		
 		// When
-		let result: SharedVersion = try sut.getVersion()
+		let result: SharedCategoriesVersion = try sut.getVersion()
 		
 		// Then
-		#expect(result.version == "main")
-		#expect(result.gitRef == "8f19abe7615ba8e27c5e3b8ee8561660eee316bb")
-		#expect(result.created == "2025-12-02T15:40:28")
+		#expect(result.version == "main-1838907")
+		#expect(result.gitRef == "18389071ae95fe16b1d56f0a5fd5773368decaae")
+		#expect(result.created == "2026-01-28T14:12:35")
 	}
 }

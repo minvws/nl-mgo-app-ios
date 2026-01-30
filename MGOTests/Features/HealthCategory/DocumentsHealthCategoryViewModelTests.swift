@@ -41,8 +41,15 @@ final class DocumentsHealthCategoryViewModelTests: XCTestCase {
 		try createSut()
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
 		let resource = try getResource("iheMhdMinimalDocumentReference")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
-			MgoResourceRecord(categoryId: "document", organizationId: healthcareOrganization.identifier, resources: [resource], error: nil)]
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				MgoResourceRecord(
+					categoryId: "document",
+					organizationId: healthcareOrganization.identifier,
+					resources: [resource],
+					error: nil
+				)
+			]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		

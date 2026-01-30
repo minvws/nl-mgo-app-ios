@@ -14,7 +14,7 @@ import Foundation
 public struct IheMhdMinimalDocumentReference: Codable, Hashable, Sendable {
     public let author: [MgoReference]?
     public let iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?
-    public let content: Content
+    public let content: [Content]?
     public let context: Context
     public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
@@ -38,7 +38,7 @@ public struct IheMhdMinimalDocumentReference: Codable, Hashable, Sendable {
         case relatesTo, resourceType, securityLabel, status, subject, type
     }
 
-    public init(author: [MgoReference]?, iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?, content: Content, context: Context, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, indexed: PrimitiveValueTypeOfInstantInstantDateTimeString?, masterIdentifier: MgoIdentifier?, profile: IheMhdMinimalDocumentReferenceProfile, referenceID: String, relatesTo: [RelatesTo]?, resourceType: String, securityLabel: [MgoCodeableConcept]?, status: MgoCodeOfEnteredInErrorCurrentSuperseded?, subject: MgoReference?, type: MgoCodeableConcept?) {
+    public init(author: [MgoReference]?, iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?, content: [Content]?, context: Context, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, indexed: PrimitiveValueTypeOfInstantInstantDateTimeString?, masterIdentifier: MgoIdentifier?, profile: IheMhdMinimalDocumentReferenceProfile, referenceID: String, relatesTo: [RelatesTo]?, resourceType: String, securityLabel: [MgoCodeableConcept]?, status: MgoCodeOfEnteredInErrorCurrentSuperseded?, subject: MgoReference?, type: MgoCodeableConcept?) {
         self.author = author
         self.iheMhdMinimalDocumentReferenceClass = iheMhdMinimalDocumentReferenceClass
         self.content = content
@@ -80,7 +80,7 @@ public extension IheMhdMinimalDocumentReference {
     func with(
         author: [MgoReference]?? = nil,
         iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?? = nil,
-        content: Content? = nil,
+        content: [Content]?? = nil,
         context: Context? = nil,
         fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,

@@ -41,7 +41,7 @@ protocol ResourceRepositoryProtocol {
 	
 	/// Get the version of the shared library
 	/// - Returns: the shared version
-	@MainActor func getVersion() throws -> SharedVersion
+	@MainActor func getVersion() throws -> SharedCategoriesVersion
 }
 
 enum ResourceRepositoryError: Int {
@@ -134,7 +134,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	
 	/// Get the version of the shared library
 	/// - Returns: the shared version
-	@MainActor func getVersion() throws -> SharedVersion {
+	@MainActor func getVersion() throws -> SharedCategoriesVersion {
 		return try repository.getVersion()
 	}
 	

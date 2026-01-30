@@ -152,8 +152,8 @@ final class HealthCategoryViewModelTests: XCTestCase {
 			expect(items).to(haveCount(1))
 			expect(items.first?.rows).to(beEmpty())
 			expect(errorState) == HealthCategoriesErrorState.error(
-				heading: "Geen gegevens opgehaald",
-				subHeading: "Dit komt door een storing bij ons. Probeer het later opnieuw."
+				heading: "Gegevens niet opgehaald",
+				subHeading: "Helaas konden we door een probleem aan onze kant uw gegevens niet ophalen."
 			)
 		} else {
 			fail("Invalid state")
@@ -179,7 +179,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 			expect(items).to(haveCount(1))
 			expect(items.first?.rows).to(beEmpty())
 			expect(errorState) == HealthCategoriesErrorState.error(
-				heading: "Geen gegevens opgehaald",
+				heading: "Gegevens niet opgehaald",
 				subHeading: "Er ging iets mis bij het ophalen. Controleer uw verbinding en probeer het opnieuw."
 			)
 		} else {

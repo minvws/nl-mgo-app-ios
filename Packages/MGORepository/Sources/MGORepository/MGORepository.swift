@@ -23,14 +23,14 @@ public actor MGORepository {
 #warning("Rool, 02/12/2025: Should this be a mainactor function on this actor?")
 	/// What version of the shared core are we running?
 	/// - Returns: the version
-	@MainActor public func getVersion() throws -> SharedVersion {
+	@MainActor public func getVersion() throws -> SharedCategoriesVersion {
 		
 		guard let parserPath = Bundle.module.path(forResource: "version", ofType: "json") else {
 			logError("MGORepository: The version file could not be found")
-			throw SharedVersion.Error.noResource
+			throw SharedCategoriesVersion.Error.noResource
 		}
 		
-		return try SharedVersion(String(contentsOfFile: parserPath))
+		return try SharedCategoriesVersion(String(contentsOfFile: parserPath))
 	}
 	
 	/// Get the Bundle from a DVP Endpoint as data

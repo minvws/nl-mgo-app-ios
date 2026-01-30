@@ -167,7 +167,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		// Given
 		createSut()
 		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedETag = "Test ETag"
-		servicesSpies.resourceRepositorySpy.stubbedGetVersionResult = SharedVersion(
+		servicesSpies.resourceRepositorySpy.stubbedGetVersionResult = SharedCategoriesVersion(
 			version: "test version",
 			gitRef: "test",
 			created: "today"
