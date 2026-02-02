@@ -3,6 +3,16 @@
     {
       "filename" : "Edit Button.svg",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Edit Button 2.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
