@@ -57,13 +57,12 @@ struct PropositionView: View {
 		}
 		enum General {
 			static let padding: CGFloat = 16
-		}
-		enum Items {
 			static let bottom: CGFloat = 24
 		}
+		enum Items {
+			static let bottom: CGFloat = 16
+		}
 	}
-	
-	private let privacyLink = "/privacystatement"
 	
 	var body: some View {
 		
@@ -79,40 +78,42 @@ struct PropositionView: View {
 					.accessibilityAddTraits(.isHeader)
 					.accessibilityIdentifier("proposition.heading")
 				
-				VStack(spacing: 0) {
-					let privacyIntro = String(localized: "proposition.subheading")
-					let elements = privacyIntro.components(separatedBy: "[%@](privacyverklaring)")
-					if elements.count == 2 {
-						Text(elements[0]) +
-						Text("[privacyverklaring](/privacystatement)").underline() +
-						Text(elements[1])
-					} else {
-						EmptyView()
-					}
-				}
-				.accessibilityIdentifier("proposition.subheading")
-				.onTapGesture {
-					// Only called in VoiceOVer on iOS 15/16
-					if let url = URL(string: privacyLink) {
-						_ = handleURL(url)
-					}
-				}
-				.environment(\.openURL, OpenURLAction(handler: handleURL))
-				.typography(.bodyMedium)
-				.padding(.bottom, ViewTraits.General.padding)
-				.foregroundStyle(theme.labels.primary)
-				.tint(theme.actions.ghost.text)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
+				Text("proposition.subheading")
+					.accessibilityIdentifier("proposition.subheading")
+					.typography(.bodyMedium)
+					.padding(.bottom, ViewTraits.General.bottom)
+					.foregroundStyle(theme.labels.primary)
+					.tint(theme.actions.ghost.text)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
 				
 				VStack(spacing: ViewTraits.Items.bottom) {
-					PrivacyShieldView("proposition.statement_1", shieldType: .encrypted)
+					PrivacyShieldView(
+						"proposition.statement.heading_1",
+						subHeading: "proposition.statement.subheading_1",
+						shieldType: .secure
+					)
 						.accessibilityIdentifier("proposition.statement_1")
-					PrivacyShieldView("proposition.statement_2", shieldType: .safety)
-						.accessibilityIdentifier("proposition.statement_2")
-					PrivacyShieldView("proposition.statement_3", shieldType: .checked)
-						.accessibilityIdentifier("proposition.statement_3")
-					PrivacyShieldView("proposition.statement_4", shieldType: .cross)
-						.accessibilityIdentifier("proposition.statement_4")
+
+					PrivacyShieldView(
+						"proposition.statement.heading_2",
+						subHeading: "proposition.statement.subheading_2",
+						shieldType: .personal
+					)
+					.accessibilityIdentifier("proposition.statement_2")
+					
+					PrivacyShieldView(
+						"proposition.statement.heading_3",
+						subHeading: "proposition.statement.subheading_3",
+						shieldType: .storage
+					)
+					.accessibilityIdentifier("proposition.statement_3")
+					
+					PrivacyShieldView(
+						"proposition.statement.heading_4",
+						subHeading: "proposition.statement.subheading_4",
+						shieldType: .control
+					)
+					.accessibilityIdentifier("proposition.statement_4")
 				}
 				
 				Spacer()
@@ -120,17 +121,30 @@ struct PropositionView: View {
 			.padding(.horizontal, ViewTraits.General.padding)
 			.padding(.top, ViewTraits.Navigation.padding)
 		} bottomView: {
-			
-			CallToActionButton(
-				"common.next",
-				style: .solid(
-					rounded: osVersionChecker.available(version: .iOS(.v26)),
-					narrow: false
-				)
-			) {
-				viewModel.reduce(.nextButttonPressed)
+
+			VStack(spacing: ViewTraits.General.padding) {
+				
+				let rounded = osVersionChecker.available(version: .iOS(.v26))
+				
+				CallToActionButton(
+					"proposition.open_privacy.button",
+					style: .tonal(rounded: rounded)
+				) {
+					viewModel.reduce(.privacyLinkClicked)
+				}
+				.accessibilityIdentifier("proposition.open_privacy.button")
+				
+				CallToActionButton(
+					"common.next",
+					style: .solid(
+						rounded: rounded,
+						narrow: false
+					)
+				) {
+					viewModel.reduce(.nextButttonPressed)
+				}
+				.accessibilityIdentifier("common.next")
 			}
-			.accessibilityIdentifier("common.next")
 			.padding(ViewTraits.General.padding)
 		}
 		.navigationBarBackButtonHidden(true)
@@ -139,14 +153,6 @@ struct PropositionView: View {
 		})
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
-	}
-	
-	private func handleURL(_ url: URL) -> OpenURLAction.Result {
-		guard url.absoluteString.lowercased() == privacyLink else {
-			return .discarded
-		}
-		viewModel.reduce(.privacyLinkClicked)
-		return .handled
 	}
 }
 

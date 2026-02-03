@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
-    "[privacyverklaring](/privacystatement)" : {
-
-    },
     "account_removed.action" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2666,46 +2663,101 @@
         }
       }
     },
-    "proposition.statement_1" : {
+    "proposition.open_privacy.button" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uw gegevens worden **beveiligd** en via een **veilige verbinding** opgehaald."
+            "value" : "Open de privacyverklaring"
           }
         }
       }
     },
-    "proposition.statement_2" : {
+    "proposition.statement.heading_1" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uw gegevens komen direct van de zorgaanbieder die u kiest. **Alleen u heeft toegang.**"
+            "value" : "De app is veilig"
           }
         }
       }
     },
-    "proposition.statement_3" : {
+    "proposition.statement.heading_2" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "**U kiest zelf** hoe u uw gegevens wilt gebruiken en of u ze deelt met anderen."
+            "value" : "Alleen voor u"
           }
         }
       }
     },
-    "proposition.statement_4" : {
+    "proposition.statement.heading_3" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "U kunt de gegevens in uw overzicht altijd **verwijderen of opnieuw ophalen**."
+            "value" : "De app slaat niets op"
+          }
+        }
+      }
+    },
+    "proposition.statement.heading_4" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "U heeft de controle"
+          }
+        }
+      }
+    },
+    "proposition.statement.subheading_1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uw gegevens worden altijd via een veilige verbinding opgehaald."
+          }
+        }
+      }
+    },
+    "proposition.statement.subheading_2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niemand anders kan uw gegevens bekijken en delen."
+          }
+        }
+      }
+    },
+    "proposition.statement.subheading_3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uw gegevens staan alleen bij uw zorgaanbieders."
+          }
+        }
+      }
+    },
+    "proposition.statement.subheading_4" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het overzicht kunt u altijd leegmaken of opnieuw ophalen."
           }
         }
       }
@@ -2716,7 +2768,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In de [%@](privacyverklaring) staat hoe Mijn Gezondheidsoverzicht uw gegevens gebruikt en beschermt. Dit zijn de belangrijkste punten:"
+            "value" : "In de privacyverklaring leest u hoe Mijn Gezondheidsoverzicht uw gegevens gebruikt en beschermt. Dit zijn de belangrijkste punten:"
           }
         }
       }
