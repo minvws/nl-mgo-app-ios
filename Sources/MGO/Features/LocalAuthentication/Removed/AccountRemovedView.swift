@@ -68,10 +68,12 @@ struct AccountRemovedView: View {
 				icon: Image(ImageResource.Woman.womanWithPhoneCheck),
 				heading: "account_removed.heading",
 				subHeading: "account_removed.subheading",
-				textAlignment: .leading,
-				textSpacing: ViewTraits.Text.spacing,
-				titleStyle: .headingLarge,
-				subHeadingForegroundColor: theme.labels.primary
+				configuration: ImageContentView.Configuration(
+					textAlignment: .leading,
+					textSpacing: ViewTraits.Text.spacing,
+					titleStyle: .headingLarge,
+					subHeadingForegroundColor: theme.labels.primary
+				)
 			)
 			.padding(.top, ViewTraits.Navigation.padding)
 			.padding(.horizontal, ViewTraits.General.spacing)

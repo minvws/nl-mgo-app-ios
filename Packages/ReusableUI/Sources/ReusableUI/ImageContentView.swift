@@ -12,6 +12,64 @@ public struct ImageContentView: View {
 		case center
 	}
 	
+	/// The order of the elements
+	public enum Order {
+		case imageFirst
+		case contentFirst
+	}
+	
+	/// The layout configuration
+	public struct Configuration {
+		
+		// the alignment of the texts
+		var textAlignment: ImageContentView.Alignment
+		
+		// the spacing between the texts
+		var textSpacing: CGFloat
+		
+		// the style of the title
+		var titleStyle: Typography
+		
+		// the color of the sub heading
+		var subHeadingForegroundColor: Color
+		
+		// the order of the content and image
+		var order: ImageContentView.Order
+		
+		// The maximum width the icon can use
+		var maxWidthPercentage: Double
+		
+		/// Should we hide the icon on rotation to landscape?
+		var hideIconInLandscape: Bool
+		
+		/// Create a view with image and text
+		/// - Parameters:
+		///   - textAlignment: the alignment of the texts
+		///   - textSpacing: the spacing between the texts
+		///   - titleStyle: the style of the title
+		///   - subHeadingForegroundColor: the color of the sub heading
+		///   - order: the order of the content and image
+		///   - maxWidthPercentage: The maximum width the icon can use (1 = 100% full width)
+		///   - hideIconInLandscape: Should we hide the icon on rotation to landscape?
+		public init(
+			textAlignment: ImageContentView.Alignment = .center,
+			textSpacing: CGFloat = 8,
+			titleStyle: Typography = .headingSmall,
+			subHeadingForegroundColor: Color,
+			order: ImageContentView.Order = .imageFirst,
+			maxWidthPercentage: Double = 0.5,
+			hideIconInLandscape: Bool = true
+		) {
+			self.textAlignment = textAlignment
+			self.textSpacing = textSpacing
+			self.titleStyle = titleStyle
+			self.subHeadingForegroundColor = subHeadingForegroundColor
+			self.order = order
+			self.maxWidthPercentage = maxWidthPercentage
+			self.hideIconInLandscape = hideIconInLandscape
+		}
+	}
+	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
@@ -23,25 +81,17 @@ public struct ImageContentView: View {
 	///   - icon: the icon to be displayed
 	///   - heading: the heading of the empty state
 	///   - subHeading: the sub heading of the empty state
-	///   - textAlignment: the alignment of the texts
-	///   - textSpacing: the spacing between the texts
-	///   - titleStyle: the style of the title
+	///   - configuration: The layout configuration
 	public init(
 		icon: Image,
 		heading: LocalizedStringKey,
 		subHeading: LocalizedStringKey,
-		textAlignment: ImageContentView.Alignment = .center,
-		textSpacing: CGFloat = 8,
-		titleStyle: Typography = .headingSmall,
-		subHeadingForegroundColor: Color
+		configuration: ImageContentView.Configuration
 	) {
 		self.icon = icon
 		self.heading = heading
 		self.subHeading = subHeading
-		self.textAlignment = textAlignment
-		self.textSpacing = textSpacing
-		self.titleStyle = titleStyle
-		self.subHeadingForegroundColor = subHeadingForegroundColor
+		self.configuration = configuration
 	}
 	
 	/// The icon to be displayed
@@ -53,16 +103,8 @@ public struct ImageContentView: View {
 	/// The language key for the sub heading
 	public var subHeading: LocalizedStringKey
 	
-	/// The alignment of the texts
-	private var textAlignment: Alignment
-	
-	/// The style for the title
-	private var titleStyle: Typography
-	
-	/// The style for the title
-	private var textSpacing: CGFloat
-	
-	private var subHeadingForegroundColor: Color?
+	/// The layout configuration
+	private var configuration: ImageContentView.Configuration
 	
 	/// helper to calculate the size of the view
 	@State private var contentSize: CGSize = .zero
@@ -72,59 +114,81 @@ public struct ImageContentView: View {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
-		enum Empty {
+		enum View {
 			static let padding: CGFloat = 16
 			static let spacing: CGFloat = 8
 			static let top: CGFloat = 12
 		}
+	}
+
+	@ViewBuilder
+	private var contentStack: some View {
+		VStack(alignment: configuration.textAlignment == .center ? .center : .leading, spacing: configuration.textSpacing) {
+			Text(heading)
+				.typography(configuration.titleStyle)
+				.foregroundColor(theme.labels.primary)
+				.multilineTextAlignment(configuration.textAlignment == .center ? .center : .leading)
+				.fixedSize(horizontal: false, vertical: true)
+				.accessibilityIdentifier("imagecontentview.heading")
+				.accessibilityAddTraits(.isHeader)
+			
+			Text(subHeading)
+				.typography(.bodyMedium)
+				.foregroundColor(configuration.subHeadingForegroundColor)
+				.multilineTextAlignment(configuration.textAlignment == .center ? .center : .leading)
+				.fixedSize(horizontal: false, vertical: true)
+				.accessibilityIdentifier("imagecontentview.subheading")
+			
+			Spacer()
+		}
+		.frame(maxWidth: .infinity,
+			   alignment: configuration.textAlignment == .center ? .center : .leading
+		)
+	}
+	
+	@ViewBuilder
+	private var imageStack: some View {
+		// Image, 50% width
+		VStack(alignment: .center) {
+			Spacer()
+			
+			icon
+				.resizable()
+				.aspectRatio(contentMode: .fill)
+				.padding(.bottom, ViewTraits.View.padding)
+		}
+		.frame(maxWidth: contentSize.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.33 : configuration.maxWidthPercentage)
+		)
 	}
 	
 	public var body: some View {
 			
 		VStack(alignment: .center) {
 			
-			if showImage {
-				// Image, 50% width
-				VStack(alignment: .center) {
-					Spacer()
+			switch configuration.order {
+				case .imageFirst:
+					if showImage {
+						imageStack
+					}
+					contentStack
 					
-					icon
-						.resizable()
-						.aspectRatio(contentMode: .fill)
-						.padding(.bottom, ViewTraits.Empty.padding)
-				}
-				.frame(maxWidth: contentSize.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.33 : 0.5))
+				case .contentFirst:
+					contentStack
+					if showImage {
+						imageStack
+					}
 			}
-			
-			// Texts, full width
-			VStack(alignment: textAlignment == .center ? .center : .leading, spacing: textSpacing) {
-				
-				Text(heading)
-					.typography(titleStyle)
-					.foregroundColor(theme.labels.primary)
-					.multilineTextAlignment(textAlignment == .center ? .center : .leading)
-					.fixedSize(horizontal: false, vertical: true)
-					.accessibilityIdentifier("imagecontentview.heading")
-				
-				Text(subHeading)
-					.typography(.bodyMedium)
-					.foregroundColor(subHeadingForegroundColor)
-					.multilineTextAlignment(textAlignment == .center ? .center : .leading)
-					.fixedSize(horizontal: false, vertical: true)
-					.accessibilityIdentifier("imagecontentview.subheading")
-				
-				Spacer()
-			}
-			.frame(maxWidth: .infinity, alignment: textAlignment == .center ? .center : .leading)
 		}
 		.readSize($contentSize)
 		.accessibilityElement(children: .combine)
-		.padding(.top, ViewTraits.Empty.top)
+		.padding(.top, ViewTraits.View.top)
 		.onRotate { newOrientation in
-			
 			handleRotation(newOrientation)
 		}
 		.onAppear {
+			
+			guard configuration.hideIconInLandscape else { return }
+			
 			showImage = verticalSizeClass != SwiftUI.UserInterfaceSizeClass.compact || UIDevice.current.userInterfaceIdiom == .pad
 		}
 	}
@@ -139,6 +203,9 @@ public struct ImageContentView: View {
 		// The device orientation can be isFlat (faceUp or faceDown). Skip that
 		guard !newOrientation.isFlat else { return }
 		
+		// Obey config setting
+		guard configuration.hideIconInLandscape else { return }
+		
 		// Hide the image in landscape (on a phone)
 		showImage = !newOrientation.isLandscape
 	}
@@ -149,7 +216,13 @@ public struct ImageContentView: View {
 		icon: Image(systemName: "42.circle"),
 		heading: "Heading",
 		subHeading: "SubHeading",
-		titleStyle: .headingExtraLarge,
-		subHeadingForegroundColor: Color.pink
-	)
+		configuration: ImageContentView
+			.Configuration(
+				textAlignment: .center,
+				textSpacing: 8,
+				titleStyle: .headingExtraLarge,
+				subHeadingForegroundColor: Color.orange,
+				order: .imageFirst
+			)
+		)
 }

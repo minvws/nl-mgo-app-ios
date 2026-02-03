@@ -11,7 +11,7 @@ extension Font.TextStyle {
 	/// The default point size for text styles
 	public var pointSize: CGFloat {
 		switch self {
-			case .largeTitle: isiPhoneSE ? 32 : 34
+			case .largeTitle: isiPhoneSE ? 30 : 34
 			case .title: isiPhoneSE ? 26 : 28
 			case .title2: 22
 			case .title3: 20

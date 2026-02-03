@@ -256,7 +256,9 @@ struct OrganizationsView: View {
 				icon: Image(ImageResource.Woman.womanWithPhone),
 				heading: "common.no_organizations_heading",
 				subHeading: "common.no_organizations_subheading",
-				subHeadingForegroundColor: theme.labels.primary
+				configuration: ImageContentView.Configuration(
+					subHeadingForegroundColor: theme.labels.primary
+				)
 			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
