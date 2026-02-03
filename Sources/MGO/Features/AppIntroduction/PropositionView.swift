@@ -121,31 +121,7 @@ struct PropositionView: View {
 			.padding(.horizontal, ViewTraits.General.padding)
 			.padding(.top, ViewTraits.Navigation.padding)
 		} bottomView: {
-
-			VStack(spacing: ViewTraits.General.padding) {
-				
-				let rounded = osVersionChecker.available(version: .iOS(.v26))
-				
-				CallToActionButton(
-					"proposition.open_privacy.button",
-					style: .tonal(rounded: rounded)
-				) {
-					viewModel.reduce(.privacyLinkClicked)
-				}
-				.accessibilityIdentifier("proposition.open_privacy.button")
-				
-				CallToActionButton(
-					"common.next",
-					style: .solid(
-						rounded: rounded,
-						narrow: false
-					)
-				) {
-					viewModel.reduce(.nextButttonPressed)
-				}
-				.accessibilityIdentifier("common.next")
-			}
-			.padding(ViewTraits.General.padding)
+			bottomView
 		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton {
@@ -153,6 +129,34 @@ struct PropositionView: View {
 		})
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
+	}
+	
+	@ViewBuilder
+	private var bottomView: some View {
+		VStack(spacing: ViewTraits.General.padding) {
+			
+			let rounded = osVersionChecker.available(version: .iOS(.v26))
+			
+			CallToActionButton(
+				"proposition.open_privacy.button",
+				style: .tonal(rounded: rounded)
+			) {
+				viewModel.reduce(.privacyLinkClicked)
+			}
+			.accessibilityIdentifier("proposition.open_privacy.button")
+			
+			CallToActionButton(
+				"common.next",
+				style: .solid(
+					rounded: rounded,
+					narrow: false
+				)
+			) {
+				viewModel.reduce(.nextButttonPressed)
+			}
+			.accessibilityIdentifier("common.next")
+		}
+		.padding(ViewTraits.General.padding)
 	}
 }
 
