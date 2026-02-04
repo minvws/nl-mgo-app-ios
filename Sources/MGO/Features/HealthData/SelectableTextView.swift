@@ -75,11 +75,6 @@ class AutoSizingTextView: UITextView {
 	///   - sender: the sender of the action
 	/// - Returns: True if this is a copy action, false otherwise
 	override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-		switch action {
-			case #selector(copy(_:)):
-				return true
-			default:
-				return false
-		}
+		return action == #selector(copy(_:))
 	}
 }

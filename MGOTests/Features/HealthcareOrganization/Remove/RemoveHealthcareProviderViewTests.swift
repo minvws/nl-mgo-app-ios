@@ -27,7 +27,10 @@ final class RemoveHealthcareOrganizationViewTests: XCTestCase {
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
 		
-		viewModel = RemoveHealthcareOrganizationViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization)
+		viewModel = RemoveHealthcareOrganizationViewModel(
+			coordinator: coordinatorSpy,
+			healthcareOrganization: healthcareOrganization
+		)
 		sut = RemoveHealthcareOrganizationView(viewModel: self.viewModel)
 	}
 	
@@ -55,5 +58,35 @@ final class RemoveHealthcareOrganizationViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_removeButtonPressed_shouldCallCoordinator() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "remove_organization.remove")
+		try view.view(CallToActionButton.self).find(button: "remove_organization.yes_delete").tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.removedHealthcareOrganization
+	}
+	
+	@MainActor func test_cancelButtonPressed_shouldCallCoordinator() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "remove_organization.cancel")
+		try view.view(CallToActionButton.self).find(button: "remove_organization.no_cancel").tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
 	}
 }

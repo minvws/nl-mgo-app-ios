@@ -90,26 +90,25 @@ class HealthExportViewModel: ObservableObject {
 			
 			case .onAppear:
 				generatePDF()
-			
-				if case let .document(pDFDocument) = state, !isIOS15 {
-					
-					if let data = pDFDocument.dataRepresentation(),
-					   let url = savePDF(data: data) {
-						logDebug("Saving PDF onAppear", url as Any)
-						pdfUrl = url
-					}
+				
+				if case let .document(pDFDocument) = state, !isIOS15,
+				   let data = pDFDocument.dataRepresentation(),
+				   let url = savePDF(data: data) {
+					logDebug("Saving PDF onAppear", url as Any)
+					pdfUrl = url
 				}
 			
 			case .safePdf:
-				if case let .document(pDFDocument) = state {
-					if let data = pDFDocument.dataRepresentation(),
-					   let url = savePDF(data: data) {
-						logDebug("Saving PDF on safePdf", url as Any)
-						shareDocument(url)
-					}
+				if case let .document(pDFDocument) = state,
+				   let data = pDFDocument.dataRepresentation(),
+				   let url = savePDF(data: data) {
+					logDebug("Saving PDF on safePdf", url as Any)
+					shareDocument(url)
 				}
 		}
 	}
+	
+	internal var presentSharing: Bool = false
 	
 	/// Create a share window
 	/// - Parameter url: the url of the document to share
@@ -121,6 +120,7 @@ class HealthExportViewModel: ObservableObject {
 		shareActivity.popoverPresentationController?.sourceView = vc.view
 		shareActivity.popoverPresentationController?.sourceRect = CGRect(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height, width: 0, height: 0)
 		shareActivity.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
+		presentSharing = true
 		vc.present(shareActivity, animated: true, completion: nil)
 	}
 	
@@ -133,7 +133,7 @@ class HealthExportViewModel: ObservableObject {
 	
 	/// Generate the PDF
 	/// - Parameter source: the data source
-	@MainActor private func generatePDF() {
+	@MainActor internal func generatePDF() {
 		
 		// Our pointer to the position where we should draw the next element
 		var currentY: CGFloat = PdfExport.Constants.outerMargin
