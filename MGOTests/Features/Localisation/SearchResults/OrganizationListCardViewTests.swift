@@ -4,6 +4,7 @@
  */
 
 import MGOTest
+import MGOUI
 @testable import MGO
 
 final class OrganizationListCardViewTests: XCTestCase {
@@ -23,6 +24,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 			),
 			state: .regular
 		)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
 		takeSnapShots(content: sut)
@@ -43,6 +45,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 			),
 			state: .selected
 		)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
 		takeSnapShots(content: sut)
@@ -63,6 +66,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 			),
 			state: .notParticipating
 		)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
 		takeSnapShots(content: sut)
@@ -80,6 +84,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 			),
 			state: .regular
 		)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
 		takeSnapShots(content: sut)
@@ -100,6 +105,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 			),
 			state: .regular
 		)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
 		takeSnapShots(content: sut)
@@ -120,6 +126,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 			),
 			state: .regular
 		)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
 		takeSnapShots(content: sut)
@@ -140,6 +147,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 			),
 			state: .automatic(isSelected: true)
 		)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
 		takeSnapShots(content: sut)
@@ -160,6 +168,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 			),
 			state: .automatic(isSelected: false)
 		)
+			.background(Theme().backgrounds.primary)
 		
 		// Then
 		takeSnapShots(content: sut)
