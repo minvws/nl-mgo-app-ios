@@ -88,45 +88,11 @@ struct RemoveHealthcareOrganizationView: View {
 		
 		ScrollViewWithFixedBottom {
 			
-			VStack(spacing: ViewTraits.General.padding) {
-				
-				HStack {
-					Spacer()
-					Image(ImageResource.Details.bigTrashcan)
-						.background {
-							Circle()
-								.foregroundStyle(theme.backgrounds.secondary)
-						}
-					Spacer()
-				}
-				.padding(.top, ViewTraits.Image.bottom)
-				.padding(.bottom, ViewTraits.Image.bottom)
-				
-				Text(String(
-					format: String(localized: "remove_organization.heading"),
-					arguments: ["\(viewModel.healthcareOrganization.display_name)"]
-				))
-					.typography(.headingExtraLarge)
-					.foregroundStyle(theme.labels.primary)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.accessibilityAddTraits(.isHeader)
-					.accessibilityIdentifier("remove_organization.heading")
-				
-				Text(String(
-						format: String(localized: "remove_organization.subheading"),
-						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
-				))
-					.typography(.bodyMedium)
-					.foregroundStyle(theme.labels.primary)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.accessibilityIdentifier("remove_organization.subheading")
-			}
-			.padding(.horizontal, ViewTraits.General.padding)
-			.padding(.top, ViewTraits.Navigation.padding)
+			topView
 			
 		} bottomView: {
 			
-			bottomView()
+			bottomView
 		}
 		.when(isPresentedAsSheet, transform: { view in
 			view
@@ -137,9 +103,51 @@ struct RemoveHealthcareOrganizationView: View {
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
+	/// The top content of the scroll view
+	@ViewBuilder private var topView: some View {
+		VStack(spacing: ViewTraits.General.padding) {
+			HStack {
+				Spacer()
+				Image(ImageResource.Details.bigTrashcan)
+					.background {
+						Circle()
+							.foregroundStyle(theme.backgrounds.secondary)
+					}
+				Spacer()
+			}
+			.padding(.top, ViewTraits.Image.bottom)
+			.padding(.bottom, ViewTraits.Image.bottom)
+			
+			Text(
+				String(
+					format: String(localized: "remove_organization.heading"),
+					arguments: ["\(viewModel.healthcareOrganization.display_name)"]
+				)
+			)
+			.typography(.headingExtraLarge)
+			.foregroundStyle(theme.labels.primary)
+			.frame(maxWidth: .infinity, alignment: .topLeading)
+			.accessibilityAddTraits(.isHeader)
+			.accessibilityIdentifier("remove_organization.heading")
+			
+			Text(
+				String(
+					format: String(localized: "remove_organization.subheading"),
+					arguments: ["\(viewModel.healthcareOrganization.display_name)"]
+				)
+			)
+			.typography(.bodyMedium)
+			.foregroundStyle(theme.labels.primary)
+			.frame(maxWidth: .infinity, alignment: .topLeading)
+			.accessibilityIdentifier("remove_organization.subheading")
+		}
+		.padding(.horizontal, ViewTraits.General.padding)
+		.padding(.top, ViewTraits.Navigation.padding)
+	}
+	
 	/// Get the call to action buttons view
 	/// - Returns: View containing the call to action buttons
-	@ViewBuilder func bottomView() -> some View {
+	@ViewBuilder private var bottomView: some View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
 			
