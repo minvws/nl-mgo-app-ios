@@ -190,7 +190,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			
 			case .aboutAccessibility:
 				AboutAccessibilityView(
-					viewModel: AboutAccessibilityViewModel(coordinator: self)
+					viewModel: BaseViewModel(coordinator: self)
 				)
 			
 			case .aboutSafetyTips:

@@ -6,14 +6,10 @@
 import MGOFoundation
 import MGOUI
 
-class AboutAccessibilityViewModel: BaseViewModel {
-	// No additional implementation
-}
-
 struct AboutAccessibilityView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: AboutAccessibilityViewModel
+	@StateObject var viewModel: BaseViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -63,6 +59,6 @@ struct AboutAccessibilityView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		AboutAccessibilityView(viewModel: AboutAccessibilityViewModel(coordinator: nil))
+		AboutAccessibilityView(viewModel: BaseViewModel(coordinator: nil))
 	}
 }

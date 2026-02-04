@@ -24,7 +24,7 @@ final class AboutAccessibilityViewTests: XCTestCase {
 	@MainActor private func createSut() {
 		
 		sut = AboutAccessibilityView(
-			viewModel: AboutAccessibilityViewModel(
+			viewModel: BaseViewModel(
 				coordinator: self.coordinatorSpy
 			)
 		)
