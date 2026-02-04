@@ -27,11 +27,11 @@ import XCTest
 	}
 	
 	private var titleLabel: XCUIElement {
-		app.staticTexts["introduction.heading"]
+		app.staticTexts["imagecontentview.heading"]
 	}
 	
 	private var subHeadingLabel: XCUIElement {
-		app.staticTexts["introduction.subheading"]
+		app.staticTexts["imagecontentview.subheading"]
 	}
 
 	// MARK: - Validations

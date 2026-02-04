@@ -55,25 +55,11 @@ struct IntroductionView: View {
 	
 	/// Magic numbers
 	private struct ViewTraits {
-		enum Image {
-			static let width: CGFloat = 0.5
-			static let bottom: CGFloat = 24
-		}
-		enum Title {
-			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
-		}
-		enum Text {
-			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-			static let spacing: CGFloat = 8
-		}
-		enum Button {
+		enum General {
 			static let padding: CGFloat = 16
 		}
-		enum Navigation {
-			static let padding: CGFloat = 8
-		}
-		enum Banner {
-			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 24, trailing: 16)
+		enum Icon {
+			static let maxWidth: Double = 0.63
 		}
 	}
 	
@@ -81,57 +67,21 @@ struct IntroductionView: View {
 		
 		ScrollViewWithFixedBottom {
 			
-			VStack(alignment: .center, spacing: 0) {
-				
-				if showImage {
-					// Image, 50% width
-					VStack(alignment: .center) {
-						Spacer()
-						
-						Image(ImageResource.Woman.womanWithPhone)
-							.resizable()
-							.aspectRatio(contentMode: .fill)
-							.padding(.bottom, ViewTraits.Image.bottom)
-					}
-					.frame(maxWidth: contentSize.width * ViewTraits.Image.width)
-				}
-				
-				VStack(alignment: .leading) {
-					
-					Text("introduction.heading")
-						.typography(.headingExtraLarge)
-						.padding(ViewTraits.Title.insets)
-						.accessibilityAddTraits(.isHeader)
-						.fixedSize(horizontal: false, vertical: true)
-						.accessibilityIdentifier("introduction.heading")
-					
-					SplittedText(key: "introduction.subheading", spacing: ViewTraits.Text.spacing)
-						.typography(.bodyMedium)
-						.padding(ViewTraits.Text.insets)
-						.fixedSize(horizontal: false, vertical: true)
-						.accessibilityIdentifier("introduction.subheading")
-				}
-				
-				Spacer()
-			}
-			.padding(.top, ViewTraits.Navigation.padding)
-			.readSize($contentSize)
-			.frame(maxWidth: .infinity, alignment: .topLeading)
-			.foregroundStyle(theme.labels.primary)
-			.onRotate { newOrientation in
-				
-				// Always show on iPad
-				guard UIDevice.current.userInterfaceIdiom != .pad else { return }
-				
-				// The device orientation can be isFlat (faceUp or faceDown). Skip that
-				guard !newOrientation.isFlat else { return }
-				
-				// Hide the image in landscape (on a phone)
-				showImage = !newOrientation.isLandscape
-			}
-			.onAppear {
-				showImage = verticalSizeClass != SwiftUI.UserInterfaceSizeClass.compact || UIDevice.current.userInterfaceIdiom == .pad
-			}
+			ImageContentView(
+				icon: Image(ImageResource.Placeholder.onboarding),
+				heading: "introduction.heading",
+				subHeading: "introduction.subheading",
+				configuration: ImageContentView.Configuration(
+					textAlignment: .leading,
+					textSpacing: ViewTraits.General.padding,
+					titleStyle: .headingExtraLarge,
+					subHeadingForegroundColor: theme.labels.primary,
+					order: .contentFirst,
+					maxWidthPercentage: ViewTraits.Icon.maxWidth,
+					hideIconInLandscape: false
+				)
+			)
+			.padding(.horizontal, ViewTraits.General.padding)
 		} bottomView: {
 			
 			CallToActionButton(
@@ -144,7 +94,7 @@ struct IntroductionView: View {
 				viewModel.reduce(.nextButttonPressed)
 			}
 			.accessibilityIdentifier("common.next")
-			.padding(ViewTraits.Button.padding)
+			.padding(ViewTraits.General.padding)
 		}
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()

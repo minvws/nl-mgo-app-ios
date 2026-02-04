@@ -11,25 +11,23 @@ struct PrivacyShieldView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
-	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
-	
 	/// The possible shield images
 	enum ShieldType {
-		case encrypted
-		case safety
-		case checked
-		case cross
+		case secure
+		case personal
+		case storage
+		case control
 		
 		var image: ImageResource {
 			switch self {
-				case .encrypted:
+				case .secure:
 					.Shields.encrypted
-				case .safety:
-					.Shields.plus
-				case .checked:
+				case .personal:
 					.Shields.checked
-				case .cross:
-					.Shields.cross
+				case .storage:
+					.Shields.cloud
+				case .control:
+					.Shields.control
 			}
 		}
 	}
@@ -38,55 +36,64 @@ struct PrivacyShieldView: View {
 	private struct ViewTraits {
 		enum Text {
 			static let leading: CGFloat = 16
+			static let padding: CGFloat = 4
 		}
 	}
 	
-	/// The key of the localized text to be displayed as title
-	var title: LocalizedStringKey
+	/// The key of the localized text to be displayed as heading
+	var heading: LocalizedStringKey
+	
+	/// The key of the localized text to be displayed as sub heading
+	var subHeading: LocalizedStringKey
 	
 	/// The shield type (image)
 	var shieldType: ShieldType
 	
 	/// Initializer
 	/// - Parameter title: The key of the localized text to be displayed as title
-	init(_ title: LocalizedStringKey, shieldType: ShieldType) {
-		self.title = title
+	init(
+		_ title: LocalizedStringKey,
+		subHeading: LocalizedStringKey,
+		shieldType: ShieldType
+	) {
+		self.heading = title
+		self.subHeading = subHeading
 		self.shieldType = shieldType
 	}
 	
-	/// The alignment of the HStack, changes on orientation
-	@State private var alignment: VerticalAlignment = .center
-	
 	var body: some View {
 		
-		HStack(alignment: alignment, spacing: 0) {
+		HStack(alignment: .center, spacing: 0) {
 			
 			Image(shieldType.image)
 				.foregroundStyle(theme.categories.rijkslint)
 				.padding(.zero)
 			
-			Text(title)
-				.typography(.bodyMedium)
-				.padding(.leading, ViewTraits.Text.leading)
-				.foregroundStyle(theme.labels.primary)
+			VStack(
+				alignment: .leading,
+				spacing: ViewTraits.Text.padding,
+				content: {
+					Text(heading)
+						.typography(.bodyMedium, isBold: true)
+						.padding(.leading, ViewTraits.Text.leading)
+						.foregroundStyle(theme.labels.primary)
+					
+					Text(subHeading)
+						.typography(.bodyMedium)
+						.padding(.leading, ViewTraits.Text.leading)
+						.foregroundStyle(theme.labels.secondary)
+				}
+			)
 		}
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.accessibilityElement(children: .combine)
-		.onRotate { newOrientation in
-			// The device orientation can be isFlat (faceUp or faceDown). Skip that
-			guard !newOrientation.isFlat else { return }
-			
-			// Top on portrait, center on landscape
-			alignment = newOrientation.isLandscape ? .center : .top
-		}
-		.onAppear {
-			if verticalSizeClass != SwiftUI.UserInterfaceSizeClass.compact || UIDevice.current.userInterfaceIdiom == .pad {
-				alignment = .top
-			}
-		}
 	}
 }
 
 #Preview {
-	PrivacyShieldView("proposition.statement_1", shieldType: .safety)
+	PrivacyShieldView(
+		"proposition.statement.heading_1",
+		subHeading: "proposition.statement.subheading_1",
+		shieldType: .secure
+	)
 }

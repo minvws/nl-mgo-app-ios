@@ -123,10 +123,12 @@ struct LoginView: View {
 				icon: Image(ImageResource.Woman.womanWithPhone),
 				heading: "login.heading",
 				subHeading: "login.subheading",
-				textAlignment: .leading,
-				textSpacing: ViewTraits.General.spacing,
-				titleStyle: .headingExtraLarge,
-				subHeadingForegroundColor: theme.labels.primary
+				configuration: ImageContentView.Configuration(
+					textAlignment: .leading,
+					textSpacing: ViewTraits.General.spacing,
+					titleStyle: .headingExtraLarge,
+					subHeadingForegroundColor: theme.labels.primary
+				)
 			)
 			.padding(.horizontal, ViewTraits.General.spacing)
 			

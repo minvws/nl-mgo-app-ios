@@ -53,20 +53,6 @@ final class PropositionViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.98)
 	}
 	
-	@MainActor func test_handleURL_validlink() throws {
-		
-		// Given
-		let sut = createSut()
-		
-		// When
-		let element = try sut.inspect().find(viewWithAccessibilityIdentifier: "proposition.subheading")
-		try element.callOnTapGesture()
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showPrivacyStatement
-	}
-	
 	@MainActor func test_nextButtonPressed_shouldCallCoordinator() throws {
 		
 		// Given
@@ -78,6 +64,24 @@ final class PropositionViewTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.nextButtonPressedOnProposition
+		expect(
+			self.coordinatorSpy.invokedHandleParameters?.0
+		) == Coordination.Action.nextButtonPressedOnProposition
+	}
+	
+	@MainActor func test_openPrivacyLink_shouldCallCoordinator() throws {
+		
+		// Given
+		let sut = createSut()
+		
+		// When
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "proposition.open_privacy.button")
+		try view.view(CallToActionButton.self).find(button: "proposition.open_privacy.button").tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(
+			self.coordinatorSpy.invokedHandleParameters?.0
+		) == Coordination.Action.showPrivacyStatement
 	}
 }

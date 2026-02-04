@@ -16,8 +16,31 @@ final class ImageContentViewTests: XCTestCase {
 			icon: Image(systemName: "42.circle"),
 			heading: "Heading",
 			subHeading: "SubHeading",
-			titleStyle: .headingExtraLarge,
-			subHeadingForegroundColor: Color.pink
+			configuration: ImageContentView.Configuration(
+				titleStyle: .headingExtraLarge,
+				subHeadingForegroundColor: Color.pink
+			)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 600)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_imageContentView_contentFirst() throws {
+		
+		// Given
+		let sut = ImageContentView(
+			icon: Image(systemName: "42.circle"),
+			heading: "Heading",
+			subHeading: "SubHeading",
+			configuration: ImageContentView.Configuration(
+				titleStyle: .headingExtraLarge,
+				subHeadingForegroundColor: Color.pink,
+				order: .contentFirst
+			)
 		)
 		
 		// When
@@ -34,8 +57,31 @@ final class ImageContentViewTests: XCTestCase {
 			icon: Image(systemName: "42.circle"),
 			heading: "Heading",
 			subHeading: "SubHeading",
-			titleStyle: .headingExtraLarge,
-			subHeadingForegroundColor: Color.pink
+			configuration: ImageContentView.Configuration(
+				titleStyle: .headingExtraLarge,
+				subHeadingForegroundColor: Color.pink
+			)
+		)
+		
+		// When
+		sut.handleRotation(UIDeviceOrientation.portrait)
+		
+		// Then
+		expect(sut.showImage) == true
+	}
+	
+	func test_onRotate_disabled() {
+		
+		// Given
+		let sut = ImageContentView(
+			icon: Image(systemName: "42.circle"),
+			heading: "Heading",
+			subHeading: "SubHeading",
+			configuration: ImageContentView.Configuration(
+				titleStyle: .headingExtraLarge,
+				subHeadingForegroundColor: Color.pink,
+				hideIconInLandscape: false
+			)
 		)
 		
 		// When
