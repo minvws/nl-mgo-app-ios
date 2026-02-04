@@ -87,6 +87,9 @@ struct SettingsView: View {
 	/// The application appearance for light / dark / system mode
 	@AppStorage("AppAppearance") private var selectedAppearance: AppAppearance = .system
 	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
