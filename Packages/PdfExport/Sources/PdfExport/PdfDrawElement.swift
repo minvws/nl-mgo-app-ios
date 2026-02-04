@@ -76,7 +76,7 @@ extension PdfDrawElement {
 		
 		drawBorder(context, inset: &inset)
 		drawBackground(context, inset: &inset)
-		drawText(context, inset: inset)
+		drawText(inset: inset)
 	}
 	
 	/// Draw the border
@@ -124,7 +124,7 @@ extension PdfDrawElement {
 	/// - Parameters:
 	///   - context: The drawing environment for a PDF renderer.
 	///   - inset: the inset to use
-	@MainActor private func drawText(_ context: UIGraphicsPDFRendererContext, inset: CGFloat) {
+	@MainActor private func drawText(inset: CGFloat) {
 		
 		guard let text else { return }
 		
