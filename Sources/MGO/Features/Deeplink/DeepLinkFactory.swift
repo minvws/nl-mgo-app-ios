@@ -7,6 +7,10 @@ import MGOFoundation
 
 public final class DeepLinkFactory {
 	
+	public enum Path: String {
+		case login = "/login"
+	}
+	
 	/// Create a deep link
 	/// - Parameter url: incoming url
 	/// - Returns: deep link
@@ -14,7 +18,7 @@ public final class DeepLinkFactory {
 		
 		guard url.scheme == Configuration().getCallbackScheme() else { return nil }
 		
-		if url.host == "app", url.path == "/login", let userinfo = url["userinfo"] {
+		if url.host == "app", url.path == Path.login.rawValue, let userinfo = url["userinfo"] {
 			return DeepLink.digidCallback(userinfo: userinfo)
 		}
 		return nil
