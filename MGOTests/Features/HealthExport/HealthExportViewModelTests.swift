@@ -133,4 +133,19 @@ final class HealthExportViewModelTests: XCTestCase {
 		expect(Double(data?.count ?? 0)).to(beCloseTo(13711, within: 10.0))
 		try? FileManager.default.removeItem(atPath: pdfUrl.path)
 	}
+	
+	@MainActor func test_savePDF() throws {
+		
+		// Given
+		setupSut()
+		sut.generatePDF()
+		
+		// When
+		sut.reduce(.safePdf)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == false
+		expect(self.sut.pdfUrl) == nil
+		expect(self.sut.presentSharing) == true
+	}
 }
