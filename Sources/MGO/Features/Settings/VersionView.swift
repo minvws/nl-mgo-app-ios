@@ -9,20 +9,15 @@ import MGOFoundation
 class VersionViewModel: BaseViewModel {
 	
 	struct State {
-		struct HcimVersion {
+		struct Version {
 			let version: String?
 			let date: String?
 			let git: String?
 		}
 		
-		struct SharedVersion {
-			let version: String?
-			let date: String?
-			let git: String?
-		}
-		
-		let hcim: HcimVersion
-		let shared: SharedVersion
+		let hcim: Version
+		let shared: Version
+		let search: Version
 	}
 	
 	@Published var state: State?
@@ -40,17 +35,23 @@ class VersionViewModel: BaseViewModel {
 		do {
 			let hcimVersion = try HCIMParser().getVersion()
 			let sharedVersion = try resourceRepository.getVersion()
+			let searchVerion = try OrganizationSearchClient().getVersion()
 			
 			state = State(
-				hcim: State.HcimVersion(
+				hcim: State.Version(
 					version: hcimVersion.version,
 					date: hcimVersion.created,
 					git: String(hcimVersion.gitRef.prefix(7))
 				),
-				shared: State.SharedVersion(
+				shared: State.Version(
 					version: sharedVersion.version,
 					date: sharedVersion.created,
 					git: String(sharedVersion.gitRef.prefix(7))
+				),
+				search: State.Version(
+					version: searchVerion.version,
+					date: searchVerion.created,
+					git: String(searchVerion.gitRef.prefix(7))
 				)
 			)
 		} catch {
@@ -94,6 +95,7 @@ struct VersionView: View {
 		List {
 			hcimPackage()
 			sharedConfig()
+			searchPackage()
 			patientFriendlyTerms()
 		}
 		.backport
@@ -112,26 +114,34 @@ struct VersionView: View {
 	}
 	
 	let unknown: String = String(localized: "common.unknown")
+
+	/// The HCIM Package
+	/// - Returns: the HCIM Package
+	@ViewBuilder private func section(_ version: VersionViewModel.State.Version) -> some View {
+		
+		Section {
+			row(
+				heading: "Versie",
+				value: version.version ?? unknown
+			)
+			row(
+				heading: "Datum",
+				value: version.date ?? unknown
+			)
+			row(
+				heading: "Git-ref",
+				value: version.git ?? unknown
+			)
+		}
+	}
 	
 	/// The HCIM Package
 	/// - Returns: the HCIM Package
 	@ViewBuilder private func hcimPackage() -> some View {
 		
 		sectionHeading("HCIM Package", firstSection: true)
-		
-		Section {
-			row(
-				heading: "Versie",
-				value: viewModel.state?.hcim.version ?? unknown
-			)
-			row(
-				heading: "Datum",
-				value: viewModel.state?.hcim.date ?? unknown
-			)
-			row(
-				heading: "Git-ref",
-				value: viewModel.state?.hcim.git ?? unknown
-			)
+		if let version = viewModel.state?.hcim {
+			section(version)
 		}
 	}
 	
@@ -140,20 +150,18 @@ struct VersionView: View {
 	@ViewBuilder private func sharedConfig() -> some View {
 		
 		sectionHeading("Health Categories Config")
+		if let version = viewModel.state?.shared {
+			section(version)
+		}
+	}
+	
+	/// The Organization Search Package
+	/// - Returns: the Organization Search Package
+	@ViewBuilder private func searchPackage() -> some View {
 		
-		Section {
-			row(
-				heading: "Versie",
-				value: viewModel.state?.shared.version ?? unknown
-			)
-			row(
-				heading: "Datum",
-				value: viewModel.state?.shared.date ?? unknown
-			)
-			row(
-				heading: "Git-ref",
-				value: viewModel.state?.shared.git ?? unknown
-			)
+		sectionHeading("Organization Search Package")
+		if let version = viewModel.state?.search {
+			section(version)
 		}
 	}
 	

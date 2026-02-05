@@ -21,10 +21,10 @@ class Generator {
 	/// - Returns: a healthcare organization
 	static func healthcareOrganization(_ id: String, name: String = "Tandarts Tandje Erbij", city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true, serviceId: String = "48", withLines: Bool = true ) -> MgoOrganization {
 		
-		var dataServices = [DataService]()
+		var dataServices = [LocalisationService.DataService]()
 		if useDataService {
 			dataServices.append(
-				DataService(
+				LocalisationService.DataService(
 					id: serviceId,
 					name: "Basisgegevens Zorg",
 					interface_versions: ["2"],

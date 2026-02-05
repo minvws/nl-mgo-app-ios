@@ -19,6 +19,7 @@
 @_exported import NetworkAvailability
 @_exported import NotificationCenter
 @_exported import Observatory
+@_exported import OrganizationSearch
 @_exported import PatientFriendlyTerms
 @_exported import Sanitizer
 @_exported import SecureUserSettings
