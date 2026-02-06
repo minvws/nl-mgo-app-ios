@@ -6,7 +6,7 @@
 import Foundation
 import MGODebug
 
-public protocol OrganizationSearchClientProtocol: Actor {
+public protocol OrganizationSearchClientProtocol {
 	
 	/// Create a Organization Search Client
 	init()
@@ -16,31 +16,40 @@ public protocol OrganizationSearchClientProtocol: Actor {
 	///   - city: the city to search with
 	///   - name: the name to search with
 	/// - Returns: An (empty) array of Healthcare Organizations
-	func searchHealthcareOrganizations(_ searchTerm: String) async throws -> [Data]
+	func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults?
 	
 	/// Get the version of the organization search library
 	/// - Returns: the organization search version
-	@MainActor func getVersion() throws -> Version
+	func getVersion() throws -> Version
+	
+	func createIndex() async throws
 }
 
-public actor OrganizationSearchClient: OrganizationSearchClientProtocol {
+public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 	
-	/// Create a Organization Search Client
-	public init() {}
+	/// The JavaScript context manager running on a background actor
+	private let jsManager: JSContextManager
+	
+	/// Create a JS backed Organization Search
+	required public init() {
+		jsManager = JSContextManager()
+	}
+	
+	public func createIndex() async throws {
+		try await jsManager.createIndex()
+	}
 	
 	/// Search for all the healthcare organizations with this term
 	/// - Parameters:
-	///   - city: the city to search with
-	///   - name: the name to search with
+	///   - searchTerm: the search term
 	/// - Returns: An (empty) array of Healthcare Organizations
-	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> [Data] {
-		return []
+	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults? {
+		return try await jsManager.searchHealthcareOrganizations(searchTerm)
 	}
 	
-#warning("Rool, 02/12/2025: Should this be a mainactor function on this actor?")
 	/// What version of the shared core are we running?
 	/// - Returns: the version
-	@MainActor public func getVersion() throws -> Version {
+	public func getVersion() throws -> Version {
 		
 		guard let parserPath = Bundle.module.path(forResource: "version", ofType: "json") else {
 			logError("OrganizationSearchClient: The version file could not be found")
