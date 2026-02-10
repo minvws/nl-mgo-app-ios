@@ -76,5 +76,4 @@ final class CardViewTests: XCTestCase {
 			as: .image
 		)
 	}
-	
 }

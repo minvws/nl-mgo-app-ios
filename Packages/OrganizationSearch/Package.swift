@@ -29,8 +29,7 @@ let package = Package(
 		),
 		.testTarget(
 			name: "OrganizationSearchTests",
-			dependencies: ["OrganizationSearch"],
-			resources: [.process("Resources")]
+			dependencies: ["OrganizationSearch"]
 		)
 	]
 )

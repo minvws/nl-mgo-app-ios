@@ -22,7 +22,8 @@ public protocol OrganizationSearchClientProtocol {
 	/// - Returns: the organization search version
 	func getVersion() throws -> Version
 	
-	func createIndex() async throws
+	/// Prepare the organizations to be searched
+	func prepare() async throws
 }
 
 public class OrganizationSearchClient: OrganizationSearchClientProtocol {
@@ -35,20 +36,21 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 		jsManager = JSContextManager()
 	}
 	
-	public func createIndex() async throws {
+	/// Prepare the organizations to be searched
+	public func prepare() async throws {
 		try await jsManager.createIndex()
 	}
 	
 	/// Search for all the healthcare organizations with this term
 	/// - Parameters:
 	///   - searchTerm: the search term
-	/// - Returns: An (empty) array of Healthcare Organizations
+	/// - Returns: optional Search result
 	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults? {
 		return try await jsManager.searchHealthcareOrganizations(searchTerm)
 	}
 	
-	/// What version of the shared core are we running?
-	/// - Returns: the version
+	/// Get the version of the organization search library
+	/// - Returns: the organization search version
 	public func getVersion() throws -> Version {
 		
 		guard let parserPath = Bundle.module.path(forResource: "version", ofType: "json") else {

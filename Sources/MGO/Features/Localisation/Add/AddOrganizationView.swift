@@ -77,6 +77,9 @@ class AddOrganizationViewModel: ObservableObject {
 		)
 	}
 	
+	/// Dependency injectable organization Search Client
+	@Injected(\.organizationSearchClient) private var organizationSearchClient
+	
 	@MainActor
 	@objc func clear() {
 		state.city = ""
@@ -102,7 +105,12 @@ class AddOrganizationViewModel: ObservableObject {
 					}
 					return
 				}
-			coordinator?.handle(Coordination.Action(identifier: "showHealthcareOrganizationSearchResults", params: ["city": state.city, "name": state.name]))
+				coordinator?.handle(
+					Coordination.Action(
+						identifier: "showHealthcareOrganizationSearchResults",
+						params: ["city": state.city, "name": state.name]
+					)
+				)
 			
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
