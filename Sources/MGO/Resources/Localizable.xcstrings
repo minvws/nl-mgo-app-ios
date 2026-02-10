@@ -1833,7 +1833,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welkom bij Mijn Gezondheidsoverzicht"
+            "value" : "Alles over uw gezondheid en zorg op één plek"
           }
         }
       }
@@ -1844,7 +1844,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alles over uw gezondheid en zorg op één plek. Bijvoorbeeld gegevens van de huisarts, het ziekenhuis en uw vaccinaties."
+            "value" : "Bijvoorbeeld gegevens van de huisarts, het ziekenhuis en uw vaccinaties."
           }
         }
       }
@@ -2724,7 +2724,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uw gegevens worden altijd via een veilige verbinding opgehaald."
+            "value" : "Uw gegevens worden via een beschermde verbinding opgehaald."
           }
         }
       }
@@ -2846,6 +2846,61 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "U heeft een afbeelding opgeslagen van uw medische gegevens. Wees voorzichtig met delen of opslaan."
+          }
+        }
+      }
+    },
+    "search_organization.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg een zorgaanbieder toe"
+          }
+        }
+      }
+    },
+    "search_organization.onboarding.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bijna klaar! Voeg een zorgaanbieder toe"
+          }
+        }
+      }
+    },
+    "search_organization.result_count" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ zorgaanbieders gevonden"
+          }
+        }
+      }
+    },
+    "search_organization.search_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bijv. Amsterdam UMC"
+          }
+        }
+      }
+    },
+    "search_organization.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek op naam, type zorg of plaats"
           }
         }
       }
