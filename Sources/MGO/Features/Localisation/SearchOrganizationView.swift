@@ -36,6 +36,7 @@ class SearchOrganizationViewModel: ObservableObject {
 		case closeSheet
 		case endEditing
 		case search(String?)
+		case store(OrganizationSearch.Organization)
 	}
 	
 	/// The flow coordinator for routing
@@ -77,6 +78,12 @@ class SearchOrganizationViewModel: ObservableObject {
 				
 			case let .search(searchTerm):
 				search(searchTerm)
+				
+			case let .store(organization):
+				logWarning(
+					"Should store organization",
+					organization.displayName
+				)
 		}
 	}
 	
@@ -138,6 +145,12 @@ struct SearchOrganizationView: View {
 	/// helper to calculate the size of the view
 	@State private var contentSize: CGSize = .zero
 	
+	/// State for showing the confirmation alert
+	@State private var showConfirmationAlert: Bool = false
+	
+	/// The selected organization for the alert
+	@State private var selectedOrganization: OrganizationSearch.Organization?
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -145,6 +158,8 @@ struct SearchOrganizationView: View {
 		}
 		enum Header {
 			static let spacing: CGFloat = 6
+			static let subheadingBottomPadding: CGFloat = 20
+			static let inputBottomPadding: CGFloat = 8
 		}
 		enum Input {
 			static let cornerRadius: CGFloat = 12
@@ -187,10 +202,7 @@ struct SearchOrganizationView: View {
 		.backport.scrollContentBackground(.hidden)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.readSize($contentSize)
-		.onTapGesture {
-			_ = logDebug("Tapping outside the input")
-			viewModel.reduce(.endEditing)
-		}
+		.resignKeyboardOnDragGesture()
 		
 		.when(isPresentedAsSheet, transform: { view in
 			view
@@ -203,6 +215,23 @@ struct SearchOrganizationView: View {
 				.layoutForIPad()
 		})
 		.background(theme.backgrounds.primary.ignoresSafeArea())
+		.alert(
+			String(
+				format: String(localized: "search_organization.dialog.heading"),
+				arguments: [selectedOrganization?.displayName ?? ""]
+			),
+			isPresented: $showConfirmationAlert,
+			presenting: selectedOrganization
+		) { organization in
+			Button("search_organization.dialog.yes", role: .none) {
+				viewModel.reduce(.store(organization))
+			}
+			Button("search_organization.dialog.no", role: .cancel) {
+				selectedOrganization = nil
+			}
+		} message: { organization in
+			Text(String(localized: "search_organization.dialog.subheading"))
+		}
 	}
 	
 	/// The top view with heading, subheading and input field
@@ -217,17 +246,17 @@ struct SearchOrganizationView: View {
 					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
-					.accessibilityIdentifier("add_organization.heading")
+					.accessibilityIdentifier("search_organization.heading")
 				
 				Text("search_organization.subheading")
 					.typography(.bodyMedium) // should be semiBold
 					.foregroundStyle(theme.labels.secondary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.accessibilityIdentifier("add_organization.subheading")
-					.padding(.bottom, 20)
+					.accessibilityIdentifier("search_organization.subheading")
+					.padding(.bottom, ViewTraits.Header.subheadingBottomPadding)
 				
 				inputField
-					.padding(.bottom, 8)
+					.padding(.bottom, ViewTraits.Header.inputBottomPadding)
 			}
 		}
 		.listRowBackground(Color.clear)
@@ -326,15 +355,22 @@ struct SearchOrganizationView: View {
 		
 		ForEach(viewModel.state.results) { organization in
 			Section {
-				CardView(
-					title: organization.displayName ?? "",
-					message: (
-						(organization.addressLine ?? "") + " " + (
-							organization.city ?? ""
+				Button {
+					selectedOrganization = organization
+					showConfirmationAlert = true
+				} label: {
+					CardView(
+						title: organization.displayName ?? "",
+						message: (
+							(organization.addressLine ?? "") + " " + (
+								organization.city ?? ""
+							)
 						)
+						.trim()
 					)
-					.trim()
-				)
+					.accessibilityElement(children: .combine)
+				}
+				.buttonStyle(.plain)
 			}
 			.listRowInsets(ViewTraits.List.resultInset)
 		}

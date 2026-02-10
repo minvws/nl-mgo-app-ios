@@ -2850,6 +2850,50 @@
         }
       }
     },
+    "search_organization.dialog.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ toevoegen?"
+          }
+        }
+      }
+    },
+    "search_organization.dialog.no" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nee"
+          }
+        }
+      }
+    },
+    "search_organization.dialog.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als deze zorgaanbieder gegevens over u heeft, staan die straks in uw overzicht."
+          }
+        }
+      }
+    },
+    "search_organization.dialog.yes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja, toevoegen"
+          }
+        }
+      }
+    },
     "search_organization.heading" : {
       "extractionState" : "manual",
       "localizations" : {
