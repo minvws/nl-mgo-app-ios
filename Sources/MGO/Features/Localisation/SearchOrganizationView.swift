@@ -15,11 +15,14 @@ class SearchOrganizationViewModel: ObservableObject {
 		/// Are we a repeat visitor? -> False
 		var isOnboarding: Bool = false
 		
-//		/// The term to search organizations with
-//		var searchTerm: String = ""
+		/// Are we searching for results?
+		var isSearching: Bool = false
 		
 		/// The search results
 		var results: [OrganizationSearch.Organization] = []
+		
+		/// The total number of search results
+		var totalResults: Int = 0
 	}
 	
 	/// The state for this view
@@ -37,6 +40,12 @@ class SearchOrganizationViewModel: ObservableObject {
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
+	
+	/// The current search task that can be cancelled
+	private var searchTask: Task<Void, Never>?
+	
+	/// Debounce delay in milliseconds
+	private let searchDebounceDelay: UInt64 = 100
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
@@ -74,20 +83,35 @@ class SearchOrganizationViewModel: ObservableObject {
 	/// Handle user input for search
 	/// - Parameter term: the search term
 	@MainActor private func search(_ searchTerm: String?) {
-		guard let searchTerm, searchTerm.isNotEmpty, searchTerm.count > 3 else {
+		// Cancel any existing search task
+		searchTask?.cancel()
+		
+		guard let searchTerm, searchTerm.isNotEmpty, searchTerm.count > 2 else {
 			state.results = []
+			state.totalResults = 0
+			state.isSearching = false
 			return
 		}
 		
-		Task {
+		self.state.isSearching = true
+		
+		searchTask = Task {
+			// Delay the search to debounce
+			try? await Task.sleep(nanoseconds: searchDebounceDelay * 1_000_000)
+			
+			// Check if task was cancelled during the delay
+			guard !Task.isCancelled else {
+				return
+			}
+			
 			let searchResult = try? await organizationSearchClient.searchHealthcareOrganizations(searchTerm)
 			let docs = searchResult?.hits.map { $0.document } ?? []
-			#warning("Rool, 09/2/2026: TBD, pagination of the results")
 			await MainActor.run {
 				withAnimation {
 					
-					#warning("Rool, 09/2/2026: TBD, use the searchresults.hits.count total or the searchresult.count")
 					self.state.results = docs
+					self.state.isSearching = false
+					self.state.totalResults = Int(searchResult?.count ?? 0)
 				}
 			}
 		}
@@ -130,6 +154,9 @@ struct SearchOrganizationView: View {
 		enum List {
 			static let headerInset = EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16)
 			static let resultInset = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+		}
+		enum Accessory {
+			static let size: CGFloat = 22
 		}
 	}
 	
@@ -216,9 +243,20 @@ struct SearchOrganizationView: View {
 			}
 			.overlay(alignment: .leading) {
 				
-				Image(systemName: "magnifyingglass")
-					.foregroundStyle(theme.symbols.secondary)
-					.padding(.leading, ViewTraits.General.padding)
+				if viewModel.state.isSearching {
+					ProgressView()
+						.progressViewStyle(.circular)
+						.frame(
+							width: ViewTraits.Accessory.size,
+							height: ViewTraits.Accessory.size
+						)
+						.tint(theme.symbols.secondary)
+						.padding(.leading, ViewTraits.General.padding)
+				} else {
+					Image(systemName: "magnifyingglass")
+						.foregroundStyle(theme.symbols.secondary)
+						.padding(.leading, ViewTraits.General.padding)
+				}
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
 			.onChange(of: input) { newValue in
@@ -271,7 +309,7 @@ struct SearchOrganizationView: View {
 			Text(
 				String(
 					format: String(localized: "search_organization.result_count"),
-					arguments: ["\(viewModel.state.results.count)"]
+					arguments: ["\(viewModel.state.totalResults)"]
 				)
 			)
 			.typography(.bodyMedium)
