@@ -2861,6 +2861,28 @@
         }
       }
     },
+    "search_organization.no_results.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen zorgaanbieders gevonden"
+          }
+        }
+      }
+    },
+    "search_organization.no_results.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer uw zoekopdracht en probeer het opnieuw."
+          }
+        }
+      }
+    },
     "search_organization.onboarding.heading" : {
       "extractionState" : "manual",
       "localizations" : {

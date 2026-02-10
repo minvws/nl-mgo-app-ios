@@ -135,6 +135,9 @@ struct SearchOrganizationView: View {
 	/// The binding input
 	@State var input: String = ""
 	
+	/// helper to calculate the size of the view
+	@State private var contentSize: CGSize = .zero
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -154,22 +157,36 @@ struct SearchOrganizationView: View {
 		enum List {
 			static let headerInset = EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16)
 			static let resultInset = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+			static let sectionInset = EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
 		}
 		enum Accessory {
 			static let size: CGFloat = 22
 		}
+		enum Empty {
+			static let spacing: CGFloat = 8
+			static let bottom: CGFloat = 16
+			static let maxWidthPercentage: Double = 0.38
+		}
 	}
 	
 	var body: some View {
-		VStack(alignment: .leading, spacing: ViewTraits.General.padding) {
-			heading
+		List {
 			
-			inputField
+			topView
 			
-			searchResults
-			
-			Spacer()
+			if viewModel.state.results.isNotEmpty {
+				listHeader
+				
+				organizationsList
+			} else if !viewModel.state.isSearching && input.count > 2 {
+				emptyState
+			}
 		}
+		.backport.listSectionSpacing(0)
+		.backport.contentMargins(0)
+		.backport.scrollContentBackground(.hidden)
+		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
+		.readSize($contentSize)
 		.onTapGesture {
 			_ = logDebug("Tapping outside the input")
 			viewModel.reduce(.endEditing)
@@ -188,25 +205,33 @@ struct SearchOrganizationView: View {
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
-	/// The heading and subheading
-	@ViewBuilder private var heading: some View {
+	/// The top view with heading, subheading and input field
+	@ViewBuilder private var topView: some View {
 		
-		VStack(spacing: ViewTraits.Header.spacing) {
+		Section {
 			
-			Text(viewModel.state.isOnboarding ? "search_organization.onboarding.heading" : "search_organization.heading")
-				.typography(.headingExtraLarge)
-				.foregroundStyle(theme.labels.primary)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityAddTraits(.isHeader)
-				.accessibilityIdentifier("add_organization.heading")
-			
-			Text("search_organization.subheading")
-				.typography(.bodyMedium)
-				.foregroundStyle(theme.labels.secondary)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityIdentifier("add_organization.subheading")
+			VStack(spacing: ViewTraits.Header.spacing) {
+				
+				Text(viewModel.state.isOnboarding ? "search_organization.onboarding.heading" : "search_organization.heading")
+					.typography(.headingExtraLarge)
+					.foregroundStyle(theme.labels.primary)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityAddTraits(.isHeader)
+					.accessibilityIdentifier("add_organization.heading")
+				
+				Text("search_organization.subheading")
+					.typography(.bodyMedium) // should be semiBold
+					.foregroundStyle(theme.labels.secondary)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityIdentifier("add_organization.subheading")
+					.padding(.bottom, 20)
+				
+				inputField
+					.padding(.bottom, 8)
+			}
 		}
-		.padding(.horizontal, ViewTraits.General.padding)
+		.listRowBackground(Color.clear)
+		.listRowInsets(ViewTraits.List.sectionInset)
 	}
 	
 	/// The input field for the search
@@ -258,33 +283,46 @@ struct SearchOrganizationView: View {
 						.padding(.leading, ViewTraits.General.padding)
 				}
 			}
-			.padding(.horizontal, ViewTraits.General.padding)
 			.onChange(of: input) { newValue in
 				viewModel.reduce(.search(newValue))
 			}
 	}
 	
-	/// The search results, header and list
-	@ViewBuilder private var searchResults: some View {
-		if viewModel.state.results.isNotEmpty {
+	/// The empty state, ie. the search resulted in no organizations
+	@ViewBuilder private var emptyState: some View {
+		
+		Section {
 			
-			List {
+			VStack(alignment: .center, spacing: ViewTraits.Empty.spacing, content: {
 				
-				listHeader
+				Spacer()
 				
-				list
-			}
-			.backport.listSectionSpacing(8)
-			.backport.contentMargins(0)
-			.backport.scrollContentBackground(.hidden)
-			.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
-		} else {
-			EmptyView()
+				Image(ImageResource.Localisation.empty)
+					.resizable()
+					.aspectRatio(contentMode: .fit)
+					.frame(width: contentSize.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.33 : ViewTraits.Empty.maxWidthPercentage))
+					.padding(.bottom, ViewTraits.Empty.bottom)
+				
+				Text("search_organization.no_results.heading")
+					.typography(.headingSmall)
+					.foregroundStyle(theme.labels.primary)
+					.multilineTextAlignment(.center)
+				
+				Text("search_organization.no_results.subheading")
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.labels.secondary)
+					.multilineTextAlignment(.center)
+				
+				Spacer()
+			})
+			.frame(maxWidth: .infinity, maxHeight: .infinity)
+			.padding(.horizontal, ViewTraits.General.padding)
 		}
+		.listRowBackground(Color.clear)
 	}
 	
 	/// The list of search results
-	@ViewBuilder private var list: some View {
+	@ViewBuilder private var organizationsList: some View {
 		
 		ForEach(viewModel.state.results) { organization in
 			Section {
@@ -318,8 +356,4 @@ struct SearchOrganizationView: View {
 		.listRowBackground(Color.clear)
 		.listRowInsets(ViewTraits.List.headerInset)
 	}
-}
-
-extension OrganizationSearch.Organization: @retroactive Identifiable {
-	// Already implemented
 }
