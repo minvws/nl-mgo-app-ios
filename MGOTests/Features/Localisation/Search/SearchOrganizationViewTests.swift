@@ -23,13 +23,13 @@ final class SearchOrganizationViewTests: XCTestCase {
 		coordinatorSpy = AppCoordinatorSpy()
 	}
 	
-	@MainActor private func createSut(firstVisitor: Bool = false) {
+	@MainActor private func createSut(firstVisitor: Bool = false, input: String = "") {
 		
 		viewModel = SearchOrganizationViewModel(
 			coordinator: coordinatorSpy,
 			firstVisitor: firstVisitor
 		)
-		sut = SearchOrganizationView(viewModel: self.viewModel)
+		sut = SearchOrganizationView(viewModel: self.viewModel, input: input)
 	}
 	
 	// MARK: - Snapshot Tests
@@ -50,7 +50,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 	@MainActor func test_snapshot_shortSearchTerm() {
 		
 		// Given
-		createSut(firstVisitor: false)
+		createSut(firstVisitor: false, input: "AB")
 		viewModel.state.results = []
 		viewModel.state.totalResults = 0
 		viewModel.state.isSearching = false
@@ -68,7 +68,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 	@MainActor func test_snapshot_searchWithThreeResults() async throws {
 		
 		// Given
-		createSut(firstVisitor: false)
+		createSut(firstVisitor: false, input: "Test")
 		
 		// Create three mock organizations
 		let organization1 = Generator.searchOrganization(
@@ -124,18 +124,11 @@ final class SearchOrganizationViewTests: XCTestCase {
 	@MainActor func test_snapshot_searchWithNoResults() async throws {
 		
 		// Given
-		createSut(firstVisitor: false)
-		
-		// Create empty search results
-		let searchResults = SearchResults(
+		createSut(firstVisitor: false, input: "Test")
+		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = SearchResults(
 			count: 0.0,
 			hits: []
 		)
-		
-		// Stub the search client to return no results
-		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = searchResults
-		
-		// Set the state to show empty results
 		viewModel.state.results = []
 		viewModel.state.totalResults = 0
 		viewModel.state.isSearching = false

@@ -213,8 +213,14 @@ struct SearchOrganizationView: View {
 	/// Dependency injectable OS Version Checker
 	@Injected(\.osVersionChecker) private var osVersionChecker
 	
-	/// The binding input
-	@State var input: String = ""
+	/// The binding input - can be injected for testing
+	@State var input: String
+	
+	/// Initializer
+	init(viewModel: @autoclosure @escaping () -> SearchOrganizationViewModel, input: String = "") {
+		self._viewModel = StateObject(wrappedValue: viewModel())
+		self._input = State(initialValue: input)
+	}
 	
 	/// helper to calculate the size of the view
 	@State private var contentSize: CGSize = .zero
