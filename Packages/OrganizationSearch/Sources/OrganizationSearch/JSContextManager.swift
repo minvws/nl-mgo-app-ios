@@ -33,9 +33,8 @@ actor JSContextManager {
 		guard !isInitialized else { return }
 		
 		jsContext = createContext()
-		if !ProcessInfo.processInfo.arguments.contains("--unittesting") {
-			try loadSource(jsContext: jsContext)
-		}
+		try loadSource(jsContext: jsContext)
+		
 		isInitialized = true
 	}
 	
@@ -147,22 +146,21 @@ actor JSContextManager {
 		with input: Data
 	) throws -> JSValue {
 		
-		// Step 1A: Confirm existing JS context
+		// Step 1: Confirm existing JS context
 		guard let jsContext else {
 			logError("JSContextManager: Could not create JS Context")
 			throw JSContextManagerError.noJSContext
 		}
-		// Step 1B: When testing, do load the source every time.
-		if ProcessInfo.processInfo.arguments.contains("--unittesting") {
-			try? loadSource(jsContext: jsContext)
-		}
+		
 		// Step 2: Lookup namespace
 		guard let nameSpace = jsContext.objectForKeyedSubscript(JSContextManager.nameSpace) else {
 			throw JSContextManagerError.invalidNameSpace
 		}
+		
 		// Step 3: Prepare argument string
 		guard let inputString = String(data: input, encoding: .utf8) else { throw JSContextManagerError.invalidInput }
 		let arguments: [Any] = [inputString]
+		
 		// Step 4: Invoke by method name
 		guard let value = nameSpace.invokeMethod(methodName, withArguments: arguments) else {
 			logError("Failed to invoke \(methodName) on the nameSpace")

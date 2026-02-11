@@ -14,53 +14,52 @@ import Foundation
 */
 
 public struct Version: Codable, Equatable, Sendable {
+	
+	/// The version of this package build
 	public let version: String
+	
+	/// The GitHub reference of this package build
 	public let gitRef: String
+	
+	/// When was this package created?
 	public let created: String
 	
+	/// The coding keys for Codable
 	public enum CodingKeys: String, CodingKey {
 		case version = "version"
 		case gitRef = "git_ref"
 		case created = "created"
 	}
 	
-	public init(version: String, gitRef: String, created: String) {
-		self.version = version
-		self.gitRef = gitRef
-		self.created = created
-	}
-	
-	/// the errors
+	/// Errors
 	public enum Error: Swift.Error, Sendable {
 		
 		/// No resource file found
 		case noResource
+		
+		/// No resource file found
+		case invalidResource
 	}
 }
 
-// MARK: OrganizationSearchVersion convenience initializers and mutators
+// MARK: Version convenience initializers and mutators
 
 public extension Version {
+	
+	/// Create a Version object from Data
+	/// - Parameter data: the data
 	init(data: Data) throws {
 		self = try newJSONDecoder().decode(Version.self, from: data)
 	}
 	
+	/// Create a Version object from a JSON string
+	/// - Parameters:
+	///   - json: The JSON string
+	///   - encoding: any encodig required. Defaults to UTF8
 	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
 		guard let data = json.data(using: encoding) else {
-			throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+			throw Error.invalidResource
 		}
 		try self.init(data: data)
-	}
-	
-	init(fromURL url: URL) throws {
-		try self.init(data: try Data(contentsOf: url))
-	}
-	
-	func jsonData() throws -> Data {
-		return try newJSONEncoder().encode(self)
-	}
-	
-	func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-		return String(data: try self.jsonData(), encoding: encoding)
 	}
 }

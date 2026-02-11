@@ -8,14 +8,43 @@ import Testing
 
 class OrganizationSearchClientTests {
 	
+	@Test("Search for an organization")
+	func search() async throws {
+		
+		// Given
+		let sut = OrganizationSearchClient()
+		let searchTerm = "Test"
+		try await sut.prepare()
+		
+		// When
+		let searchResult = try? await sut.searchHealthcareOrganizations(searchTerm)
+		
+		// Then
+		#expect(searchResult != nil)
+		#expect(searchResult?.count == 9.0)
+	}
+	
+	@Test("Search for an organization without indexing")
+	func searchWithoutIndexing() async throws {
+		
+		// Given
+		let sut = OrganizationSearchClient()
+		let searchTerm = "Test"
+		
+		// When / Then
+		await #expect(throws: JSContextManagerError.noIndex) {
+			try await sut.searchHealthcareOrganizations(searchTerm)
+		}
+	}
+	
 	@Test("Check the version of the Organization Search Package")
-	func checkVersion() async throws {
+	func checkVersion() throws {
 		
 		// Given
 		let sut = OrganizationSearchClient()
 		
 		// When
-		let result = try await sut.getVersion()
+		let result = try sut.getVersion()
 		
 		// Then
 		#expect(result.version == "main-9c41ae0")
