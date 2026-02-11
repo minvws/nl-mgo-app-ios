@@ -47,8 +47,10 @@ public struct CardView: View {
 				
 				Text(title)
 					.lineLimit(2)
-					.typography(.headingMedium)
-					.foregroundColor(theme.labels.primary)
+					.typography(.bodyMedium, isBold: true)
+					.foregroundColor(
+						details == nil ? theme.labels.primary : theme.labels.secondary
+					)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 				

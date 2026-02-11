@@ -23,6 +23,12 @@ class SearchOrganizationViewModel: ObservableObject {
 		
 		/// The total number of search results
 		var totalResults: Int = 0
+		
+		/// All id of stored organizations
+		var storedOrganizationIDs: [String] = []
+		
+		/// All available service ids
+		var availableServiceIds: [String] = []
 	}
 	
 	/// The state for this view
@@ -57,7 +63,10 @@ class SearchOrganizationViewModel: ObservableObject {
 		self.coordinator = coordinator
 		self.state = SearchOrganizationViewState(
 			isOnboarding: firstVisitor,
-			results: []
+			results: [],
+			storedOrganizationIDs: healthcareOrganizationRepository.organizations
+				.map(\.identification),
+			availableServiceIds: DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.map(\.id)
 		)
 		
 		Task {
@@ -75,7 +84,7 @@ class SearchOrganizationViewModel: ObservableObject {
 				
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
-			
+				
 			case .endEditing:
 				UIApplication.shared.endEditing()
 				
@@ -216,6 +225,13 @@ struct SearchOrganizationView: View {
 	/// The selected organization for the alert
 	@State private var selectedOrganization: OrganizationSearch.Organization?
 	
+	/// The state of a card
+	private enum CardState: Equatable, Sendable {
+		case regular
+		case selected
+		case notParticipating
+	}
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -235,9 +251,9 @@ struct SearchOrganizationView: View {
 			static let trailing: CGFloat = 12
 		}
 		enum List {
-			static let headerInset = EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16)
+			static let headerInset = EdgeInsets(top: 8, leading: 16, bottom: 0, trailing: 16)
 			static let resultInset = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
-			static let sectionInset = EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
+			static let sectionInset = EdgeInsets(top: 10, leading: 0, bottom: 2, trailing: 0)
 		}
 		enum Accessory {
 			static let size: CGFloat = 22
@@ -262,13 +278,12 @@ struct SearchOrganizationView: View {
 				emptyState
 			}
 		}
-		.backport.listSectionSpacing(0)
+		.backport.listSectionSpacing(8)
 		.backport.contentMargins(0)
 		.backport.scrollContentBackground(.hidden)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.readSize($contentSize)
 		.resignKeyboardOnDragGesture()
-		
 		.when(isPresentedAsSheet, transform: { view in
 			view
 				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
@@ -420,26 +435,71 @@ struct SearchOrganizationView: View {
 		
 		ForEach(viewModel.state.results) { organization in
 			Section {
-				Button {
-					selectedOrganization = organization
-					showConfirmationAlert = true
-				} label: {
-					CardView(
-						title: organization.displayName ?? "",
-						message: (
-							(organization.addressLine ?? "") + " " + (
-								organization.city ?? ""
-							)
-						)
-						.trim(),
-						details: "\(organization.dataServices?.count ?? 0)"
-					)
-					.accessibilityElement(children: .combine)
-				}
-				.buttonStyle(.plain)
+				organizationButton(for: organization)
 			}
 			.listRowInsets(ViewTraits.List.resultInset)
 		}
+	}
+	
+	/// The organization button
+	/// - Parameter organization: the organization
+	/// - Returns: a button view
+	@ViewBuilder private func organizationButton(for organization: Organization) -> some View {
+		
+		Button {
+			guard cardState(organization) == .regular else {
+				return
+			}
+			selectedOrganization = organization
+			showConfirmationAlert = true
+		} label: {
+			CardView(
+				title: organization.displayName ?? "",
+				message: (
+					(organization.addressLine ?? "") + " " + (
+						organization.city ?? ""
+					)
+				)
+				.trim(),
+				details: {
+					switch cardState(organization) {
+						case .regular:
+							return nil
+						case .selected:
+							return String(localized: "search_organization.already_added")
+						case .notParticipating:
+							return String(localized: "search_organization.not_participating")
+					}
+				}()
+			)
+			.accessibilityElement(children: .combine)
+		}
+		.buttonStyle(.plain)
+	}
+	
+	/// Get the card state of an organization
+	/// - Parameter organization: the organization
+	/// - Returns: card state
+	private func cardState(_ organization: Organization) -> CardState {
+		guard let dts = organization.dataServices else {
+			return .notParticipating
+		}
+		
+		// Check if any data service key is included in available service IDs
+		let hasAvailableService = dts.keys.contains { key in
+			viewModel.state.availableServiceIds.contains(key)
+		}
+		
+		if !hasAvailableService {
+			return .notParticipating
+		}
+		
+		// Check if the organization is already stored
+		if viewModel.state.storedOrganizationIDs.contains(organization.id) {
+			return .selected
+		}
+		
+		return .regular
 	}
 	
 	/// The header for the list with search results

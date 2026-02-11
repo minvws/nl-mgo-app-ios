@@ -117,7 +117,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al toevoegd"
+            "value" : "Al toegevoegd"
           }
         }
       }
@@ -2229,7 +2229,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg onderdelen toe die u vaak gebruikt.\nDeze komen bovenaan te staan."
+            "value" : "Voeg onderdelen toe die u vaak gebruikt. Deze komen bovenaan te staan."
           }
         }
       }
@@ -2850,6 +2850,17 @@
         }
       }
     },
+    "search_organization.already_added" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al toegevoegd"
+          }
+        }
+      }
+    },
     "search_organization.dialog.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2923,6 +2934,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Controleer uw zoekopdracht en probeer het opnieuw."
+          }
+        }
+      }
+    },
+    "search_organization.not_participating" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deelt geen gegevens"
           }
         }
       }
