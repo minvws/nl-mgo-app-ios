@@ -84,7 +84,14 @@ final class SearchOrganizationViewTests: XCTestCase {
 			displayName: "Test Clinic Rotterdam",
 			city: "Rotterdam",
 			addressLine: "Testweg 456",
-			postalCode: "3011CD"
+			postalCode: "3011CD",
+			dataServices: [
+				"9999999": OrganizationSearch.DataService(
+					authEndpoint: "test",
+					resourceEndpoint: "test",
+					tokenEndpoint: "test"
+				)
+			]
 		)
 		
 		let organization3 = Generator.searchOrganization(
@@ -92,7 +99,14 @@ final class SearchOrganizationViewTests: XCTestCase {
 			displayName: "Test Medical Center Utrecht",
 			city: "Utrecht",
 			addressLine: "Testlaan 789",
-			postalCode: "3511EF"
+			postalCode: "3511EF",
+			dataServices: [
+				"50": OrganizationSearch.DataService(
+					authEndpoint: "test",
+					resourceEndpoint: "test",
+					tokenEndpoint: "test"
+				)
+			]
 		)
 		
 		// Create search results with three hits
