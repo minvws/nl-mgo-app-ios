@@ -1,0 +1,178 @@
+/*
+ *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+@preconcurrency import MGOTest
+@testable import MGO
+import MGOFoundation
+import MGOUI
+import OrganizationSearch
+
+final class SearchOrganizationViewTests: XCTestCase {
+	
+	private var coordinatorSpy: AppCoordinatorSpy!
+	private var servicesSpies: ServicesSpies!
+	private var viewModel: SearchOrganizationViewModel!
+	private var sut: SearchOrganizationView!
+	
+	override func setUpWithError() throws {
+		
+		try super.setUpWithError()
+		servicesSpies = setupServicesSpies()
+		coordinatorSpy = AppCoordinatorSpy()
+	}
+	
+	@MainActor private func createSut(firstVisitor: Bool = false) {
+		
+		viewModel = SearchOrganizationViewModel(
+			coordinator: coordinatorSpy,
+			firstVisitor: firstVisitor
+		)
+		sut = SearchOrganizationView(viewModel: self.viewModel)
+	}
+	
+	// MARK: - Snapshot Tests
+	
+	@MainActor func test_snapshot_noSearch() {
+		
+		// Given
+		createSut(firstVisitor: false)
+		
+		// When
+		let content = sut
+			.environment(\.isPresentedAsSheet, false)
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_snapshot_shortSearchTerm() {
+		
+		// Given
+		createSut(firstVisitor: false)
+		viewModel.state.results = []
+		viewModel.state.totalResults = 0
+		viewModel.state.isSearching = false
+		
+		// When
+		// Simulate short search term by setting state manually
+		// The view will show empty state because search term is too short
+		let content = sut
+			.environment(\.isPresentedAsSheet, false)
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_snapshot_searchWithThreeResults() async throws {
+		
+		// Given
+		createSut(firstVisitor: false)
+		
+		// Create three mock organizations
+		let organization1 = Generator.searchOrganization(
+			id: "org-1",
+			displayName: "Test Hospital Amsterdam",
+			city: "Amsterdam",
+			addressLine: "Hoofdstraat 123",
+			postalCode: "1012AB"
+		)
+		
+		let organization2 = Generator.searchOrganization(
+			id: "org-2",
+			displayName: "Test Clinic Rotterdam",
+			city: "Rotterdam",
+			addressLine: "Testweg 456",
+			postalCode: "3011CD"
+		)
+		
+		let organization3 = Generator.searchOrganization(
+			id: "org-3",
+			displayName: "Test Medical Center Utrecht",
+			city: "Utrecht",
+			addressLine: "Testlaan 789",
+			postalCode: "3511EF"
+		)
+		
+		// Create search results with three hits
+		let searchResults = SearchResults(
+			count: 3.0,
+			hits: [
+				SearchResult(document: organization1, id: "org-1", score: 0.95),
+				SearchResult(document: organization2, id: "org-2", score: 0.85),
+				SearchResult(document: organization3, id: "org-3", score: 0.75)
+			]
+		)
+		
+		// Stub the search client to return three results
+		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = searchResults
+		
+		// Set the state to show results
+		viewModel.state.results = searchResults.hits.map { $0.document }
+		viewModel.state.totalResults = Int(searchResults.count)
+		viewModel.state.isSearching = false
+		
+		// When
+		let content = sut
+			.environment(\.isPresentedAsSheet, false)
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_snapshot_searchWithNoResults() async throws {
+		
+		// Given
+		createSut(firstVisitor: false)
+		
+		// Create empty search results
+		let searchResults = SearchResults(
+			count: 0.0,
+			hits: []
+		)
+		
+		// Stub the search client to return no results
+		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = searchResults
+		
+		// Set the state to show empty results
+		viewModel.state.results = []
+		viewModel.state.totalResults = 0
+		viewModel.state.isSearching = false
+		
+		// When
+		let content = sut
+			.environment(\.isPresentedAsSheet, false)
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_snapshot_firstVisitorOnboarding() {
+		
+		// Given
+		createSut(firstVisitor: true)
+		
+		// When
+		let content = sut
+			.environment(\.isPresentedAsSheet, false)
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_snapshot_searchingState() {
+		
+		// Given
+		createSut(firstVisitor: false)
+		viewModel.state.isSearching = true
+		viewModel.state.results = []
+		
+		// When
+		let content = sut
+			.environment(\.isPresentedAsSheet, false)
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+}

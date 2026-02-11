@@ -63,7 +63,7 @@ final class SearchOrganizationViewModelTests {
 	func reduce_search_withNilSearchTerm_shouldClearResults() {
 		
 		// Given
-		sut.state.results = [createMockOrganization()]
+		sut.state.results = [Generator.searchOrganization()]
 		sut.state.totalResults = 1
 		sut.state.isSearching = true
 		
@@ -80,7 +80,7 @@ final class SearchOrganizationViewModelTests {
 	func reduce_search_withEmptySearchTerm_shouldClearResults() {
 		
 		// Given
-		sut.state.results = [createMockOrganization()]
+		sut.state.results = [Generator.searchOrganization()]
 		sut.state.totalResults = 1
 		sut.state.isSearching = true
 		
@@ -97,7 +97,7 @@ final class SearchOrganizationViewModelTests {
 	func reduce_search_withShortSearchTerm_shouldClearResults() {
 		
 		// Given
-		sut.state.results = [createMockOrganization()]
+		sut.state.results = [Generator.searchOrganization()]
 		sut.state.totalResults = 1
 		sut.state.isSearching = true
 		
@@ -129,7 +129,7 @@ final class SearchOrganizationViewModelTests {
 	func reduce_store_shouldCallCoordinatorToFinishSearching() {
 		
 		// Given
-		let organization = createMockOrganization()
+		let organization = Generator.searchOrganization()
 		
 		// When
 		sut.reduce(.store(organization))
@@ -179,31 +179,6 @@ final class SearchOrganizationViewModelTests {
 		#expect(sut.state.totalResults == 0)
 		#expect(
 			servicesSpies.searchOrganizationClientSpy.invokedPrepare == true
-		)
-	}
-	
-	// MARK: - Helper Methods
-	
-	private func createMockOrganization(
-		id: String = "test-id",
-		displayName: String = "Test Organization",
-		city: String = "Amsterdam",
-		addressLine: String = "Test Street 123",
-		postalCode: String = "1234AB",
-		careTypeDisplay: String = "Hospital"
-	) -> OrganizationSearch.Organization {
-		return OrganizationSearch.Organization(
-			addressLine: addressLine,
-			careTypeDisplay: careTypeDisplay,
-			city: city,
-			dataServices: nil,
-			displayName: displayName,
-			geoLat: nil,
-			geoLng: nil,
-			id: id,
-			normalizedDisplayName: displayName.lowercased(),
-			postalCode: postalCode,
-			searchBlob: nil
 		)
 	}
 }
