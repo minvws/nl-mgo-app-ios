@@ -44,7 +44,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), isRecording: true)
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
 	@MainActor func test_coordinatorView_forAutomaticLocalization() throws {
