@@ -40,7 +40,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		createSut(firstVisitor: false)
 		
 		// When
-		let content = sut
+		let content = NavigationView { sut }
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
@@ -58,7 +58,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		// When
 		// Simulate short search term by setting state manually
 		// The view will show empty state because search term is too short
-		let content = sut
+		let content = NavigationView { sut }
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
@@ -128,7 +128,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		viewModel.state.isSearching = false
 		
 		// When
-		let content = sut
+		let content = NavigationView { sut }
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
@@ -148,7 +148,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		viewModel.state.isSearching = false
 		
 		// When
-		let content = sut
+		let content = NavigationView { sut }
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
@@ -161,7 +161,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		createSut(firstVisitor: true)
 		
 		// When
-		let content = sut
+		let content = NavigationView { sut }
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
@@ -176,8 +176,23 @@ final class SearchOrganizationViewTests: XCTestCase {
 		viewModel.state.results = []
 		
 		// When
-		let content = sut
+		let content = NavigationView { sut }
 			.environment(\.isPresentedAsSheet, false)
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_snapshot_searchingState_isPresentedAsSheet() {
+		
+		// Given
+		createSut(firstVisitor: false)
+		viewModel.state.isSearching = true
+		viewModel.state.results = []
+		
+		// When
+		let content = NavigationView { sut }
+			.environment(\.isPresentedAsSheet, true)
 		
 		// Then
 		takeSnapShots(content: content)
