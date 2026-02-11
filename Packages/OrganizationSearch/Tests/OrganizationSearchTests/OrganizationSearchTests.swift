@@ -8,8 +8,8 @@ import Testing
 
 class OrganizationSearchClientTests {
 	
-	@Test
-	func getVersion() async throws {
+	@Test("Check the version of the Organization Search Package")
+	func checkVersion() async throws {
 		
 		// Given
 		let sut = OrganizationSearchClient()
@@ -18,8 +18,8 @@ class OrganizationSearchClientTests {
 		let result = try await sut.getVersion()
 		
 		// Then
-		#expect(result.version == "1138/merge-080940a")
-		#expect(result.gitRef == "080940afd9a343b2460afacaa848a2e4f2bca7f8")
-		#expect(result.created == "2026-02-05T09:44:58")
+		#expect(result.version == "main-9c41ae0")
+		#expect(result.gitRef == "9c41ae007176014905eb7a68d383a74c5b621b60")
+		#expect(result.created == "2026-02-10T15:20:05")
 	}
 }

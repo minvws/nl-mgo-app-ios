@@ -4771,6 +4771,17 @@ Read more at https://docs.orama.com/docs/orama-js/plugins/plugin-secure-proxy#pl
     return text?.replace(/[.]/g, "").replace(/\s+/g, " ").trim();
   };
   function normalizeOrganizationItemDto(item) {
+    let dataServices = void 0;
+    if (item.data_services) {
+      dataServices = {};
+      for (const [id, service] of Object.entries(item.data_services)) {
+        dataServices[id] = {
+          authEndpoint: service.auth_endpoint,
+          tokenEndpoint: service.token_endpoint,
+          resourceEndpoint: service.resource_endpoint
+        };
+      }
+    }
     return {
       id: item.id,
       displayName: item.display_name ?? void 0,
@@ -4781,7 +4792,8 @@ Read more at https://docs.orama.com/docs/orama-js/plugins/plugin-secure-proxy#pl
       city: item.city ?? void 0,
       geoLat: item.geo_lat ?? void 0,
       geoLng: item.geo_lng ?? void 0,
-      searchBlob: removePunctuation(item.search_blob)
+      searchBlob: removePunctuation(item.search_blob),
+      dataServices
     };
   }
   const organizationOramaSchema = {

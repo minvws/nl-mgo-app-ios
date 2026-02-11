@@ -11,7 +11,7 @@ public struct CardView: View {
 	
 	private var message: String?
 	
-	private var meta: String?
+	private var details: String?
 
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -28,15 +28,15 @@ public struct CardView: View {
 	/// - Parameters:
 	///   - title: the title for this card
 	///   - message: the message for this card
-	///   - meta: the meta message for this card
+	///   - details: the details message for this card
 	public init(
 		title: String,
 		message: String? = nil,
-		meta: String? = nil
+		details: String? = nil
 	) {
 		self.title = title
 		self.message = message
-		self.meta = meta
+		self.details = details
 	}
 	
 	public var body: some View {
@@ -54,8 +54,8 @@ public struct CardView: View {
 				
 				Spacer()
 				
-				if let meta {
-					Text(meta)
+				if let details {
+					Text(details)
 						.typography(.bodySmall)
 						.foregroundColor(theme.labels.secondary)
 						.layoutPriority(100)
@@ -77,7 +77,7 @@ public struct CardView: View {
 	CardView(
 		title: "title",
 		message: "message",
-		meta: "meta"
+		details: "details"
 	)
 	.padding(16)
 }

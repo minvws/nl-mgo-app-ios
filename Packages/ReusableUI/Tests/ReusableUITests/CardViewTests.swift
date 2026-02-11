@@ -12,7 +12,7 @@ final class CardViewTests: XCTestCase {
 	func test_card() {
 		
 		// Given
-		let sut = CardView(title: "heading", message: "subheading", meta: "meta")
+		let sut = CardView(title: "heading", message: "subheading", details: "meta")
 		
 		// When
 		let view = sut.frame(width: 400, height: 100)
@@ -35,7 +35,7 @@ final class CardViewTests: XCTestCase {
 		let sut = CardView(
 			title: "This is a long heading that should wrap and fit within the card",
 			message: "And this is a long subheading to test the layout",
-			meta: "this is meta"
+			details: "this is meta"
 		)
 		
 		// When
@@ -59,7 +59,7 @@ final class CardViewTests: XCTestCase {
 		let sut = CardView(
 			title: "This is a long heading that should wrap and fit within the card",
 			message: nil,
-			meta: nil
+			details: nil
 		)
 		
 		// When

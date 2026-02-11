@@ -110,7 +110,7 @@ download_organization_search:
 	@mkdir -p tmp/organization_search
 	
 	# Download
-	@cd Packages/GithubArtifactDownload/ && swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --branch "feat/1135-update-org-search" --workflow-id "220233318" --output ../../tmp/organization_search/artifact.zip
+	@cd Packages/GithubArtifactDownload/ && swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --branch "main" --workflow-id "220233318" --output ../../tmp/organization_search/artifact.zip
 	
 	# Unpack
 	@cd tmp/organization_search && unzip artifact.zip
