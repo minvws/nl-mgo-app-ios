@@ -44,6 +44,8 @@ packages:
     path: ./Packages/NotificationCenter
   Observatory:
     path: ./Packages/Observatory
+  OrganizationSearch:
+    path: ./Packages/OrganizationSearch
   OSVersion:
     path: ./Packages/OSVersion
   PatientFriendlyTerms:
@@ -446,6 +448,9 @@ schemes:
           parallelizable: false
           randomExecutionOrder: true
         - package: Observatory/ObservatoryTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: OrganizationSearch/OrganizationSearchTests
           randomExecutionOrder: true
           parallelizable: false
         - package: OSVersion/OSVersionTests

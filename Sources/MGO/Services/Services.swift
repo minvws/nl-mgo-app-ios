@@ -61,6 +61,12 @@ extension Container {
 		.singleton
 	}
 	
+	/// The organization Search client
+	var organizationSearchClient: Factory<OrganizationSearchClientProtocol> {
+		Factory(self) { OrganizationSearchClient() }
+		.singleton
+	}
+	
 	/// The patient friendly terms repository
 	var patientFriendyTermsRepository: Factory<PatientFriendlyTermsRepositoryProtocol> {
 		Factory(self) {

@@ -188,7 +188,7 @@ class OrganizationListManualViewModel: ObservableObject {
 			return .notParticipating
 		}
 		
-		var activeServices = [DataService]()
+		var activeServices = [LocalisationService.DataService]()
 		let availableServiceIds = DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.map(\.id)
 		for service in dts where availableServiceIds.contains(service.id) {
 			activeServices.append(service)

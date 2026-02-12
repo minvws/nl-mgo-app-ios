@@ -90,6 +90,11 @@ import MGOUI
 	var resourceRepositorySpy: ResourceRepositorySpy = {
 		return ResourceRepositorySpy()
 	}()
+	
+	var searchOrganizationClientSpy: OrganizationSearchClientSpy = {
+		let spy = OrganizationSearchClientSpy()
+		return spy
+	}()
 }
 
 /// Setup the services spies
@@ -132,6 +137,8 @@ func setupServicesSpies() -> ServicesSpies {
 		.register { { Date(timeIntervalSince1970: 1750000000) } } // Sunday, 15 June 2025 15:06:40
 	Container.shared.secureUserSettings
 		.register { spies.secureUserSettingsSpy }
+	Container.shared.organizationSearchClient
+		.register { spies.searchOrganizationClientSpy }
 	
 	return spies
 }

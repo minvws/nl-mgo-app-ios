@@ -117,7 +117,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al toevoegd"
+            "value" : "Al toegevoegd"
           }
         }
       }
@@ -1833,7 +1833,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welkom bij Mijn Gezondheidsoverzicht"
+            "value" : "Alles over uw gezondheid en zorg op één plek"
           }
         }
       }
@@ -1844,7 +1844,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alles over uw gezondheid en zorg op één plek. Bijvoorbeeld gegevens van de huisarts, het ziekenhuis en uw vaccinaties."
+            "value" : "Bijvoorbeeld gegevens van de huisarts, het ziekenhuis en uw vaccinaties."
           }
         }
       }
@@ -2229,7 +2229,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg onderdelen toe die u vaak gebruikt.\nDeze komen bovenaan te staan."
+            "value" : "Voeg onderdelen toe die u vaak gebruikt. Deze komen bovenaan te staan."
           }
         }
       }
@@ -2724,7 +2724,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uw gegevens worden altijd via een veilige verbinding opgehaald."
+            "value" : "Uw gegevens worden via een beschermde verbinding opgehaald."
           }
         }
       }
@@ -2846,6 +2846,149 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "U heeft een afbeelding opgeslagen van uw medische gegevens. Wees voorzichtig met delen of opslaan."
+          }
+        }
+      }
+    },
+    "search_organization.already_added" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al toegevoegd"
+          }
+        }
+      }
+    },
+    "search_organization.dialog.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ toevoegen?"
+          }
+        }
+      }
+    },
+    "search_organization.dialog.no" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nee"
+          }
+        }
+      }
+    },
+    "search_organization.dialog.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als deze zorgaanbieder gegevens over u heeft, staan die straks in uw overzicht."
+          }
+        }
+      }
+    },
+    "search_organization.dialog.yes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja, toevoegen"
+          }
+        }
+      }
+    },
+    "search_organization.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg een zorgaanbieder toe"
+          }
+        }
+      }
+    },
+    "search_organization.no_results.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen zorgaanbieders gevonden"
+          }
+        }
+      }
+    },
+    "search_organization.no_results.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer uw zoekopdracht en probeer het opnieuw."
+          }
+        }
+      }
+    },
+    "search_organization.not_participating" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deelt geen gegevens"
+          }
+        }
+      }
+    },
+    "search_organization.onboarding.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bijna klaar! Voeg een zorgaanbieder toe"
+          }
+        }
+      }
+    },
+    "search_organization.result_count" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ zorgaanbieders gevonden"
+          }
+        }
+      }
+    },
+    "search_organization.search_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bijv. Amsterdam UMC"
+          }
+        }
+      }
+    },
+    "search_organization.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek op naam, type zorg of plaats"
           }
         }
       }

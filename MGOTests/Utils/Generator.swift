@@ -5,8 +5,44 @@
 
 import MGOFoundation
 @testable import MGO
+import OrganizationSearch
 
+// swiftlint:disable type_body_length
 class Generator {
+	
+	/// Create a mock organization for search results
+	/// - Parameters:
+	///   - id: the identifier of the organization
+	///   - displayName: the display name of the organization
+	///   - city: the city of the organization
+	///   - addressLine: the address line of the organization
+	///   - postalCode: the postal code of the organization
+	///   - careTypeDisplay: the care type display name
+	///   - dataServices: optional data services dictionary
+	/// - Returns: an organization search organization
+	static func searchOrganization(
+		id: String = "test-id",
+		displayName: String = "Test Organization",
+		city: String = "Amsterdam",
+		addressLine: String = "Test Street 123",
+		postalCode: String = "1234AB",
+		careTypeDisplay: String = "Hospital",
+		dataServices: [String: OrganizationSearch.DataService]? = nil
+	) -> OrganizationSearch.Organization {
+		return OrganizationSearch.Organization(
+			addressLine: addressLine,
+			careTypeDisplay: careTypeDisplay,
+			city: city,
+			dataServices: dataServices,
+			displayName: displayName,
+			geoLat: nil,
+			geoLng: nil,
+			id: id,
+			normalizedDisplayName: displayName.lowercased(),
+			postalCode: postalCode,
+			searchBlob: nil
+		)
+	}
 	
 	/// Create a healthcare organization
 	/// - Parameters:
@@ -21,10 +57,10 @@ class Generator {
 	/// - Returns: a healthcare organization
 	static func healthcareOrganization(_ id: String, name: String = "Tandarts Tandje Erbij", city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true, serviceId: String = "48", withLines: Bool = true ) -> MgoOrganization {
 		
-		var dataServices = [DataService]()
+		var dataServices = [LocalisationService.DataService]()
 		if useDataService {
 			dataServices.append(
-				DataService(
+				LocalisationService.DataService(
 					id: serviceId,
 					name: "Basisgegevens Zorg",
 					interface_versions: ["2"],
@@ -318,3 +354,4 @@ class Generator {
 		]
 	)
 }
+// swiftlint:enable type_body_length
