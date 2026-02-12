@@ -478,6 +478,7 @@ struct SearchOrganizationView: View {
 					}
 				}()
 			)
+			.contentShape(Rectangle())
 			.accessibilityElement(children: .combine)
 		}
 		.buttonStyle(.plain)

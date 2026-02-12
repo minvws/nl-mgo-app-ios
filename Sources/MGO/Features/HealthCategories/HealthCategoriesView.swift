@@ -234,7 +234,6 @@ struct HealthCategoriesView: View {
 			.padding(.vertical, ViewTraits.List.padding)
 			.accessibilityIdentifier(category.id)
 			.contentShape(Rectangle())
-			
 		}
 	}
 	
