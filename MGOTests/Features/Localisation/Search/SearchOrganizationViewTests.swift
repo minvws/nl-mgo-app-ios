@@ -68,6 +68,10 @@ final class SearchOrganizationViewTests: XCTestCase {
 	@MainActor func test_snapshot_searchWithThreeResults() async throws {
 		
 		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
+			Generator.healthcareOrganization("org-1")
+		]
+		
 		createSut(firstVisitor: false, input: "Test")
 		
 		// Create three mock organizations
@@ -76,7 +80,14 @@ final class SearchOrganizationViewTests: XCTestCase {
 			displayName: "Test Hospital Amsterdam",
 			city: "Amsterdam",
 			addressLine: "Hoofdstraat 123",
-			postalCode: "1012AB"
+			postalCode: "1012AB",
+			dataServices: [
+				"50": OrganizationSearch.DataService(
+					authEndpoint: "test",
+					resourceEndpoint: "test",
+					tokenEndpoint: "test"
+				)
+			]
 		)
 		
 		let organization2 = Generator.searchOrganization(
