@@ -93,7 +93,7 @@ actor JSContextManager {
 		if #available(iOS 16.0, *) {
 			let clock = ContinuousClock()
 			
-			guard let providersPath = Bundle.module.path(forResource: "organizations", ofType: "json") else {
+			guard let providersPath = Bundle.module.path(forResource: "test-organizations", ofType: "json") else {
 				logError("JSContextManager: The organizations file could not be found")
 				throw JSContextManagerError.invalidInput
 			}

@@ -5,6 +5,7 @@
 
 @testable import OrganizationSearch
 import Testing
+import Foundation
 
 class OrganizationSearchClientTests {
 	
@@ -50,5 +51,18 @@ class OrganizationSearchClientTests {
 		#expect(result.version == "main-9c41ae0")
 		#expect(result.gitRef == "9c41ae007176014905eb7a68d383a74c5b621b60")
 		#expect(result.created == "2026-02-10T15:20:05")
+	}
+	
+	@Test("Get version throws noResource error when file does not exist")
+	func getVersionWithInvalidFileName() throws {
+		
+		// Given
+		let sut = OrganizationSearchClient()
+		let invalidFileName = "nonexistent-version-file"
+		
+		// When / Then
+		#expect(throws: Version.Error.noResource) {
+			_ = try sut.getVersion(fileName: invalidFileName)
+		}
 	}
 }

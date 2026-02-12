@@ -27,12 +27,16 @@ public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol {
 
 	public var invokedGetVersion = false
 	public var invokedGetVersionCount = 0
+	public var invokedGetVersionParameters: (fileName: String, Void)?
+	public var invokedGetVersionParametersList = [(fileName: String, Void)]()
 	public var stubbedGetVersionError: Error?
 	public var stubbedGetVersionResult: Version!
 
-	public func getVersion() throws -> Version {
+	public func getVersion(fileName: String = "version") throws -> Version {
 		invokedGetVersion = true
 		invokedGetVersionCount += 1
+		invokedGetVersionParameters = (fileName, ())
+		invokedGetVersionParametersList.append((fileName, ()))
 		if let error = stubbedGetVersionError {
 			throw error
 		}

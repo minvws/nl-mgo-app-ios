@@ -37,7 +37,7 @@ public struct Version: Codable, Equatable, Sendable {
 		/// No resource file found
 		case noResource
 		
-		/// No resource file found
+		/// The resource is invalid
 		case invalidResource
 	}
 }
@@ -55,7 +55,7 @@ public extension Version {
 	/// Create a Version object from a JSON string
 	/// - Parameters:
 	///   - json: The JSON string
-	///   - encoding: any encodig required. Defaults to UTF8
+	///   - encoding: any encoding required. Defaults to UTF8
 	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
 		guard let data = json.data(using: encoding) else {
 			throw Error.invalidResource

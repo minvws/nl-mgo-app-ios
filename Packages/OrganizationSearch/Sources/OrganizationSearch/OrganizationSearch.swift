@@ -19,8 +19,9 @@ public protocol OrganizationSearchClientProtocol {
 	func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults?
 	
 	/// Get the version of the organization search library
+	/// - Parameter fileName: the name of the version file (without extension). Defaults to "version"
 	/// - Returns: the organization search version
-	func getVersion() throws -> Version
+	func getVersion(fileName: String) throws -> Version
 	
 	/// Prepare the organizations to be searched
 	func prepare() async throws
@@ -50,10 +51,11 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 	}
 	
 	/// Get the version of the organization search library
+	/// - Parameter fileName: the name of the version file (without extension). Defaults to "version"
 	/// - Returns: the organization search version
-	public func getVersion() throws -> Version {
+	public func getVersion(fileName: String = "version") throws -> Version {
 		
-		guard let parserPath = Bundle.module.path(forResource: "version", ofType: "json") else {
+		guard let parserPath = Bundle.module.path(forResource: fileName, ofType: "json") else {
 			logError("OrganizationSearchClient: The version file could not be found")
 			throw Version.Error.noResource
 		}
