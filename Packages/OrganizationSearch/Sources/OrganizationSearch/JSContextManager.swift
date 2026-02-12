@@ -7,20 +7,34 @@ import Foundation
 import JavaScriptCore
 import MGODebug
 
-/// Actor to manage JavaScript context on a background thread
-/// JSContext must be accessed from the same thread it was created on
+/// Actor-isolated manager for executing JavaScript-based organization search operations.
+///
+/// `JSContextManager` provides a thread-safe interface for interacting with a JavaScript search engine
+/// via JavaScriptCore. It handles initialization, indexing of organization data, and search queries
+/// while ensuring all JavaScript operations occur on the same thread where the `JSContext` was created.
+///
+/// Usage:
+/// ```swift
+/// let manager = JSContextManager()
+/// try await manager.createIndex()
+/// let results = try await manager.searchHealthcareOrganizations("hospital")
+/// ```
+///
+/// Threading:
+/// - All methods are isolated to the actor, guaranteeing serial execution.
+/// - The underlying `JSContext` is accessed exclusively from the actor's executor thread.
 actor JSContextManager {
 	
-	/// The namespace used in the JavaScript context
+	/// The namespace used in the JavaScript context to access the search API.
 	static let nameSpace = "OrgSearchApi"
 	
-	/// the JavaScript Context
+	/// The JavaScript execution context. Lazily initialized on first use.
 	private var jsContext: JSContext?
 	
-	/// Have we indexed the providers?
+	/// Indicates whether the organization data has been indexed and is ready for searching.
 	private var providersHaveBeenIndexed: Bool = false
 	
-	/// Track if initialization is complete
+	/// Tracks whether the JavaScript context has been initialized with the search library.
 	private var isInitialized: Bool = false
 	
 	init() {
@@ -28,7 +42,12 @@ actor JSContextManager {
 		// Initialization will be done lazily on first use
 	}
 	
-	/// Ensure the JS context is initialized (called before any JS operations)
+	/// Ensure the JS context is initialized (called before any JS operations).
+	///
+	/// This method performs lazy initialization of the JavaScript environment, creating the context
+	/// and loading the search library only when first needed. Subsequent calls are no-ops.
+	///
+	/// - Throws: `JSContextManagerError` if context creation or source loading fails.
 	private func ensureInitialized() throws {
 		guard !isInitialized else { return }
 		
@@ -38,18 +57,18 @@ actor JSContextManager {
 		isInitialized = true
 	}
 	
-	/// Create the JavaScript Context
-	/// - Returns: the JavaScript Context
+	/// Create and configure a new JavaScript execution context.
+	///
+	/// Sets up exception handling to capture and log JavaScript runtime errors with stack traces.
+	///
+	/// - Returns: A configured `JSContext` instance, or `nil` if creation fails.
 	private func createContext() -> JSContext? {
 		
 		let context = JSContext()
-		// Add logging for exceptions
+		// Configure exception handler to capture JavaScript errors
 		context?.exceptionHandler = { (ctx: JSContext!, value: JSValue!) in
-			// type of String
 			let stackTrace = value.objectForKeyedSubscript("stack").toString()
-			// type of Number
 			let lineNumber = value.objectForKeyedSubscript("line")
-			// type of Number
 			let column = value.objectForKeyedSubscript("column")
 			let moreInfo = "in method \(String(describing: stackTrace)) Line number in file: \(String(describing: lineNumber)), column: \(String(describing: column))"
 			logError("JSContextManager JS ERROR: \(String(describing: value)) \(moreInfo)")
@@ -57,8 +76,16 @@ actor JSContextManager {
 		return context
 	}
 	
-	/// Load the source for the parser
-	/// - Parameter jsContext: the context to load the source in.
+	/// Load the JavaScript search library into the execution context.
+	///
+	/// Locates and evaluates the bundled JavaScript file (`mgo-org-search-api.iife.js`),
+	/// making the search API available within the configured namespace. Also bridges
+	/// JavaScript `console.log` calls to Swift's debug logging.
+	///
+	/// - Parameter jsContext: The context to load the source into.
+	/// - Throws:
+	///   - `JSContextManagerError.noJSContext` if the context is `nil`.
+	///   - `JSContextManagerError.parserNotFound` if the JavaScript file cannot be found or loaded.
 	private func loadSource(jsContext: JSContext?) throws {
 		
 		guard let jsContext else {
@@ -85,38 +112,72 @@ actor JSContextManager {
 		}
 	}
 	
+	/// Create a searchable index from organization data.
+	///
+	/// This method loads organization data from a bundled JSON file and builds a search index
+	/// using the JavaScript search library. The operation is asynchronous and includes performance
+	/// timing (using `ContinuousClock` on iOS 16+ or `Date` on iOS 15).
+	///
+	/// Must be called before `searchHealthcareOrganizations(_:)` can be used.
+	///
+	/// - Throws:
+	///   - `JSContextManagerError.invalidInput` if the organization data file cannot be found.
+	///   - `JSContextManagerError` variants from JavaScript method invocation.
+	///   - File I/O errors when loading organization data.
+	///
+	/// - Note: Performance metrics are logged to help monitor indexing times across different devices.
 	func createIndex() async throws {
 		
 		// Ensure JS context is initialized
 		try ensureInitialized()
 		
+		guard let providersPath = Bundle.module.path(forResource: "test-organizations", ofType: "json") else {
+			logError("JSContextManager: The organizations file could not be found")
+			throw JSContextManagerError.invalidInput
+		}
+		
+		var input: Data?
+		
+		// Measure loading time
+		let loadingDuration: String
 		if #available(iOS 16.0, *) {
 			let clock = ContinuousClock()
-			
-			guard let providersPath = Bundle.module.path(forResource: "test-organizations", ofType: "json") else {
-				logError("JSContextManager: The organizations file could not be found")
-				throw JSContextManagerError.invalidInput
-			}
-			
-			var input: Data?
-			
-			let loading = try clock.measure {
-				// Load the input JSON (providers) as Data
+			let duration = try clock.measure {
 				input = try Data(
 					contentsOf: URL(fileURLWithPath: providersPath),
 					options: .mappedIfSafe
 				)
 			}
-			logDebug("OrganizationSearch Loading organizations: \(loading)")
-			
-			guard let input else { return }
-			
-			let indexing = try await clock.measure {
+			loadingDuration = "\(duration)"
+		} else {
+			let startTime = Date()
+			input = try Data(
+				contentsOf: URL(fileURLWithPath: providersPath),
+				options: .mappedIfSafe
+			)
+			let duration = Date().timeIntervalSince(startTime)
+			loadingDuration = "\(duration) seconds"
+		}
+		logDebug("OrganizationSearch Loading organizations: \(loadingDuration)")
+		
+		guard let input else { return }
+		
+		// Measure indexing time
+		let indexingDuration: String
+		if #available(iOS 16.0, *) {
+			let clock = ContinuousClock()
+			let duration = try await clock.measure {
 				_ = try await callJSMethodAsync(named: ParseMethod.index.rawValue, with: input)
 			}
-			logDebug("OrganizationSearch indexing: \(indexing)")
-			providersHaveBeenIndexed = true
+			indexingDuration = "\(duration)"
+		} else {
+			let startTime = Date()
+			_ = try await callJSMethodAsync(named: ParseMethod.index.rawValue, with: input)
+			let duration = Date().timeIntervalSince(startTime)
+			indexingDuration = "\(duration) seconds"
 		}
+		logDebug("OrganizationSearch indexing: \(indexingDuration)")
+		providersHaveBeenIndexed = true
 	}
 	
 	// MARK: Private helpers
@@ -234,10 +295,16 @@ actor JSContextManager {
 		}
 	}
 	
-	/// Search for all the healthcare organizations with this term
-	/// - Parameters:
-	///   - searchTerm: the search term
-	/// - Returns: An (empty) array of Healthcare Organizations
+	/// Search for healthcare organizations matching the given search term.
+	///
+	/// Executes a search query against the indexed organization data using the JavaScript search library.
+	/// The search index must be created via `createIndex()` before calling this method.
+	///
+	/// - Parameter searchTerm: The search query string to match against organization names and attributes.
+	/// - Returns: A `SearchResults` object containing matching organizations, or `nil` if the search yields no results.
+	/// - Throws:
+	///   - `JSContextManagerError.noIndex` if `createIndex()` has not been called yet.
+	///   - `JSContextManagerError` variants from JavaScript method invocation or result decoding.
 	func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults? {
 		
 		var response: SearchResults?
@@ -296,12 +363,16 @@ actor JSContextManager {
 	}
 }
 
+// MARK: - Convenience Extensions
+
 extension JSContext {
 	
+	/// Subscript accessor for retrieving `JSValue` objects by key.
 	subscript(_ key: NSString) -> JSValue? {
 		return objectForKeyedSubscript(key)
 	}
 	
+	/// Subscript accessor for getting and setting JavaScript values by key.
 	subscript(_ key: NSString) -> Any? {
 		get { return objectForKeyedSubscript(key) }
 		set { setObject(newValue, forKeyedSubscript: key) }
@@ -309,21 +380,30 @@ extension JSContext {
 }
 
 extension JSValue {
+	
+	/// Subscript accessor for retrieving nested `JSValue` objects by key.
 	subscript(_ key: NSString) -> JSValue? {
 		return objectForKeyedSubscript(key)
 	}
 	
+	/// Subscript accessor for getting and setting nested JavaScript values by key.
 	subscript(_ key: NSString) -> Any? {
 		get { return objectForKeyedSubscript(key) }
 		set { setObject(newValue, forKeyedSubscript: key) }
 	}
 }
 
-/// Wrapper to mark values as Sendable when we know they're safe but the compiler can't verify
+/// Wrapper to mark values as `Sendable` when we know they're safe but the compiler can't verify.
+///
+/// This is used to bridge JavaScript values across concurrency domains. The wrapped values are safe
+/// because they're extracted on the actor's executor and immediately transferred via the continuation.
 private struct UncheckedSendable<T>: @unchecked Sendable {
 	
+	/// The wrapped value.
 	let value: T
 	
+	/// Create a new `UncheckedSendable` wrapper.
+	/// - Parameter value: The value to wrap.
 	init(_ value: T) {
 		self.value = value
 	}
