@@ -118,6 +118,10 @@ actor JSContextManager {
 	/// using the JavaScript search library. The operation is asynchronous and includes performance
 	/// timing (using `ContinuousClock` on iOS 16+ or `Date` on iOS 15).
 	///
+	/// The data source varies based on the runtime environment:
+	/// - Test mode: Uses `test-organizations.json` (smaller dataset for faster tests)
+	/// - Production mode: Uses `organizations.json` (full dataset)
+	///
 	/// Must be called before `searchHealthcareOrganizations(_:)` can be used.
 	///
 	/// - Throws:
@@ -131,7 +135,13 @@ actor JSContextManager {
 		// Ensure JS context is initialized
 		try ensureInitialized()
 		
-		guard let providersPath = Bundle.module.path(forResource: "test-organizations", ofType: "json") else {
+		// Determine which data file to use based on runtime environment
+		let fileName = isRunningTests() ? "test-organizations" : "organizations"
+		
+		guard let providersPath = Bundle.module.path(
+			forResource: fileName,
+			ofType: "json"
+		) else {
 			logError("JSContextManager: The organizations file could not be found")
 			throw JSContextManagerError.invalidInput
 		}
@@ -360,6 +370,15 @@ actor JSContextManager {
 			options: []
 		)
 		return try JSONDecoder().decode(SearchResults.self, from: data)
+	}
+	
+	/// Detect if the code is running in a test environment.
+	///
+	/// Uses the presence of `XCTestCase` class to determine if running within a test bundle.
+	///
+	/// - Returns: `true` if running tests, `false` otherwise.
+	private func isRunningTests() -> Bool {
+		return NSClassFromString("XCTestCase") != nil
 	}
 }
 
