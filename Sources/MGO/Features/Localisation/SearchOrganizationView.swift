@@ -231,6 +231,9 @@ struct SearchOrganizationView: View {
 	/// The selected organization for the alert
 	@State private var selectedOrganization: OrganizationSearch.Organization?
 	
+	/// Focus state for the input field
+	@FocusState private var isInputFocused: Bool
+	
 	/// The state of a card
 	private enum CardState: Equatable, Sendable {
 		case regular
@@ -301,6 +304,11 @@ struct SearchOrganizationView: View {
 				.layoutForIPad()
 		})
 		.background(theme.backgrounds.primary.ignoresSafeArea())
+		.onChange(of: showConfirmationAlert) { isShowing in
+			if isShowing {
+				isInputFocused = false
+			}
+		}
 		.alert(
 			String(
 				format: String(localized: "search_organization.dialog.heading"),
@@ -312,9 +320,7 @@ struct SearchOrganizationView: View {
 			Button("search_organization.dialog.yes", role: .none) {
 				viewModel.reduce(.store(organization))
 			}
-			Button("search_organization.dialog.no", role: .cancel) {
-				selectedOrganization = nil
-			}
+			Button("search_organization.dialog.no", role: .cancel) { /* No action */ }
 		} message: { organization in
 			Text(String(localized: "search_organization.dialog.subheading"))
 		}
@@ -353,6 +359,7 @@ struct SearchOrganizationView: View {
 	@ViewBuilder private var inputField: some View {
 		
 		TextField("search_organization.search_placeholder", text: $input)
+			.focused($isInputFocused)
 			.padding(.leading, ViewTraits.Input.leading)
 			.padding(.trailing, ViewTraits.Input.trailing)
 			.padding(.vertical, ViewTraits.Input.verticalPadding)
