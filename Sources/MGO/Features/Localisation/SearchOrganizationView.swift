@@ -488,6 +488,7 @@ struct SearchOrganizationView: View {
 			.contentShape(Rectangle())
 			.accessibilityElement(children: .combine)
 		}
+		.accessibilityIdentifier("button_\(organization.id)")
 		.buttonStyle(.plain)
 	}
 	

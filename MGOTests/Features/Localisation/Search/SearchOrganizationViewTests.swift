@@ -166,6 +166,51 @@ final class SearchOrganizationViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	@MainActor func test_select_organization() async throws {
+		
+		// Given
+		createSut(firstVisitor: false, input: "Test")
+		
+		// Create a mock organization
+		let organization1 = Generator.searchOrganization(
+			id: "org-1",
+			displayName: "Test Hospital Amsterdam",
+			city: "Amsterdam",
+			addressLine: "Hoofdstraat 123",
+			postalCode: "1012AB",
+			dataServices: [
+				"50": OrganizationSearch.DataService(
+					authEndpoint: "test",
+					resourceEndpoint: "test",
+					tokenEndpoint: "test"
+				)
+			]
+		)
+		
+		// Create search results with three hits
+		let searchResults = SearchResults(
+			count: 1.0,
+			hits: [
+				SearchResult(document: organization1, id: "org-1", score: 0.95)
+			]
+		)
+		
+		// Stub the search client to return three results
+		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = searchResults
+		
+		// Set the state to show results
+		viewModel.state.results = searchResults.hits.map { $0.document }
+		viewModel.state.totalResults = Int(searchResults.count)
+		viewModel.state.isSearching = false
+		
+		// When
+		try sut.inspect().find(viewWithAccessibilityIdentifier: "button_org-1")
+			.button().tap()
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
 	@MainActor func test_snapshot_firstVisitorOnboarding() {
 		
 		// Given

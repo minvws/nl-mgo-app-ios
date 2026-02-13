@@ -129,7 +129,15 @@ final class SearchOrganizationViewModelTests {
 	func reduce_store_shouldCallCoordinatorToFinishSearching() {
 		
 		// Given
-		let organization = Generator.searchOrganization()
+		var organization = Generator.searchOrganization(
+			dataServices: [
+				"50": OrganizationSearch.DataService(
+					authEndpoint: "test",
+					resourceEndpoint: "test",
+					tokenEndpoint: "test"
+				)
+			]
+		)
 		
 		// When
 		sut.reduce(.store(organization))
