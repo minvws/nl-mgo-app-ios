@@ -278,7 +278,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content)
 	}
 	
 	@MainActor func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
