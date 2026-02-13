@@ -3,11 +3,17 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import MGOFoundation
 import MGOTest
 import MGOUI
 @testable import MGO
 
 final class OrganizationListCardViewTests: XCTestCase {
+	
+	override func setUp() {
+		super.setUp()
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+	}
 	
 	@MainActor func test_searchResultCardView_regular() {
 		

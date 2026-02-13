@@ -122,7 +122,7 @@ func setupServicesSpies() -> ServicesSpies {
 	Container.shared.localisationServiceClient
 		.register { spies.localisationServiceClientSpy }
 	Container.shared.osVersionChecker
-		.register { OSVersionChecker() }
+		.register { OSVersionCheckerTrue() }
 	Container.shared.patientFriendyTermsRepository
 		.register { spies.patientFriendlyTermsRepositorySpy }
 	Container.shared.remoteConfigurationRepository
