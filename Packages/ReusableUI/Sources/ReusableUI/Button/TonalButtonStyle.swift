@@ -34,7 +34,7 @@ struct TonalButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.typography(.bodyMedium, isBold: true)
+			.typography(.bodyMedium, with: .bold)
 			.foregroundColor(theme.actions.tonal.text.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)

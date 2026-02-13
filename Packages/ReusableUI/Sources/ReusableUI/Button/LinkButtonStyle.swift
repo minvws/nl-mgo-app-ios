@@ -28,7 +28,7 @@ public struct LinkButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.frame(maxWidth: .infinity, alignment: alignment)
-			.typography(.bodyMedium, isBold: true)
+			.typography(.bodyMedium, with: .bold)
 			.foregroundColor(configuration.isPressed ? theme.actions.ghost.hover : theme.actions.ghost.text)
 	}
 }

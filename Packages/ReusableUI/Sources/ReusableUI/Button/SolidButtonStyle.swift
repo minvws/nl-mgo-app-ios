@@ -39,7 +39,7 @@ struct SolidButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.typography(.bodyMedium, isBold: true)
+			.typography(.bodyMedium, with: .bold)
 			.foregroundColor(theme.actions.solid.text.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
 			.tint(theme.actions.solid.text)
 			.padding(narrow ? ViewTraits.ButtonTitle.smallInsets : ViewTraits.ButtonTitle.insets)

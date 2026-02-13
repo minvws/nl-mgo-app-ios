@@ -21,7 +21,7 @@ public struct ToolbarButtonStyle: ButtonStyle {
 	public func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.typography(.bodyMedium, isBold: true)
+			.typography(.bodyMedium, with: .bold)
 			.opacity(configuration.isPressed ? 0.5 : 1.0)
 			.foregroundColor(configuration.isPressed ? theme.actions.ghost.hover : theme.actions.ghost.text)
 	}

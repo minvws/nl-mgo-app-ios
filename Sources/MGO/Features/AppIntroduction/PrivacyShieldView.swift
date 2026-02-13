@@ -74,7 +74,7 @@ struct PrivacyShieldView: View {
 				spacing: ViewTraits.Text.padding,
 				content: {
 					Text(heading)
-						.typography(.bodyMedium, isBold: true)
+						.typography(.bodyMedium, with: .bold)
 						.padding(.leading, ViewTraits.Text.leading)
 						.foregroundStyle(theme.labels.primary)
 					

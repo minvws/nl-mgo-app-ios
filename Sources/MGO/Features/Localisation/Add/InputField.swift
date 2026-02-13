@@ -117,7 +117,7 @@ struct InputField: View {
 						.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
 					
 					Text(errorMessage)
-						.typography(.bodyMedium, isBold: true)
+						.typography(.bodyMedium, with: .bold)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.foregroundStyle(theme.states.critical)
 				}

@@ -603,7 +603,7 @@ struct PinCodeView: View {
 				Image(ImageResource.Icon.error)
 				
 				Text(error)
-					.typography(.bodyMedium, isBold: true)
+					.typography(.bodyMedium, with: .bold)
 				
 				Spacer()
 			} else {

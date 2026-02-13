@@ -123,7 +123,7 @@ struct AboutTheAppView: View {
 			.frame(maxWidth: .infinity, alignment: .top)
 			
 			Text("common.app_name")
-				.typography(.bodyMedium, isBold: true)
+				.typography(.bodyMedium, with: .bold)
 				.foregroundStyle(theme.labels.primary)
 				.fixedSize(horizontal: false, vertical: true)
 				.accessibilityIdentifier("common.app_name")

@@ -137,7 +137,7 @@ struct ErrorStateCardView: View {
 		VStack(alignment: .leading, spacing: ViewTraits.Title.spacing) {
 			
 			Text(heading)
-				.typography(.bodyMedium, isBold: true)
+				.typography(.bodyMedium, with: .bold)
 				.foregroundStyle(theme.labels.primary)
 			
 			Text(subHeading)

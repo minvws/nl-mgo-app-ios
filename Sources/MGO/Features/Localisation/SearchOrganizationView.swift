@@ -341,7 +341,10 @@ struct SearchOrganizationView: View {
 					.accessibilityIdentifier("search_organization.heading")
 				
 				Text("search_organization.subheading")
-					.typography(.bodyMedium) // should be semiBold
+					.typography(
+						.bodyMedium,
+						with: .semiBold
+					)
 					.foregroundStyle(theme.labels.secondary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityIdentifier("search_organization.subheading")

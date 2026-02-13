@@ -44,7 +44,7 @@ struct HealthCategoryRowView: View {
 			VStack(alignment: .leading, spacing: ViewTraits.Text.spacing) {
 				
 				Text(category.localizedHeading())
-					.typography(.bodyMedium, isBold: true)
+					.typography(.bodyMedium, with: .bold)
 					.foregroundColor(theme.labels.primary)
 					
 				Text(category.localizedSubheading())

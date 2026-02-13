@@ -47,7 +47,7 @@ public struct CardView: View {
 				
 				Text(title)
 					.lineLimit(2)
-					.typography(.bodyMedium, isBold: true)
+					.typography(.bodyMedium, with: .bold)
 					.foregroundColor(
 						details == nil ? theme.labels.primary : theme.labels.secondary
 					)

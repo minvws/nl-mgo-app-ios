@@ -187,7 +187,7 @@ struct FavoritesView: View {
 					viewModel.reduce(.saveButtonPressed)
 				} label: {
 					Text(saveKey)
-						.typography(.bodyMedium, isBold: true)
+						.typography(.bodyMedium, with: .bold)
 				}
 				.accessibilityLabel(saveKey)
 			}

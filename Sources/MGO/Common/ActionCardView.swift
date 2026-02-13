@@ -42,7 +42,7 @@ struct ActionCardView: View {
 				VStack(alignment: .leading, spacing: ViewTraits.General.spacing) {
 					
 					Text(title)
-						.typography(.bodyMedium, isBold: true)
+						.typography(.bodyMedium, with: .bold)
 						.multilineTextAlignment(.leading)
 						.foregroundColor(theme.labels.primary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
