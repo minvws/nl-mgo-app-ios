@@ -23,6 +23,10 @@ import MGODebug
 /// Threading:
 /// - All methods are isolated to the actor, guaranteeing serial execution.
 /// - The underlying `JSContext` is accessed exclusively from the actor's executor thread.
+///
+/// Testability:
+/// - Pass a custom `MeasurableClock` to `init(clock:)` to control or observe timing behaviour in tests.
+/// - `DateMeasurer` can be injected to exercise the iOS 15 timing path on any OS version.
 actor JSContextManager {
 	
 	/// The namespace used in the JavaScript context to access the search API.
@@ -37,9 +41,20 @@ actor JSContextManager {
 	/// Tracks whether the JavaScript context has been initialized with the search library.
 	private var isInitialized: Bool = false
 	
-	init() {
+	/// The clock used to measure loading and indexing durations.
+	private let clock: any MeasurableClock
+	
+	/// Create a new `JSContextManager`.
+	///
+	/// The JavaScript context is initialised lazily on first use, so this call is cheap.
+	///
+	/// - Parameter clock: The clock used to measure loading and indexing durations.
+	///   Defaults to `ContinuousClockMeasurer` on iOS 16+ and `DateMeasurer` on iOS 15.
+	///   Inject a custom value in tests to observe or control timing behaviour.
+	init(clock: (any MeasurableClock)? = nil) {
 		// Actor initializers are non-isolated, so we can't call actor-isolated methods here
 		// Initialization will be done lazily on first use
+		self.clock = clock ?? makeMeasurableClock()
 	}
 	
 	/// Ensure the JS context is initialized (called before any JS operations).
@@ -115,8 +130,9 @@ actor JSContextManager {
 	/// Create a searchable index from organization data.
 	///
 	/// This method loads organization data from a bundled JSON file and builds a search index
-	/// using the JavaScript search library. The operation is asynchronous and includes performance
-	/// timing (using `ContinuousClock` on iOS 16+ or `Date` on iOS 15).
+	/// using the JavaScript search library. The operation is asynchronous and logs performance
+	/// metrics for both the file-loading and the JavaScript indexing steps using the injected
+	/// `MeasurableClock`.
 	///
 	/// The data source varies based on the runtime environment:
 	/// - Test mode: Uses `test-organizations.json` (smaller dataset for faster tests)
@@ -146,47 +162,18 @@ actor JSContextManager {
 			throw JSContextManagerError.invalidInput
 		}
 		
-		var input: Data?
-		
 		// Measure loading time
-		let loadingDuration: String
-		if #available(iOS 16.0, *) {
-			let clock = ContinuousClock()
-			let duration = try clock.measure {
-				input = try Data(
-					contentsOf: URL(fileURLWithPath: providersPath),
-					options: .mappedIfSafe
-				)
-			}
-			loadingDuration = "\(duration)"
-		} else {
-			let startTime = Date()
-			input = try Data(
-				contentsOf: URL(fileURLWithPath: providersPath),
-				options: .mappedIfSafe
-			)
-			let duration = Date().timeIntervalSince(startTime)
-			loadingDuration = "\(duration) seconds"
-		}
-		logDebug("OrganizationSearch Loading organizations: \(loadingDuration)")
-		
-		guard let input else { return }
+		let loadStart = clock.now()
+		let input = try Data(
+			contentsOf: URL(fileURLWithPath: providersPath),
+			options: .mappedIfSafe
+		)
+		logDebug("OrganizationSearch Loading organizations: \(clock.elapsed(since: loadStart))")
 		
 		// Measure indexing time
-		let indexingDuration: String
-		if #available(iOS 16.0, *) {
-			let clock = ContinuousClock()
-			let duration = try await clock.measure {
-				_ = try await callJSMethodAsync(named: ParseMethod.index.rawValue, with: input)
-			}
-			indexingDuration = "\(duration)"
-		} else {
-			let startTime = Date()
-			_ = try await callJSMethodAsync(named: ParseMethod.index.rawValue, with: input)
-			let duration = Date().timeIntervalSince(startTime)
-			indexingDuration = "\(duration) seconds"
-		}
-		logDebug("OrganizationSearch indexing: \(indexingDuration)")
+		let indexStart = clock.now()
+		_ = try await callJSMethodAsync(named: ParseMethod.index.rawValue, with: input)
+		logDebug("OrganizationSearch indexing: \(clock.elapsed(since: indexStart))")
 		providersHaveBeenIndexed = true
 	}
 	
@@ -199,7 +186,6 @@ actor JSContextManager {
 	/// method by name. It returns the raw `JSValue` produced by JavaScript.
 	///
 	/// Notes:
-	/// - When unit testing (`--unittesting` is present), the JS source is reloaded on each call.
 	/// - This function does not await Promises; it simply returns the immediate `JSValue`.
 	///   Use `callJSMethodAsync` to bridge and await Promise results.
 	///
