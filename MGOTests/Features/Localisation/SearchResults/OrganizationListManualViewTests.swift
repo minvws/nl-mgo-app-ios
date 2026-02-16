@@ -167,6 +167,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 	@MainActor func test_list_lightPortrait() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationListCardState.notParticipating)),
@@ -189,6 +190,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 	@MainActor func test_list_darkPortrait() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationListCardState.notParticipating)),
@@ -211,6 +213,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 	@MainActor func test_list_lightLandscape() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationListCardState.notParticipating)),
@@ -233,6 +236,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 	@MainActor func test_list_darkLandscape() {
 		
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationListCardState.notParticipating)),
