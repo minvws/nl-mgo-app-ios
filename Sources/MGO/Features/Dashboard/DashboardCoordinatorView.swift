@@ -137,8 +137,8 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 			[
 				.foregroundColor: UIColor(theme.categories.rijkslint),
 				.paragraphStyle: NSParagraphStyle.default,
-				.font: UIFont(
-					name: RijksoverheidSansWebTextFont.bold.fontName,
+				.font: UIFont.rijksoverheidFont(
+					.bold,
 					size: 10
 				) as Any
 			]
@@ -146,8 +146,8 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 			appearance.normal.titleTextAttributes = [
 				.foregroundColor: normalColor,
 				.paragraphStyle: NSParagraphStyle.default,
-				.font: UIFont(
-					name: RijksoverheidSansWebTextFont.bold.fontName,
+				.font: UIFont.rijksoverheidFont(
+					.semiBold,
 					size: 10
 				) as Any
 			]

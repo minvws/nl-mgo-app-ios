@@ -5,24 +5,34 @@
 
 import SwiftUI
 
+/// A `ViewModifier` that applies a ``Typography`` style — including the correct
+/// Rijksoverheid typeface, point size, and line spacing — to any SwiftUI view.
+///
+/// Apply it directly via ``View/typography(_:with:)``:
+///
+/// ```swift
+/// Text("Welkom")
+///     .typography(.headingLarge)
+/// ```
 public struct TypographyViewModifier: ViewModifier {
 	
-	/// Which typography do we use?
+	/// The typographic style that determines font weight, size, and line spacing.
 	public var typography: Typography
 	
-	/// Should we use bold font
-	public var isBold: Bool
+	/// An optional font variant that overrides the default weight chosen by
+	/// ``Typography/font()``.  When `nil`, the default is used.
+	public var font: RijksoverheidFont?
 	
-	/// Apply the Rijksoverheid font for typography
-	/// - Parameter content: content
-	/// - Returns: content with applied font
+	/// Applies the Rijksoverheid font and line spacing to `content`.
+	/// - Parameter content: The view being modified.
+	/// - Returns: The view with the appropriate font and line spacing applied.
 	public func body(content: Content) -> some View {
 		
 		content
 			.font(
 				.RijksoverheidSansWebText
 					.relative(
-						isBold ? .bold : typography.font(),
+						font ?? typography.font(),
 						relativeTo: typography.textStyle()
 					)
 			)
@@ -32,19 +42,34 @@ public struct TypographyViewModifier: ViewModifier {
 
 extension View {
 	
-	/// Apply the typography to content
+	/// Applies a ``Typography`` style to the view.
+	///
+	/// This is the primary entry point for Rijksoverheid typography in SwiftUI.
+	/// It sets the typeface, size (scaled relative to the matching
+	/// `Font.TextStyle` for Dynamic Type support), and line spacing in one call.
+	///
+	/// ```swift
+	/// Text("Welkom")
+	///     .typography(.headingLarge)
+	///
+	/// // Override the default weight for a specific style:
+	/// Text("Toelichting")
+	///     .typography(.bodyMedium, with: .italic)
+	/// ```
+	///
 	/// - Parameters:
-	///   - typography: the typography to use
-	///   - isBold: force bold
-	/// - Returns: content with typography applied
+	///   - typography: The ``Typography`` style to apply.
+	///   - font: An optional ``RijksoverheidFont`` variant that overrides the
+	///           default font weight for the given style.  Defaults to `nil`.
+	/// - Returns: A view with the Rijksoverheid typography applied.
 	public func typography(
 		_ typography: Typography,
-		isBold: Bool = false
+		with font: RijksoverheidFont? = nil
 	) -> some View {
 		modifier(
 			TypographyViewModifier(
 				typography: typography,
-				isBold: isBold
+				font: font
 			)
 		)
 	}

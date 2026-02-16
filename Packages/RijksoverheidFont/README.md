@@ -13,39 +13,48 @@ Text("Rijksoverheid")
     .typography(.headingLarge)
 ```
 
-There are 5 levels of heading, and 3 for body texts. :
+There are 5 levels of heading, and 3 for body texts:
 
 ```swift
 public enum Typography: CaseIterable {
-	
-	case headingExtraLarge // 34 px (.largeTitle)
-	case headingLarge // 28 px (.title)
-	case headingMedium // 22 px (.title2)
-	case headingSmall // 20 px (.title3)
-	case headingExtraSmall // 18 px (.subheadline)
 
-	case bodyLarge // 20 px (.headline)
-	case bodyMedium // 18 px (.body)
-	case bodySmall // 16 px (.callout)
+    case headingExtraLarge  // 34 pt (.largeTitle)
+    case headingLarge       // 28 pt (.title)
+    case headingMedium      // 22 pt (.title2)
+    case headingSmall       // 20 pt (.title3)
+    case headingExtraSmall  // 18 pt (.subheadline)
+
+    case bodyLarge          // 20 pt (.headline)
+    case bodyMedium         // 18 pt (.body)
+    case bodySmall          // 16 pt (.callout)
 }
 ```
 
-The modifier takes two params, Typography and isBold.
+The modifier accepts an optional `with` parameter to override the default font variant. Heading styles default to `.bold`; body styles default to `.regular`.
 
 ```swift
+// Default weight for the style (bold heading, regular body)
 Text("Rijksoverheid")
-    .font(.bodyMedium, isBold: true)
+    .typography(.bodyMedium)
+
+// Override with a different variant
+Text("Rijksoverheid")
+    .typography(.bodyMedium, with: .semiBold)
+
+Text("Toelichting")
+    .typography(.bodySmall, with: .italic)
 ```
-Note that the heading styles are always bold. You can use any of the Font.TextStyles directly without the typography modifier:
+
+You can also use the font directly without the typography modifier:
 
 ```swift
 Text("Rijksoverheid")
-.font(
-	.RijksoverheidSansWebText.relative(
-		RijksoverheidSansWebTextFont.regular,
-		relativeTo: Font.TextStyle.title
-	)
-)
+    .font(
+        .RijksoverheidSansWebText.relative(
+            .regular,
+            relativeTo: .title
+        )
+    )
 ```
 
 ---

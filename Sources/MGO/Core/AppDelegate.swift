@@ -7,6 +7,7 @@ import UIKit
 import MGOUI
 import MGOFoundation
 import FileStorage
+import RijksoverheidFont
 
 class AppDelegate: NSObject, UIApplicationDelegate {
 	
@@ -45,20 +46,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		FileStorage().remove(HealthDirectory.export)
 	}
 	
+	@MainActor
 	private func styleUI() {
 		
 		// Set fonts for the Navigation bar
 		UINavigationBar.appearance().titleTextAttributes = [
 			.foregroundColor: UIColor(Theme().labels.primary),
-			.font: UIFont(
-				name: RijksoverheidSansWebTextFont.bold.fontName,
+			.font: UIFont.rijksoverheidFont(
+				.bold,
 				size: Font.TextStyle.body.pointSize
 			) as Any
 		]
 		UINavigationBar.appearance().largeTitleTextAttributes = [
 			.foregroundColor: UIColor(Theme().labels.primary),
-			.font: UIFont(
-				name: RijksoverheidSansWebTextFont.bold.fontName,
+			.font: UIFont.rijksoverheidFont(
+				.bold,
 				size: Font.TextStyle.largeTitle.pointSize
 			) as Any
 		]

@@ -372,7 +372,7 @@ struct HealthUISchemaView: View {
 			text: value,
 			textColor: theme.labels.primary,
 			font: UIFont(
-				name: RijksoverheidSansWebTextFont.regular.fontName,
+				name: RijksoverheidFont.regular.fontName,
 				size: Font.TextStyle.body.pointSize
 			)
 		)
@@ -468,7 +468,7 @@ struct HealthUISchemaView: View {
 			text: heading,
 			textColor: theme.labels.secondary,
 			font: UIFont(
-				name: RijksoverheidSansWebTextFont.regular.fontName,
+				name: RijksoverheidFont.regular.fontName,
 				size: Font.TextStyle.callout.pointSize
 			)
 		)

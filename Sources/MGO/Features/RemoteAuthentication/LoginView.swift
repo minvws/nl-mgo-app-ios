@@ -168,7 +168,7 @@ struct LoginView: View {
 				.opacity(onHover ? ViewTraits.Icon.opacity : 1)
 			
 			Text("login.digid")
-				.typography(.bodyMedium, isBold: true)
+				.typography(.bodyMedium, with: .bold)
 			
 			Spacer()
 		}

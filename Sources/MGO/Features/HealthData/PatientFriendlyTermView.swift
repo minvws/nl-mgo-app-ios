@@ -82,7 +82,7 @@ struct PatientFriendlyTermView: View {
 					text: title,
 						textColor: theme.labels.primary,
 					font: UIFont(
-						name: RijksoverheidSansWebTextFont.bold.fontName,
+						name: RijksoverheidFont.bold.fontName,
 						size: Font.TextStyle.title2.pointSize
 					)
 				)
@@ -110,8 +110,8 @@ struct PatientFriendlyTermView: View {
 					arguments: [synonym]
 				),
 				textColor: theme.labels.secondary,
-				font: UIFont(
-					name: RijksoverheidSansWebTextFont.regular.fontName,
+				font: UIFont.rijksoverheidFont(
+					.semiBold,
 					size: Font.TextStyle.body.pointSize
 				)
 			)
@@ -126,7 +126,7 @@ struct PatientFriendlyTermView: View {
 			text: viewModel.description,
 			textColor: theme.labels.primary,
 			font: UIFont(
-				name: RijksoverheidSansWebTextFont.regular.fontName,
+				name: RijksoverheidFont.regular.fontName,
 				size: Font.TextStyle.body.pointSize
 			)
 		)

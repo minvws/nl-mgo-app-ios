@@ -5,20 +5,56 @@
 
 import SwiftUI
 
+/// The set of named text styles used throughout the MGO app.
+///
+/// Each case maps to a specific combination of font weight, size, and line
+/// spacing that conforms to the Rijksoverheid design system.  Use the
+/// ``View/typography(_:with:)`` modifier to apply a style to any SwiftUI view:
+///
+/// ```swift
+/// Text("Welkom")
+///     .typography(.headingLarge)
+///
+/// Text("Disclaimer")
+///     .typography(.bodySmall, with: .italic)
+/// ```
 public enum Typography: CaseIterable {
 	
+	// MARK: - Heading styles
+
+	/// Extra-large heading. Maps to `Font.TextStyle.largeTitle` (34 pt, 30 pt on iPhone SE).
 	case headingExtraLarge
+
+	/// Large heading. Maps to `Font.TextStyle.title` (28 pt, 26 pt on iPhone SE).
 	case headingLarge
+
+	/// Medium heading. Maps to `Font.TextStyle.title2` (22 pt).
 	case headingMedium
+
+	/// Small heading. Maps to `Font.TextStyle.title3` (20 pt).
 	case headingSmall
+
+	/// Extra-small heading. Maps to `Font.TextStyle.subheadline` (18 pt).
 	case headingExtraSmall
+
+	// MARK: - Body styles
+
+	/// Large body text. Maps to `Font.TextStyle.headline` (20 pt).
 	case bodyLarge
+
+	/// Regular body text. Maps to `Font.TextStyle.body` (18 pt).
 	case bodyMedium
+
+	/// Small body text. Maps to `Font.TextStyle.callout` (16 pt).
 	case bodySmall
 	
-	/// The font associated with the Typography
-	/// - Returns: RijksoverheidSansWebTextFont
-	@MainActor func font() -> RijksoverheidSansWebTextFont {
+	// MARK: - Internal helpers
+
+	/// The default ``RijksoverheidFont`` weight for this style.
+	///
+	/// Heading styles use `.bold`; body styles use `.regular`.
+	/// Pass a different value to ``View/typography(_:with:)`` to override.
+	@MainActor func font() -> RijksoverheidFont {
 		switch self {
 			case .headingExtraLarge,
 					.headingLarge,
@@ -34,8 +70,7 @@ public enum Typography: CaseIterable {
 		}
 	}
 	
-	/// What is the line spacing for this typography?
-	/// - Returns: the line spacing
+	/// The additional line spacing (in points) applied below each line of text.
 	func lineSpacing() -> CGFloat {
 		switch self {
 			case .headingExtraLarge: return 3.5
@@ -46,8 +81,7 @@ public enum Typography: CaseIterable {
 		}
 	}
 	
-	/// What text style should we use for this typography?
-	/// - Returns: Text Style
+	/// The `Font.TextStyle` that governs Dynamic Type scaling for this style.
 	func textStyle() -> Font.TextStyle {
 		switch self {
 			case .headingExtraLarge:

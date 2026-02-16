@@ -23,7 +23,7 @@ struct SectionButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.typography(.bodyMedium, isBold: true)
+			.typography(.bodyMedium, with: .bold)
 			.foregroundColor(configuration.isPressed ? theme.actions.ghost.hover : theme.actions.ghost.text)
 			.frame(minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(Color.clear)

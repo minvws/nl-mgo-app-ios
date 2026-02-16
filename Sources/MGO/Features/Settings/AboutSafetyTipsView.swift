@@ -88,7 +88,7 @@ struct AboutSafetyTipsView: View {
 		
 		VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 			Text(heading)
-				.typography(.bodyMedium, isBold: true)
+				.typography(.bodyMedium, with: .bold)
 				.foregroundStyle(theme.labels.primary)
 				.accessibilityAddTraits(.isHeader)
 				.accessibilityIdentifier(heading.stringKey)

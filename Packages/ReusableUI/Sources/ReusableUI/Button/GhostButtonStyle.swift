@@ -28,7 +28,7 @@ struct GhostButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.typography(.bodyMedium, isBold: true)
+			.typography(.bodyMedium, with: .bold)
 			.foregroundColor(configuration.isPressed ? theme.actions.ghost.hover : theme.actions.ghost.text)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)

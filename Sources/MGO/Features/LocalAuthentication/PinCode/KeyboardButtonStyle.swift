@@ -37,7 +37,7 @@ struct KeyboardButtonStyle: ButtonStyle {
 			.font(
 				.RijksoverheidSansWebText
 					.relative(
-						RijksoverheidSansWebTextFont.regular,
+						RijksoverheidFont.regular,
 						relativeTo: Font.TextStyle.title
 					)
 			)

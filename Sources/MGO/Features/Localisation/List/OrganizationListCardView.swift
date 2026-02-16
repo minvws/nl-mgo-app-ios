@@ -72,7 +72,7 @@ struct OrganizationListCardView: View {
 			VStack(alignment: .leading, spacing: 0) {
 				
 				Text(model.name)
-					.typography(.bodyMedium, isBold: true)
+					.typography(.bodyMedium, with: .bold)
 					.foregroundStyle(theme.labels.primary)
 					.fixedSize(horizontal: false, vertical: true)
 					.padding(.bottom, ViewTraits.Title.padding)
@@ -164,7 +164,7 @@ struct OrganizationListCardView: View {
 							.foregroundStyle(theme.states.positive)
 					}
 				}
-				.typography(.bodyMedium, isBold: true)
+				.typography(.bodyMedium, with: .bold)
 				.multilineTextAlignment(.leading)
 				.frame(maxWidth: .infinity, alignment: .leading)
 				.padding(.top, ViewTraits.Selected.padding)
