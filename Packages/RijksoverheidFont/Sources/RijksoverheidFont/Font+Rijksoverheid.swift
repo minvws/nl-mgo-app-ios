@@ -31,7 +31,7 @@ extension Font {
 			relativeTo textStyle: Font.TextStyle
 		) -> Font {
 			// Variable font: build via UIKit so the wght axis value is applied.
-			if let _ = style.weight {
+			if style.weight != nil {
 				let uiFont = UIFont.rijksoverheidFont(style, size: textStyle.pointSize)
 				return Font(uiFont as CTFont)
 			}
