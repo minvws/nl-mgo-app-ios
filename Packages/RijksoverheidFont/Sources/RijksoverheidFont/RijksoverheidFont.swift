@@ -70,11 +70,11 @@ public struct RijksoverheidFont {
 		weight: 700
 	)
 	
-	/// Semi-bold variant of the RijksSans variable font (`wght` 600).
+	/// Semi-bold variant of the RijksSans variable font (`wght` 550).
 	@MainActor public static let semiBold = RijksoverheidFont(
 		file: "RijksSansVF-Regular",
 		font: "RijksSansVF-Regular",
-		weight: 600
+		weight: 550
 	)
 	
 	/// Italic variant of the RijksSans variable font (`wght` 400).

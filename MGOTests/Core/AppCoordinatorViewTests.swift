@@ -25,7 +25,10 @@ final class AppCoordinatorViewTests: XCTestCase {
 		
 		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
+		let browser = RestrictedBrowser(
+			allowedDomains: ["irealisatie.nl"],
+			urlOpener: urlOpenerSpy
+		)
 		return AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
 			browser: browser
