@@ -7,15 +7,22 @@ import MGOFoundation
 import MGOUI
 import RestrictedBrowser
 
+/// View model responsible for managing the state and actions of the login screen.
 class LoginViewModel: ObservableObject {
 	
+	/// Represents the current UI state of the login view.
 	struct LoginState {
+		/// The mode that determines which variant of the login screen is shown.
 		var mode: LoginViewMode
+		/// Whether an authentication request is currently in progress.
 		var isLoading: Bool
 	}
 	
+	/// Determines which variant of the login screen is presented to the user.
 	enum LoginViewMode {
+		/// The user is logging in for the first time.
 		case firstTime
+		/// The user has logged in before.
 		case repeatVisitor
 	}
 	
@@ -27,6 +34,7 @@ class LoginViewModel: ObservableObject {
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
 	
+	/// The remote authentication client
 	private var remoteAuthenticationClient: RemoteAuthenticationClientProtocol?
 	
 	/// Helper to open urls
@@ -39,8 +47,10 @@ class LoginViewModel: ObservableObject {
 	@Published var state: LoginViewModel.LoginState
 	
 	/// Create a Login ViewModel
-	/// - Parameter coordinator: The coordinator
-	/// - Parameter urlOpener: The helper to open hyperlinks
+	/// - Parameter coordinator: The flow coordinator used for routing after a successful login.
+	/// - Parameter mode: The login mode, determining which screen variant is shown.
+	/// - Parameter remoteAuthenticationClient: The client used to fetch the authentication URL.
+	/// - Parameter urlOpener: The helper used to open the authentication URL in a browser.
 	@MainActor init(
 		coordinator: (any Coordinator)?,
 		mode: LoginViewMode,
@@ -58,8 +68,6 @@ class LoginViewModel: ObservableObject {
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	@MainActor public func reduce(_ action: Action) {
-		
-		logDebug("Reduce", action)
 		
 		if action == .loginWithDigiD {
 			guard !Container.shared.featureFlagManager().isDemo else {
@@ -81,7 +89,7 @@ class LoginViewModel: ObservableObject {
 		guard let remoteAuthenticationClient else { return }
 		do {
 			let authenticationUrl = try await remoteAuthenticationClient.getAuthenticationUrl(callbackUrl: Configuration().getOIDCCallback())
-			logDebug("authenticationUrl", authenticationUrl)
+			logVerbose("LoginView - authenticationUrl", authenticationUrl)
 			self.urlOpener.openUrlIfPossible(authenticationUrl)
 		} catch {
 			logError("Error fetching oidc start \(error)")
@@ -95,6 +103,9 @@ class LoginViewModel: ObservableObject {
 	}
 }
 
+/// The login screen, allowing users to authenticate via DigiD.
+/// Displays a heading, sub-heading and illustration that adapt based on whether the user
+/// is logging in for the first time or is a returning visitor.
 struct LoginView: View {
 	
 	/// The view model
@@ -176,7 +187,7 @@ struct LoginView: View {
 		.layoutForIPad()
 	}
 	
-	/// has the user pressed (but no released) the button
+	/// Whether the user is currently pressing (but has not yet released) the DigiD button.
 	@State private var onHover = false
 	
 	/// The button to use DigiD for authentication
