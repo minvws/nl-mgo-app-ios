@@ -26,6 +26,9 @@ public protocol SecureUserSettingsProtocol: AnyObject {
 	/// Did the user complete the DigiD flow?
 	var userHasRemoteAuthentication: Bool { get set }
 	
+	/// Is the user a first time vistor
+	var firstTimeVisitor: Bool { get set }
+	
 	/// Wipe all persisted data
 	func wipePersistedData()
 }
@@ -40,6 +43,7 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 		public static let pinCode: String? = nil
 		public static let userHasSeenJailBreakWarning: Bool = false
 		public static let userHasRemoteAuthentication: Bool = false
+		public static let firstTimeVisitor: Bool = true
 	}
 	
 	/// Create the secure user settings
@@ -62,6 +66,9 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	
 	@Keychain(name: "userHasSeenJailBreakWarning", service: "Security" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var userHasSeenJailBreakWarning: Bool = Defaults.userHasSeenJailBreakWarning
+	
+	@Keychain(name: "firstTimeVisitor", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
+	public var firstTimeVisitor: Bool = Defaults.firstTimeVisitor
 		
 	/// Helper method to detect if we are unit testing.
 	/// If so, append `_test` to the service name to separate tests from production
@@ -83,5 +90,6 @@ extension SecureUserSettings {
 		tempPinCode = Defaults.pinCode
 		userHasRemoteAuthentication = Defaults.userHasRemoteAuthentication
 		userHasSeenJailBreakWarning = Defaults.userHasSeenJailBreakWarning
+		firstTimeVisitor = Defaults.firstTimeVisitor
 	}
 }

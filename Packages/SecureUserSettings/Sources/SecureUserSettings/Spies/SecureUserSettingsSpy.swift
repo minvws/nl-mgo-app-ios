@@ -6,10 +6,32 @@
 import Foundation
 
 public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
-
+	
 	/// Initlializer
 	public init() { /* Public initializer needed for public access */ }
 	
+	public var invokedEnteredBackgroundSetter = false
+	public var invokedEnteredBackgroundSetterCount = 0
+	public var invokedEnteredBackground: Date?
+	public var invokedEnteredBackgroundList = [Date?]()
+	public var invokedEnteredBackgroundGetter = false
+	public var invokedEnteredBackgroundGetterCount = 0
+	public var stubbedEnteredBackground: Date!
+
+	public var enteredBackground: Date? {
+		set {
+			invokedEnteredBackgroundSetter = true
+			invokedEnteredBackgroundSetterCount += 1
+			invokedEnteredBackground = newValue
+			invokedEnteredBackgroundList.append(newValue)
+		}
+		get {
+			invokedEnteredBackgroundGetter = true
+			invokedEnteredBackgroundGetterCount += 1
+			return stubbedEnteredBackground
+		}
+	}
+
 	public var invokedTempPinCodeSetter = false
 	public var invokedTempPinCodeSetterCount = 0
 	public var invokedTempPinCode: String?
@@ -75,7 +97,7 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 			return stubbedBioMetricAuthenticationEnabled
 		}
 	}
-	
+
 	public var invokedUserHasSeenJailBreakWarningSetter = false
 	public var invokedUserHasSeenJailBreakWarningSetterCount = 0
 	public var invokedUserHasSeenJailBreakWarning: Bool?
@@ -120,33 +142,33 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 		}
 	}
 
+	public var invokedFirstTimeVisitorSetter = false
+	public var invokedFirstTimeVisitorSetterCount = 0
+	public var invokedFirstTimeVisitor: Bool?
+	public var invokedFirstTimeVisitorList = [Bool]()
+	public var invokedFirstTimeVisitorGetter = false
+	public var invokedFirstTimeVisitorGetterCount = 0
+	public var stubbedFirstTimeVisitor: Bool! = false
+
+	public var firstTimeVisitor: Bool {
+		set {
+			invokedFirstTimeVisitorSetter = true
+			invokedFirstTimeVisitorSetterCount += 1
+			invokedFirstTimeVisitor = newValue
+			invokedFirstTimeVisitorList.append(newValue)
+		}
+		get {
+			invokedFirstTimeVisitorGetter = true
+			invokedFirstTimeVisitorGetterCount += 1
+			return stubbedFirstTimeVisitor
+		}
+	}
+
 	public var invokedWipePersistedData = false
 	public var invokedWipePersistedDataCount = 0
 
 	public func wipePersistedData() {
 		invokedWipePersistedData = true
 		invokedWipePersistedDataCount += 1
-	}
-	
-	public var invokedEnteredBackgroundSetter = false
-	public var invokedEnteredBackgroundSetterCount = 0
-	public var invokedEnteredBackground: Date?
-	public var invokedEnteredBackgroundList = [Date?]()
-	public var invokedEnteredBackgroundGetter = false
-	public var invokedEnteredBackgroundGetterCount = 0
-	public var stubbedEnteredBackground: Date!
-
-	public var enteredBackground: Date? {
-		set {
-			invokedEnteredBackgroundSetter = true
-			invokedEnteredBackgroundSetterCount += 1
-			invokedEnteredBackground = newValue
-			invokedEnteredBackgroundList.append(newValue)
-		}
-		get {
-			invokedEnteredBackgroundGetter = true
-			invokedEnteredBackgroundGetterCount += 1
-			return stubbedEnteredBackground
-		}
 	}
 }
