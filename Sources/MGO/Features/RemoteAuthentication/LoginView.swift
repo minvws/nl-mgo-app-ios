@@ -9,9 +9,14 @@ import RestrictedBrowser
 
 class LoginViewModel: ObservableObject {
 	
-	enum State {
-		case loading
-		case idle
+	struct LoginState {
+		var mode: LoginViewMode
+		var isLoading: Bool
+	}
+	
+	enum LoginViewMode {
+		case firstTime
+		case repeatVisitor
 	}
 	
 	/// A list of all the actions this viewModel can handle
@@ -27,27 +32,34 @@ class LoginViewModel: ObservableObject {
 	/// Helper to open urls
 	private var urlOpener: URLOpenerProtocol
 	
+	/// What mode are we running in?
+	private var mode: LoginViewMode
+	
 	/// The state of the view
-	@Published var state: LoginViewModel.State
+	@Published var state: LoginViewModel.LoginState
 	
 	/// Create a Login ViewModel
 	/// - Parameter coordinator: The coordinator
 	/// - Parameter urlOpener: The helper to open hyperlinks
 	@MainActor init(
 		coordinator: (any Coordinator)?,
+		mode: LoginViewMode,
 		remoteAuthenticationClient: RemoteAuthenticationClientProtocol?,
 		urlOpener: URLOpenerProtocol = UIApplication.shared
 	) {
 		
 		self.coordinator = coordinator
+		self.mode = mode
 		self.remoteAuthenticationClient = remoteAuthenticationClient
 		self.urlOpener = urlOpener
-		self.state = .idle
+		self.state = LoginState(mode: mode, isLoading: false)
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	@MainActor public func reduce(_ action: Action) {
+		
+		logDebug("Reduce", action)
 		
 		if action == .loginWithDigiD {
 			guard !Container.shared.featureFlagManager().isDemo else {
@@ -64,8 +76,8 @@ class LoginViewModel: ObservableObject {
 	@MainActor
 	private func authenticate() async {
 		
-		guard state == .idle else { return }
-		self.setState(.loading)
+		guard state.isLoading == false else { return }
+		self.setState(LoginState(mode: self.mode, isLoading: true))
 		guard let remoteAuthenticationClient else { return }
 		do {
 			let authenticationUrl = try await remoteAuthenticationClient.getAuthenticationUrl(callbackUrl: Configuration().getOIDCCallback())
@@ -74,11 +86,11 @@ class LoginViewModel: ObservableObject {
 		} catch {
 			logError("Error fetching oidc start \(error)")
 		}
-		self.setState(.idle)
+		self.setState(LoginState(mode: self.mode, isLoading: false))
 	}
 	
 	/// Set the state (to be called from async methods)
-	@MainActor func setState(_ newState: State) {
+	@MainActor func setState(_ newState: LoginState) {
 		self.state = newState
 	}
 }
@@ -107,6 +119,11 @@ struct LoginView: View {
 		enum Icon {
 			static let opacity: Double = 0.50
 		}
+		enum Image {
+			static let maxWidthFirstTime: Double = 0.63
+			static let maxWidthRepearVisitor: Double = 0.9
+		}
+		
 		enum General {
 			static let spacing: CGFloat = 16
 		}
@@ -120,30 +137,35 @@ struct LoginView: View {
 		
 		ScrollViewWithFixedBottom {
 			ImageContentView(
-				icon: Image(ImageResource.Woman.womanWithPhone),
+				icon: Image(
+					viewModel.state.mode == .firstTime ? ImageResource.RemoteAuthentication.passport : ImageResource.Placeholder.onboarding
+				),
 				heading: "login.heading",
 				subHeading: "login.subheading",
 				configuration: ImageContentView.Configuration(
 					textAlignment: .leading,
 					textSpacing: ViewTraits.General.spacing,
 					titleStyle: .headingExtraLarge,
-					subHeadingForegroundColor: theme.labels.primary
+					subHeadingForegroundColor: theme.labels.primary,
+					order: .contentFirst,
+					maxWidthPercentage: viewModel.state.mode == .firstTime ? ViewTraits.Image.maxWidthFirstTime : ViewTraits.Image.maxWidthRepearVisitor,
+					hideIconInLandscape: false,
+					headingAsNavigationTitle: true
 				)
 			)
 			.padding(.horizontal, ViewTraits.General.spacing)
 			
 		} bottomView: {
 			VStack {
-				switch viewModel.state {
-					case .loading:
-						CallToActionButton(
-							"login.loading",
-							style: .solidLeadingSpinner(rounded: osVersionChecker.available(version: .iOS(.v26)))
-						)
-						.accessibilityIdentifier("login.loading")
-						
-					case .idle:
-						digidButton()
+				
+				if viewModel.state.isLoading {
+					CallToActionButton(
+						"login.loading",
+						style: .solidLeadingSpinner(rounded: osVersionChecker.available(version: .iOS(.v26)))
+					)
+					.accessibilityIdentifier("login.loading")
+				} else {
+					digidButton()
 				}
 			}
 			.padding(ViewTraits.Button.insets)
@@ -193,6 +215,7 @@ struct LoginView: View {
 		LoginView(
 			viewModel: LoginViewModel(
 				coordinator: nil,
+				mode: .firstTime,
 				remoteAuthenticationClient: nil
 			)
 		)
