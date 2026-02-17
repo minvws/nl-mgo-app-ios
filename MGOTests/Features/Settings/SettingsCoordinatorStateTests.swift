@@ -66,20 +66,6 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	@MainActor func test_coordinatorView_forSecuritySettings() throws {
-		
-		// Given
-		createSut()
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = SettingsCoordination.State.securitySettings
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
 	@MainActor func test_coordinatorView_forAdvancedSettings() throws {
 		
 		// Given

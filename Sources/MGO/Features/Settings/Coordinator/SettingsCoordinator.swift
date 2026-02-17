@@ -9,8 +9,7 @@ import RestrictedBrowser
 
 /// The Coordination Actions the Settings Flow uses
 extension Coordination.Action {
-	
-	@MainActor static let lockApplication = Coordination.Action(identifier: "lockApplication")
+
 	@MainActor static let openUrl = Coordination.Action(identifier: "openUrl")
 	@MainActor static let showAboutTheApp = Coordination.Action(identifier: "showAboutTheApp")
 	@MainActor static let showAccessibility = Coordination.Action(identifier: "showAccessibility")
@@ -18,7 +17,6 @@ extension Coordination.Action {
 	@MainActor static let showDisplaySettings = Coordination.Action(identifier: "showDisplaySettings")
 	@MainActor static let showOpenSourceLibraries = Coordination.Action(identifier: "showOpenSourceLibraries")
 	@MainActor static let showSafetyTips = Coordination.Action(identifier: "showSafetyTips")
-	@MainActor static let showSecuritySettings = Coordination.Action(identifier: "showSecuritySettings")
 	@MainActor static let showVersion = Coordination.Action(identifier: "showVersion")
 }
 
@@ -48,7 +46,6 @@ struct SettingsCoordination {
 		
 		case settings
 		case displaySettings
-		case securitySettings
 		case advancedSettings
 		case aboutTheApp
 		case aboutAccessibility
@@ -125,9 +122,6 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			case .backButtonPressed:
 				path.removeLast()
 			
-			case .lockApplication:
-				notificationCenter.post(name: .showLocalAuthentication, object: nil)
-			
 			case .resetApplication:
 				parentCoordinator?.handle(.resetApplication)
 			
@@ -148,9 +142,6 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			
 			case .showPrivacyStatement:
 				handleUrl(LinkRepository.privacyURL, title: "privacy.heading")
-			
-			case .showSecuritySettings:
-				path.append(SettingsCoordination.State.securitySettings)
 			
 			case .showSafetyTips:
 				path.append(SettingsCoordination.State.aboutSafetyTips)
@@ -221,14 +212,6 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			
 			case .displaySettings:
 				DisplaySettingsView(viewModel: BaseViewModel(coordinator: self))
-			
-			case .securitySettings:
-				SecuritySettingsView(
-					viewModel: SecuritySettingsViewModel(
-						coordinator: self,
-						bioMetricType: self.localAuthenticationProvider.biometricType
-					)
-				)
 			
 			case .settings:
 				SettingsView(viewModel: SettingsViewModel(coordinator: self))

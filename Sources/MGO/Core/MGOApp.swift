@@ -98,17 +98,6 @@ struct ProductionApp: App {
 	/// Handle the app when we become active (again).
 	private func becomesActive() {
 		showPrivacyScene = false
-		
-		// Check the timestamp we entered the background.
-		guard let enteredBackground = secureUserSettings.enteredBackground else { return }
-		
-		if Date().timeIntervalSince(enteredBackground) >= localAuthenticationTimeOut {
-			logWarning("App: We are in the background longer then \(localAuthenticationTimeOut) seconds. Post show Local Authentication")
-			notificationCenter.post(name: .showLocalAuthentication, object: nil)
-		} else {
-			logVerbose("App: We returned in time, reset enteredBackground to nil.")
-			secureUserSettings.enteredBackground = nil
-		}
 	}
 }
 

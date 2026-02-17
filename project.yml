@@ -22,8 +22,6 @@ packages:
     path: ./Packages/HCIMCore
   JailBreakDetector:
     path: ./Packages/JailBreakDetector
-  LocalAuthenticationProvider:
-    path: ./Packages/LocalAuthenticationProvider
   LocalisationService:
     path: ./Packages/LocalisationService
   MGOCommandLine:

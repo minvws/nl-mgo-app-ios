@@ -50,7 +50,6 @@ The majority of our (third-party) dependencies are included as Swift Packages. H
 * [GitHubArtifactDownload](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/GitHubArtifactDownload/README.md): script to assist with downloading the latest artifact for the Shared Core and Shared configurations
 * [HCIMCore](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/HCIMCore/README.md): the shared javascript library to parse FHIR data into Health and Care Information Models.
 * [JailBreakDetector](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/JailBreakDetector/README.md): helper to detect jail broken devices.
-* [LocalAuthenticationProvider](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/LocalAuthenticationProvider/README.md): class to authenticate with face id or touch id.
 * [LocalisationService](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/LocalisationService/README.md): open-api generated class to search for healthcare providers.
 * [Logging](https://github.com/minvws/nl-rdo-app-ios-modules): a tool for Logging, reused from CoronaCheck.
 

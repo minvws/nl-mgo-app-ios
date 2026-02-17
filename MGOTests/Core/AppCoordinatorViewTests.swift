@@ -67,7 +67,7 @@ final class AppCoordinatorViewTests: XCTestCase {
 		let appCoordinator = createAppCoordinator()
 		appCoordinator.showChildCoordinator = true
 		appCoordinator.showAuthenticationModal = true
-		appCoordinator.rootStateForSheet = AppCoordination.State.forgotPinCode
+		appCoordinator.rootStateForSheet = AppCoordination.State.manualLocalization
 		
 		// When
 		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)

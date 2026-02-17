@@ -27,7 +27,6 @@ class SettingsViewModel: ObservableObject {
 		case cancelDialog
 		case displaySettings
 		case resetApplication
-		case securitySettings
 		case showResetDialog
 	}
 	
@@ -72,9 +71,6 @@ class SettingsViewModel: ObservableObject {
 			
 			case .showResetDialog:
 				showResetDialog = true
-			
-			case .securitySettings:
-				coordinator?.handle(Coordination.Action.showSecuritySettings)
 		}
 	}
 }
@@ -113,10 +109,6 @@ struct SettingsView: View {
 			Section {
 				
 				displaySettings()
-				
-				if viewModel.showSecurityButton {
-					securitySettings()
-				}
 			}
 			if viewModel.showAdvancedButton {
 				advancedSettings()
@@ -146,23 +138,6 @@ struct SettingsView: View {
 			)
 		}
 		.accessibilityIdentifier("settings.display")
-		.listRowInsets(ViewTraits.General.inset)
-	}
-	
-	/// Get the view for the security settings option
-	/// - Returns: Button for the security settings
-	@ViewBuilder private func securitySettings() -> some View {
-		
-		Button {
-			viewModel.reduce(.securitySettings)
-		} label: {
-			SettingsRowView(
-				icon: Image(ImageResource.Settings.lock),
-				iconBackground: theme.categories.laboratory,
-				heading: "settings.security.heading"
-			)
-		}
-		.accessibilityIdentifier("settings.security")
 		.listRowInsets(ViewTraits.General.inset)
 	}
 	

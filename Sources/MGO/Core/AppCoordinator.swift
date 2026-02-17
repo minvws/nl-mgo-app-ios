@@ -50,17 +50,6 @@ extension Coordination.Action {
 	@MainActor static let nextButtonPressedOnProposition = Coordination.Action(identifier: "nextButtonPressedOnProposition")
 	@MainActor static let showPrivacyStatement = Coordination.Action(identifier: "showPrivacyStatement")
 	
-	// Local Authentication
-	@MainActor static let pinCodeEntered = Coordination.Action(identifier: "pinCodeEntered")
-	@MainActor static let pinCodeConfirmed = Coordination.Action(identifier: "pinCodeConfirmed")
-	@MainActor static let didFinishLocalAuthentication = Coordination.Action(identifier: "didFinishLocalAuthentication")
-	@MainActor static let pinCodeValidated = Coordination.Action(identifier: "pinCodeValidated")
-	@MainActor static let pinCodeValidatedAfterLockout = Coordination.Action(identifier: "pinCodeValidatedAfterLockout")
-	@MainActor static let forgotPinCode = Coordination.Action(identifier: "forgotPinCode")
-	@MainActor static let dismissForgotPinCode = Coordination.Action(identifier: "dismissForgotPinCode")
-	@MainActor static let recreateAccount = Coordination.Action(identifier: "recreateAccount")
-	@MainActor static let restart = Coordination.Action(identifier: "restart")
-	
 	// Remote Authentication
 	@MainActor static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
 	@MainActor static let deeplink = Coordination.Action(identifier: "deeplink")
@@ -83,14 +72,6 @@ struct AppCoordination {
 		case introduction
 		case proposition
 		case browser(URL, String?)
-		
-		// Local Authentication
-		case pinCodeEntry(backButtonVisible: Bool)
-		case pinCodeConfirmation
-		case pinCodeValidation(lockOut: Bool)
-		case bioMetricSetup
-		case forgotPinCode
-		case accountRemoved
 		
 		// Remote Authentication
 		case login
@@ -201,24 +182,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				self?.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
 			}
 		}
-		
-		// Listen for authentication notification
-		notificationCenter.addObserver(
-			self,
-			selector: #selector(showLocalAuthentication),
-			name: .showLocalAuthentication,
-			object: nil
-		)
-	}
-	
-	@MainActor @objc private func showLocalAuthentication() {
-		
-		if showChildCoordinator {
-			showAuthenticationModal = true
-			rootStateForSheet = .pinCodeValidation(lockOut: true)
-		} else {
-			logInfo("Not through onboarding, not showing authentication modal")
-		}
 	}
 	
 	deinit {
@@ -260,7 +223,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		guard !handleDeeplink(action) else { return }
 		guard !handleOnboarding(action) else { return }
-		guard !handleLocalAuthentication(action) else { return }
 		guard !handleRemoteAuthentication(action) else { return }
 		guard !handleManualLocalization(action) else { return }
 		guard !handleAutomaticLocalization(action) else { return }
@@ -269,8 +231,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 			// General
 				
-			case Coordination.Action.closeSheet.identifier,
-				Coordination.Action.dismissForgotPinCode.identifier:
+			case Coordination.Action.closeSheet.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				
 				if !showAuthenticationModal {
@@ -315,60 +276,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				return true
 				
 			case Coordination.Action.nextButtonPressedOnProposition.identifier:
-				path.append(AppCoordination.State.pinCodeEntry(backButtonVisible: true))
+				path.append(AppCoordination.State.login)
 				return true
 				
 			case Coordination.Action.showPrivacyStatement.identifier:
 				handleUrl(LinkRepository.privacyURL, title: "privacy.heading")
-				return true
-				
-			default:
-				return false
-		}
-	}
-	
-	/// Handle the local authentication flow action from any of the view models
-	/// - Parameter action: any Action
-	/// - Returns: True if the action is consumed
-	@MainActor private func handleLocalAuthentication(_ action: Coordination.Action) -> Bool {
-		
-		switch action.identifier {
-			// Local Authentication
-				
-			case Coordination.Action.pinCodeEntered.identifier:
-				path.append(AppCoordination.State.pinCodeConfirmation)
-				return true
-				
-			case Coordination.Action.pinCodeConfirmed.identifier:
-				handlePinCodeConfirmed()
-				return true
-				
-			case Coordination.Action.pinCodeValidated.identifier:
-				handlePinCodeValidated()
-				return true
-			
-			case Coordination.Action.pinCodeValidatedAfterLockout.identifier:
-				handlePinCodeValidatedAfterLockout()
-				return true
-			
-			case Coordination.Action.didFinishLocalAuthentication.identifier:
-				resetNavigationStack(with: AppCoordination.State.login)
-				return true
-			
-			case Coordination.Action.forgotPinCode.identifier:
-				if showAuthenticationModal {
-					pathForSheet.append(AppCoordination.State.forgotPinCode)
-				} else {
-					rootStateForSheet = AppCoordination.State.forgotPinCode
-				}
-				return true
-				
-			case Coordination.Action.recreateAccount.identifier:
-				handleRecreateAccount()
-				return true
-			
-			case Coordination.Action.restart.identifier:
-				restart()
 				return true
 				
 			default:
@@ -473,35 +385,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
-	/// Handle the pin code confirmed action
-	@MainActor private func handlePinCodeConfirmed() {
-		
-		if localAuthenticationProvider.biometricType() == .none {
-			resetNavigationStack(with: AppCoordination.State.login)
-		} else {
-			resetNavigationStack(with: AppCoordination.State.bioMetricSetup)
-		}
-	}
-	
-	/// Handle the pincode validated action
-	@MainActor private func handlePinCodeValidated() {
-		
-		guard secureUserSettings.userHasRemoteAuthentication else {
-			resetNavigationStack(with: AppCoordination.State.login)
-			return
-		}
-		showChildCoordinator = true
-	}
-	
-	/// Handle the pincode validated action after lockout
-	private func handlePinCodeValidatedAfterLockout() {
-		
-		showAuthenticationModal = false
-		rootStateForSheet = nil
-		pathForSheet = NavigationStackBackport.NavigationPath()
-		secureUserSettings.enteredBackground = nil
-	}
-	
 	/// Handle displaying urls
 	/// - Parameter url: the url to show
 	/// - Parameter title: the title of the page
@@ -514,34 +397,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		} else {
 			browser.handleUnallowedDomain(url)
 		}
-	}
-	
-	/// handle the account recreate action
-	@MainActor private func handleRecreateAccount() {
-		
-		pathForSheet = NavigationStackBackport.NavigationPath()
-
-		// Wipe Account
-		Container.shared.wipePersistedData()
-		
-		if showAuthenticationModal {
-			showChildCoordinator = false
-			showAuthenticationModal = false
-			rootStateForSheet = nil
-			resetNavigationStack(with: AppCoordination.State.accountRemoved)
-		} else {
-			// Show account removed in a sheet
-			rootStateForSheet = .accountRemoved
-			resetNavigationStack(with: AppCoordination.State.pinCodeEntry(backButtonVisible: false))
-		}
-	}
-	
-	@MainActor private func restart() {
-		
-		rootStateForSheet = nil
-		pathForSheet = NavigationStackBackport.NavigationPath()
-		showChildCoordinator = false
-		resetNavigationStack(with: AppCoordination.State.pinCodeEntry(backButtonVisible: false))
 	}
 	
 	/// Reset the navigation stack with this new root  state
@@ -615,50 +470,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 					)
 				)
 			
-			// Local Authentication
-				
-			case let .pinCodeEntry(backButtonVisible):
-				PinCodeView(
-					viewModel: PinCodeViewModel(
-						coordinator: self,
-						mode: .creation,
-						backButtonVisible: backButtonVisible,
-						bioMetricType: self.localAuthenticationProvider.biometricType
-					)
-				)
-				
-			case .pinCodeConfirmation:
-				PinCodeView(
-					viewModel: PinCodeViewModel(
-						coordinator: self,
-						mode: .confirmation,
-						bioMetricType: self.localAuthenticationProvider.biometricType
-					)
-				)
-				
-			case let .pinCodeValidation(lockOut):
-				PinCodeView(
-					viewModel: PinCodeViewModel(
-						coordinator: self,
-						mode: .validation(lockOut: lockOut),
-						bioMetricType: self.localAuthenticationProvider.biometricType
-					)
-				)
-				
-			case .bioMetricSetup:
-				BioMetricSetupView(
-					viewModel: BioMetricSetupViewModel(
-						coordinator: self,
-						bioMetricType: self.localAuthenticationProvider.biometricType
-					)
-				)
-				
-			case .forgotPinCode:
-				ForgotPinCodeView(viewModel: ForgotPinCodeViewModel(coordinator: self))
-			
-			case .accountRemoved:
-				AccountRemovedView(viewModel: AccountRemovedViewModel(coordinator: self))
-				
 			// Remote Authentication
 				
 			case .login:
