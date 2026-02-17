@@ -186,7 +186,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		// Given
 		setupSut()
 		let state = AppCoordination.State.login
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
+		servicesSpies.secureUserSettingsSpy.stubbedFirstTimeVisitor = true
 		
 		// When
 		let view = sut.view(for: state)

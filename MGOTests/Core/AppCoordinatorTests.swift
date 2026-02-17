@@ -68,6 +68,7 @@ final class AppCoordinatorTests: XCTestCase {
 	@MainActor func test_coordinatorHandle_actionFinishedSplash_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
 		
 		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedFirstTimeVisitor = true
 		setupSut()
 		
 		// When
@@ -76,22 +77,9 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.introduction
 		expect(self.sut.path.isEmpty) == true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
-	}
-	
-	@MainActor func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_accessCodeSet_pathShouldContainPinCodeValidation() {
-		
-		// Given
-		setupSut()
-		servicesSpies.secureUserSettingsSpy.stubbedPinCode = "test"
-		
-		// When
-		sut.handle(Coordination.Action.finishedSplash)
-		
-		// Then
-		expect(self.sut.rootState) == AppCoordination.State.pinCodeValidation(lockOut: false)
-		expect(self.sut.path.isEmpty) == true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
+		expect(
+			self.servicesSpies.secureUserSettingsSpy.invokedFirstTimeVisitorGetter
+		) == true
 	}
 	
 	@MainActor func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_bypassPincodeEnabled() {

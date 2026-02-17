@@ -131,8 +131,8 @@ struct LoginView: View {
 			static let opacity: Double = 0.50
 		}
 		enum Image {
-			static let maxWidthFirstTime: Double = 0.63
-			static let maxWidthRepearVisitor: Double = 0.9
+			static let maxWidthFirstTime: Double = 0.9
+			static let maxWidthRepearVisitor: Double = 0.63
 		}
 		
 		enum General {

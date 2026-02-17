@@ -461,15 +461,15 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the complex startup logic
 	@MainActor private func handleStartup() {
 		
-		if secureUserSettings.pinCode == nil {
-			// User must set an pin code, but show introduction first.
+		if secureUserSettings.firstTimeVisitor {
+			// User must login with DigiD, but show introduction first.
 			resetNavigationStack(with: AppCoordination.State.introduction)
 		} else if featureFlagManager.bypassPincode && Configuration().getRelease() == .development {
-			// Bypass the pin code screen
+			// Bypass the login screen
 			showChildCoordinator = true
 		} else {
-			// Repeat login, user must authenticate with pin code
-			resetNavigationStack(with: AppCoordination.State.pinCodeValidation(lockOut: false))
+			// Repeat login, user must authenticate with DigiD
+			resetNavigationStack(with: AppCoordination.State.login)
 		}
 	}
 	
@@ -574,6 +574,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		switch deeplink {
 			case .digidCallback(let userinfo):
 				logInfo("Consume digidCallback with userinfo", userinfo)
+				secureUserSettings.firstTimeVisitor = false
 				secureUserSettings.userHasRemoteAuthentication = true
 				if featureFlagManager.isAutomaticLocalizationEnabled {
 					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
@@ -664,6 +665,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				LoginView(
 					viewModel: LoginViewModel(
 						coordinator: self,
+						mode: self.secureUserSettings.firstTimeVisitor ? .firstTime : .repeatVisitor,
 						remoteAuthenticationClient: self.remoteAuthenticationClient
 					)
 				)
