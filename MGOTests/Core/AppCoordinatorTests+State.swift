@@ -184,9 +184,9 @@ final class AppCoordinatorStateTests: XCTestCase {
 	@MainActor func test_coordinatorView_forLogin() throws {
 		
 		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedFirstTimeVisitor = true
 		setupSut()
 		let state = AppCoordination.State.login
-		servicesSpies.secureUserSettingsSpy.stubbedFirstTimeVisitor = true
 		
 		// When
 		let view = sut.view(for: state)

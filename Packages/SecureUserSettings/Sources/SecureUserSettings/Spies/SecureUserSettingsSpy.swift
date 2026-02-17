@@ -148,7 +148,7 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 	public var invokedFirstTimeVisitorList = [Bool]()
 	public var invokedFirstTimeVisitorGetter = false
 	public var invokedFirstTimeVisitorGetterCount = 0
-	public var stubbedFirstTimeVisitor: Bool! = false
+	public var stubbedFirstTimeVisitor: Bool! = true
 
 	public var firstTimeVisitor: Bool {
 		set {
