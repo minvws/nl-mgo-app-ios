@@ -73,9 +73,6 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// the browser to open allowed domains in
 	private var browser: RestrictedBrowser!
 	
-	/// Dependency injectable Local authentication provider
-	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
-	
 	/// Dependency injectable Notification Center
 	@Injected(\.notificationCenter) private var notificationCenter
 	

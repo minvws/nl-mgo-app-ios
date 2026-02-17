@@ -43,12 +43,6 @@ extension Container {
 			.shared
 	}
 	
-	/// Access to the biometric access provider
-	var localAuthenticationProvider: Factory<LocalAuthenticationProviderProtocol> {
-		Factory(self) { LocalAuthenticationProvider() }
-			.shared
-	}
-	
 	/// The Client to fetch healthcare providers
 	var localisationServiceClient: Factory<LocalisationServiceClientProtocol> {
 		Factory(self) {

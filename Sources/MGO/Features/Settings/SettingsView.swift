@@ -14,9 +14,6 @@ class SettingsViewModel: ObservableObject {
 	/// Should we show the advanced settings button
 	@Published var showAdvancedButton: Bool = false
 	
-	/// Should we show the security settings button
-	@Published var showSecurityButton: Bool = false
-	
 	/// Should we show the reset dialog
 	@Published var showResetDialog: Bool = false
 	
@@ -30,9 +27,6 @@ class SettingsViewModel: ObservableObject {
 		case showResetDialog
 	}
 	
-	/// Dependency injectable Local Authentication Provider
-	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
-	
 	/// Create the settings view model
 	/// - Parameter coordinator: the app coordinator
 	@MainActor init(coordinator: (any Coordinator)? = nil) {
@@ -45,8 +39,6 @@ class SettingsViewModel: ObservableObject {
 		let release = Configuration().getRelease()
 		showAdvancedButton = release == Release.development // Show only in Dev
 		
-		// Show only when we have biometrics
-		showSecurityButton = localAuthenticationProvider.biometricType() != .none
 	}
 	
 	/// Handle any action

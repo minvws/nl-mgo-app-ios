@@ -139,9 +139,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		)
 	}()
 	
-	/// Dependency injectable Local authentication provider
-	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
-	
 	/// Dependency injectable Secure User Settings
 	@Injected(\.secureUserSettings) private var secureUserSettings
 	

@@ -10,7 +10,6 @@ import MGOUI
 import RemoteConfiguration
 import RestrictedBrowser
 
-// swiftlint:disable type_body_length
 final class AppCoordinatorTests: XCTestCase {
 	
 	private var sut: AppCoordinator!
@@ -86,7 +85,7 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Given
 		setupSut()
-		servicesSpies.secureUserSettingsSpy.stubbedPinCode = "test"
+		servicesSpies.secureUserSettingsSpy.firstTimeVisitor = false
 		servicesSpies.featureFlagSpy.stubbedBypassPincode = true
 		
 		// When
@@ -371,4 +370,3 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 }
-// swiftlint:enable type_body_length

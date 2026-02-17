@@ -37,9 +37,6 @@ struct ProductionApp: App {
 	/// Dependency injectable Secure User Settings
 	@Injected(\.secureUserSettings) private var secureUserSettings
 	
-	/// Dependency injectable Local authentication provider
-	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
-	
 	/// Dependency injectable Notification Center
 	@Injected(\.notificationCenter) private var notificationCenter
 	
