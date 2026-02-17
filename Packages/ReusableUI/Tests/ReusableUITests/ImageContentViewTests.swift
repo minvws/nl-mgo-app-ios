@@ -90,4 +90,50 @@ final class ImageContentViewTests: XCTestCase {
 		// Then
 		expect(sut.showImage) == true
 	}
+	
+	func test_navigation() {
+		
+		// Given
+		let sut = ImageContentView(
+			icon: Image(systemName: "42.circle"),
+			heading: "Heading",
+			subHeading: "SubHeading",
+			configuration: ImageContentView.Configuration(
+				titleStyle: .headingExtraLarge,
+				subHeadingForegroundColor: Color.pink,
+				order: .contentFirst,
+				hideIconInLandscape: false,
+				headingAsNavigationTitle: true
+			)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 600)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_navigation_inNavigationView() {
+		
+		// Given
+		let sut = ImageContentView(
+			icon: Image(systemName: "42.circle"),
+			heading: "Heading",
+			subHeading: "SubHeading",
+			configuration: ImageContentView.Configuration(
+				titleStyle: .headingExtraLarge,
+				subHeadingForegroundColor: Color.pink,
+				order: .contentFirst,
+				hideIconInLandscape: false,
+				headingAsNavigationTitle: true
+			)
+		)
+		
+		// When
+		let view = NavigationView { sut }.frame(width: 300, height: 600)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
 }

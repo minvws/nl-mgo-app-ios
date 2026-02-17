@@ -42,6 +42,9 @@ public struct ImageContentView: View {
 		/// Should we hide the icon on rotation to landscape?
 		var hideIconInLandscape: Bool
 		
+		/// Do we use the heading as a navigation title?
+		var headingAsNavigationTitle: Bool
+		
 		/// Create a view with image and text
 		/// - Parameters:
 		///   - textAlignment: the alignment of the texts
@@ -58,7 +61,8 @@ public struct ImageContentView: View {
 			subHeadingForegroundColor: Color,
 			order: ImageContentView.Order = .imageFirst,
 			maxWidthPercentage: Double = 0.5,
-			hideIconInLandscape: Bool = true
+			hideIconInLandscape: Bool = true,
+			headingAsNavigationTitle: Bool = false
 		) {
 			self.textAlignment = textAlignment
 			self.textSpacing = textSpacing
@@ -67,6 +71,7 @@ public struct ImageContentView: View {
 			self.order = order
 			self.maxWidthPercentage = maxWidthPercentage
 			self.hideIconInLandscape = hideIconInLandscape
+			self.headingAsNavigationTitle = headingAsNavigationTitle
 		}
 	}
 	
@@ -124,14 +129,17 @@ public struct ImageContentView: View {
 	@ViewBuilder
 	private var contentStack: some View {
 		VStack(alignment: configuration.textAlignment == .center ? .center : .leading, spacing: configuration.textSpacing) {
-			Text(heading)
-				.typography(configuration.titleStyle)
-				.foregroundColor(theme.labels.primary)
-				.multilineTextAlignment(configuration.textAlignment == .center ? .center : .leading)
-				.fixedSize(horizontal: false, vertical: true)
-				.accessibilityIdentifier("imagecontentview.heading")
-				.accessibilityAddTraits(.isHeader)
 			
+			if !configuration.headingAsNavigationTitle || configuration.order == .imageFirst {
+				
+				Text(heading)
+					.typography(configuration.titleStyle)
+					.foregroundColor(theme.labels.primary)
+					.multilineTextAlignment(configuration.textAlignment == .center ? .center : .leading)
+					.fixedSize(horizontal: false, vertical: true)
+					.accessibilityIdentifier("imagecontentview.heading")
+					.accessibilityAddTraits(.isHeader)
+			}
 			Text(subHeading)
 				.typography(.bodyMedium)
 				.foregroundColor(configuration.subHeadingForegroundColor)
@@ -190,6 +198,10 @@ public struct ImageContentView: View {
 			guard configuration.hideIconInLandscape else { return }
 			
 			showImage = verticalSizeClass != SwiftUI.UserInterfaceSizeClass.compact || UIDevice.current.userInterfaceIdiom == .pad
+		}
+		.when(configuration.headingAsNavigationTitle) { view in
+			view
+				.navigationTitle(heading)
 		}
 	}
 	
