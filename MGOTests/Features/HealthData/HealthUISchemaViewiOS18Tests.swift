@@ -39,7 +39,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("singleEntry")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -51,7 +51,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("singleNullEntry")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -63,7 +63,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("singleEntryNoSectionHeader")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -75,7 +75,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("downloadLink")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -87,7 +87,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("downloadBinary", resolvedReferences: ["reference": true])
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -99,7 +99,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("referenceLink", resolvedReferences: ["reference/link": true])
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -111,7 +111,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("referenceLink")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -123,7 +123,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("reference", resolvedReferences: ["reference/link": true])
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -135,7 +135,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("referenceWithoutDisplay", resolvedReferences: ["reference/link": true])
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -147,7 +147,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("reference")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -159,7 +159,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("referenceWithoutDisplay")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -171,7 +171,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("multipleValuesSingleEntry")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -183,7 +183,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("multipleValuesMultipleEntries")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -195,7 +195,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("multipleGroupValuesSingleEntry")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -207,7 +207,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("multipleGroupValuesMultipleEntries")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -219,7 +219,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("multipleGroupValuesMixedEntries")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -231,7 +231,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("singleDisplayCode")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -244,7 +244,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		sut.resolvedCodes = ["code": true]
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -256,7 +256,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("multipleValuesDisplayCode")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -269,7 +269,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		sut.resolvedCodes = ["1234": true]
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -282,7 +282,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		sut.resolvedCodes = ["5678": true]
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -295,7 +295,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		sut.resolvedCodes = ["1234": true, "5678": true]
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -307,7 +307,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		try setupSut("multipleGroupValuesMultipleDisplayCode")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -320,7 +320,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		sut.resolvedCodes = ["1234": true]
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -333,7 +333,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		sut.resolvedCodes = ["5678": true]
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -346,7 +346,7 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 		sut.resolvedCodes = ["1234": true, "5678": true]
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)

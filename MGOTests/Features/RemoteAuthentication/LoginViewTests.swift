@@ -45,7 +45,7 @@ final class LoginViewTests: XCTestCase {
 		createSut(.firstTime)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -58,7 +58,7 @@ final class LoginViewTests: XCTestCase {
 		createSut(.firstTime)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -71,7 +71,7 @@ final class LoginViewTests: XCTestCase {
 		createSut(.repeatVisitor)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -84,12 +84,12 @@ final class LoginViewTests: XCTestCase {
 		createSut(.repeatVisitor)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
 	}
-		
+	
 	@MainActor func test_loginView_loading() {
 		
 		// Given
@@ -99,7 +99,7 @@ final class LoginViewTests: XCTestCase {
 			.LoginState(mode: .firstTime, isLoading: true)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -114,7 +114,7 @@ final class LoginViewTests: XCTestCase {
 			.LoginState(mode: .firstTime, isLoading: true)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)

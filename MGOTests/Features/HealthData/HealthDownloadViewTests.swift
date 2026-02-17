@@ -38,7 +38,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		viewModel.state = .idle(label: "Test download")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -52,7 +52,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		viewModel.state = .downloaded(label: "Test download", documentUrl: url)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -68,7 +68,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		viewModel.showPreview = true
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -82,7 +82,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		viewModel.state = .external(label: "Test download", documentUrl: url)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -95,7 +95,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		viewModel.state = .loading(label: "label")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -108,7 +108,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		viewModel.state = .error
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -153,7 +153,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		viewModel.state = .noDocument
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)

@@ -85,7 +85,7 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Given
 		setupSut()
-		servicesSpies.secureUserSettingsSpy.firstTimeVisitor = false
+		servicesSpies.secureUserSettingsSpy.stubbedFirstTimeVisitor = false
 		servicesSpies.featureFlagSpy.stubbedBypassPincode = true
 		
 		// When

@@ -47,7 +47,7 @@ final class HealthCategoryViewTests: XCTestCase {
 		
 		// Given
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()

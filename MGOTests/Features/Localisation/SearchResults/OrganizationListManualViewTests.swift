@@ -50,7 +50,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .loading
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -61,7 +61,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		// Given
 		createSut()
 		viewModel.state = .loading
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
@@ -79,7 +79,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
 
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -94,7 +94,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -126,7 +126,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .failure(error)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -141,7 +141,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .failure(error)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -178,12 +178,12 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0),
 		)
 	}
 	
@@ -201,12 +201,12 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0),
 		)
 	}
 	
@@ -224,12 +224,12 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0),
 		)
 	}
 	
@@ -247,12 +247,12 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0),
 		)
 	}
 }

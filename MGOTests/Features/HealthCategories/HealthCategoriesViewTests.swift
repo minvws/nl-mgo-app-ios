@@ -40,7 +40,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -53,7 +53,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		viewModel.state.belowIOS18 = true
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -68,7 +68,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -83,7 +83,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -94,7 +94,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
@@ -132,7 +132,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -148,7 +148,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -196,7 +196,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)

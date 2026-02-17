@@ -44,7 +44,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		viewModel.state = .loading
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -59,7 +59,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		viewModel.state = .failure(error)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -74,7 +74,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		viewModel.state = .failure(error)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -94,12 +94,12 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0),
 		)
 	}
 	
@@ -117,12 +117,12 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0),
 		)
 	}
 	
@@ -140,7 +140,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(
@@ -163,12 +163,12 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
+			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0),
 		)
 	}
 	
@@ -186,7 +186,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(
@@ -209,7 +209,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(
@@ -232,7 +232,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(
@@ -255,7 +255,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		assertSnapshot(

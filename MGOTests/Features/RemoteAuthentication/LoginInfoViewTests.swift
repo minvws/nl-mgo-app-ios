@@ -34,7 +34,7 @@ final class LoginInfoViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -47,7 +47,7 @@ final class LoginInfoViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)

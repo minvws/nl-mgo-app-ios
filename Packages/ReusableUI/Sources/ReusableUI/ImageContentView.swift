@@ -129,9 +129,7 @@ public struct ImageContentView: View {
 	@ViewBuilder
 	private var contentStack: some View {
 		VStack(alignment: configuration.textAlignment == .center ? .center : .leading, spacing: configuration.textSpacing) {
-			
-			if !configuration.headingAsNavigationTitle || configuration.order == .imageFirst {
-				
+			if !configuration.headingAsNavigationTitle {
 				Text(heading)
 					.typography(configuration.titleStyle)
 					.foregroundColor(theme.labels.primary)

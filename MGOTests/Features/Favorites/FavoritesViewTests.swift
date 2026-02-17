@@ -34,7 +34,7 @@ final class FavoritesViewTests: XCTestCase {
 		viewModel.state.favorites = []
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -48,7 +48,7 @@ final class FavoritesViewTests: XCTestCase {
 		viewModel.state.favorites = []
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -62,7 +62,7 @@ final class FavoritesViewTests: XCTestCase {
 		viewModel.state.favorites = [Generator.healthCategory]
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)

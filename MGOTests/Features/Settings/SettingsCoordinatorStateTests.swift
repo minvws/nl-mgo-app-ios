@@ -127,7 +127,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		let webview = try content.inspect().find(viewWithAccessibilityIdentifier: "restrictedBrowserView")
 		
 		// Then

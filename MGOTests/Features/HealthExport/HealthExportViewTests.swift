@@ -40,7 +40,7 @@ final class HealthExportViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -53,7 +53,7 @@ final class HealthExportViewTests: XCTestCase {
 		createSut(forIpad: true)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -66,7 +66,7 @@ final class HealthExportViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -79,7 +79,7 @@ final class HealthExportViewTests: XCTestCase {
 		createSut(forIpad: true)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)

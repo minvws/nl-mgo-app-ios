@@ -41,7 +41,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.90) // Lower precision due to random position of spinner
@@ -55,7 +55,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -69,7 +69,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -83,7 +83,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -98,7 +98,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		let webview = try content.inspect().find(viewWithAccessibilityIdentifier: "restrictedBrowserView")
 		
 		// Then
@@ -114,7 +114,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -129,7 +129,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -143,7 +143,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -157,7 +157,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -171,7 +171,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -188,7 +188,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)

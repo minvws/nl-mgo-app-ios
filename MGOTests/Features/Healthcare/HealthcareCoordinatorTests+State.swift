@@ -241,7 +241,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -255,7 +255,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -269,7 +269,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -283,7 +283,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -297,7 +297,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -311,7 +311,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -325,7 +325,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -339,7 +339,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -353,7 +353,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -367,7 +367,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -381,7 +381,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -395,7 +395,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -409,7 +409,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -423,7 +423,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -437,7 +437,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
@@ -451,7 +451,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))

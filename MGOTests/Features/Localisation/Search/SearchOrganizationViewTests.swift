@@ -40,7 +40,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		createSut(firstVisitor: false)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
@@ -58,7 +58,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		// When
 		// Simulate short search term by setting state manually
 		// The view will show empty state because search term is too short
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
@@ -139,7 +139,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		viewModel.state.isSearching = false
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
@@ -159,7 +159,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		viewModel.state.isSearching = false
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
@@ -217,7 +217,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		createSut(firstVisitor: true)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
@@ -232,7 +232,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		viewModel.state.results = []
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
@@ -247,7 +247,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		viewModel.state.results = []
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 			.environment(\.isPresentedAsSheet, true)
 		
 		// Then
