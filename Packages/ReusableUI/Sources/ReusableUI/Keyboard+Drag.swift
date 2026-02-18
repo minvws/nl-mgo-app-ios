@@ -14,11 +14,17 @@ extension View {
 
 public struct ResignKeyboardOnDragGesture: ViewModifier {
 	
-	var gesture = DragGesture().onChanged { _ in
+	var dragGesture = DragGesture().onChanged { _ in
+		UIApplication.shared.endEditing()
+	}
+	
+	var tapGesture = TapGesture().onEnded {
 		UIApplication.shared.endEditing()
 	}
 	
 	public func body(content: Content) -> some View {
-		content.gesture(gesture)
+		content
+			.simultaneousGesture(dragGesture)
+			.simultaneousGesture(tapGesture)
 	}
 }
