@@ -89,7 +89,6 @@ struct AppCoordination {
 	}
 }
 
-// swiftlint:disable type_body_length
 final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The navigation path
@@ -426,8 +425,15 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		switch deeplink {
 			case .digidCallback(let userinfo):
 				logInfo("Consume digidCallback with userinfo", userinfo)
+				
+				guard secureUserSettings.firstTimeVisitor else {
+					showChildCoordinator = true
+					return
+				}
+				
 				secureUserSettings.firstTimeVisitor = false
 				secureUserSettings.userHasRemoteAuthentication = true
+				
 				if featureFlagManager.isAutomaticLocalizationEnabled {
 					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
 				} else {
@@ -535,4 +541,3 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		return true
 	}
 }
-// swiftlint: enable type_body_length
