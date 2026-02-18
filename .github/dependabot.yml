@@ -74,14 +74,6 @@ updates:
 # No dependency check for JailBreakDetector due to licensing issue
 
   - package-ecosystem: "swift"
-    directory: "/Packages/LocalAuthenticationProvider"
-    schedule:
-      interval: weekly
-      day: monday
-      time: "08:30"
-      timezone: Europe/Amsterdam
-
-  - package-ecosystem: "swift"
     directory: "/Packages/LocalisationService"
     schedule:
       interval: weekly
@@ -139,6 +131,46 @@ updates:
 
   - package-ecosystem: "swift"
     directory: "/Packages/Observatory"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+      
+  - package-ecosystem: "swift"
+    directory: "/Packages/NetworkAvailability"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+      
+  - package-ecosystem: "swift"
+    directory: "/Packages/NotificationCenter"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+      
+  - package-ecosystem: "swift"
+    directory: "/Packages/Observatory"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+      
+  - package-ecosystem: "swift"
+    directory: "/Packages/OrganizationSearch"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+      
+  - package-ecosystem: "swift"
+    directory: "/Packages/OSVersion"
     schedule:
       interval: weekly
       day: monday

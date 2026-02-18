@@ -14,9 +14,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	/// set orientations you want to be allowed in this property by default
 	static var orientationLock = UIInterfaceOrientationMask.all
 	
-	/// Dependency injectable Local authentication provider
-	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
-	
 	/// Dependency injectable Secure User Settings
 	@Injected(\.secureUserSettings) private var secureUserSettings
 	
@@ -95,9 +92,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 		if LaunchArgumentsHandler.hasRemoteAuthentication() {
 			secureUserSettings.userHasRemoteAuthentication = true
-		}
-		if LaunchArgumentsHandler.shouldEnableFaceID() {
-			localAuthenticationProvider.biometricType = { .faceID }
 		}
 		if LaunchArgumentsHandler.isAutomaticLocalizationEnabled() {
 			featureFlagManager.isAutomaticLocalizationEnabled = true

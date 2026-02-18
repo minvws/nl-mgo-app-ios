@@ -8,7 +8,7 @@ import SwiftUI
 import XCTest
 
 extension XCTestCase {
-	
+
 	/// Take a snapshot of this content in light and dark Mode, in landscape and portrait.
 	/// - Parameters:
 	///   - content: the view for the snapshots
@@ -23,40 +23,40 @@ extension XCTestCase {
 		file: StaticString = #file,
 		isRecording: Bool = false
 	) {
-		
+
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.dark)),
+			of: preparedHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPhone17Pro(.portrait), precision: precision),
 			named: "_darkPortrait",
 			record: isRecording,
 			file: file,
 			testName: name
 		)
-		
+
 		// Light Mode & Portrait orientation
 		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.light)),
+			of: preparedHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPhone17Pro(.portrait), precision: precision),
 			named: "_lightPortrait",
 			record: isRecording,
 			file: file,
 			testName: name
 		)
-		
+
 		// Dark Mode & Landscape orientation
 		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.dark)),
+			of: preparedHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPhone17Pro(.landscape), precision: precision),
 			named: "_darkLandscape",
 			record: isRecording,
 			file: file,
 			testName: name
 		)
-		
+
 		// Light Mode & Landscape orientation
 		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.light)),
+			of: preparedHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPhone17Pro(.landscape), precision: precision),
 			named: "_lightLandscape",
 			record: isRecording,
@@ -64,7 +64,7 @@ extension XCTestCase {
 			testName: name
 		)
 	}
-	
+
 	/// Take a snapshot of this content in light and dark Mode, in landscape and portrait.
 	/// - Parameters:
 	///   - content: the view for the snapshots
@@ -79,45 +79,54 @@ extension XCTestCase {
 		file: StaticString = #file,
 		isRecording: Bool = false
 	) {
-		
+
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.dark)),
+			of: preparedHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPadPro11(.portrait), precision: precision),
 			named: "_iPad_darkPortrait",
 			record: isRecording,
 			file: file,
 			testName: name
 		)
-		
+
 		// Light Mode & Portrait orientation
 		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.light)),
+			of: preparedHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPadPro11(.portrait), precision: precision),
 			named: "_iPad_lightPortrait",
 			record: isRecording,
 			file: file,
 			testName: name
 		)
-		
+
 		// Dark Mode & Landscape orientation
 		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.dark)),
+			of: preparedHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPadPro11(.landscape), precision: precision),
 			named: "_iPad_darkLandscape",
 			record: isRecording,
 			file: file,
 			testName: name
 		)
-		
+
 		// Light Mode & Landscape orientation
 		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.light)),
+			of: preparedHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPadPro11(.landscape), precision: precision),
 			named: "_iPad_lightLandscape",
 			record: isRecording,
 			file: file,
 			testName: name
 		)
+	}
+
+	/// Creates a UIHostingController and lets the RunLoop spin once so that SwiftUI layout
+	/// passes driven by GeometryReader / PreferenceKey (e.g. ScrollViewWithFixedBottom size
+	/// measurements) have a chance to settle before the snapshot is taken.
+	private func preparedHostingController<V: View>(rootView: V) -> UIHostingController<V> {
+		let controller = UIHostingController(rootView: rootView)
+		RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.05))
+		return controller
 	}
 }

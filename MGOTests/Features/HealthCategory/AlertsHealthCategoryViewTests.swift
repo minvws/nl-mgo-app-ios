@@ -51,7 +51,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		viewModel.state = .loading
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, name: "\(categoryId)_\(#function)", precision: 0.95)
@@ -62,7 +62,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		viewModel.state = .list(items: [], errorState: .none)
@@ -76,7 +76,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		viewModel.state = .list(items: [], errorState: .loading)
@@ -90,7 +90,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		viewModel.state = .list(
@@ -109,7 +109,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		viewModel.state = .list(items: [item], errorState: .none)
@@ -123,7 +123,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		viewModel.state = .list(items: [item, item, item], errorState: .none)
@@ -137,7 +137,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		viewModel.state = .list(items: [item], errorState: .loading)
@@ -151,7 +151,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		viewModel.state = .list(
@@ -170,7 +170,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		viewModel.state = .list(items: [item], errorState: .none)
@@ -184,7 +184,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		viewModel.state = .list(items: [item, item, item], errorState: .none)
@@ -198,7 +198,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		viewModel.state = .list(items: [item], errorState: .loading)
@@ -212,7 +212,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		try createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		viewModel.state = .list(

@@ -7,5 +7,4 @@ import MGOFoundation
 
 extension Notification.Name {
 	static let resetApplication = Notification.Name("nl.mijngezondheidsomgeving.resetApplication")
-	static let showLocalAuthentication = Notification.Name("nl.mijngezondheidsomgeving.showLocalAuthentication")
 }

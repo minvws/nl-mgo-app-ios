@@ -36,7 +36,7 @@ final class AboutOpenSourceLibrariesViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -46,7 +46,7 @@ final class AboutOpenSourceLibrariesViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
@@ -60,7 +60,7 @@ final class AboutOpenSourceLibrariesViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "Button DeviceKit (MIT)").button().tap()

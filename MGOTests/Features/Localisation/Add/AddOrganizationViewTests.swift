@@ -35,7 +35,7 @@ final class AddOrganizationViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(false) }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -48,7 +48,7 @@ final class AddOrganizationViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(false) }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -61,7 +61,7 @@ final class AddOrganizationViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut.isPresentedAsSheet(true) }
+		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(true) }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -72,7 +72,7 @@ final class AddOrganizationViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
-		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(false) }
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.search")
@@ -88,7 +88,7 @@ final class AddOrganizationViewTests: XCTestCase {
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		viewModel.state.name = "Tandarts Tandje Erbij"
-		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(false) }
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.search")
@@ -104,7 +104,7 @@ final class AddOrganizationViewTests: XCTestCase {
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut()
 		viewModel.state.city = "Roermond"
-		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(false) }
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.search")
@@ -121,7 +121,7 @@ final class AddOrganizationViewTests: XCTestCase {
 		createSut()
 		viewModel.state.city = "Roermond"
 		viewModel.state.name = "Tandarts Tandje Erbij"
-		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(false) }
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.search")

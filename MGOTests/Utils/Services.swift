@@ -67,12 +67,6 @@ import MGOUI
 	var secureUserSettingsSpy: SecureUserSettingsSpy = {
 		return SecureUserSettingsSpy()
 	}()
-
-	var localAuthenticationProviderSpy: LocalAuthenticationProviderSpy = {
-		let spy = LocalAuthenticationProviderSpy()
-		spy.stubbedBiometricType = { .faceID }
-		return spy
-	}()
 	
 	var localisationServiceClientSpy: LocalisationServiceClientSpy = {
 		let url = URL(string: "https://example.com")!
@@ -117,8 +111,6 @@ func setupServicesSpies() -> ServicesSpies {
 		.register { spies.healthcareOrganizationStoreSpy }
 	Container.shared.jailBreakDetector
 		.register { @MainActor in spies.jailBreakSpy }
-	Container.shared.localAuthenticationProvider
-		.register { spies.localAuthenticationProviderSpy }
 	Container.shared.localisationServiceClient
 		.register { spies.localisationServiceClientSpy }
 	Container.shared.osVersionChecker

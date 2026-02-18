@@ -115,4 +115,16 @@ final class SecureUserSettingsTests: XCTestCase {
 		// Then
 		expect(self.sut.enteredBackground) == timestamp
 	}
+	
+	func test_secureUserSettings_setFirstTimeVisitor() {
+		
+		// Given
+		expect(self.sut.firstTimeVisitor) == true
+		
+		// When
+		sut.firstTimeVisitor = false
+		
+		// Then
+		expect(self.sut.firstTimeVisitor) == false
+	}
 }

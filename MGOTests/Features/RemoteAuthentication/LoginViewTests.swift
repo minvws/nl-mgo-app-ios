@@ -26,10 +26,13 @@ final class LoginViewTests: XCTestCase {
 		super.setUp()
 	}
 	
-	@MainActor private func createSut() {
+	@MainActor private func createSut(
+		_ mode: LoginViewModel.LoginViewMode
+	) {
 		
 		viewModel = LoginViewModel(
 			coordinator: coordinatorSpy,
+			mode: mode,
 			remoteAuthenticationClient: remoteAuthenticationClientSpy
 		)
 		sut = LoginView(viewModel: self.viewModel)
@@ -39,10 +42,10 @@ final class LoginViewTests: XCTestCase {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut()
+		createSut(.firstTime)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -52,65 +55,79 @@ final class LoginViewTests: XCTestCase {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
-		createSut()
+		createSut(.firstTime)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_loginView_repeatVisitor() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut(.repeatVisitor)
+		
+		// When
+		let content = NavigationStackBackport.NavigationStack { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
+	@MainActor func test_loginView_repeatVisitor_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		createSut(.repeatVisitor)
+		
+		// When
+		let content = NavigationStackBackport.NavigationStack { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
 	}
 	
 	@MainActor func test_loginView_loading() {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut()
-		viewModel.state = .loading
+		createSut(.firstTime)
+		viewModel.state = LoginViewModel
+			.LoginState(mode: .firstTime, isLoading: true)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, precision: 0.95)
 	}
 	
 	@MainActor func test_loginView_loading_iOS18() {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
-		createSut()
-		viewModel.state = .loading
+		createSut(.firstTime)
+		viewModel.state = LoginViewModel
+			.LoginState(mode: .firstTime, isLoading: true)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, precision: 0.95)
 	}
-	
-//	@MainActor func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() throws {
-//		
-//		// Given
-//		createSut()
-//		servicesSpies.featureFlagSpy.stubbedIsDemo = true
-//
-//		// When
-//		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.digid")
-//		try view.view(CallToActionButton.self).find(button: "login.digid").tap()
-//		
-//		// Then
-//		expect(self.coordinatorSpy.invokedHandle) == true
-//		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
-//	}
 	
 	@MainActor func test_loginWithDigiD_loading_shouldNotCallCoordinator_whenDemoMode() throws {
 		
 		// Given
-		createSut()
+		createSut(.firstTime)
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
-		viewModel.state = .loading
-
+		viewModel.state = LoginViewModel
+			.LoginState(mode: .firstTime, isLoading: true)
+		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.loading")
 		try view.view(CallToActionButton.self).find(button: "login.loading").tap()

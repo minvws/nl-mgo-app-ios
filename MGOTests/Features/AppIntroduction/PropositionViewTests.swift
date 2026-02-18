@@ -34,7 +34,7 @@ final class PropositionViewTests: XCTestCase {
 		let sut = createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.98)
@@ -47,7 +47,7 @@ final class PropositionViewTests: XCTestCase {
 		let sut = createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.98)

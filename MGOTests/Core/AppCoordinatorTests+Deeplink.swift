@@ -36,6 +36,7 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 		
 		// Given
 		setupSut()
+		servicesSpies.secureUserSettingsSpy.stubbedFirstTimeVisitor = true
 		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		let url = try XCTUnwrap(URL(string: "mgo-dev://app/login?userinfo=TEST"))
 		
@@ -53,9 +54,10 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 		
 		// Given
 		setupSut()
+		servicesSpies.secureUserSettingsSpy.stubbedFirstTimeVisitor = true
+		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		let url = try XCTUnwrap(URL(string: "mgo-dev://app/login?userinfo=TEST"))
 		let deeplink = try XCTUnwrap(DeepLinkFactory().create(url))
-		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		
 		// When
 		sut.consume(deeplink)
@@ -71,9 +73,10 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 		
 		// Given
 		setupSut()
+		servicesSpies.secureUserSettingsSpy.stubbedFirstTimeVisitor = true
+		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
 		let url = try XCTUnwrap(URL(string: "mgo-dev://app/login?userinfo=test"))
 		let deeplink = try XCTUnwrap(DeepLinkFactory().create(url))
-		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
 		
 		// When
 		sut.consume(deeplink)
@@ -83,5 +86,21 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 		expect(self.sut.rootState) == AppCoordination.State.automaticLocalization
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
+	}
+	
+	@MainActor func test_digidDeeplink_repeatVisitor() throws {
+		
+		// Given
+		setupSut()
+		servicesSpies.secureUserSettingsSpy.stubbedFirstTimeVisitor = false
+		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
+		let url = try XCTUnwrap(URL(string: "mgo-dev://app/login?userinfo=TEST"))
+		let deeplink = try XCTUnwrap(DeepLinkFactory().create(url))
+		
+		// When
+		sut.consume(deeplink)
+		
+		// Then
+		expect(self.sut.showChildCoordinator) == true
 	}
 }

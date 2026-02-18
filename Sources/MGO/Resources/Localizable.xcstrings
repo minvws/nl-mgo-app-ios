@@ -1948,24 +1948,13 @@
         }
       }
     },
-    "login.european" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log in met eIDAS"
-          }
-        }
-      }
-    },
     "login.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen"
+            "value" : "Log in met DigiD"
           }
         }
       }
@@ -1981,13 +1970,24 @@
         }
       }
     },
+    "login.no_digid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ik heb geen DigiD"
+          }
+        }
+      }
+    },
     "login.subheading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Met DigiD laat u weten wie u bent. Zo kunnen we uw gegevens veilig ophalen. Bij uw huisarts, het ziekenhuis en andere zorgaanbieders."
+            "value" : "Zo bewijst u wie u bent. Daarna kan de app uw gegevens veilig ophalen bij uw zorgaanbieders."
           }
         }
       }

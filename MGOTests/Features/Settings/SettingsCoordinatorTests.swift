@@ -64,18 +64,6 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.displaySettings])
 	}
 	
-	@MainActor func test_coordinatorHandle_showSecuritySettings() {
-		
-		// Given
-		createSut()
-		
-		// When
-		sut.handle(Coordination.Action.showSecuritySettings)
-		
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.securitySettings])
-	}
-	
 	@MainActor func test_coordinatorHandle_showAdvancedSettings() {
 		
 		// Given
@@ -160,18 +148,6 @@ final class SettingsCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beFalse())
-	}
-	
-	@MainActor func test_coordinatorHandle_lockAppliction() {
-		
-		// Given
-		createSut()
-		
-		// When
-		sut.handle(Coordination.Action.lockApplication)
-		
-		// Then
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 	
 	@MainActor func test_coordinatorHandle_showPrivacyStatement() {

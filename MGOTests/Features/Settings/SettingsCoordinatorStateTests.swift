@@ -39,39 +39,11 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	@MainActor func test_coordinatorView_forSettings_noBiometricType() throws {
-		
-		// Given
-		createSut()
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .none }
-		let state = SettingsCoordination.State.settings
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
 	@MainActor func test_coordinatorView_forDisplaySettings() throws {
 		
 		// Given
 		createSut()
 		let state = SettingsCoordination.State.displaySettings
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	@MainActor func test_coordinatorView_forSecuritySettings() throws {
-		
-		// Given
-		createSut()
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = SettingsCoordination.State.securitySettings
 		
 		// When
 		let view = sut.view(for: state)
@@ -155,7 +127,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		let webview = try content.inspect().find(viewWithAccessibilityIdentifier: "restrictedBrowserView")
 		
 		// Then

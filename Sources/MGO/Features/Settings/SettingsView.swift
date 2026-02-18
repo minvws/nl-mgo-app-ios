@@ -14,9 +14,6 @@ class SettingsViewModel: ObservableObject {
 	/// Should we show the advanced settings button
 	@Published var showAdvancedButton: Bool = false
 	
-	/// Should we show the security settings button
-	@Published var showSecurityButton: Bool = false
-	
 	/// Should we show the reset dialog
 	@Published var showResetDialog: Bool = false
 	
@@ -27,12 +24,8 @@ class SettingsViewModel: ObservableObject {
 		case cancelDialog
 		case displaySettings
 		case resetApplication
-		case securitySettings
 		case showResetDialog
 	}
-	
-	/// Dependency injectable Local Authentication Provider
-	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
 	
 	/// Create the settings view model
 	/// - Parameter coordinator: the app coordinator
@@ -46,8 +39,6 @@ class SettingsViewModel: ObservableObject {
 		let release = Configuration().getRelease()
 		showAdvancedButton = release == Release.development // Show only in Dev
 		
-		// Show only when we have biometrics
-		showSecurityButton = localAuthenticationProvider.biometricType() != .none
 	}
 	
 	/// Handle any action
@@ -72,9 +63,6 @@ class SettingsViewModel: ObservableObject {
 			
 			case .showResetDialog:
 				showResetDialog = true
-			
-			case .securitySettings:
-				coordinator?.handle(Coordination.Action.showSecuritySettings)
 		}
 	}
 }
@@ -113,10 +101,6 @@ struct SettingsView: View {
 			Section {
 				
 				displaySettings()
-				
-				if viewModel.showSecurityButton {
-					securitySettings()
-				}
 			}
 			if viewModel.showAdvancedButton {
 				advancedSettings()
@@ -146,23 +130,6 @@ struct SettingsView: View {
 			)
 		}
 		.accessibilityIdentifier("settings.display")
-		.listRowInsets(ViewTraits.General.inset)
-	}
-	
-	/// Get the view for the security settings option
-	/// - Returns: Button for the security settings
-	@ViewBuilder private func securitySettings() -> some View {
-		
-		Button {
-			viewModel.reduce(.securitySettings)
-		} label: {
-			SettingsRowView(
-				icon: Image(ImageResource.Settings.lock),
-				iconBackground: theme.categories.laboratory,
-				heading: "settings.security.heading"
-			)
-		}
-		.accessibilityIdentifier("settings.security")
 		.listRowInsets(ViewTraits.General.inset)
 	}
 	

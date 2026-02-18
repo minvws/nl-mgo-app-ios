@@ -36,7 +36,7 @@ final class AboutTheAppViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -47,7 +47,7 @@ final class AboutTheAppViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
@@ -61,7 +61,7 @@ final class AboutTheAppViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "settings.about_this_app.safety").button().tap()
@@ -75,7 +75,7 @@ final class AboutTheAppViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "settings.about_this_app.accessibility").button().tap()
@@ -89,7 +89,7 @@ final class AboutTheAppViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "settings.about_this_app.open_source").button().tap()
@@ -103,7 +103,7 @@ final class AboutTheAppViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "settings.about_this_app.privacy").button().tap()
@@ -117,7 +117,7 @@ final class AboutTheAppViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "settings.about_this_app.version").button().tap()

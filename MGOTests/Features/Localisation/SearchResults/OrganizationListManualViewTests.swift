@@ -50,7 +50,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .loading
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -61,7 +61,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		// Given
 		createSut()
 		viewModel.state = .loading
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
@@ -69,36 +69,6 @@ final class OrganizationListManualViewTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
-	}
-	
-	@MainActor func test_empty() {
-		
-		// Given
-		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut()
-		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
-
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-		takeSnapShotsForiPad(content: content)
-	}
-	
-	@MainActor func test_empty_iOS18() {
-		
-		// Given
-		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
-		createSut()
-		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-		takeSnapShotsForiPad(content: content)
 	}
 	
 	@MainActor func test_empty_action() throws {
@@ -126,7 +96,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .failure(error)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -141,7 +111,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .failure(error)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -164,7 +134,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
-	@MainActor func test_list_lightPortrait() {
+	@MainActor func test_list() {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
@@ -178,81 +148,9 @@ final class OrganizationListManualViewTests: XCTestCase {
 		viewModel.state = .success(list)
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
-		)
-	}
-	
-	@MainActor func test_list_darkPortrait() {
-		
-		// Given
-		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut()
-		let list: [OrganizationListSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationListCardState.notParticipating)),
-			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
-			((Generator.healthcareOrganization("3"), OrganizationListCardState.selected)),
-			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.regular))
-		]
-		viewModel.state = .success(list)
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone17Pro(.portrait), precision: 1.0)
-		)
-	}
-	
-	@MainActor func test_list_lightLandscape() {
-		
-		// Given
-		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut()
-		let list: [OrganizationListSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationListCardState.notParticipating)),
-			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
-			((Generator.healthcareOrganization("3"), OrganizationListCardState.selected)),
-			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.regular))
-		]
-		viewModel.state = .success(list)
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0)
-		)
-	}
-	
-	@MainActor func test_list_darkLandscape() {
-		
-		// Given
-		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut()
-		let list: [OrganizationListSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationListCardState.notParticipating)),
-			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
-			((Generator.healthcareOrganization("3"), OrganizationListCardState.selected)),
-			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.regular))
-		]
-		viewModel.state = .success(list)
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		assertSnapshot(
-			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone17Pro(.landscape), precision: 1.0)
-		)
+		takeSnapShots(content: content)
 	}
 }

@@ -7,11 +7,23 @@ import MGOFoundation
 import MGOUI
 import RestrictedBrowser
 
+/// View model responsible for managing the state and actions of the login screen.
 class LoginViewModel: ObservableObject {
 	
-	enum State {
-		case loading
-		case idle
+	/// Represents the current UI state of the login view.
+	struct LoginState {
+		/// The mode that determines which variant of the login screen is shown.
+		var mode: LoginViewMode
+		/// Whether an authentication request is currently in progress.
+		var isLoading: Bool
+	}
+	
+	/// Determines which variant of the login screen is presented to the user.
+	enum LoginViewMode {
+		/// The user is logging in for the first time.
+		case firstTime
+		/// The user has logged in before.
+		case repeatVisitor
 	}
 	
 	/// A list of all the actions this viewModel can handle
@@ -22,27 +34,35 @@ class LoginViewModel: ObservableObject {
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
 	
+	/// The remote authentication client
 	private var remoteAuthenticationClient: RemoteAuthenticationClientProtocol?
 	
 	/// Helper to open urls
 	private var urlOpener: URLOpenerProtocol
 	
+	/// What mode are we running in?
+	private var mode: LoginViewMode
+	
 	/// The state of the view
-	@Published var state: LoginViewModel.State
+	@Published var state: LoginViewModel.LoginState
 	
 	/// Create a Login ViewModel
-	/// - Parameter coordinator: The coordinator
-	/// - Parameter urlOpener: The helper to open hyperlinks
+	/// - Parameter coordinator: The flow coordinator used for routing after a successful login.
+	/// - Parameter mode: The login mode, determining which screen variant is shown.
+	/// - Parameter remoteAuthenticationClient: The client used to fetch the authentication URL.
+	/// - Parameter urlOpener: The helper used to open the authentication URL in a browser.
 	@MainActor init(
 		coordinator: (any Coordinator)?,
+		mode: LoginViewMode,
 		remoteAuthenticationClient: RemoteAuthenticationClientProtocol?,
 		urlOpener: URLOpenerProtocol = UIApplication.shared
 	) {
 		
 		self.coordinator = coordinator
+		self.mode = mode
 		self.remoteAuthenticationClient = remoteAuthenticationClient
 		self.urlOpener = urlOpener
-		self.state = .idle
+		self.state = LoginState(mode: mode, isLoading: false)
 	}
 	
 	/// Handle any action
@@ -64,25 +84,28 @@ class LoginViewModel: ObservableObject {
 	@MainActor
 	private func authenticate() async {
 		
-		guard state == .idle else { return }
-		self.setState(.loading)
+		guard state.isLoading == false else { return }
+		self.setState(LoginState(mode: self.mode, isLoading: true))
 		guard let remoteAuthenticationClient else { return }
 		do {
 			let authenticationUrl = try await remoteAuthenticationClient.getAuthenticationUrl(callbackUrl: Configuration().getOIDCCallback())
-			logDebug("authenticationUrl", authenticationUrl)
+			logVerbose("LoginView - authenticationUrl", authenticationUrl)
 			self.urlOpener.openUrlIfPossible(authenticationUrl)
 		} catch {
 			logError("Error fetching oidc start \(error)")
 		}
-		self.setState(.idle)
+		self.setState(LoginState(mode: self.mode, isLoading: false))
 	}
 	
 	/// Set the state (to be called from async methods)
-	@MainActor func setState(_ newState: State) {
+	@MainActor func setState(_ newState: LoginState) {
 		self.state = newState
 	}
 }
 
+/// The login screen, allowing users to authenticate via DigiD.
+/// Displays a heading, sub-heading and illustration that adapt based on whether the user
+/// is logging in for the first time or is a returning visitor.
 struct LoginView: View {
 	
 	/// The view model
@@ -107,6 +130,11 @@ struct LoginView: View {
 		enum Icon {
 			static let opacity: Double = 0.50
 		}
+		enum Image {
+			static let maxWidthFirstTime: Double = 0.9
+			static let maxWidthRepearVisitor: Double = 0.63
+		}
+		
 		enum General {
 			static let spacing: CGFloat = 16
 		}
@@ -120,30 +148,35 @@ struct LoginView: View {
 		
 		ScrollViewWithFixedBottom {
 			ImageContentView(
-				icon: Image(ImageResource.Woman.womanWithPhone),
+				icon: Image(
+					viewModel.state.mode == .firstTime ? ImageResource.RemoteAuthentication.passport : ImageResource.Placeholder.onboarding
+				),
 				heading: "login.heading",
 				subHeading: "login.subheading",
 				configuration: ImageContentView.Configuration(
 					textAlignment: .leading,
 					textSpacing: ViewTraits.General.spacing,
 					titleStyle: .headingExtraLarge,
-					subHeadingForegroundColor: theme.labels.primary
+					subHeadingForegroundColor: theme.labels.primary,
+					order: .contentFirst,
+					maxWidthPercentage: viewModel.state.mode == .firstTime ? ViewTraits.Image.maxWidthFirstTime : ViewTraits.Image.maxWidthRepearVisitor,
+					hideIconInLandscape: false,
+					headingAsNavigationTitle: true
 				)
 			)
 			.padding(.horizontal, ViewTraits.General.spacing)
 			
 		} bottomView: {
 			VStack {
-				switch viewModel.state {
-					case .loading:
-						CallToActionButton(
-							"login.loading",
-							style: .solidLeadingSpinner(rounded: osVersionChecker.available(version: .iOS(.v26)))
-						)
-						.accessibilityIdentifier("login.loading")
-						
-					case .idle:
-						digidButton()
+				
+				if viewModel.state.isLoading {
+					CallToActionButton(
+						"login.loading",
+						style: .solidLeadingSpinner(rounded: osVersionChecker.available(version: .iOS(.v26)))
+					)
+					.accessibilityIdentifier("login.loading")
+				} else {
+					digidButton()
 				}
 			}
 			.padding(ViewTraits.Button.insets)
@@ -154,7 +187,7 @@ struct LoginView: View {
 		.layoutForIPad()
 	}
 	
-	/// has the user pressed (but no released) the button
+	/// Whether the user is currently pressing (but has not yet released) the DigiD button.
 	@State private var onHover = false
 	
 	/// The button to use DigiD for authentication
@@ -193,6 +226,7 @@ struct LoginView: View {
 		LoginView(
 			viewModel: LoginViewModel(
 				coordinator: nil,
+				mode: .firstTime,
 				remoteAuthenticationClient: nil
 			)
 		)

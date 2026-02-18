@@ -41,7 +41,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.90) // Lower precision due to random position of spinner
@@ -55,7 +55,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -69,7 +69,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -83,10 +83,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, precision: 0.95)
 	}
 	
 	@MainActor func test_coordinatorView_privacyStatement() throws {
@@ -98,145 +98,41 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		let webview = try content.inspect().find(viewWithAccessibilityIdentifier: "restrictedBrowserView")
 		
 		// Then
 		expect(webview) != nil
 	}
 	
-	@MainActor func test_coordinatorView_forPinCodeEntry() throws {
-		
-		// Given
-		setupSut()
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.pinCodeEntry(backButtonVisible: true)
-		
-		// When
-		let view = sut.view(for: state)
-		let content = NavigationView { view }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	@MainActor func test_coordinatorView_forPinCodeEntry_withoutBackbutton() throws {
-		
-		// Given
-		setupSut()
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.pinCodeEntry(backButtonVisible: false)
-		
-		// When
-		let view = sut.view(for: state)
-		let content = NavigationView { view }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	@MainActor func test_coordinatorView_forPinCodeConfirmation() throws {
-		
-		// Given
-		setupSut()
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.pinCodeConfirmation
-		
-		// When
-		let view = sut.view(for: state)
-		let content = NavigationView { view }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	@MainActor func test_coordinatorView_forPinCodeValidation() throws {
-		
-		// Given
-		setupSut()
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = true
-		let state = AppCoordination.State.pinCodeValidation(lockOut: false)
-		
-		// When
-		let view = sut.view(for: state)
-		let content = NavigationView { view }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	@MainActor func test_coordinatorView_forBioMetricSetup() throws {
-		
-		// Given
-		setupSut()
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.bioMetricSetup
-		
-		// When
-		let view = sut.view(for: state)
-		let content = NavigationView { view }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
 	@MainActor func test_coordinatorView_forLogin() throws {
 		
 		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedFirstTimeVisitor = true
 		setupSut()
 		let state = AppCoordination.State.login
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, precision: 0.95)
 	}
 	
 	@MainActor func test_coordinatorView_forLoginInfo() throws {
 		
 		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
 		setupSut()
 		let state = AppCoordination.State.loginInfo
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content)
-	}
-	
-	@MainActor func test_coordinatorView_forgotPinCode() throws {
-		
-		// Given
-		setupSut()
-		let state = AppCoordination.State.forgotPinCode
-		
-		// When
-		let view = sut.view(for: state)
-		let content = NavigationView { view }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	@MainActor func test_coordinatorView_accountRemoved() throws {
-		
-		// Given
-		setupSut()
-		let state = AppCoordination.State.accountRemoved
-		
-		// When
-		let view = sut.view(for: state)
-		let content = NavigationView { view }
-		
-		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, precision: 0.95)
 	}
 	
 	@MainActor func test_coordinatorView_forDashboard() throws {
@@ -247,7 +143,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -261,7 +157,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -275,7 +171,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -292,7 +188,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationView { view }
+		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)

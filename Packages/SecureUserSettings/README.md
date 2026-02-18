@@ -34,6 +34,9 @@ The values we are storing:
 	/// Did the user complete the DigiD flow?
 	var userHasRemoteAuthentication: Bool // Defaults to false
 
+	/// Is the user a first time visitor?
+	var firstTimeVisitor: Bool // Defaults to true, cleared on reinstall
+
 ```
 
 ---

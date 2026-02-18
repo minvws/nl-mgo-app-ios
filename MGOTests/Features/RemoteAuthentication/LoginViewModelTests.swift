@@ -31,6 +31,7 @@ final class LoginViewModelTests: XCTestCase {
 		
 		sut = LoginViewModel(
 			coordinator: coordinatorSpy,
+			mode: .firstTime,
 			remoteAuthenticationClient: remoteAuthenticationClientSpy,
 			urlOpener: urlOpenerSpy
 		)

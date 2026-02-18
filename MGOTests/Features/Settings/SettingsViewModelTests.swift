@@ -65,19 +65,6 @@ final class SettingsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showDisplaySettings
 	}
 	
-	@MainActor func test_securitySettings_shouldCallCoordinator() {
-		
-		// Given
-		setupSut()
-		
-		// When
-		sut.reduce(.securitySettings)
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showSecuritySettings
-	}
-	
 	@MainActor func test_advancedSettings_shouldCallCoordinator() {
 		
 		// Given
