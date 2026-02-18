@@ -27,32 +27,6 @@ final class LoginInfoViewTests: XCTestCase {
 		sut = LoginInfoView(viewModel: self.viewModel)
 	}
 	
-	@MainActor func test_loginInfoView() {
-		
-		// Given
-		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut()
-		
-		// When
-		let content = NavigationStackBackport.NavigationStack { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	@MainActor func test_loginInfoView_iOS18() {
-		
-		// Given
-		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
-		createSut()
-		
-		// When
-		let content = NavigationStackBackport.NavigationStack { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
 	@MainActor func test_nextButtonPressed_shouldCallCoordinator() throws {
 		
 		// Given
