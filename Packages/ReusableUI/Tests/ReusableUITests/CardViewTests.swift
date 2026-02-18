@@ -5,14 +5,22 @@
 
 @testable import ReusableUI
 import SwiftUI
-import MGOTest
+import Testing
+import SnapshotTesting
 
-final class CardViewTests: XCTestCase {
+@MainActor
+struct CardViewTests {
 	
-	func test_card() {
+	@Test("snapshot of a card")
+	func card() {
 		
 		// Given
-		let sut = CardView(title: "heading", message: "subheading", details: "meta")
+		let sut = CardView(
+			title: "heading",
+			message: "subheading",
+			details: "meta",
+			showChevron: false
+		)
 		
 		// When
 		let view = sut.frame(width: 400, height: 100)
@@ -29,7 +37,34 @@ final class CardViewTests: XCTestCase {
 		)
 	}
 	
-	func test_card_long() {
+	@Test("snapshot of a card with chevron")
+	func chevron() {
+		
+		// Given
+		let sut = CardView(
+			title: "heading",
+			message: "subheading",
+			details: "meta",
+			showChevron: true
+		)
+		
+		// When
+		let view = sut.frame(width: 400, height: 100)
+			.background(Theme().backgrounds.secondary)
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.light)),
+			as: .image
+		)
+		assertSnapshot(
+			of: UIHostingController(rootView: view.colorScheme(.dark)),
+			as: .image
+		)
+	}
+	
+	@Test("snapshot of a card with long texts")
+	func long() {
 		
 		// Given
 		let sut = CardView(
@@ -53,7 +88,8 @@ final class CardViewTests: XCTestCase {
 		)
 	}
 	
-	func test_card_headingOnly() {
+	@Test("snapshot of a card with only a heading")
+	func headingOnly() {
 		
 		// Given
 		let sut = CardView(
