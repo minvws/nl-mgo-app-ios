@@ -29,7 +29,7 @@ import XCTest
 	}
 	
 	private var titleLabel: XCUIElement {
-		app.staticTexts["imagecontentview.heading"]
+		app.navigationBars.staticTexts["Log in met DigiD"]
 	}
 	
 	private var subHeadingLabel: XCUIElement {

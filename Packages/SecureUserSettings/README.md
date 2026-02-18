@@ -9,7 +9,8 @@ Use this packaga to safely and securely store user settings
 You can safely store settings in the secure user settings:
 
 ```swift
-	SecureUserSettings().userHasRemoteAuthentication = true
+	SecureUserSettings().userHasSeenJailBreakWarning = true
+	SecureUserSettings().firstTimeVisitor = false
 ```
 
 The values we are storing:

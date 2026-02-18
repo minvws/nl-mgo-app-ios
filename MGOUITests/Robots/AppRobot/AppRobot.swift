@@ -19,9 +19,12 @@ class AppRobot: Robot {
 	/// Launch the application
 	/// - Returns: Introduction Robot for the first scene
 	@discardableResult
-	func launchApp() -> IntroductionRobot {
+	func launchApp(withDemoMode: Bool = false) -> IntroductionRobot {
 		app.launchArguments.append("-resetOnStart")
 		app.launchArguments.append("-disableTransitions")
+		if withDemoMode {
+			app.launchArguments.append("-demoMode")
+		}
 		app.launch()
 		return IntroductionRobot(app)
 	}
@@ -47,33 +50,6 @@ class AppRobot: Robot {
 		app.launch()
 		return HealthCategoriesRobot(app)
 	}
-	
-//	/// Launch the app as a repeat visitor
-//	/// - Parameters:
-//	///   - pincode: the pin code to substitute
-//	///   - withRemoteAuthentication: True if the remoteAuthentication should be set
-//	///   - withAutomaticLocalizationEnabled: True if the automatic localization should be enabled
-//	/// - Returns: Pin code Robot for pin code validation
-//	@discardableResult
-//	func launchApp(
-//		withPincode pincode: String,
-//		withRemoteAuthentication: Bool = false,
-//		withAutomaticLocalizationEnabled: Bool = false,
-//		withDemoMode: Bool = false) -> PincodeRobot {
-//		
-//		app.launchArguments.append("-resetOnStart")
-//		app.launchArguments.append("-disableTransitions")
-//		app.launchArguments.append("-pincode:\(pincode)")
-//		if withAutomaticLocalizationEnabled {
-//			app.launchArguments.append("-automaticLocalizationEnabled")
-//		}
-//		if withDemoMode {
-//			app.launchArguments.append("-demoMode")
-//		}
-//			
-//		app.launch()
-//		return PincodeRobot(app)
-//	}
 
 	/// Launch the app with a Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
@@ -90,23 +66,6 @@ class AppRobot: Robot {
 		
 		return HealthCategoriesRobot(app)
 	}
-//	
-//	/// Launch the app with a Healthcare organization
-//	/// - Returns: Health Categories Robot for the overview
-//	@discardableResult
-//	func navigateToOverviewWithDigiD(organization index: Int) -> HealthCategoriesRobot {
-//		self
-//			.launchApp(withPincode: "12345")
-//			.enterConfirmationPinCode("12345")
-//			.tapLoginWithDigiDButton()
-//			.performCompleteDigiDLogin()
-//			.enterSearchFields(name: "test", place: "test")
-//			.tapSearchButton()
-//			.swipeToListElement(at: index)
-//			.tapListElement(at: index)
-//		
-//		return HealthCategoriesRobot(app)
-//	}
 	
 	/// Launch the app without a Healthcare organization
 	/// - Returns: Health Categories Robot for the overview

@@ -48,7 +48,4 @@ class UpdateRequiredRobot: Robot {
 		XCTAssertTrue(updateButton.exists)
 		return self
 	}
-
-	// MARK: - Interactions
-	
 }

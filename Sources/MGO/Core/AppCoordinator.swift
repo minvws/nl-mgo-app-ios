@@ -293,14 +293,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Remote Authentication
 				
 			case Coordination.Action.loggedInWithDigiD.identifier:
-//				secureUserSettings.userHasRemoteAuthentication = true
 			
 				resetNavigationStack(with: AppCoordination.State.loginInfo)
 				return true
 			
 			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
 			
-				if featureFlagManager.isAutomaticLocalizationEnabled {
+				if featureFlagManager.isAutomaticLocalizationEnabled || featureFlagManager.isDemo {
 					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
 				} else {
 					resetNavigationStack(with: AppCoordination.State.manualLocalization)
