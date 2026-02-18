@@ -5,13 +5,24 @@
 
 import SwiftUI
 
+/// A card-shaped view that displays a title, an optional message, and optional detail text.
+///
+/// When `details` is provided the title colour switches to secondary so the detail value stands out.
+/// Use `showChevron` to indicate that the card is tappable (the chevron itself is currently rendered
+/// by the parent; this flag is stored for future use or external access).
 public struct CardView: View {
-	
+
+	/// The main heading of the card.
 	private var title: String
-	
+
+	/// An optional secondary line of text shown below the title.
 	private var message: String?
-	
+
+	/// Optional trailing text placed to the right of the title, e.g. a date or value.
 	private var details: String?
+
+	/// Whether to show a trailing chevron indicating the card is navigable.
+	private var showChevron: Bool = false
 
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -22,21 +33,27 @@ public struct CardView: View {
 			static let spacing: CGFloat = 4
 			static let minHeight: CGFloat = 48
 		}
+		enum Accessory {
+			static let size: CGFloat = 22
+		}
 	}
 	
-	/// Initializer
+	/// Creates a `CardView`.
 	/// - Parameters:
-	///   - title: the title for this card
-	///   - message: the message for this card
-	///   - details: the details message for this card
+	///   - title: The main heading displayed on the card.
+	///   - message: An optional secondary line of text shown below the title.
+	///   - details: Optional trailing text placed to the right of the title.
+	///   - showChevron: Pass `true` to indicate the card is navigable (defaults to `false`).
 	public init(
 		title: String,
 		message: String? = nil,
-		details: String? = nil
+		details: String? = nil,
+		showChevron: Bool = false
 	) {
 		self.title = title
 		self.message = message
 		self.details = details
+		self.showChevron = showChevron
 	}
 	
 	public var body: some View {
@@ -62,6 +79,14 @@ public struct CardView: View {
 						.foregroundColor(theme.labels.secondary)
 						.layoutPriority(100)
 				}
+				if showChevron {
+					Image(ImageResource.Icon.chevron)
+						.foregroundStyle(theme.symbols.secondary)
+						.frame(
+							width: ViewTraits.Accessory.size,
+							height: ViewTraits.Accessory.size
+						)
+				}
 			}
 			if let message {
 				Text(message)
@@ -79,7 +104,8 @@ public struct CardView: View {
 	CardView(
 		title: "title",
 		message: "message",
-		details: "details"
+		details: "details",
+		showChevron: true
 	)
 	.padding(16)
 }

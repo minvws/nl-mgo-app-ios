@@ -234,10 +234,13 @@ struct SearchOrganizationView: View {
 	/// Focus state for the input field
 	@FocusState private var isInputFocused: Bool
 	
-	/// The state of a card
-	private enum CardState: Equatable, Sendable {
+	/// Describes how an organization card should be displayed and whether it is tappable.
+	enum CardState: Equatable, Sendable {
+		/// The organization can be added; the row is tappable and shows a chevron.
 		case regular
+		/// The organization has already been added by the user; tapping has no effect.
 		case selected
+		/// The organization does not support any available data services; tapping has no effect.
 		case notParticipating
 	}
 	
@@ -451,48 +454,17 @@ struct SearchOrganizationView: View {
 		
 		ForEach(viewModel.state.results) { organization in
 			Section {
-				organizationButton(for: organization)
+				OrganizationRowView(
+					organization: organization,
+					cardState: cardState(organization),
+					onSelect: {
+						selectedOrganization = organization
+						showConfirmationAlert = true
+					}
+				)
 			}
 			.listRowInsets(ViewTraits.List.resultInset)
 		}
-	}
-	
-	/// The organization button
-	/// - Parameter organization: the organization
-	/// - Returns: a button view
-	@ViewBuilder private func organizationButton(for organization: Organization) -> some View {
-		
-		Button {
-			guard cardState(organization) == .regular else {
-				return
-			}
-			selectedOrganization = organization
-			showConfirmationAlert = true
-		} label: {
-			CardView(
-				title: organization.displayName ?? "",
-				message: (
-					(organization.addressLine ?? "") + " " + (
-						organization.city ?? ""
-					)
-				)
-				.trim(),
-				details: {
-					switch cardState(organization) {
-						case .regular:
-							return nil
-						case .selected:
-							return String(localized: "search_organization.already_added")
-						case .notParticipating:
-							return String(localized: "search_organization.not_participating")
-					}
-				}()
-			)
-			.contentShape(Rectangle())
-			.accessibilityElement(children: .combine)
-		}
-		.accessibilityIdentifier("button_\(organization.id)")
-		.buttonStyle(.plain)
 	}
 	
 	/// Get the card state of an organization
