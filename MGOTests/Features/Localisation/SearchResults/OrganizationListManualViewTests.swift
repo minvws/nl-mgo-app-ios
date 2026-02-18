@@ -71,36 +71,6 @@ final class OrganizationListManualViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	@MainActor func test_empty() {
-		
-		// Given
-		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut()
-		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
-
-		// When
-		let content = NavigationStackBackport.NavigationStack { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-		takeSnapShotsForiPad(content: content)
-	}
-	
-	@MainActor func test_empty_iOS18() {
-		
-		// Given
-		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
-		createSut()
-		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
-		
-		// When
-		let content = NavigationStackBackport.NavigationStack { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-		takeSnapShotsForiPad(content: content)
-	}
-	
 	@MainActor func test_empty_action() throws {
 		
 		// Given

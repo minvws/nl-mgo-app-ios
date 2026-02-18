@@ -1,0 +1,1 @@
+- Prefer SwiftUI over UIKit unless explicitly targeting UIKit
