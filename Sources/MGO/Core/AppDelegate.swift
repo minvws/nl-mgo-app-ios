@@ -87,9 +87,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 				return HTTPStubsResponse(jsonObject: ["iosMinimumVersion": "99999"], statusCode: 200, headers: nil)
 			}
 		}
-		if let pincode = LaunchArgumentsHandler.withPincode() {
-			secureUserSettings.pinCode = pincode
-		}
 		if LaunchArgumentsHandler.hasRemoteAuthentication() {
 			secureUserSettings.userHasRemoteAuthentication = true
 		}

@@ -28,9 +28,7 @@ final class SecureUserSettingsTests: XCTestCase {
 		// Given
 		sut.userHasSeenJailBreakWarning = true
 		sut.userHasRemoteAuthentication = true
-		sut.bioMetricAuthenticationEnabled = true
 		sut.enteredBackground = Date()
-		sut.pinCode = "TEST"
 		
 		// When
 		sut.wipePersistedData()
@@ -38,45 +36,7 @@ final class SecureUserSettingsTests: XCTestCase {
 		// Then
 		expect(self.sut.userHasSeenJailBreakWarning) == false
 		expect(self.sut.userHasRemoteAuthentication) == false
-		expect(self.sut.bioMetricAuthenticationEnabled) == false
 		expect(self.sut.enteredBackground) == nil
-		expect(self.sut.pinCode) == nil
-	}
-
-	func test_secureUserSettings_setPinCode() {
-		
-		// Given
-		expect(self.sut.pinCode) == nil
-		
-		// When
-		sut.pinCode = "Testing"
-		
-		// Then
-		expect(self.sut.pinCode) == "Testing"
-	}
-	
-	func test_secureUserSettings_setTempPinCode() {
-		
-		// Given
-		expect(self.sut.tempPinCode) == nil
-		
-		// When
-		sut.tempPinCode = "Testing"
-		
-		// Then
-		expect(self.sut.tempPinCode) == "Testing"
-	}
-	
-	func test_secureUserSettings_setBioMetricAuthenticationEnabled() {
-		
-		// Given
-		expect(self.sut.bioMetricAuthenticationEnabled) == false
-		
-		// When
-		sut.bioMetricAuthenticationEnabled = true
-		
-		// Then
-		expect(self.sut.bioMetricAuthenticationEnabled) == true
 	}
 	
 	func test_secureUserSettings_setUserHasRemoteAuthentication() {

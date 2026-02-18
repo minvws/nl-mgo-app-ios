@@ -31,12 +31,6 @@ public class LaunchArgumentsHandler {
 		return CommandLine.arguments.contains("-withRemoteAuthentication")
 	}
 	
-	/// Should we enable faceID?
-	public static func shouldEnableFaceID() -> Bool {
-		
-		return CommandLine.arguments.contains("-enableFaceID")
-	}
-	
 	/// Should we enable automatic localization?
 	public static func isAutomaticLocalizationEnabled() -> Bool {
 		
@@ -47,16 +41,5 @@ public class LaunchArgumentsHandler {
 	public static func isDemo() -> Bool {
 		
 		return CommandLine.arguments.contains("-demoMode")
-	}
-	
-	/// Should we use a provided pin code?
-	/// - Returns: pincode
-	public static func withPincode() -> String? {
-		
-		if let argument = CommandLine.arguments.first(where: { $0.lowercased().starts(with: "-pincode:") }),
-		   let pincode = argument.split(separator: ":").last {
-			return String(pincode)
-		}
-		return nil
 	}
 }
