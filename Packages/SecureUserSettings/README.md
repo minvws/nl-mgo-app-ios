@@ -15,24 +15,9 @@ You can safely store settings in the secure user settings:
 The values we are storing:
 
 ```swift
-
-	/// Timestamp the app went to the background
-	var enteredBackground: Date? // Defaults to nil
-	
-	/// the first entry of the access code
-	var tempPinCode: String? // Defaults to nil
-	
-	/// the access code
-	var pinCode: String? // Defaults to nil
-	
-	/// Do we have setup the biometric authentication
-	var bioMetricAuthenticationEnabled: Bool // Defaults to false
 	
 	/// Have we seen the jail break warning?
 	var userHasSeenJailBreakWarning: Bool // Defaults to false
-	
-	/// Did the user complete the DigiD flow?
-	var userHasRemoteAuthentication: Bool // Defaults to false
 
 	/// Is the user a first time visitor?
 	var firstTimeVisitor: Bool // Defaults to true, cleared on reinstall

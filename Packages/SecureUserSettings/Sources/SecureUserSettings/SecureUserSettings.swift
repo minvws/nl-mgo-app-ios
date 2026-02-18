@@ -8,14 +8,8 @@ import Foundation
 /// Protocol for the secure user settings
 public protocol SecureUserSettingsProtocol: AnyObject {
 	
-	/// Timestamp the app went to the background
-	var enteredBackground: Date? { get set }
-	
 	/// Have we seen the jail break warning?
 	var userHasSeenJailBreakWarning: Bool { get set }
-	
-	/// Did the user complete the DigiD flow?
-	var userHasRemoteAuthentication: Bool { get set }
 	
 	/// Is the user a first time vistor
 	var firstTimeVisitor: Bool { get set }
@@ -29,20 +23,12 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	
 	/// Default values
 	public struct Defaults {
-		public static let enteredBackground: Date? = nil
 		public static let userHasSeenJailBreakWarning: Bool = false
-		public static let userHasRemoteAuthentication: Bool = false
 		public static let firstTimeVisitor: Bool = true
 	}
 	
 	/// Create the secure user settings
 	public init() { /* Public initializer needed for public access */ }
-	
-	@Keychain(name: "enteredBackground", service: "Security" + SecureUserSettings.serviceExtension, clearOnReinstall: false)
-	public var enteredBackground: Date? = Defaults.enteredBackground
-
-	@Keychain(name: "userHasRemoteAuthentication", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
-	public var userHasRemoteAuthentication: Bool = Defaults.userHasRemoteAuthentication
 	
 	@Keychain(name: "userHasSeenJailBreakWarning", service: "Security" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var userHasSeenJailBreakWarning: Bool = Defaults.userHasSeenJailBreakWarning
@@ -64,8 +50,6 @@ extension SecureUserSettings {
 	
 	/// Wipe all persisted data
 	public func wipePersistedData() {
-		enteredBackground = Defaults.enteredBackground
-		userHasRemoteAuthentication = Defaults.userHasRemoteAuthentication
 		userHasSeenJailBreakWarning = Defaults.userHasSeenJailBreakWarning
 		firstTimeVisitor = Defaults.firstTimeVisitor
 	}

@@ -23,11 +23,9 @@ final class SettingsFlowTests: XCTestCase {
 	func testSettingsFlow_verifySettingsTab() {
 		
 		AppRobot()
-			.enableFaceID()
 			.navigateToOverview()
 			.tapSettingsTab()
 			.verifyDisplayButtonExists()
-			.verifySecurityButtonExists()
 			.verifyAdvancedButtonExists()
 			.verifyAboutTheAppButtonExists()
 			.verifyResetApplicationButtonExists()
@@ -47,20 +45,6 @@ final class SettingsFlowTests: XCTestCase {
 			.tapLightButton()
 			.verifySystemButtonExists()
 			.tapSystemButton()
-			.verifyPreviousButtonExists()
-			.tapPreviousButton()
-	}
-	
-	@MainActor
-	func testSettingsFlow_securitySettings() {
-		
-		AppRobot()
-			.enableFaceID()
-			.navigateToOverview()
-			.tapSettingsTab()
-			.verifySecurityButtonExists()
-			.tapSecurityButton()
-			.verifyBiometricSwitchExists()
 			.verifyPreviousButtonExists()
 			.tapPreviousButton()
 	}

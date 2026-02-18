@@ -293,7 +293,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Remote Authentication
 				
 			case Coordination.Action.loggedInWithDigiD.identifier:
-				secureUserSettings.userHasRemoteAuthentication = true
+//				secureUserSettings.userHasRemoteAuthentication = true
 			
 				resetNavigationStack(with: AppCoordination.State.loginInfo)
 				return true
@@ -432,7 +432,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				}
 				
 				secureUserSettings.firstTimeVisitor = false
-				secureUserSettings.userHasRemoteAuthentication = true
 				
 				if featureFlagManager.isAutomaticLocalizationEnabled {
 					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
@@ -500,13 +499,18 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 			// Manual Localization
 			case .manualLocalization:
-				SearchOrganizationView(
-					viewModel: SearchOrganizationViewModel(
-						coordinator: self,
-						firstVisitor: true
-					)
+				AddOrganizationView(
+					viewModel: AddOrganizationViewModel(coordinator: self)
 				)
 				.isPresentedAsSheet(false)
+				
+//				SearchOrganizationView(
+//					viewModel: SearchOrganizationViewModel(
+//						coordinator: self,
+//						firstVisitor: true
+//					)
+//				)
+//				.isPresentedAsSheet(false)
 			
 			case let .healthcareOrganizationSearchResults(city, name):
 				OrganizationListManualView(

@@ -56,8 +56,8 @@ import XCTest
 	// MARK: - Interactions
 	
 	@discardableResult
-	func tapNextButton() -> PincodeRobot {
+	func tapNextButton() -> LoginRobot {
 		nextButton.tap()
-		return PincodeRobot(app)
+		return LoginRobot(app)
 	}
 }

@@ -9,28 +9,6 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 	
 	/// Initlializer
 	public init() { /* Public initializer needed for public access */ }
-	
-	public var invokedEnteredBackgroundSetter = false
-	public var invokedEnteredBackgroundSetterCount = 0
-	public var invokedEnteredBackground: Date?
-	public var invokedEnteredBackgroundList = [Date?]()
-	public var invokedEnteredBackgroundGetter = false
-	public var invokedEnteredBackgroundGetterCount = 0
-	public var stubbedEnteredBackground: Date!
-
-	public var enteredBackground: Date? {
-		set {
-			invokedEnteredBackgroundSetter = true
-			invokedEnteredBackgroundSetterCount += 1
-			invokedEnteredBackground = newValue
-			invokedEnteredBackgroundList.append(newValue)
-		}
-		get {
-			invokedEnteredBackgroundGetter = true
-			invokedEnteredBackgroundGetterCount += 1
-			return stubbedEnteredBackground
-		}
-	}
 
 	public var invokedUserHasSeenJailBreakWarningSetter = false
 	public var invokedUserHasSeenJailBreakWarningSetterCount = 0
@@ -51,28 +29,6 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 			invokedUserHasSeenJailBreakWarningGetter = true
 			invokedUserHasSeenJailBreakWarningGetterCount += 1
 			return stubbedUserHasSeenJailBreakWarning
-		}
-	}
-
-	public var invokedUserHasRemoteAuthenticationSetter = false
-	public var invokedUserHasRemoteAuthenticationSetterCount = 0
-	public var invokedUserHasRemoteAuthentication: Bool?
-	public var invokedUserHasRemoteAuthenticationList = [Bool]()
-	public var invokedUserHasRemoteAuthenticationGetter = false
-	public var invokedUserHasRemoteAuthenticationGetterCount = 0
-	public var stubbedUserHasRemoteAuthentication: Bool! = false
-
-	public var userHasRemoteAuthentication: Bool {
-		set {
-			invokedUserHasRemoteAuthenticationSetter = true
-			invokedUserHasRemoteAuthenticationSetterCount += 1
-			invokedUserHasRemoteAuthentication = newValue
-			invokedUserHasRemoteAuthenticationList.append(newValue)
-		}
-		get {
-			invokedUserHasRemoteAuthenticationGetter = true
-			invokedUserHasRemoteAuthenticationGetterCount += 1
-			return stubbedUserHasRemoteAuthentication
 		}
 	}
 

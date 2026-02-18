@@ -3,88 +3,58 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+import Foundation
+import Testing
 @testable import SecureUserSettings
 
-final class SecureUserSettingsTests: XCTestCase {
+@Suite
+struct SecureUserSettingsTests {
 	
-	var sut: SecureUserSettings!
+	var sut: SecureUserSettings
 	
-	override func setUp() {
-		
-		super.setUp()
+	init() {
 		sut = SecureUserSettings()
 		sut.wipePersistedData()
 	}
 	
-	override func tearDown() {
-		
-		super.tearDown()
-		sut.wipePersistedData()
-	}
-
-	func test_secureUserSettings_wipePersistedData() {
+	@Test
+	func wipePersistedData() {
 		
 		// Given
 		sut.userHasSeenJailBreakWarning = true
-		sut.userHasRemoteAuthentication = true
-		sut.enteredBackground = Date()
+		sut.firstTimeVisitor = false
 		
 		// When
 		sut.wipePersistedData()
 		
 		// Then
-		expect(self.sut.userHasSeenJailBreakWarning) == false
-		expect(self.sut.userHasRemoteAuthentication) == false
-		expect(self.sut.enteredBackground) == nil
+		#expect(sut.userHasSeenJailBreakWarning == false)
+		#expect(sut.firstTimeVisitor == true)
 	}
 	
-	func test_secureUserSettings_setUserHasRemoteAuthentication() {
+	@Test
+	func setUserHasSeenJailBreakWarning() {
 		
 		// Given
-		expect(self.sut.userHasRemoteAuthentication) == false
-		
-		// When
-		sut.userHasRemoteAuthentication = true
-		
-		// Then
-		expect(self.sut.userHasRemoteAuthentication) == true
-	}
-	
-	func test_secureUserSettings_setUserHasSeenJailBreakWarning() {
-		
-		// Given
-		expect(self.sut.userHasSeenJailBreakWarning) == false
+		#expect(sut.userHasSeenJailBreakWarning == false)
 		
 		// When
 		sut.userHasSeenJailBreakWarning = true
 		
 		// Then
-		expect(self.sut.userHasSeenJailBreakWarning) == true
+		#expect(sut.userHasSeenJailBreakWarning == true)
 	}
 	
-	func test_secureUserSettings_setEnteredBackground() {
+	@Test
+	func setFirstTimeVisitor() {
 		
 		// Given
-		expect(self.sut.enteredBackground) == nil
-		let timestamp = Date()
-		
-		// When
-		sut.enteredBackground = timestamp
-		
-		// Then
-		expect(self.sut.enteredBackground) == timestamp
-	}
-	
-	func test_secureUserSettings_setFirstTimeVisitor() {
-		
-		// Given
-		expect(self.sut.firstTimeVisitor) == true
+		#expect(sut.firstTimeVisitor == true)
 		
 		// When
 		sut.firstTimeVisitor = false
 		
 		// Then
-		expect(self.sut.firstTimeVisitor) == false
+		#expect(sut.firstTimeVisitor == false)
 	}
 }

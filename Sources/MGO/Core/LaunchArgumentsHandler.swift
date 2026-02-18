@@ -25,10 +25,10 @@ public class LaunchArgumentsHandler {
 		return CommandLine.arguments.contains("-updateRequired")
 	}
 	
-	/// Do we have remote authentication?
-	public static func hasRemoteAuthentication() -> Bool {
+	/// Are we a repeat visitor?
+	public static func repeatVisitor() -> Bool {
 		
-		return CommandLine.arguments.contains("-withRemoteAuthentication")
+		return CommandLine.arguments.contains("-repeatVisitor")
 	}
 	
 	/// Should we enable automatic localization?

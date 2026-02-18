@@ -87,8 +87,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 				return HTTPStubsResponse(jsonObject: ["iosMinimumVersion": "99999"], statusCode: 200, headers: nil)
 			}
 		}
-		if LaunchArgumentsHandler.hasRemoteAuthentication() {
-			secureUserSettings.userHasRemoteAuthentication = true
+		if LaunchArgumentsHandler.repeatVisitor() {
+			secureUserSettings.firstTimeVisitor = false
+			featureFlagManager.bypassPincode = true
 		}
 		if LaunchArgumentsHandler.isAutomaticLocalizationEnabled() {
 			featureFlagManager.isAutomaticLocalizationEnabled = true

@@ -37,42 +37,50 @@ class AppRobot: Robot {
 		return UpdateRequiredRobot(app)
 	}
 	
-	/// Launch the app as a repeat visitor
-	/// - Parameters:
-	///   - pincode: the pin code to substitute
-	///   - withRemoteAuthentication: True if the remoteAuthentication should be set
-	///   - withAutomaticLocalizationEnabled: True if the automatic localization should be enabled
-	/// - Returns: Pin code Robot for pin code validation
+	/// Launch the application
+	/// - Returns: Introduction Robot for the first scene
 	@discardableResult
-	func launchApp(
-		withPincode pincode: String,
-		withRemoteAuthentication: Bool = false,
-		withAutomaticLocalizationEnabled: Bool = false,
-		withDemoMode: Bool = false) -> PincodeRobot {
-		
+	func launchAppRepeatVisitor() -> HealthCategoriesRobot {
 		app.launchArguments.append("-resetOnStart")
 		app.launchArguments.append("-disableTransitions")
-		app.launchArguments.append("-pincode:\(pincode)")
-		if withRemoteAuthentication {
-			app.launchArguments.append("-withRemoteAuthentication")
-		}
-		if withAutomaticLocalizationEnabled {
-			app.launchArguments.append("-automaticLocalizationEnabled")
-		}
-		if withDemoMode {
-			app.launchArguments.append("-demoMode")
-		}
-			
+		app.launchArguments.append("-repeatVisitor")
 		app.launch()
-		return PincodeRobot(app)
+		return HealthCategoriesRobot(app)
 	}
+	
+//	/// Launch the app as a repeat visitor
+//	/// - Parameters:
+//	///   - pincode: the pin code to substitute
+//	///   - withRemoteAuthentication: True if the remoteAuthentication should be set
+//	///   - withAutomaticLocalizationEnabled: True if the automatic localization should be enabled
+//	/// - Returns: Pin code Robot for pin code validation
+//	@discardableResult
+//	func launchApp(
+//		withPincode pincode: String,
+//		withRemoteAuthentication: Bool = false,
+//		withAutomaticLocalizationEnabled: Bool = false,
+//		withDemoMode: Bool = false) -> PincodeRobot {
+//		
+//		app.launchArguments.append("-resetOnStart")
+//		app.launchArguments.append("-disableTransitions")
+//		app.launchArguments.append("-pincode:\(pincode)")
+//		if withAutomaticLocalizationEnabled {
+//			app.launchArguments.append("-automaticLocalizationEnabled")
+//		}
+//		if withDemoMode {
+//			app.launchArguments.append("-demoMode")
+//		}
+//			
+//		app.launch()
+//		return PincodeRobot(app)
+//	}
 
 	/// Launch the app with a Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverview(organization index: Int) -> HealthCategoriesRobot {
 		self
-			.navigateToOverview()
+			.launchAppRepeatVisitor()
 			.verifyAddOrganizationsButtonExists()
 			.tapAddOrganizationsButton()
 			.enterSearchFields(name: "test", place: "test")
@@ -82,32 +90,29 @@ class AppRobot: Robot {
 		
 		return HealthCategoriesRobot(app)
 	}
+//	
+//	/// Launch the app with a Healthcare organization
+//	/// - Returns: Health Categories Robot for the overview
+//	@discardableResult
+//	func navigateToOverviewWithDigiD(organization index: Int) -> HealthCategoriesRobot {
+//		self
+//			.launchApp(withPincode: "12345")
+//			.enterConfirmationPinCode("12345")
+//			.tapLoginWithDigiDButton()
+//			.performCompleteDigiDLogin()
+//			.enterSearchFields(name: "test", place: "test")
+//			.tapSearchButton()
+//			.swipeToListElement(at: index)
+//			.tapListElement(at: index)
+//		
+//		return HealthCategoriesRobot(app)
+//	}
 	
-	/// Launch the app with a Healthcare organization
-	/// - Returns: Health Categories Robot for the overview
-	@discardableResult
-	func navigateToOverviewWithDigiD(organization index: Int) -> HealthCategoriesRobot {
-		self
-			.launchApp(withPincode: "12345")
-			.enterConfirmationPinCode("12345")
-			.tapLoginWithDigiDButton()
-			.performCompleteDigiDLogin()
-			.enterSearchFields(name: "test", place: "test")
-			.tapSearchButton()
-			.swipeToListElement(at: index)
-			.tapListElement(at: index)
-		
-		return HealthCategoriesRobot(app)
-	}
-	
-	/// Launch the app with a Healthcare organization
+	/// Launch the app without a Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverview() -> HealthCategoriesRobot {
-		self
-			.launchApp(withPincode: "12345", withRemoteAuthentication: true)
-			.enterConfirmationPinCodeWithRemoteAuthentication("12345")
-		return HealthCategoriesRobot(app)
+		return self.launchAppRepeatVisitor()
 	}
 	
 	/// Launch the app with a BGZ Healthcare organization
@@ -143,13 +148,5 @@ class AppRobot: Robot {
 	@discardableResult
 	func navigateToOverviewWithVaccination() -> HealthCategoriesRobot {
 		self.navigateToOverview(organization: 8)
-	}
-	
-	/// Enable the biometric face ID login
-	/// - Returns: Robot
-	@discardableResult func enableFaceID() -> Self {
-		
-		app.launchArguments.append("-enableFaceID")
-		return self
 	}
 }

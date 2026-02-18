@@ -46,10 +46,6 @@ import XCTest
 		app.buttons["settings.reset_app"]
 	}
 	
-	private var securityButton: XCUIElement {
-		app.buttons["settings.security"]
-	}
-	
 	private var titleLabel: XCUIElement {
 		app.navigationBars.staticTexts["Instellingen"]
 	}
@@ -91,12 +87,6 @@ import XCTest
 		XCTAssertTrue(resetApplicationButton.exists)
 		return self
 	}
-	
-	@discardableResult
-	func verifySecurityButtonExists() -> Self {
-		XCTAssertTrue(securityButton.exists)
-		return self
-	}
 
 	// MARK: - Interactions
 	
@@ -128,12 +118,6 @@ import XCTest
 	func tapDisplayButton() -> DisplaySettingsRobot {
 		displayButton.tap()
 		return DisplaySettingsRobot(app)
-	}
-	
-	@discardableResult
-	func tapSecurityButton() -> SecuritySettingsRobot {
-		securityButton.tap()
-		return SecuritySettingsRobot(app)
 	}
 	
 	@discardableResult

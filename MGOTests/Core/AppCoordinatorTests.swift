@@ -162,7 +162,6 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.loginInfo
 		expect(self.sut.path.isEmpty) == true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
 	}
 	
 	@MainActor func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldShowManualLocalizaion_whenAutomaticLocalizationEnabled() {
@@ -178,7 +177,6 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showChildCoordinator) == false
 		expect(self.sut.path.isEmpty) == true
 		expect(self.sut.rootState) == AppCoordination.State.manualLocalization
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == false
 	}
 	
 	@MainActor func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldAutomaticLocalization_whenAutomaticLocalizationEnabled() {
