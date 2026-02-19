@@ -52,16 +52,18 @@ final class AdvancedSettingsViewModelTests: XCTestCase {
 		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabled) == false
 	}
 	
-	@MainActor func test_bypassPincode() {
+	@MainActor func test_bypassRemoteAuthentication() {
 		
 		// Given
 		setupSut()
 		
 		// When
-		sut.reduce(.bypassPincode(false))
+		sut.reduce(.bypassRemoteAuthentication(false))
 		
 		// Then
-		expect(self.servicesSpies.featureFlagSpy.invokedBypassPincodeSetter).toEventually(beTrue())
-		expect(self.servicesSpies.featureFlagSpy.invokedBypassPincode) == false
+		expect(self.servicesSpies.featureFlagSpy.invokedBypassRemoteAuthenticationSetter).toEventually(beTrue())
+		expect(
+			self.servicesSpies.featureFlagSpy.invokedBypassRemoteAuthentication
+		) == false
 	}
 }

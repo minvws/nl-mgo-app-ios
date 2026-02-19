@@ -11,13 +11,13 @@ final class FeatureFlagManagerTests: XCTestCase {
 //	@MainActor override func setUp() {
 //		super.setUp()
 //		FeatureFlagManager().isAutomaticLocalizationEnabled = false
-//		FeatureFlagManager().bypassPincode = false
+//		FeatureFlagManager().bypassRemoteAuthentication = false
 //	}
 	
 	@MainActor override func tearDown() {
 		super.tearDown()
 		FeatureFlagManager().isAutomaticLocalizationEnabled = false
-		FeatureFlagManager().bypassPincode = false
+		FeatureFlagManager().bypassRemoteAuthentication = false
 	}
 	
 	@MainActor func test_featureFlag_isAutomaticLocalizationEnabled_defaultValue() {
@@ -45,26 +45,26 @@ final class FeatureFlagManagerTests: XCTestCase {
 		expect(result) == false
 	}
 	
-	@MainActor func test_featureFlag_bypassPincode_defaultValue() {
+	@MainActor func test_featureFlag_bypassRemoteAuthentication_defaultValue() {
 
 		// Given
 		let sut = FeatureFlagManager()
 		
 		// When
-		let result = sut.bypassPincode
+		let result = sut.bypassRemoteAuthentication
 		
 		// Then
 		expect(result) == false
 	}
 	
-	@MainActor func test_featureFlag_bypassPincode_setValue() {
+	@MainActor func test_featureFlag_bypassRemoteAuthentication_setValue() {
 		
 		// Given
-		FeatureFlagManager().bypassPincode = false
+		FeatureFlagManager().bypassRemoteAuthentication = false
 		let sut = FeatureFlagManager()
 		
 		// When
-		let result = sut.bypassPincode
+		let result = sut.bypassRemoteAuthentication
 		
 		// Then
 		expect(result) == false
@@ -100,13 +100,13 @@ final class FeatureFlagManagerTests: XCTestCase {
 		// Given
 		let sut = FeatureFlagManager()
 		sut.isAutomaticLocalizationEnabled = true
-		sut.bypassPincode = true
+		sut.bypassRemoteAuthentication = true
 		
 		// When
 		sut.wipePersistedData()
 		
 		// Then
 		expect(sut.isAutomaticLocalizationEnabled) == false
-		expect(sut.bypassPincode) == false
+		expect(sut.bypassRemoteAuthentication) == false
 	}
 }

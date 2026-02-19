@@ -89,7 +89,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 		if LaunchArgumentsHandler.repeatVisitor() {
 			secureUserSettings.firstTimeVisitor = false
-			featureFlagManager.bypassPincode = true
+			featureFlagManager.bypassRemoteAuthentication = true
 		}
 		if LaunchArgumentsHandler.isAutomaticLocalizationEnabled() {
 			featureFlagManager.isAutomaticLocalizationEnabled = true

@@ -75,36 +75,4 @@ final class AppCoordinatorViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: sut)
 	}
-	
-//	@MainActor func test_fullscreenCover_pathForSheet() throws {
-//		
-//		// Given
-//		let appCoordinator = createAppCoordinator()
-//		appCoordinator.showChildCoordinator = true
-//		appCoordinator.showAuthenticationModal = true
-//		appCoordinator.rootStateForSheet = AppCoordination.State.forgotPinCode
-//		appCoordinator.pathForSheet.append(AppCoordination.State.accountRemoved)
-//		
-//		// When
-//		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
-//		
-//		// Then
-//		takeSnapShots(content: sut)
-//	}
-//	
-//	@MainActor func test_inspectableSheet_pathForSheet() throws {
-//		
-//		// Given
-//		let appCoordinator = createAppCoordinator()
-//		appCoordinator.showChildCoordinator = false
-//		appCoordinator.showAuthenticationModal = false
-//		appCoordinator.rootStateForSheet = AppCoordination.State.forgotPinCode
-//		appCoordinator.pathForSheet.append(AppCoordination.State.accountRemoved)
-//		
-//		// When
-//		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
-//		
-//		// Then
-//		takeSnapShots(content: sut)
-//	}
 }

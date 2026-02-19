@@ -61,25 +61,25 @@ public class FeatureFlagManagerSpy: FeatureFlagManaging {
 		invokedWipePersistedDataCount += 1
 	}
 	
-	public var invokedBypassPincodeSetter = false
-	public var invokedBypassPincodeSetterCount = 0
-	public var invokedBypassPincode: Bool?
-	public var invokedBypassPincodeList = [Bool]()
-	public var invokedBypassPincodeGetter = false
-	public var invokedBypassPincodeGetterCount = 0
-	public var stubbedBypassPincode: Bool! = false
+	public var invokedBypassRemoteAuthenticationSetter = false
+	public var invokedBypassRemoteAuthenticationSetterCount = 0
+	public var invokedBypassRemoteAuthentication: Bool?
+	public var invokedBypassRemoteAuthenticationList = [Bool]()
+	public var invokedBypassRemoteAuthenticationGetter = false
+	public var invokedBypassRemoteAuthenticationGetterCount = 0
+	public var stubbedBypassRemoteAuthentication: Bool! = false
 
-	public var bypassPincode: Bool {
+	public var bypassRemoteAuthentication: Bool {
 		set {
-			invokedBypassPincodeSetter = true
-			invokedBypassPincodeSetterCount += 1
-			invokedBypassPincode = newValue
-			invokedBypassPincodeList.append(newValue)
+			invokedBypassRemoteAuthenticationSetter = true
+			invokedBypassRemoteAuthenticationSetterCount += 1
+			invokedBypassRemoteAuthentication = newValue
+			invokedBypassRemoteAuthenticationList.append(newValue)
 		}
 		get {
-			invokedBypassPincodeGetter = true
-			invokedBypassPincodeGetterCount += 1
-			return stubbedBypassPincode
+			invokedBypassRemoteAuthenticationGetter = true
+			invokedBypassRemoteAuthenticationGetterCount += 1
+			return stubbedBypassRemoteAuthentication
 		}
 	}
 }

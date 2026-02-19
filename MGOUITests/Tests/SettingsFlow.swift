@@ -58,7 +58,7 @@ final class SettingsFlowTests: XCTestCase {
 			.verifyAdvancedButtonExists()
 			.tapAdvancedButton()
 			.verifyAutomaticLocalizationSwitchExists()
-			.verifyPincodeSwitchExists()
+			.verifyRemoteAuthSwitchExists()
 			.verifyPreviousButtonExists()
 			.tapPreviousButton()
 	}

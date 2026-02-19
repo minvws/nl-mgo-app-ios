@@ -81,12 +81,12 @@ final class AppCoordinatorTests: XCTestCase {
 		) == true
 	}
 	
-	@MainActor func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_bypassPincodeEnabled() {
+	@MainActor func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_bypassRemoteAuthenticationEnabled() {
 		
 		// Given
 		setupSut()
 		servicesSpies.secureUserSettingsSpy.stubbedFirstTimeVisitor = false
-		servicesSpies.featureFlagSpy.stubbedBypassPincode = true
+		servicesSpies.featureFlagSpy.stubbedBypassRemoteAuthentication = true
 		
 		// When
 		sut.handle(Coordination.Action.finishedSplash)

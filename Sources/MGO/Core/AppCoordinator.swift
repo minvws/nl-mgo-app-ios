@@ -371,7 +371,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		if secureUserSettings.firstTimeVisitor {
 			// User must login with DigiD, but show introduction first.
 			resetNavigationStack(with: AppCoordination.State.introduction)
-		} else if featureFlagManager.bypassPincode && Configuration().getRelease() == .development {
+		} else if featureFlagManager.bypassRemoteAuthentication && Configuration().getRelease() == .development {
 			// Bypass the login screen
 			showChildCoordinator = true
 		} else {

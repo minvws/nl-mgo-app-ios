@@ -17,8 +17,9 @@ The [Robot Pattern](https://github.com/JamesSedlacek/Scrumdinger/blob/main/Scrum
 #### Example:  
 ```swift
 AppRobot()
-    .launchApp(withPincode: "12345") // Returns PincodeRobot
-    .enterConfirmationPinCode("12345") // Returns LoginRobot
+    .launchApp() // Returns IntroductionRobot
+    .tapNextButton() // Move through introduction
+    .tapReferenceButton() // Returns LoginRobot
     .tapDigiDButton() // Returns MockDigiDRobot
     .performDigiDLogin() // Returns AddOrganizationRobot
     .enterSearchFields(name: "Huisarts", place: "Breda") // Stays on AddOrganizationRobot
@@ -40,14 +41,15 @@ AppRobot()
 
 At the core of the pattern is the AppRobot, responsible for launching the app and returning the robot for the initial screen. Every test starts by creating an `AppRobot`, ensuring a consistent entry point.
 
-The `AppRobot` also manages common launch flows. For example, it includes `startWithBGZ()`, which not only launches the app but also adds the Mock BGZ Healthcare Organization. This makes it easy for tests that rely on this setup to use a standardized launch sequence.
+The `AppRobot` also manages common launch flows. For example, it includes `navigateToOverviewWithBGZ()`, which not only launches the app but also adds the Mock BGZ Healthcare Organization. This makes it easy for tests that rely on this setup to use a standardized launch sequence.
 
 ## Launch Options
 
 - `-resetOnStart` will clear any existing data and create a first visit experience
 - `-disableTransitions` will speedup animation and navigation
 - `-updateRequired` will force the update required flow by mocking the remote configuration
-- `-pincode:xxxxx` will set the pincode to `xxxxx` so you can try the repeat visitor experience.
+- `-repeatVisitor` will skip the introduction flow and go directly to the health categories screen
+- `-demoMode` will enable demo mode features
 
 To use a launch option, you have to create helper method for `AppRobot` method
 
@@ -60,6 +62,17 @@ func launchApp() -> IntroductionRobot {
 	app.launchArguments.append("-disableTransitions")
 	app.launch()
 	return IntroductionRobot(app)
+}
+
+/// Launch the application as repeat visitor
+/// - Returns: Health Categories Robot for the main screen
+@discardableResult
+func launchAppRepeatVisitor() -> HealthCategoriesRobot {
+	app.launchArguments.append("-resetOnStart")
+	app.launchArguments.append("-disableTransitions")
+	app.launchArguments.append("-repeatVisitor")
+	app.launch()
+	return HealthCategoriesRobot(app)
 }
 ```
 ---

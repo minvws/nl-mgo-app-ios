@@ -11,7 +11,7 @@ class AdvancedSettingsViewModel: BaseViewModel {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case automaticLocalization(Bool)
-		case bypassPincode(Bool)
+		case bypassRemoteAuthentication(Bool)
 	}
 	
 	/// Dependency injectable Feature Flag Manager
@@ -23,8 +23,8 @@ class AdvancedSettingsViewModel: BaseViewModel {
 		
 		if case .automaticLocalization(let automaticLocalization) = action {
 			featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
-		} else if case .bypassPincode(let bypassPincode) = action {
-			featureFlagManager.bypassPincode = bypassPincode
+		} else if case .bypassRemoteAuthentication(let bypassRemoteAuthentication) = action {
+			featureFlagManager.bypassRemoteAuthentication = bypassRemoteAuthentication
 		}
 	}
 }
@@ -40,8 +40,8 @@ struct AdvancedSettingsView: View {
 	/// Variable to change the automatic localization setting
 	@State private var automaticLocalization: Bool = Container.shared.featureFlagManager().isAutomaticLocalizationEnabled
 	
-	/// Variable to change the bypass pincode setting
-	@State private var bypassPincode: Bool = Container.shared.featureFlagManager().bypassPincode
+	/// Variable to change the bypass Remote Authentication setting
+	@State private var bypassRemoteAuthentication: Bool = Container.shared.featureFlagManager().bypassRemoteAuthentication
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -55,14 +55,14 @@ struct AdvancedSettingsView: View {
 		List {
 			Section {
 				automaticLocalizationToggleView()
-				pincodeToggleView()
+				remoteAuthToggleView()
 			}
 		}
 		.onChange(of: automaticLocalization) { newValue in
 			viewModel.reduce(.automaticLocalization(newValue))
 		}
-		.onChange(of: bypassPincode) { newValue in
-			viewModel.reduce(.bypassPincode(newValue))
+		.onChange(of: bypassRemoteAuthentication) { newValue in
+			viewModel.reduce(.bypassRemoteAuthentication(newValue))
 		}
 		.backport.scrollContentBackground(.hidden)
 		.backport.contentMargins(ViewTraits.Navigation.padding)
@@ -91,14 +91,14 @@ struct AdvancedSettingsView: View {
 	
 	/// The view for the toggle
 	/// - Returns: toggle view
-	@ViewBuilder private func pincodeToggleView() -> some View {
+	@ViewBuilder private func remoteAuthToggleView() -> some View {
 		
-		Toggle(isOn: $bypassPincode) {
-			Text("settings.featureflag.pincode")
+		Toggle(isOn: $bypassRemoteAuthentication) {
+			Text("settings.featureflag.remote_auth")
 				.typography(.bodyMedium)
 				.foregroundStyle(theme.labels.primary)
 		}
-			.accessibilityIdentifier("settings.featureflag.pincode")
+			.accessibilityIdentifier("settings.featureflag.remote_auth")
 			.toggleStyle(.switch)
 			.tint(theme.actions.solid.background)
 	}

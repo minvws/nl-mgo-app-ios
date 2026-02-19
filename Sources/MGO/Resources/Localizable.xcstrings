@@ -3392,12 +3392,12 @@
         }
       }
     },
-    "settings.featureflag.pincode" : {
+    "settings.featureflag.remote_auth" : {
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skip pincode"
+            "value" : "Skip DigiD"
           }
         }
       }
