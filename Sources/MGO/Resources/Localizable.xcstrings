@@ -1,72 +1,6 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
-    "add_organization_list.add_organization" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voeg een zorgaanbieder toe"
-          }
-        }
-      }
-    },
-    "add_organization_list.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welke zorgaanbieders wilt u in uw overzicht tonen?"
-          }
-        }
-      }
-    },
-    "add_organization_list.no_results_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze lijst is nog leeg"
-          }
-        }
-      }
-    },
-    "add_organization_list.no_results_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "U heeft nog geen zorgaanbieders toegevoegd aan deze lijst. U kunt dit nu doen, of later via uw profiel."
-          }
-        }
-      }
-    },
-    "add_organization_list.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "U kunt zelf zorgaanbieders toevoegen of verwijderen. Dit kunt u ook later in uw profiel doen."
-          }
-        }
-      }
-    },
-    "add_organization_list.to_overview" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ga naar mijn overzicht"
-          }
-        }
-      }
-    },
     "add_organization.add_voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -96,28 +30,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plaats"
-          }
-        }
-      }
-    },
-    "add_organization.default_content_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Waar wilt u uw zorggegevens ophalen?"
-          }
-        }
-      }
-    },
-    "add_organization.default_content_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bijvoorbeeld uw huisarts, ziekenhuis of apotheek."
           }
         }
       }
@@ -195,28 +107,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zorgaanbieder niet aangesloten"
-          }
-        }
-      }
-    },
-    "add_organization.search_clear" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wis selectie"
-          }
-        }
-      }
-    },
-    "add_organization.search_placeholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bijvoorbeeld Amsterdam UMC"
           }
         }
       }
@@ -320,28 +210,6 @@
         }
       }
     },
-    "common.data_not_retrieved_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gegevens niet opgehaald"
-          }
-        }
-      }
-    },
-    "common.data_not_retrieved_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We kunnen door een probleem uw gegevens nu niet ophalen."
-          }
-        }
-      }
-    },
     "common.error_heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -353,17 +221,6 @@
         }
       }
     },
-    "common.error_in_system" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er ging iets mis in ons systeem."
-          }
-        }
-      }
-    },
     "common.error_subheading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -371,17 +228,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sorry, maar het lijkt erop dat we geen verbinding kunnen maken met ons systeem. Probeer het opnieuw."
-          }
-        }
-      }
-    },
-    "common.failed_to_load_data" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gegevens ophalen mislukt"
           }
         }
       }
@@ -529,17 +375,6 @@
         }
       }
     },
-    "common.skip" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Niet nu"
-          }
-        }
-      }
-    },
     "common.to_overview" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -580,94 +415,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja"
-          }
-        }
-      }
-    },
-    "dialog.add_organization_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ toevoegen?"
-          }
-        }
-      }
-    },
-    "dialog.add_organization_no" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nee"
-          }
-        }
-      }
-    },
-    "dialog.add_organization_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Als deze zorgaanbieder gegevens over u heeft, staan die straks in uw overzicht."
-          }
-        }
-      }
-    },
-    "dialog.add_organization_yes" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ja, toevoegen"
-          }
-        }
-      }
-    },
-    "dialog.remove_organization_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ weglaten?"
-          }
-        }
-      }
-    },
-    "dialog.remove_organization_no" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nee, toch tonen"
-          }
-        }
-      }
-    },
-    "dialog.remove_organization_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We halen uw dossier van deze zorgaanbieder niet op. U kunt deze later alsnog toevoegen via uw profiel."
-          }
-        }
-      }
-    },
-    "dialog.remove_organization_yes" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ja, weglaten"
           }
         }
       }
@@ -1541,28 +1288,6 @@
         }
       }
     },
-    "health_category.errornodata.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geen gegevens opgehaald"
-          }
-        }
-      }
-    },
-    "health_category.errornodata.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dit komt door een storing bij ons. Probeer het later opnieuw."
-          }
-        }
-      }
-    },
     "ihe_mhd_minimal_document_reference.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1717,17 +1442,6 @@
         }
       }
     },
-    "login.no_digid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ik heb geen DigiD"
-          }
-        }
-      }
-    },
     "login.subheading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1746,17 +1460,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Medicijnen"
-          }
-        }
-      }
-    },
-    "medication_use.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door uw zorgaanbieder."
           }
         }
       }
@@ -1801,17 +1504,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Persoonlijk"
-          }
-        }
-      }
-    },
-    "organization_list.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welke zorgaanbieders wilt u in de app tonen?"
           }
         }
       }
@@ -1959,17 +1651,6 @@
         }
       }
     },
-    "overview.favorites.add" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aanpassen"
-          }
-        }
-      }
-    },
     "overview.favorites.empty.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2010,17 +1691,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "menu"
-          }
-        }
-      }
-    },
-    "overview.no_results_action" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voeg een zorgaanbieder toe"
           }
         }
       }
@@ -2619,17 +2289,6 @@
         }
       }
     },
-    "settings.about_this_app.logo_ accessibility" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Logo van het Ministerie van Volksgezondheid, Welzijn en Sport."
-          }
-        }
-      }
-    },
     "settings.about_this_app.logo_accessibility" : {
 
     },
@@ -2885,39 +2544,6 @@
         }
       }
     },
-    "settings.information.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Informatie"
-          }
-        }
-      }
-    },
-    "settings.other.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Overige"
-          }
-        }
-      }
-    },
-    "settings.preferences.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voorkeuren"
-          }
-        }
-      }
-    },
     "settings.reset_app.dialog.action" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2980,17 +2606,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Face ID"
-          }
-        }
-      }
-    },
-    "settings.security.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beveiliging"
           }
         }
       }
@@ -3288,17 +2903,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hulp van anderen"
-          }
-        }
-      }
-    },
-    "zib_laboratory_demo.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uitslag van laboratorium"
           }
         }
       }
