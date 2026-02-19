@@ -1651,17 +1651,6 @@
         }
       }
     },
-    "overview.favorites.add" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aanpassen"
-          }
-        }
-      }
-    },
     "overview.favorites.empty.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1702,17 +1691,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "menu"
-          }
-        }
-      }
-    },
-    "overview.no_results_action" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voeg een zorgaanbieder toe"
           }
         }
       }
