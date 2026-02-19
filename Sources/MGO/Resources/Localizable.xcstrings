@@ -1,39 +1,6 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
-    "account_removed.action" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Begrepen"
-          }
-        }
-      }
-    },
-    "account_removed.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uw account is verwijderd"
-          }
-        }
-      }
-    },
-    "account_removed.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uw gegevens zijn verwijderd van uw telefoon. Ze blijven wel veilig bewaard bij uw zorgaanbieders. Als u een nieuw account maakt, kunt u uw gegevens opnieuw ophalen."
-          }
-        }
-      }
-    },
     "add_organization_list.add_organization" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -261,171 +228,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ bekijken?"
-          }
-        }
-      }
-    },
-    "biometric_setup.button.with_biometric" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ aanzetten"
-          }
-        }
-      }
-    },
-    "biometric_setup.dialog.cancel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sta niet toe"
-          }
-        }
-      }
-    },
-    "biometric_setup.dialog.fallback" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gebruik de toegangscode"
-          }
-        }
-      }
-    },
-    "biometric_setup.dialog.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wilt u toestaan dat deze app Face ID gebruikt?"
-          }
-        }
-      }
-    },
-    "biometric_setup.dialog.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log voortaan snel en veilig in met gezichtsherkenning."
-          }
-        }
-      }
-    },
-    "biometric_setup.dialog.touchid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plaats uw vinger om te bevestigen"
-          }
-        }
-      }
-    },
-    "biometric_setup.faceid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Face ID"
-          }
-        }
-      }
-    },
-    "biometric_setup.faceid.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inloggen met Face ID?"
-          }
-        }
-      }
-    },
-    "biometric_setup.faceid.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beveilig de app met gezichtsherkenning. Zo logt u de volgende keer sneller in. U kunt uw toegangscode ook blijven gebruiken."
-          }
-        }
-      }
-    },
-    "biometric_setup.opticid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Optic ID"
-          }
-        }
-      }
-    },
-    "biometric_setup.opticid.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inloggen met Optic ID?"
-          }
-        }
-      }
-    },
-    "biometric_setup.opticid.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beveilig de app met oogherkenning. Zo logt u de volgende keer sneller in. U kunt uw toegangscode ook blijven gebruiken."
-          }
-        }
-      }
-    },
-    "biometric_setup.touchid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Touch ID"
-          }
-        }
-      }
-    },
-    "biometric_setup.touchid.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inloggen met Touch ID?"
-          }
-        }
-      }
-    },
-    "biometric_setup.touchid.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beveilig de app met uw vingerafdruk. Zo logt u de volgende keer sneller in. U kunt uw toegangscode ook blijven gebruiken."
           }
         }
       }
@@ -2278,127 +2080,6 @@
         }
       }
     },
-    "pincode.announce.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Veld %@, %@"
-          }
-        }
-      }
-    },
-    "pincode.confirm.backbutton" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aanpassen"
-          }
-        }
-      }
-    },
-    "pincode.error.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Foutief"
-          }
-        }
-      }
-    },
-    "pincode.faceid.lockout" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Face ID is vergrendeld omdat er te veel mislukte pogingen waren."
-          }
-        }
-      }
-    },
-    "pincode.faceid.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "gebruik face ID"
-          }
-        }
-      }
-    },
-    "pincode.focus.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actief"
-          }
-        }
-      }
-    },
-    "pincode.lockout" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lockout"
-          }
-        }
-      }
-    },
-    "pincode.opticid.lockout" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Optic ID is vergrendeld omdat er te veel mislukte pogingen waren."
-          }
-        }
-      }
-    },
-    "pincode.opticid.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "gebruik optic ID"
-          }
-        }
-      }
-    },
-    "pincode.touchid.lockout" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Touch ID is vergrendeld omdat er te veel mislukte pogingen waren."
-          }
-        }
-      }
-    },
-    "pincode.touchid.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "gebruik touch ID"
-          }
-        }
-      }
-    },
     "privacy.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2839,6 +2520,17 @@
         }
       }
     },
+    "settings.about_this_app_safety.phone_yourself.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deel uw wachtwoord of pincode nooit met anderen. Ook niet met familie of vrienden. Uw gegevens zijn alleen van u."
+          }
+        }
+      }
+    },
     "settings.about_this_app_safety.public_wifi.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2890,6 +2582,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beveilig uw mobiel"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.security_phone.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stel een sterk wachtwoord of een pincode in die moeilijk te raden is. Zo voorkomt u dat anderen toegang tot uw gegevens krijgen als u uw mobiel kwijtraakt."
           }
         }
       }
@@ -3266,17 +2969,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uw bewaarde zorgaanbieders worden verwijderd. Uw medische gegevens blijven bewaard."
-          }
-        }
-      }
-    },
-    "settings.security.biometric.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gebruik dit in plaats van uw toegangscode om veilig en nog sneller in te loggen."
           }
         }
       }
