@@ -9,7 +9,7 @@ public extension UserDefaults {
 	
 	enum Keys: String {
 		case isAutomaticLocalizationEnabled
-		case bypassPincode
+		case bypassRemoteAuthentication
 	}
 }
 
@@ -18,8 +18,8 @@ public protocol FeatureFlagManaging {
 	/// Do we use automatic localization?
 	@MainActor var isAutomaticLocalizationEnabled: Bool { get set }
 	
-	/// Should we bypass the pincode login?
-	@MainActor var bypassPincode: Bool { get set }
+	/// Should we bypass the remote login?
+	@MainActor var bypassRemoteAuthentication: Bool { get set }
 	
 	/// Are we running in demo mode?
 	@MainActor var isDemo: Bool { get set }
@@ -39,9 +39,9 @@ public class FeatureFlagManager: FeatureFlagManaging {
 	@UserDefault(key: UserDefaults.Keys.isAutomaticLocalizationEnabled.rawValue + (ProcessInfo.processInfo.arguments.contains("--unittesting") ? ".test" : ""), defaultValue: false)
 	@MainActor public var isAutomaticLocalizationEnabled: Bool
 	
-	/// Should we bypass the pincode login?
-	@UserDefault(key: UserDefaults.Keys.bypassPincode.rawValue + (ProcessInfo.processInfo.arguments.contains("--unittesting") ? ".test" : ""), defaultValue: false)
-	@MainActor public var bypassPincode: Bool
+	/// Should we bypass the remote login?
+	@UserDefault(key: UserDefaults.Keys.bypassRemoteAuthentication.rawValue + (ProcessInfo.processInfo.arguments.contains("--unittesting") ? ".test" : ""), defaultValue: false)
+	@MainActor public var bypassRemoteAuthentication: Bool
 	
 	/// Are we running in demo mode?
 	@MainActor public var isDemo: Bool = false
@@ -49,6 +49,6 @@ public class FeatureFlagManager: FeatureFlagManaging {
 	/// Remove all the feature flags and reset to default
 	@MainActor public func wipePersistedData() {
 		isAutomaticLocalizationEnabled = false
-		bypassPincode = false
+		bypassRemoteAuthentication = false
 	}
 }

@@ -49,7 +49,6 @@ struct ProductionApp: App {
 	/// Create the production app
 	init() {
 		coordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
-		secureUserSettings.enteredBackground = nil
 	}
 	
 	/// Show the privacy scene
@@ -85,11 +84,6 @@ struct ProductionApp: App {
 	/// Handle the app when we become inactive (i.e. show privacy scene)
 	private func becomesInactive() {
 		showPrivacyScene = true
-		// Mark the date
-		guard secureUserSettings.enteredBackground == nil else { return }
-		let timeStamp = Container.shared.now()()
-		secureUserSettings.enteredBackground = timeStamp
-		logWarning("App: Became inactive, marking enteredBackground at", timeStamp)
 	}
 	
 	/// Handle the app when we become active (again).

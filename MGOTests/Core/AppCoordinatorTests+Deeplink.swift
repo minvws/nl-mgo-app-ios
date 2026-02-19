@@ -47,7 +47,7 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 		expect(self.sut.showChildCoordinator) == false
 		expect(self.sut.path.isEmpty) == true
 		expect(self.sut.rootState) == AppCoordination.State.manualLocalization
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedFirstTimeVisitorSetter) == true
 	}
 	
 	@MainActor func test_digidDeeplink() throws {
@@ -66,7 +66,7 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 		expect(self.sut.showChildCoordinator) == false
 		expect(self.sut.path.isEmpty) == true
 		expect(self.sut.rootState) == AppCoordination.State.manualLocalization
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedFirstTimeVisitorSetter) == true
 	}
 	
 	@MainActor func test_digidDeeplink_withAutomaticLocalization() throws {
@@ -85,7 +85,7 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 		expect(self.sut.showChildCoordinator) == false
 		expect(self.sut.path.isEmpty) == true
 		expect(self.sut.rootState) == AppCoordination.State.automaticLocalization
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedFirstTimeVisitorSetter) == true
 	}
 	
 	@MainActor func test_digidDeeplink_repeatVisitor() throws {

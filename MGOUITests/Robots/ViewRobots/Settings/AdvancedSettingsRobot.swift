@@ -26,8 +26,8 @@ import XCTest
 		app.switches["settings.featureflag.localization"]
 	}
 	
-	private var pincodeSwitch: XCUIElement {
-		app.switches["settings.featureflag.pincode"]
+	private var remoteAuthSwitch: XCUIElement {
+		app.switches["settings.featureflag.remote_auth"]
 	}
 	
 	private var previousButton: XCUIElement {
@@ -53,8 +53,8 @@ import XCTest
 	}
 	
 	@discardableResult
-	func verifyPincodeSwitchExists() -> Self {
-		XCTAssertTrue(pincodeSwitch.exists)
+	func verifyRemoteAuthSwitchExists() -> Self {
+		XCTAssertTrue(remoteAuthSwitch.exists)
 		return self
 	}
 	

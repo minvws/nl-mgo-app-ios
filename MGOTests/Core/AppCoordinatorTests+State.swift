@@ -123,7 +123,6 @@ final class AppCoordinatorStateTests: XCTestCase {
 	@MainActor func test_coordinatorView_forLoginInfo() throws {
 		
 		// Given
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
 		setupSut()
 		let state = AppCoordination.State.loginInfo
 		

@@ -293,14 +293,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Remote Authentication
 				
 			case Coordination.Action.loggedInWithDigiD.identifier:
-				secureUserSettings.userHasRemoteAuthentication = true
 			
 				resetNavigationStack(with: AppCoordination.State.loginInfo)
 				return true
 			
 			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
 			
-				if featureFlagManager.isAutomaticLocalizationEnabled {
+				if featureFlagManager.isAutomaticLocalizationEnabled || featureFlagManager.isDemo {
 					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
 				} else {
 					resetNavigationStack(with: AppCoordination.State.manualLocalization)
@@ -372,7 +371,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		if secureUserSettings.firstTimeVisitor {
 			// User must login with DigiD, but show introduction first.
 			resetNavigationStack(with: AppCoordination.State.introduction)
-		} else if featureFlagManager.bypassPincode && Configuration().getRelease() == .development {
+		} else if featureFlagManager.bypassRemoteAuthentication && Configuration().getRelease() == .development {
 			// Bypass the login screen
 			showChildCoordinator = true
 		} else {
@@ -432,7 +431,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				}
 				
 				secureUserSettings.firstTimeVisitor = false
-				secureUserSettings.userHasRemoteAuthentication = true
 				
 				if featureFlagManager.isAutomaticLocalizationEnabled {
 					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
@@ -500,13 +498,18 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 			// Manual Localization
 			case .manualLocalization:
-				SearchOrganizationView(
-					viewModel: SearchOrganizationViewModel(
-						coordinator: self,
-						firstVisitor: true
-					)
+				AddOrganizationView(
+					viewModel: AddOrganizationViewModel(coordinator: self)
 				)
 				.isPresentedAsSheet(false)
+				
+//				SearchOrganizationView(
+//					viewModel: SearchOrganizationViewModel(
+//						coordinator: self,
+//						firstVisitor: true
+//					)
+//				)
+//				.isPresentedAsSheet(false)
 			
 			case let .healthcareOrganizationSearchResults(city, name):
 				OrganizationListManualView(

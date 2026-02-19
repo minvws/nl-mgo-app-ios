@@ -12,9 +12,6 @@ final class OnboardingFlowTests: XCTestCase {
 	 This e2e test will test the onboarding flow
 	 - Verify the existence of the introduction page
 	 - Press the next button on the introduction page, verify the proposition page
-	 - Proceed to pin code entry, enter a pin code that is too weak
-	 - Proceed to pin code entry, enter a pin code, proceed to pin code confirmation, enter a different pin code
-	 - Proceed to pin code entry, enter a pin code, proceed to pin code confirmation, enter the same pin code
 	 - Verify the login page
 	 - Navigate to the login page, press digid button, verify the website in the browser
 	 - Search for a healthcare organization, select the fourth entry
@@ -39,54 +36,12 @@ final class OnboardingFlowTests: XCTestCase {
 			.verifyPropositionExists(label: "proposition.statement_3")
 			.verifyPropositionExists(label: "proposition.statement_4")
 	}
-	
-	@MainActor
-	func testOnboardingFlow_pincodeEntry_tooWeak() {
-		AppRobot()
-			.launchApp()
-			.tapNextButton()
-			.tapNextButton()
-			.verifySubHeadingExists("U heeft een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
-			.enterPinCode("11111")
-			.verifyErrorTextExists("Code is te simpel en dus onveilig")
-	}
-	
-	@MainActor
-	func testOnboardingFlow_pincodeConfirmation_differentPincode() {
-		AppRobot()
-			.launchApp()
-			.tapNextButton()
-			.tapNextButton()
-			.verifySubHeadingExists("U heeft een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
-			.enterPinCode("12369")
-			.verifySubHeadingExists("Voer uw 5-cijferige code nog een keer in.")
-			.enterPinCode("11111")
-			.verifyErrorTextExists("Code is anders dan de vorige")
-	}
-	
-	@MainActor
-	func testOnboardingFlow_pincodeConfirmation_matchingPincode() {
-		
-		AppRobot()
-			.enableFaceID()
-			.launchApp()
-			.tapNextButton()
-			.tapNextButton()
-			.verifySubHeadingExists("U heeft een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
-			.enterPinCode("12369")
-			.verifySubHeadingExists("Voer uw 5-cijferige code nog een keer in.")
-			.enterConfirmationPinCodeWithBioMetric("12369")
-			.verifySubHeadingExists()
-			.verifyBioMetricsButtonExists()
-			.verifySkipButtonExists()
-			.tapSkipButton()
-	}
-	
 	@MainActor
 	func testOnboardingFlow_verifyLoginScreen() {
 		AppRobot()
-			.launchApp(withPincode: "12345")
-			.enterConfirmationPinCode("12345")
+			.launchApp()
+			.tapNextButton()
+			.tapNextButton()
 			.verifySubHeadingExists()
 	}
 	
@@ -94,8 +49,9 @@ final class OnboardingFlowTests: XCTestCase {
 	func testOnboardingFlow_verifyMockDigiD() {
 		
 		AppRobot()
-			.launchApp(withPincode: "12345")
-			.enterConfirmationPinCode("12345")
+			.launchApp()
+			.tapNextButton()
+			.tapNextButton()
 			.tapLoginWithDigiDButton()
 			.verifySafariIsOpen()
 			.verifyMockDigiDWebsite()
@@ -105,8 +61,9 @@ final class OnboardingFlowTests: XCTestCase {
 	func testOnboardingFlow_demoMode_automaticLocalization() {
 		
 		AppRobot()
-			.launchApp(withPincode: "12345", withAutomaticLocalizationEnabled: true, withDemoMode: true)
-			.enterConfirmationPinCode("12345")
+			.launchApp(withDemoMode: true)
+			.tapNextButton()
+			.tapNextButton()
 			.tapLoginWithDigiDButtonWithDemoMode()
 			.verifySubHeadingExists()
 			.verifyNextButtonExists()

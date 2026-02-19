@@ -25,16 +25,10 @@ public class LaunchArgumentsHandler {
 		return CommandLine.arguments.contains("-updateRequired")
 	}
 	
-	/// Do we have remote authentication?
-	public static func hasRemoteAuthentication() -> Bool {
+	/// Are we a repeat visitor?
+	public static func repeatVisitor() -> Bool {
 		
-		return CommandLine.arguments.contains("-withRemoteAuthentication")
-	}
-	
-	/// Should we enable faceID?
-	public static func shouldEnableFaceID() -> Bool {
-		
-		return CommandLine.arguments.contains("-enableFaceID")
+		return CommandLine.arguments.contains("-repeatVisitor")
 	}
 	
 	/// Should we enable automatic localization?
@@ -47,16 +41,5 @@ public class LaunchArgumentsHandler {
 	public static func isDemo() -> Bool {
 		
 		return CommandLine.arguments.contains("-demoMode")
-	}
-	
-	/// Should we use a provided pin code?
-	/// - Returns: pincode
-	public static func withPincode() -> String? {
-		
-		if let argument = CommandLine.arguments.first(where: { $0.lowercased().starts(with: "-pincode:") }),
-		   let pincode = argument.split(separator: ":").last {
-			return String(pincode)
-		}
-		return nil
 	}
 }

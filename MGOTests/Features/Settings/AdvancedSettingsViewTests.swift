@@ -35,7 +35,7 @@ class AdvancedSettingsViewTests: XCTestCase {
 		// Given
 		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
-		servicesSpies.featureFlagSpy.stubbedBypassPincode = true
+		servicesSpies.featureFlagSpy.stubbedBypassRemoteAuthentication = true
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
@@ -49,7 +49,7 @@ class AdvancedSettingsViewTests: XCTestCase {
 		// Given
 		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
-		servicesSpies.featureFlagSpy.stubbedBypassPincode = false
+		servicesSpies.featureFlagSpy.stubbedBypassRemoteAuthentication = false
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
