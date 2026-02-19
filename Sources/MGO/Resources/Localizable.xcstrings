@@ -1090,61 +1090,6 @@
         }
       }
     },
-    "forgot_pincode.button" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Maak een nieuw account"
-          }
-        }
-      }
-    },
-    "forgot_pincode.dialog.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nieuw account maken?"
-          }
-        }
-      }
-    },
-    "forgot_pincode.dialog.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "U kunt uw gegevens straks opnieuw ophalen. Het andere account wordt verwijderd."
-          }
-        }
-      }
-    },
-    "forgot_pincode.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "U kunt uw toegangscode niet aanpassen"
-          }
-        }
-      }
-    },
-    "forgot_pincode.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "U kunt wel een nieuwe toegangscode instellen als u een nieuw account aanmaakt."
-          }
-        }
-      }
-    },
     "gp_diagnostic_result.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2355,94 +2300,6 @@
         }
       }
     },
-    "pincode.confirm.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bevestig uw toegangscode"
-          }
-        }
-      }
-    },
-    "pincode.confirm.mismatch" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Code is anders dan de vorige"
-          }
-        }
-      }
-    },
-    "pincode.confirm.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voer uw 5-cijferige code nog een keer in."
-          }
-        }
-      }
-    },
-    "pincode.create.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kies uw toegangscode"
-          }
-        }
-      }
-    },
-    "pincode.create.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "U heeft een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345."
-          }
-        }
-      }
-    },
-    "pincode.create.tooweak" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Code is te simpel en dus onveilig"
-          }
-        }
-      }
-    },
-    "pincode.empty.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leeg"
-          }
-        }
-      }
-    },
-    "pincode.erase.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leeg"
-          }
-        }
-      }
-    },
     "pincode.error.voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2476,17 +2333,6 @@
         }
       }
     },
-    "pincode.filled.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gevuld"
-          }
-        }
-      }
-    },
     "pincode.focus.voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2494,17 +2340,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Actief"
-          }
-        }
-      }
-    },
-    "pincode.forgot" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toegangscode vergeten?"
           }
         }
       }
@@ -2560,50 +2395,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "gebruik touch ID"
-          }
-        }
-      }
-    },
-    "pincode.validation.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welkom terug"
-          }
-        }
-      }
-    },
-    "pincode.validation.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voer uw toegangscode in om door te gaan."
-          }
-        }
-      }
-    },
-    "pincode.validation.wrong" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze code klopt niet"
-          }
-        }
-      }
-    },
-    "pincode.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Veld %@ van %@, %@"
           }
         }
       }
@@ -3048,17 +2839,6 @@
         }
       }
     },
-    "settings.about_this_app_safety.phone_yourself.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deel uw wachtwoord of pincode nooit met anderen. Ook niet met familie of vrienden. Uw gegevens zijn alleen van u."
-          }
-        }
-      }
-    },
     "settings.about_this_app_safety.public_wifi.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3110,17 +2890,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beveilig uw mobiel"
-          }
-        }
-      }
-    },
-    "settings.about_this_app_safety.security_phone.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stel een sterk wachtwoord of een pincode in die moeilijk te raden is. Zo voorkomt u dat anderen toegang tot uw gegevens krijgen als u uw mobiel kwijtraakt."
           }
         }
       }
