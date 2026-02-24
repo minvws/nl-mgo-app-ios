@@ -15,8 +15,12 @@ enum DatabaseMigrations {
 	/// - Throws: GRDB errors if the drop fails.
 	static func clearSchema(in dbQueue: DatabaseQueue) async throws {
 		try await dbQueue.write { db in
-			try db.drop(table: "organization_fts", ifExists: true)
-			try db.drop(table: "organization", ifExists: true)
+			if try db.tableExists("organization_fts") {
+				try db.drop(table: "organization_fts")
+			}
+			if try db.tableExists("organization") {
+				try db.drop(table: "organization")
+			}
 		}
 	}
 
