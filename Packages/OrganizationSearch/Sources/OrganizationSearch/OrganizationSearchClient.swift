@@ -20,11 +20,31 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 	/// database access on a background executor.
 	private actor DatabaseActor {
 
-		var database: DatabaseQueue?
+		var database: DatabasePool?
 		private let clock: any MeasurableClock
 
 		init(clock: (any MeasurableClock)? = nil) {
 			self.clock = clock ?? makeMeasurableClock()
+		}
+
+		/// Searches for organizations matching the given term using FTS5.
+		///
+		/// - Parameter searchTerm: The query string.
+		/// - Returns: A `SearchResults` value, or `nil` if the term is empty.
+		/// - Throws: `OrganizationSearchClientError.notPrepared` if `prepare()` has not been called.
+		func search(_ searchTerm: String) async throws -> SearchResults? {
+			guard let dbQueue = database else {
+				throw OrganizationSearchClientError.notPrepared
+			}
+
+			let searchStart = clock.now()
+			let result = try await dbQueue.read { db in
+				let (rows, totalCount) = try DatabaseSearchQuery.fetch(matching: searchTerm, in: db)
+				guard !rows.isEmpty else { return SearchResults?.none }
+				return try DatabaseSearchResultFactory.makeSearchResults(from: rows, totalCount: totalCount)
+			}
+			logDebug("OrganizationSearchClient search(\"\(searchTerm)\"): \(clock.elapsed(since: searchStart))")
+			return result
 		}
 
 		/// Opens or creates the on-disk SQLite database, populates it from
@@ -34,22 +54,25 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 		/// - Throws: Errors if JSON resource is missing, decoding fails, or
 		///   database setup fails.
 		func prepare() async throws -> Int {
-			let dbQueue = try DatabaseSetup.openDatabase()
+			let dbPool = try DatabaseSetup.openDatabase()
 
 			let schemaStart = clock.now()
-			try await DatabaseMigrations.clearSchema(in: dbQueue)
-			try await DatabaseMigrations.createSchema(in: dbQueue)
+			try await DatabaseMigrations.clearSchema(in: dbPool)
+			try await DatabaseMigrations.createSchema(in: dbPool)
 			logDebug("OrganizationSearchClient schema: \(clock.elapsed(since: schemaStart))")
+
+			// Make the pool available for searches before inserting rows.
+			// DatabasePool allows concurrent reads during the write transaction.
+			self.database = dbPool
 
 			let loadStart = clock.now()
 			let organizations = try DatabasePopulator.loadOrganizations()
 			logDebug("OrganizationSearchClient JSON load: \(clock.elapsed(since: loadStart))")
 
 			let insertStart = clock.now()
-			try await DatabasePopulator.insert(organizations, into: dbQueue)
+			try await DatabasePopulator.insert(organizations, into: dbPool)
 			logDebug("OrganizationSearchClient insert: \(clock.elapsed(since: insertStart))")
 
-			self.database = dbQueue
 			return organizations.count
 		}
 	}
@@ -68,7 +91,7 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 	}
 
 	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults? {
-		return nil
+		return try await dbActor.search(searchTerm)
 	}
 
 	public func getVersion(fileName: String = "version") throws -> Version {

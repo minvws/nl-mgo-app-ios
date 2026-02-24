@@ -13,7 +13,7 @@ enum DatabaseMigrations {
 	///
 	/// - Parameter dbQueue: The database to clear.
 	/// - Throws: GRDB errors if the drop fails.
-	static func clearSchema(in dbQueue: DatabaseQueue) async throws {
+	static func clearSchema(in dbQueue: any DatabaseWriter) async throws {
 		try await dbQueue.write { db in
 			if try db.tableExists("organization_fts") {
 				try db.drop(table: "organization_fts")
@@ -29,32 +29,32 @@ enum DatabaseMigrations {
 	///
 	/// - Parameter dbQueue: The database to migrate.
 	/// - Throws: GRDB errors if table creation fails.
-	static func createSchema(in dbQueue: DatabaseQueue) async throws {
+	static func createSchema(in dbQueue: any DatabaseWriter) async throws {
 		try await dbQueue.write { db in
 
 			// Main organizations table
-			try db.create(table: "organization") { t in
-				t.primaryKey("id", .text)
-				t.column("displayName", .text)
-				t.column("normalizedDisplayName", .text)
-				t.column("careTypeDisplay", .text)
-				t.column("city", .text)
-				t.column("postalCode", .text)
-				t.column("addressLine", .text)
-				t.column("geoLat", .double)
-				t.column("geoLng", .double)
-				t.column("searchBlob", .text)
-				t.column("dataServicesJSON", .text)
+			try db.create(table: "organization") { tableDefinition in
+				tableDefinition.primaryKey("id", .text)
+				tableDefinition.column("displayName", .text)
+				tableDefinition.column("normalizedDisplayName", .text)
+				tableDefinition.column("careTypeDisplay", .text)
+				tableDefinition.column("city", .text)
+				tableDefinition.column("postalCode", .text)
+				tableDefinition.column("addressLine", .text)
+				tableDefinition.column("geoLat", .double)
+				tableDefinition.column("geoLng", .double)
+				tableDefinition.column("searchBlob", .text)
+				tableDefinition.column("dataServicesJSON", .text)
 			}
 
 			// FTS5 virtual table synchronized with the main table
-			try db.create(virtualTable: "organization_fts", using: FTS5()) { t in
-				t.synchronize(withTable: "organization")
-				t.column("displayName")
-				t.column("normalizedDisplayName")
-				t.column("city")
-				t.column("postalCode")
-				t.column("searchBlob")
+			try db.create(virtualTable: "organization_fts", using: FTS5()) { tableDefinition in
+				tableDefinition.synchronize(withTable: "organization")
+//				tableDefinition.column("displayName")
+//				tableDefinition.column("normalizedDisplayName")
+//				tableDefinition.column("city")
+//				tableDefinition.column("postalCode")
+				tableDefinition.column("searchBlob")
 			}
 		}
 	}

@@ -32,7 +32,7 @@ enum DatabasePopulator {
 	///   - organizations: The organizations to insert.
 	///   - dbQueue: The database to write into.
 	/// - Throws: GRDB errors if insertion fails.
-	static func insert(_ organizations: [Organization], into dbQueue: DatabaseQueue) async throws {
+	static func insert(_ organizations: [Organization], into dbQueue: any DatabaseWriter) async throws {
 		try await dbQueue.write { db in
 			for org in organizations {
 				let dataServicesJSON = try org.dataServices

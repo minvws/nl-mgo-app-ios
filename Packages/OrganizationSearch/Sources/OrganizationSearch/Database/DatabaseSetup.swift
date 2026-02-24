@@ -15,9 +15,13 @@ enum DatabaseSetup {
 	/// Opens (or creates) the database in the Application Support directory
 	/// and marks it as excluded from iCloud backup.
 	///
-	/// - Returns: A `DatabaseQueue` ready for use.
+	/// A `DatabasePool` is used instead of `DatabaseQueue` so that concurrent
+	/// reads can proceed while a write transaction is in progress, preventing
+	/// search queries from blocking on the initial data population.
+	///
+	/// - Returns: A `DatabasePool` ready for use.
 	/// - Throws: Errors if the directory cannot be resolved or the database cannot be opened.
-	static func openDatabase() throws -> DatabaseQueue {
+	static func openDatabase() throws -> DatabasePool {
 		let appSupportURL = try FileManager.default.url(
 			for: .applicationSupportDirectory,
 			in: .userDomainMask,
@@ -25,7 +29,7 @@ enum DatabaseSetup {
 			create: true
 		)
 		let dbURL = appSupportURL.appendingPathComponent(databaseFileName)
-		let dbQueue = try DatabaseQueue(path: dbURL.path)
+		let dbPool = try DatabasePool(path: dbURL.path)
 
 		// Exclude from iCloud backup now that the file exists on disk
 		var mutableURL = dbURL
@@ -33,6 +37,6 @@ enum DatabaseSetup {
 		resourceValues.isExcludedFromBackup = true
 		try mutableURL.setResourceValues(resourceValues)
 
-		return dbQueue
+		return dbPool
 	}
 }

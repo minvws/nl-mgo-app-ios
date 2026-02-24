@@ -70,9 +70,9 @@ class SearchOrganizationViewModel: ObservableObject {
 		)
 		
 		Task {
-			MemoryUsage.printMemoryUsage("before indexing")
+			MemoryUsage.printMemoryUsage("SOVM: before indexing")
 			try await organizationSearchClient.prepare()
-			MemoryUsage.printMemoryUsage("after indexing")
+			MemoryUsage.printMemoryUsage("SOVM: after indexing")
 		}
 	}
 	
@@ -115,17 +115,18 @@ class SearchOrganizationViewModel: ObservableObject {
 		searchTask = Task {
 			// Delay the search to debounce
 			try? await Task.sleep(nanoseconds: searchDebounceDelay * 1_000_000)
-			
+
 			// Check if task was cancelled during the delay
-			guard !Task.isCancelled else {
-				return
-			}
-			
+			guard !Task.isCancelled else { return }
+
 			let searchResult = try? await organizationSearchClient.searchHealthcareOrganizations(searchTerm)
+
+			// Discard results if a newer search superseded this one while the query was running
+			guard !Task.isCancelled else { return }
+
 			let docs = searchResult?.hits.map { $0.document } ?? []
 			await MainActor.run {
 				withAnimation {
-					
 					self.state.results = docs
 					self.state.isSearching = false
 					self.state.totalResults = Int(searchResult?.count ?? 0)
