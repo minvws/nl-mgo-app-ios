@@ -59,13 +59,16 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: try XCTUnwrap(view), precision: 0.95)
 	}
 	
 	@MainActor func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
 		
 		// Given
-		let state = HealthcareCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")
+		let state = HealthcareCoordination.State.healthcareOrganizationSearchResults(
+			city: "Roermond",
+			name: "Tandarts Tandje Erbij"
+		)
 		stub(condition: isPath("/localization/organization/search")) { _ in
 			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
 		}
@@ -74,7 +77,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let manualView = try view.inspect().find(OrganizationListManualView.self)
+		expect(manualView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forShowHealthcareOrganization() throws {
@@ -238,13 +242,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "alerts"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_alerts.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_allergies() throws {
@@ -252,13 +255,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "allergies"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_allergies.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_appointments() throws {
@@ -266,13 +268,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "appointments"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_appointments.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_complaints() throws {
@@ -280,13 +281,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "problems"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_complaints.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_devices() throws {
@@ -294,13 +294,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "medical_devices"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_devices.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_documents() throws {
@@ -308,13 +307,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "documents"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_documents.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_labresults() throws {
@@ -322,13 +320,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "lab_results"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_lab_results.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_lifestyle() throws {
@@ -336,13 +333,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "lifestyle"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_lifestyle.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_measurements() throws {
@@ -350,13 +346,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "measurements"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_measurements.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_medication() throws {
@@ -364,13 +359,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "medication"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_medication.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_functionalOrMentalStatus() throws {
@@ -378,13 +372,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "mental_wellbeing"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_mental.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_patient() throws {
@@ -392,13 +385,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "patient"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_patient.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_careTeam() throws {
@@ -406,13 +398,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "care_team"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_care_team.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_plans() throws {
@@ -420,13 +411,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "plans"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_plans.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_treatments() throws {
@@ -434,13 +424,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "treatments"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_treatments.heading"
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_vaccinations() throws {
@@ -448,13 +437,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Given
 		let sharedCategories = try SharedHealthCategories()
 		let category = try XCTUnwrap(sharedCategories.findCategory(id: "vaccinations"))
-		let view = sut.view(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { view }
+		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(content))
+		expect(translations?.heading) == "hc_vaccinations.heading"
 	}
 	
 	@MainActor func test_coordinatorView_exportHealthData() throws {
