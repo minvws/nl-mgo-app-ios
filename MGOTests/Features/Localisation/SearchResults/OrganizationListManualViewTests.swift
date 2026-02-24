@@ -39,7 +39,8 @@ final class OrganizationListManualViewTests: XCTestCase {
 			coordinator: coordinatorSpy,
 			city: city,
 			name: name,
-			localisationServiceClient: localisationServiceClientSpy
+			localisationServiceClient: localisationServiceClientSpy,
+			autoStartSearching: false
 		)
 		viewModel.state = state
 		sut = OrganizationListManualView(viewModel: self.viewModel)

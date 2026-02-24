@@ -75,6 +75,9 @@ class OrganizationListManualViewModel: ObservableObject {
 	/// The localisation service client
 	private var localisationServiceClient: LocalisationServiceClientProtocol?
 	
+	/// Start with searching on appear
+	private var autoStartSearching: Bool
+	
 	/// Dependency Healthcare Organization Store
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
 	
@@ -84,13 +87,15 @@ class OrganizationListManualViewModel: ObservableObject {
 		coordinator: (any Coordinator)?,
 		city: String,
 		name: String,
-		localisationServiceClient: LocalisationServiceClientProtocol?
+		localisationServiceClient: LocalisationServiceClientProtocol?,
+		autoStartSearching: Bool = true
 	) {
 		self.coordinator = coordinator
 		self.city = city
 		self.name = name
 		self.localisationServiceClient = localisationServiceClient
 		self.state = .loading
+		self.autoStartSearching = autoStartSearching
 	}
 	
 	/// Handle any action
@@ -110,6 +115,9 @@ class OrganizationListManualViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.closeSheet)
 			
 			case .onAppear:
+				// Do not auto start on view tests
+				guard autoStartSearching else { return }
+				
 				if case OrganizationListViewState.success = state {
 					applyListState()
 				}
