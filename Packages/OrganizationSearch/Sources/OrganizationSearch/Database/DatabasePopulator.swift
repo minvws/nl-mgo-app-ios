@@ -7,16 +7,16 @@ import Foundation
 import GRDB
 import MGODebug
 
-/// Loads organizations from the bundled JSON and inserts them into the database.
+/// Loads organization data from the bundled JSON resource and writes it to the database.
 enum DatabasePopulator {
 
-	/// Decodes the bundled `organizations.json` into an array of `Organization` values.
+	/// Decodes the bundled `organizations-full.json` into an array of `Organization` values.
 	///
-	/// - Returns: All organizations from the JSON resource.
-	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the file is missing,
-	///   or decoding errors if the JSON is malformed.
+	/// - Returns: All organizations decoded from the bundle resource.
+	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the JSON file is
+	///   absent from the module bundle; decoding errors if the JSON is malformed.
 	static func loadOrganizations() throws -> [Organization] {
-		guard let jsonURL = Bundle.module.url(forResource: "organizations", withExtension: "json") else {
+		guard let jsonURL = Bundle.module.url(forResource: "organizations-full", withExtension: "json") else {
 			logError("DatabasePopulator: organizations.json not found in bundle")
 			throw OrganizationSearchClientError.resourceNotFound
 		}
@@ -28,10 +28,15 @@ enum DatabasePopulator {
 
 	/// Inserts all organizations into the database in a single write transaction.
 	///
+	/// Each organization's `dataServices` dictionary is JSON-encoded to a text
+	/// blob stored in the `dataServicesJSON` column, so it can be decoded back
+	/// into `[String: DataService]` at search time by `DatabaseSearchResultFactory`.
+	///
 	/// - Parameters:
 	///   - organizations: The organizations to insert.
-	///   - dbQueue: The database to write into.
-	/// - Throws: GRDB errors if insertion fails.
+	///   - dbQueue: The database to write into (accepts both `DatabasePool` and `DatabaseQueue`).
+	/// - Throws: GRDB errors if the write transaction fails; encoding errors if
+	///   a `dataServices` value cannot be serialised to JSON.
 	static func insert(_ organizations: [Organization], into dbQueue: any DatabaseWriter) async throws {
 		try await dbQueue.write { db in
 			for org in organizations {
