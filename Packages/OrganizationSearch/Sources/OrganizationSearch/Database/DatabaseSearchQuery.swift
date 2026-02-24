@@ -5,52 +5,37 @@
 
 import GRDB
 
-/// Executes full-text search queries against the `organization_fts` table.
+/// Executes full-text search queries against the `organization_fts` FTS5 table.
 enum DatabaseSearchQuery {
 
-	/// The maximum number of results returned by `fetch(matching:in:limit:)`.
-	static let defaultLimit = 100
-
-	/// Searches for organizations whose indexed fields match the given FTS5 query string.
+	/// Returns all organizations whose FTS5 index matches the given query string.
 	///
-	/// Each word in `searchTerm` is automatically suffixed with `*` so that partial
-	/// words match (e.g. "tan" matches "tandarts").
+	/// Each word in `searchTerm` is suffixed with `*` to enable prefix matching
+	/// (e.g. `"tan"` matches `"tandarts"`). Multi-word queries are ANDed together
+	/// by FTS5 by default.
 	///
-	/// Only the top `limit` rows (by FTS5 relevance rank) are returned, but the
-	/// returned `totalCount` reflects the full number of matching organizations so
-	/// callers can show an accurate "X results" label.
+	/// Results are fetched by joining `organization_fts` back to the `organization`
+	/// content table on `rowid`, so all stored columns are available in the returned
+	/// rows. A `score` column (negated FTS5 `rank`; higher value = more relevant)
+	/// is included so callers can display or sort by relevance.
 	///
 	/// - Parameters:
-	///   - searchTerm: The raw user-entered search string.
+	///   - searchTerm: The raw user-entered query string.
 	///   - db: An open GRDB database connection.
-	///   - limit: Maximum number of rows to return (default: `defaultLimit`).
-	/// - Returns: A tuple of the matching rows and the total match count.
-	///   Both are empty/zero when `searchTerm` is blank.
-	/// - Throws: GRDB errors if the query fails.
-	static func fetch(
-		matching searchTerm: String,
-		in db: Database,
-		limit: Int = defaultLimit
-	) throws -> (rows: [Row], totalCount: Int) {
+	/// - Returns: All matching rows ordered by descending relevance, each containing
+	///   all `organization` columns plus a `score` column.
+	///   Returns an empty array when `searchTerm` is blank or whitespace-only.
+	/// - Throws: GRDB errors if the SQL query fails.
+	static func fetch(matching searchTerm: String, in db: Database) throws -> [Row] {
 		let trimmed = searchTerm.trimmingCharacters(in: .whitespaces)
-		guard !trimmed.isEmpty else { return ([], 0) }
+		guard !trimmed.isEmpty else { return [] }
 
 		let query = trimmed
 			.split(separator: " ")
 			.map { "\($0)*" }
 			.joined(separator: " ")
 
-		let totalCount = try Int.fetchOne(
-			db,
-			sql: """
-				SELECT COUNT(*)
-				FROM organization_fts
-				WHERE organization_fts MATCH ?
-				""",
-			arguments: [query]
-		) ?? 0
-
-		let rows = try Row.fetchAll(
+		return try Row.fetchAll(
 			db,
 			sql: """
 				SELECT o.id, o.displayName, o.normalizedDisplayName, o.careTypeDisplay,
@@ -61,11 +46,8 @@ enum DatabaseSearchQuery {
 				JOIN organization o ON o.rowid = organization_fts.rowid
 				WHERE organization_fts MATCH ?
 				ORDER BY organization_fts.rank
-				LIMIT ?
 				""",
-			arguments: [query, limit]
+			arguments: [query]
 		)
-
-		return (rows, totalCount)
 	}
 }

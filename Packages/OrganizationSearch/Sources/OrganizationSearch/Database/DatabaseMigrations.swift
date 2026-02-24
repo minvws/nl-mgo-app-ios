@@ -5,14 +5,21 @@
 
 import GRDB
 
-/// Creates and manages the database schema (tables and FTS5 index).
+/// Creates and tears down the SQLite schema used for organization search.
+///
+/// The schema consists of two tables:
+/// - `organization` – the main content table that stores all organization fields.
+/// - `organization_fts` – an FTS5 virtual table synchronised with `organization`,
+///   indexed on the `searchBlob` column for full-text search.
 enum DatabaseMigrations {
 
-	/// Drops the `organization` and `organization_fts` tables if they exist,
-	/// clearing all previously stored data.
+	/// Drops the `organization_fts` and `organization` tables if they exist.
+	///
+	/// Called at the start of `prepare()` to ensure the database starts from a
+	/// clean state on every launch (the data is always reloaded from the bundle).
 	///
 	/// - Parameter dbQueue: The database to clear.
-	/// - Throws: GRDB errors if the drop fails.
+	/// - Throws: GRDB errors if the drop operation fails.
 	static func clearSchema(in dbQueue: any DatabaseWriter) async throws {
 		try await dbQueue.write { db in
 			if try db.tableExists("organization_fts") {
@@ -24,8 +31,12 @@ enum DatabaseMigrations {
 		}
 	}
 
-	/// Creates the `organization` table and the `organization_fts` FTS5 virtual
-	/// table in the given database.
+	/// Creates the `organization` table and the `organization_fts` FTS5 virtual table.
+	///
+	/// `organization_fts` is kept in sync with `organization` via GRDB's
+	/// `synchronize(withTable:)`, which uses FTS5 content tables under the hood.
+	/// Only the `searchBlob` column is indexed; the other columns are stored in
+	/// the main table and joined at query time.
 	///
 	/// - Parameter dbQueue: The database to migrate.
 	/// - Throws: GRDB errors if table creation fails.

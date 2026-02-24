@@ -7,28 +7,36 @@ import MGOFoundation
 import MGOUI
 
 class SearchOrganizationViewModel: ObservableObject {
-	
+
 	/// The state of the search organization view
 	struct SearchOrganizationViewState {
-		
+
 		/// Are we in the onboarding? -> True
 		/// Are we a repeat visitor? -> False
 		var isOnboarding: Bool = false
-		
+
 		/// Are we searching for results?
 		var isSearching: Bool = false
-		
-		/// The search results
+
+		/// All search results returned by the database (potentially thousands).
 		var results: [OrganizationSearch.Organization] = []
-		
+
+		/// How many results are currently rendered in the list.
+		var visibleCount: Int = SearchOrganizationViewModel.pageSize
+
 		/// The total number of search results
 		var totalResults: Int = 0
-		
+
 		/// All id of stored organizations
 		var storedOrganizationIDs: [String] = []
-		
+
 		/// All available service ids
 		var availableServiceIds: [String] = []
+
+		/// The slice of `results` that is currently shown in the list.
+		var visibleResults: [OrganizationSearch.Organization] {
+			Array(results.prefix(visibleCount))
+		}
 	}
 	
 	/// The state for this view
@@ -46,6 +54,7 @@ class SearchOrganizationViewModel: ObservableObject {
 		case endEditing
 		case search(String?)
 		case store(OrganizationSearch.Organization)
+		case loadMore
 	}
 	
 	/// The flow coordinator for routing
@@ -56,6 +65,9 @@ class SearchOrganizationViewModel: ObservableObject {
 	
 	/// Debounce delay in milliseconds
 	private let searchDebounceDelay: UInt64 = 100
+	
+	/// The number of results rendered per page.
+	static let pageSize = 20
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
@@ -94,6 +106,12 @@ class SearchOrganizationViewModel: ObservableObject {
 			case let .store(organization):
 				store(organization)
 				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
+
+			case .loadMore:
+				state.visibleCount = min(
+					state.visibleCount + SearchOrganizationViewModel.pageSize,
+					state.results.count
+				)
 		}
 	}
 	
@@ -110,6 +128,7 @@ class SearchOrganizationViewModel: ObservableObject {
 			return
 		}
 		
+		MemoryUsage.printMemoryUsage("SOVM: before searching")
 		self.state.isSearching = true
 		
 		searchTask = Task {
@@ -125,9 +144,12 @@ class SearchOrganizationViewModel: ObservableObject {
 			guard !Task.isCancelled else { return }
 
 			let docs = searchResult?.hits.map { $0.document } ?? []
+			MemoryUsage.printMemoryUsage("SOVM: after searching")
+			logDebug("results", searchResult?.count ?? 0)
 			await MainActor.run {
 				withAnimation {
 					self.state.results = docs
+					self.state.visibleCount = SearchOrganizationViewModel.pageSize
 					self.state.isSearching = false
 					self.state.totalResults = Int(searchResult?.count ?? 0)
 				}
@@ -218,7 +240,10 @@ struct SearchOrganizationView: View {
 	@State var input: String
 	
 	/// Initializer
-	init(viewModel: @autoclosure @escaping () -> SearchOrganizationViewModel, input: String = "") {
+	init(
+		viewModel: @autoclosure @escaping () -> SearchOrganizationViewModel,
+		input: String = ""
+	) {
 		self._viewModel = StateObject(wrappedValue: viewModel())
 		self._input = State(initialValue: input)
 	}
@@ -452,8 +477,8 @@ struct SearchOrganizationView: View {
 	
 	/// The list of search results
 	@ViewBuilder private var organizationsList: some View {
-		
-		ForEach(viewModel.state.results) { organization in
+
+		ForEach(viewModel.state.visibleResults) { organization in
 			Section {
 				OrganizationRowView(
 					organization: organization,
@@ -465,6 +490,19 @@ struct SearchOrganizationView: View {
 				)
 			}
 			.listRowInsets(ViewTraits.List.resultInset)
+		}
+
+		// Load the next page when the user scrolls to the bottom.
+		if viewModel.state.visibleCount < viewModel.state.results.count {
+			Section {
+				Color.clear
+					.frame(height: 1)
+					.onAppear {
+						viewModel.reduce(.loadMore)
+					}
+			}
+			.listRowBackground(Color.clear)
+			.listRowInsets(.init())
 		}
 	}
 	

@@ -6,21 +6,24 @@
 import Foundation
 import GRDB
 
-/// Opens and configures the on-disk SQLite database.
+/// Opens and configures the on-disk SQLite database used for organization search.
 enum DatabaseSetup {
 
 	/// The filename used for the on-disk SQLite database.
 	static let databaseFileName = "organizations.sqlite"
 
-	/// Opens (or creates) the database in the Application Support directory
-	/// and marks it as excluded from iCloud backup.
+	/// Opens (or creates) the SQLite database in the Application Support directory.
 	///
-	/// A `DatabasePool` is used instead of `DatabaseQueue` so that concurrent
-	/// reads can proceed while a write transaction is in progress, preventing
-	/// search queries from blocking on the initial data population.
+	/// A `DatabasePool` is used so that concurrent reads can proceed while a
+	/// write transaction is in progress (WAL journal mode). This prevents
+	/// search queries from stalling during the initial data-population write.
 	///
-	/// - Returns: A `DatabasePool` ready for use.
-	/// - Throws: Errors if the directory cannot be resolved or the database cannot be opened.
+	/// The database file is marked as excluded from iCloud backup immediately
+	/// after it is created on disk.
+	///
+	/// - Returns: A configured `DatabasePool` ready for use.
+	/// - Throws: Foundation errors if the Application Support directory cannot
+	///   be resolved; GRDB errors if the database file cannot be opened.
 	static func openDatabase() throws -> DatabasePool {
 		let appSupportURL = try FileManager.default.url(
 			for: .applicationSupportDirectory,
