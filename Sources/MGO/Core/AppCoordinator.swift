@@ -498,18 +498,18 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 			// Manual Localization
 			case .manualLocalization:
-				AddOrganizationView(
-					viewModel: AddOrganizationViewModel(coordinator: self)
-				)
-				.isPresentedAsSheet(false)
-				
-//				SearchOrganizationView(
-//					viewModel: SearchOrganizationViewModel(
-//						coordinator: self,
-//						firstVisitor: true
-//					)
+//				AddOrganizationView(
+//					viewModel: AddOrganizationViewModel(coordinator: self)
 //				)
 //				.isPresentedAsSheet(false)
+				
+				SearchOrganizationView(
+					viewModel: SearchOrganizationViewModel(
+						coordinator: self,
+						firstVisitor: true
+					)
+				)
+				.isPresentedAsSheet(false)
 			
 			case let .healthcareOrganizationSearchResults(city, name):
 				OrganizationListManualView(
