@@ -121,11 +121,17 @@ extension XCTestCase {
 		)
 	}
 
-	/// Creates a UIHostingController and lets the RunLoop spin once so that SwiftUI layout
-	/// passes driven by GeometryReader / PreferenceKey (e.g. ScrollViewWithFixedBottom size
-	/// measurements) have a chance to settle before the snapshot is taken.
+	/// Creates a UIHostingController, embeds it in a window so that geometry callbacks
+	/// (onGeometryChange, onAppear inside GeometryReader) can fire, then lets the RunLoop
+	/// spin so that the resulting State updates and re-layouts settle before the snapshot
+	/// is taken.
 	private func preparedHostingController<V: View>(rootView: V) -> UIHostingController<V> {
 		let controller = UIHostingController(rootView: rootView)
+		let window = UIWindow(frame: UIScreen.main.bounds)
+		window.rootViewController = controller
+		window.makeKeyAndVisible()
+		controller.view.setNeedsLayout()
+		controller.view.layoutIfNeeded()
 		RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.05))
 		return controller
 	}
