@@ -14,13 +14,16 @@ let package = Package(
 	],
 	dependencies: [
 		// Internal
-		.package(name: "MGODebug", path: "../MGODebug")
+		.package(name: "MGODebug", path: "../MGODebug"),
+		// External
+		.package(url: "https://github.com/groue/GRDB.swift", exact: "7.10.0")
 	],
 	targets: [
 		.target(
 			name: "OrganizationSearch",
 			dependencies: [
-				.product(name: "MGODebug", package: "MGODebug")
+				.product(name: "MGODebug", package: "MGODebug"),
+				.product(name: "GRDB", package: "GRDB.swift")
 			],
 			resources: [.process("Resources")],
 			swiftSettings: [
