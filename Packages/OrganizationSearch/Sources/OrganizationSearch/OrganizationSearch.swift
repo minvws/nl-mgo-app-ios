@@ -46,6 +46,13 @@ public protocol OrganizationSearchClientProtocol {
 	func getVersion(fileName: String) throws -> Version
 }
 
+/// Errors shared across all `OrganizationSearchClientProtocol` implementations.
+public enum OrganizationSearchError: Error, Sendable {
+
+	/// A search was attempted before `prepare(dataset:)` was called.
+	case notPrepared
+}
+
 public extension OrganizationSearchClientProtocol {
 
 	/// Prepare the search index using the full organization dataset.

@@ -46,7 +46,7 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 	/// - Parameter searchTerm: The raw user-entered query string.
 	/// - Returns: Matching organizations ordered by relevance, or `nil` if
 	///   `searchTerm` is blank.
-	/// - Throws: `OrganizationSearchClientError.notPrepared` if `prepare()` has
+	/// - Throws: `OrganizationSearchError.notPrepared` if `prepare()` has
 	///   not yet been called; GRDB or decoding errors on query failure.
 	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults? {
 		let actor = dbActor
@@ -67,7 +67,4 @@ enum OrganizationSearchClientError: Error {
 
 	/// The bundled JSON resource file for the requested dataset could not be found.
 	case resourceNotFound
-
-	/// A search was attempted before `prepare(dataset:)` was called.
-	case notPrepared
 }

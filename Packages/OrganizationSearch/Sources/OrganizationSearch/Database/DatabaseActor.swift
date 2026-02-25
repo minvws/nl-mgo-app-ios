@@ -49,12 +49,12 @@ actor DatabaseActor {
 	/// - Parameter searchTerm: The raw user-entered query string.
 	/// - Returns: A `SearchResults` value containing all matching hits ordered
 	///   by FTS5 relevance, or `nil` when `searchTerm` yields no FTS5 tokens.
-	/// - Throws: `OrganizationSearchClientError.notPrepared` if `prepare()` has
+	/// - Throws: `OrganizationSearchError.notPrepared` if `prepare()` has
 	///   not yet been called; GRDB or decoding errors if the query or row
 	///   decoding fails.
 	func search(_ searchTerm: String) async throws -> SearchResults? {
 		guard let dbPool = database else {
-			throw OrganizationSearchClientError.notPrepared
+			throw OrganizationSearchError.notPrepared
 		}
 
 		let searchStart = clock.now()
@@ -82,8 +82,8 @@ actor DatabaseActor {
 	///
 	/// - Parameter dataset: The organization dataset to load. Defaults to `.full`.
 	/// - Returns: The number of organizations inserted.
-	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the
-	///   bundled JSON is missing; GRDB errors if the database cannot be opened
+	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the bundled
+	///   JSON is missing; GRDB errors if the database cannot be opened
 	///   or written to; decoding errors if the JSON is malformed.
 	func prepare(dataset: OrganizationDataset = .full) async throws -> Int {
 		let dbPool = try DatabaseSetup.openDatabase()

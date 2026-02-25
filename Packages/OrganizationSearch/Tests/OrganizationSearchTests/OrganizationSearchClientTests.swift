@@ -33,7 +33,7 @@ class OrganizationSearchClientTests {
 		let searchTerm = "Test"
 		
 		// When / Then
-		await #expect(throws: OrganizationSearchClientError.notPrepared) {
+		await #expect(throws: OrganizationSearchError.notPrepared) {
 			try await sut.searchHealthcareOrganizations(searchTerm)
 		}
 	}

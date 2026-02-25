@@ -21,9 +21,6 @@ public enum JSContextManagerError: Error, Sendable {
 	/// A `JSContext` could not be created or is unexpectedly `nil`.
 	case noJSContext
 
-	/// A search was attempted before `createIndex(dataset:)` was called.
-	case noIndex
-
 	/// The JavaScript method returned no result, or a Promise was rejected.
 	case noResult
 

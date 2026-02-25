@@ -33,7 +33,7 @@ class OrganizationSearchJSClientTests {
 		let searchTerm = "Test"
 		
 		// When / Then
-		await #expect(throws: JSContextManagerError.noIndex) {
+		await #expect(throws: OrganizationSearchError.notPrepared) {
 			try await sut.searchHealthcareOrganizations(searchTerm)
 		}
 	}

@@ -293,7 +293,7 @@ actor JSContextManager {
 	/// - Parameter searchTerm: The search query string to match against organization names and attributes.
 	/// - Returns: A `SearchResults` object containing matching organizations, or `nil` if the search yields no results.
 	/// - Throws:
-	///   - `JSContextManagerError.noIndex` if `createIndex()` has not been called yet.
+	///   - `OrganizationSearchError.notPrepared` if `createIndex()` has not been called yet.
 	///   - `JSContextManagerError` variants from JavaScript method invocation or result decoding.
 	func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults? {
 		
@@ -303,7 +303,7 @@ actor JSContextManager {
 		try ensureInitialized()
 		
 		guard providersHaveBeenIndexed else {
-			throw JSContextManagerError.noIndex
+			throw OrganizationSearchError.notPrepared
 		}
 		
 		if let result = try await callJSMethodAsync(
