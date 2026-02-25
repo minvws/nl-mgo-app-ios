@@ -29,7 +29,7 @@ enum DatabaseSearchQuery {
 	///   Returns an empty array when `searchTerm` produces no valid FTS5 tokens.
 	/// - Throws: GRDB errors if the SQL query fails.
 	static func fetch(matching searchTerm: String, in db: Database) throws -> [Row] {
-		guard let pattern = FTS5Pattern(matchingAnyTokenIn: searchTerm) else {
+		guard let pattern = FTS5Pattern(matchingAllPrefixesIn: searchTerm) else {
 			return []
 		}
 
