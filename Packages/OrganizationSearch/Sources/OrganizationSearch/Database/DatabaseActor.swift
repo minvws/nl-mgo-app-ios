@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -103,7 +103,9 @@ actor DatabaseActor {
 
 		let insertStart = clock.now()
 		try await DatabasePopulator.insert(organizations, into: dbPool)
-		logDebug("DatabaseActor insert: \(clock.elapsed(since: insertStart))")
+		logDebug(
+			"DatabaseActor insert: \(clock.elapsed(since: insertStart)) for \(organizations.count) organizations"
+		)
 
 		return organizations.count
 	}

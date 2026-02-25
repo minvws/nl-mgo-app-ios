@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -13,7 +13,7 @@ import Foundation
 /// fully prepared database so that individual benchmark tests can measure
 /// search latency in isolation.
 struct OrganizationSearchBenchmarks {
-
+	
 	/// All queries loaded from the `queries.json` resource bundle.
 	static let queries: [SearchQuery] = {
 		guard let url = Bundle.module.url(forResource: "queries", withExtension: "json") else {

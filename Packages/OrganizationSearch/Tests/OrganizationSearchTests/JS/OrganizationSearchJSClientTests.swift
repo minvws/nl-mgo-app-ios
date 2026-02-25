@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -15,7 +15,7 @@ class OrganizationSearchJSClientTests {
 		// Given
 		let sut = OrganizationSearchJSClient()
 		let searchTerm = "Test"
-		try await sut.prepare()
+		try await sut.prepare(dataset: .test)
 		
 		// When
 		let searchResult = try? await sut.searchHealthcareOrganizations(searchTerm)

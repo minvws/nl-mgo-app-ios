@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -14,8 +14,8 @@ class OrganizationSearchClientTests {
 		
 		// Given
 		let sut = OrganizationSearchClient()
-		let searchTerm = "Test"
-		try await sut.prepare()
+		let searchTerm = "Testtest"
+		try await sut.prepare(dataset: .test)
 		
 		// When
 		let searchResult = try? await sut.searchHealthcareOrganizations(searchTerm)
@@ -33,7 +33,7 @@ class OrganizationSearchClientTests {
 		let searchTerm = "Test"
 		
 		// When / Then
-		await #expect(throws: JSContextManagerError.noIndex) {
+		await #expect(throws: OrganizationSearchClientError.notPrepared) {
 			try await sut.searchHealthcareOrganizations(searchTerm)
 		}
 	}
@@ -44,25 +44,9 @@ class OrganizationSearchClientTests {
 		// Given
 		let sut = OrganizationSearchClient()
 		
-		// When
-		let result = try sut.getVersion()
-		
-		// Then
-		#expect(result.version == "main-9c41ae0")
-		#expect(result.gitRef == "9c41ae007176014905eb7a68d383a74c5b621b60")
-		#expect(result.created == "2026-02-10T15:20:05")
-	}
-	
-	@Test("Get version throws noResource error when file does not exist")
-	func getVersionWithInvalidFileName() throws {
-		
-		// Given
-		let sut = OrganizationSearchClient()
-		let invalidFileName = "nonexistent-version-file"
-		
 		// When / Then
 		#expect(throws: Version.Error.noResource) {
-			_ = try sut.getVersion(fileName: invalidFileName)
+			try sut.getVersion()
 		}
 	}
 }

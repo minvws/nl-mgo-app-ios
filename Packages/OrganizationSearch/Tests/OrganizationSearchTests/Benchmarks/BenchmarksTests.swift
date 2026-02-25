@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -26,12 +26,12 @@ class BenchmarksTests {
 			let result = QueryBenchmarkResult(index: index, totalHits: hits.count)
 			results.append(result)
 			
-			//			print("[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)"
-			//			)
+			//print("[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)")
 		}
 		
 		let meanMRR = results.map(\.meanReciprocalRank).reduce(0, +) / Double(results.count)
-		print("Mean Reciprocal Rank: \(meanMRR)")
+		//print("Mean Reciprocal Rank: \(meanMRR)")
+		#expect(meanMRR >= 0.70, "JS MRR \(meanMRR) dropped below 0.70")
 	}
 	
 	@Test("Search JS ranking: find target organization index for each query")
@@ -51,12 +51,11 @@ class BenchmarksTests {
 			let result = QueryBenchmarkResult(index: index, totalHits: hits.count)
 			results.append(result)
 			
-			//			print(
-			//				"[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)"
-			//			)
+			//print("[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)")
 		}
 		
 		let meanMRR = results.map(\.meanReciprocalRank).reduce(0, +) / Double(results.count)
-		print("Mean Reciprocal Rank: \(meanMRR)")
+		//print("Mean Reciprocal Rank: \(meanMRR)")
+		#expect(meanMRR >= 0.81, "JS MRR \(meanMRR) dropped below 0.81")
 	}
 }
