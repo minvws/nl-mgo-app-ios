@@ -29,7 +29,10 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the bundled
 	///   JSON is missing; GRDB errors if the database cannot be opened or written.
 	public func prepare() async throws {
-		let count = try await dbActor.prepare()
+		let actor = dbActor
+		let count = try await Task(priority: .userInitiated) {
+			try await actor.prepare()
+		}.value
 		logDebug("OrganizationSearchClient: prepared database with \(count) organizations")
 	}
 
@@ -44,7 +47,10 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 	/// - Throws: `OrganizationSearchClientError.notPrepared` if `prepare()` has
 	///   not yet been called; GRDB or decoding errors on query failure.
 	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults? {
-		return try await dbActor.search(searchTerm)
+		let actor = dbActor
+		return try await Task(priority: .userInitiated) {
+			try await actor.search(searchTerm)
+		}.value
 	}
 
 	public func getVersion(fileName: String = "version") throws -> Version {

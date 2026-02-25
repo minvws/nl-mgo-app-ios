@@ -1,0 +1,150 @@
+[
+    {
+        "query": "Huisarts de Kaap",
+        "targetId": "agb:01009626"
+    },
+    {
+        "query": "Huisarts de Kaap Utrecht",
+        "targetId": "agb:01009626"
+    },
+    {
+        "query": "J.S. Huisman Huisartsenpraktijk",
+        "targetId": "agb:01057832"
+    },
+    {
+        "query": "Huisman",
+        "targetId": "agb:01057832"
+    },
+    {
+        "query": "JS Huisman",
+        "targetId": "agb:01057832"
+    },
+    {
+        "query": "JS Husman",
+        "targetId": "agb:01057832"
+    },
+    {
+        "query": "J.S. Huisman",
+        "targetId": "agb:01057832"
+    },
+    {
+        "query": "Huisartsenpraktijk Hellevoetsluis-West, Hellevoetsluis",
+        "targetId": "agb:01050665"
+    },
+    {
+        "query": "Huisartsenpraktijk Hellevoetsluis-West",
+        "targetId": "agb:01050665"
+    },
+    {
+        "query": "Huisartsenpraktijk Helleveotsluis West",
+        "targetId": "agb:01050665"
+    },
+    {
+        "query": "Gezondheidscentrum Lombok Utrecht",
+        "targetId": "agb:01056065"
+    },
+    {
+        "query": "Gezondheidscentrum Lombok",
+        "targetId": "agb:01056065"
+    },
+    {
+        "query": "Gezondheidscentrum Lombk",
+        "targetId": "agb:01056065"
+    },
+    {
+        "query": "Lombok",
+        "targetId": "agb:01056065"
+    },
+    {
+        "query": "Huisartsenpraktijk Wittevrouwen Utrecht",
+        "targetId": "agb:01008769"
+    },
+    {
+        "query": "Huisartsenpraktijk Wittevrouwen",
+        "targetId": "agb:01008769"
+    },
+    {
+        "query": "Wittervouwen Utrecht",
+        "targetId": "agb:01008769"
+    },
+    {
+        "query": "Wittevruwen Utrecht",
+        "targetId": "agb:01008769"
+    },
+    {
+        "query": "Wittevrouwen Utrecht",
+        "targetId": "agb:01008769"
+    },
+    {
+        "query": "Van Zwol hellevoetsluis",
+        "targetId": "agb:01050665"
+    },
+    {
+        "query": "Huisarts Wolters",
+        "targetId": "agb:01010336"
+    },
+    {
+        "query": "Huisarts Zoutelande",
+        "targetId": "agb:01057554"
+    },
+    {
+        "query": "Laurentius ziekenhuis Roermond",
+        "targetId": "ura:00013487"
+    },
+    {
+        "query": "Laurentus Roermond",
+        "targetId": "ura:00013487"
+    },
+    {
+        "query": "Treant Bethesda",
+        "targetId": "ura:00064533"
+    },
+    {
+        "query": "Oncologie Roermond",
+        "targetId": "ura:00013487"
+    },
+    {
+        "query": "Chirurgie Roosendaal ",
+        "targetId": "agb:06011036"
+    },
+    {
+        "query": "Ziekenhuis Doetichem",
+        "targetId": "agb:06010509"
+    },
+    {
+        "query": "Ziekenhuis Roermond",
+        "targetId": "ura:00013487"
+    },
+    {
+        "query": "Ziekenhuis Roosendaal",
+        "targetId": "agb:06011036"
+    },
+    {
+        "query": "In de Bres Drachten",
+        "targetId": "ura:00078518"
+    },
+    {
+        "query": "ADHD Centraal Utrecht",
+        "targetId": "agb:22220784"
+    },
+    {
+        "query": "Apotheek De Bilt",
+        "targetId": "ura:00050815"
+    },
+    {
+        "query": "Apotheek Blokker",
+        "targetId": "ura:00019796"
+    },
+    {
+        "query": "Apotheek Tuitjenhorn",
+        "targetId": "ura:00021583"
+    },
+    {
+        "query": "Apotheek Elkerlyc",
+        "targetId": "ura:00021583"
+    },
+    {
+        "query": "Apotheek Elckerlijc",
+        "targetId": "ura:00021583"
+    }
+]

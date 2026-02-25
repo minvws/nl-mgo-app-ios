@@ -152,7 +152,7 @@ actor JSContextManager {
 		try ensureInitialized()
 		
 		// Determine which data file to use based on runtime environment
-		let fileName = isRunningTests() ? "test-organizations" : "organizations"
+		let fileName = /*isRunningTests() ? "test-organizations" :*/ "benchmark-organizations"
 		
 		guard let providersPath = Bundle.module.path(
 			forResource: fileName,

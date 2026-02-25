@@ -3,6 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import Foundation
 import GRDB
 
 /// Executes full-text search queries against the `organization_fts` FTS5 table.
@@ -30,10 +31,23 @@ enum DatabaseSearchQuery {
 		let trimmed = searchTerm.trimmingCharacters(in: .whitespaces)
 		guard !trimmed.isEmpty else { return [] }
 
-		let query = trimmed
+		// Strip characters that FTS5 treats as query syntax (e.g. "." in "J.S.")
+		// so that only clean alphanumeric tokens are passed to the engine.
+		let allowed = CharacterSet.alphanumerics.union(.whitespaces)
+		let sanitised = trimmed
+			.unicodeScalars
+			.filter { allowed.contains($0) }
+			.reduce(into: "") { $0.append(Character($1)) }
+
+		let query = sanitised
 			.split(separator: " ")
 			.map { "\($0)*" }
 			.joined(separator: " ")
+
+		guard !query.isEmpty else { return [] }
+		
+		let pattern = FTS5Pattern(matchingAnyTokenIn: query)
+		
 
 		return try Row.fetchAll(
 			db,

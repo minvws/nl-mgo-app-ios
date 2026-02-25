@@ -16,7 +16,7 @@ enum DatabasePopulator {
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the JSON file is
 	///   absent from the module bundle; decoding errors if the JSON is malformed.
 	static func loadOrganizations() throws -> [Organization] {
-		guard let jsonURL = Bundle.module.url(forResource: "organizations-full", withExtension: "json") else {
+		guard let jsonURL = Bundle.module.url(forResource: "benchmark-organizations", withExtension: "json") else {
 			logError("DatabasePopulator: organizations.json not found in bundle")
 			throw OrganizationSearchClientError.resourceNotFound
 		}

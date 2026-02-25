@@ -3,6 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import Foundation
 import GRDB
 import MGODebug
 
