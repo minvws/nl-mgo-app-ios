@@ -55,6 +55,17 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 		}.value
 	}
 
+	/// Closes the SQLite database pool and releases all associated resources.
+	///
+	/// Delegates to `DatabaseActor.teardown()`. After this call, `prepare` must
+	/// be called again before searches will succeed.
+	public func teardown() async {
+		let actor = dbActor
+		await Task(priority: .userInitiated) {
+			await actor.teardown()
+		}.value
+	}
+
 	public func getVersion(fileName: String = "version") throws -> Version {
 		throw Version.Error.noResource
 	}

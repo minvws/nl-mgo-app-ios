@@ -63,6 +63,15 @@ public class OrganizationSearchJSClient: OrganizationSearchClientProtocol {
 		return try await jsManager.searchHealthcareOrganizations(searchTerm)
 	}
 	
+	/// Releases the JavaScript context and resets the search index.
+	///
+	/// Delegates to `JSContextManager.teardown()`, which nils the `JSContext`
+	/// and frees the JavaScriptCore VM. After this call, `prepare` must be
+	/// called again before searches will succeed.
+	public func teardown() async {
+		await jsManager.teardown()
+	}
+
 	/// Retrieve version information for the organization search library.
 	///
 	/// Reads version metadata from a bundled JSON file to provide information about

@@ -61,11 +61,7 @@ enum DatabaseMigrations {
 			// FTS5 virtual table synchronized with the main table
 			try db.create(virtualTable: "organization_fts", using: FTS5()) { tableDefinition in
 				tableDefinition.synchronize(withTable: "organization")
-//				tableDefinition.column("displayName")
-				tableDefinition.column("normalizedDisplayName")
-//				tableDefinition.column("city")
-//				tableDefinition.column("postalCode")
-				tableDefinition.column("searchBlob")
+				tableDefinition.column("searchBlob") // search via searchBlob only
 			}
 		}
 	}

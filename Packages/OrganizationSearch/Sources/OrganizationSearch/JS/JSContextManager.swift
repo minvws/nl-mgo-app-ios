@@ -171,6 +171,29 @@ actor JSContextManager {
 		providersHaveBeenIndexed = true
 	}
 	
+	// MARK: - Teardown
+
+	/// Release the JavaScript context and reset all state.
+	///
+	/// Nils out the `JSContext`, which releases the JavaScriptCore virtual machine
+	/// and all heap objects it owns. The flags `isInitialized` and
+	/// `providersHaveBeenIndexed` are reset so that a subsequent `createIndex`
+	/// call re-initialises from scratch.
+	///
+	/// Call this method when the search feature is no longer needed (e.g. on
+	/// memory-pressure warnings or when the owning view is dismissed) to free the
+	/// significant memory held by the JS engine and the indexed data.
+	///
+	/// - Note: `JSContextManager` is currently only used in tests and benchmarks;
+	///   the production app uses the GRDB-backed `OrganizationSearchClient` instead.
+	///   The method is provided so tests can reset state between runs and so that
+	///   the class is ready if it is ever adopted in production.
+	func teardown() {
+		jsContext = nil
+		isInitialized = false
+		providersHaveBeenIndexed = false
+	}
+
 	// MARK: Private helpers
 	
 	/// Invoke a JavaScript method synchronously and return its `JSValue`.
@@ -382,17 +405,28 @@ extension JSValue {
 	}
 }
 
-/// Wrapper to mark values as `Sendable` when we know they're safe but the compiler can't verify.
+/// Wraps a value that is not formally `Sendable` so it can cross a Swift concurrency boundary.
 ///
-/// This is used to bridge JavaScript values across concurrency domains. The wrapped values are safe
-/// because they're extracted on the actor's executor and immediately transferred via the continuation.
+/// ## Why this is safe here
+///
+/// `JSValue` and its `toObject()` bridge products (`NSString`, `NSDictionary`, …) are not
+/// `Sendable` because `JSContext` is inherently single-threaded: every read and write must
+/// happen on the thread that owns the context.
+///
+/// The `@convention(block)` callbacks registered via `then`/`catch` satisfy this constraint:
+/// JavaScriptCore invokes them synchronously on the thread that runs the JS event loop, which
+/// is the same thread that the `JSContextManager` actor is already executing on.  The value
+/// therefore never exists on more than one thread at a time — it is produced on the actor
+/// thread, immediately moved into `continuation.resume`, and the block is then released.
+/// No second reader can observe the value concurrently.
+///
+/// - Important: Do **not** store or escape the wrapped value beyond the `continuation.resume`
+///   call.  The safety argument breaks the moment the value outlives the callback.
 private struct UncheckedSendable<T>: @unchecked Sendable {
-	
+
 	/// The wrapped value.
 	let value: T
-	
-	/// Create a new `UncheckedSendable` wrapper.
-	/// - Parameter value: The value to wrap.
+
 	init(_ value: T) {
 		self.value = value
 	}

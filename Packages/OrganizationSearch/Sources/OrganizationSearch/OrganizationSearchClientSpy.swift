@@ -28,6 +28,14 @@ public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol {
 		invokedPrepareParametersList.append((dataset, ()))
 	}
 
+	public var invokedTeardown = false
+	public var invokedTeardownCount = 0
+
+	public func teardown() async {
+		invokedTeardown = true
+		invokedTeardownCount += 1
+	}
+
 	public var invokedSearchHealthcareOrganizations = false
 	public var invokedSearchHealthcareOrganizationsCount = 0
 	public var invokedSearchHealthcareOrganizationsParameters: (searchTerm: String, Void)?

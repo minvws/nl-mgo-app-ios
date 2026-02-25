@@ -68,6 +68,21 @@ actor DatabaseActor {
 		return result
 	}
 
+	// MARK: - Teardown
+
+	/// Close the database pool and release all associated resources.
+	///
+	/// Nils out the `DatabasePool`, which closes the underlying SQLite file
+	/// descriptor and frees the WAL journal.  After this call `search(_:)` will
+	/// throw `OrganizationSearchError.notPrepared` until `prepare(dataset:)` is
+	/// called again.
+	///
+	/// The method is idempotent: calling it when `database` is already `nil`
+	/// is a no-op.
+	func teardown() {
+		database = nil
+	}
+
 	// MARK: - Prepare
 
 	/// Opens (or recreates) the on-disk SQLite database, builds the schema,

@@ -38,6 +38,17 @@ public protocol OrganizationSearchClientProtocol {
 	/// - Throws: Errors if the search index is not prepared or if the search operation fails.
 	func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults
 	
+	/// Release resources held by the search backend.
+	///
+	/// Drops the underlying search index and any associated in-memory or on-disk
+	/// resources so they can be reclaimed by the system.  After this call the
+	/// client is in the same state as a freshly initialised instance: `prepare`
+	/// must be called again before searches will succeed.
+	///
+	/// Implementations should be idempotent — calling `teardown` on an already
+	/// torn-down instance must not throw or crash.
+	func teardown() async
+
 	/// Retrieve the version information of the organization search library.
 	///
 	/// - Parameter fileName: The name of the version file (without extension). Defaults to "version".
