@@ -22,16 +22,18 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 	/// Prepares the search database on a background actor.
 	///
 	/// Opens the on-disk SQLite database, rebuilds the schema, and populates
-	/// it from the bundled JSON. The database becomes available for searches
-	/// as soon as the schema is ready — concurrent `searchHealthcareOrganizations`
-	/// calls may return empty results while the background insert is still running.
+	/// it from the bundled JSON for the given `dataset`. The database becomes
+	/// available for searches as soon as the schema is ready — concurrent
+	/// `searchHealthcareOrganizations` calls may return empty results while the
+	/// background insert is still running.
 	///
+	/// - Parameter dataset: The organization dataset to load. Defaults to `.full`.
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the bundled
 	///   JSON is missing; GRDB errors if the database cannot be opened or written.
-	public func prepare() async throws {
+	public func prepare(dataset: OrganizationDataset = .full) async throws {
 		let actor = dbActor
 		let count = try await Task(priority: .userInitiated) {
-			try await actor.prepare()
+			try await actor.prepare(dataset: dataset)
 		}.value
 		logDebug("OrganizationSearchClient: prepared database with \(count) organizations")
 	}

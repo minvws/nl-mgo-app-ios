@@ -45,7 +45,7 @@ enum DatabaseMigrations {
 
 			// Main organizations table
 			try db.create(table: "organization") { tableDefinition in
-				tableDefinition.primaryKey("id", .text)
+				tableDefinition.primaryKey("id", .text).indexed()
 				tableDefinition.column("displayName", .text)
 				tableDefinition.column("normalizedDisplayName", .text)
 				tableDefinition.column("careTypeDisplay", .text)
@@ -62,7 +62,7 @@ enum DatabaseMigrations {
 			try db.create(virtualTable: "organization_fts", using: FTS5()) { tableDefinition in
 				tableDefinition.synchronize(withTable: "organization")
 //				tableDefinition.column("displayName")
-//				tableDefinition.column("normalizedDisplayName")
+				tableDefinition.column("normalizedDisplayName")
 //				tableDefinition.column("city")
 //				tableDefinition.column("postalCode")
 				tableDefinition.column("searchBlob")

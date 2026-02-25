@@ -69,7 +69,7 @@ actor DatabaseActor {
 	// MARK: - Prepare
 
 	/// Opens (or recreates) the on-disk SQLite database, builds the schema,
-	/// and populates it from the bundled JSON resource.
+	/// and populates it from the bundled JSON resource for the given dataset.
 	///
 	/// The pool is assigned to `database` immediately after the schema is
 	/// created — before the data insert starts — so that concurrent `search`
@@ -79,11 +79,12 @@ actor DatabaseActor {
 	/// Timing for each phase (schema, JSON load, insert) is written to the
 	/// debug log via `logDebug`.
 	///
+	/// - Parameter dataset: The organization dataset to load. Defaults to `.full`.
 	/// - Returns: The number of organizations inserted.
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the
 	///   bundled JSON is missing; GRDB errors if the database cannot be opened
 	///   or written to; decoding errors if the JSON is malformed.
-	func prepare() async throws -> Int {
+	func prepare(dataset: OrganizationDataset = .full) async throws -> Int {
 		let dbPool = try DatabaseSetup.openDatabase()
 
 		let schemaStart = clock.now()
@@ -96,7 +97,7 @@ actor DatabaseActor {
 		self.database = dbPool
 
 		let loadStart = clock.now()
-		let organizations = try DatabasePopulator.loadOrganizations()
+		let organizations = try DatabasePopulator.loadOrganizations(from: dataset)
 		logDebug("DatabaseActor JSON load: \(clock.elapsed(since: loadStart))")
 
 		let insertStart = clock.now()

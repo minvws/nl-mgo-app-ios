@@ -45,9 +45,13 @@ public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol {
 
 	public var invokedPrepare = false
 	public var invokedPrepareCount = 0
+	public var invokedPrepareParameters: (dataset: OrganizationDataset, Void)?
+	public var invokedPrepareParametersList = [(dataset: OrganizationDataset, Void)]()
 
-	public func prepare() {
+	public func prepare(dataset: OrganizationDataset = .full) async throws {
 		invokedPrepare = true
 		invokedPrepareCount += 1
+		invokedPrepareParameters = (dataset, ())
+		invokedPrepareParametersList.append((dataset, ()))
 	}
 }

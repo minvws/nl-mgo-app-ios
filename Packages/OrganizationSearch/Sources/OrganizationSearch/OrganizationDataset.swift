@@ -1,0 +1,30 @@
+/*
+ *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+/// Identifies which bundled organization JSON file to load into the search database.
+public enum OrganizationDataset: Sendable {
+
+	/// The complete organization dataset (`organizations-full.json`).
+	case full
+
+	/// The MedMij-filtered dataset (`organizations-medmij.json`).
+	case medmij
+
+	/// A small dataset intended for use in tests (`test-organizations.json`).
+	case test
+
+	/// A dataset used for benchmark measurements (`benchmark-organizations.json`).
+	case benchmark
+
+	/// The resource name (without extension) of the JSON file for this dataset.
+	var resourceName: String {
+		switch self {
+			case .full: return "organizations-full"
+			case .medmij: return "organizations-medmij"
+			case .test: return "test-organizations"
+			case .benchmark: return "benchmark-organizations"
+		}
+	}
+}

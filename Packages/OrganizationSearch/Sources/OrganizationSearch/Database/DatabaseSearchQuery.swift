@@ -3,7 +3,6 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import Foundation
 import GRDB
 
 /// Executes full-text search queries against the `organization_fts` FTS5 table.
@@ -11,9 +10,11 @@ enum DatabaseSearchQuery {
 
 	/// Returns all organizations whose FTS5 index matches the given query string.
 	///
-	/// Each word in `searchTerm` is suffixed with `*` to enable prefix matching
-	/// (e.g. `"tan"` matches `"tandarts"`). Multi-word queries are ANDed together
-	/// by FTS5 by default.
+	/// Uses `FTS5Pattern(matchingAllPrefixesIn:)` to build a safe, prefix-matched
+	/// query from the raw input — e.g. `"tan art"` matches any document containing
+	/// a word starting with `"tan"` AND a word starting with `"art"`. GRDB handles
+	/// tokenisation and escaping, so punctuation in the input (e.g. `"J.S."`) is
+	/// handled correctly without manual sanitisation.
 	///
 	/// Results are fetched by joining `organization_fts` back to the `organization`
 	/// content table on `rowid`, so all stored columns are available in the returned
@@ -25,29 +26,12 @@ enum DatabaseSearchQuery {
 	///   - db: An open GRDB database connection.
 	/// - Returns: All matching rows ordered by descending relevance, each containing
 	///   all `organization` columns plus a `score` column.
-	///   Returns an empty array when `searchTerm` is blank or whitespace-only.
+	///   Returns an empty array when `searchTerm` produces no valid FTS5 tokens.
 	/// - Throws: GRDB errors if the SQL query fails.
 	static func fetch(matching searchTerm: String, in db: Database) throws -> [Row] {
-		let trimmed = searchTerm.trimmingCharacters(in: .whitespaces)
-		guard !trimmed.isEmpty else { return [] }
-
-		// Strip characters that FTS5 treats as query syntax (e.g. "." in "J.S.")
-		// so that only clean alphanumeric tokens are passed to the engine.
-		let allowed = CharacterSet.alphanumerics.union(.whitespaces)
-		let sanitised = trimmed
-			.unicodeScalars
-			.filter { allowed.contains($0) }
-			.reduce(into: "") { $0.append(Character($1)) }
-
-		let query = sanitised
-			.split(separator: " ")
-			.map { "\($0)*" }
-			.joined(separator: " ")
-
-		guard !query.isEmpty else { return [] }
-		
-		let pattern = FTS5Pattern(matchingAnyTokenIn: query)
-		
+		guard let pattern = FTS5Pattern(matchingAnyTokenIn: searchTerm) else {
+			return []
+		}
 
 		return try Row.fetchAll(
 			db,
@@ -61,7 +45,7 @@ enum DatabaseSearchQuery {
 				WHERE organization_fts MATCH ?
 				ORDER BY organization_fts.rank
 				""",
-			arguments: [query]
+			arguments: [pattern]
 		)
 	}
 }

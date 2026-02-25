@@ -134,28 +134,22 @@ actor JSContextManager {
 	/// metrics for both the file-loading and the JavaScript indexing steps using the injected
 	/// `MeasurableClock`.
 	///
-	/// The data source varies based on the runtime environment:
-	/// - Test mode: Uses `test-organizations.json` (smaller dataset for faster tests)
-	/// - Production mode: Uses `organizations.json` (full dataset)
-	///
 	/// Must be called before `searchHealthcareOrganizations(_:)` can be used.
 	///
+	/// - Parameter dataset: The organization dataset to load. Defaults to `.full`.
 	/// - Throws:
 	///   - `JSContextManagerError.invalidInput` if the organization data file cannot be found.
 	///   - `JSContextManagerError` variants from JavaScript method invocation.
 	///   - File I/O errors when loading organization data.
 	///
 	/// - Note: Performance metrics are logged to help monitor indexing times across different devices.
-	func createIndex() async throws {
-		
+	func createIndex(dataset: OrganizationDataset = .full) async throws {
+
 		// Ensure JS context is initialized
 		try ensureInitialized()
-		
-		// Determine which data file to use based on runtime environment
-		let fileName = /*isRunningTests() ? "test-organizations" :*/ "benchmark-organizations"
-		
+
 		guard let providersPath = Bundle.module.path(
-			forResource: fileName,
+			forResource: dataset.resourceName,
 			ofType: "json"
 		) else {
 			logError("JSContextManager: The organizations file could not be found")
@@ -358,14 +352,6 @@ actor JSContextManager {
 		return try JSONDecoder().decode(SearchResults.self, from: data)
 	}
 	
-	/// Detect if the code is running in a test environment.
-	///
-	/// Uses the presence of `XCTestCase` class to determine if running within a test bundle.
-	///
-	/// - Returns: `true` if running tests, `false` otherwise.
-	private func isRunningTests() -> Bool {
-		return NSClassFromString("XCTestCase") != nil
-	}
 }
 
 // MARK: - Convenience Extensions

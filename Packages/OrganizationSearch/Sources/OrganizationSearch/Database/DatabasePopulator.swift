@@ -10,14 +10,15 @@ import MGODebug
 /// Loads organization data from the bundled JSON resource and writes it to the database.
 enum DatabasePopulator {
 
-	/// Decodes the bundled `organizations-full.json` into an array of `Organization` values.
+	/// Decodes the bundled JSON for the given dataset into an array of `Organization` values.
 	///
+	/// - Parameter dataset: Identifies which JSON resource file to load.
 	/// - Returns: All organizations decoded from the bundle resource.
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the JSON file is
 	///   absent from the module bundle; decoding errors if the JSON is malformed.
-	static func loadOrganizations() throws -> [Organization] {
-		guard let jsonURL = Bundle.module.url(forResource: "benchmark-organizations", withExtension: "json") else {
-			logError("DatabasePopulator: organizations.json not found in bundle")
+	static func loadOrganizations(from dataset: OrganizationDataset) throws -> [Organization] {
+		guard let jsonURL = Bundle.module.url(forResource: dataset.resourceName, withExtension: "json") else {
+			logError("DatabasePopulator: \(dataset.resourceName).json not found in bundle")
 			throw OrganizationSearchClientError.resourceNotFound
 		}
 		let data = try Data(contentsOf: jsonURL)

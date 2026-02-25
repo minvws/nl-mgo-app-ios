@@ -45,9 +45,10 @@ public class OrganizationSearchJSClient: OrganizationSearchClientProtocol {
 	/// It must be called once before any search operations. The operation is asynchronous and
 	/// may take several seconds depending on the dataset size.
 	///
+	/// - Parameter dataset: The organization dataset to load. Defaults to `.full`.
 	/// - Throws: Errors if organization data cannot be loaded or if index creation fails.
-	public func prepare() async throws {
-		try await jsManager.createIndex()
+	public func prepare(dataset: OrganizationDataset = .full) async throws {
+		try await jsManager.createIndex(dataset: dataset)
 	}
 	
 	/// Search for healthcare organizations matching the given search term.

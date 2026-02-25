@@ -22,10 +22,11 @@ public protocol OrganizationSearchClientProtocol {
 	/// Prepare the search index for querying.
 	///
 	/// This method must be called before performing searches. It loads organization data
-	/// and builds the search index asynchronously.
+	/// from the specified dataset and builds the search index asynchronously.
 	///
+	/// - Parameter dataset: The organization dataset to load. Defaults to `.full`.
 	/// - Throws: Errors related to loading organization data or building the index.
-	func prepare() async throws
+	func prepare(dataset: OrganizationDataset) async throws
 	
 	/// Search for healthcare organizations matching the given search term.
 	///
@@ -44,3 +45,14 @@ public protocol OrganizationSearchClientProtocol {
 	/// - Throws: `Version.Error.noResource` if the version file cannot be found, or decoding errors if the file format is invalid.
 	func getVersion(fileName: String) throws -> Version
 }
+
+public extension OrganizationSearchClientProtocol {
+
+	/// Prepare the search index using the full organization dataset.
+	///
+	/// Convenience overload that calls `prepare(dataset:)` with `.full`.
+	func prepare() async throws {
+		try await prepare(dataset: .full)
+	}
+}
+
