@@ -73,4 +73,3 @@ public extension OrganizationSearchClientProtocol {
 		try await prepare(dataset: .full)
 	}
 }
-
