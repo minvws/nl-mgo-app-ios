@@ -20,12 +20,16 @@ public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol {
 	public var invokedPrepareCount = 0
 	public var invokedPrepareParameters: (dataset: OrganizationDataset, Void)?
 	public var invokedPrepareParametersList = [(dataset: OrganizationDataset, Void)]()
+	public var stubbedPrepareError: Error?
 
-	public func prepare(dataset: OrganizationDataset) {
+	public func prepare(dataset: OrganizationDataset) async throws {
 		invokedPrepare = true
 		invokedPrepareCount += 1
 		invokedPrepareParameters = (dataset, ())
 		invokedPrepareParametersList.append((dataset, ()))
+		if let error = stubbedPrepareError {
+			throw error
+		}
 	}
 
 	public var invokedTeardown = false
