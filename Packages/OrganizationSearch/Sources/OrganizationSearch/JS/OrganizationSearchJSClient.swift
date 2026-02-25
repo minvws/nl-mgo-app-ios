@@ -57,9 +57,9 @@ public class OrganizationSearchJSClient: OrganizationSearchClientProtocol {
 	/// is matched against organization names, cities, and other attributes.
 	///
 	/// - Parameter searchTerm: The query string to search for (e.g., "hospital Amsterdam", "cardiology").
-	/// - Returns: A `SearchResults` object containing matching organizations, or `nil` if no matches are found.
+	/// - Returns: A `SearchResults` object containing matching organizations, or an empty `SearchResults` if no matches are found.
 	/// - Throws: Errors if the search index has not been prepared or if the search operation fails.
-	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults? {
+	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults {
 		return try await jsManager.searchHealthcareOrganizations(searchTerm)
 	}
 	

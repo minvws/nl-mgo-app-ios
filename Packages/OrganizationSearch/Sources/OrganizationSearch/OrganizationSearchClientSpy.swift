@@ -16,13 +16,25 @@ public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol {
 		// Public init required
 	}
 
+	public var invokedPrepare = false
+	public var invokedPrepareCount = 0
+	public var invokedPrepareParameters: (dataset: OrganizationDataset, Void)?
+	public var invokedPrepareParametersList = [(dataset: OrganizationDataset, Void)]()
+
+	public func prepare(dataset: OrganizationDataset) {
+		invokedPrepare = true
+		invokedPrepareCount += 1
+		invokedPrepareParameters = (dataset, ())
+		invokedPrepareParametersList.append((dataset, ()))
+	}
+
 	public var invokedSearchHealthcareOrganizations = false
 	public var invokedSearchHealthcareOrganizationsCount = 0
 	public var invokedSearchHealthcareOrganizationsParameters: (searchTerm: String, Void)?
 	public var invokedSearchHealthcareOrganizationsParametersList = [(searchTerm: String, Void)]()
-	public var stubbedSearchHealthcareOrganizationsSearchResults: SearchResults?
+	public var stubbedSearchHealthcareOrganizationsSearchResults: SearchResults!
 
-	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults? {
+	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults {
 		invokedSearchHealthcareOrganizations = true
 		invokedSearchHealthcareOrganizationsCount += 1
 		invokedSearchHealthcareOrganizationsParameters = (searchTerm, ())
@@ -37,7 +49,7 @@ public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol {
 	public var stubbedGetVersionError: Error?
 	public var stubbedGetVersionResult: Version!
 
-	public func getVersion(fileName: String = "version") throws -> Version {
+	public func getVersion(fileName: String) throws -> Version {
 		invokedGetVersion = true
 		invokedGetVersionCount += 1
 		invokedGetVersionParameters = (fileName, ())
@@ -46,17 +58,5 @@ public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol {
 			throw error
 		}
 		return stubbedGetVersionResult
-	}
-
-	public var invokedPrepare = false
-	public var invokedPrepareCount = 0
-	public var invokedPrepareParameters: (dataset: OrganizationDataset, Void)?
-	public var invokedPrepareParametersList = [(dataset: OrganizationDataset, Void)]()
-
-	public func prepare(dataset: OrganizationDataset = .full) async throws {
-		invokedPrepare = true
-		invokedPrepareCount += 1
-		invokedPrepareParameters = (dataset, ())
-		invokedPrepareParametersList.append((dataset, ()))
 	}
 }

@@ -21,16 +21,16 @@ class BenchmarksTests {
 		var results: [QueryBenchmarkResult] = []
 		
 		for searchQuery in queries {
-			let hits = try await client.searchHealthcareOrganizations(searchQuery.query)?.hits ?? []
+			let hits = try await client.searchHealthcareOrganizations(searchQuery.query).hits
 			let index = hits.firstIndex { $0.document.id == searchQuery.targetId }
 			let result = QueryBenchmarkResult(index: index, totalHits: hits.count)
 			results.append(result)
 			
-			//print("[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)")
+			// print("[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)")
 		}
 		
 		let meanMRR = results.map(\.meanReciprocalRank).reduce(0, +) / Double(results.count)
-		//print("Mean Reciprocal Rank: \(meanMRR)")
+		// print("Mean Reciprocal Rank: \(meanMRR)")
 		#expect(meanMRR >= 0.70, "JS MRR \(meanMRR) dropped below 0.70")
 	}
 	
@@ -46,16 +46,16 @@ class BenchmarksTests {
 		var results: [QueryBenchmarkResult] = []
 		
 		for searchQuery in queries {
-			let hits = try await client.searchHealthcareOrganizations(searchQuery.query)?.hits ?? []
+			let hits = try await client.searchHealthcareOrganizations(searchQuery.query).hits
 			let index = hits.firstIndex { $0.document.id == searchQuery.targetId }
 			let result = QueryBenchmarkResult(index: index, totalHits: hits.count)
 			results.append(result)
 			
-			//print("[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)")
+			// print("[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)")
 		}
 		
 		let meanMRR = results.map(\.meanReciprocalRank).reduce(0, +) / Double(results.count)
-		//print("Mean Reciprocal Rank: \(meanMRR)")
+		// print("Mean Reciprocal Rank: \(meanMRR)")
 		#expect(meanMRR >= 0.81, "JS MRR \(meanMRR) dropped below 0.81")
 	}
 }

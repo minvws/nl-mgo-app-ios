@@ -138,20 +138,20 @@ class SearchOrganizationViewModel: ObservableObject {
 			// Check if task was cancelled during the delay
 			guard !Task.isCancelled else { return }
 
-			let searchResult = try? await organizationSearchClient.searchHealthcareOrganizations(searchTerm)
+			let searchResult = (try? await organizationSearchClient.searchHealthcareOrganizations(searchTerm)) ?? SearchResults(count: 0, hits: [])
 
 			// Discard results if a newer search superseded this one while the query was running
 			guard !Task.isCancelled else { return }
 
-			let docs = searchResult?.hits.map { $0.document } ?? []
+			let docs = searchResult.hits.map { $0.document }
 			MemoryUsage.printMemoryUsage("SOVM: after searching")
-			logDebug("results", searchResult?.count ?? 0)
+			logDebug("results", searchResult.count)
 			await MainActor.run {
 				withAnimation {
 					self.state.results = docs
 					self.state.visibleCount = SearchOrganizationViewModel.pageSize
 					self.state.isSearching = false
-					self.state.totalResults = Int(searchResult?.count ?? 0)
+					self.state.totalResults = Int(searchResult.count)
 				}
 			}
 		}

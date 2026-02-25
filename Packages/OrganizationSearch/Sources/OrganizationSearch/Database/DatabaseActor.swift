@@ -48,11 +48,12 @@ actor DatabaseActor {
 	///
 	/// - Parameter searchTerm: The raw user-entered query string.
 	/// - Returns: A `SearchResults` value containing all matching hits ordered
-	///   by FTS5 relevance, or `nil` when `searchTerm` yields no FTS5 tokens.
+	///   by FTS5 relevance, or an empty `SearchResults` when `searchTerm` yields
+	///   no FTS5 tokens.
 	/// - Throws: `OrganizationSearchError.notPrepared` if `prepare()` has
 	///   not yet been called; GRDB or decoding errors if the query or row
 	///   decoding fails.
-	func search(_ searchTerm: String) async throws -> SearchResults? {
+	func search(_ searchTerm: String) async throws -> SearchResults {
 		guard let dbPool = database else {
 			throw OrganizationSearchError.notPrepared
 		}
@@ -60,7 +61,7 @@ actor DatabaseActor {
 		let searchStart = clock.now()
 		let result = try await dbPool.read { db in
 			let rows = try DatabaseSearchQuery.fetch(matching: searchTerm, in: db)
-			guard !rows.isEmpty else { return SearchResults?.none }
+			guard !rows.isEmpty else { return SearchResults(count: 0, hits: []) }
 			return try DatabaseSearchResultFactory.makeSearchResults(from: rows)
 		}
 		logDebug("DatabaseActor search(\"\(searchTerm)\"): \(clock.elapsed(since: searchStart))")

@@ -44,11 +44,11 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 	/// FTS5 read against the SQLite database on a background executor.
 	///
 	/// - Parameter searchTerm: The raw user-entered query string.
-	/// - Returns: Matching organizations ordered by relevance, or `nil` if
+	/// - Returns: Matching organizations ordered by relevance, or an empty `SearchResults` if
 	///   `searchTerm` is blank.
 	/// - Throws: `OrganizationSearchError.notPrepared` if `prepare()` has
 	///   not yet been called; GRDB or decoding errors on query failure.
-	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults? {
+	public func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults {
 		let actor = dbActor
 		return try await Task(priority: .userInitiated) {
 			try await actor.search(searchTerm)

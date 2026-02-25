@@ -34,9 +34,9 @@ public protocol OrganizationSearchClientProtocol {
 	/// The search index must be prepared via `prepare()` before calling this method.
 	///
 	/// - Parameter searchTerm: The query string to search for (e.g., "hospital Amsterdam").
-	/// - Returns: A `SearchResults` object containing matching organizations, or `nil` if no matches are found.
+	/// - Returns: A `SearchResults` object containing matching organizations, or an empty `SearchResults` if no matches are found.
 	/// - Throws: Errors if the search index is not prepared or if the search operation fails.
-	func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults?
+	func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults
 	
 	/// Retrieve the version information of the organization search library.
 	///

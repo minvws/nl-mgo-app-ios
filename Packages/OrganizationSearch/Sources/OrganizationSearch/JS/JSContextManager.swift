@@ -291,28 +291,26 @@ actor JSContextManager {
 	/// The search index must be created via `createIndex()` before calling this method.
 	///
 	/// - Parameter searchTerm: The search query string to match against organization names and attributes.
-	/// - Returns: A `SearchResults` object containing matching organizations, or `nil` if the search yields no results.
+	/// - Returns: A `SearchResults` object containing matching organizations, or an empty `SearchResults` if the search yields no results.
 	/// - Throws:
 	///   - `OrganizationSearchError.notPrepared` if `createIndex()` has not been called yet.
 	///   - `JSContextManagerError` variants from JavaScript method invocation or result decoding.
-	func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults? {
-		
-		var response: SearchResults?
-		
+	func searchHealthcareOrganizations(_ searchTerm: String) async throws -> SearchResults {
+
 		// Ensure JS context is initialized
 		try ensureInitialized()
-		
+
 		guard providersHaveBeenIndexed else {
 			throw OrganizationSearchError.notPrepared
 		}
-		
+
 		if let result = try await callJSMethodAsync(
 			named: ParseMethod.search.rawValue,
 			with: Data(searchTerm.utf8)
 		) {
-			response = try decodeSearchResults(from: result)
+			return try decodeSearchResults(from: result)
 		}
-		return response
+		return SearchResults(count: 0, hits: [])
 	}
 	
 	/// Decode a JavaScript-bridged result into `SearchResults`.
