@@ -11,7 +11,7 @@
 /// Usage:
 /// ```swift
 /// let client = OrganizationSearchClient()
-/// try await client.prepare()
+/// try await client.prepare(dataset: .medmij)   // or just .prepare() for the full set
 /// let results = try await client.searchHealthcareOrganizations("hospital Amsterdam")
 /// ```
 public protocol OrganizationSearchClientProtocol {

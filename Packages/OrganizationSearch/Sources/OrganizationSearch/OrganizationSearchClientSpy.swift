@@ -5,6 +5,11 @@
 
 import Foundation
 
+/// Test double for `OrganizationSearchClientProtocol`.
+///
+/// Records every call made to its methods and exposes the captured arguments
+/// via `invoked*` and `invokedParameters*` properties. Return values can be
+/// configured through `stubbed*` properties before the call is made.
 public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol {
 
 	public required init() {

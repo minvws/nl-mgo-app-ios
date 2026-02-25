@@ -16,7 +16,7 @@ import MGODebug
 /// Usage:
 /// ```swift
 /// let manager = JSContextManager()
-/// try await manager.createIndex()
+/// try await manager.createIndex(dataset: .medmij)   // or .createIndex() for the full set
 /// let results = try await manager.searchHealthcareOrganizations("hospital")
 /// ```
 ///

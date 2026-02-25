@@ -5,27 +5,28 @@
 
 import Foundation
 
-/// the Javascript Context errors
+/// Errors thrown by `JSContextManager` during JavaScript context operations.
 public enum JSContextManagerError: Error, Sendable {
-	
-	/// The input could not be converted
+
+	/// The input data could not be converted to a valid UTF-8 string, or the
+	/// JSON object could not be serialised for JavaScript consumption.
 	case invalidInput
-	
-	/// This method is not available in the JS parser
+
+	/// The requested method does not exist in the JavaScript parser namespace.
 	case invalidMethod
-	
-	/// This namespace is not available in the JS parser
+
+	/// The expected namespace (`OrgSearchApi`) was not found in the JS context.
 	case invalidNameSpace
-	
-	/// Failed to initiate a JS Context
+
+	/// A `JSContext` could not be created or is unexpectedly `nil`.
 	case noJSContext
 
-	/// The providers where not indexed
+	/// A search was attempted before `createIndex(dataset:)` was called.
 	case noIndex
-	
-	/// There was no output
+
+	/// The JavaScript method returned no result, or a Promise was rejected.
 	case noResult
-	
-	/// The parser was not found at its location
+
+	/// The bundled JavaScript parser file could not be found or loaded.
 	case parserNotFound
 }

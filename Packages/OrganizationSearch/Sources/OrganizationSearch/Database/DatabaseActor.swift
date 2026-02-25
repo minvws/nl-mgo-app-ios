@@ -18,13 +18,13 @@ import MGODebug
 ///   executor, so database I/O never blocks the main thread.
 ///
 /// ## Lifecycle
-/// Call `prepare()` once to open the database, build the schema, and populate
-/// it from the bundled JSON. The pool is made available for concurrent reads as
-/// soon as the schema is ready, so `search(_:)` can be called while the
-/// background insert is still running.
+/// Call `prepare(dataset:)` once to open the database, build the schema, and
+/// populate it from the chosen bundled JSON. The pool is made available for
+/// concurrent reads as soon as the schema is ready, so `search(_:)` can be
+/// called while the background insert is still running.
 actor DatabaseActor {
 
-	/// The live database pool, `nil` until `prepare()` has completed schema setup.
+	/// The live database pool, `nil` until `prepare(dataset:)` has completed schema setup.
 	var database: DatabasePool?
 
 	private let clock: any MeasurableClock
@@ -37,19 +37,20 @@ actor DatabaseActor {
 
 	/// Searches for organizations matching the given term using FTS5.
 	///
-	/// Uses a prefix-wildcard query so that partial words match
-	/// (e.g. `"tan"` matches `"tandarts"`). Each word in `searchTerm` is
-	/// suffixed with `*` before being passed to the FTS5 engine.
+	/// Delegates query building to `DatabaseSearchQuery`, which uses
+	/// `FTS5Pattern(matchingAllPrefixesIn:)` so that partial words match
+	/// (e.g. `"tan"` matches `"tandarts"`) and punctuation in the input is
+	/// handled safely.
 	///
-	/// The search runs inside a `DatabasePool.read` closure, which is a
-	/// concurrent, non-blocking read that can proceed in parallel with the
-	/// background write transaction that populates the database.
+	/// The search runs inside a `DatabasePool.read` closure — a concurrent,
+	/// non-blocking read that can proceed in parallel with the background
+	/// write transaction that populates the database.
 	///
 	/// - Parameter searchTerm: The raw user-entered query string.
 	/// - Returns: A `SearchResults` value containing all matching hits ordered
-	///   by FTS5 relevance, or `nil` when `searchTerm` is blank.
+	///   by FTS5 relevance, or `nil` when `searchTerm` yields no FTS5 tokens.
 	/// - Throws: `OrganizationSearchClientError.notPrepared` if `prepare()` has
-	///   not yet been called. GRDB or decoding errors if the query or row
+	///   not yet been called; GRDB or decoding errors if the query or row
 	///   decoding fails.
 	func search(_ searchTerm: String) async throws -> SearchResults? {
 		guard let dbPool = database else {

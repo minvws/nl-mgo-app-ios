@@ -62,7 +62,12 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol {
 
 // MARK: - Errors
 
+/// Errors thrown by `OrganizationSearchClient` and the database layer.
 enum OrganizationSearchClientError: Error {
+
+	/// The bundled JSON resource file for the requested dataset could not be found.
 	case resourceNotFound
+
+	/// A search was attempted before `prepare(dataset:)` was called.
 	case notPrepared
 }
