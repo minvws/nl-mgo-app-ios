@@ -48,15 +48,14 @@ enum DatabasePopulator {
 				try db.execute(
 					sql: """
 						INSERT INTO organization
-							(id, displayName, normalizedDisplayName, careTypeDisplay,
+							(id, displayName, careTypeDisplay,
 							 city, postalCode, addressLine, geoLat, geoLng,
 							 searchBlob, dataServicesJSON)
-						VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+						VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 						""",
 					arguments: [
 						org.id,
 						org.displayName,
-						org.normalizedDisplayName,
 						org.careTypeDisplay,
 						org.city,
 						org.postalCode,

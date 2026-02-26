@@ -36,7 +36,7 @@ enum DatabaseSearchQuery {
 		return try Row.fetchAll(
 			db,
 			sql: """
-				SELECT o.id, o.displayName, o.normalizedDisplayName, o.careTypeDisplay,
+				SELECT o.id, o.displayName, o.careTypeDisplay,
 				       o.city, o.postalCode, o.addressLine, o.geoLat, o.geoLng,
 				       o.searchBlob, o.dataServicesJSON,
 				       -organization_fts.rank AS score

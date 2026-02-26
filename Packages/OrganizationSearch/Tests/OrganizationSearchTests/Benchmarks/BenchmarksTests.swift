@@ -17,7 +17,7 @@ class BenchmarksTests {
 		try await client.prepare(dataset: .benchmark)
 		let queries = OrganizationSearchBenchmarks.queries
 		
-		// When / Then
+		// When
 		var results: [QueryBenchmarkResult] = []
 		
 		for searchQuery in queries {
@@ -29,9 +29,12 @@ class BenchmarksTests {
 			// print("[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)")
 		}
 		
+		// Then
 		let meanMRR = results.map(\.meanReciprocalRank).reduce(0, +) / Double(results.count)
 		 print("Mean Reciprocal Rank: \(meanMRR)")
 		#expect(meanMRR >= 0.47, "JS MRR \(meanMRR) dropped below 0.47")
+		
+		await client.teardown()
 	}
 	
 	@Test("Search JS ranking: find target organization index for each query")
@@ -42,7 +45,7 @@ class BenchmarksTests {
 		try await client.prepare(dataset: .benchmark)
 		let queries = OrganizationSearchBenchmarks.queries
 		
-		// When / Then
+		// When
 		var results: [QueryBenchmarkResult] = []
 		
 		for searchQuery in queries {
@@ -54,6 +57,7 @@ class BenchmarksTests {
 			// print("[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)")
 		}
 		
+		// Then
 		let meanMRR = results.map(\.meanReciprocalRank).reduce(0, +) / Double(results.count)
 		print("Mean Reciprocal Rank: \(meanMRR)")
 		#expect(meanMRR >= 0.81, "JS MRR \(meanMRR) dropped below 0.81")

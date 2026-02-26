@@ -47,7 +47,6 @@ enum DatabaseMigrations {
 			try db.create(table: "organization") { tableDefinition in
 				tableDefinition.primaryKey("id", .text).indexed()
 				tableDefinition.column("displayName", .text)
-				tableDefinition.column("normalizedDisplayName", .text)
 				tableDefinition.column("careTypeDisplay", .text)
 				tableDefinition.column("city", .text)
 				tableDefinition.column("postalCode", .text)
