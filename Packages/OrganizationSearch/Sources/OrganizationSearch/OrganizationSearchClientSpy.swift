@@ -10,7 +10,7 @@ import Foundation
 /// Records every call made to its methods and exposes the captured arguments
 /// via `invoked*` and `invokedParameters*` properties. Return values can be
 /// configured through `stubbed*` properties before the call is made.
-public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol {
+public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol, @unchecked Sendable {
 
 	public required init() {
 		// Public init required

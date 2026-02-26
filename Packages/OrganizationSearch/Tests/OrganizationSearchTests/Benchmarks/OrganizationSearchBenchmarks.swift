@@ -16,16 +16,14 @@ struct OrganizationSearchBenchmarks {
 	
 	/// All queries loaded from the `queries.json` resource bundle.
 	static let queries: [SearchQuery] = {
-		guard let url = Bundle.module.url(forResource: "queries", withExtension: "json") else {
-			fatalError("Benchmarks: queries.json not found in bundle")
-		}
-		guard let data = try? Data(contentsOf: url) else {
-			fatalError("Benchmarks: failed to load queries.json")
-		}
 		let decoder = JSONDecoder()
 		decoder.keyDecodingStrategy = .convertFromSnakeCase
-		guard let queries = try? decoder.decode([SearchQuery].self, from: data) else {
-			fatalError("Benchmarks: failed to decode queries.json")
+		guard
+			let url = Bundle.module.url(forResource: "queries", withExtension: "json"),
+			let data = try? Data(contentsOf: url),
+			let queries = try? decoder.decode([SearchQuery].self, from: data)
+		else {
+			fatalError("Benchmarks: failed to load or decode queries.json")
 		}
 		return queries
 	}()

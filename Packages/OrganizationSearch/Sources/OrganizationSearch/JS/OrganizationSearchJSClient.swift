@@ -24,7 +24,7 @@ import MGODebug
 /// let results = try await searchClient.searchHealthcareOrganizations("hospital")
 /// let version = try searchClient.getVersion()
 /// ```
-public class OrganizationSearchJSClient: OrganizationSearchClientProtocol {
+public class OrganizationSearchJSClient: OrganizationSearchClientProtocol, @unchecked Sendable {
 	
 	/// The JavaScript context manager running on a background actor.
 	///

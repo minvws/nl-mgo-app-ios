@@ -87,6 +87,10 @@ import MGOUI
 	
 	var searchOrganizationClientSpy: OrganizationSearchClientSpy = {
 		let spy = OrganizationSearchClientSpy()
+		spy.stubbedSearchHealthcareOrganizationsSearchResults = SearchResults(
+			count: 0,
+			hits: []
+		)
 		return spy
 	}()
 }

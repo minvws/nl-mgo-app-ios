@@ -13,7 +13,7 @@ import MGODebug
 /// All database operations are delegated to `DatabaseActor`, keeping
 /// database I/O off the main thread and ensuring thread-safe access to the
 /// shared `DatabasePool`.
-public class OrganizationSearchClient: OrganizationSearchClientProtocol {
+public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchecked Sendable {
 
 	private let dbActor = DatabaseActor()
 
