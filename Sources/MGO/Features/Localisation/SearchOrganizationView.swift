@@ -49,9 +49,6 @@ class SearchOrganizationViewModel: ObservableObject {
 	/// Dependency Healthcare Organization Store
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
 	
-	/// Dependency injectable Notification Center
-	@Injected(\.notificationCenter) private var notificationCenter
-	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case closeSheet
@@ -97,7 +94,7 @@ class SearchOrganizationViewModel: ObservableObject {
 			availableServiceIds: DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.map(\.id)
 		)
 		
-		memoryWarningObserver = notificationCenter.addObserver(
+		memoryWarningObserver = NotificationCenter.default.addObserver(
 			forName: UIApplication.didReceiveMemoryWarningNotification,
 			object: nil,
 			queue: nil
