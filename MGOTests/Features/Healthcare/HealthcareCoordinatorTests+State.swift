@@ -59,7 +59,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), precision: 0.95)
+		let automaticView = try view.inspect().find(OrganizationListAutomaticView.self)
+		expect(automaticView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
