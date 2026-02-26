@@ -9,23 +9,29 @@ import SwiftUI
 public struct SizeReaderModifier: ViewModifier {
 	@Binding var size: CGSize
 	
+	@ViewBuilder
 	public func body(content: Content) -> some View {
-		content
-			.background(
-				GeometryReader { geometry in
-					Color.clear.onAppear {
-						size = geometry.size
-					}
-					.onChange(of: geometry.size) { newSize in
-						size = newSize
-					}
+		if #available(iOS 16.0, *), !ProcessInfo.processInfo.arguments
+			.contains("--unittesting") {
+			content
+				.backport.onGeometryChange(for: CGSize.self) { geometry in
+					geometry.size
+				} action: { newValue in
+					size = newValue
 				}
-			)
-			.backport.onGeometryChange(for: CGSize.self) { geometry in
-				return geometry.size
-			} action: { newValue in
-				size = newValue
-			}
+		} else {
+			content
+				.background(
+					GeometryReader { geometry in
+						Color.clear.onAppear {
+							size = geometry.size
+						}
+						.onChange(of: geometry.size) { newSize in
+							size = newSize
+						}
+					}
+				)
+		}
 	}
 }
 

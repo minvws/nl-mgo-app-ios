@@ -25,16 +25,21 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	@State private var hasScrolledToBottom: Bool = false
 	
 	var body: some View {
-		VStack {
-			
-			OffsetObservingScrollView(bounces: scrollable, offset: $scrollOffset) {
-				content.readSize($contentSize)
-			}
-			.readSize($scrollViewSize)
+		OffsetObservingScrollView(bounces: scrollable, offset: $scrollOffset) {
+			content
+				.readSize($contentSize)
 		}
+		.readSize($scrollViewSize)
 		.onChange(of: scrollOffset) { value in
-			let margin: CGFloat = 10
-			hasScrolledToBottom = (value.y + scrollViewSize.height + margin > contentSize.height)
+			updateScrollState(offset: value)
+		}
+		.onChange(of: contentSize) { _ in
+			recalculateScrollable()
+			updateScrollState(offset: scrollOffset)
+		}
+		.onChange(of: scrollViewSize) { _ in
+			recalculateScrollable()
+			updateScrollState(offset: scrollOffset)
 		}
 		.safeAreaInset(edge: VerticalEdge.bottom) {
 			footer()
@@ -44,25 +49,27 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	/// The fixed footer part
 	/// - Returns: the footer
 	@ViewBuilder private func footer() -> some View {
+		let showDivider = scrollable && !hasScrolledToBottom
 		
-		bottomView
-			.when(scrollable && !hasScrolledToBottom, transform: { view in
-				view
-					.background(BlurView(style: .systemUltraThinMaterial).opacity(0.98).ignoresSafeArea())
-			})
-			.when(scrollable && !hasScrolledToBottom, transform: { view in
-				
-				VStack(spacing: 0) {
-					NavigationDivider()
-					view
-				}
-			})
-			.onChange(of: contentSize) { _ in
-				recalculateScrollable()
-			}
-			.onChange(of: scrollViewSize) { _ in
-				recalculateScrollable()
-			}
+		VStack(spacing: 0) {
+			NavigationDivider()
+				.opacity(showDivider ? 1 : 0)
+			bottomView
+		}
+		.background(
+			BlurView(style: .systemUltraThinMaterial)
+				.opacity(showDivider ? 0.98 : 0)
+				.ignoresSafeArea()
+		)
+	}
+	
+	/// Update scroll state to determine if scrolled to bottom
+	private func updateScrollState(offset: CGPoint) {
+		let margin: CGFloat = 10
+		let newValue = (offset.y + scrollViewSize.height + margin > contentSize.height)
+		if hasScrolledToBottom != newValue {
+			hasScrolledToBottom = newValue
+		}
 	}
 	
 	/// Recalculate if we should scroll

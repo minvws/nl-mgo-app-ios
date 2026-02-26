@@ -38,7 +38,13 @@ struct TonalButtonStyle: ButtonStyle {
 			.foregroundColor(theme.actions.tonal.text.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(theme.actions.tonal.background.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
-			.cornerRadius(rounded ? ViewTraits.Button.roundedRadius : ViewTraits.Button.cornerRadius)
+			.background {
+				let radius = rounded ? ViewTraits.Button.roundedRadius : ViewTraits.Button.cornerRadius
+				ZStack {
+					Rectangle().fill(.ultraThinMaterial)
+					theme.actions.tonal.background.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1)
+				}
+				.clipShape(RoundedRectangle(cornerRadius: radius))
+			}
 	}
 }

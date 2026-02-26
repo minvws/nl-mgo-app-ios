@@ -29,7 +29,13 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 	) throws {
 		
 		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
-		localisationServiceClientSpy = LocalisationServiceClientSpy(serverUrl: serverUrl, username: nil, password: nil, organizations: list, error: error)
+		localisationServiceClientSpy = LocalisationServiceClientSpy(
+			serverUrl: serverUrl,
+			username: nil,
+			password: nil,
+			organizations: list,
+			error: error
+		)
 		sut = OrganizationListManualViewModel(
 			coordinator: coordinatorSpy,
 			city: city,
@@ -77,7 +83,14 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		await expect(self.sut.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
+		await expect(self.sut.state).toEventually(
+			equal(
+				.empty(
+					city: "Roermond",
+					name: "Tandarts Tandje Erbij"
+				)
+			)
+		)
 		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
 		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
@@ -106,7 +119,14 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 		sut.reduce(.retry)
 		
 		// Then
-		await expect(self.sut.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
+		await expect(self.sut.state).toEventually(
+			equal(
+				.empty(
+					city: "Roermond",
+					name: "Tandarts Tandje Erbij"
+				)
+			)
+		)
 		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
 		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
@@ -130,7 +150,10 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 	@MainActor func test_list_noDataServices() async throws {
 		
 		// Given
-		let organization = Generator.healthcareOrganization("value", useDataService: false)
+		let organization = Generator.healthcareOrganization(
+			"value",
+			useDataService: false
+		)
 		try createSut(list: [organization])
 		let state = OrganizationListViewState.success([OrganizationListSet(organization, .notParticipating)])
 		
@@ -146,7 +169,11 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 	@MainActor func test_list_unsupportedDataServices() async throws {
 		
 		// Given
-		let organization = Generator.healthcareOrganization("value", useDataService: true, serviceId: "999")
+		let organization = Generator.healthcareOrganization(
+			"value",
+			useDataService: true,
+			serviceId: "999"
+		)
 		try createSut(list: [organization])
 		let state = OrganizationListViewState.success([OrganizationListSet(organization, .notParticipating)])
 		

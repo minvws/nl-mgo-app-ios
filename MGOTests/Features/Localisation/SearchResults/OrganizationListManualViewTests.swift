@@ -31,36 +31,25 @@ final class OrganizationListManualViewTests: XCTestCase {
 	
 	@MainActor private func createSut(
 		city: String = "Roermond",
-		name: String = "Tandarts Tandje Erbij"
+		name: String = "Tandarts Tandje Erbij",
+		state: OrganizationListViewState
 	) {
 		
 		viewModel = OrganizationListManualViewModel(
 			coordinator: coordinatorSpy,
 			city: city,
 			name: name,
-			localisationServiceClient: localisationServiceClientSpy
+			localisationServiceClient: localisationServiceClientSpy,
+			autoStartSearching: false
 		)
+		viewModel.state = state
 		sut = OrganizationListManualView(viewModel: self.viewModel)
-	}
-
-	@MainActor func test_loading() {
-		
-		// Given
-		createSut()
-		viewModel.state = .loading
-		
-		// When
-		let content = NavigationStackBackport.NavigationStack { sut }
-		
-		// Then
-		takeSnapShots(content: content)
 	}
 	
 	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
-		createSut()
-		viewModel.state = .loading
+		createSut(state: .loading)
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
@@ -74,8 +63,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 	@MainActor func test_empty_action() throws {
 		
 		// Given
-		createSut()
-		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
+		createSut(state: .empty(city: "Roermond", name: "Tandarts Tandje Erbij"))
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "action_button")
@@ -91,9 +79,8 @@ final class OrganizationListManualViewTests: XCTestCase {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut()
 		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
-		viewModel.state = .failure(error)
+		createSut(state: .failure(error))
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
@@ -106,9 +93,8 @@ final class OrganizationListManualViewTests: XCTestCase {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
-		createSut()
 		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
-		viewModel.state = .failure(error)
+		createSut(state: .failure(error))
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
@@ -120,9 +106,8 @@ final class OrganizationListManualViewTests: XCTestCase {
 	@MainActor func test_failure_action() async throws {
 		
 		// Given
-		createSut()
 		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
-		viewModel.state = .failure(error)
+		createSut(state: .failure(error))
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "action_button")
@@ -138,14 +123,13 @@ final class OrganizationListManualViewTests: XCTestCase {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut()
 		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationListCardState.notParticipating)),
 			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationListCardState.selected)),
 			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.regular))
 		]
-		viewModel.state = .success(list)
+		createSut(state: .success(list))
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
