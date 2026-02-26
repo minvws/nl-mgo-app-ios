@@ -12,10 +12,10 @@ public enum OrganizationDataset: Sendable {
 	/// The MedMij-filtered dataset (`organizations-medmij.json`).
 	case medmij
 
-	/// A small dataset intended for use in tests (`test-organizations.json`).
+	/// A small dataset intended for use in tests (`organizations-test.json`).
 	case test
 
-	/// A dataset used for benchmark measurements (`benchmark-organizations.json`).
+	/// A dataset used for benchmark measurements (`organizations-benchmark.json`).
 	case benchmark
 
 	/// The resource name (without extension) of the JSON file for this dataset.
@@ -23,8 +23,8 @@ public enum OrganizationDataset: Sendable {
 		switch self {
 			case .full: return "organizations-full"
 			case .medmij: return "organizations-medmij"
-			case .test: return "test-organizations"
-			case .benchmark: return "benchmark-organizations"
+			case .test: return "organizations-test"
+			case .benchmark: return "organizations-benchmark"
 		}
 	}
 }
