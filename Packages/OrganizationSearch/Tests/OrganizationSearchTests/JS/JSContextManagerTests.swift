@@ -17,8 +17,8 @@ class JSContextManagerTests {
 		let sut = JSContextManager(clock: clock)
 		
 		// When
-		try await sut.createIndex()
-		
+		try await sut.createIndex(dataset: .test)
+
 		// Then – now() must be called twice: once before loading, once before indexing
 		#expect(clock.nowCallCount == 2)
 	}
@@ -31,8 +31,8 @@ class JSContextManagerTests {
 		let sut = JSContextManager(clock: clock)
 		
 		// When
-		try await sut.createIndex()
-		
+		try await sut.createIndex(dataset: .test)
+
 		// Then – no error means both timing paths completed successfully
 		// (searching afterwards confirms providers were indexed)
 		let result = try await sut.searchHealthcareOrganizations("Test")
