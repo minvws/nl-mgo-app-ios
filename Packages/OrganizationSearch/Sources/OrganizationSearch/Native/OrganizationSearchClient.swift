@@ -17,7 +17,7 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchec
 	
 	private let dbActor = DatabaseActor()
 	
-	required public init() {}
+	required public init() { /* Required by protocol, no-op */ }
 	
 	/// Prepares the search database on a background actor.
 	///

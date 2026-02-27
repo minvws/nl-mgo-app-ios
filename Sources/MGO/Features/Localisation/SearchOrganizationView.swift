@@ -74,7 +74,7 @@ class SearchOrganizationViewModel: ObservableObject {
 	/// `nonisolated(unsafe)`: assigned once at the end of `@MainActor` `init`, read once
 	/// in `deinit`. The client itself is `Sendable`; the annotation only bypasses the
 	/// actor-isolation check on the stored-property accessor.
-	nonisolated(unsafe) private var _clientForDeinit: (any OrganizationSearchClientProtocol)?
+	nonisolated(unsafe) private var clientForDeinit: (any OrganizationSearchClientProtocol)?
 	
 	/// Debounce delay in milliseconds
 	private let searchDebounceDelay: UInt64 = 100
@@ -104,8 +104,8 @@ class SearchOrganizationViewModel: ObservableObject {
 			}
 		}
 
-		// Capture for use in nonisolated deinit (see _clientForDeinit declaration).
-		_clientForDeinit = organizationSearchClient
+		// Capture for use in nonisolated deinit (see clientForDeinit declaration).
+		clientForDeinit = organizationSearchClient
 
 		Task {
 			MemoryUsage.printMemoryUsage("SOVM: before indexing")
@@ -118,7 +118,7 @@ class SearchOrganizationViewModel: ObservableObject {
 		if let token = memoryWarningObserver {
 			NotificationCenter.default.removeObserver(token)
 		}
-		if let client = _clientForDeinit {
+		if let client = clientForDeinit {
 			Task { await client.teardown() }
 		}
 	}
