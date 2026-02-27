@@ -5,12 +5,17 @@
 
 import Foundation
 
-/// The different parse methods for the Organization Search
+/// JavaScript method names exposed by the `OrgSearchApi` namespace.
+///
+/// Each case's `rawValue` is the exact function name invoked on the JS object,
+/// e.g. `jsContext["OrgSearchApi"].invokeMethod(ParseMethod.index.rawValue, ...)`.
 public enum ParseMethod: String, Sendable {
-	
-	/// parse the organizations and create a search index
+
+	/// Builds a full-text search index from a JSON organization payload.
+	/// Corresponds to the JS function `createSearchIndexJson`.
 	case index = "createSearchIndexJson"
 
-	/// Search for an organization
+	/// Executes a search query against the previously built index.
+	/// Corresponds to the JS function `search`.
 	case search = "search"
 }

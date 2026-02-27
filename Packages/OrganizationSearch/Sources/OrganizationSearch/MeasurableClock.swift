@@ -7,7 +7,7 @@ import Foundation
 
 /// A type that provides the current instant and formats durations between two instants.
 ///
-/// Inject a `MeasurableClock` into `JSContextManager` to control timing behaviour in tests.
+/// Inject a `MeasurableClock` into `JSContextManager` or `DatabaseActor` to control timing behaviour in tests.
 /// The work being timed stays in the caller; only the timestamp bookkeeping is delegated here.
 protocol MeasurableClock: Sendable {
 	

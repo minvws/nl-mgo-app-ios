@@ -66,6 +66,10 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchec
 		}.value
 	}
 
+	/// Not supported by the GRDB-backed client.
+	///
+	/// Version metadata is only bundled with the JavaScript client (`OrganizationSearchJSClient`).
+	/// This implementation always throws `Version.Error.noResource`.
 	public func getVersion(fileName: String = "version") throws -> Version {
 		throw Version.Error.noResource
 	}
