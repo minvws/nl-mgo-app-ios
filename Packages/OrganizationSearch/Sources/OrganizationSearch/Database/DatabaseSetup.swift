@@ -8,10 +8,10 @@ import GRDB
 
 /// Opens and configures the on-disk SQLite database used for organization search.
 enum DatabaseSetup {
-
+	
 	/// The filename used for the on-disk SQLite database.
 	static let databaseFileName = "organizations.sqlite"
-
+	
 	/// Opens (or creates) the SQLite database in the Application Support directory.
 	///
 	/// A `DatabasePool` is used so that concurrent reads can proceed while a
@@ -25,6 +25,7 @@ enum DatabaseSetup {
 	/// - Throws: Foundation errors if the Application Support directory cannot
 	///   be resolved; GRDB errors if the database file cannot be opened.
 	static func openDatabase() throws -> DatabasePool {
+		
 		let appSupportURL = try FileManager.default.url(
 			for: .applicationSupportDirectory,
 			in: .userDomainMask,
@@ -33,13 +34,13 @@ enum DatabaseSetup {
 		)
 		let dbURL = appSupportURL.appendingPathComponent(databaseFileName)
 		let dbPool = try DatabasePool(path: dbURL.path)
-
+		
 		// Exclude from iCloud backup now that the file exists on disk
 		var mutableURL = dbURL
 		var resourceValues = URLResourceValues()
 		resourceValues.isExcludedFromBackup = true
 		try mutableURL.setResourceValues(resourceValues)
-
+		
 		return dbPool
 	}
 }

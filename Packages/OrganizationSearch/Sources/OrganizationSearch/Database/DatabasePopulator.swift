@@ -16,8 +16,14 @@ enum DatabasePopulator {
 	/// - Returns: All organizations decoded from the bundle resource.
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the JSON file is
 	///   absent from the module bundle; decoding errors if the JSON is malformed.
-	static func loadOrganizations(from dataset: OrganizationDataset) throws -> [Organization] {
-		guard let jsonURL = Bundle.module.url(forResource: dataset.resourceName, withExtension: "json") else {
+	static func loadOrganizations(
+		from dataset: OrganizationDataset
+	) throws -> [Organization] {
+		
+		guard let jsonURL = Bundle.module.url(
+			forResource: dataset.resourceName,
+			withExtension: "json"
+		) else {
 			logError("DatabasePopulator: \(dataset.resourceName).json not found in bundle")
 			throw OrganizationSearchClientError.resourceNotFound
 		}
@@ -38,13 +44,17 @@ enum DatabasePopulator {
 	///   - dbQueue: The database to write into (accepts both `DatabasePool` and `DatabaseQueue`).
 	/// - Throws: GRDB errors if the write transaction fails; encoding errors if
 	///   a `dataServices` value cannot be serialised to JSON.
-	static func insert(_ organizations: [Organization], into dbQueue: any DatabaseWriter) async throws {
+	static func insert(
+		_ organizations: [Organization],
+		into dbQueue: any DatabaseWriter
+	) async throws {
+		
 		try await dbQueue.write { db in
 			for org in organizations {
 				let dataServicesJSON = try org.dataServices
 					.map { try newJSONEncoder().encode($0) }
 					.flatMap { String(data: $0, encoding: .utf8) }
-
+				
 				try db.execute(
 					sql: """
 						INSERT INTO organization

@@ -5,19 +5,19 @@
 
 /// Identifies which bundled organization JSON file to load into the search database.
 public enum OrganizationDataset: Sendable {
-
+	
 	/// The complete organization dataset (`organizations-full.json`).
 	case full
-
+	
 	/// The MedMij-filtered dataset (`organizations-medmij.json`).
 	case medmij
-
+	
 	/// A small dataset intended for use in tests (`organizations-test.json`).
 	case test
-
+	
 	/// A dataset used for benchmark measurements (`organizations-benchmark.json`).
 	case benchmark
-
+	
 	/// The resource name (without extension) of the JSON file for this dataset.
 	var resourceName: String {
 		switch self {

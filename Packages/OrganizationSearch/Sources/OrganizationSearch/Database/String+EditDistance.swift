@@ -6,6 +6,7 @@
 import Foundation
 
 extension String {
+	
 	/// Returns every string within edit distance 1 of the receiver.
 	///
 	/// Considers four single-character operations over the lowercase a–z alphabet:
@@ -16,6 +17,7 @@ extension String {
 	///
 	/// A Set deduplicates variants that different operations produce identically.
 	func editDistance1Variants() -> [String] {
+		
 		let chars = Array(self)
 		let length = chars.count
 		let alphabet: [Character] = Array("abcdefghijklmnopqrstuvwxyz")

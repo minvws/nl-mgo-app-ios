@@ -20,6 +20,7 @@ enum DatabaseSearchResultFactory {
 	/// - Returns: A fully populated `SearchResult`.
 	/// - Throws: Decoding errors if `dataServicesJSON` is present but malformed.
 	static func makeSearchResult(from row: Row) throws -> SearchResult {
+		
 		let decoder = newJSONDecoder()
 		decoder.keyDecodingStrategy = .convertFromSnakeCase
 
@@ -48,6 +49,7 @@ enum DatabaseSearchResultFactory {
 	/// - Returns: A `SearchResults` containing all decoded hits.
 	/// - Throws: Decoding errors from `makeSearchResult(from:)`.
 	static func makeSearchResults(from rows: [Row]) throws -> SearchResults {
+		
 		let hits = try rows.map { try makeSearchResult(from: $0) }
 		return SearchResults(count: Double(hits.count), hits: hits)
 	}

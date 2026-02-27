@@ -23,18 +23,18 @@ import MGODebug
 /// concurrent reads as soon as the schema is ready, so `search(_:)` can be
 /// called while the background insert is still running.
 actor DatabaseActor {
-
+	
 	/// The live database pool, `nil` until `prepare(dataset:)` has completed schema setup.
 	var database: DatabasePool?
-
+	
 	private let clock: any MeasurableClock
-
+	
 	init(clock: (any MeasurableClock)? = nil) {
 		self.clock = clock ?? makeMeasurableClock()
 	}
-
+	
 	// MARK: - Search
-
+	
 	/// Searches for organizations matching the given term using FTS5.
 	///
 	/// Delegates query building to `DatabaseSearchQuery`, which uses
@@ -54,10 +54,11 @@ actor DatabaseActor {
 	///   not yet been called; GRDB or decoding errors if the query or row
 	///   decoding fails.
 	func search(_ searchTerm: String) async throws -> SearchResults {
+		
 		guard let dbPool = database else {
 			throw OrganizationSearchError.notPrepared
 		}
-
+		
 		let searchStart = clock.now()
 		let result = try await dbPool.read { db in
 			let rows = try DatabaseSearchQuery.fetch(matching: searchTerm, in: db)
@@ -67,9 +68,9 @@ actor DatabaseActor {
 		logDebug("DatabaseActor search(\"\(searchTerm)\"): \(clock.elapsed(since: searchStart))")
 		return result
 	}
-
+	
 	// MARK: - Teardown
-
+	
 	/// Close the database pool and release all associated resources.
 	///
 	/// Nils out the `DatabasePool`, which closes the underlying SQLite file
@@ -82,9 +83,9 @@ actor DatabaseActor {
 	func teardown() {
 		database = nil
 	}
-
+	
 	// MARK: - Prepare
-
+	
 	/// Opens (or recreates) the on-disk SQLite database, builds the schema,
 	/// and populates it from the bundled JSON resource for the given dataset.
 	///
@@ -102,27 +103,28 @@ actor DatabaseActor {
 	///   JSON is missing; GRDB errors if the database cannot be opened
 	///   or written to; decoding errors if the JSON is malformed.
 	func prepare(dataset: OrganizationDataset = .full) async throws -> Int {
+		
 		let dbPool = try DatabaseSetup.openDatabase()
-
+		
 		let schemaStart = clock.now()
 		try await DatabaseMigrations.clearSchema(in: dbPool)
 		try await DatabaseMigrations.createSchema(in: dbPool)
 		logDebug("DatabaseActor schema: \(clock.elapsed(since: schemaStart))")
-
+		
 		// Make the pool available for concurrent reads before inserting rows.
 		// DatabasePool uses WAL mode, so reads and writes can run in parallel.
 		self.database = dbPool
-
+		
 		let loadStart = clock.now()
 		let organizations = try DatabasePopulator.loadOrganizations(from: dataset)
 		logDebug("DatabaseActor JSON load: \(clock.elapsed(since: loadStart))")
-
+		
 		let insertStart = clock.now()
 		try await DatabasePopulator.insert(organizations, into: dbPool)
 		logDebug(
 			"DatabaseActor insert: \(clock.elapsed(since: insertStart)) for \(organizations.count) organizations"
 		)
-
+		
 		return organizations.count
 	}
 }

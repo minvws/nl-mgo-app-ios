@@ -32,7 +32,11 @@ enum DatabaseSearchQuery {
 	///   all `organization` columns plus a `score` column.
 	///   Returns an empty array when `searchTerm` produces no valid FTS5 tokens.
 	/// - Throws: GRDB errors if the SQL query fails.
-	static func fetch(matching searchTerm: String, in db: Database) throws -> [Row] {
+	static func fetch(
+		matching searchTerm: String,
+		in db: Database
+	) throws -> [Row] {
+		
 		// Pass 1: fast path — all typed words must appear (AND + prefix).
 		if let pattern = FTS5Pattern(matchingAllPrefixesIn: searchTerm) {
 			let rows = try fetchRows(matching: pattern, in: db)
@@ -51,6 +55,7 @@ enum DatabaseSearchQuery {
 	
 	/// Executes a pre-built FTS5 pattern against the `organization_fts` table.
 	private static func fetchRows(matching pattern: FTS5Pattern, in db: Database) throws -> [Row] {
+		
 		try Row.fetchAll(
 			db,
 			sql: """
