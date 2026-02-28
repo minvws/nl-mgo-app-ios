@@ -1,4 +1,4 @@
-// swift-tools-version: 6.1
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -36,9 +36,6 @@ let package = Package(
 				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")
-			],
-			swiftSettings: [
-				.enableExperimentalFeature("StrictConcurrency")
 			],
 			plugins: [
 				.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")

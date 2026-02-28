@@ -1,4 +1,4 @@
-// swift-tools-version: 6.1
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -18,10 +18,7 @@ let package = Package(
 	targets: [
 		.target(
 			name: "PdfExport",
-			resources: [.process("Resources")],
-			swiftSettings: [
-				.enableExperimentalFeature("StrictConcurrency")
-			]
+			resources: [.process("Resources")]
 		),
 		.testTarget(
 			name: "PdfExportTests",

@@ -5,7 +5,7 @@
 
 import MGOFoundation
 
-protocol ResourceRepositoryProtocol {
+protocol ResourceRepositoryProtocol: Sendable {
 	
 	/// Load all the categories for all the stored healthcare organizations
 	@MainActor func load()
@@ -50,7 +50,7 @@ enum ResourceRepositoryError: Int {
 }
 
 /// Load the resources from the server
-class ResourceRepository: ResourceRepositoryProtocol {
+class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 	
 	typealias Solution = (
 		endpoint: DataServices.Endpoint,

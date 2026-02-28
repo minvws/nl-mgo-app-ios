@@ -1,4 +1,4 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -27,10 +27,7 @@ let package = Package(
 				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "Observatory", package: "Observatory"),
 			],
-			swiftSettings: [
-				.enableExperimentalFeature("StrictConcurrency")
-			]
-		),
+			),
 		.testTarget(
 			name: "FileStorageTests",
 			dependencies: [
