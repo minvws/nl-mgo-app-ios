@@ -5,7 +5,7 @@
 
 import WebKit
 
-class URLAuthenticationChallengeSenderSpy: NSObject, URLAuthenticationChallengeSender {
+class URLAuthenticationChallengeSenderSpy: NSObject, URLAuthenticationChallengeSender, @unchecked Sendable {
 	func use(_ credential: URLCredential, for challenge: URLAuthenticationChallenge) {
 		/* No implementation */
 	}

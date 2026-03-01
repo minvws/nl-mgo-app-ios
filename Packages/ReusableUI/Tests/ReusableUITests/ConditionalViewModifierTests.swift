@@ -9,7 +9,7 @@ import MGOTest
 
 final class ConditionalViewModifierTests: XCTestCase {
 
-	func test_conditionalViewModifier_conditionFalse() throws {
+	@MainActor func test_conditionalViewModifier_conditionFalse() throws {
 		
 		// Given
 		let text = Text("test_conditionalViewModifier").frame(width: 300, height: 50)
@@ -24,7 +24,7 @@ final class ConditionalViewModifierTests: XCTestCase {
 		assertSnapshot(of: sut, as: .image)
 	}
 	
-	func test_conditionalViewModifier_conditionTrue() throws {
+	@MainActor func test_conditionalViewModifier_conditionTrue() throws {
 		
 		// Given
 		

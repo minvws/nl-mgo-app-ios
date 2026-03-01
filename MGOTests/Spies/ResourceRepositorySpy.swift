@@ -7,7 +7,7 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-class ResourceRepositorySpy: ResourceRepositoryProtocol {
+class ResourceRepositorySpy: ResourceRepositoryProtocol, @unchecked Sendable {
 	
 	private let queue = DispatchQueue(label: "com.ResourceRepositorySpy.serialqueue.\(UUID().uuidString)")
 

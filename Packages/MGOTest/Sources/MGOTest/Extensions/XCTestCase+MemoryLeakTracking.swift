@@ -6,7 +6,7 @@
 // See https://qualitycoding.org/swift-memory-leak-detection-xctest/
 
 extension XCTestCase {
-	
+
 	/// Track an object for memory leaks
 	/// - Parameters:
 	///   - instance: the object to track
@@ -17,10 +17,18 @@ extension XCTestCase {
 		file: StaticString = #filePath,
 		line: UInt = #line
 	) {
-		addTeardownBlock { [weak instance] in
-			XCTAssertNil(
-				instance,
-				"potential memory leak on \(String(describing: instance))",
+		// WeakBox wraps the weak reference in an @unchecked Sendable class so it can
+		// be safely captured by the @Sendable addTeardownBlock closure in Swift 6.
+		final class WeakBox: @unchecked Sendable {
+			weak var value: AnyObject?
+
+			init(_ value: AnyObject) { self.value = value }
+		}
+		let box = WeakBox(instance)
+		addTeardownBlock {
+			XCTAssertFalse(
+				box.value != nil,
+				"potential memory leak on \(String(describing: box.value))",
 				file: file,
 				line: line
 			)

@@ -39,7 +39,7 @@ public protocol FileRepositoryProtocol {
 	func wipePersistedData()
 }
 
-public class FileRepository<Item: Codable & Equatable>: FileRepositoryProtocol {
+public class FileRepository<Item: Codable & Equatable>: FileRepositoryProtocol, @unchecked Sendable {
 	
 	/// The storage provider
 	private let storage: FileStorageProtocol

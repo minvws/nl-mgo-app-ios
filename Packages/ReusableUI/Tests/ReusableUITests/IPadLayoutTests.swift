@@ -9,7 +9,7 @@ import MGOTest
 
 final class IPadLayoutTests: XCTestCase {
 
-	func test_layout() throws {
+	@MainActor func test_layout() throws {
 		
 		// Given
 		let sut = Text("A test for layout").background(.red).layoutForIPad(force: false)
@@ -21,7 +21,7 @@ final class IPadLayoutTests: XCTestCase {
 		takeSnapShotsForiPad(content: content)
 	}
 	
-	func test_layout_forIpad() throws {
+	@MainActor func test_layout_forIpad() throws {
 		
 		// Given
 		let sut = Text("A test for layout").background(.red).layoutForIPad(force: true)

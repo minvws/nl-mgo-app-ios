@@ -7,6 +7,13 @@ import SnapshotTesting
 import SwiftUI
 import XCTest
 
+/// Wraps a non-Sendable value so it can be passed into a @MainActor context
+/// via MainActor.assumeIsolated. Safe to use only when you are already on the
+/// main thread (e.g., in XCTest snapshot helpers).
+private struct SendableBox<T>: @unchecked Sendable {
+	let value: T
+}
+
 extension XCTestCase {
 
 	/// Take a snapshot of this content in light and dark Mode, in landscape and portrait.
@@ -20,7 +27,7 @@ extension XCTestCase {
 		content: some View,
 		name: String = #function,
 		precision: Float = 1.0,
-		file: StaticString = #file,
+		file: StaticString = #filePath,
 		isRecording: Bool = false
 	) {
 
@@ -76,7 +83,7 @@ extension XCTestCase {
 		content: some View,
 		name: String = #function,
 		precision: Float = 1.0,
-		file: StaticString = #file,
+		file: StaticString = #filePath,
 		isRecording: Bool = false
 	) {
 
@@ -126,13 +133,20 @@ extension XCTestCase {
 	/// spin so that the resulting State updates and re-layouts settle before the snapshot
 	/// is taken.
 	private func preparedHostingController<V: View>(rootView: V) -> UIHostingController<V> {
-		let controller = UIHostingController(rootView: rootView)
-		let window = UIWindow(frame: UIScreen.main.bounds)
-		window.rootViewController = controller
-		window.makeKeyAndVisible()
-		controller.view.setNeedsLayout()
-		controller.view.layoutIfNeeded()
-		RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.05))
-		return controller
+		// Wrap in @unchecked Sendable so we can safely pass the view value into the
+		// @MainActor assumeIsolated closure without triggering SE-0414 region isolation
+		// errors. This is safe because tests always run on the main thread, so there
+		// is no concurrent access to rootView.
+		let box = SendableBox(value: rootView)
+		return MainActor.assumeIsolated {
+			let controller = UIHostingController(rootView: box.value)
+			let window = UIWindow(frame: UIScreen.main.bounds)
+			window.rootViewController = controller
+			window.makeKeyAndVisible()
+			controller.view.setNeedsLayout()
+			controller.view.layoutIfNeeded()
+			RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.05))
+			return controller
+		}
 	}
 }
