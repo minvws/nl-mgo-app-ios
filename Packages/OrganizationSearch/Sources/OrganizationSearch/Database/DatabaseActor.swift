@@ -92,19 +92,23 @@ actor DatabaseActor {
 	/// The pool is assigned to `database` immediately after the schema is
 	/// created — before the data insert starts — so that concurrent `search`
 	/// calls can already execute (returning empty results) while the
-	/// background populate transaction is in progress.
+	/// background populate is in progress.
+	///
+	/// The JSON file is memory-mapped rather than copied into RAM, and records
+	/// are inserted in chunks of `DatabasePopulator.insertChunkSize` to bound
+	/// peak memory usage during the populate phase.
 	///
 	/// Timing for each phase (schema, JSON load, insert) is written to the
 	/// debug log via `logDebug`.
 	///
-	/// - Parameter dataset: The organization dataset to load. Defaults to `.full`.
+	/// - Parameter dataset: The organization dataset to load.
 	/// - Returns: The number of organizations inserted.
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the bundled
 	///   JSON is missing; GRDB errors if the database cannot be opened
 	///   or written to; decoding errors if the JSON is malformed.
-	func prepare(dataset: OrganizationDataset = .full) async throws -> Int {
+	func prepare(dataset: OrganizationDataset) async throws -> Int {
 		
-		let dbPool = try DatabaseSetup.openDatabase()
+		let dbPool = try DatabaseSetup.openDatabase(for: dataset)
 		
 		let schemaStart = clock.now()
 		try await DatabaseMigrations.clearSchema(in: dbPool)

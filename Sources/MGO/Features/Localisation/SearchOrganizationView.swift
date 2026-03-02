@@ -109,7 +109,7 @@ class SearchOrganizationViewModel: ObservableObject {
 
 		Task {
 			MemoryUsage.printMemoryUsage("SOVM: before indexing")
-			try await organizationSearchClient.prepare()
+			try await organizationSearchClient.prepare(dataset: .full)
 			MemoryUsage.printMemoryUsage("SOVM: after indexing")
 		}
 	}

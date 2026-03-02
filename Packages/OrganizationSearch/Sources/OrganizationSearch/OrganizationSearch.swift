@@ -11,7 +11,7 @@
 /// Usage:
 /// ```swift
 /// let client = OrganizationSearchClient()
-/// try await client.prepare(dataset: .medmij)   // or just .prepare() for the full set
+/// try await client.prepare(dataset: .full)
 /// let results = try await client.searchHealthcareOrganizations("hospital Amsterdam")
 /// ```
 public protocol OrganizationSearchClientProtocol: Sendable {
@@ -55,14 +55,4 @@ public enum OrganizationSearchError: Error, Sendable {
 
 	/// A search was attempted before `prepare(dataset:)` was called.
 	case notPrepared
-}
-
-public extension OrganizationSearchClientProtocol {
-
-	/// Prepare the search index using the full organization dataset.
-	///
-	/// Convenience overload that calls `prepare(dataset:)` with `.full`.
-	func prepare() async throws {
-		try await prepare(dataset: .full)
-	}
 }

@@ -9,9 +9,6 @@ public enum OrganizationDataset: Sendable {
 	/// The complete organization dataset (`organizations-full.json`).
 	case full
 	
-	/// The MedMij-filtered dataset (`organizations-medmij.json`).
-	case medmij
-	
 	/// A small dataset intended for use in tests (`organizations-test.json`).
 	case test
 	
@@ -22,7 +19,6 @@ public enum OrganizationDataset: Sendable {
 	var resourceName: String {
 		switch self {
 			case .full: return "organizations-full"
-			case .medmij: return "organizations-medmij"
 			case .test: return "organizations-test"
 			case .benchmark: return "organizations-benchmark"
 		}

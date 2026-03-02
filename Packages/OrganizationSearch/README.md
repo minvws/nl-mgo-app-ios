@@ -2,14 +2,9 @@
 
 ## Overview
 
-The `OrganizationSearch` Swift package provides fast, offline search over a bundled dataset of Dutch healthcare organizations. It exposes a single `OrganizationSearchClientProtocol` with two concrete implementations:
+The `OrganizationSearch` Swift package provides fast, offline search over a bundled dataset of Dutch healthcare organizations. It exposes `OrganizationSearchClientProtocol` with one production implementation: `OrganizationSearchClient`, backed by SQLite + GRDB FTS5.
 
-| Implementation | Backend | Use case |
-|---|---|---|
-| `OrganizationSearchClient` | SQLite + GRDB FTS5 | Production app |
-| `OrganizationSearchJSClient` | JavaScriptCore | Reference / benchmarks |
-
-### Search strategy (`OrganizationSearchClient`)
+### Search strategy
 
 Queries run in two passes:
 
@@ -28,15 +23,22 @@ The package bundles several JSON organization datasets selected via `Organizatio
 | `.benchmark` | `organizations-benchmark.json` | Benchmark measurements |
 
 
+### Memory-efficient loading
+
+`prepare()` uses two techniques to keep memory usage low for large datasets:
+
+- **Memory-mapped I/O** — the JSON file is opened with `.mappedIfSafe`, so the OS pages bytes in on demand rather than copying the entire file into RAM. Pages that have already been consumed by `JSONDecoder` can be evicted under memory pressure.
+- **Chunked inserts** — records are written to SQLite in batches of 1 000. Each committed transaction releases GRDB's internal WAL state before the next batch starts, avoiding a single large transaction that would hold all data in memory simultaneously.
+
 ## Usage
 
 ```swift
 import OrganizationSearch
 
-// 1. Create a client (GRDB-backed, recommended for production)
+// 1. Create a client
 let client = OrganizationSearchClient()
 
-// 2. Prepare the search index (loads JSON and builds the SQLite FTS5 table)
+// 2. Prepare the search index (memory-maps the JSON and builds the SQLite FTS5 table)
 try await client.prepare()          // uses .full dataset by default
 // try await client.prepare(dataset: .medmij)  // or a specific subset
 
