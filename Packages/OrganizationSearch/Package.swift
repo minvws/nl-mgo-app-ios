@@ -25,10 +25,7 @@ let package = Package(
 				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "GRDB", package: "GRDB.swift")
 			],
-			resources: [.process("Resources")],
-			swiftSettings: [
-				.enableExperimentalFeature("StrictConcurrency")
-			]
+			resources: [.process("Resources")]
 		),
 		.testTarget(
 			name: "OrganizationSearchTests",
