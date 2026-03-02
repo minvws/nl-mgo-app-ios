@@ -271,8 +271,8 @@ final class ToastViewTests: XCTestCase {
 	}
 	
 	@MainActor
-	func test_toast_close() async throws {
-		
+	func test_toast_close() throws {
+
 		// Given
 		var closedTapped = false
 		var actionTapped = false
@@ -290,18 +290,18 @@ final class ToastViewTests: XCTestCase {
 				closedTapped = true
 			}
 		)
-		
+
 		// When
 		try sut.inspect().find(viewWithAccessibilityIdentifier: "toast.close").button().tap()
-		
+
 		// Then
-		await expect(closedTapped).toEventually(beTrue())
-		await expect(actionTapped).toEventually(beFalse())
+		expect(closedTapped) == true
+		expect(actionTapped) == false
 	}
-	
+
 	@MainActor
-	func test_toast_action() async throws {
-		
+	func test_toast_action() throws {
+
 		// Given
 		var closedTapped = false
 		var actionTapped = false
@@ -319,12 +319,12 @@ final class ToastViewTests: XCTestCase {
 				closedTapped = true
 			}
 		)
-		
+
 		// When
 		try sut.inspect().find(viewWithAccessibilityIdentifier: "toast.subheading").button().tap()
-		
+
 		// Then
-		await expect(closedTapped).toEventually(beFalse())
-		await expect(actionTapped).toEventually(beTrue())
+		expect(closedTapped) == false
+		expect(actionTapped) == true
 	}
 }

@@ -1,4 +1,4 @@
-// swift-tools-version: 6.1
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -19,7 +19,7 @@ let package = Package(
 		
 		// External
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.4"),
-		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.9.0"),
+		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.10.1"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.2.0"),
 		.package(url: "https://github.com/jessesquires/Foil.git", exact: "6.1.0"),
 		
@@ -36,9 +36,6 @@ let package = Package(
 				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")
-			],
-			swiftSettings: [
-				.enableExperimentalFeature("StrictConcurrency")
 			],
 			plugins: [
 				.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")

@@ -6,15 +6,16 @@
 import MGOTest
 @testable import FeatureFlag
 
+@MainActor
 final class FeatureFlagManagerTests: XCTestCase {
 
-//	@MainActor override func setUp() {
+//	override func setUp() {
 //		super.setUp()
 //		FeatureFlagManager().isAutomaticLocalizationEnabled = false
 //		FeatureFlagManager().bypassRemoteAuthentication = false
 //	}
-	
-	@MainActor override func tearDown() {
+
+	override func tearDown() {
 		super.tearDown()
 		FeatureFlagManager().isAutomaticLocalizationEnabled = false
 		FeatureFlagManager().bypassRemoteAuthentication = false

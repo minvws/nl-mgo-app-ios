@@ -12,7 +12,7 @@ final class RestrictedBrowserViewTests: XCTestCase {
 	private var urlOpenerSpy: URLOpenerSpy!
 	private var sut: RestrictedBrowserView!
 	
-	func setupSut() throws {
+	@MainActor func setupSut() throws {
 		
 		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true

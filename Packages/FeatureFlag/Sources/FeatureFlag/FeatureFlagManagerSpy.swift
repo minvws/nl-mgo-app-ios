@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FeatureFlagManagerSpy: FeatureFlagManaging {
+public class FeatureFlagManagerSpy: FeatureFlagManaging, @unchecked Sendable {
 
 	public init() { /* Public initializer needed for public access */ }
 

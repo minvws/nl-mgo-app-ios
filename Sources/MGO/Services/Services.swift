@@ -22,7 +22,8 @@ extension Container {
 	
 	/// Holding all the feature flags
 	var featureFlagManager: Factory<FeatureFlagManaging> {
-		Factory(self) { @MainActor in FeatureFlagManager() }
+		// Note: workaround for Swift 6.2.4 / Xcode 26.3 compiler crash — see resourceRepository.
+		Factory(self) { MainActor.assumeIsolated { FeatureFlagManager() } }
 			.singleton
 	}
 	
@@ -39,7 +40,7 @@ extension Container {
 	
 	/// Detect jail broken devices
 	var jailBreakDetector: Factory<JailBreakProtocol> {
-		Factory(self) { @MainActor in JailBreakDetector() }
+		Factory(self) { JailBreakDetector() }
 			.shared
 	}
 	
@@ -118,16 +119,21 @@ extension Container {
 	}
 	
 	var resourceRepository: Factory<ResourceRepositoryProtocol> {
-		Factory(self) { @MainActor in
-			ResourceRepository(
-				healthcareOrganizationRepository: self.healthcareOrganizationRepository(),
-				dataRepository: self.dataStore(),
-				networkAvailabilityChecker: self.networkAvailabilityChecker(),
-				featureFlagManager: self.featureFlagManager(),
-				serverUrl: Configuration().urlForDVP(),
-				username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-				password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-			)
+		// Note: workaround for Swift 6.2.4 / Xcode 26.3 compiler crash (rdar://SR-XXXX).
+		// Using `{ @MainActor in ... }` with a protocol-existential return type triggers a
+		// SmallVector overflow in the actor-isolation thunk. `assumeIsolated` avoids the thunk.
+		Factory(self) {
+			MainActor.assumeIsolated {
+				ResourceRepository(
+					healthcareOrganizationRepository: self.healthcareOrganizationRepository(),
+					dataRepository: self.dataStore(),
+					networkAvailabilityChecker: self.networkAvailabilityChecker(),
+					featureFlagManager: self.featureFlagManager(),
+					serverUrl: Configuration().urlForDVP(),
+					username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+					password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+				)
+			}
 		}
 		.singleton
 	}

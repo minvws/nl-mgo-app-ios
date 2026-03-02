@@ -9,7 +9,7 @@ import MGOTest
 
 final class ScreenshotAlertModifierTests: XCTestCase {
 	
-	func test_alert() throws {
+	@MainActor func test_alert() throws {
 		
 		// Given
 		let sut = Text("Screenshot Alert").screenshotAlert()

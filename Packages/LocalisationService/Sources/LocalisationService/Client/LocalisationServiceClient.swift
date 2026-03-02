@@ -8,7 +8,7 @@ import Foundation
 import OpenAPIRuntime
 import OpenAPIURLSession
 
-public protocol LocalisationServiceClientProtocol {
+public protocol LocalisationServiceClientProtocol: Sendable {
 	
 	/// Create a LocalisationServiceClient
 	/// - Parameter serverUrl: the url for the service

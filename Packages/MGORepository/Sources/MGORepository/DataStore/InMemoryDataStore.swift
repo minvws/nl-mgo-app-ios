@@ -7,7 +7,7 @@ import Foundation
 import Observatory
 
 /// The in memory data store
-@preconcurrency public class InMemoryDataStore: MgoDataStoreProtocol {
+public class InMemoryDataStore: MgoDataStoreProtocol, @unchecked Sendable {
 	
 	/// The in memory data source
 	private var dataSource = [MgoResourceRecord]()

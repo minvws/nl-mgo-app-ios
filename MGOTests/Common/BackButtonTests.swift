@@ -23,18 +23,18 @@ final class BackButtonTests: XCTestCase {
 		assertSnapshot(of: sut, as: .image)
 	}
 	
-	@MainActor func test_action_iOS18() async throws {
-		
+	@MainActor func test_action_iOS18() throws {
+
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		var actionTapped = false
-		
+
 		// When
 		let sut = BackButton(action: { actionTapped = true })
 		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
-		
+
 		// Then
-		await expect(actionTapped).toEventually(beTrue())
+		expect(actionTapped) == true
 	}
 	
 	@MainActor func test_layout_iOS26() {
@@ -49,17 +49,17 @@ final class BackButtonTests: XCTestCase {
 		assertSnapshot(of: sut, as: .image)
 	}
 	
-	@MainActor func test_action_iOS26() async throws {
-		
+	@MainActor func test_action_iOS26() throws {
+
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		var actionTapped = false
-		
+
 		// When
 		let sut = BackButton(action: { actionTapped = true })
 		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
-		
+
 		// Then
-		await expect(actionTapped).toEventually(beTrue())
+		expect(actionTapped) == true
 	}
 }

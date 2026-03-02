@@ -6,7 +6,7 @@
 @testable import LocalisationService
 import MGOTest
 
-final class HealthcareOrganiationRepositoryTests: XCTestCase {
+final class HealthcareOrganizationRepositoryTests: XCTestCase {
 	
 	override func tearDown() {
 		super.tearDown()

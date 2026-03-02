@@ -13,7 +13,7 @@ public extension UserDefaults {
 	}
 }
 
-public protocol FeatureFlagManaging {
+public protocol FeatureFlagManaging: Sendable {
 	
 	/// Do we use automatic localization?
 	@MainActor var isAutomaticLocalizationEnabled: Bool { get set }
@@ -29,7 +29,7 @@ public protocol FeatureFlagManaging {
 }
 
 @MainActor
-public class FeatureFlagManager: FeatureFlagManaging {
+public class FeatureFlagManager: FeatureFlagManaging, @unchecked Sendable {
 	
 	public init() {
 		// Public initializer
