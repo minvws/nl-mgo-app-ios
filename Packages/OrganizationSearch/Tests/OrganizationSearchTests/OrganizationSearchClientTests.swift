@@ -37,16 +37,4 @@ class OrganizationSearchClientTests {
 			try await sut.searchHealthcareOrganizations(searchTerm)
 		}
 	}
-	
-	@Test("Check the version of the Organization Search Package")
-	func checkVersion() throws {
-		
-		// Given
-		let sut = OrganizationSearchClient()
-		
-		// When / Then
-		#expect(throws: Version.Error.noResource) {
-			try sut.getVersion()
-		}
-	}
 }

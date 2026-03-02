@@ -17,7 +17,6 @@ class VersionViewModel: BaseViewModel {
 		
 		let hcim: Version
 		let shared: Version
-		let search: Version
 	}
 	
 	@Published var state: State?
@@ -35,7 +34,6 @@ class VersionViewModel: BaseViewModel {
 		do {
 			let hcimVersion = try HCIMParser().getVersion()
 			let sharedVersion = try resourceRepository.getVersion()
-			let searchVerion = try OrganizationSearchClient().getVersion()
 			
 			state = State(
 				hcim: State.Version(
@@ -47,11 +45,6 @@ class VersionViewModel: BaseViewModel {
 					version: sharedVersion.version,
 					date: sharedVersion.created,
 					git: String(sharedVersion.gitRef.prefix(7))
-				),
-				search: State.Version(
-					version: searchVerion.version,
-					date: searchVerion.created,
-					git: String(searchVerion.gitRef.prefix(7))
 				)
 			)
 		} catch {
@@ -95,7 +88,6 @@ struct VersionView: View {
 		List {
 			hcimPackage()
 			sharedConfig()
-			searchPackage()
 			patientFriendlyTerms()
 		}
 		.backport
@@ -151,16 +143,6 @@ struct VersionView: View {
 		
 		sectionHeading("Health Categories Config")
 		if let version = viewModel.state?.shared {
-			section(version)
-		}
-	}
-	
-	/// The Organization Search Package
-	/// - Returns: the Organization Search Package
-	@ViewBuilder private func searchPackage() -> some View {
-		
-		sectionHeading("Organization Search Package")
-		if let version = viewModel.state?.search {
 			section(version)
 		}
 	}

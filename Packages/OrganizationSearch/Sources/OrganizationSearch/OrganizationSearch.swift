@@ -48,13 +48,6 @@ public protocol OrganizationSearchClientProtocol: Sendable {
 	/// Implementations should be idempotent — calling `teardown` on an already
 	/// torn-down instance must not throw or crash.
 	func teardown() async
-
-	/// Retrieve the version information of the organization search library.
-	///
-	/// - Parameter fileName: The name of the version file (without extension). Defaults to "version".
-	/// - Returns: A `Version` object containing library version information.
-	/// - Throws: `Version.Error.noResource` if the version file cannot be found, or decoding errors if the file format is invalid.
-	func getVersion(fileName: String) throws -> Version
 }
 
 /// Errors shared across all `OrganizationSearchClientProtocol` implementations.
