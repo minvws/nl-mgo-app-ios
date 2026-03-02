@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -29,10 +29,7 @@ let package = Package(
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "HCIMCore", package: "HCIMCore")
 			],
-			resources: [.process("Resources")],
-			swiftSettings: [
-				.enableExperimentalFeature("StrictConcurrency")
-			]
+			resources: [.process("Resources")]
 		),
 		.testTarget(
 			name: "MGORepositoryTests",

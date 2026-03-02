@@ -1,4 +1,4 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -16,7 +16,7 @@ let package = Package(
 		
 		// External
 		.package(url: "https://github.com/apple/swift-http-types", exact: "1.5.1"),
-		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.9.0"),
+		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.10.1"),
 		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
@@ -30,10 +30,7 @@ let package = Package(
 				.product(name: "HTTPTypes", package: "swift-http-types"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 			],
-			swiftSettings: [
-				.enableExperimentalFeature("StrictConcurrency")
-			]
-		),
+			),
 		.testTarget(
 			name: "AuthorizationMiddlewareTests",
 			dependencies: [

@@ -19,6 +19,7 @@ opt_in_rules:
   - prohibited_super_call
   - unneeded_parentheses_in_closure_argument
 excluded:
+  - DerivedData
   - Pods
   - Packages/*/.build
   - Packages/*/Package.swift

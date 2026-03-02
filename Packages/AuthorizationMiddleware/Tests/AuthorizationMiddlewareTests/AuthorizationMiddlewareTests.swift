@@ -7,7 +7,7 @@
 import MGOTest
 import HTTPTypes
 
-final class AuthorizationMiddlewareTests: XCTestCase {
+final class AuthorizationMiddlewareTests: XCTestCase, @unchecked Sendable {
 
 	var actualAuth: String? = ""
 
