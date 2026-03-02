@@ -137,7 +137,6 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 	@MainActor func test_coordinatorView_forVersion() throws {
 		
 		// Given
-		createSut()
 		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedETag = "Test ETag"
 		servicesSpies.resourceRepositorySpy.stubbedGetVersionResult = SharedCategoriesVersion(
 			version: "test version",
@@ -145,6 +144,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 			created: "today"
 		)
 		
+		createSut()
 		let state = SettingsCoordination.State.version
 		
 		// When

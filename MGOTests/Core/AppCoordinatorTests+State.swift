@@ -24,7 +24,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
+		let browser = RestrictedBrowser(
+			allowedDomains: ["irealisatie.nl"],
+			urlOpener: urlOpenerSpy
+		)
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
 			browser: browser
@@ -99,7 +102,8 @@ final class AppCoordinatorStateTests: XCTestCase {
 		// When
 		let view = sut.view(for: state)
 		let content = NavigationStackBackport.NavigationStack { view }
-		let webview = try content.inspect().find(viewWithAccessibilityIdentifier: "restrictedBrowserView")
+		let webview = try content.inspect()
+			.find(viewWithAccessibilityIdentifier: "restrictedBrowserView")
 		
 		// Then
 		expect(webview) != nil
@@ -180,7 +184,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// Given
 		setupSut()
-		let state = AppCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")
+		let state = AppCoordination.State.healthcareOrganizationSearchResults(
+			city: "Roermond",
+			name: "Tandarts Tandje Erbij"
+		)
 		stub(condition: isPath("/localization/organization/search")) { _ in
 			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
 		}

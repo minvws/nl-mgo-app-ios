@@ -6,6 +6,8 @@
 @testable import MGO
 import Testing
 import OrganizationSearch
+import MGOFoundation
+import MGOUI
 
 @MainActor
 final class SearchOrganizationViewModelTests {
@@ -150,6 +152,64 @@ final class SearchOrganizationViewModelTests {
 		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.finishedSearchingHealthcareOrganizations)
 	}
 	
+	// MARK: - loadMore Action Tests
+
+	@Test("Reduce loadMore should increase visibleCount by pageSize")
+	func reduce_loadMore_shouldIncreaseVisibleCount() {
+
+		// Given
+		let organizations = (0..<50).map { _ in Generator.searchOrganization() }
+		sut.state.results = organizations
+		sut.state.visibleCount = SearchOrganizationViewModel.pageSize
+
+		// When
+		sut.reduce(.loadMore)
+
+		// Then
+		#expect(sut.state.visibleCount == SearchOrganizationViewModel.pageSize * 2)
+	}
+
+	@Test("Reduce loadMore should not exceed total results count")
+	func reduce_loadMore_shouldNotExceedResultsCount() {
+
+		// Given
+		let organizations = (0..<25).map { _ in Generator.searchOrganization() }
+		sut.state.results = organizations
+		sut.state.visibleCount = SearchOrganizationViewModel.pageSize
+
+		// When
+		sut.reduce(.loadMore)
+
+		// Then
+		#expect(sut.state.visibleCount == organizations.count)
+	}
+
+	// MARK: - Memory Pressure Tests
+
+	@Test("handleMemoryPressure should clear state and call teardown on the search client")
+	func handleMemoryPressure_shouldClearStateAndCallTeardown() async throws {
+
+		// Given
+		sut.state.results = [Generator.searchOrganization()]
+		sut.state.totalResults = 5
+		sut.state.isSearching = true
+
+		// When - simulate a system memory warning
+		NotificationCenter.default.post(
+			name: UIApplication.didReceiveMemoryWarningNotification,
+			object: nil
+		)
+		// Yield once so the Task { @MainActor in } wrapper runs handleMemoryPressure(),
+		// then again so the inner Task { await client.teardown() } completes.
+		await Task.yield()
+		await Task.yield()
+
+		// Then
+		#expect(sut.state.results.isEmpty)
+		#expect(sut.state.totalResults == 0)
+		#expect(sut.state.isSearching == false)
+	}
+
 	// MARK: - State Tests
 	
 	@Test("Initial state should be configured correctly for first visitor")
