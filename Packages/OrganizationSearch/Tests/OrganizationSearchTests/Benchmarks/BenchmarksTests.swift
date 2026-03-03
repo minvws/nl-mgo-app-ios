@@ -13,6 +13,7 @@ class BenchmarksTests {
 	func targetRankings() async throws {
 		
 		// Given
+		try OrganizationSearchClientTests.deleteTestDatabase()
 		let client = OrganizationSearchClient()
 		try await client.prepare(dataset: .benchmark)
 		let queries = OrganizationSearchBenchmarks.queries

@@ -45,7 +45,7 @@ class OrganizationSearchClientTests {
 	func prepare_calledTwice_skipsSecondPopulate() async throws {
 
 		// Given - ensure a clean slate so the first prepare always inserts rows
-		try deleteTestDatabase()
+		try OrganizationSearchClientTests.deleteTestDatabase()
 		let actor = DatabaseActor()
 
 		// When - first prepare populates the database
@@ -178,7 +178,7 @@ class OrganizationSearchClientTests {
 	/// Removes the on-disk SQLite file (and WAL/SHM sidecars) for the `.test`
 	/// dataset so that the next `prepare(dataset: .test)` always does a full
 	/// repopulate rather than hitting the hash-skip path.
-	private func deleteTestDatabase() throws {
+	static func deleteTestDatabase() throws {
 		let appSupportURL = try FileManager.default.url(
 			for: .applicationSupportDirectory,
 			in: .userDomainMask,

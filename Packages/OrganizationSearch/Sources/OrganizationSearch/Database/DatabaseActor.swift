@@ -59,13 +59,9 @@ actor DatabaseActor {
 			throw OrganizationSearchError.notPrepared
 		}
 
-		// Normalize the query the same way the searchBlob was normalized at insert
-		// time, so case differences and extra whitespace never cause mismatches.
-		let normalizedTerm = DatabasePopulator.normalizeSearchText(searchTerm) ?? searchTerm
-
 		let searchStart = clock.now()
 		let result = try await dbPool.read { db in
-			let rows = try DatabaseSearchQuery.fetch(matching: normalizedTerm, in: db)
+			let rows = try DatabaseSearchQuery.fetch(matching: searchTerm, in: db)
 			guard !rows.isEmpty else { return SearchResults(count: 0, hits: []) }
 			return try DatabaseSearchResultFactory.makeSearchResults(from: rows)
 		}
