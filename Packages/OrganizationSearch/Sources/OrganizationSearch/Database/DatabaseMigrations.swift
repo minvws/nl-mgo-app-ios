@@ -10,11 +10,11 @@ import GRDB
 /// The schema consists of three tables:
 /// - `metadata` – a key/value table that persists across repopulations (e.g. the JSON hash).
 /// - `organization` – the main content table storing all organization fields, plus
-///   pre-normalized columns (`displayName`, `city`, `normalizedCareTypeDisplay`) used
+///   pre-normalized columns (`normalizedDisplayName`, `normalizedCity`) used
 ///   as dedicated FTS5 index targets.
 /// - `organization_fts` – an FTS5 virtual table synchronised with `organization` via
-///   content-table triggers. Four columns are indexed with descending BM25 weights:
-///   `displayName` (10), `city` (5), `normalizedCareTypeDisplay` (5), `searchBlob` (1).
+///   content-table triggers. Two columns are indexed with descending BM25 weights:
+///   `normalizedDisplayName` (25), `normalizedCity` (5).
 ///   The Porter stemmer (wrapping unicode61) is used as the tokenizer.
 enum DatabaseMigrations {
 
@@ -87,27 +87,24 @@ enum DatabaseMigrations {
 	/// `DatabaseActor` appends this to the JSON hash before storing it, so a
 	/// schema change forces a full repopulate even when the bundled JSON file
 	/// itself is unchanged.
-	static let schemaVersion = "v8-weighted"
+	static let schemaVersion = "v2-no-caretype"
 
 	/// Creates the `organization` content table and the `organization_fts` FTS5 virtual table.
 	///
 	/// ## `organization` table
-	/// Stores all organization fields. In addition to the raw JSON fields, three
+	/// Stores all organization fields. In addition to the raw JSON fields, two
 	/// pre-normalized columns are populated at insert time via `DatabasePopulator`:
-	/// - `displayName` — lowercased and whitespace-collapsed display name.
-	/// - `city` — lowercased and whitespace-collapsed city.
-	/// - `normalizedCareTypeDisplay` — lowercased and whitespace-collapsed care type.
+	/// - `normalizedDisplayName` — lowercased and whitespace-collapsed display name.
+	/// - `normalizedCity` — lowercased and whitespace-collapsed city.
 	///
 	/// ## `organization_fts` virtual table
 	/// An FTS5 content table synchronised with `organization` via triggers.
-	/// Four columns are indexed with BM25 weights applied at query time:
+	/// Two columns are indexed with BM25 weights applied at query time:
 	///
-	/// | Column                    | Weight | Rationale                                     |
-	/// |---------------------------|--------|-----------------------------------------------|
-	/// | `displayName`             |     10 | Primary search target; name matches dominate  |
-	/// | `city`                    |      5 | Key disambiguator for same-name organizations |
-	/// | `normalizedCareTypeDisplay` |    5 | Care-type terms appear in ~40% of queries     |
-	/// | `searchBlob`              |      1 | Catch-all for recall; low weight avoids noise |
+	/// | Column                  | Weight | Rationale                                     |
+	/// |-------------------------|--------|-----------------------------------------------|
+	/// | `normalizedDisplayName` |     25 | Primary search target; name matches dominate  |
+	/// | `normalizedCity`        |      5 | Key disambiguator for same-name organizations |
 	///
 	/// The Porter stemmer (wrapping unicode61) is used as the tokenizer so that
 	/// morphological variants map to the same stem.
@@ -133,9 +130,9 @@ enum DatabaseMigrations {
 			tableDefinition.column("addressLine", .text)
 			tableDefinition.column("geoLat", .double)
 			tableDefinition.column("geoLng", .double)
-			tableDefinition.column("searchBlob", .text)
 			tableDefinition.column("dataServicesJSON", .text)
-			tableDefinition.column("normalizedCareTypeDisplay", .text)
+			tableDefinition.column("normalizedDisplayName", .text)
+			tableDefinition.column("normalizedCity", .text)
 		}
 	}
 
@@ -143,10 +140,8 @@ enum DatabaseMigrations {
 		try db.create(virtualTable: "organization_fts", using: FTS5()) { tableDefinition in
 			tableDefinition.synchronize(withTable: "organization")
 			tableDefinition.tokenizer = .porter(wrapping: .unicode61())
-			tableDefinition.column("displayName")               // weight 10 — display name
-			tableDefinition.column("city")                      // weight  5 — city
-			tableDefinition.column("searchBlob")                // weight  1 — full text blob
-			tableDefinition.column("normalizedCareTypeDisplay") // weight  5 — care type
+			tableDefinition.column("normalizedDisplayName") // weight 25 — display name
+			tableDefinition.column("normalizedCity")        // weight  5 — city
 		}
 	}
 }

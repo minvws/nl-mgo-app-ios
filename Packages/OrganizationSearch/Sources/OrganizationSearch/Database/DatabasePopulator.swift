@@ -75,7 +75,7 @@ enum DatabasePopulator {
 	///
 	/// The following columns are normalized via `normalizeSearchText(_:)` before
 	/// storage so the FTS5 index receives clean, consistent text:
-	/// `displayName`, `city`, `searchBlob`, and `normalizedCareTypeDisplay`.
+	/// `normalizedDisplayName` and `normalizedCity`.
 	///
 	/// - Parameters:
 	///   - organizations: The organizations to insert.
@@ -100,8 +100,8 @@ enum DatabasePopulator {
 
 	/// Normalizes a raw search string for consistent FTS5 indexing and querying.
 	///
-	/// Applied to `displayName`, `city`, `searchBlob`, and `careTypeDisplay` at
-	/// insert time so the FTS5 index receives clean, consistent text.
+	/// Applied to `displayName` and `city` at insert time so the FTS5 index
+	/// receives clean, consistent text.
 	///
 	/// **Why dots and commas are intentionally kept:**
 	/// FTS5's unicode61 tokenizer already treats `.` and `,` as word separators,
@@ -115,6 +115,8 @@ enum DatabasePopulator {
 	static func normalizeSearchText(_ text: String?) -> String? {
 		guard let text else { return nil }
 		return text
+			.replacingOccurrences(of: ",", with: "")
+			.replacingOccurrences(of: ".", with: "")
 			.replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
 			.trimmingCharacters(in: .whitespaces)
 			.lowercased()
@@ -143,22 +145,22 @@ enum DatabasePopulator {
 				INSERT INTO organization
 					(id, displayName, careTypeDisplay,
 					 city, postalCode, addressLine, geoLat, geoLng,
-					 searchBlob, dataServicesJSON,
-					 normalizedCareTypeDisplay)
+					 dataServicesJSON, normalizedDisplayName,
+					 normalizedCity)
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 				""",
 			arguments: [
 				org.id,
-				normalizeSearchText(org.displayName),
+				org.displayName,
 				org.careTypeDisplay,
-				normalizeSearchText(org.city),
+				org.city,
 				org.postalCode,
 				org.addressLine,
 				org.geoLat,
 				org.geoLng,
-				normalizeSearchText(org.searchBlob),
 				dataServicesJSON,
-				normalizeSearchText(org.careTypeDisplay)
+				normalizeSearchText(org.displayName),
+				normalizeSearchText(org.city)
 			]
 		)
 	}

@@ -33,7 +33,7 @@ class BenchmarksTests {
 		// Then
 		let meanMRR = results.map(\.meanReciprocalRank).reduce(0, +) / Double(results.count)
 		print("Mean Reciprocal Rank: \(meanMRR)")
-		#expect(meanMRR >= 0.777, "MRR \(meanMRR) dropped below 0.777")
+		#expect(meanMRR >= 0.811, "MRR \(meanMRR) dropped below 0.811")
 		
 		await client.teardown()
 	}

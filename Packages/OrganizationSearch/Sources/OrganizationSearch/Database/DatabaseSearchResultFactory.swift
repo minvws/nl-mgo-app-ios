@@ -38,7 +38,7 @@ enum DatabaseSearchResultFactory {
 			id: row["id"],
 			normalizedDisplayName: nil,
 			postalCode: row["postalCode"],
-			searchBlob: row["searchBlob"]
+			searchBlob: nil
 		)
 		return SearchResult(document: org, id: org.id, score: row["score"] ?? 0)
 	}
