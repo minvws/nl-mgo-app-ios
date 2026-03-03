@@ -85,50 +85,71 @@ actor DatabaseActor {
 	}
 	
 	// MARK: - Prepare
-	
-	/// Opens (or recreates) the on-disk SQLite database, builds the schema,
-	/// and populates it from the bundled JSON resource for the given dataset.
+
+	/// Opens the on-disk SQLite database and populates it from the bundled JSON
+	/// resource, **unless the stored SHA-256 hash shows the data is already current**.
 	///
-	/// The pool is assigned to `database` immediately after the schema is
-	/// created — before the data insert starts — so that concurrent `search`
-	/// calls can already execute (returning empty results) while the
-	/// background populate is in progress.
+	/// ## Hash-based skip
+	/// A `metadata` table persists across schema rebuilds. On each call:
+	/// 1. The JSON file is memory-mapped and its SHA-256 digest is computed.
+	/// 2. The digest is compared against the value stored in `metadata`.
+	/// 3. If they match the database is already up to date — the pool is made
+	///    available and the method returns immediately without repopulating.
+	/// 4. If they differ (first launch, app update, or data change) the schema is
+	///    cleared and rebuilt, data is inserted in chunks, and the new hash is stored.
 	///
-	/// The JSON file is memory-mapped rather than copied into RAM, and records
-	/// are inserted in chunks of `DatabasePopulator.insertChunkSize` to bound
-	/// peak memory usage during the populate phase.
+	/// ## Memory efficiency
+	/// The JSON file is memory-mapped rather than copied into RAM. Records are
+	/// inserted in chunks of `DatabasePopulator.insertChunkSize` to bound peak
+	/// memory usage during the populate phase.
 	///
-	/// Timing for each phase (schema, JSON load, insert) is written to the
-	/// debug log via `logDebug`.
+	/// Timing for each phase is written to the debug log via `logDebug`.
 	///
 	/// - Parameter dataset: The organization dataset to load.
-	/// - Returns: The number of organizations inserted.
+	/// - Returns: The number of organizations inserted, or `0` when the database
+	///   was already up to date and populate was skipped.
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the bundled
 	///   JSON is missing; GRDB errors if the database cannot be opened
 	///   or written to; decoding errors if the JSON is malformed.
 	func prepare(dataset: OrganizationDataset) async throws -> Int {
-		
+
 		let dbPool = try DatabaseSetup.openDatabase(for: dataset)
-		
+		try await DatabaseMigrations.ensureMetadataTable(in: dbPool)
+
+		// Compute the SHA-256 hash of the bundled JSON (mmap'd — no full copy into RAM).
+		let hashStart = clock.now()
+		let jsonData = try DatabasePopulator.loadJSONData(for: dataset)
+		let currentHash = DatabasePopulator.computeHash(of: jsonData)
+		logDebug("DatabaseActor hash: \(clock.elapsed(since: hashStart))")
+
+		// Skip repopulation when the database already reflects the current JSON.
+		let storedHash = try await DatabaseMigrations.readHash(in: dbPool)
+		if storedHash == currentHash {
+			logDebug("DatabaseActor: dataset up to date, skipping populate")
+			self.database = dbPool
+			return 0
+		}
+
+		// Hash mismatch — rebuild schema and repopulate.
 		let schemaStart = clock.now()
 		try await DatabaseMigrations.clearSchema(in: dbPool)
 		try await DatabaseMigrations.createSchema(in: dbPool)
 		logDebug("DatabaseActor schema: \(clock.elapsed(since: schemaStart))")
-		
+
 		// Make the pool available for concurrent reads before inserting rows.
 		// DatabasePool uses WAL mode, so reads and writes can run in parallel.
 		self.database = dbPool
-		
-		let loadStart = clock.now()
-		let organizations = try DatabasePopulator.loadOrganizations(from: dataset)
-		logDebug("DatabaseActor JSON load: \(clock.elapsed(since: loadStart))")
-		
+
+		let decodeStart = clock.now()
+		let organizations = try DatabasePopulator.decode(jsonData)
+		logDebug("DatabaseActor JSON decode: \(clock.elapsed(since: decodeStart))")
+
 		let insertStart = clock.now()
 		try await DatabasePopulator.insert(organizations, into: dbPool)
-		logDebug(
-			"DatabaseActor insert: \(clock.elapsed(since: insertStart)) for \(organizations.count) organizations"
-		)
-		
+		logDebug("DatabaseActor insert: \(clock.elapsed(since: insertStart)) for \(organizations.count) organizations")
+
+		try await DatabaseMigrations.writeHash(currentHash, in: dbPool)
+
 		return organizations.count
 	}
 }

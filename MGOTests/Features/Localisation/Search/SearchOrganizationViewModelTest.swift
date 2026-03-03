@@ -246,7 +246,7 @@ final class SearchOrganizationViewModelTests {
 		#expect(sut.state.results.isEmpty)
 		#expect(sut.state.totalResults == 0)
 		#expect(
-			servicesSpies.searchOrganizationClientSpy.invokedPrepare == true
+			servicesSpies.searchOrganizationClientSpy.invokedPrepare == false
 		)
 	}
 }

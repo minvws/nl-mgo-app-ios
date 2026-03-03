@@ -23,9 +23,18 @@ The package bundles several JSON organization datasets selected via `Organizatio
 | `.benchmark` | `organizations-benchmark.json` | Benchmark measurements |
 
 
+### Hash-based populate skip
+
+`prepare()` stores a SHA-256 digest of the bundled JSON file in a `metadata` table inside the SQLite database. On subsequent launches the digest is recomputed and compared:
+
+- **Hash matches** — the database is already up to date; `prepare()` returns immediately without touching the schema or inserting any rows.
+- **Hash differs** — the JSON has changed (e.g. after an app update); the schema is rebuilt and all records are re-inserted, then the new hash is stored.
+
+Because the hash lives in the same file as the data it describes, the two can never get out of sync: if the database is deleted the hash is gone too, and the next `prepare()` repopulates from scratch.
+
 ### Memory-efficient loading
 
-`prepare()` uses two techniques to keep memory usage low for large datasets:
+When a repopulate is needed, `prepare()` uses two techniques to keep memory usage low:
 
 - **Memory-mapped I/O** — the JSON file is opened with `.mappedIfSafe`, so the OS pages bytes in on demand rather than copying the entire file into RAM. Pages that have already been consumed by `JSONDecoder` can be evicted under memory pressure.
 - **Chunked inserts** — records are written to SQLite in batches of 1 000. Each committed transaction releases GRDB's internal WAL state before the next batch starts, avoiding a single large transaction that would hold all data in memory simultaneously.

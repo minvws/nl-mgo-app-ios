@@ -120,4 +120,24 @@ final class SplashViewModelTests {
 		#expect(coordinatorSpy.invokedHandle == true)
 		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.finishedSplash)
 	}
+	
+	@Test func startServices_shouldCallAllThreeServices() async throws {
+		
+		// Given
+		// Called upon initialization
+		
+		// When
+		// The Task in startServices() contains 3 sequential awaits, each of which
+		// hops off and back to the main actor. Yield enough times to let all
+		// suspension points (task start + 2 hops per await) complete.
+		for _ in 0..<10 {
+			await Task.yield()
+		}
+		
+		// Then
+		#expect(servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers == true)
+		#expect(servicesSpies.patientFriendlyTermsRepositorySpy.invokedFetchTerms == true)
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedPrepare == true)
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedPrepareParameters?.dataset == .full)
+	}
 }

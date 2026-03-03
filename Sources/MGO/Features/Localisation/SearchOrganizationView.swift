@@ -106,12 +106,6 @@ class SearchOrganizationViewModel: ObservableObject {
 
 		// Capture for use in nonisolated deinit (see clientForDeinit declaration).
 		clientForDeinit = organizationSearchClient
-
-		Task {
-			MemoryUsage.printMemoryUsage("SOVM: before indexing")
-			try await organizationSearchClient.prepare(dataset: .full)
-			MemoryUsage.printMemoryUsage("SOVM: after indexing")
-		}
 	}
 
 	deinit {

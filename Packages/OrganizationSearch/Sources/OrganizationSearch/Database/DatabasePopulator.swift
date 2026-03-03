@@ -3,6 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import CryptoKit
 import Foundation
 import GRDB
 import MGODebug
@@ -17,20 +18,16 @@ enum DatabasePopulator {
 	/// internal state before the next one starts.
 	static let insertChunkSize = 1_000
 
-	/// Decodes the bundled JSON for the given dataset into an array of `Organization` values.
+	/// Returns the memory-mapped raw JSON data for the given dataset.
 	///
-	/// The file is opened with `.mappedIfSafe` so the OS memory-maps it rather
-	/// than copying the bytes into RAM. Pages are brought in on demand and can
-	/// be evicted under memory pressure once `JSONDecoder` has consumed them.
+	/// The file is opened with `.mappedIfSafe` so the OS pages bytes in on demand
+	/// rather than copying the full file into RAM.
 	///
 	/// - Parameter dataset: Identifies which JSON resource file to load.
-	/// - Returns: All organizations decoded from the bundle resource.
+	/// - Returns: Memory-mapped `Data` of the bundled JSON file.
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the JSON file is
-	///   absent from the module bundle; decoding errors if the JSON is malformed.
-	static func loadOrganizations(
-		from dataset: OrganizationDataset
-	) throws -> [Organization] {
-
+	///   absent from the module bundle; file I/O errors if the file cannot be opened.
+	static func loadJSONData(for dataset: OrganizationDataset) throws -> Data {
 		guard let jsonURL = Bundle.module.url(
 			forResource: dataset.resourceName,
 			withExtension: "json"
@@ -38,7 +35,26 @@ enum DatabasePopulator {
 			logError("DatabasePopulator: \(dataset.resourceName).json not found in bundle")
 			throw OrganizationSearchClientError.resourceNotFound
 		}
-		let data = try Data(contentsOf: jsonURL, options: .mappedIfSafe)
+		return try Data(contentsOf: jsonURL, options: .mappedIfSafe)
+	}
+
+	/// Returns the SHA-256 hex digest of `data`.
+	///
+	/// Used to detect whether the bundled JSON has changed since the last populate,
+	/// so that the database can be skipped when the data is already up to date.
+	///
+	/// - Parameter data: The raw bytes to hash (typically the mmap'd JSON file).
+	/// - Returns: A lowercase hex string of the SHA-256 digest.
+	static func computeHash(of data: Data) -> String {
+		SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+	}
+
+	/// Decodes an array of `Organization` values from raw JSON data.
+	///
+	/// - Parameter data: JSON data previously loaded via `loadJSONData(for:)`.
+	/// - Returns: All organizations decoded from the data.
+	/// - Throws: Decoding errors if the JSON is malformed.
+	static func decode(_ data: Data) throws -> [Organization] {
 		let decoder = newJSONDecoder()
 		decoder.keyDecodingStrategy = .convertFromSnakeCase
 		return try decoder.decode([Organization].self, from: data)

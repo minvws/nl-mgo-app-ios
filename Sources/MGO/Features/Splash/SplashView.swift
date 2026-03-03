@@ -46,6 +46,9 @@ final class SplashViewModel: ObservableObject {
 	/// Dependency Injectable Patient Friendly Terms Repository
 	@Injected(\.patientFriendyTermsRepository) private var patientFriendyTermsRepository
 	
+	/// Dependency injectable organization Search Client
+	@Injected(\.organizationSearchClient) private var organizationSearchClient
+	
 	/// Create a splash view
 	/// - Parameters:
 	///   - coordinator: the flow coordinator
@@ -69,6 +72,7 @@ final class SplashViewModel: ObservableObject {
 		_Concurrency.Task(priority: .userInitiated) {
 			await remoteConfigurationRepository.fetchAndUpdateObservers()
 			await patientFriendyTermsRepository.fetchTerms()
+			try? await organizationSearchClient.prepare(dataset: .full)
 		}
 		resourceRepository.load()
 	}
