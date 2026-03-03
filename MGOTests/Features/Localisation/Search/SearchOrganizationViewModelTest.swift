@@ -114,17 +114,47 @@ final class SearchOrganizationViewModelTests {
 	
 	@Test("Reduce search with valid search term should set isSearching to true")
 	func reduce_search_withValidSearchTerm_shouldSetIsSearchingToTrue() {
-		
+
 		// Given
 		sut.state.isSearching = false
-		
+
 		// When
 		sut.reduce(.search("Test"))
-		
+
 		// Then
 		#expect(sut.state.isSearching == true)
 	}
-	
+
+	@Test("Reduce search with HTML tags around a valid term should sanitize and search")
+	func reduce_search_withHTMLWrappedTerm_shouldSanitizeAndSearch() {
+
+		// Given
+		sut.state.isSearching = false
+
+		// When - <b>Test</b> strips to "Test" (> 2 chars), so a search should start
+		sut.reduce(.search("<b>Test</b>"))
+
+		// Then
+		#expect(sut.state.isSearching == true)
+	}
+
+	@Test("Reduce search with HTML-only input should clear results")
+	func reduce_search_withHTMLOnlyInput_shouldClearResults() {
+
+		// Given
+		sut.state.results = [Generator.searchOrganization()]
+		sut.state.totalResults = 1
+		sut.state.isSearching = true
+
+		// When - <b></b> strips to an empty string, so results should be cleared
+		sut.reduce(.search("<b></b>"))
+
+		// Then
+		#expect(sut.state.results.isEmpty)
+		#expect(sut.state.totalResults == 0)
+		#expect(sut.state.isSearching == false)
+	}
+
 	// MARK: - store Action Tests
 	
 	@Test("Reduce store should call coordinator to finish searching")

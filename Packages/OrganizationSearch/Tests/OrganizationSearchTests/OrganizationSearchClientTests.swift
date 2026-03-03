@@ -72,6 +72,62 @@ class OrganizationSearchClientTests {
 		#expect(result?.count == 9.0)
 	}
 
+	// MARK: - Search text normalization
+
+	@Test("normalizeSearchText collapses whitespace")
+	func normalizeSearchText_collapsesWhitespace() {
+
+		// Given
+		let input = "Zorg  Instelling   Amsterdam"
+
+		// When
+		let result = DatabasePopulator.normalizeSearchText(input)
+
+		// Then
+		#expect(result == "zorg instelling amsterdam")
+	}
+
+	@Test("normalizeSearchText trims and lowercases")
+	func normalizeSearchText_trimsAndLowercases() {
+
+		// Given
+		let input = "  Tandarts  "
+
+		// When
+		let result = DatabasePopulator.normalizeSearchText(input)
+
+		// Then
+		#expect(result == "tandarts")
+	}
+
+	@Test("normalizeSearchText keeps dots and commas")
+	func normalizeSearchText_keepsPunctuation() {
+
+		// Given
+		let input = "J.S. Huisman, Huisarts"
+
+		// When
+		let result = DatabasePopulator.normalizeSearchText(input)
+
+		// Then — dots and commas are preserved; FTS5 unicode61 treats them as
+		// separators itself, so removing them here would merge tokens ("j.s." → "js")
+		// and break BM25 ranking across the dataset
+		#expect(result == "j.s. huisman, huisarts")
+	}
+
+	@Test("normalizeSearchText returns nil for nil input")
+	func normalizeSearchText_returnsNilForNilInput() {
+
+		// Given
+		let input: String? = nil
+
+		// When
+		let result = DatabasePopulator.normalizeSearchText(input)
+
+		// Then
+		#expect(result == nil)
+	}
+
 	// MARK: - Hash computation
 
 	@Test("computeHash returns a non-empty hex string")

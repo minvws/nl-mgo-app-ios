@@ -26,13 +26,13 @@ class BenchmarksTests {
 			let result = QueryBenchmarkResult(index: index, totalHits: hits.count)
 			results.append(result)
 			
-			// print("[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)")
+			print("[\(searchQuery.query)] → '\(searchQuery.targetId)' rank: \(result.rank) mrr: \(result.meanReciprocalRank)")
 		}
 		
 		// Then
 		let meanMRR = results.map(\.meanReciprocalRank).reduce(0, +) / Double(results.count)
 		print("Mean Reciprocal Rank: \(meanMRR)")
-		#expect(meanMRR >= 0.47, "JS MRR \(meanMRR) dropped below 0.47")
+		#expect(meanMRR >= 0.73, "MRR \(meanMRR) dropped below 0.73")
 		
 		await client.teardown()
 	}

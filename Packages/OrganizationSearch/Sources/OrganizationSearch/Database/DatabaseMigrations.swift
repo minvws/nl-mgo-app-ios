@@ -77,6 +77,14 @@ enum DatabaseMigrations {
 		}
 	}
 
+	/// A version token that must change whenever the FTS5 schema changes
+	/// (e.g. a different tokenizer, new indexed columns).
+	///
+	/// `DatabaseActor` appends this to the JSON hash before storing it, so a
+	/// schema change forces a full repopulate even when the bundled JSON file
+	/// itself is unchanged.
+	static let schemaVersion = "v4-porter"
+
 	/// Creates the `organization` table and the `organization_fts` FTS5 virtual table.
 	///
 	/// `organization_fts` is kept in sync with `organization` via GRDB's
@@ -106,6 +114,7 @@ enum DatabaseMigrations {
 			// FTS5 virtual table synchronized with the main table
 			try db.create(virtualTable: "organization_fts", using: FTS5()) { tableDefinition in
 				tableDefinition.synchronize(withTable: "organization")
+				tableDefinition.tokenizer = .porter(wrapping: .unicode61())
 				tableDefinition.column("searchBlob") // search via searchBlob only
 			}
 		}

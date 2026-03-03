@@ -54,14 +54,18 @@ actor DatabaseActor {
 	///   not yet been called; GRDB or decoding errors if the query or row
 	///   decoding fails.
 	func search(_ searchTerm: String) async throws -> SearchResults {
-		
+
 		guard let dbPool = database else {
 			throw OrganizationSearchError.notPrepared
 		}
-		
+
+		// Normalize the query the same way the searchBlob was normalized at insert
+		// time, so case differences and extra whitespace never cause mismatches.
+		let normalizedTerm = DatabasePopulator.normalizeSearchText(searchTerm) ?? searchTerm
+
 		let searchStart = clock.now()
 		let result = try await dbPool.read { db in
-			let rows = try DatabaseSearchQuery.fetch(matching: searchTerm, in: db)
+			let rows = try DatabaseSearchQuery.fetch(matching: normalizedTerm, in: db)
 			guard !rows.isEmpty else { return SearchResults(count: 0, hits: []) }
 			return try DatabaseSearchResultFactory.makeSearchResults(from: rows)
 		}
@@ -117,12 +121,14 @@ actor DatabaseActor {
 		try await DatabaseMigrations.ensureMetadataTable(in: dbPool)
 
 		// Compute the SHA-256 hash of the bundled JSON (mmap'd — no full copy into RAM).
+		// The schema version is appended so that a tokenizer or schema change also
+		// forces a rebuild even when the JSON file itself hasn't changed.
 		let hashStart = clock.now()
 		let jsonData = try DatabasePopulator.loadJSONData(for: dataset)
-		let currentHash = DatabasePopulator.computeHash(of: jsonData)
+		let currentHash = DatabasePopulator.computeHash(of: jsonData) + ":" + DatabaseMigrations.schemaVersion
 		logDebug("DatabaseActor hash: \(clock.elapsed(since: hashStart))")
 
-		// Skip repopulation when the database already reflects the current JSON.
+		// Skip repopulation when the database already reflects the current JSON and schema.
 		let storedHash = try await DatabaseMigrations.readHash(in: dbPool)
 		if storedHash == currentHash {
 			logDebug("DatabaseActor: dataset up to date, skipping populate")

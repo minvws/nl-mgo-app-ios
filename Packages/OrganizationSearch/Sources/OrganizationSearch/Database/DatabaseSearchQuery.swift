@@ -38,10 +38,10 @@ enum DatabaseSearchQuery {
 	) throws -> [Row] {
 		
 		// Pass 1: fast path — all typed words must appear (AND + prefix).
-//		if let pattern = FTS5Pattern(matchingAllPrefixesIn: searchTerm) {
-//			let rows = try fetchRows(matching: pattern, in: db)
-//			if !rows.isEmpty { return rows }
-//		}
+		if let pattern = FTS5Pattern(matchingAllPrefixesIn: searchTerm) {
+			let rows = try fetchRows(matching: pattern, in: db)
+			if !rows.isEmpty { return rows }
+		}
 		
 		// Pass 2: fuzzy fallback — expand each token to its ED1 neighbourhood.
 		if let pattern = try ed1Pattern(for: searchTerm, db: db) {

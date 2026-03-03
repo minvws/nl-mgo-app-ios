@@ -69,6 +69,9 @@ enum DatabasePopulator {
 	/// blob stored in the `dataServicesJSON` column, so it can be decoded back
 	/// into `[String: DataService]` at search time by `DatabaseSearchResultFactory`.
 	///
+	/// The `searchBlob` is normalized via `normalizeSearchText(_:)` before storage
+	/// so the FTS5 index receives clean, consistent text.
+	///
 	/// - Parameters:
 	///   - organizations: The organizations to insert.
 	///   - dbQueue: The database to write into (accepts both `DatabasePool` and `DatabaseQueue`).
@@ -104,12 +107,34 @@ enum DatabasePopulator {
 							org.addressLine,
 							org.geoLat,
 							org.geoLng,
-							org.searchBlob,
+							normalizeSearchText(org.searchBlob),
 							dataServicesJSON
 						]
 					)
 				}
 			}
 		}
+	}
+
+	/// Normalizes a raw search string for consistent FTS5 indexing and querying.
+	///
+	/// Applied to both the stored `searchBlob` at insert time and the user's
+	/// search term at query time, so the two always speak the same language.
+	///
+	/// **Why dots and commas are intentionally kept:**
+	/// FTS5's unicode61 tokenizer already treats `.` and `,` as word separators,
+	/// so "J.S." is indexed as ["j", "s"] regardless. Removing them before
+	/// indexing merges the tokens (e.g. "J.S." → "JS" → single token "js"),
+	/// which shifts BM25 document-length stats across the entire dataset and
+	/// degrades ranking. The whitespace, trim, and lowercase steps below are
+	/// safe because unicode61 applies them during tokenization anyway.
+	///
+	/// Returns `nil` when the input is `nil`.
+	static func normalizeSearchText(_ text: String?) -> String? {
+		guard let text else { return nil }
+		return text
+			.replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
+			.trimmingCharacters(in: .whitespaces)
+			.lowercased()
 	}
 }
