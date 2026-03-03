@@ -83,7 +83,7 @@ enum DatabaseMigrations {
 	/// `DatabaseActor` appends this to the JSON hash before storing it, so a
 	/// schema change forces a full repopulate even when the bundled JSON file
 	/// itself is unchanged.
-	static let schemaVersion = "v4-porter"
+	static let schemaVersion = "v7-weighted"
 
 	/// Creates the `organization` table and the `organization_fts` FTS5 virtual table.
 	///
@@ -109,13 +109,20 @@ enum DatabaseMigrations {
 				tableDefinition.column("geoLng", .double)
 				tableDefinition.column("searchBlob", .text)
 				tableDefinition.column("dataServicesJSON", .text)
+				tableDefinition.column("name", .text)
+				tableDefinition.column("normalizedCareTypeDisplay", .text)
 			}
 
-			// FTS5 virtual table synchronized with the main table
+			// FTS5 virtual table synchronized with the main table.
+			// Three columns with descending BM25 weights so name matches outrank
+			// city matches, which in turn outrank matches in the full text blob.
 			try db.create(virtualTable: "organization_fts", using: FTS5()) { tableDefinition in
 				tableDefinition.synchronize(withTable: "organization")
 				tableDefinition.tokenizer = .porter(wrapping: .unicode61())
-				tableDefinition.column("searchBlob") // search via searchBlob only
+				tableDefinition.column("displayName")               // weight 10 — display name
+				tableDefinition.column("city")                      // weight  5 — city
+				tableDefinition.column("searchBlob")                // weight  1 — full text blob
+				tableDefinition.column("normalizedCareTypeDisplay") // weight  5 — care type
 			}
 		}
 	}

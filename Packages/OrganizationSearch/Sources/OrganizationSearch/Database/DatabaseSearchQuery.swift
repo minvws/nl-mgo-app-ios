@@ -55,16 +55,16 @@ enum DatabaseSearchQuery {
 	
 	/// Executes a pre-built FTS5 pattern against the `organization_fts` table.
 	private static func fetchRows(matching pattern: FTS5Pattern, in db: Database) throws -> [Row] {
-		
+
 		try Row.fetchAll(
 			db,
 			sql: """
 				SELECT o.*,
-					   -organization_fts.rank AS score
+					   -bm25(organization_fts, 10.0, 5.0, 1.0, 5.0) AS score
 				FROM organization_fts
 				JOIN organization o ON o.rowid = organization_fts.rowid
 				WHERE organization_fts MATCH ?
-				ORDER BY organization_fts.rank
+				ORDER BY bm25(organization_fts, 10.0, 5.0, 1.0, 5.0)
 				""",
 			arguments: [pattern]
 		)

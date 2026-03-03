@@ -95,20 +95,22 @@ enum DatabasePopulator {
 							INSERT INTO organization
 								(id, displayName, careTypeDisplay,
 								 city, postalCode, addressLine, geoLat, geoLng,
-								 searchBlob, dataServicesJSON)
-							VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+								 searchBlob, dataServicesJSON,
+								 normalizedCareTypeDisplay)
+							VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 							""",
 						arguments: [
 							org.id,
-							org.displayName,
+							normalizeSearchText(org.displayName),
 							org.careTypeDisplay,
-							org.city,
+							normalizeSearchText(org.city),
 							org.postalCode,
 							org.addressLine,
 							org.geoLat,
 							org.geoLng,
 							normalizeSearchText(org.searchBlob),
-							dataServicesJSON
+							dataServicesJSON,
+							normalizeSearchText(org.careTypeDisplay)
 						]
 					)
 				}
