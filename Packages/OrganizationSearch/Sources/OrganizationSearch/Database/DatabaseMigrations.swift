@@ -9,9 +9,13 @@ import GRDB
 ///
 /// The schema consists of three tables:
 /// - `metadata` – a key/value table that persists across repopulations (e.g. the JSON hash).
-/// - `organization` – the main content table that stores all organization fields.
-/// - `organization_fts` – an FTS5 virtual table synchronised with `organization`,
-///   indexed on the `searchBlob` column for full-text search.
+/// - `organization` – the main content table storing all organization fields, plus
+///   pre-normalized columns (`displayName`, `city`, `normalizedCareTypeDisplay`) used
+///   as dedicated FTS5 index targets.
+/// - `organization_fts` – an FTS5 virtual table synchronised with `organization` via
+///   content-table triggers. Four columns are indexed with descending BM25 weights:
+///   `displayName` (10), `city` (5), `normalizedCareTypeDisplay` (5), `searchBlob` (1).
+///   The Porter stemmer (wrapping unicode61) is used as the tokenizer.
 enum DatabaseMigrations {
 
 	// MARK: - Metadata
@@ -25,14 +29,14 @@ enum DatabaseMigrations {
 	/// - Throws: GRDB errors if the table cannot be created.
 	static func ensureMetadataTable(in dbQueue: any DatabaseWriter) async throws {
 		try await dbQueue.write { db in
-			try db.create(table: "metadata", ifNotExists: true) { t in
-				t.column("key", .text).primaryKey()
-				t.column("value", .text).notNull()
+			try db.create(table: "metadata", ifNotExists: true) { tableDefinition in
+				tableDefinition.column("key", .text).primaryKey()
+				tableDefinition.column("value", .text).notNull()
 			}
 		}
 	}
 
-	/// Returns the SHA-256 hex digest stored under `"json_hash"`, or `nil` if absent.
+	/// Returns the effective hash stored under `"json_hash"`, or `nil` if absent.
 	///
 	/// - Parameter dbPool: The database to query.
 	/// - Throws: GRDB errors if the read fails.
@@ -42,10 +46,10 @@ enum DatabaseMigrations {
 		}
 	}
 
-	/// Upserts the SHA-256 hex digest under `"json_hash"` in the metadata table.
+	/// Upserts the effective hash under `"json_hash"` in the metadata table.
 	///
 	/// - Parameters:
-	///   - hash: The hex digest to store.
+	///   - hash: The hash to store (SHA-256 of JSON + schema version suffix).
 	///   - dbQueue: The database to update.
 	/// - Throws: GRDB errors if the write fails.
 	static func writeHash(_ hash: String, in dbQueue: any DatabaseWriter) async throws {
@@ -77,53 +81,72 @@ enum DatabaseMigrations {
 		}
 	}
 
-	/// A version token that must change whenever the FTS5 schema changes
-	/// (e.g. a different tokenizer, new indexed columns).
+	/// A version token that must change whenever the FTS5 schema or normalization logic changes
+	/// (e.g. a different tokenizer, new indexed columns, or updated normalization).
 	///
 	/// `DatabaseActor` appends this to the JSON hash before storing it, so a
 	/// schema change forces a full repopulate even when the bundled JSON file
 	/// itself is unchanged.
-	static let schemaVersion = "v7-weighted"
+	static let schemaVersion = "v8-weighted"
 
-	/// Creates the `organization` table and the `organization_fts` FTS5 virtual table.
+	/// Creates the `organization` content table and the `organization_fts` FTS5 virtual table.
 	///
-	/// `organization_fts` is kept in sync with `organization` via GRDB's
-	/// `synchronize(withTable:)`, which uses FTS5 content tables under the hood.
-	/// Only the `searchBlob` column is indexed; the other columns are stored in
-	/// the main table and joined at query time.
+	/// ## `organization` table
+	/// Stores all organization fields. In addition to the raw JSON fields, three
+	/// pre-normalized columns are populated at insert time via `DatabasePopulator`:
+	/// - `displayName` — lowercased and whitespace-collapsed display name.
+	/// - `city` — lowercased and whitespace-collapsed city.
+	/// - `normalizedCareTypeDisplay` — lowercased and whitespace-collapsed care type.
+	///
+	/// ## `organization_fts` virtual table
+	/// An FTS5 content table synchronised with `organization` via triggers.
+	/// Four columns are indexed with BM25 weights applied at query time:
+	///
+	/// | Column                    | Weight | Rationale                                     |
+	/// |---------------------------|--------|-----------------------------------------------|
+	/// | `displayName`             |     10 | Primary search target; name matches dominate  |
+	/// | `city`                    |      5 | Key disambiguator for same-name organizations |
+	/// | `normalizedCareTypeDisplay` |    5 | Care-type terms appear in ~40% of queries     |
+	/// | `searchBlob`              |      1 | Catch-all for recall; low weight avoids noise |
+	///
+	/// The Porter stemmer (wrapping unicode61) is used as the tokenizer so that
+	/// morphological variants map to the same stem.
 	///
 	/// - Parameter dbQueue: The database to migrate.
 	/// - Throws: GRDB errors if table creation fails.
 	static func createSchema(in dbQueue: any DatabaseWriter) async throws {
 		try await dbQueue.write { db in
+			try createOrganizationTable(in: db)
+			try createOrganizationFTSTable(in: db)
+		}
+	}
 
-			// Main organizations table
-			try db.create(table: "organization") { tableDefinition in
-				tableDefinition.primaryKey("id", .text).indexed()
-				tableDefinition.column("displayName", .text)
-				tableDefinition.column("careTypeDisplay", .text)
-				tableDefinition.column("city", .text)
-				tableDefinition.column("postalCode", .text)
-				tableDefinition.column("addressLine", .text)
-				tableDefinition.column("geoLat", .double)
-				tableDefinition.column("geoLng", .double)
-				tableDefinition.column("searchBlob", .text)
-				tableDefinition.column("dataServicesJSON", .text)
-				tableDefinition.column("name", .text)
-				tableDefinition.column("normalizedCareTypeDisplay", .text)
-			}
+	// MARK: - Private
 
-			// FTS5 virtual table synchronized with the main table.
-			// Three columns with descending BM25 weights so name matches outrank
-			// city matches, which in turn outrank matches in the full text blob.
-			try db.create(virtualTable: "organization_fts", using: FTS5()) { tableDefinition in
-				tableDefinition.synchronize(withTable: "organization")
-				tableDefinition.tokenizer = .porter(wrapping: .unicode61())
-				tableDefinition.column("displayName")               // weight 10 — display name
-				tableDefinition.column("city")                      // weight  5 — city
-				tableDefinition.column("searchBlob")                // weight  1 — full text blob
-				tableDefinition.column("normalizedCareTypeDisplay") // weight  5 — care type
-			}
+	private static func createOrganizationTable(in db: Database) throws {
+		try db.create(table: "organization") { tableDefinition in
+			tableDefinition.primaryKey("id", .text).indexed()
+			tableDefinition.column("displayName", .text)
+			tableDefinition.column("careTypeDisplay", .text)
+			tableDefinition.column("city", .text)
+			tableDefinition.column("postalCode", .text)
+			tableDefinition.column("addressLine", .text)
+			tableDefinition.column("geoLat", .double)
+			tableDefinition.column("geoLng", .double)
+			tableDefinition.column("searchBlob", .text)
+			tableDefinition.column("dataServicesJSON", .text)
+			tableDefinition.column("normalizedCareTypeDisplay", .text)
+		}
+	}
+
+	private static func createOrganizationFTSTable(in db: Database) throws {
+		try db.create(virtualTable: "organization_fts", using: FTS5()) { tableDefinition in
+			tableDefinition.synchronize(withTable: "organization")
+			tableDefinition.tokenizer = .porter(wrapping: .unicode61())
+			tableDefinition.column("displayName")               // weight 10 — display name
+			tableDefinition.column("city")                      // weight  5 — city
+			tableDefinition.column("searchBlob")                // weight  1 — full text blob
+			tableDefinition.column("normalizedCareTypeDisplay") // weight  5 — care type
 		}
 	}
 }

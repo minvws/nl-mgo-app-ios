@@ -23,38 +23,34 @@ import MGODebug
 /// concurrent reads as soon as the schema is ready, so `search(_:)` can be
 /// called while the background insert is still running.
 actor DatabaseActor {
-	
+
 	/// The live database pool, `nil` until `prepare(dataset:)` has completed schema setup.
 	var database: DatabasePool?
-	
+
 	private let clock: any MeasurableClock
-	
+
 	init(clock: (any MeasurableClock)? = nil) {
 		self.clock = clock ?? makeMeasurableClock()
 	}
-	
+
 	// MARK: - Search
-	
+
 	/// Searches for organizations matching the given term using FTS5.
 	///
-	/// Delegates query building to `DatabaseSearchQuery`, which uses
-	/// `FTS5Pattern(matchingAllPrefixesIn:)` so that partial words match
-	/// (e.g. `"tan"` matches `"tandarts"`) and punctuation in the input is
-	/// handled safely.
-	///
+	/// Delegates query building to `DatabaseSearchQuery`, which uses a two-pass
+	/// strategy: a fast prefix pass followed by an edit-distance-1 fuzzy fallback.
 	/// The search runs inside a `DatabasePool.read` closure — a concurrent,
 	/// non-blocking read that can proceed in parallel with the background
 	/// write transaction that populates the database.
 	///
 	/// - Parameter searchTerm: The raw user-entered query string.
 	/// - Returns: A `SearchResults` value containing all matching hits ordered
-	///   by FTS5 relevance, or an empty `SearchResults` when `searchTerm` yields
-	///   no FTS5 tokens.
+	///   by weighted BM25 relevance, or an empty `SearchResults` when `searchTerm`
+	///   yields no FTS5 tokens.
 	/// - Throws: `OrganizationSearchError.notPrepared` if `prepare()` has
 	///   not yet been called; GRDB or decoding errors if the query or row
 	///   decoding fails.
 	func search(_ searchTerm: String) async throws -> SearchResults {
-
 		guard let dbPool = database else {
 			throw OrganizationSearchError.notPrepared
 		}
@@ -68,78 +64,89 @@ actor DatabaseActor {
 		logDebug("DatabaseActor search(\"\(searchTerm)\"): \(clock.elapsed(since: searchStart))")
 		return result
 	}
-	
+
 	// MARK: - Teardown
-	
-	/// Close the database pool and release all associated resources.
+
+	/// Closes the database pool and releases all associated resources.
 	///
 	/// Nils out the `DatabasePool`, which closes the underlying SQLite file
-	/// descriptor and frees the WAL journal.  After this call `search(_:)` will
+	/// descriptor and frees the WAL journal. After this call `search(_:)` will
 	/// throw `OrganizationSearchError.notPrepared` until `prepare(dataset:)` is
 	/// called again.
 	///
-	/// The method is idempotent: calling it when `database` is already `nil`
-	/// is a no-op.
+	/// Idempotent: calling it when `database` is already `nil` is a no-op.
 	func teardown() {
 		database = nil
 	}
-	
+
 	// MARK: - Prepare
 
 	/// Opens the on-disk SQLite database and populates it from the bundled JSON
-	/// resource, **unless the stored SHA-256 hash shows the data is already current**.
+	/// resource, **unless the stored hash shows the data is already current**.
 	///
-	/// ## Hash-based skip
-	/// A `metadata` table persists across schema rebuilds. On each call:
-	/// 1. The JSON file is memory-mapped and its SHA-256 digest is computed.
-	/// 2. The digest is compared against the value stored in `metadata`.
-	/// 3. If they match the database is already up to date — the pool is made
-	///    available and the method returns immediately without repopulating.
-	/// 4. If they differ (first launch, app update, or data change) the schema is
-	///    cleared and rebuilt, data is inserted in chunks, and the new hash is stored.
+	/// The effective hash is `SHA-256(json) + ":" + schemaVersion`, so both a
+	/// JSON change and a schema/normalization change trigger a full rebuild.
 	///
-	/// ## Memory efficiency
-	/// The JSON file is memory-mapped rather than copied into RAM. Records are
-	/// inserted in chunks of `DatabasePopulator.insertChunkSize` to bound peak
-	/// memory usage during the populate phase.
-	///
-	/// Timing for each phase is written to the debug log via `logDebug`.
+	/// The pool is exposed for concurrent reads before the insert phase begins,
+	/// so `search(_:)` calls during population return partial results rather
+	/// than blocking.
 	///
 	/// - Parameter dataset: The organization dataset to load.
 	/// - Returns: The number of organizations inserted, or `0` when the database
-	///   was already up to date and populate was skipped.
+	///   was already up to date and population was skipped.
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the bundled
-	///   JSON is missing; GRDB errors if the database cannot be opened
-	///   or written to; decoding errors if the JSON is malformed.
+	///   JSON is missing; GRDB errors if the database cannot be opened or written
+	///   to; decoding errors if the JSON is malformed.
 	func prepare(dataset: OrganizationDataset) async throws -> Int {
-
 		let dbPool = try DatabaseSetup.openDatabase(for: dataset)
 		try await DatabaseMigrations.ensureMetadataTable(in: dbPool)
 
-		// Compute the SHA-256 hash of the bundled JSON (mmap'd — no full copy into RAM).
-		// The schema version is appended so that a tokenizer or schema change also
-		// forces a rebuild even when the JSON file itself hasn't changed.
-		let hashStart = clock.now()
 		let jsonData = try DatabasePopulator.loadJSONData(for: dataset)
-		let currentHash = DatabasePopulator.computeHash(of: jsonData) + ":" + DatabaseMigrations.schemaVersion
-		logDebug("DatabaseActor hash: \(clock.elapsed(since: hashStart))")
+		let currentHash = effectiveHash(of: jsonData)
 
-		// Skip repopulation when the database already reflects the current JSON and schema.
-		let storedHash = try await DatabaseMigrations.readHash(in: dbPool)
-		if storedHash == currentHash {
-			logDebug("DatabaseActor: dataset up to date, skipping populate")
+		guard try await requiresRepopulation(hash: currentHash, in: dbPool) else {
 			self.database = dbPool
 			return 0
 		}
 
-		// Hash mismatch — rebuild schema and repopulate.
+		return try await repopulate(with: jsonData, hash: currentHash, in: dbPool)
+	}
+
+	// MARK: - Private
+
+	/// Returns the effective hash for `jsonData`: SHA-256 of the raw bytes suffixed
+	/// with the current `schemaVersion` so that schema or normalization changes
+	/// also force a rebuild.
+	private func effectiveHash(of jsonData: Data) -> String {
+		let start = clock.now()
+		let hash = DatabasePopulator.computeHash(of: jsonData) + ":" + DatabaseMigrations.schemaVersion
+		logDebug("DatabaseActor hash: \(clock.elapsed(since: start))")
+		return hash
+	}
+
+	/// Returns `true` when the stored hash differs from `hash`, meaning the database
+	/// needs to be rebuilt. Logs a skip message and returns `false` when up to date.
+	private func requiresRepopulation(hash: String, in dbPool: DatabasePool) async throws -> Bool {
+		let storedHash = try await DatabaseMigrations.readHash(in: dbPool)
+		if storedHash == hash {
+			logDebug("DatabaseActor: dataset up to date, skipping populate")
+			return false
+		}
+		return true
+	}
+
+	/// Clears and recreates the schema, decodes and inserts all organizations,
+	/// then stores the new hash. Makes the pool available for reads before
+	/// inserting so that concurrent searches can proceed during population.
+	///
+	/// - Returns: The number of organizations inserted.
+	private func repopulate(with jsonData: Data, hash: String, in dbPool: DatabasePool) async throws -> Int {
 		let schemaStart = clock.now()
 		try await DatabaseMigrations.clearSchema(in: dbPool)
 		try await DatabaseMigrations.createSchema(in: dbPool)
 		logDebug("DatabaseActor schema: \(clock.elapsed(since: schemaStart))")
 
-		// Make the pool available for concurrent reads before inserting rows.
-		// DatabasePool uses WAL mode, so reads and writes can run in parallel.
+		// Expose the pool for reads before inserting — WAL mode allows concurrent reads/writes.
 		self.database = dbPool
 
 		let decodeStart = clock.now()
@@ -150,8 +157,7 @@ actor DatabaseActor {
 		try await DatabasePopulator.insert(organizations, into: dbPool)
 		logDebug("DatabaseActor insert: \(clock.elapsed(since: insertStart)) for \(organizations.count) organizations")
 
-		try await DatabaseMigrations.writeHash(currentHash, in: dbPool)
-
+		try await DatabaseMigrations.writeHash(hash, in: dbPool)
 		return organizations.count
 	}
 }

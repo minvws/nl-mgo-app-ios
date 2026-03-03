@@ -18,6 +18,8 @@ enum DatabasePopulator {
 	/// internal state before the next one starts.
 	static let insertChunkSize = 1_000
 
+	// MARK: - Loading
+
 	/// Returns the memory-mapped raw JSON data for the given dataset.
 	///
 	/// The file is opened with `.mappedIfSafe` so the OS pages bytes in on demand
@@ -38,6 +40,8 @@ enum DatabasePopulator {
 		return try Data(contentsOf: jsonURL, options: .mappedIfSafe)
 	}
 
+	// MARK: - Hashing
+
 	/// Returns the SHA-256 hex digest of `data`.
 	///
 	/// Used to detect whether the bundled JSON has changed since the last populate,
@@ -48,6 +52,8 @@ enum DatabasePopulator {
 	static func computeHash(of data: Data) -> String {
 		SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
 	}
+
+	// MARK: - Decoding
 
 	/// Decodes an array of `Organization` values from raw JSON data.
 	///
@@ -60,17 +66,16 @@ enum DatabasePopulator {
 		return try decoder.decode([Organization].self, from: data)
 	}
 
+	// MARK: - Inserting
+
 	/// Inserts organizations into the database in chunks of `insertChunkSize` records.
 	///
 	/// Each chunk is written in its own transaction so GRDB can release the
 	/// WAL journal state between batches, reducing peak memory for large datasets.
 	///
-	/// Each organization's `dataServices` dictionary is JSON-encoded to a text
-	/// blob stored in the `dataServicesJSON` column, so it can be decoded back
-	/// into `[String: DataService]` at search time by `DatabaseSearchResultFactory`.
-	///
-	/// The `searchBlob` is normalized via `normalizeSearchText(_:)` before storage
-	/// so the FTS5 index receives clean, consistent text.
+	/// The following columns are normalized via `normalizeSearchText(_:)` before
+	/// storage so the FTS5 index receives clean, consistent text:
+	/// `displayName`, `city`, `searchBlob`, and `normalizedCareTypeDisplay`.
 	///
 	/// - Parameters:
 	///   - organizations: The organizations to insert.
@@ -81,47 +86,22 @@ enum DatabasePopulator {
 		_ organizations: [Organization],
 		into dbQueue: any DatabaseWriter
 	) async throws {
-
 		for chunkStart in stride(from: 0, to: organizations.count, by: insertChunkSize) {
 			let chunk = organizations[chunkStart..<min(chunkStart + insertChunkSize, organizations.count)]
 			try await dbQueue.write { db in
 				for org in chunk {
-					let dataServicesJSON = try org.dataServices
-						.map { try newJSONEncoder().encode($0) }
-						.flatMap { String(data: $0, encoding: .utf8) }
-
-					try db.execute(
-						sql: """
-							INSERT INTO organization
-								(id, displayName, careTypeDisplay,
-								 city, postalCode, addressLine, geoLat, geoLng,
-								 searchBlob, dataServicesJSON,
-								 normalizedCareTypeDisplay)
-							VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-							""",
-						arguments: [
-							org.id,
-							normalizeSearchText(org.displayName),
-							org.careTypeDisplay,
-							normalizeSearchText(org.city),
-							org.postalCode,
-							org.addressLine,
-							org.geoLat,
-							org.geoLng,
-							normalizeSearchText(org.searchBlob),
-							dataServicesJSON,
-							normalizeSearchText(org.careTypeDisplay)
-						]
-					)
+					try insertRow(for: org, into: db)
 				}
 			}
 		}
 	}
 
+	// MARK: - Normalization
+
 	/// Normalizes a raw search string for consistent FTS5 indexing and querying.
 	///
-	/// Applied to both the stored `searchBlob` at insert time and the user's
-	/// search term at query time, so the two always speak the same language.
+	/// Applied to `displayName`, `city`, `searchBlob`, and `careTypeDisplay` at
+	/// insert time so the FTS5 index receives clean, consistent text.
 	///
 	/// **Why dots and commas are intentionally kept:**
 	/// FTS5's unicode61 tokenizer already treats `.` and `,` as word separators,
@@ -138,5 +118,48 @@ enum DatabasePopulator {
 			.replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
 			.trimmingCharacters(in: .whitespaces)
 			.lowercased()
+	}
+
+	// MARK: - Private
+
+	/// Encodes and inserts a single organization row into the database.
+	///
+	/// The `dataServices` dictionary is JSON-encoded to a text blob stored in
+	/// `dataServicesJSON`, decoded back to `[String: DataService]` at query time
+	/// by `DatabaseSearchResultFactory`.
+	///
+	/// - Parameters:
+	///   - org: The organization to insert.
+	///   - db: An open writable GRDB database connection.
+	/// - Throws: GRDB errors if the insert fails; encoding errors if `dataServices`
+	///   cannot be serialised to JSON.
+	private static func insertRow(for org: Organization, into db: Database) throws {
+		let dataServicesJSON = try org.dataServices
+			.map { try newJSONEncoder().encode($0) }
+			.flatMap { String(data: $0, encoding: .utf8) }
+
+		try db.execute(
+			sql: """
+				INSERT INTO organization
+					(id, displayName, careTypeDisplay,
+					 city, postalCode, addressLine, geoLat, geoLng,
+					 searchBlob, dataServicesJSON,
+					 normalizedCareTypeDisplay)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+				""",
+			arguments: [
+				org.id,
+				normalizeSearchText(org.displayName),
+				org.careTypeDisplay,
+				normalizeSearchText(org.city),
+				org.postalCode,
+				org.addressLine,
+				org.geoLat,
+				org.geoLng,
+				normalizeSearchText(org.searchBlob),
+				dataServicesJSON,
+				normalizeSearchText(org.careTypeDisplay)
+			]
+		)
 	}
 }
