@@ -109,10 +109,8 @@ class OrganizationSearchClientTests {
 		// When
 		let result = DatabasePopulator.normalizeSearchText(input)
 
-		// Then — dots and commas are preserved; FTS5 unicode61 treats them as
-		// separators itself, so removing them here would merge tokens ("j.s." → "js")
-		// and break BM25 ranking across the dataset
-		#expect(result == "j.s. huisman, huisarts")
+		// Then
+		#expect(result == "j s huisman huisarts")
 	}
 
 	@Test("normalizeSearchText returns nil for nil input")

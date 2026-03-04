@@ -13,8 +13,8 @@ import GRDB
 ///   pre-normalized columns (`normalizedDisplayName`, `normalizedCity`) used
 ///   as dedicated FTS5 index targets.
 /// - `organization_fts` – an FTS5 virtual table synchronised with `organization` via
-///   content-table triggers. Two columns are indexed with descending BM25 weights:
-///   `normalizedDisplayName` (25), `normalizedCity` (5).
+///   content-table triggers. Three columns are indexed with descending BM25 weights:
+///   `normalizedDisplayName` (25), `normalizedCity` (5), `searchBlob` (1).
 ///   The Porter stemmer (wrapping unicode61) is used as the tokenizer.
 enum DatabaseMigrations {
 
@@ -99,12 +99,13 @@ enum DatabaseMigrations {
 	///
 	/// ## `organization_fts` virtual table
 	/// An FTS5 content table synchronised with `organization` via triggers.
-	/// Two columns are indexed with BM25 weights applied at query time:
+	/// Three columns are indexed with BM25 weights applied at query time:
 	///
 	/// | Column                  | Weight | Rationale                                     |
 	/// |-------------------------|--------|-----------------------------------------------|
 	/// | `normalizedDisplayName` |     25 | Primary search target; name matches dominate  |
 	/// | `normalizedCity`        |      5 | Key disambiguator for same-name organizations |
+	/// | `searchBlob`            |      1 | Supplementary text for broader coverage       |
 	///
 	/// The Porter stemmer (wrapping unicode61) is used as the tokenizer so that
 	/// morphological variants map to the same stem.
@@ -130,6 +131,7 @@ enum DatabaseMigrations {
 			tableDefinition.column("addressLine", .text)
 			tableDefinition.column("geoLat", .double)
 			tableDefinition.column("geoLng", .double)
+			tableDefinition.column("searchBlob", .text)
 			tableDefinition.column("dataServicesJSON", .text)
 			tableDefinition.column("normalizedDisplayName", .text)
 			tableDefinition.column("normalizedCity", .text)
@@ -142,6 +144,7 @@ enum DatabaseMigrations {
 			tableDefinition.tokenizer = .porter(wrapping: .unicode61())
 			tableDefinition.column("normalizedDisplayName") // weight 25 — display name
 			tableDefinition.column("normalizedCity")        // weight  5 — city
+			tableDefinition.column("searchBlob")            // weight  1 — searchblob
 		}
 	}
 }

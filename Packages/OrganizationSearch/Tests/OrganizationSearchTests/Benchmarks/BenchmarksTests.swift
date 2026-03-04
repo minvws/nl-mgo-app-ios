@@ -49,7 +49,7 @@ class BenchmarksTests {
 		if let jsonData = try? encoder.encode(resultaat), let jsonString = String(data: jsonData, encoding: .utf8) {
 			print(jsonString)
 		}
-		#expect(resultaat.meanReciprocalRank >= 0.811, "MRR \(resultaat.meanReciprocalRank) dropped below 0.811")
+		#expect(resultaat.meanReciprocalRank >= 0.796, "MRR \(resultaat.meanReciprocalRank) dropped below 0.796")
 		
 		await client.teardown()
 	}

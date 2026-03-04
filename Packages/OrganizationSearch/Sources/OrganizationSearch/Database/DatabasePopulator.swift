@@ -75,7 +75,7 @@ enum DatabasePopulator {
 	///
 	/// The following columns are normalized via `normalizeSearchText(_:)` before
 	/// storage so the FTS5 index receives clean, consistent text:
-	/// `normalizedDisplayName` and `normalizedCity`.
+	/// `normalizedDisplayName`, `normalizedCity`, and `searchBlob`.
 	///
 	/// - Parameters:
 	///   - organizations: The organizations to insert.
@@ -142,9 +142,9 @@ enum DatabasePopulator {
 				INSERT INTO organization
 					(id, displayName, careTypeDisplay,
 					 city, postalCode, addressLine, geoLat, geoLng,
-					 dataServicesJSON, normalizedDisplayName,
+					 searchBlob, dataServicesJSON, normalizedDisplayName,
 					 normalizedCity)
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 				""",
 			arguments: [
 				org.id,
@@ -155,6 +155,7 @@ enum DatabasePopulator {
 				org.addressLine,
 				org.geoLat,
 				org.geoLng,
+				normalizeSearchText(org.searchBlob),
 				dataServicesJSON,
 				normalizeSearchText(org.displayName),
 				normalizeSearchText(org.city)
