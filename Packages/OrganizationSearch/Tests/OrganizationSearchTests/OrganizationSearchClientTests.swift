@@ -45,7 +45,7 @@ class OrganizationSearchClientTests {
 	func prepare_calledTwice_skipsSecondPopulate() async throws {
 
 		// Given - ensure a clean slate so the first prepare always inserts rows
-		try OrganizationSearchClientTests.deleteTestDatabase()
+		try OrganizationSearchClientTests.deleteDatabase(for: .test)
 		let actor = DatabaseActor()
 
 		// When - first prepare populates the database
@@ -175,17 +175,17 @@ class OrganizationSearchClientTests {
 
 	// MARK: - Helpers
 
-	/// Removes the on-disk SQLite file (and WAL/SHM sidecars) for the `.test`
-	/// dataset so that the next `prepare(dataset: .test)` always does a full
-	/// repopulate rather than hitting the hash-skip path.
-	static func deleteTestDatabase() throws {
+	/// Removes the on-disk SQLite file (and WAL/SHM sidecars) for `dataset`
+	/// so that the next `prepare(dataset:)` always does a full repopulate
+	/// rather than hitting the hash-skip path.
+	static func deleteDatabase(for dataset: OrganizationDataset) throws {
 		let appSupportURL = try FileManager.default.url(
 			for: .applicationSupportDirectory,
 			in: .userDomainMask,
 			appropriateFor: nil,
 			create: false
 		)
-		let dbURL = appSupportURL.appendingPathComponent("organizations-test.sqlite")
+		let dbURL = appSupportURL.appendingPathComponent("\(dataset.resourceName).sqlite")
 		try? FileManager.default.removeItem(at: dbURL)
 		try? FileManager.default.removeItem(atPath: dbURL.path + "-wal")
 		try? FileManager.default.removeItem(atPath: dbURL.path + "-shm")

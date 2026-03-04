@@ -87,15 +87,15 @@ enum DatabaseMigrations {
 	/// `DatabaseActor` appends this to the JSON hash before storing it, so a
 	/// schema change forces a full repopulate even when the bundled JSON file
 	/// itself is unchanged.
-	static let schemaVersion = "v2-no-caretype"
+	static let schemaVersion = "v1"
 
 	/// Creates the `organization` content table and the `organization_fts` FTS5 virtual table.
 	///
 	/// ## `organization` table
 	/// Stores all organization fields. In addition to the raw JSON fields, two
 	/// pre-normalized columns are populated at insert time via `DatabasePopulator`:
-	/// - `normalizedDisplayName` — lowercased and whitespace-collapsed display name.
-	/// - `normalizedCity` — lowercased and whitespace-collapsed city.
+	/// - `normalizedDisplayName` — lowercased, punctuation-stripped display name.
+	/// - `normalizedCity` — lowercased, punctuation-stripped city.
 	///
 	/// ## `organization_fts` virtual table
 	/// An FTS5 content table synchronised with `organization` via triggers.

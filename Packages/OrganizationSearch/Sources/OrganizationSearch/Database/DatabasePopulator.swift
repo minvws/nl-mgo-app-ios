@@ -103,20 +103,17 @@ enum DatabasePopulator {
 	/// Applied to `displayName` and `city` at insert time so the FTS5 index
 	/// receives clean, consistent text.
 	///
-	/// **Why dots and commas are intentionally kept:**
-	/// FTS5's unicode61 tokenizer already treats `.` and `,` as word separators,
-	/// so "J.S." is indexed as ["j", "s"] regardless. Removing them before
-	/// indexing merges the tokens (e.g. "J.S." → "JS" → single token "js"),
-	/// which shifts BM25 document-length stats across the entire dataset and
-	/// degrades ranking. The whitespace, trim, and lowercase steps below are
-	/// safe because unicode61 applies them during tokenization anyway.
+	/// Replaces all non-letter, non-digit characters with a space (so hyphens,
+	/// dots, and parentheses become word boundaries rather than being silently
+	/// dropped), then collapses runs of whitespace, trims, and lowercases.
+	/// Using `\p{L}` (Unicode letter category) preserves Dutch characters such
+	/// as é, ü, and ij.
 	///
 	/// Returns `nil` when the input is `nil`.
 	static func normalizeSearchText(_ text: String?) -> String? {
 		guard let text else { return nil }
 		return text
-			.replacingOccurrences(of: ",", with: "")
-			.replacingOccurrences(of: ".", with: "")
+			.replacingOccurrences(of: "[^\\p{L}0-9]", with: " ", options: .regularExpression)
 			.replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
 			.trimmingCharacters(in: .whitespaces)
 			.lowercased()
