@@ -72,7 +72,10 @@ final class SplashViewModel: ObservableObject {
 		_Concurrency.Task(priority: .userInitiated) {
 			await remoteConfigurationRepository.fetchAndUpdateObservers()
 			await patientFriendyTermsRepository.fetchTerms()
-			try? await organizationSearchClient.prepare(dataset: .full)
+			try? await organizationSearchClient
+				.prepare(
+					dataset: LaunchArgumentsHandler.useTestProviders() ? .test : .full
+				)
 		}
 		resourceRepository.load()
 	}

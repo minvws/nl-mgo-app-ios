@@ -21,9 +21,11 @@ AppRobot()
     .tapNextButton() // Move through introduction
     .tapReferenceButton() // Returns LoginRobot
     .tapDigiDButton() // Returns MockDigiDRobot
-    .performDigiDLogin() // Returns AddOrganizationRobot
-    .enterSearchFields(name: "Huisarts", place: "Breda") // Stays on AddOrganizationRobot
-    .tapSearchButton() // Returns OrganizationListManualRobot
+    .performDigiDLogin() // Returns SearchOrganizationRobot
+    .enterSearchField("Huisarts Breda") // Stays on SearchOrganizationRobot
+    .tapListElement(id: "1234") // Stays on SearchOrganizationRobot
+    .tapAlertOkButton() // Stays on SearchOrganizationRobot
+    .tapSearchButton() // Returns HealthCategoriesRobot
 ```
 
 ## The Elements of a Robot

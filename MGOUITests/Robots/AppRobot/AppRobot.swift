@@ -22,6 +22,7 @@ class AppRobot: Robot {
 	func launchApp(withDemoMode: Bool = false) -> IntroductionRobot {
 		app.launchArguments.append("-resetOnStart")
 		app.launchArguments.append("-disableTransitions")
+		app.launchArguments.append("-useTestProviders")
 		if withDemoMode {
 			app.launchArguments.append("-demoMode")
 		}
@@ -36,6 +37,7 @@ class AppRobot: Robot {
 		app.launchArguments.append("-resetOnStart")
 		app.launchArguments.append("-disableTransitions")
 		app.launchArguments.append("-updateRequired")
+		app.launchArguments.append("-useTestProviders")
 		app.launch()
 		return UpdateRequiredRobot(app)
 	}
@@ -47,6 +49,7 @@ class AppRobot: Robot {
 		app.launchArguments.append("-resetOnStart")
 		app.launchArguments.append("-disableTransitions")
 		app.launchArguments.append("-repeatVisitor")
+		app.launchArguments.append("-useTestProviders")
 		app.launch()
 		return HealthCategoriesRobot(app)
 	}
@@ -54,15 +57,17 @@ class AppRobot: Robot {
 	/// Launch the app with a Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
-	func navigateToOverview(organization index: Int) -> HealthCategoriesRobot {
+	func navigateToOverview(organization: String) -> HealthCategoriesRobot {
 		self
 			.launchAppRepeatVisitor()
 			.verifyAddOrganizationsButtonExists()
 			.tapAddOrganizationsButton()
-			.enterSearchFields(name: "test", place: "test")
-			.tapSearchButton()
-			.swipeToListElement(at: index)
-			.tapListElement(at: index)
+			.verifySubHeadingExists()
+			.verifySearchFieldExists()
+			.enterSearchField("testtest")
+			.tapListElement(id: organization)
+			.verifyAlertOkButtonExists()
+			.tapAlertOkButton()
 		
 		return HealthCategoriesRobot(app)
 	}
@@ -78,34 +83,34 @@ class AppRobot: Robot {
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithBGZ() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: 4)
+		self.navigateToOverview(organization: "test-04")
 	}
 	
 	/// Launch the app with a GP Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithGP() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: 5)
+		self.navigateToOverview(organization: "test-05")
 	}
 	
 	/// Launch the app with a Document (PDFA) Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithPDFA() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: 6)
+		self.navigateToOverview(organization: "test-06")
 	}
 
 	/// Launch the app with a BgLZ Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithLongTermCare() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: 7)
+		self.navigateToOverview(organization: "test-07")
 	}
 	
 	/// Launch the app with a Vaccination Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithVaccination() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: 8)
+		self.navigateToOverview(organization: "test-08")
 	}
 }

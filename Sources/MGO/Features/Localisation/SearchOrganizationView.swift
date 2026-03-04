@@ -399,6 +399,7 @@ struct SearchOrganizationView: View {
 			Button("search_organization.dialog.yes", role: .none) {
 				viewModel.reduce(.store(organization))
 			}
+			.accessibilityIdentifier("search_organization.dialog.action")
 			Button("search_organization.dialog.no", role: .cancel) { /* No action */ }
 		} message: { organization in
 			Text(String(localized: "search_organization.dialog.subheading"))
