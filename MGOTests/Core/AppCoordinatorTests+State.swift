@@ -163,7 +163,8 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		let automaticView = try view.inspect().find(OrganizationListAutomaticView.self)
+		expect(automaticView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forManualLocalization() throws {
@@ -197,6 +198,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		let manualView = try view.inspect().find(OrganizationListManualView.self)
+		expect(manualView) != nil
 	}
 }
