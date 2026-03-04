@@ -41,7 +41,7 @@ protocol ResourceRepositoryProtocol: Sendable {
 	
 	/// Get the version of the shared library
 	/// - Returns: the shared version
-	@MainActor func getVersion() throws -> SharedCategoriesVersion
+	@MainActor func getVersion() async throws -> SharedCategoriesVersion
 }
 
 enum ResourceRepositoryError: Int {
@@ -134,8 +134,8 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 	
 	/// Get the version of the shared library
 	/// - Returns: the shared version
-	@MainActor func getVersion() throws -> SharedCategoriesVersion {
-		return try repository.getVersion()
+	@MainActor func getVersion() async throws -> SharedCategoriesVersion {
+		return try await repository.getVersion()
 	}
 	
 	/// Handle changes in the organizations list

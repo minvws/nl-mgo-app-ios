@@ -26,14 +26,14 @@ class VersionViewModel: BaseViewModel {
 	
 	@MainActor override init(coordinator: (any Coordinator)? = nil) {
 		super.init(coordinator: coordinator)
-		setState()
+		Task(priority: .userInitiated) { await setState() }
 	}
 	
-	@MainActor func setState() {
+	@MainActor func setState() async {
 		
 		do {
 			let hcimVersion = try HCIMParser().getVersion()
-			let sharedVersion = try resourceRepository.getVersion()
+			let sharedVersion = try await resourceRepository.getVersion()
 			
 			state = State(
 				hcim: State.Version(

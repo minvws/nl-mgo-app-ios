@@ -19,7 +19,7 @@ struct SharedVersionTests {
 		let sut = MGORepository(client: client)
 		
 		// When
-		let result: SharedCategoriesVersion = try sut.getVersion()
+		let result: SharedCategoriesVersion = try await sut.getVersion()
 		
 		// Then
 		#expect(result.version == "main-1838907")
