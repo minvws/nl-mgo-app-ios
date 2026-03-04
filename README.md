@@ -45,28 +45,32 @@ The majority of our (third-party) dependencies are included as Swift Packages. H
 * [AuthorizationMiddleware](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/AuthorizationMiddleware/README.md): Basic Authentication Middleware for the open-api generator.
 * [CopyImport](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/CopyImport/README.md): script to assist with importing copy.
 * [FeatureFlag](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/FeatureFlag/README.md): some of the features of the application are locked behind a feature flag. This package controls those flags.
-* [FHIRClient](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/FHIRClient/README.md): the client for all API calls to fetch the FHIR data. 
+* [FHIRClient](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/FHIRClient/README.md): the client for all API calls to fetch the FHIR data.
 * [FileStorage](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/FileStorage/README.md): helper to store and read files from local disk.
 * [GitHubArtifactDownload](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/GitHubArtifactDownload/README.md): script to assist with downloading the latest artifact for the Shared Core and Shared configurations
 * [HCIMCore](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/HCIMCore/README.md): the shared javascript library to parse FHIR data into Health and Care Information Models.
 * [JailBreakDetector](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/JailBreakDetector/README.md): helper to detect jail broken devices.
 * [LocalisationService](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/LocalisationService/README.md): open-api generated class to search for healthcare providers.
 * [Logging](https://github.com/minvws/nl-rdo-app-ios-modules): a tool for Logging, reused from CoronaCheck.
-
+* [MGOCommandLine](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOCommandLine/README.md): convenience package that exposes Figlet and Swift Argument Parser for easy import in command-line tools.
+* [MGODebug](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGODebug/README.md): debug package to help identify memory leaks.
+* [MGOFoundation](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOFoundation/README.md): convenience package that re-exports FHIRClient, MGORepository, FileStorage, JailBreakDetector, LocalisationService, NotificationCenter, Observatory, RemoteConfiguration, SecureUserSettings and Logging for easy import in the app.
 * [MGORepository](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGORepository/README.md): The linking class between the HCIMs, the HCIM parser and the FHIR Client.
-* [NavigationStackBackport](https://github.com/lm/navigation-stack-backport): backport of the iOS 16 NavigationStack to iOS 15.
+* [MGOUI](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOUI/README.md): convenience package that re-exports ReusableUI, Theme, RijksoverheidFont, SwiftIntrospect and NavigationStack Backport for easy import in the app.
+* [NetworkAvailability](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/NetworkAvailability/README.md): helper to check whether a network connection is available.
 * [NotificationCenter](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/NotificationCenter/README.md): helper protocol for the Notification Center.
-* [Observatory](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/Observatory/README.md): helper class to fascilitate subscription to changes.
+* [Observatory](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/Observatory/README.md): helper class to facilitate subscription to changes.
+* [OrganizationSearch](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/OrganizationSearch/README.md): native search for healthcare organizations.
 * [OSVersion](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/OSVersion/README.md): helper class to determine which OS version we are running (testable).
 * [Patient Friendly Terms](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/PatientFriendlyTerms/README.md): open-api generated class to help download the latest Patient Friendly Terms.
 * [PdfExport](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/PdfExport/README.md): Tool to generate pdfs.
-* [RemoteAuthentication](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/RemoteAuthentication/README.md): helper class that helps with DigiD login. 
+* [RemoteAuthentication](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/RemoteAuthentication/README.md): helper class that helps with DigiD login.
 * [RemoteConfiguration](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/RemoteConfiguration/README.md): On startup of the app, a remote configuration is fetched with the latest app settings.
-* [RestrictedBrowser](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/RestrictedBrowser/README.md): Downside of an in-app browser is the loss of Parental Control. As a solution, we came up with a restricted browser. While surfing the allowed domain, you remain in the in-app browser. When you navigate to another domain, you are redirected to the default browser.
-* [ReusableUI](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/ReusableUI/README.md): Downside of This package holds a small collection of reuseable visual elements.
-* [RijkoverheidFont](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/RijksoverheidFont/README.md): helper for using the Rijksoverheid font
-* [Sanitizer](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/Sanitizer/README.md): helper to remove malicious user input. 
-* [SecureUserSettings](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/SecureUserSettings/README.md): helper to safely persist user settings. 
+* [RestrictedBrowser](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/RestrictedBrowser/README.md): an in-app browser that redirects the user to the system browser when navigating outside of the allowed domain, preserving Parental Controls.
+* [ReusableUI](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/ReusableUI/README.md): a small collection of reusable visual elements.
+* [RijksoverheidFont](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/RijksoverheidFont/README.md): helper for using the Rijksoverheid font.
+* [Sanitizer](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/Sanitizer/README.md): helper to remove malicious user input.
+* [SecureUserSettings](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/SecureUserSettings/README.md): helper to safely persist user settings.
 * [Theme](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/Theme/README.md): helper with all the styles and colors for the application.
 
 #### Development only
@@ -82,10 +86,11 @@ A graph with all the test dependencies.
 
 <img src="Diagrams/packages-testonly.png" />
 
-* [HTTPStubs](https://github.com/AliSoftware/OHHTTPStubs): a library designed to stub your network requests very easily.
-* [Nimble](https://github.com/Quick/Nimble): testing framework to express expectations using a natural, easily understood language
-* [SnapshotTesting](https://github.com/pointfreeco/swift-snapshot-testing): tool to help creating snapshots
-* [ViewInspector](https://github.com/nalexn/ViewInspector): a library for unit testing SwiftUI views
+* [MGOTest](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOTest/README.md): convenience package that re-exports HTTPStubs, SnapshotTesting, Nimble and ViewInspector for easy import in unit tests.
+  * [HTTPStubs](https://github.com/AliSoftware/OHHTTPStubs): a library designed to stub your network requests very easily.
+  * [Nimble](https://github.com/Quick/Nimble): testing framework to express expectations using a natural, easily understood language.
+  * [SnapshotTesting](https://github.com/pointfreeco/swift-snapshot-testing): tool to help creating snapshots.
+  * [ViewInspector](https://github.com/nalexn/ViewInspector): a library for unit testing SwiftUI views.
 
 #### Continuous Integration only
 
