@@ -17,7 +17,6 @@ The package bundles several JSON organization datasets selected via `Organizatio
 
 | Case | File | Purpose |
 |---|---|---|
-| `.full` | `organizations-full.json` | Complete dataset (default) |
 | `.medmij` | `organizations-medmij.json` | MedMij-filtered subset |
 | `.test` | `organizations-test.json` | Small fixture for unit tests |
 | `.benchmark` | `organizations-benchmark.json` | Benchmark measurements |
@@ -48,8 +47,8 @@ import OrganizationSearch
 let client = OrganizationSearchClient()
 
 // 2. Prepare the search index (memory-maps the JSON and builds the SQLite FTS5 table)
-try await client.prepare()          // uses .full dataset by default
-// try await client.prepare(dataset: .medmij)  // or a specific subset
+try await client.prepare()          // uses .medmij dataset by default
+// try await client.prepare(dataset: .benchmark)  // or a specific subset
 
 // 3. Search
 let results = try await client.searchHealthcareOrganizations("huisarts Amsterdam")

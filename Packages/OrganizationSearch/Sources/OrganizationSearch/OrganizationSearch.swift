@@ -11,7 +11,7 @@
 /// Usage:
 /// ```swift
 /// let client = OrganizationSearchClient()
-/// try await client.prepare(dataset: .full)
+/// try await client.prepare(dataset: .medmij)
 /// let results = try await client.searchHealthcareOrganizations("hospital Amsterdam")
 /// ```
 public protocol OrganizationSearchClientProtocol: Sendable {
@@ -24,7 +24,7 @@ public protocol OrganizationSearchClientProtocol: Sendable {
 	/// This method must be called before performing searches. It loads organization data
 	/// from the specified dataset and builds the search index asynchronously.
 	///
-	/// - Parameter dataset: The organization dataset to load. Defaults to `.full`.
+	/// - Parameter dataset: The organization dataset to load.
 	/// - Throws: Errors related to loading organization data or building the index.
 	func prepare(dataset: OrganizationDataset) async throws
 	
