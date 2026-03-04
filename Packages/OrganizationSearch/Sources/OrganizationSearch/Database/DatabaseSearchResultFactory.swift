@@ -36,7 +36,6 @@ enum DatabaseSearchResultFactory {
 			geoLat: row["geoLat"],
 			geoLng: row["geoLng"],
 			id: row["id"],
-			normalizedDisplayName: nil,
 			postalCode: row["postalCode"],
 			searchBlob: nil
 		)
