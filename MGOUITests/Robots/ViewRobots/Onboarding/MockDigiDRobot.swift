@@ -99,16 +99,16 @@ import XCTest
 	}
 	
 	@discardableResult
-	func tapOpenButton() -> AddOrganizationRobot {
+	func tapOpenButton() -> OrganizationSearchRobot {
 		openAppButton.tap()
-		return AddOrganizationRobot(app)
+		return OrganizationSearchRobot(app)
 	}
-	
+
 	@discardableResult
-	func performCompleteDigiDLogin() -> AddOrganizationRobot {
-		
+	func performCompleteDigiDLogin() -> OrganizationSearchRobot {
+
 		// The Safari browser and the mock DigiD site can be in different states
-		
+
 		if openAppButton.waitForExistence(timeout: timeOut) {
 			self
 				.tapOpenButton()
@@ -126,8 +126,8 @@ import XCTest
 				.verifyOpenButtonExists()
 				.tapOpenButton()
 		}
-			
-		return AddOrganizationRobot(app)
+
+		return OrganizationSearchRobot(app)
 	}
 	
 	@discardableResult

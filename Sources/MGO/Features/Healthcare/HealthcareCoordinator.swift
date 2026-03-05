@@ -353,11 +353,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				OrganizationsView(viewModel: OrganizationsViewModel(coordinator: self)).isPresentedAsSheet(false)
 				
 			case .manualLocalization:
-//				AddOrganizationView(
-//					viewModel: AddOrganizationViewModel(coordinator: self)
-//				)
-//				.isPresentedAsSheet(true)
-				
 				SearchOrganizationView(
 					viewModel: SearchOrganizationViewModel(
 						coordinator: self,
@@ -483,6 +478,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				)
 			} else {
 				EmptyView()
+					.logError("HealthcareCoordinator, no translations for category", category.id)
 			}
 		}
 	}

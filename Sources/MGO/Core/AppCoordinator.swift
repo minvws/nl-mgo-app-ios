@@ -497,12 +497,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				)
 			
 			// Manual Localization
-			case .manualLocalization:
-//				AddOrganizationView(
-//					viewModel: AddOrganizationViewModel(coordinator: self)
-//				)
-//				.isPresentedAsSheet(false)
 				
+			case .manualLocalization:
 				SearchOrganizationView(
 					viewModel: SearchOrganizationViewModel(
 						coordinator: self,

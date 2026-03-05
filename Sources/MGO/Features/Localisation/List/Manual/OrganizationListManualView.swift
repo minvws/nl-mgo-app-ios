@@ -105,7 +105,7 @@ class OrganizationListManualViewModel: ObservableObject {
 		switch action {
 			
 			case .backToSearch:
-			Container.shared.notificationCenter().post(name: .clearSearch, object: nil)
+//			Container.shared.notificationCenter().post(name: .clearSearch, object: nil)
 				coordinator?.handle(Coordination.Action.backToAddHealthcareOrganization)
 			
 			case .backButtonPressed:
