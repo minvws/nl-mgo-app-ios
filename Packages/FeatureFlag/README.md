@@ -2,8 +2,7 @@
 
 ## Overview
 
-Some of the features in the app are not finalized and/or may only be turned on in specific sitation. Currently there are two such features:
-- isAutomaticLocalizationEnabled, used to prefetch the healthcare providers that have data for you
+Some of the features in the app are not finalized and/or may only be turned on in specific sitation. Currently there is one such feature:
 - isDemo, used to demonstrate the optimized flow
 
 ## Usage
@@ -12,11 +11,8 @@ Some of the features in the app are not finalized and/or may only be turned on i
 import FeatureFlag
 let featureFlagManager = FeatureFlagManager()
 
-if featureFlagManager.isAutomaticLocalizationEnabled {
-	// Navigate to automatic localization
-	...
-} else {
-	/// Naviate to manual localization
+if featureFlagManager.isDemo {
+	// Demo flow
 	...
 }
 
