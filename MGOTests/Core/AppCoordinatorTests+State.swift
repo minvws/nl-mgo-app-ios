@@ -165,5 +165,4 @@ final class AppCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-	
 }
