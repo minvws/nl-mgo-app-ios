@@ -53,51 +53,6 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.manualLocalization
 	}
 	
-	@MainActor func test_coordinatorHandle_search_pathForSheet_shouldContainHealthcareOrganizationSearchResults() {
-		
-		// Given
-		
-		// When
-		sut.handle(
-			Coordination.Action(
-				identifier: "showHealthcareOrganizationSearchResults",
-				params: [
-					"city": "Roermond",
-					"name": "Tandarts Tandje Erbij"
-				]
-			)
-		)
-		
-		// Then
-		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath(
-			[
-				HealthcareCoordination.State.healthcareOrganizationSearchResults(
-					city: "Roermond",
-					name: "Tandarts Tandje Erbij"
-				)
-			]
-		)
-	}
-	
-	@MainActor func test_coordinatorHandle_search_missingParams_pathForSheet_shouldBeEmpty() {
-		
-		// Given
-		
-		// When
-		sut.handle(
-			Coordination.Action(
-				identifier: "showHealthcareOrganizationSearchResults",
-				params: [
-					"city": "Roermond",
-					"wrong param": "Tandarts Tandje Erbij"
-				]
-			)
-		)
-		
-		// Then
-		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
-	}
-	
 	@MainActor func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
 		
 		// Given

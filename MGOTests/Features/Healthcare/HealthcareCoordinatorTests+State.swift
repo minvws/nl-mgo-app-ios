@@ -63,25 +63,6 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		expect(automaticView) != nil
 	}
 	
-	@MainActor func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
-		
-		// Given
-		let state = HealthcareCoordination.State.healthcareOrganizationSearchResults(
-			city: "Roermond",
-			name: "Tandarts Tandje Erbij"
-		)
-		stub(condition: isPath("/localization/organization/search")) { _ in
-			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
-		}
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		let manualView = try view.inspect().find(OrganizationListManualView.self)
-		expect(manualView) != nil
-	}
-	
 	@MainActor func test_coordinatorView_forShowHealthcareOrganization() throws {
 		
 		// Given

@@ -10,8 +10,6 @@ import PdfExport
 extension Coordination.Action {
 	
 	// Healthcare Organization flow
-	@MainActor static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
-	@MainActor static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
 	@MainActor static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
 	
 	@MainActor static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
@@ -61,7 +59,6 @@ struct HealthcareCoordination {
 		// Search & Store Healthcare Organization flow
 		case automaticLocalization
 		case manualLocalization
-		case healthcareOrganizationSearchResults(city: String, name: String)
 		
 		// Details Flow
 		case showHealthCategories
@@ -152,20 +149,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				} else {
 					rootStateForSheet = HealthcareCoordination.State.manualLocalization
 				}
-				return true
-				
-			case Coordination.Action.showHealthcareOrganizationSearchResults.identifier:
-				if action.params.count == 2,
-				   let city = action.params["city"] as? String,
-				   let name = action.params["name"] as? String {
-					pathForSheet.append(HealthcareCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
-				} else {
-					logError("Healthcare Coordinator, missing params for \(action)")
-				}
-				return true
-				
-			case Coordination.Action.backToAddHealthcareOrganization.identifier:
-				pathForSheet.removeLast(pathForSheet.count)
 				return true
 				
 			default:
@@ -367,17 +350,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 						coordinator: self,
 						localisationServiceClient: self.localisationServiceClient,
 						preselectAllOrganizations: false
-					)
-				)
-				.isPresentedAsSheet(true)
-				
-			case let .healthcareOrganizationSearchResults(city, name):
-				OrganizationListManualView(
-					viewModel: OrganizationListManualViewModel(
-						coordinator: self,
-						city: city,
-						name: name,
-						localisationServiceClient: self.localisationServiceClient
 					)
 				)
 				.isPresentedAsSheet(true)

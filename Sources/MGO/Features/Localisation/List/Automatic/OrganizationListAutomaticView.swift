@@ -6,6 +6,45 @@
 import MGOFoundation
 import MGOUI
 
+typealias OrganizationListSet = (
+	organization: MgoOrganization,
+	cardState: OrganizationListCardState
+)
+
+enum OrganizationListViewState: Equatable, Sendable {
+	
+	case loading
+	case failure(Error)
+	case success([OrganizationListSet])
+	case empty(city: String, name: String)
+	
+	static func == (lhs: OrganizationListViewState, rhs: OrganizationListViewState) -> Bool {
+		switch (lhs, rhs) {
+				
+			case (.loading, .loading):
+				return true
+				
+			case let(.failure(lhsError), .failure(rhsError)):
+				return lhsError.localizedDescription == rhsError.localizedDescription
+				
+			case let(.success(lhsResults), .success(rhsResults)):
+				guard lhsResults.count == rhsResults.count else { return false}
+				var result = true
+				for index in lhsResults.indices {
+					result = result && lhsResults[index].organization == rhsResults[index].organization
+					result = result && lhsResults[index].cardState == rhsResults[index].cardState
+				}
+				return result
+				
+			case let(.empty(lhsCity, lhsName), .empty(rhsCity, rhsName)):
+				return lhsCity == rhsCity && lhsName == rhsName
+				
+			default:
+				return false
+		}
+	}
+}
+
 class OrganizationListAutomaticViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
