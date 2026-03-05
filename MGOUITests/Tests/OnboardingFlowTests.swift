@@ -56,24 +56,4 @@ final class OnboardingFlowTests: XCTestCase {
 			.verifySafariIsOpen()
 			.verifyMockDigiDWebsite()
 	}
-	
-	@MainActor
-	func testOnboardingFlow_demoMode_automaticLocalization() {
-		
-		AppRobot()
-			.launchApp(withDemoMode: true)
-			.tapNextButton()
-			.tapNextButton()
-			.tapLoginWithDigiDButtonWithDemoMode()
-			.verifySubHeadingExists()
-			.verifyNextButtonExists()
-			.tapNextButton()
-			.verifyListElementExists(at: 0)
-			.tapListElement(at: 0)
-			.verifyListElementExists(at: 1)
-			.tapListElement(at: 1)
-			.verifyListElementExists(at: 2)
-			.verifyOverviewButtonExists()
-			.tapOverviewButton()
-	}
 }

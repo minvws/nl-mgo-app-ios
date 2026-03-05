@@ -10,8 +10,6 @@ import PdfExport
 extension Coordination.Action {
 	
 	// Healthcare Organization flow
-	@MainActor static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
-	
 	@MainActor static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
 	@MainActor static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
 	
@@ -57,7 +55,6 @@ struct HealthcareCoordination {
 		case organizations
 		
 		// Search & Store Healthcare Organization flow
-		case automaticLocalization
 		case manualLocalization
 		
 		// Details Flow
@@ -116,8 +113,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			
 			// General
 			
-			case Coordination.Action.closeSheet.identifier,
-				Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
+			case Coordination.Action.closeSheet.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
 				
@@ -144,11 +140,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			// Healthcare Organization Search Flow
 			
 			case Coordination.Action.addHealthcareOrganization.identifier:
-				if Container.shared.featureFlagManager().isAutomaticLocalizationEnabled {
-					rootStateForSheet = HealthcareCoordination.State.automaticLocalization
-				} else {
-					rootStateForSheet = HealthcareCoordination.State.manualLocalization
-				}
+				rootStateForSheet = HealthcareCoordination.State.manualLocalization
 				return true
 				
 			default:
@@ -340,16 +332,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 					viewModel: SearchOrganizationViewModel(
 						coordinator: self,
 						firstVisitor: false
-					)
-				)
-				.isPresentedAsSheet(true)
-				
-			case .automaticLocalization:
-				OrganizationListAutomaticView(
-					viewModel: OrganizationListAutomaticViewModel(
-						coordinator: self,
-						localisationServiceClient: self.localisationServiceClient,
-						preselectAllOrganizations: false
 					)
 				)
 				.isPresentedAsSheet(true)

@@ -32,19 +32,6 @@ final class HealthcareCoordinatorTests: XCTestCase {
 	@MainActor func test_coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet() {
 		
 		// Given
-		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
-		
-		// When
-		sut.handle(Coordination.Action.addHealthcareOrganization)
-		
-		// Then
-		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.automaticLocalization
-	}
-	
-	@MainActor func test_coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet_featureFlagOff() {
-		
-		// Given
-		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		
 		// When
 		sut.handle(Coordination.Action.addHealthcareOrganization)
@@ -53,28 +40,12 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.manualLocalization
 	}
 	
-	@MainActor func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
-		
-		// Given
-		sut.rootStateForSheet = HealthcareCoordination.State.manualLocalization
-		sut.pathForSheet = NavigationStackBackport.NavigationPath(
-			[HealthcareCoordination.State.automaticLocalization]
-		)
-		
-		// When
-		sut.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
-		
-		// Then
-		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
-		expect(self.sut.rootStateForSheet) == nil
-	}
-	
 	@MainActor func test_coordinatorHandle_closeSheet_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
 		
 		// Given
 		sut.rootStateForSheet = HealthcareCoordination.State.manualLocalization
 		sut.pathForSheet = NavigationStackBackport.NavigationPath(
-			[HealthcareCoordination.State.automaticLocalization]
+			[HealthcareCoordination.State.manualLocalization]
 		)
 		
 		// When
@@ -91,7 +62,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		sut.path = NavigationStackBackport.NavigationPath([HealthcareCoordination.State.showHealthCategories])
 		sut.pathForSheet = NavigationStackBackport.NavigationPath(
 			[HealthcareCoordination.State.manualLocalization,
-			 HealthcareCoordination.State.automaticLocalization]
+			 HealthcareCoordination.State.manualLocalization]
 		)
 		
 		// When

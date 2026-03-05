@@ -77,9 +77,6 @@ struct AppCoordination {
 		case login
 		case loginInfo
 		
-		// Automatic Localization
-		case automaticLocalization
-		
 		// Manual Localization
 		case manualLocalization
 		
@@ -219,7 +216,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		guard !handleDeeplink(action) else { return }
 		guard !handleOnboarding(action) else { return }
 		guard !handleRemoteAuthentication(action) else { return }
-		guard !handleAutomaticLocalization(action) else { return }
+		guard !handleManualLocalizationCompletion(action) else { return }
 		
 		switch action.identifier {
 			
@@ -296,12 +293,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				return true
 			
 			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
-			
-				if featureFlagManager.isAutomaticLocalizationEnabled || featureFlagManager.isDemo {
-					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
-				} else {
-					resetNavigationStack(with: AppCoordination.State.manualLocalization)
-				}
+				resetNavigationStack(with: AppCoordination.State.manualLocalization)
 				return true
 			
 			default:
@@ -328,12 +320,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		return false
 	}
 	
-	/// Handle the automatic localization flow action from any of the view models
+	/// Handle the completion of the manual localization flow
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	@MainActor private func handleAutomaticLocalization(_ action: Coordination.Action) -> Bool {
-		
-		if action.identifier == Coordination.Action.finishedSearchingHealthcareOrganizations.identifier {
+	@MainActor private func handleManualLocalizationCompletion(_ action: Coordination.Action) -> Bool {
+
+		if action.identifier == Coordination.Action.closeSheet.identifier,
+		   rootState == .manualLocalization {
 			showChildCoordinator = true
 			return true
 		}
@@ -396,11 +389,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 				secureUserSettings.firstTimeVisitor = false
 				
-				if featureFlagManager.isAutomaticLocalizationEnabled {
-					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
-				} else {
-					resetNavigationStack(with: AppCoordination.State.manualLocalization)
-				}
+				resetNavigationStack(with: AppCoordination.State.manualLocalization)
 		}
 	}
 	
@@ -449,17 +438,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .loginInfo:
 				LoginInfoView(viewModel: LoginInfoViewModel(coordinator: self))
 				
-			// Automatic Localization
-			
-			case .automaticLocalization:
-				OrganizationListAutomaticView(
-					viewModel: OrganizationListAutomaticViewModel(
-						coordinator: self,
-						localisationServiceClient: self.localisationServiceClient,
-						preselectAllOrganizations: true
-					)
-				)
-			
 			// Manual Localization
 				
 			case .manualLocalization:

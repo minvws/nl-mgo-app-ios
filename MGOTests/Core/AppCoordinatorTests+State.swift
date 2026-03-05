@@ -152,21 +152,6 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	@MainActor func test_coordinatorView_forAutomaticLocalization() throws {
-		
-		// Given
-		setupSut()
-		let state = AppCoordination.State.automaticLocalization
-		
-		// When
-		let view = sut.view(for: state)
-		let content = NavigationStackBackport.NavigationStack { view }
-		
-		// Then
-		let automaticView = try view.inspect().find(OrganizationListAutomaticView.self)
-		expect(automaticView) != nil
-	}
-	
 	@MainActor func test_coordinatorView_forManualLocalization() throws {
 		
 		// Given

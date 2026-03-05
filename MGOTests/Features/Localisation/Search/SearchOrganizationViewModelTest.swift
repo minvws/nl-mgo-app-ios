@@ -192,7 +192,7 @@ final class SearchOrganizationViewModelTests {
 			servicesSpies.healthcareOrganizationStoreSpy.invokedStore == true
 		)
 		#expect(coordinatorSpy.invokedHandle == true)
-		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.finishedSearchingHealthcareOrganizations)
+		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.closeSheet)
 	}
 	
 	// MARK: - loadMore Action Tests

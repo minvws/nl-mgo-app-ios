@@ -134,7 +134,7 @@ class SearchOrganizationViewModel: ObservableObject {
 				
 			case let .store(organization):
 				store(organization)
-				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
+				coordinator?.handle(Coordination.Action.closeSheet)
 
 			case .loadMore:
 				state.visibleCount = min(

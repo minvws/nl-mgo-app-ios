@@ -47,22 +47,6 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	@MainActor func test_coordinatorView_forAutomaticLocalization() throws {
-		
-		// Given
-		let state = HealthcareCoordination.State.automaticLocalization
-		stub(condition: isPath("/localization/organization/search")) { _ in
-			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
-		}
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		let automaticView = try view.inspect().find(OrganizationListAutomaticView.self)
-		expect(automaticView) != nil
-	}
-	
 	@MainActor func test_coordinatorView_forShowHealthcareOrganization() throws {
 		
 		// Given
