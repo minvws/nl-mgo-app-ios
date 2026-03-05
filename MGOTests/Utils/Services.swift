@@ -33,7 +33,6 @@ import MGOUI
 	
 	var featureFlagSpy: FeatureFlagManagerSpy = {
 		let spy = FeatureFlagManagerSpy()
-		spy.stubbedIsAutomaticLocalizationEnabled = true
 		spy.stubbedIsDemo = false
 		return spy
 	}()

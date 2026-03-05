@@ -31,12 +31,6 @@ public class LaunchArgumentsHandler {
 		return CommandLine.arguments.contains("-repeatVisitor")
 	}
 	
-	/// Should we enable automatic localization?
-	public static func isAutomaticLocalizationEnabled() -> Bool {
-		
-		return CommandLine.arguments.contains("-automaticLocalizationEnabled")
-	}
-	
 	/// Should we use the test providers dataset?
 	public static func useTestProviders() -> Bool {
 		

@@ -6,18 +6,14 @@
 import Foundation
 
 public extension UserDefaults {
-	
+
 	enum Keys: String {
-		case isAutomaticLocalizationEnabled
 		case bypassRemoteAuthentication
 	}
 }
 
 public protocol FeatureFlagManaging: Sendable {
-	
-	/// Do we use automatic localization?
-	@MainActor var isAutomaticLocalizationEnabled: Bool { get set }
-	
+
 	/// Should we bypass the remote login?
 	@MainActor var bypassRemoteAuthentication: Bool { get set }
 	
@@ -35,10 +31,6 @@ public class FeatureFlagManager: FeatureFlagManaging, @unchecked Sendable {
 		// Public initializer
 	}
 	
-	/// Do we use automatic localization?
-	@UserDefault(key: UserDefaults.Keys.isAutomaticLocalizationEnabled.rawValue + (ProcessInfo.processInfo.arguments.contains("--unittesting") ? ".test" : ""), defaultValue: false)
-	@MainActor public var isAutomaticLocalizationEnabled: Bool
-	
 	/// Should we bypass the remote login?
 	@UserDefault(key: UserDefaults.Keys.bypassRemoteAuthentication.rawValue + (ProcessInfo.processInfo.arguments.contains("--unittesting") ? ".test" : ""), defaultValue: false)
 	@MainActor public var bypassRemoteAuthentication: Bool
@@ -48,7 +40,6 @@ public class FeatureFlagManager: FeatureFlagManaging, @unchecked Sendable {
 	
 	/// Remove all the feature flags and reset to default
 	@MainActor public func wipePersistedData() {
-		isAutomaticLocalizationEnabled = false
 		bypassRemoteAuthentication = false
 	}
 }

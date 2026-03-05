@@ -9,28 +9,6 @@ public class FeatureFlagManagerSpy: FeatureFlagManaging, @unchecked Sendable {
 
 	public init() { /* Public initializer needed for public access */ }
 
-	public var invokedIsAutomaticLocalizationEnabledSetter = false
-	public var invokedIsAutomaticLocalizationEnabledSetterCount = 0
-	public var invokedIsAutomaticLocalizationEnabled: Bool?
-	public var invokedIsAutomaticLocalizationEnabledList = [Bool]()
-	public var invokedIsAutomaticLocalizationEnabledGetter = false
-	public var invokedIsAutomaticLocalizationEnabledGetterCount = 0
-	public var stubbedIsAutomaticLocalizationEnabled: Bool! = false
-
-	public var isAutomaticLocalizationEnabled: Bool {
-		set {
-			invokedIsAutomaticLocalizationEnabledSetter = true
-			invokedIsAutomaticLocalizationEnabledSetterCount += 1
-			invokedIsAutomaticLocalizationEnabled = newValue
-			invokedIsAutomaticLocalizationEnabledList.append(newValue)
-		}
-		get {
-			invokedIsAutomaticLocalizationEnabledGetter = true
-			invokedIsAutomaticLocalizationEnabledGetterCount += 1
-			return stubbedIsAutomaticLocalizationEnabled
-		}
-	}
-
 	public var invokedIsDemoSetter = false
 	public var invokedIsDemoSetterCount = 0
 	public var invokedIsDemo: Bool?

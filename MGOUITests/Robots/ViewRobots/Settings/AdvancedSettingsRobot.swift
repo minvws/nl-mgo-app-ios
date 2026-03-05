@@ -22,10 +22,6 @@ import XCTest
 	
 	// MARK: - Elements
 	
-	private var localizationSwitch: XCUIElement {
-		app.switches["settings.featureflag.localization"]
-	}
-	
 	private var remoteAuthSwitch: XCUIElement {
 		app.switches["settings.featureflag.remote_auth"]
 	}
@@ -40,12 +36,6 @@ import XCTest
 
 	// MARK: - Validations
 
-	@discardableResult
-	func verifyAutomaticLocalizationSwitchExists() -> Self {
-		XCTAssertTrue(localizationSwitch.exists)
-		return self
-	}
-	
 	@discardableResult
 	func verifyPreviousButtonExists() -> Self {
 		XCTAssertTrue(previousButton.exists)

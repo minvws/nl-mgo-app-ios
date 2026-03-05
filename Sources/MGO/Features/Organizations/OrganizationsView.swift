@@ -267,7 +267,7 @@ struct OrganizationsView: View {
 		} bottomView: {
 			
 			CallToActionButton(
-				Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations",
+				"common.add_organizations",
 				style: .solid(
 					rounded: osVersionChecker.available(version: .iOS(.v26)),
 					narrow: false
@@ -303,7 +303,7 @@ struct OrganizationsView: View {
 			// Bottom section for add button
 			Section {
 				rowFor(
-					title: String(localized: Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "overview.add_organization"),
+					title: String(localized: "overview.add_organization"),
 					imageResource: ImageResource.Overview.add,
 					accessibilityIdentifier: "overview.add_organization") {
 						viewModel.reduce(.search)
