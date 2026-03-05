@@ -113,29 +113,42 @@ final class SearchOrganizationViewModelTests {
 	}
 	
 	@Test("Reduce search with valid search term should set isSearching to true")
-	func reduce_search_withValidSearchTerm_shouldSetIsSearchingToTrue() {
+	func reduce_search_withValidSearchTerm_shouldSetIsSearchingToTrue() async {
 
 		// Given
 		sut.state.isSearching = false
+		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = SearchResults(count: 0, hits: [])
 
 		// When
 		sut.reduce(.search("Test"))
 
-		// Then
+		// Then - isSearching is set synchronously before the debounced Task fires
 		#expect(sut.state.isSearching == true)
+
+		// Wait past the 100 ms debounce delay so the search task reaches the client call
+		try? await Task.sleep(nanoseconds: 200 * 1_000_000)
+
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedSearchHealthcareOrganizations == true)
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedSearchHealthcareOrganizationsParameters?.searchTerm == "Test")
 	}
 
 	@Test("Reduce search with HTML tags around a valid term should sanitize and search")
-	func reduce_search_withHTMLWrappedTerm_shouldSanitizeAndSearch() {
+	func reduce_search_withHTMLWrappedTerm_shouldSanitizeAndSearch() async {
 
 		// Given
 		sut.state.isSearching = false
+		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = SearchResults(count: 0, hits: [])
 
 		// When - <b>Test</b> strips to "Test" (> 2 chars), so a search should start
 		sut.reduce(.search("<b>Test</b>"))
 
+		// Wait past the 100 ms debounce delay so the search task reaches the client call
+		try? await Task.sleep(nanoseconds: 200 * 1_000_000)
+
 		// Then
-		#expect(sut.state.isSearching == true)
+		#expect(sut.state.isSearching == false)
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedSearchHealthcareOrganizations == true)
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedSearchHealthcareOrganizationsParameters?.searchTerm == "Test")
 	}
 
 	@Test("Reduce search with HTML-only input should clear results")
