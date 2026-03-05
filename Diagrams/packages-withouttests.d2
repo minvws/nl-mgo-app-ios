@@ -17,6 +17,10 @@ Foundation: {
   shape: oval
   style.fill: "#8FCAE7"
 }
+CryptoKit: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 CommonCrypto: {
   shape: oval
   style.fill: "#8FCAE7"
@@ -63,6 +67,9 @@ FactoryKit: {
   shape: hexagon
 }
 Foil: {
+  shape: hexagon
+}
+GRDB: {
   shape: hexagon
 }
 NavigationStackBackport: {
@@ -172,6 +179,8 @@ NotificationCenter <- UIKit
 Observatory { style.fill: "#ffcc00" }
 
 OrganizationSearch { style.fill: "#ffcc00" }
+OrganizationSearch <- GRDB
+OrganizationSearch <- CryptoKit
 
 OSVersion { style.fill: "#ffcc00" }
 

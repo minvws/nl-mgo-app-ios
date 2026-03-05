@@ -27,10 +27,10 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchec
 	/// `searchHealthcareOrganizations` calls may return empty results while the
 	/// background insert is still running.
 	///
-	/// - Parameter dataset: The organization dataset to load. Defaults to `.full`.
+	/// - Parameter dataset: The organization dataset to load. Defaults to `.medmij`.
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the bundled
 	///   JSON is missing; GRDB errors if the database cannot be opened or written.
-	public func prepare(dataset: OrganizationDataset = .full) async throws {
+	public func prepare(dataset: OrganizationDataset = .medmij) async throws {
 		
 		let actor = dbActor
 		let count = try await Task(priority: .userInitiated) {
@@ -69,14 +69,6 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchec
 		await Task(priority: .userInitiated) {
 			await actor.teardown()
 		}.value
-	}
-	
-	/// Not supported by the GRDB-backed client.
-	///
-	/// Version metadata is only bundled with the JavaScript client (`OrganizationSearchJSClient`).
-	/// This implementation always throws `Version.Error.noResource`.
-	public func getVersion(fileName: String = "version") throws -> Version {
-		throw Version.Error.noResource
 	}
 }
 

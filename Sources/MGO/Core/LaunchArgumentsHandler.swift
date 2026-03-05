@@ -37,6 +37,12 @@ public class LaunchArgumentsHandler {
 		return CommandLine.arguments.contains("-automaticLocalizationEnabled")
 	}
 	
+	/// Should we use the test providers dataset?
+	public static func useTestProviders() -> Bool {
+		
+		return CommandLine.arguments.contains("-useTestProviders")
+	}
+	
 	/// Should we enable demo mode?
 	public static func isDemo() -> Bool {
 		

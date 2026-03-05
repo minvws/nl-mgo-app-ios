@@ -89,7 +89,7 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol, @unchecked Sendable {
 	var stubbedGetVersionError: Error?
 	var stubbedGetVersionResult: SharedCategoriesVersion!
 
-	func getVersion() throws -> SharedCategoriesVersion {
+	func getVersion() async throws -> SharedCategoriesVersion {
 		invokedGetVersion = true
 		invokedGetVersionCount += 1
 		if let error = stubbedGetVersionError {

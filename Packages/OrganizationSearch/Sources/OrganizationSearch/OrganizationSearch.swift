@@ -11,7 +11,7 @@
 /// Usage:
 /// ```swift
 /// let client = OrganizationSearchClient()
-/// try await client.prepare(dataset: .medmij)   // or just .prepare() for the full set
+/// try await client.prepare(dataset: .medmij)
 /// let results = try await client.searchHealthcareOrganizations("hospital Amsterdam")
 /// ```
 public protocol OrganizationSearchClientProtocol: Sendable {
@@ -24,7 +24,7 @@ public protocol OrganizationSearchClientProtocol: Sendable {
 	/// This method must be called before performing searches. It loads organization data
 	/// from the specified dataset and builds the search index asynchronously.
 	///
-	/// - Parameter dataset: The organization dataset to load. Defaults to `.full`.
+	/// - Parameter dataset: The organization dataset to load.
 	/// - Throws: Errors related to loading organization data or building the index.
 	func prepare(dataset: OrganizationDataset) async throws
 	
@@ -48,13 +48,6 @@ public protocol OrganizationSearchClientProtocol: Sendable {
 	/// Implementations should be idempotent — calling `teardown` on an already
 	/// torn-down instance must not throw or crash.
 	func teardown() async
-
-	/// Retrieve the version information of the organization search library.
-	///
-	/// - Parameter fileName: The name of the version file (without extension). Defaults to "version".
-	/// - Returns: A `Version` object containing library version information.
-	/// - Throws: `Version.Error.noResource` if the version file cannot be found, or decoding errors if the file format is invalid.
-	func getVersion(fileName: String) throws -> Version
 }
 
 /// Errors shared across all `OrganizationSearchClientProtocol` implementations.
@@ -62,14 +55,4 @@ public enum OrganizationSearchError: Error, Sendable {
 
 	/// A search was attempted before `prepare(dataset:)` was called.
 	case notPrepared
-}
-
-public extension OrganizationSearchClientProtocol {
-
-	/// Prepare the search index using the full organization dataset.
-	///
-	/// Convenience overload that calls `prepare(dataset:)` with `.full`.
-	func prepare() async throws {
-		try await prepare(dataset: .full)
-	}
 }

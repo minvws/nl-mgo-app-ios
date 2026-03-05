@@ -15,7 +15,7 @@ private struct SendableBox<T>: @unchecked Sendable {
 }
 
 extension XCTestCase {
-
+	
 	/// Take a snapshot of this content in light and dark Mode, in landscape and portrait.
 	/// - Parameters:
 	///   - content: the view for the snapshots
@@ -30,7 +30,7 @@ extension XCTestCase {
 		file: StaticString = #filePath,
 		isRecording: Bool = false
 	) {
-
+		
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
@@ -40,7 +40,7 @@ extension XCTestCase {
 			file: file,
 			testName: name
 		)
-
+		
 		// Light Mode & Portrait orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
@@ -50,7 +50,7 @@ extension XCTestCase {
 			file: file,
 			testName: name
 		)
-
+		
 		// Dark Mode & Landscape orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
@@ -60,7 +60,7 @@ extension XCTestCase {
 			file: file,
 			testName: name
 		)
-
+		
 		// Light Mode & Landscape orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
@@ -71,7 +71,7 @@ extension XCTestCase {
 			testName: name
 		)
 	}
-
+	
 	/// Take a snapshot of this content in light and dark Mode, in landscape and portrait.
 	/// - Parameters:
 	///   - content: the view for the snapshots
@@ -86,7 +86,7 @@ extension XCTestCase {
 		file: StaticString = #filePath,
 		isRecording: Bool = false
 	) {
-
+		
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
@@ -96,7 +96,7 @@ extension XCTestCase {
 			file: file,
 			testName: name
 		)
-
+		
 		// Light Mode & Portrait orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
@@ -106,7 +106,7 @@ extension XCTestCase {
 			file: file,
 			testName: name
 		)
-
+		
 		// Dark Mode & Landscape orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
@@ -116,7 +116,7 @@ extension XCTestCase {
 			file: file,
 			testName: name
 		)
-
+		
 		// Light Mode & Landscape orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
@@ -127,11 +127,19 @@ extension XCTestCase {
 			testName: name
 		)
 	}
-
-	/// Creates a UIHostingController, embeds it in a window so that geometry callbacks
-	/// (onGeometryChange, onAppear inside GeometryReader) can fire, then lets the RunLoop
-	/// spin so that the resulting State updates and re-layouts settle before the snapshot
-	/// is taken.
+	
+	/// Creates a UIHostingController and prepares it for snapshotting by:
+	/// 1. Draining the RunLoop so any lingering SnapshotTesting rendering window from the
+	///    previous assertSnapshot call (even from a prior test) has its dispose() closure
+	///    executed and is removed from the CALayer tree before we begin.
+	/// 2. Embedding the controller in a UIWindow placed far off-screen (y: -height*2) so
+	///    its CALayer content falls outside the bounds that SnapshotTesting's
+	///    layer.render(in:) captures, while still allowing onAppear / onGeometryChange /
+	///    geometry callbacks to fire normally.
+	/// 3. Running the RunLoop a second time so State updates and re-layouts triggered by
+	///    those callbacks settle before the snapshot is taken.
+	/// 4. Hiding the prep window before returning so it is not composited into
+	///    SnapshotTesting's own rendering window.
 	private func preparedHostingController<V: View>(rootView: V) -> UIHostingController<V> {
 		// Wrap in @unchecked Sendable so we can safely pass the view value into the
 		// @MainActor assumeIsolated closure without triggering SE-0414 region isolation
@@ -139,13 +147,26 @@ extension XCTestCase {
 		// is no concurrent access to rootView.
 		let box = SendableBox(value: rootView)
 		return MainActor.assumeIsolated {
+			// Drain the RunLoop before creating the new prep window so that any
+			// lingering SnapshotTesting rendering windows from the previous
+			// assertSnapshot call (including from the previous test) have had their
+			// dispose() closures execute and been removed from the layer tree.
+			RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.05))
+			
 			let controller = UIHostingController(rootView: box.value)
-			let window = UIWindow(frame: UIScreen.main.bounds)
+			let size = UIScreen.main.bounds.size
+			// Place the window far off-screen so its CALayer is outside the visible
+			// region that SnapshotTesting's layer.render(in:) composites. The window
+			// still participates in the layer tree (allowing onAppear / geometry
+			// callbacks to fire) but its content is outside the render bounds.
+			let offscreenOrigin = CGPoint(x: 0, y: -size.height * 2)
+			let window = UIWindow(frame: CGRect(origin: offscreenOrigin, size: size))
 			window.rootViewController = controller
-			window.makeKeyAndVisible()
+			window.isHidden = false
 			controller.view.setNeedsLayout()
 			controller.view.layoutIfNeeded()
 			RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.05))
+			window.isHidden = true
 			return controller
 		}
 	}

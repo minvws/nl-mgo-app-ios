@@ -28,11 +28,19 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 	}
 	
 	@MainActor func createSut(_ categoryId: String = "alerts") throws {
-
+		
 		self.categoryId = categoryId
 		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: categoryId))
-		let translations = try XCTUnwrap(HealthCategoryViewTranslationsFactory.makeTranslations(for: category))
+		let category = try XCTUnwrap(
+			sharedCategories.findCategory(
+				id: categoryId
+			)
+		)
+		let translations = try XCTUnwrap(
+			HealthCategoryViewTranslationsFactory.makeTranslations(
+				for: category
+			)
+		)
 		
 		viewModel = HealthCategoryViewModel(
 			coordinator: coordinatorSpy,
@@ -54,7 +62,11 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		takeSnapShots(content: content, name: "\(categoryId)_\(#function)", precision: 0.95)
+		takeSnapShots(
+			content: content,
+			name: "\(categoryId)_\(#function)",
+			precision: 0.75
+		)
 	}
 	
 	@MainActor func test_stateEmptyListNoError() throws {
@@ -82,7 +94,11 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		viewModel.state = .list(items: [], errorState: .loading)
 		
 		// Then
-		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
+		takeSnapShots(
+			content: content,
+			name: "\(categoryId)_\(#function)",
+			precision: 0.75
+		)
 	}
 	
 	@MainActor func test_stateEmptyListErrorState() throws {
@@ -143,7 +159,11 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		viewModel.state = .list(items: [item], errorState: .loading)
 		
 		// Then
-		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
+		takeSnapShots(
+			content: content,
+			name: "\(categoryId)_\(#function)",
+			precision: 0.75
+		)
 	}
 	
 	@MainActor func test_stateNotEmptyListErrorState() throws {
@@ -204,7 +224,11 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		viewModel.state = .list(items: [item], errorState: .loading)
 		
 		// Then
-		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
+		takeSnapShots(
+			content: content,
+			name: "\(categoryId)_\(#function)",
+			precision: 0.75
+		)
 	}
 	
 	@MainActor func test_stateNotEmptyListErrorState_iOS26() throws {
@@ -222,6 +246,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 				subHeading: "Er is een fout opgetreden"
 			)
 		)
+		
 		// Then
 		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
 	}

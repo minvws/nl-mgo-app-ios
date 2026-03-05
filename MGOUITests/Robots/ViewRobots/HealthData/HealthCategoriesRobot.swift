@@ -225,9 +225,9 @@ import XCTest
 	}
 	
 	@discardableResult
-	func tapAddOrganizationsButton() -> AddOrganizationRobot {
+	func tapAddOrganizationsButton() -> OrganizationSearchRobot {
 		addOrganizationsButton.tap()
-		return AddOrganizationRobot(app)
+		return OrganizationSearchRobot(app)
 	}
 	
 	func verifyAllCategories() -> Self {

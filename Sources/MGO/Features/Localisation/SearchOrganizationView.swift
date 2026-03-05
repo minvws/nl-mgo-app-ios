@@ -106,12 +106,6 @@ class SearchOrganizationViewModel: ObservableObject {
 
 		// Capture for use in nonisolated deinit (see clientForDeinit declaration).
 		clientForDeinit = organizationSearchClient
-
-		Task {
-			MemoryUsage.printMemoryUsage("SOVM: before indexing")
-			try await organizationSearchClient.prepare()
-			MemoryUsage.printMemoryUsage("SOVM: after indexing")
-		}
 	}
 
 	deinit {
@@ -173,17 +167,20 @@ class SearchOrganizationViewModel: ObservableObject {
 	@MainActor private func search(_ searchTerm: String?) {
 		// Cancel any existing search task
 		searchTask?.cancel()
-		
-		guard let searchTerm, searchTerm.isNotEmpty, searchTerm.count > 2 else {
+
+		guard let searchTerm,
+			  let sanitized = Sanitizer.strip(searchTerm),
+			  sanitized.isNotEmpty,
+			  sanitized.count > 2 else {
 			state.results = []
 			state.totalResults = 0
 			state.isSearching = false
 			return
 		}
-		
+
 		MemoryUsage.printMemoryUsage("SOVM: before searching")
 		self.state.isSearching = true
-		
+
 		searchTask = Task {
 			// Delay the search to debounce
 			try? await Task.sleep(nanoseconds: searchDebounceDelay * 1_000_000)
@@ -191,7 +188,7 @@ class SearchOrganizationViewModel: ObservableObject {
 			// Check if task was cancelled during the delay
 			guard !Task.isCancelled else { return }
 
-			let searchResult = (try? await organizationSearchClient.searchHealthcareOrganizations(searchTerm)) ?? SearchResults(count: 0, hits: [])
+			let searchResult = (try? await organizationSearchClient.searchHealthcareOrganizations(sanitized)) ?? SearchResults(count: 0, hits: [])
 
 			// Discard results if a newer search superseded this one while the query was running
 			guard !Task.isCancelled else { return }
@@ -402,6 +399,7 @@ struct SearchOrganizationView: View {
 			Button("search_organization.dialog.yes", role: .none) {
 				viewModel.reduce(.store(organization))
 			}
+			.accessibilityIdentifier("search_organization.dialog.action")
 			Button("search_organization.dialog.no", role: .cancel) { /* No action */ }
 		} message: { organization in
 			Text(String(localized: "search_organization.dialog.subheading"))

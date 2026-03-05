@@ -1,0 +1,42 @@
+{
+  "originHash" : "6cb38be5485a7ab0cb8bd7a02c0ed19af494acf0716df04739a9a40401086448",
+  "pins" : [
+    {
+      "identity" : "appauth-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Rool/AppAuth-iOS",
+      "state" : {
+        "branch" : "feature/custom-url-support",
+        "revision" : "f6562f2f75cc18b89ee98508fe2df3233468ff62"
+      }
+    },
+    {
+      "identity" : "grdb.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/groue/GRDB.swift",
+      "state" : {
+        "revision" : "36e30a6f1ef10e4194f6af0cff90888526f0c115",
+        "version" : "7.10.0"
+      }
+    },
+    {
+      "identity" : "nl-rdo-app-ios-modules",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/minvws/nl-rdo-app-ios-modules",
+      "state" : {
+        "branch" : "main",
+        "revision" : "798921058cdf099fac1d9a024249ce6d13e1ad30"
+      }
+    },
+    {
+      "identity" : "openssl",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/OpenSSL",
+      "state" : {
+        "revision" : "e7d34385da795aaaeb2212e38c7401e5c333f792",
+        "version" : "3.6.1"
+      }
+    }
+  ],
+  "version" : 3
+}

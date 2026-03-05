@@ -38,7 +38,6 @@ class Generator {
 			geoLat: nil,
 			geoLng: nil,
 			id: id,
-			normalizedDisplayName: displayName.lowercased(),
 			postalCode: postalCode,
 			searchBlob: nil
 		)

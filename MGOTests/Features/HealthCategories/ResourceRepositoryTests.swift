@@ -305,7 +305,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		try createSut()
 		
 		// When
-		let result = try sut.getVersion()
+		let result = try await sut.getVersion()
 		
 		// Then
 		expect(result.version) == "main-1838907"

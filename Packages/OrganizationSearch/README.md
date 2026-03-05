@@ -2,14 +2,9 @@
 
 ## Overview
 
-The `OrganizationSearch` Swift package provides fast, offline search over a bundled dataset of Dutch healthcare organizations. It exposes a single `OrganizationSearchClientProtocol` with two concrete implementations:
+The `OrganizationSearch` Swift package provides fast, offline search over a bundled dataset of Dutch healthcare organizations. It exposes `OrganizationSearchClientProtocol` with one production implementation: `OrganizationSearchClient`, backed by SQLite + GRDB FTS5.
 
-| Implementation | Backend | Use case |
-|---|---|---|
-| `OrganizationSearchClient` | SQLite + GRDB FTS5 | Production app |
-| `OrganizationSearchJSClient` | JavaScriptCore | Reference / benchmarks |
-
-### Search strategy (`OrganizationSearchClient`)
+### Search strategy
 
 Queries run in two passes:
 
@@ -22,23 +17,38 @@ The package bundles several JSON organization datasets selected via `Organizatio
 
 | Case | File | Purpose |
 |---|---|---|
-| `.full` | `organizations-full.json` | Complete dataset (default) |
 | `.medmij` | `organizations-medmij.json` | MedMij-filtered subset |
 | `.test` | `organizations-test.json` | Small fixture for unit tests |
 | `.benchmark` | `organizations-benchmark.json` | Benchmark measurements |
 
+
+### Hash-based populate skip
+
+`prepare()` stores a SHA-256 digest of the bundled JSON file in a `metadata` table inside the SQLite database. On subsequent launches the digest is recomputed and compared:
+
+- **Hash matches** — the database is already up to date; `prepare()` returns immediately without touching the schema or inserting any rows.
+- **Hash differs** — the JSON has changed (e.g. after an app update); the schema is rebuilt and all records are re-inserted, then the new hash is stored.
+
+Because the hash lives in the same file as the data it describes, the two can never get out of sync: if the database is deleted the hash is gone too, and the next `prepare()` repopulates from scratch.
+
+### Memory-efficient loading
+
+When a repopulate is needed, `prepare()` uses two techniques to keep memory usage low:
+
+- **Memory-mapped I/O** — the JSON file is opened with `.mappedIfSafe`, so the OS pages bytes in on demand rather than copying the entire file into RAM. Pages that have already been consumed by `JSONDecoder` can be evicted under memory pressure.
+- **Chunked inserts** — records are written to SQLite in batches of 1 000. Each committed transaction releases GRDB's internal WAL state before the next batch starts, avoiding a single large transaction that would hold all data in memory simultaneously.
 
 ## Usage
 
 ```swift
 import OrganizationSearch
 
-// 1. Create a client (GRDB-backed, recommended for production)
+// 1. Create a client
 let client = OrganizationSearchClient()
 
-// 2. Prepare the search index (loads JSON and builds the SQLite FTS5 table)
-try await client.prepare()          // uses .full dataset by default
-// try await client.prepare(dataset: .medmij)  // or a specific subset
+// 2. Prepare the search index (memory-maps the JSON and builds the SQLite FTS5 table)
+try await client.prepare()          // uses .medmij dataset by default
+// try await client.prepare(dataset: .benchmark)  // or a specific subset
 
 // 3. Search
 let results = try await client.searchHealthcareOrganizations("huisarts Amsterdam")

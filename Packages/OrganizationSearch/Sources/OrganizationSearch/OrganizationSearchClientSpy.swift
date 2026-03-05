@@ -53,22 +53,4 @@ public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol, @unc
 		invokedSearchHealthcareOrganizationsParametersList.append((searchTerm, ()))
 		return stubbedSearchHealthcareOrganizationsSearchResults
 	}
-	
-	public var invokedGetVersion = false
-	public var invokedGetVersionCount = 0
-	public var invokedGetVersionParameters: (fileName: String, Void)?
-	public var invokedGetVersionParametersList = [(fileName: String, Void)]()
-	public var stubbedGetVersionError: Error?
-	public var stubbedGetVersionResult: Version!
-	
-	public func getVersion(fileName: String) throws -> Version {
-		invokedGetVersion = true
-		invokedGetVersionCount += 1
-		invokedGetVersionParameters = (fileName, ())
-		invokedGetVersionParametersList.append((fileName, ()))
-		if let error = stubbedGetVersionError {
-			throw error
-		}
-		return stubbedGetVersionResult
-	}
 }

@@ -113,25 +113,68 @@ final class SearchOrganizationViewModelTests {
 	}
 	
 	@Test("Reduce search with valid search term should set isSearching to true")
-	func reduce_search_withValidSearchTerm_shouldSetIsSearchingToTrue() {
-		
+	func reduce_search_withValidSearchTerm_shouldSetIsSearchingToTrue() async {
+
 		// Given
 		sut.state.isSearching = false
-		
+		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = SearchResults(count: 0, hits: [])
+
 		// When
 		sut.reduce(.search("Test"))
-		
-		// Then
+
+		// Then - isSearching is set synchronously before the debounced Task fires
 		#expect(sut.state.isSearching == true)
+
+		// Wait past the 100 ms debounce delay so the search task reaches the client call
+		try? await Task.sleep(nanoseconds: 200 * 1_000_000)
+
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedSearchHealthcareOrganizations == true)
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedSearchHealthcareOrganizationsParameters?.searchTerm == "Test")
 	}
-	
+
+	@Test("Reduce search with HTML tags around a valid term should sanitize and search")
+	func reduce_search_withHTMLWrappedTerm_shouldSanitizeAndSearch() async {
+
+		// Given
+		sut.state.isSearching = false
+		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = SearchResults(count: 0, hits: [])
+
+		// When - <b>Test</b> strips to "Test" (> 2 chars), so a search should start
+		sut.reduce(.search("<b>Test</b>"))
+
+		// Wait past the 100 ms debounce delay so the search task reaches the client call
+		try? await Task.sleep(nanoseconds: 200 * 1_000_000)
+
+		// Then
+		#expect(sut.state.isSearching == false)
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedSearchHealthcareOrganizations == true)
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedSearchHealthcareOrganizationsParameters?.searchTerm == "Test")
+	}
+
+	@Test("Reduce search with HTML-only input should clear results")
+	func reduce_search_withHTMLOnlyInput_shouldClearResults() {
+
+		// Given
+		sut.state.results = [Generator.searchOrganization()]
+		sut.state.totalResults = 1
+		sut.state.isSearching = true
+
+		// When - <b></b> strips to an empty string, so results should be cleared
+		sut.reduce(.search("<b></b>"))
+
+		// Then
+		#expect(sut.state.results.isEmpty)
+		#expect(sut.state.totalResults == 0)
+		#expect(sut.state.isSearching == false)
+	}
+
 	// MARK: - store Action Tests
 	
 	@Test("Reduce store should call coordinator to finish searching")
 	func reduce_store_shouldCallCoordinatorToFinishSearching() {
 		
 		// Given
-		var organization = Generator.searchOrganization(
+		let organization = Generator.searchOrganization(
 			dataServices: [
 				"50": OrganizationSearch.DataService(
 					authEndpoint: "test",
@@ -246,7 +289,7 @@ final class SearchOrganizationViewModelTests {
 		#expect(sut.state.results.isEmpty)
 		#expect(sut.state.totalResults == 0)
 		#expect(
-			servicesSpies.searchOrganizationClientSpy.invokedPrepare == true
+			servicesSpies.searchOrganizationClientSpy.invokedPrepare == false
 		)
 	}
 }

@@ -7,9 +7,9 @@ import GRDB
 
 /// Executes full-text search queries against the `organization_fts` FTS5 table.
 enum DatabaseSearchQuery {
-	
+
 	// MARK: - Public
-	
+
 	/// Returns all organizations whose FTS5 index matches the given query string.
 	///
 	/// Uses a two-pass strategy:
@@ -28,50 +28,51 @@ enum DatabaseSearchQuery {
 	/// - Parameters:
 	///   - searchTerm: The raw user-entered query string.
 	///   - db: An open GRDB database connection.
-	/// - Returns: All matching rows ordered by descending relevance, each containing
-	///   all `organization` columns plus a `score` column.
+	/// - Returns: All matching rows ordered by descending BM25 relevance, each
+	///   containing all `organization` columns plus a `score` column.
 	///   Returns an empty array when `searchTerm` produces no valid FTS5 tokens.
 	/// - Throws: GRDB errors if the SQL query fails.
 	static func fetch(
 		matching searchTerm: String,
 		in db: Database
 	) throws -> [Row] {
-		
 		// Pass 1: fast path — all typed words must appear (AND + prefix).
 		if let pattern = FTS5Pattern(matchingAllPrefixesIn: searchTerm) {
 			let rows = try fetchRows(matching: pattern, in: db)
 			if !rows.isEmpty { return rows }
 		}
-		
+
 		// Pass 2: fuzzy fallback — expand each token to its ED1 neighbourhood.
 		if let pattern = try ed1Pattern(for: searchTerm, db: db) {
 			return try fetchRows(matching: pattern, in: db)
 		}
-		
+
 		return []
 	}
-	
+
 	// MARK: - Private
-	
-	/// Executes a pre-built FTS5 pattern against the `organization_fts` table.
+
+	/// Executes a pre-built FTS5 pattern against `organization_fts`, returning rows
+	/// ordered by weighted BM25 score (best match first).
+	///
+	/// Column weights match the declaration order in `organization_fts`:
+	/// `normalizedDisplayName` (25), `normalizedCity` (5), `searchBlob` (1).
+	/// The negated BM25 value is exposed as a `score` column (higher = better match).
 	private static func fetchRows(matching pattern: FTS5Pattern, in db: Database) throws -> [Row] {
-		
 		try Row.fetchAll(
 			db,
 			sql: """
-				SELECT o.id, o.displayName, o.careTypeDisplay,
-					   o.city, o.postalCode, o.addressLine, o.geoLat, o.geoLng,
-					   o.searchBlob, o.dataServicesJSON,
-					   -organization_fts.rank AS score
+				SELECT o.*,
+					   -bm25(organization_fts, 25.0, 5.0, 1.0) AS score
 				FROM organization_fts
 				JOIN organization o ON o.rowid = organization_fts.rowid
 				WHERE organization_fts MATCH ?
-				ORDER BY organization_fts.rank
+				ORDER BY bm25(organization_fts, 25.0, 5.0, 1.0)
 				""",
 			arguments: [pattern]
 		)
 	}
-	
+
 	/// Builds a raw FTS5 pattern where every token in `searchTerm` is expanded
 	/// to an OR group containing the original term plus all strings within
 	/// edit distance 1.
@@ -82,30 +83,37 @@ enum DatabaseSearchQuery {
 		for searchTerm: String,
 		db: Database
 	) throws -> FTS5Pattern? {
-		
-		// Tokenise with the same tokenizer the FTS5 table uses so that
-		// case-folding and punctuation handling are consistent.
-		let tokens = try db.makeTokenizer(.unicode61())
-			.tokenize(query: searchTerm)
+		let tokens = try tokenize(searchTerm, in: db)
+		guard !tokens.isEmpty else { return nil }
+
+		let groups = tokens.map { ed1Group(for: $0) }
+		return try? FTS5Pattern(rawPattern: groups.joined(separator: " AND "))
+	}
+
+	/// Tokenizes `text` using the unicode61 tokenizer, filtering out colocated tokens
+	/// and returning the normalized token strings.
+	///
+	/// unicode61 is used rather than Porter so that the raw user input is split on
+	/// standard word boundaries before ED1 variants are generated; Porter stemming
+	/// is then applied by FTS5 when the resulting MATCH query is evaluated.
+	private static func tokenize(_ text: String, in db: Database) throws -> [String] {
+		try db.makeTokenizer(.unicode61())
+			.tokenize(query: text)
 			.filter { !$0.flags.contains(.colocated) }
 			.map { $0.token }
-		
-		guard !tokens.isEmpty else { return nil }
-		
-		// Build one OR group per token.
-		let groups: [String] = tokens.map { token in
-			guard token.count >= 4 else {
-				// Short tokens are unlikely to be misspelled; just prefix-match.
-				return "\(token)*"
-			}
-			let terms = ([token] + token.editDistance1Variants())
-				.map { "\($0)*" }
-				.joined(separator: " OR ")
-			// Parentheses are not supported in FTS5 MATCH; return a flat OR list.
-			return terms
+	}
+
+	/// Returns an FTS5 OR group for `token`, expanded to all ED1 variants.
+	///
+	/// Tokens shorter than 4 characters are unlikely to be misspelled and are
+	/// returned as a simple prefix term (e.g. `"de*"`) to avoid the combinatorial
+	/// explosion of ED1 on short strings.
+	private static func ed1Group(for token: String) -> String {
+		guard token.count >= 4 else {
+			return "\(token)*"
 		}
-		
-		// Join groups with explicit AND to avoid relying on parentheses.
-		return try? FTS5Pattern(rawPattern: groups.joined(separator: " AND "))
+		return ([token] + token.editDistance1Variants())
+			.map { "\($0)*" }
+			.joined(separator: " OR ")
 	}
 }

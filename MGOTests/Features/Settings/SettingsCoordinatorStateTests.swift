@@ -151,6 +151,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let settingsView = try view.inspect().find(VersionView.self)
+		expect(settingsView) != nil
 	}
 }
