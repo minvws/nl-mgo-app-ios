@@ -7,6 +7,7 @@
 import SwiftUI
 import MGOTest
 
+@MainActor
 final class CallToActionButtonTests: XCTestCase {
 
 	func test_primaryWithLeadingIcon() throws {
