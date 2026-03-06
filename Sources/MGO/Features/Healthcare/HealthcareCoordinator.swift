@@ -134,18 +134,12 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
 	@MainActor private func handleSearchFlow(_ action: Coordination.Action) -> Bool {
-		
-		switch action.identifier {
-			
-			// Healthcare Organization Search Flow
-			
-			case Coordination.Action.addHealthcareOrganization.identifier:
-				rootStateForSheet = HealthcareCoordination.State.manualLocalization
-				return true
-				
-			default:
-				return false
+
+		if action.identifier == Coordination.Action.addHealthcareOrganization.identifier {
+			rootStateForSheet = HealthcareCoordination.State.manualLocalization
+			return true
 		}
+		return false
 	}
 	
 	/// Handle the detail flow action from any of the view models
