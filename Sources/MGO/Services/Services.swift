@@ -34,7 +34,7 @@ extension Container {
 	
 	/// The repository for all the stored healthcare organizations
 	var healthcareOrganizationRepository: Factory<HealthcareOrganizationRepositoryProtocol> {
-		Factory(self) { HealthcareOrganizationRepository() }
+		Factory(self) { try! HealthcareOrganizationRepository() }
 			.singleton
 	}
 	

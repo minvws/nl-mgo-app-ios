@@ -255,7 +255,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	
 		// Given
 		Container.shared.healthcareOrganizationRepository
-			.register { HealthcareOrganizationRepository() }
+			.register { try! HealthcareOrganizationRepository() }
 		let healthcareOrganizationRepository = Container.shared.healthcareOrganizationRepository()
 		
 		healthcareOrganizationRepository.wipePersistedData()

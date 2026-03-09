@@ -172,7 +172,7 @@ final class OrganizationsViewModelTests: XCTestCase {
 		
 		// Given
 		Container.shared.healthcareOrganizationRepository
-			.register { HealthcareOrganizationRepository() }
+			.register { try! HealthcareOrganizationRepository() }
 		let healthcareOrganizationRepository = Container.shared.healthcareOrganizationRepository()
 		healthcareOrganizationRepository.wipePersistedData()
 		let organization = Generator.healthcareOrganization("1")
