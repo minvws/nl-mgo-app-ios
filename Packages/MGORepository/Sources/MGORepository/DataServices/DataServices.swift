@@ -105,10 +105,6 @@ public struct DataServices: Sendable {
 				.filter({ $0.hasSuffix(".json") && $0 != "version.json" })
 				// Strip the .json suffix
 				.map({ $0.replacingOccurrences(of: ".json", with: "") })
-				// Adjust for demo
-				.filter({
-					!$0.hasSuffix("demo")
-				})
 		}
 		for element in elements {
 			if let service = try? loadService(element) {

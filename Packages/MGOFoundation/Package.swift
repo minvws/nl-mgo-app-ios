@@ -40,7 +40,7 @@ let package = Package(
 				.product(name: "FactoryKit", package: "Factory"),
 				.product(name: "FeatureFlag", package: "FeatureFlag"),
 				.product(name: "JailBreakDetector", package: "JailBreakDetector"),
-					.product(name: "MGODebug", package: "MGODebug"),
+				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "MGORepository", package: "MGORepository"),
 				.product(name: "NetworkAvailability", package: "NetworkAvailability"),
 				.product(name: "NotificationCenter", package: "NotificationCenter"),
@@ -53,6 +53,6 @@ let package = Package(
 				.product(name: "RemoteConfiguration", package: "RemoteConfiguration"),
 				.product(name: "RemoteAuthentication", package: "RemoteAuthentication")
 			],
-			)
+		)
 	]
 )

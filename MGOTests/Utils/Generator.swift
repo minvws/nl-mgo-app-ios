@@ -51,9 +51,16 @@ class Generator {
 	///   - postalCode: the postal code of the organization
 	///   - useDataService: should we include a data service?
 	///   - serviceId: the id for the data service
-	///   - withLines: use address as input for the lines part?
 	/// - Returns: a healthcare organization
-	static func healthcareOrganization(_ id: String, name: String = "Tandarts Tandje Erbij", city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true, serviceId: String = "48", withLines: Bool = true) -> OrganizationSearch.Organization {
+	static func healthcareOrganization(
+		_ id: String,
+		name: String = "Tandarts Tandje Erbij",
+		city: String = "Roermond",
+		address: String = "Boorplatform 5",
+		postalCode: String = "1234AB",
+		useDataService: Bool = true,
+		serviceId: String = "48"
+	) -> OrganizationSearch.Organization {
 
 		var dataServicesDict: [String: OrganizationSearch.DataService]?
 		if useDataService {

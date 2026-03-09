@@ -74,14 +74,6 @@ updates:
 # No dependency check for JailBreakDetector due to licensing issue
 
   - package-ecosystem: "swift"
-    directory: "/Packages/LocalisationService"
-    schedule:
-      interval: weekly
-      day: monday
-      time: "08:30"
-      timezone: Europe/Amsterdam
-
-  - package-ecosystem: "swift"
     directory: "/Packages/MGOCommandLine"
     schedule:
       interval: weekly

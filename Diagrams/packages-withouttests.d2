@@ -17,11 +17,11 @@ Foundation: {
   shape: oval
   style.fill: "#8FCAE7"
 }
-CryptoKit: {
+CommonCrypto: {
   shape: oval
   style.fill: "#8FCAE7"
 }
-CommonCrypto: {
+CryptoKit: {
   shape: oval
   style.fill: "#8FCAE7"
 }
@@ -120,6 +120,7 @@ FHIRClient { style.fill: "#ffcc00" }
 
 FileStorage { style.fill: "#ffcc00" }
 FileStorage <- MGODebug
+FileStorage <- Observatory
 
 HCIMCore { style.fill: "#ffcc00" }
 HCIMCore <- JavaScriptCore
@@ -127,15 +128,6 @@ HCIMCore <- MGODebug
 
 JailBreakDetector { style.fill: "#ffcc00" }
 JailBreakDetector <- iOSSecuritySuite
-
-LocalisationService { style.fill: "#ffcc00" }
-LocalisationService <- AuthorizationMiddleware
-LocalisationService <- FileStorage
-LocalisationService <- MGODebug
-LocalisationService <- Observatory
-LocalisationService <- swift-openapi-generator
-LocalisationService <- swift-openapi-runtime
-LocalisationService <- swift-openapi-urlsession
 
 MGODebug { style.fill: "#ffcc00" }
 MGODebug <- Logging
@@ -145,7 +137,6 @@ MGOFoundation <- FactoryKit
 MGOFoundation <- FeatureFlag
 MGOFoundation <- Foundation
 MGOFoundation <- JailBreakDetector
-MGOFoundation <- LocalisationService
 MGOFoundation <- MGODebug
 MGOFoundation <- MGORepository
 MGOFoundation <- NotificationCenter
@@ -179,8 +170,11 @@ NotificationCenter <- UIKit
 Observatory { style.fill: "#ffcc00" }
 
 OrganizationSearch { style.fill: "#ffcc00" }
-OrganizationSearch <- GRDB
 OrganizationSearch <- CryptoKit
+OrganizationSearch <- FileStorage
+OrganizationSearch <- GRDB
+OrganizationSearch <- MGODebug
+OrganizationSearch <- Observatory
 
 OSVersion { style.fill: "#ffcc00" }
 
@@ -188,6 +182,7 @@ PatientFriendlyTerms { style.fill: "#ffcc00" }
 PatientFriendlyTerms <- AuthorizationMiddleware
 PatientFriendlyTerms <- FileStorage
 PatientFriendlyTerms <- Foil
+PatientFriendlyTerms <- MGODebug
 PatientFriendlyTerms <- swift-openapi-generator
 PatientFriendlyTerms <- swift-openapi-runtime
 PatientFriendlyTerms <- swift-openapi-urlsession
@@ -197,6 +192,7 @@ PdfExport <- PDFKit
 
 RemoteAuthentication { style.fill: "#ffcc00" }
 RemoteAuthentication <- AuthorizationMiddleware
+RemoteAuthentication <- MGODebug
 RemoteAuthentication <- swift-openapi-generator
 RemoteAuthentication <- swift-openapi-runtime
 RemoteAuthentication <- swift-openapi-urlsession
