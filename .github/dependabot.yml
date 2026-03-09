@@ -120,14 +120,6 @@ updates:
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
-
-  - package-ecosystem: "swift"
-    directory: "/Packages/Observatory"
-    schedule:
-      interval: weekly
-      day: monday
-      time: "08:30"
-      timezone: Europe/Amsterdam
       
   - package-ecosystem: "swift"
     directory: "/Packages/NetworkAvailability"
