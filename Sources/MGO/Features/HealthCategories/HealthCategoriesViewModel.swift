@@ -10,7 +10,7 @@ import MGOUI
 enum HealthCategoriesViewMode {
 	
 	/// This is a detailed single healthcare organization view
-	case single(MgoOrganization)
+	case single(OrganizationSearch.Organization)
 	
 	/// This is an overview of all your healthcare organizations
 	case all
@@ -101,8 +101,8 @@ class HealthCategoriesViewModel: ObservableObject {
 		self.mode = mode
 		
 		let heading: String = switch mode {
-			case .single(let mgoOrganization):
-				mgoOrganization.display_name
+			case .single(let organization):
+				organization.displayName ?? ""
 			case .all:
 				String(localized: "overview.heading")
 		}

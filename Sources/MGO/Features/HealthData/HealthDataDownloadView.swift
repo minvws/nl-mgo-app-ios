@@ -24,7 +24,7 @@ enum HealthDataDownloadState: Equatable, Sendable {
 	@Published var state: HealthDataDownloadState
 	
 	/// The healthcare organization this download came from
-	private var healthcareOrganization: MgoOrganization
+	private var healthcareOrganization: OrganizationSearch.Organization
 	
 	/// The download link to display
 	private var downloadLink: DownloadLink?
@@ -50,7 +50,7 @@ enum HealthDataDownloadState: Equatable, Sendable {
 	///   - downloadBinary: the UI Download Binary
 	///   - storage: the file storage
 	init(
-		healthcareOrganization: MgoOrganization,
+		healthcareOrganization: OrganizationSearch.Organization,
 		downloadBinary: DownloadBinary,
 		storage: FileStorageProtocol = FileStorage(subDirectory: HealthDirectory.binary)
 	) {
@@ -68,7 +68,7 @@ enum HealthDataDownloadState: Equatable, Sendable {
 	///   - urlOpener: the helper to open urls.
 	///   - binaryRepository: the repository for binaries
 	@MainActor init(
-		healthcareOrganization: MgoOrganization,
+		healthcareOrganization: OrganizationSearch.Organization,
 		downloadLink: DownloadLink,
 		urlOpener: URLOpenerProtocol = UIApplication.shared) {
 		

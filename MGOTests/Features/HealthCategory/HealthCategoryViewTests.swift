@@ -13,7 +13,7 @@ final class HealthCategoryViewTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: HealthCategoryViewModel!
-	private var healthcareOrganization: MgoOrganization!
+	private var healthcareOrganization: OrganizationSearch.Organization!
 	private var sut: HealthCategoryView!
 
 	override func setUp() {

@@ -114,7 +114,7 @@ class HealthCategoryViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The organization to show the categories for (optional, if nil, then show all organizations)
-	private var organization: MgoOrganization?
+	private var organization: OrganizationSearch.Organization?
 	
 	/// The category to show
 	@Published var category: SharedHealthCategories.Category
@@ -149,7 +149,7 @@ class HealthCategoryViewModel: ObservableObject {
 	@MainActor init(
 		coordinator: (any Coordinator)? = nil,
 		category: SharedHealthCategories.Category,
-		organization: MgoOrganization?,
+		organization: OrganizationSearch.Organization?,
 		translations: HealthCategoryViewTranslations
 	) {
 		self.coordinator = coordinator
@@ -408,13 +408,13 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Returns: optional name
 	func getOrganizationName(_ identifier: String) -> String? {
 		
-		return getOrganization(identifier)?.display_name
+		return getOrganization(identifier)?.displayName
 	}
 	
 	/// Get the name of a healthcare organisation
 	/// - Parameter identifier: the identifier of the organization
 	/// - Returns: optional name
-	func getOrganization(_ identifier: String) -> MgoOrganization? {
+	func getOrganization(_ identifier: String) -> OrganizationSearch.Organization? {
 		
 		return healthcareOrganizationRepository.organizations
 			.first { $0.identifier == identifier }

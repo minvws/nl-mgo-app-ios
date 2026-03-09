@@ -13,7 +13,7 @@ final class RemoveHCOViewModelTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var sut: RemoveHealthcareOrganizationViewModel!
-	private var healthcareOrganization: MgoOrganization!
+	private var healthcareOrganization: OrganizationSearch.Organization!
 	
 	override func setUp() {
 		

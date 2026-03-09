@@ -33,7 +33,7 @@ class HealthDataViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The healthcare organization
-	var healthcareOrganization: MgoOrganization
+	var healthcareOrganization: OrganizationSearch.Organization
 
 	/// The reference resolver
 	weak private var referenceResolver: ReferenceResolverProtocol?
@@ -66,7 +66,7 @@ class HealthDataViewModel: ObservableObject {
 		coordinator: (any Coordinator)? = nil,
 		config: HealthDataViewConfig,
 		schema: HealthUISchema,
-		healthcareOrganization: MgoOrganization,
+		healthcareOrganization: OrganizationSearch.Organization,
 		referenceResolver: ReferenceResolverProtocol = ReferenceResolver()
 	) {
 		self.coordinator = coordinator

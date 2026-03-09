@@ -14,7 +14,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var sut: HealthCategoryViewModel!
-	private var healthcareOrganization: MgoOrganization!
+	private var healthcareOrganization: OrganizationSearch.Organization!
 	
 	override func setUp() {
 		
@@ -25,7 +25,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	}
 	
 	@MainActor func setupSut(
-		organization: MgoOrganization?,
+		organization: OrganizationSearch.Organization?,
 		categoryName: String = "problems"
 	) throws {
 		

@@ -4,6 +4,7 @@
  */
 
 import MGOFoundation
+import OrganizationSearch
 
 protocol ResourceRepositoryProtocol: Sendable {
 	
@@ -12,7 +13,7 @@ protocol ResourceRepositoryProtocol: Sendable {
 	
 	/// Load all the categories for a healthcare organization
 	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
-	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization)
+	@MainActor func loadFor(_ healthcareOrganization: OrganizationSearch.Organization)
 	
 	/// Load all the categories for an array of categories
 	/// - Parameter category: the categories to load  for
@@ -23,7 +24,7 @@ protocol ResourceRepositoryProtocol: Sendable {
 	///   - healthcareOrganization: healthcare organization
 	///   - categories: the categories to load the resources for.
 	@MainActor func loadResource(
-		_ healthcareOrganization: MgoOrganization,
+		_ healthcareOrganization: OrganizationSearch.Organization,
 		categories: [SharedHealthCategories.Category]
 	)
 	
@@ -34,7 +35,7 @@ protocol ResourceRepositoryProtocol: Sendable {
 	///   - url: the url of the binary
 	/// - Returns: Optional Binary
 	@MainActor func loadBinary(
-		_ healthcareOrganization: MgoOrganization,
+		_ healthcareOrganization: OrganizationSearch.Organization,
 		serviceId: String,
 		path: String
 	) async throws -> FHIRBinary?
@@ -143,21 +144,21 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 	///   - organization: optional organization added or removed
 	///   - reason: the reason the list has changed
 	@MainActor func handleOrganizationChanges(
-		_ organization: MgoOrganization?,
+		_ organization: OrganizationSearch.Organization?,
 		reason: HealthcareOrganizationReason
 	) {
 		switch reason {
 			case .added:
 				if let organization {
 					// New organization, load the data
-					logVerbose("ResourceRepository observatory .added triggered for  \(organization.display_name)")
+					logVerbose("ResourceRepository observatory .added triggered for  \(organization.displayName ?? "")")
 					loadFor(organization)
 				}
 			
 			case .removed:
 				if let organization {
 					// Remove stored data for the removed organization
-					logVerbose("ResourceRepository observatory .removed for \(organization.display_name)")
+					logVerbose("ResourceRepository observatory .removed for \(organization.displayName ?? "")")
 					dataRepository?.removeRecords(for: organization.identifier)
 				}
 			
@@ -186,7 +187,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 	
 	/// Load all the categories for a healthcare organization
 	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
-	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization) {
+	@MainActor func loadFor(_ healthcareOrganization: OrganizationSearch.Organization) {
 		
 		logVerbose("ResourceRepository - LoadFor Org", healthcareOrganization.identifier)
 		guard let sharedCategories = try? SharedHealthCategories() else { return }
@@ -230,7 +231,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 	///   - healthcareOrganization: healthcare organization
 	///   - categories: the categories to load the resources for.
 	@MainActor func loadResource(
-		_ healthcareOrganization: MgoOrganization,
+		_ healthcareOrganization: OrganizationSearch.Organization,
 		categories: [SharedHealthCategories.Category]
 	) {
 		categories.forEach { category in
@@ -260,7 +261,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 	///   - healthcareOrganization: healthcare organization
 	///   - mappings: the mapped solutions
 	@MainActor private func loadEndpoints(
-		_ healthcareOrganization: MgoOrganization,
+		_ healthcareOrganization: OrganizationSearch.Organization,
 		mappings: [String: MappedSolution]
 	) {
 		for (_, mappedSolution) in mappings {
@@ -275,7 +276,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 	///   - healthcareOrganization: healthcare organization
 	///   - mapping: the mapped solution
 	@MainActor func loadEndpoint(
-		_ healthcareOrganization: MgoOrganization,
+		_ healthcareOrganization: OrganizationSearch.Organization,
 		mapping: MappedSolution
 	) async {
 		
@@ -327,7 +328,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 	///   - healthcareOrganization: healthcare organization
 	///   - category: the category to load the resources for.
 	@MainActor func collectEndpoints(
-		_ healthcareOrganization: MgoOrganization,
+		_ healthcareOrganization: OrganizationSearch.Organization,
 		category: SharedHealthCategories.Category
 	) -> [Solution] {
 		
@@ -348,7 +349,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 						fhirVersion: dataService.fhirVersionEnum,
 						dvaTarget: dvaTarget,
 						dataServiceId: dataService.id,
-						providerId: healthcareOrganization.medmij_id
+						providerId: healthcareOrganization.id
 					)
 				)
 			}
@@ -386,7 +387,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 	///   - path: reference path
 	/// - Returns: Binary Object
 	@MainActor func loadBinary(
-		_ healthcareOrganization: MgoOrganization,
+		_ healthcareOrganization: OrganizationSearch.Organization,
 		serviceId: String,
 		path: String
 	) async throws -> FHIRBinary? {

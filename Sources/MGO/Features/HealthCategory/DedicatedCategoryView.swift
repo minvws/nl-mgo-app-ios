@@ -155,7 +155,7 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 	@MainActor init(
 		coordinator: (any Coordinator)? = nil,
 		category: SharedHealthCategories.Category,
-		organization: MgoOrganization?
+		organization: OrganizationSearch.Organization?
 	) {
 		super.init(
 			coordinator: coordinator,

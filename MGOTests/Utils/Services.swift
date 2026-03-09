@@ -38,7 +38,7 @@ import MGOUI
 	
 	var healthcareOrganizationStoreSpy: HealthcareOrganizationRepositorySpy = {
 		let spy = HealthcareOrganizationRepositorySpy()
-		(spy.stubbedObservatory, _) = Observatory<(MgoOrganization?, HealthcareOrganizationReason)>.create()
+		(spy.stubbedObservatory, _) = Observatory<(OrganizationSearch.Organization?, HealthcareOrganizationReason)>.create()
 		return spy
 	}()
 
