@@ -28,6 +28,8 @@ The code examples are only meant to help understand concepts and demonstrate pos
 By using or referencing this code, you acknowledge that you do so at your own
 risk and that the authors assume no liability for any consequences of its use.
 
+Parts of this codebase have been written with the assistance of AI tools (such as Claude by Anthropic). All AI-generated contributions have been reviewed and approved by the development team.
+
 ---
 
 ## About the App
@@ -50,11 +52,10 @@ The majority of our (third-party) dependencies are included as Swift Packages. H
 * [GitHubArtifactDownload](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/GitHubArtifactDownload/README.md): script to assist with downloading the latest artifact for the Shared Core and Shared configurations
 * [HCIMCore](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/HCIMCore/README.md): the shared javascript library to parse FHIR data into Health and Care Information Models.
 * [JailBreakDetector](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/JailBreakDetector/README.md): helper to detect jail broken devices.
-* [LocalisationService](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/LocalisationService/README.md): open-api generated class to search for healthcare providers.
 * [Logging](https://github.com/minvws/nl-rdo-app-ios-modules): a tool for Logging, reused from CoronaCheck.
 * [MGOCommandLine](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOCommandLine/README.md): convenience package that exposes Figlet and Swift Argument Parser for easy import in command-line tools.
 * [MGODebug](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGODebug/README.md): debug package to help identify memory leaks.
-* [MGOFoundation](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOFoundation/README.md): convenience package that re-exports FHIRClient, MGORepository, FileStorage, JailBreakDetector, LocalisationService, NotificationCenter, Observatory, RemoteConfiguration, SecureUserSettings and Logging for easy import in the app.
+* [MGOFoundation](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOFoundation/README.md): convenience package that re-exports FHIRClient, MGORepository, FileStorage, JailBreakDetector, NotificationCenter, Observatory, RemoteConfiguration, SecureUserSettings and Logging for easy import in the app.
 * [MGORepository](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGORepository/README.md): The linking class between the HCIMs, the HCIM parser and the FHIR Client.
 * [MGOUI](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOUI/README.md): convenience package that re-exports ReusableUI, Theme, RijksoverheidFont, SwiftIntrospect and NavigationStack Backport for easy import in the app.
 * [NetworkAvailability](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/NetworkAvailability/README.md): helper to check whether a network connection is available.
