@@ -28,10 +28,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		clearDirectoryCache()
 		
-		if Configuration().getRelease() == .demo {
-			featureFlagManager.isDemo = true
-		}
-		
 		return true
 	}
 	
@@ -89,9 +85,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		if LaunchArgumentsHandler.repeatVisitor() {
 			secureUserSettings.firstTimeVisitor = false
 			featureFlagManager.bypassRemoteAuthentication = true
-		}
-		if LaunchArgumentsHandler.isDemo() {
-			featureFlagManager.isDemo = true
 		}
 	}
 	

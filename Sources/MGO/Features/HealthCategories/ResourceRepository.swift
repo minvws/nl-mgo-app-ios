@@ -318,11 +318,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 				error: resourceError?.rawValue
 			)
 			logVerbose("ResourceRepository - Adding to the store", recordToStore)
-			
-			let delayInSeconds: Double = (featureFlagManager?.isDemo ?? false) ? 5 : 0
-			delay(delayInSeconds) {
-				self.dataRepository?.store(data: recordToStore)
-			}
+			dataRepository?.store(data: recordToStore)
 		}
 	}
 	
@@ -337,7 +333,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 		
 		logVerbose("\n\n collectEndpoints for category:", category.id)
 		var results = [(DataServices.Endpoint, DataServices.FhirVersion, String, String, String?)]()
-		for dataService in DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services {
+		for dataService in DataServices().services {
 			
 			// Check if the organization uses this data service
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: dataService.id) else {
@@ -397,7 +393,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 			
 		// The binary call also needs the DVA Target header
 		guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId),
-				let dataService = DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.first(where: { $0.id == serviceId }) else {
+				let dataService = DataServices().services.first(where: { $0.id == serviceId }) else {
 			return nil
 		}
 		

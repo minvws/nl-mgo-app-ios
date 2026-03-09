@@ -36,10 +36,4 @@ public class LaunchArgumentsHandler {
 		
 		return CommandLine.arguments.contains("-useTestProviders")
 	}
-	
-	/// Should we enable demo mode?
-	public static func isDemo() -> Bool {
-		
-		return CommandLine.arguments.contains("-demoMode")
-	}
 }

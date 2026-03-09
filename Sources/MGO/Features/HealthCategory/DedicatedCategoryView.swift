@@ -169,33 +169,4 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 			)
 		)
 	}
-	
-	@MainActor override func sortRecords(
-		records: [MgoResourceRecord]
-	) -> (subCategories: [HealthCategoryBlock], clientError: Bool, serverError: Bool) {
-		
-		let (subCategories, clientError, serverError) = super.sortRecords(records: records)
-		
-		guard Container.shared.featureFlagManager().isDemo, let subCategory = subCategories.first else {
-			return (subCategories, clientError, serverError)
-		}
-		
-		return (
-			[
-				HealthCategoryBlock(
-					heading: subCategory.heading,
-					rows: subCategory.rows.filter { row in
-						(row.subHeading == "Ziekenhuis Nieuw Juinen" &&
-						 (row.heading == "Consult dermatologie" ||
-						  row.heading == "Voorlopig ontslagbericht" ||
-						  row.heading == "Ontslagbrief")
-						) ||
-						(row.heading == "Verwijsbrief" && row.subHeading == "Huisartspraktijk Heideroosje")
-					}
-				)
-			],
-			clientError,
-			serverError
-		)
-	}
 }

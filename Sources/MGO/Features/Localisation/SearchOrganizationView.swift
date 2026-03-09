@@ -91,7 +91,7 @@ class SearchOrganizationViewModel: ObservableObject {
 			results: [],
 			storedOrganizationIDs: healthcareOrganizationRepository.organizations
 				.map(\.identification),
-			availableServiceIds: DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.map(\.id)
+			availableServiceIds: DataServices().services.map(\.id)
 		)
 		
 		memoryWarningObserver = NotificationCenter.default.addObserver(

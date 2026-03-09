@@ -119,20 +119,4 @@ final class LoginViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
 	}
-	
-	@MainActor func test_loginWithDigiD_loading_shouldNotCallCoordinator_whenDemoMode() throws {
-		
-		// Given
-		createSut(.firstTime)
-		servicesSpies.featureFlagSpy.stubbedIsDemo = true
-		viewModel.state = LoginViewModel
-			.LoginState(mode: .firstTime, isLoading: true)
-		
-		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.loading")
-		try view.view(CallToActionButton.self).find(button: "login.loading").tap()
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == false
-	}
 }

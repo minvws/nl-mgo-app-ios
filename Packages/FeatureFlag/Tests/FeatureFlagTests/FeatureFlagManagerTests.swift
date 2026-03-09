@@ -9,9 +9,11 @@ import MGOTest
 @MainActor
 final class FeatureFlagManagerTests: XCTestCase {
 
-	override func tearDown() {
-		super.tearDown()
-		FeatureFlagManager().bypassRemoteAuthentication = false
+	override func tearDown() async throws {
+		await MainActor.run {
+			FeatureFlagManager().bypassRemoteAuthentication = false
+		}
+		try await super.tearDown()
 	}
 
 	@MainActor func test_featureFlag_bypassRemoteAuthentication_defaultValue() {
@@ -37,31 +39,6 @@ final class FeatureFlagManagerTests: XCTestCase {
 		
 		// Then
 		expect(result) == false
-	}
-
-	@MainActor func test_featureFlag_demo_defaultValue() {
-
-		// Given
-		let sut = FeatureFlagManager()
-		
-		// When
-		let result = sut.isDemo
-		
-		// Then
-		expect(result) == false
-	}
-	
-	@MainActor func test_featureFlag_demo_setValue() {
-		
-		// Given
-		FeatureFlagManager().isDemo = true
-		let sut = FeatureFlagManager()
-		
-		// When
-		let result = sut.isDemo
-		
-		// Then
-		expect(result) == false // Demo hardcoded to false
 	}
 	
 	@MainActor func test_wipePersistedData() {

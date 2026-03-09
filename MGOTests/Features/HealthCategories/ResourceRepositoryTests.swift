@@ -70,26 +70,6 @@ final class ResourceRepositoryTests: XCTestCase {
 			.toEventually(equal(28), timeout: .seconds(10))
 	}
 	
-	@MainActor func test_load_oneOrganization_demoMode() throws {
-		
-		// Given
-		try createSut()
-		servicesSpies.featureFlagSpy.stubbedIsDemo = true
-		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [Generator.healthcareOrganization("1")]
-		let json = try getResource("bundle")
-
-		stub(condition: isHost("example.com")) { _ in
-			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
-		}
-		
-		// When
-		sut.load()
-		
-		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(3), timeout: .seconds(10))
-	}
-	
 	@MainActor func test_load_twoOrganizations() throws {
 		
 		// Given
@@ -110,29 +90,6 @@ final class ResourceRepositoryTests: XCTestCase {
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
 			.toEventually(equal(56), timeout: .seconds(15))
-	}
-	
-	@MainActor func test_load_twoOrganizations_demoMode() throws {
-		
-		// Given
-		try createSut()
-		servicesSpies.featureFlagSpy.stubbedIsDemo = true
-		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
-			Generator.healthcareOrganization("1"),
-			Generator.healthcareOrganization("2")
-		]
-		let json = try getResource("bundle")
-
-		stub(condition: isHost("example.com")) { _ in
-			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
-		}
-		
-		// When
-		sut.load()
-		
-		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(6), timeout: .seconds(10))
 	}
 	
 	@MainActor func test_loadForOrganization() throws {

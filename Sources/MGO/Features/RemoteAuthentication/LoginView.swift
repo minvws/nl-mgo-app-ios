@@ -70,10 +70,6 @@ class LoginViewModel: ObservableObject {
 	@MainActor public func reduce(_ action: Action) {
 		
 		if action == .loginWithDigiD {
-			guard !Container.shared.featureFlagManager().isDemo else {
-				coordinator?.handle(Coordination.Action.loggedInWithDigiD)
-				return
-			}
 			_Concurrency.Task(priority: .userInitiated) {
 				await authenticate()
 			}

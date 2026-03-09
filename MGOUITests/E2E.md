@@ -51,7 +51,6 @@ The `AppRobot` also manages common launch flows. For example, it includes `navig
 - `-disableTransitions` will speedup animation and navigation
 - `-updateRequired` will force the update required flow by mocking the remote configuration
 - `-repeatVisitor` will skip the introduction flow and go directly to the health categories screen
-- `-demoMode` will enable demo mode features
 
 To use a launch option, you have to create helper method for `AppRobot` method
 

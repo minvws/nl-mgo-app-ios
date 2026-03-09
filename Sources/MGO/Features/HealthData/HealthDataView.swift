@@ -86,23 +86,18 @@ class HealthDataViewModel: ObservableObject {
 	@MainActor private func prepareReferenceValues() {
 	
 		filterReferences(.referenceValue).forEach { reference in
-			
-			if Container.shared.featureFlagManager().isDemo {
-				resolvedReferences[reference] = false
-			} else {
-				storeReference(reference, isReferenceValue: true)
-			}
+			storeReference(reference, isReferenceValue: true)
 		}
 	}
 	
-	private func prepareReferenceLink() {
+	@MainActor private func prepareReferenceLink() {
 	
 		filterReferences(.referenceLink).forEach { reference in
 			storeReference(reference, isReferenceValue: false)
 		}
 	}
 	
-	private func filterReferences(_ type: UIElementType) -> Set<String> {
+	@MainActor private func filterReferences(_ type: UIElementType) -> Set<String> {
 		
 		return Set<String>(state.schema.children
 			.flatMap(\.children)
@@ -111,7 +106,7 @@ class HealthDataViewModel: ObservableObject {
 		)
 	}
 	
-	private func storeReference(_ reference: String, isReferenceValue: Bool) {
+	@MainActor private func storeReference(_ reference: String, isReferenceValue: Bool) {
 		
 		let result = referenceResolver?.resolve(
 			reference: reference,
@@ -128,7 +123,7 @@ class HealthDataViewModel: ObservableObject {
 	}
 	
 	/// Prepare the patient friendly terms
-	private func prepareTerms() {
+	@MainActor private func prepareTerms() {
 		
 		// The list of DisplayValue
 		var values: [DisplayValue] = [DisplayValue]()

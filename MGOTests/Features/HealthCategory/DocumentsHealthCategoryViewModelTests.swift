@@ -39,7 +39,6 @@ final class DocumentsHealthCategoryViewModelTests: XCTestCase {
 		
 		// Given
 		try createSut()
-		servicesSpies.featureFlagSpy.stubbedIsDemo = true
 		let resource = try getResource("iheMhdMinimalDocumentReference")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
 			[

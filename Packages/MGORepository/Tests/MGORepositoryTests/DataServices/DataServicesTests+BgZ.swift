@@ -175,35 +175,4 @@ class DataServicesBgZTests {
 		#expect(dataService.endpoints[27].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/eAfspraak-Appointment")
 	}
 	// swiftlint: enable function_body_length
-	
-	@Test func commonClinicalDataset_isDemo() async throws {
-		
-		// Given
-		sut = DataServices(isDemo: true)
-		
-		// When
-		let dataService = try #require(sut.services.first(where: { $0.id == "48" }))
-		
-		// Then
-		#expect(dataService.id == "48")
-		#expect(dataService.name == "Common Clinical Dataset (demo)")
-		#expect(dataService.fhirVersion == "3.0")
-		#expect(dataService.fhirVersionEnum == .r3)
-		#expect(dataService.endpoints.count == 3)
-		
-		#expect(dataService.endpoints[0].id == "medicationUse")
-		#expect(dataService.endpoints[0].getPath() == "/MedicationStatement?category=urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3|6&_include=MedicationStatement:medication")
-		#expect(dataService.endpoints[0].profiles.count == 1)
-		#expect(dataService.endpoints[0].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse")
-		
-		#expect(dataService.endpoints[1].id == "laboratoryTestResult")
-		#expect(dataService.endpoints[1].getPath() == "/Observation/$lastn?category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen")
-		#expect(dataService.endpoints[1].profiles.count == 1)
-		#expect(dataService.endpoints[1].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation")
-		
-		#expect(dataService.endpoints[2].id == "problem")
-		#expect(dataService.endpoints[2].getPath() == "/Condition")
-		#expect(dataService.endpoints[2].profiles.count == 1)
-		#expect(dataService.endpoints[2].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-Problem")
-	}
 }

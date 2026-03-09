@@ -576,7 +576,7 @@ struct HealthCategoryView: View {
 			
 			if subCategory.rows.isNotEmpty {
 				blockView(
-					showHeading: Container.shared.featureFlagManager().isDemo ? true : list.filter { $0.rows.isNotEmpty }.count != 1,
+					showHeading: list.filter { $0.rows.isNotEmpty }.count != 1,
 					subCategory: subCategory,
 					subCategoryIndex: subCategoryIndex
 				)

@@ -19,13 +19,10 @@ class AppRobot: Robot {
 	/// Launch the application
 	/// - Returns: Introduction Robot for the first scene
 	@discardableResult
-	func launchApp(withDemoMode: Bool = false) -> IntroductionRobot {
+	func launchApp() -> IntroductionRobot {
 		app.launchArguments.append("-resetOnStart")
 		app.launchArguments.append("-disableTransitions")
 		app.launchArguments.append("-useTestProviders")
-		if withDemoMode {
-			app.launchArguments.append("-demoMode")
-		}
 		app.launch()
 		return IntroductionRobot(app)
 	}

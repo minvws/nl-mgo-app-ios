@@ -17,9 +17,6 @@ public protocol FeatureFlagManaging: Sendable {
 	/// Should we bypass the remote login?
 	@MainActor var bypassRemoteAuthentication: Bool { get set }
 	
-	/// Are we running in demo mode?
-	@MainActor var isDemo: Bool { get set }
-	
 	/// Remove all the feature flags and reset to default
 	@MainActor func wipePersistedData()
 }
@@ -34,9 +31,6 @@ public class FeatureFlagManager: FeatureFlagManaging, @unchecked Sendable {
 	/// Should we bypass the remote login?
 	@UserDefault(key: UserDefaults.Keys.bypassRemoteAuthentication.rawValue + (ProcessInfo.processInfo.arguments.contains("--unittesting") ? ".test" : ""), defaultValue: false)
 	@MainActor public var bypassRemoteAuthentication: Bool
-	
-	/// Are we running in demo mode?
-	@MainActor public var isDemo: Bool = false
 	
 	/// Remove all the feature flags and reset to default
 	@MainActor public func wipePersistedData() {
