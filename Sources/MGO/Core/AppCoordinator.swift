@@ -77,12 +77,8 @@ struct AppCoordination {
 		case login
 		case loginInfo
 		
-		// Automatic Localization
-		case automaticLocalization
-		
 		// Manual Localization
 		case manualLocalization
-		case healthcareOrganizationSearchResults(city: String, name: String)
 		
 		// Dashboard
 		case dashboard
@@ -220,8 +216,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		guard !handleDeeplink(action) else { return }
 		guard !handleOnboarding(action) else { return }
 		guard !handleRemoteAuthentication(action) else { return }
-		guard !handleManualLocalization(action) else { return }
-		guard !handleAutomaticLocalization(action) else { return }
+		guard !handleManualLocalizationCompletion(action) else { return }
 		
 		switch action.identifier {
 			
@@ -298,12 +293,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				return true
 			
 			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
-			
-				if featureFlagManager.isAutomaticLocalizationEnabled || featureFlagManager.isDemo {
-					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
-				} else {
-					resetNavigationStack(with: AppCoordination.State.manualLocalization)
-				}
+				resetNavigationStack(with: AppCoordination.State.manualLocalization)
 				return true
 			
 			default:
@@ -330,38 +320,16 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		return false
 	}
 	
-	/// Handle the automatic localization flow action from any of the view models
+	/// Handle the completion of the manual localization flow
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	@MainActor private func handleAutomaticLocalization(_ action: Coordination.Action) -> Bool {
-		
-		if action.identifier == Coordination.Action.finishedSearchingHealthcareOrganizations.identifier {
+	@MainActor private func handleManualLocalizationCompletion(_ action: Coordination.Action) -> Bool {
+
+		if action.identifier == Coordination.Action.closeSheet.identifier,
+		   rootState == .manualLocalization {
 			showChildCoordinator = true
 			return true
 		}
-		return false
-	}
-	
-	/// Handle the manual localization flow action from any of the view models
-	/// - Parameter action: any Action
-	/// - Returns: True if the action is consumed
-	@MainActor private func handleManualLocalization(_ action: Coordination.Action) -> Bool {
-		
-		if action.identifier == Coordination.Action.showHealthcareOrganizationSearchResults.identifier {
-			if action.params.count == 2,
-			   let city = action.params["city"] as? String,
-			   let name = action.params["name"] as? String {
-				path.append(AppCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
-			} else {
-				logError("Dashboard Coordinator, missing params for \(action)")
-			}
-			return true
-		}
-		if action.identifier == Coordination.Action.backToAddHealthcareOrganization.identifier {
-			path.removeLast()
-			return true
-		}
-		
 		return false
 	}
 	
@@ -394,25 +362,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
-	/// Reset the navigation stack with this new root  state
+	///// Reset the navigation stack with this new root state
 	/// - Parameter state: the new root state.
 	@MainActor private func resetNavigationStack(with state: AppCoordination.State) {
-		// Ensure mutations to @Published properties happen on the main thread
-		let performReset = {
-			var transaction = Transaction()
-			transaction.disablesAnimations = true
-			withTransaction(transaction) {
-				self.path.removeLast(self.path.count)
-				self.rootState = state
-			}
-		}
-
-		if Thread.isMainThread {
-			performReset()
-		} else {
-			DispatchQueue.main.async {
-				performReset()
-			}
+		var transaction = Transaction()
+		transaction.disablesAnimations = true
+		withTransaction(transaction) {
+			path.removeLast(path.count)
+			rootState = state
 		}
 	}
 	
@@ -432,11 +389,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 				secureUserSettings.firstTimeVisitor = false
 				
-				if featureFlagManager.isAutomaticLocalizationEnabled {
-					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
-				} else {
-					resetNavigationStack(with: AppCoordination.State.manualLocalization)
-				}
+				resetNavigationStack(with: AppCoordination.State.manualLocalization)
 		}
 	}
 	
@@ -485,24 +438,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .loginInfo:
 				LoginInfoView(viewModel: LoginInfoViewModel(coordinator: self))
 				
-			// Automatic Localization
-			
-			case .automaticLocalization:
-				OrganizationListAutomaticView(
-					viewModel: OrganizationListAutomaticViewModel(
-						coordinator: self,
-						localisationServiceClient: self.localisationServiceClient,
-						preselectAllOrganizations: true
-					)
-				)
-			
 			// Manual Localization
-			case .manualLocalization:
-//				AddOrganizationView(
-//					viewModel: AddOrganizationViewModel(coordinator: self)
-//				)
-//				.isPresentedAsSheet(false)
 				
+			case .manualLocalization:
 				SearchOrganizationView(
 					viewModel: SearchOrganizationViewModel(
 						coordinator: self,
@@ -510,16 +448,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 					)
 				)
 				.isPresentedAsSheet(false)
-			
-			case let .healthcareOrganizationSearchResults(city, name):
-				OrganizationListManualView(
-					viewModel: OrganizationListManualViewModel(
-						coordinator: self,
-						city: city,
-						name: name,
-						localisationServiceClient: self.localisationServiceClient
-					)
-				)
 			
 			// Dashboard
 				

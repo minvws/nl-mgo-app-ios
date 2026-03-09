@@ -10,7 +10,6 @@ class AdvancedSettingsViewModel: BaseViewModel {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case automaticLocalization(Bool)
 		case bypassRemoteAuthentication(Bool)
 	}
 	
@@ -20,10 +19,8 @@ class AdvancedSettingsViewModel: BaseViewModel {
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	@MainActor func reduce(_ action: AdvancedSettingsViewModel.Action) {
-		
-		if case .automaticLocalization(let automaticLocalization) = action {
-			featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
-		} else if case .bypassRemoteAuthentication(let bypassRemoteAuthentication) = action {
+
+		if case .bypassRemoteAuthentication(let bypassRemoteAuthentication) = action {
 			featureFlagManager.bypassRemoteAuthentication = bypassRemoteAuthentication
 		}
 	}
@@ -37,9 +34,6 @@ struct AdvancedSettingsView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
-	/// Variable to change the automatic localization setting
-	@State private var automaticLocalization: Bool = Container.shared.featureFlagManager().isAutomaticLocalizationEnabled
-	
 	/// Variable to change the bypass Remote Authentication setting
 	@State private var bypassRemoteAuthentication: Bool = Container.shared.featureFlagManager().bypassRemoteAuthentication
 	
@@ -51,15 +45,11 @@ struct AdvancedSettingsView: View {
 	}
 	
 	var body: some View {
-		
+
 		List {
 			Section {
-				automaticLocalizationToggleView()
 				remoteAuthToggleView()
 			}
-		}
-		.onChange(of: automaticLocalization) { newValue in
-			viewModel.reduce(.automaticLocalization(newValue))
 		}
 		.onChange(of: bypassRemoteAuthentication) { newValue in
 			viewModel.reduce(.bypassRemoteAuthentication(newValue))
@@ -73,20 +63,6 @@ struct AdvancedSettingsView: View {
 		.navigationTitle("settings.advanced.heading")
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgrounds.primary.ignoresSafeArea())
-	}
-	
-	/// The view for the toggle
-	/// - Returns: toggle view
-	@ViewBuilder private func automaticLocalizationToggleView() -> some View {
-		
-		Toggle(isOn: $automaticLocalization) {
-			Text("settings.featureflag.localization")
-				.typography(.bodyMedium)
-				.foregroundStyle(theme.labels.primary)
-		}
-			.accessibilityIdentifier("settings.featureflag.localization")
-			.toggleStyle(.switch)
-			.tint(theme.actions.solid.background)
 	}
 	
 	/// The view for the toggle

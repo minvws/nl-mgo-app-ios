@@ -53,8 +53,8 @@ import XCTest
 	// MARK: - Interactions
 	
 	@discardableResult
-	func tapNextButton() -> OrganizationListAutomaticRobot {
+	func tapNextButton() -> OrganizationSearchRobot {
 		nextButton.tap()
-		return OrganizationListAutomaticRobot(app)
+		return OrganizationSearchRobot(app)
 	}
 }

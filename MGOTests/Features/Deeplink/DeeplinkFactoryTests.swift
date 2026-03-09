@@ -30,13 +30,49 @@ final class DeepLinkFactoryTests: XCTestCase {
 	}
 	
 	func test_create_invalidDeeplink() throws {
-		
+
 		// Given
 		let url = try XCTUnwrap(URL(string: "mgo-dev://app/login")) // No userinfo
 
 		// When
 		let result = DeepLinkFactory().create(url)
-		
+
+		// Then
+		expect(result) == nil
+	}
+
+	func test_create_wrongScheme() throws {
+
+		// Given
+		let url = try XCTUnwrap(URL(string: "https://app/login?userinfo=TEST"))
+
+		// When
+		let result = DeepLinkFactory().create(url)
+
+		// Then
+		expect(result) == nil
+	}
+
+	func test_create_wrongHost() throws {
+
+		// Given
+		let url = try XCTUnwrap(URL(string: "mgo-dev://other/login?userinfo=TEST"))
+
+		// When
+		let result = DeepLinkFactory().create(url)
+
+		// Then
+		expect(result) == nil
+	}
+
+	func test_create_wrongPath() throws {
+
+		// Given
+		let url = try XCTUnwrap(URL(string: "mgo-dev://app/unknown?userinfo=TEST"))
+
+		// When
+		let result = DeepLinkFactory().create(url)
+
 		// Then
 		expect(result) == nil
 	}

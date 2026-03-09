@@ -147,21 +147,24 @@ final class SearchOrganizationViewTests: XCTestCase {
 	}
 	
 	@MainActor func test_snapshot_searchWithNoResults() async throws {
-		
+
 		// Given
-		createSut(firstVisitor: false, input: "Test")
 		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = SearchResults(
 			count: 0.0,
 			hits: []
 		)
-		viewModel.state.results = []
-		viewModel.state.totalResults = 0
-		viewModel.state.isSearching = false
-		
+		createSut(firstVisitor: false, input: "Test")
+
+		// When the snapshot framework renders the view, SwiftUI triggers .onChange(of: input)
+		// which starts a debounced search task (100ms). Wait for it to complete so the
+		// snapshot is not captured while isSearching == true (spinner visible).
+		try await Task.sleep(nanoseconds: 200 * 1_000_000)
+		await Task.yield()
+
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
 			.environment(\.isPresentedAsSheet, false)
-		
+
 		// Then
 		takeSnapShots(content: content)
 	}

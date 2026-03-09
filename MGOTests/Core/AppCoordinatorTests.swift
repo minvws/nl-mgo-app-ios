@@ -150,11 +150,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen) == false
 	}
 	
-	@MainActor func test_coordinatorHandle_loginWithDigiD_shouldShowDashboard_whenAutomaticLocalizationEnabled() {
+	@MainActor func test_coordinatorHandle_loginWithDigiD_shouldShowDashboard() {
 		
 		// Given
 		setupSut()
-		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		
 		// When
 		sut.handle(Coordination.Action.loggedInWithDigiD)
@@ -164,11 +163,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	@MainActor func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldShowManualLocalizaion_whenAutomaticLocalizationEnabled() {
+	@MainActor func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldShowManualLocalization() {
 		
 		// Given
 		setupSut()
-		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		
 		// When
 		sut.handle(Coordination.Action.nextButtonPressedOnLoginInfo)
@@ -179,65 +177,15 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.rootState) == AppCoordination.State.manualLocalization
 	}
 	
-	@MainActor func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldAutomaticLocalization_whenAutomaticLocalizationEnabled() {
-		
-		// Given
-		setupSut()
-		
-		// When
-		sut.handle(Coordination.Action.nextButtonPressedOnLoginInfo)
-		
-		// Then
-		expect(self.sut.showChildCoordinator) == false
-		expect(self.sut.rootState) == AppCoordination.State.automaticLocalization
-		expect(self.sut.path.isEmpty) == true
-	}
-	
-	@MainActor func test_coordinatorHandle_search_shouldContainHealthcareOrganizationSearchResults() {
-		
-		// Given
-		setupSut()
-		
-		// When
-		sut.handle(Coordination.Action(identifier: "showHealthcareOrganizationSearchResults", params: ["city": "Roermond", "name": "Tandarts Tandje Erbij"]))
+	@MainActor func test_coordinatorHandle_closeSheet_inManualLocalization_shouldShowDashboard() {
 
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")])
-	}
-	
-	@MainActor func test_coordinatorHandle_search_wrongParams() {
-		
 		// Given
 		setupSut()
-		
-		// When
-		sut.handle(Coordination.Action(identifier: "showHealthcareOrganizationSearchResults", params: ["city": "Roermond", "wrong param": "Tandarts Tandje Erbij"]))
+		sut.rootState = .manualLocalization
 
-		// Then
-		expect(self.sut.path.isEmpty) == true
-	}
-	
-	@MainActor func test_coordinatorHandle_backToAddHealthcareOrganization() {
-		
-		// Given
-		setupSut()
-		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.healthcareOrganizationSearchResults(city: "wrong", name: "wrong")])
-		
 		// When
-		sut.handle(Coordination.Action.backToAddHealthcareOrganization)
-		
-		// Then
-		expect(self.sut.path.isEmpty) == true
-	}
-	
-	@MainActor func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_shouldShowDashboard() {
-		
-		// Given
-		setupSut()
-		
-		// When
-		sut.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
-		
+		sut.handle(Coordination.Action.closeSheet)
+
 		// Then
 		expect(self.sut.showChildCoordinator) == true
 		expect(self.sut.path.isEmpty) == true

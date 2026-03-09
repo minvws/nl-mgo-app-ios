@@ -39,19 +39,6 @@ final class AdvancedSettingsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	@MainActor func test_automaticLocalization() {
-		
-		// Given
-		setupSut()
-		
-		// When
-		sut.reduce(.automaticLocalization(false))
-		
-		// Then
-		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabledSetter).toEventually(beTrue())
-		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabled) == false
-	}
-	
 	@MainActor func test_bypassRemoteAuthentication() {
 		
 		// Given

@@ -30,7 +30,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		if Configuration().getRelease() == .demo {
 			featureFlagManager.isDemo = true
-			featureFlagManager.isAutomaticLocalizationEnabled = true
 		}
 		
 		return true
@@ -90,9 +89,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		if LaunchArgumentsHandler.repeatVisitor() {
 			secureUserSettings.firstTimeVisitor = false
 			featureFlagManager.bypassRemoteAuthentication = true
-		}
-		if LaunchArgumentsHandler.isAutomaticLocalizationEnabled() {
-			featureFlagManager.isAutomaticLocalizationEnabled = true
 		}
 		if LaunchArgumentsHandler.isDemo() {
 			featureFlagManager.isDemo = true

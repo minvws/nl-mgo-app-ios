@@ -10,10 +10,6 @@ import PdfExport
 extension Coordination.Action {
 	
 	// Healthcare Organization flow
-	@MainActor static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
-	@MainActor static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
-	@MainActor static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
-	
 	@MainActor static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
 	@MainActor static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
 	
@@ -59,9 +55,7 @@ struct HealthcareCoordination {
 		case organizations
 		
 		// Search & Store Healthcare Organization flow
-		case automaticLocalization
 		case manualLocalization
-		case healthcareOrganizationSearchResults(city: String, name: String)
 		
 		// Details Flow
 		case showHealthCategories
@@ -119,8 +113,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			
 			// General
 			
-			case Coordination.Action.closeSheet.identifier,
-				Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
+			case Coordination.Action.closeSheet.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
 				
@@ -141,36 +134,12 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
 	@MainActor private func handleSearchFlow(_ action: Coordination.Action) -> Bool {
-		
-		switch action.identifier {
-			
-			// Healthcare Organization Search Flow
-			
-			case Coordination.Action.addHealthcareOrganization.identifier:
-				if Container.shared.featureFlagManager().isAutomaticLocalizationEnabled {
-					rootStateForSheet = HealthcareCoordination.State.automaticLocalization
-				} else {
-					rootStateForSheet = HealthcareCoordination.State.manualLocalization
-				}
-				return true
-				
-			case Coordination.Action.showHealthcareOrganizationSearchResults.identifier:
-				if action.params.count == 2,
-				   let city = action.params["city"] as? String,
-				   let name = action.params["name"] as? String {
-					pathForSheet.append(HealthcareCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
-				} else {
-					logError("Healthcare Coordinator, missing params for \(action)")
-				}
-				return true
-				
-			case Coordination.Action.backToAddHealthcareOrganization.identifier:
-				pathForSheet.removeLast(pathForSheet.count)
-				return true
-				
-			default:
-				return false
+
+		if action.identifier == Coordination.Action.addHealthcareOrganization.identifier {
+			rootStateForSheet = HealthcareCoordination.State.manualLocalization
+			return true
 		}
+		return false
 	}
 	
 	/// Handle the detail flow action from any of the view models
@@ -353,36 +322,10 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				OrganizationsView(viewModel: OrganizationsViewModel(coordinator: self)).isPresentedAsSheet(false)
 				
 			case .manualLocalization:
-//				AddOrganizationView(
-//					viewModel: AddOrganizationViewModel(coordinator: self)
-//				)
-//				.isPresentedAsSheet(true)
-				
 				SearchOrganizationView(
 					viewModel: SearchOrganizationViewModel(
 						coordinator: self,
 						firstVisitor: false
-					)
-				)
-				.isPresentedAsSheet(true)
-				
-			case .automaticLocalization:
-				OrganizationListAutomaticView(
-					viewModel: OrganizationListAutomaticViewModel(
-						coordinator: self,
-						localisationServiceClient: self.localisationServiceClient,
-						preselectAllOrganizations: false
-					)
-				)
-				.isPresentedAsSheet(true)
-				
-			case let .healthcareOrganizationSearchResults(city, name):
-				OrganizationListManualView(
-					viewModel: OrganizationListManualViewModel(
-						coordinator: self,
-						city: city,
-						name: name,
-						localisationServiceClient: self.localisationServiceClient
 					)
 				)
 				.isPresentedAsSheet(true)
@@ -483,6 +426,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				)
 			} else {
 				EmptyView()
+					.logError("HealthcareCoordinator, no translations for category", category.id)
 			}
 		}
 	}

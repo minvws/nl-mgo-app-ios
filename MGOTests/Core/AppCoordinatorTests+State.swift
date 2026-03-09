@@ -152,21 +152,6 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	@MainActor func test_coordinatorView_forAutomaticLocalization() throws {
-		
-		// Given
-		setupSut()
-		let state = AppCoordination.State.automaticLocalization
-		
-		// When
-		let view = sut.view(for: state)
-		let content = NavigationStackBackport.NavigationStack { view }
-		
-		// Then
-		let automaticView = try view.inspect().find(OrganizationListAutomaticView.self)
-		expect(automaticView) != nil
-	}
-	
 	@MainActor func test_coordinatorView_forManualLocalization() throws {
 		
 		// Given
@@ -179,26 +164,5 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
-	}
-	
-	@MainActor func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
-		
-		// Given
-		setupSut()
-		let state = AppCoordination.State.healthcareOrganizationSearchResults(
-			city: "Roermond",
-			name: "Tandarts Tandje Erbij"
-		)
-		stub(condition: isPath("/localization/organization/search")) { _ in
-			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
-		}
-		
-		// When
-		let view = sut.view(for: state)
-		let content = NavigationStackBackport.NavigationStack { view }
-		
-		// Then
-		let manualView = try view.inspect().find(OrganizationListManualView.self)
-		expect(manualView) != nil
 	}
 }

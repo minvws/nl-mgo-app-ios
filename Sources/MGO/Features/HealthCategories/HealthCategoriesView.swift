@@ -23,10 +23,7 @@ struct HealthCategoriesView: View {
 	
 	/// Dependency injectable OS Version Checker
 	@Injected(\.osVersionChecker) private var osVersionChecker
-	
-	/// Dependency injectable Feature Flag Manager
-	@Injected(\.featureFlagManager) private var featureFlagManager
-	
+
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -381,7 +378,7 @@ struct HealthCategoriesView: View {
 		} bottomView: {
 			
 			CallToActionButton(
-				featureFlagManager.isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations",
+				"common.add_organizations",
 				style: .solid(
 					rounded: osVersionChecker.available(version: .iOS(.v26)),
 					narrow: false

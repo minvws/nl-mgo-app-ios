@@ -108,11 +108,10 @@ final class HealthCategoriesViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 		sut = HealthCategoriesView(viewModel: self.viewModel)
-		
+
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.add_organizations")
 		try view.view(CallToActionButton.self).find(button: "common.add_organizations").tap()
@@ -122,34 +121,17 @@ final class HealthCategoriesViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
 	}
 	
-	@MainActor func test_noOrganizations_automaticLocalizationEnabled() throws {
-		
+	@MainActor func test_noOrganizations() throws {
+
 		// Given
 		createSut()
-		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 		sut = HealthCategoriesView(viewModel: self.viewModel)
-		
+
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
-		
-		// Then
-		takeSnapShots(content: content, precision: 0.95)
-	}
-	
-	@MainActor func test_noOrganizations_automaticLocalizationDisabled() throws {
-		
-		// Given
-		createSut()
-		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
-		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
-		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
-		sut = HealthCategoriesView(viewModel: self.viewModel)
-		
-		// When
-		let content = NavigationStackBackport.NavigationStack { sut }
-		
+
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
 	}

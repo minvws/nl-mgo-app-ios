@@ -126,7 +126,7 @@ targetTemplates:
       properties:
         # Dynamic properties (APP_FLAVOR etc) here are set at build time, so can still vary based on a Configuration.
         NETWORK_CONFIGURATION: $(NETWORK_CONFIGURATION)
-        LOG_LEVEL: ${LOG_LEVEL}
+        LOG_LEVEL: $(LOG_LEVEL)
     settings:
       base:
         VALIDATE_PRODUCT: YES
@@ -174,10 +174,6 @@ targetTemplates:
       configs:
         Development:
           CODE_SIGN_IDENTITY: iPhone Developer
-        FirebaseAcceptance:
-        FirebaseDemo:
-        FirebaseTest:
-        FirebaseProduction:
         AppStore:
           DEVELOPMENT_TEAM: C2H38GV99H # Rijksoverheid
         
@@ -221,7 +217,6 @@ targetTemplates:
           - 'microsoft-edge-https'
           - 'itms-apps'
         LSRequiresIPhoneOS: true
-        NSFaceIDUsageDescription: "Log voortaan snel en veilig in met gezichtsherkenning."
         UIApplicationSupportsIndirectInputEvents: true
         UIRequiredDeviceCapabilities:
           - armv7
@@ -257,7 +252,8 @@ targetTemplates:
     dependencies:
       - package: MGOTest
     settings:
-      TEST_HOST: "$(BUILT_PRODUCTS_DIR)/MGO.app/MGO"
+      base:
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/MGO.app/MGO"
 
   Standard_UITesting:
     platform: iOS
@@ -358,7 +354,6 @@ schemeTemplates:
   # Template for Development/Acc/Production/AppStore varieties
   ConfigScheme:
     build:
-      config: ${configEnvironment} #not sure if needed.
       targets:
         ${appTargetName}: all
     test:
@@ -376,13 +371,6 @@ schemeTemplates:
   DevelopmentConfigScheme:
     templates:
       - ConfigScheme
-    run:
-      commandLineArguments:
-        # Enable CoreData debug flags:
-        # See: https://www.donnywals.com/using-launch-arguments-for-easier-core-data-debugging/
-        # "-com.apple.CoreData.SQLDebug 2": YES # choose a level from 1-4
-        # "-com.apple.CoreData.ConcurrencyDebug 1": YES # crash with stacktrace on concurrency mistakes
-        # "-com.apple.CoreData.MigrationDebug 1": YES
 
   # Template for adding unit tests to a scheme:
   UnitTestScheme:
@@ -403,7 +391,7 @@ schemeTemplates:
         MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
       targets:
         - name: ${uiTestTargetName}
-#          parallelizable: true
+          parallelizable: true
           randomExecutionOrder: true
 
 # - Schemes

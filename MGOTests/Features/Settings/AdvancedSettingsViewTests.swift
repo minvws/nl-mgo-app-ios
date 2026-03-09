@@ -30,40 +30,24 @@ class AdvancedSettingsViewTests: XCTestCase {
 		)
 	}
 	
-	@MainActor func test_advancedSettings_automaticLocationEnabled() {
-		
+	@MainActor func test_advancedSettings() {
+
 		// Given
 		createSut()
-		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
-		servicesSpies.featureFlagSpy.stubbedBypassRemoteAuthentication = true
-		
-		// When
-		let content = NavigationStackBackport.NavigationStack { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	@MainActor func test_advancedSettings_automaticLocationDisabled() {
-		
-		// Given
-		createSut()
-		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		servicesSpies.featureFlagSpy.stubbedBypassRemoteAuthentication = false
-		
+
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
-		
+
 		// Then
 		takeSnapShots(content: content)
 	}
 
 	@MainActor func test_toggle() throws {
-		
+
 		// Given
 		createSut()
-		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
-		
+
 		// When
 		let toggles = try sut.inspect().findAll(ViewType.Toggle.self)
 		let toggle = try XCTUnwrap(toggles.first)

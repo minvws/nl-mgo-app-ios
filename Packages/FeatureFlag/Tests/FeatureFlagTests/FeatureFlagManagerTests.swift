@@ -9,43 +9,11 @@ import MGOTest
 @MainActor
 final class FeatureFlagManagerTests: XCTestCase {
 
-//	override func setUp() {
-//		super.setUp()
-//		FeatureFlagManager().isAutomaticLocalizationEnabled = false
-//		FeatureFlagManager().bypassRemoteAuthentication = false
-//	}
-
 	override func tearDown() {
 		super.tearDown()
-		FeatureFlagManager().isAutomaticLocalizationEnabled = false
 		FeatureFlagManager().bypassRemoteAuthentication = false
 	}
-	
-	@MainActor func test_featureFlag_isAutomaticLocalizationEnabled_defaultValue() {
 
-		// Given
-		let sut = FeatureFlagManager()
-		
-		// When
-		let result = sut.isAutomaticLocalizationEnabled
-		
-		// Then
-		expect(result) == false
-	}
-	
-	@MainActor func test_featureFlag_isAutomaticLocalizationEnabled_setValue() {
-		
-		// Given
-		FeatureFlagManager().isAutomaticLocalizationEnabled = false
-		let sut = FeatureFlagManager()
-		
-		// When
-		let result = sut.isAutomaticLocalizationEnabled
-		
-		// Then
-		expect(result) == false
-	}
-	
 	@MainActor func test_featureFlag_bypassRemoteAuthentication_defaultValue() {
 
 		// Given
@@ -97,17 +65,15 @@ final class FeatureFlagManagerTests: XCTestCase {
 	}
 	
 	@MainActor func test_wipePersistedData() {
-		
+
 		// Given
 		let sut = FeatureFlagManager()
-		sut.isAutomaticLocalizationEnabled = true
 		sut.bypassRemoteAuthentication = true
-		
+
 		// When
 		sut.wipePersistedData()
-		
+
 		// Then
-		expect(sut.isAutomaticLocalizationEnabled) == false
 		expect(sut.bypassRemoteAuthentication) == false
 	}
 }
