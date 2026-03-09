@@ -36,20 +36,6 @@ final class LoginViewModelTests: XCTestCase {
 			urlOpener: urlOpenerSpy
 		)
 	}
-
-	@MainActor func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() {
-		
-		// Given
-		createSut()
-		servicesSpies.featureFlagSpy.stubbedIsDemo = true
-		
-		// When
-		sut.reduce(.loginWithDigiD)
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
-	}
 	
 	@MainActor func test_loginWithDigiD() async throws {
 		
@@ -57,7 +43,6 @@ final class LoginViewModelTests: XCTestCase {
 		createSut()
 		let auth = try XCTUnwrap(URL(string: "https://example.com/auth"))
 		await remoteAuthenticationClientSpy.setStubedGetAuthenticationUrl(auth)
-		servicesSpies.featureFlagSpy.stubbedIsDemo = false
 		
 		// When
 		sut.reduce(.loginWithDigiD)

@@ -7,7 +7,7 @@ import MGOFoundation
 
 protocol ReferenceResolverProtocol: AnyObject {
 	
-	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, HealthUISchema)?
+	func resolve(reference: String, healthcareOrganization: OrganizationSearch.Organization) -> (Data, HealthUISchema)?
 }
 
 class ReferenceResolver: ReferenceResolverProtocol {
@@ -15,7 +15,7 @@ class ReferenceResolver: ReferenceResolverProtocol {
 	/// Dependency Injectable Data Store
 	@Injected(\.dataStore) private var dataStore
 	
-	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, HealthUISchema)? {
+	func resolve(reference: String, healthcareOrganization: OrganizationSearch.Organization) -> (Data, HealthUISchema)? {
 
 		logVerbose("Trying to resolve reference: \(reference)")
 			
@@ -33,7 +33,7 @@ class ReferenceResolver: ReferenceResolverProtocol {
 				}
 				
 				for resource in resources {
-					if let uiSchema = HCIMParser().getDetails(resource, organizationName: healthcareOrganization.display_name) {
+					if let uiSchema = HCIMParser().getDetails(resource, organizationName: healthcareOrganization.displayName ?? "") {
 						return (resource, uiSchema)
 					}
 				}

@@ -9,7 +9,7 @@ import MGOTest
 
 class ReferenceResolverTests: XCTestCase {
 	
-	private let organization: MgoOrganization = Generator.healthcareOrganization("1")
+	private let organization: OrganizationSearch.Organization = Generator.healthcareOrganization("1")
 	
 	private var reference = "Reference"
 	
@@ -45,7 +45,7 @@ class ReferenceResolverTests: XCTestCase {
 		// Given
 		let record = MgoResourceRecord(
 			categoryId: "1",
-			organizationId: organization.identification,
+			organizationId: organization.identifier,
 			resources: [],
 			error: true
 		)
@@ -68,7 +68,7 @@ class ReferenceResolverTests: XCTestCase {
 		
 		let record = MgoResourceRecord(
 			categoryId: "1",
-			organizationId: organization.identification,
+			organizationId: organization.identifier,
 			resources: [resource],
 			error: false
 		)
@@ -90,7 +90,7 @@ class ReferenceResolverTests: XCTestCase {
 		let resource = try getResource("zibProblem")
 		let record = MgoResourceRecord(
 			categoryId: "1",
-			organizationId: organization.identification,
+			organizationId: organization.identifier,
 			resources: [resource],
 			error: nil
 		)

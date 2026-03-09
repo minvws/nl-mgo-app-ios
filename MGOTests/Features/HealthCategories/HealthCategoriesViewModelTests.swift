@@ -12,7 +12,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var healthcareOrganization: MgoOrganization!
+	private var healthcareOrganization: OrganizationSearch.Organization!
 	private var sut: HealthCategoriesViewModel!
 	
 	override func setUp() {
@@ -205,7 +205,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == true
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 0
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 1
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForOrganizationCount) == 1
 	}
 	
 	@MainActor func test_retry() {
@@ -222,7 +222,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 0
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 0
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForOrganizationCount) == 0
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForSharedHealthCategoriesCategoriesCount) == 0
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount) == 1
 	}

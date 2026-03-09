@@ -22,8 +22,6 @@ packages:
     path: ./Packages/HCIMCore
   JailBreakDetector:
     path: ./Packages/JailBreakDetector
-  LocalisationService:
-    path: ./Packages/LocalisationService
   MGOCommandLine:
     path: ./Packages/MGOCommandLine
   MGODebug:
@@ -422,9 +420,6 @@ schemes:
           randomExecutionOrder: true
           parallelizable: false
         - package: JailBreakDetector/JailBreakDetectorTests
-          randomExecutionOrder: true
-          parallelizable: false
-        - package: LocalisationService/LocalisationServiceTests
           randomExecutionOrder: true
           parallelizable: false
         - package: MGORepository/MGORepositoryTests

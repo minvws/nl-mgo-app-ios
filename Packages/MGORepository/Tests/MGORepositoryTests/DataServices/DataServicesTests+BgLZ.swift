@@ -74,30 +74,4 @@ class DataServicesBgLZTests {
 		#expect(dataService.endpoints[8].profiles.count == 1)
 		#expect(dataService.endpoints[8].profiles.first == "http://fhir.nl/fhir/StructureDefinition/nl-core-careteam")
 	}
-	
-	@Test func longTermHealthcareInformation_isDemo() async throws {
-		
-		// Given
-		sut = DataServices(isDemo: true)
-		
-		// When
-		let dataService = try #require(sut.services.first(where: { $0.id == "61" }))
-		
-		// Then
-		#expect(dataService.id == "61")
-		#expect(dataService.name == "Long-Term Healthcare Information")
-		#expect(dataService.fhirVersion == "3.0")
-		#expect(dataService.fhirVersionEnum == .r3)
-		#expect(dataService.endpoints.count == 2)
-		
-		#expect(dataService.endpoints[0].id == "problem")
-		#expect(dataService.endpoints[0].getPath() == "/Condition")
-		#expect(dataService.endpoints[0].profiles.count == 1)
-		#expect(dataService.endpoints[0].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-Problem")
-
-		#expect(dataService.endpoints[1].id == "laboratoryTestResult")
-		#expect(dataService.endpoints[1].getPath() == "/Observation/$lastn?category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen")
-		#expect(dataService.endpoints[1].profiles.count == 1)
-		#expect(dataService.endpoints[1].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation")
-	}
 }

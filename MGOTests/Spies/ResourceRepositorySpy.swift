@@ -21,17 +21,17 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol, @unchecked Sendable {
 		}
 	}
 	
-	var invokedLoadForMgoOrganization = false
-	var invokedLoadForMgoOrganizationCount = 0
-	var invokedLoadForMgoOrganizationParameters: (healthcareOrganization: MgoOrganization, Void)?
-	var invokedLoadForMgoOrganizationParametersList = [(healthcareOrganization: MgoOrganization, Void)]()
+	var invokedLoadForOrganization = false
+	var invokedLoadForOrganizationCount = 0
+	var invokedLoadForOrganizationParameters: (healthcareOrganization: OrganizationSearch.Organization, Void)?
+	var invokedLoadForOrganizationParametersList = [(healthcareOrganization: OrganizationSearch.Organization, Void)]()
 	
-	func loadFor(_ healthcareOrganization: MgoOrganization) {
+	func loadFor(_ healthcareOrganization: OrganizationSearch.Organization) {
 		queue.sync {
-			invokedLoadForMgoOrganization = true
-			invokedLoadForMgoOrganizationCount += 1
-			invokedLoadForMgoOrganizationParameters = (healthcareOrganization, ())
-			invokedLoadForMgoOrganizationParametersList.append((healthcareOrganization, ()))
+			invokedLoadForOrganization = true
+			invokedLoadForOrganizationCount += 1
+			invokedLoadForOrganizationParameters = (healthcareOrganization, ())
+			invokedLoadForOrganizationParametersList.append((healthcareOrganization, ()))
 		}
 	}
 	
@@ -51,10 +51,10 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol, @unchecked Sendable {
 	
 	var invokedLoadResource = false
 	var invokedLoadResourceCount = 0
-	var invokedLoadResourceParameters: (healthcareOrganization: MgoOrganization, categories: [SharedHealthCategories.Category])?
-	var invokedLoadResourceParametersList = [(healthcareOrganization: MgoOrganization, categories: [SharedHealthCategories.Category])]()
+	var invokedLoadResourceParameters: (healthcareOrganization: OrganizationSearch.Organization, categories: [SharedHealthCategories.Category])?
+	var invokedLoadResourceParametersList = [(healthcareOrganization: OrganizationSearch.Organization, categories: [SharedHealthCategories.Category])]()
 	
-	func loadResource(_ healthcareOrganization: MgoOrganization, categories: [SharedHealthCategories.Category]) {
+	func loadResource(_ healthcareOrganization: OrganizationSearch.Organization, categories: [SharedHealthCategories.Category]) {
 		queue.sync {
 			invokedLoadResource = true
 			invokedLoadResourceCount += 1
@@ -65,12 +65,12 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol, @unchecked Sendable {
 	
 	var invokedLoadBinary = false
 	var invokedLoadBinaryCount = 0
-	var invokedLoadBinaryParameters: (healthcareOrganization: MgoOrganization, serviceId: String, url: String)?
-	var invokedLoadBinaryParametersList = [(healthcareOrganization: MgoOrganization, serviceId: String, url: String)]()
+	var invokedLoadBinaryParameters: (healthcareOrganization: OrganizationSearch.Organization, serviceId: String, url: String)?
+	var invokedLoadBinaryParametersList = [(healthcareOrganization: OrganizationSearch.Organization, serviceId: String, url: String)]()
 	var stubbedLoadBinary: FHIRBinary?
 	var stubbedLoadBinaryError: Error?
 	
-	func loadBinary(_ healthcareOrganization: MgoOrganization, serviceId: String, path: String) async throws -> FHIRBinary? {
+	func loadBinary(_ healthcareOrganization: OrganizationSearch.Organization, serviceId: String, path: String) async throws -> FHIRBinary? {
 		
 		queue.sync {
 			invokedLoadBinary = true

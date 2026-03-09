@@ -33,13 +33,12 @@ import MGOUI
 	
 	var featureFlagSpy: FeatureFlagManagerSpy = {
 		let spy = FeatureFlagManagerSpy()
-		spy.stubbedIsDemo = false
 		return spy
 	}()
 	
 	var healthcareOrganizationStoreSpy: HealthcareOrganizationRepositorySpy = {
 		let spy = HealthcareOrganizationRepositorySpy()
-		(spy.stubbedObservatory, _) = Observatory<(MgoOrganization?, HealthcareOrganizationReason)>.create()
+		(spy.stubbedObservatory, _) = Observatory<(OrganizationSearch.Organization?, HealthcareOrganizationReason)>.create()
 		return spy
 	}()
 
@@ -65,12 +64,6 @@ import MGOUI
 
 	var secureUserSettingsSpy: SecureUserSettingsSpy = {
 		return SecureUserSettingsSpy()
-	}()
-	
-	var localisationServiceClientSpy: LocalisationServiceClientSpy = {
-		let url = URL(string: "https://example.com")!
-		let spy = LocalisationServiceClientSpy(serverUrl: url, username: nil, password: nil)
-		return spy
 	}()
 	
 	var remoteConfigurationRepositorySpy: RemoteConfigurationRepositorySpy = {
@@ -114,8 +107,6 @@ func setupServicesSpies() -> ServicesSpies {
 		.register { spies.healthcareOrganizationStoreSpy }
 	Container.shared.jailBreakDetector
 		.register { @MainActor in spies.jailBreakSpy }
-	Container.shared.localisationServiceClient
-		.register { spies.localisationServiceClientSpy }
 	Container.shared.osVersionChecker
 		.register { OSVersionCheckerTrue() }
 	Container.shared.patientFriendyTermsRepository

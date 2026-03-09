@@ -13,7 +13,7 @@ struct HealthUISchemaView: View {
 	var schema: HealthUISchema
 	
 	/// The healthcare organization
-	var healthcareOrganization: MgoOrganization
+	var healthcareOrganization: OrganizationSearch.Organization
 	
 	/// Handler when a user taps on a reference
 	var referenceTapped: ((String?) -> Void)?

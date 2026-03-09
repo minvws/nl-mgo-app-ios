@@ -4,8 +4,9 @@
  */
 
 import MGOFoundation
+import OrganizationSearch
 
-extension MgoOrganization {
+extension OrganizationSearch.Organization {
 
 	/// Get the number of services for a category
 	/// - Parameter category: the category
@@ -13,7 +14,7 @@ extension MgoOrganization {
 	@MainActor func servicesForCategory(_ category: SharedHealthCategories.Category) -> Int {
 		
 		var result = 0
-		let dataServices = DataServices(isDemo: Container.shared.featureFlagManager().isDemo)
+		let dataServices = DataServices()
 		for dataService in dataServices.services {
 			
 			// Check if the organization uses this data service

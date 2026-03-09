@@ -11,7 +11,7 @@ class OrganizationsViewModel: ObservableObject {
 	/// The state for the overview scene
 	enum State: Equatable {
 		case empty
-		case list([MgoOrganization])
+		case list([OrganizationSearch.Organization])
 	}
 	
 	/// The app coordinator for routing
@@ -27,7 +27,7 @@ class OrganizationsViewModel: ObservableObject {
 	private var observerToken: Observatory.ObserverToken?
 	
 	/// A list of the organizations when the page was loaded
-	private var originalOrganizations: [MgoOrganization] = []
+	private var originalOrganizations: [OrganizationSearch.Organization] = []
 	
 	/// The toast auto closure task
 	private var dismissTask: Task<Void, Never>?
@@ -39,7 +39,7 @@ class OrganizationsViewModel: ObservableObject {
 	enum Action {
 		case onAppear
 		case search
-		case details(MgoOrganization)
+		case details(OrganizationSearch.Organization)
 		case closeToast
 		case showToast(title: String, subtitle: String)
 		case undo
@@ -283,16 +283,16 @@ struct OrganizationsView: View {
 	/// Create the list state view
 	/// - Parameter list: The list of healthcare organizations
 	/// - Returns: View when the user has some stored healthcare organizations
-	@ViewBuilder func listHealthcareOrganizationView(list: [MgoOrganization]) -> some View {
+	@ViewBuilder func listHealthcareOrganizationView(list: [OrganizationSearch.Organization]) -> some View {
 		
 		List {
 			// Top Section with all the healthcare organizations
 			Section {
 				ForEach(list, id: \.self) { healthcareOrganization in
 					rowFor(
-						title: Sanitizer.sanitize(healthcareOrganization.display_name),
+						title: Sanitizer.sanitize(healthcareOrganization.displayName ?? ""),
 						imageResource: ImageResource.Overview.chevronRight,
-						accessibilityIdentifier: Sanitizer.sanitize(healthcareOrganization.display_name)) {
+						accessibilityIdentifier: Sanitizer.sanitize(healthcareOrganization.displayName ?? "")) {
 							viewModel.reduce(.details(healthcareOrganization))
 						}
 				}

@@ -12,7 +12,7 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The healthcare organization to display
-	@Published var healthcareOrganization: MgoOrganization
+	@Published var healthcareOrganization: OrganizationSearch.Organization
 	
 	/// Dependency Injectable Healthcare Organization Store
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
@@ -22,7 +22,7 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: MgoOrganization) {
+	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: OrganizationSearch.Organization) {
 		
 		self.coordinator = coordinator
 		self.healthcareOrganization = healthcareOrganization
@@ -121,7 +121,7 @@ struct RemoveHealthcareOrganizationView: View {
 			Text(
 				String(
 					format: String(localized: "remove_organization.heading"),
-					arguments: ["\(viewModel.healthcareOrganization.display_name)"]
+					arguments: ["\(viewModel.healthcareOrganization.displayName ?? "")"]
 				)
 			)
 			.typography(.headingExtraLarge)
@@ -133,7 +133,7 @@ struct RemoveHealthcareOrganizationView: View {
 			Text(
 				String(
 					format: String(localized: "remove_organization.subheading"),
-					arguments: ["\(viewModel.healthcareOrganization.display_name)"]
+					arguments: ["\(viewModel.healthcareOrganization.displayName ?? "")"]
 				)
 			)
 			.typography(.bodyMedium)

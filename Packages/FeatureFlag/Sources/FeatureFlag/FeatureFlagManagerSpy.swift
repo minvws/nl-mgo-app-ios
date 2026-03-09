@@ -9,28 +9,6 @@ public class FeatureFlagManagerSpy: FeatureFlagManaging, @unchecked Sendable {
 
 	public init() { /* Public initializer needed for public access */ }
 
-	public var invokedIsDemoSetter = false
-	public var invokedIsDemoSetterCount = 0
-	public var invokedIsDemo: Bool?
-	public var invokedIsDemoList = [Bool]()
-	public var invokedIsDemoGetter = false
-	public var invokedIsDemoGetterCount = 0
-	public var stubbedIsDemo: Bool! = false
-
-	public var isDemo: Bool {
-		set {
-			invokedIsDemoSetter = true
-			invokedIsDemoSetterCount += 1
-			invokedIsDemo = newValue
-			invokedIsDemoList.append(newValue)
-		}
-		get {
-			invokedIsDemoGetter = true
-			invokedIsDemoGetterCount += 1
-			return stubbedIsDemo
-		}
-	}
-
 	public var invokedWipePersistedData = false
 	public var invokedWipePersistedDataCount = 0
 

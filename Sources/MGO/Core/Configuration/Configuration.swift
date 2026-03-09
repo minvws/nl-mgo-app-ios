@@ -24,24 +24,6 @@ public class Configuration {
 
 extension Configuration {
 	
-	/// Get the url for the localisation server
-	/// - Returns: url of the localisation server
-	func urlForLocalisation() -> URL {
-		do {
-			switch getRelease() {
-				case .demo, .acceptance, .production: return try LocalisationService.Servers.Server2.url()
-				case .development, .test: return try LocalisationService.Servers.Server1.url()
-			}
-			
-		} catch {
-			logError("Configuration: error creating localisation url", error)
-		}
-		fatalError("Configuration: No url for the localisation service")
-	}
-}
-
-extension Configuration {
-	
 	/// Get the url for the remote config server
 	/// - Returns: url of the remote config server
 	func urlForRemoteConfiguration() -> URL {

@@ -7,7 +7,6 @@ import MGOFoundation
 @testable import MGO
 import OrganizationSearch
 
-// swiftlint:disable type_body_length
 class Generator {
 	
 	/// Create a mock organization for search results
@@ -52,47 +51,36 @@ class Generator {
 	///   - postalCode: the postal code of the organization
 	///   - useDataService: should we include a data service?
 	///   - serviceId: the id for the data service
-	///   - withLines: use address as input for the lines part?
 	/// - Returns: a healthcare organization
-	static func healthcareOrganization(_ id: String, name: String = "Tandarts Tandje Erbij", city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true, serviceId: String = "48", withLines: Bool = true ) -> MgoOrganization {
-		
-		var dataServices = [LocalisationService.DataService]()
+	static func healthcareOrganization(
+		_ id: String,
+		name: String = "Tandarts Tandje Erbij",
+		city: String = "Roermond",
+		address: String = "Boorplatform 5",
+		postalCode: String = "1234AB",
+		useDataService: Bool = true,
+		serviceId: String = "48"
+	) -> OrganizationSearch.Organization {
+
+		var dataServicesDict: [String: OrganizationSearch.DataService]?
 		if useDataService {
-			dataServices.append(
-				LocalisationService.DataService(
-					id: serviceId,
-					name: "Basisgegevens Zorg",
-					interface_versions: ["2"],
-					auth_endpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/authorize",
-					token_endpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/token",
-					roles: [
-						LocalisationService.Components.Schemas.ZalDataServiceRoleResponse(
-							code: "MM-3.0-BZB-FHIR",
-							resource_endpoint: "https://dva-mock.test.mgo.prolocation.net/48")
-					]
+			dataServicesDict = [
+				serviceId: OrganizationSearch.DataService(
+					authEndpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/authorize",
+					resourceEndpoint: "https://dva-mock.test.mgo.prolocation.net/48",
+					tokenEndpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/token"
 				)
-			)
+			]
 		}
-		
-		return MgoOrganization(
-			medmij_id: "test",
-			display_name: name,
-			identification: id,
-			addresses: [LocalisationService.Components.Schemas.Address(
-				active: true,
-				address: "\(address) \r\n \(postalCode) \(city)",
-				city: city,
-				lines: withLines ? [address] : nil,
-				postalcode: postalCode)
-			],
-			types: [
-				LocalisationService.Components.Schemas.CType(
-					code: "01",
-					display_name: "Tandarts",
-					_type: ""
-				)
-			],
-			data_services: dataServices
+
+		return OrganizationSearch.Organization(
+			addressLine: address,
+			careTypeDisplay: "Tandarts",
+			city: city,
+			dataServices: dataServicesDict,
+			displayName: name,
+			id: id,
+			postalCode: postalCode
 		)
 	}
 	
@@ -353,4 +341,3 @@ class Generator {
 		]
 	)
 }
-// swiftlint:enable type_body_length

@@ -1,5 +1,5 @@
 {
-  "originHash" : "aee9b3c161a8bf37695fa83fac76fe5128faaadcf4cf8ce268ff7a29d25542d3",
+  "originHash" : "1140b7ceb09a531d230af2c81dc3bbda75dd79adfe4900efa0a6e091540a58aa",
   "pins" : [
     {
       "identity" : "cwlcatchexception",
@@ -60,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-openapi-runtime",
       "state" : {
-        "revision" : "16c8eb7f65d28f5ddb8cb0dc1be5ec32e796fe45",
-        "version" : "1.10.1"
+        "revision" : "f039fa6d6338aab5164f3d1be16281524c9a8f89",
+        "version" : "1.11.0"
       }
     },
     {

@@ -14,22 +14,28 @@ let package = Package(
 	],
 	dependencies: [
 		// Internal
+		.package(name: "FileStorage", path: "../FileStorage"),
 		.package(name: "MGODebug", path: "../MGODebug"),
+		.package(name: "Observatory", path: "../Observatory"),
 		// External
-		.package(url: "https://github.com/groue/GRDB.swift", exact: "7.10.0")
+		.package(url: "https://github.com/groue/GRDB.swift", exact: "7.10.0"),
 	],
 	targets: [
 		.target(
 			name: "OrganizationSearch",
 			dependencies: [
+				.product(name: "FileStorage", package: "FileStorage"),
 				.product(name: "MGODebug", package: "MGODebug"),
+				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "GRDB", package: "GRDB.swift")
 			],
 			resources: [.process("Resources")]
 		),
 		.testTarget(
 			name: "OrganizationSearchTests",
-			dependencies: ["OrganizationSearch"],
+			dependencies: [
+				"OrganizationSearch"
+			],
 			resources: [.process("Resources")]
 		)
 	]

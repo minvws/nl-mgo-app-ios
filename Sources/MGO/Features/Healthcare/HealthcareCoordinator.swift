@@ -59,10 +59,10 @@ struct HealthcareCoordination {
 		
 		// Details Flow
 		case showHealthCategories
-		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
-		case showHealthCategory(category: SharedHealthCategories.Category, organization: MgoOrganization?)
-		case showHealthData(config: HealthDataViewConfig, schema: HealthUISchema, organization: MgoOrganization)
-		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
+		case showHealthcareOrganization(healthcareOrganization: OrganizationSearch.Organization)
+		case showHealthCategory(category: SharedHealthCategories.Category, organization: OrganizationSearch.Organization?)
+		case showHealthData(config: HealthDataViewConfig, schema: HealthUISchema, organization: OrganizationSearch.Organization)
+		case removeHealthcareOrganization(healthcareOrganization: OrganizationSearch.Organization)
 		
 		// Favorites
 		case showFavorites
@@ -88,9 +88,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	
 	/// The flow coordinator for routing
 	private weak var parentCoordinator: (any DashboardCoordinatorProtocol)?
-	
-	/// Dependency injectable Localization Service Client
-	@Injected(\.localisationServiceClient) private var localisationServiceClient
 	
 	/// Create a healthcare coordinator
 	/// - Parameter coordinator: the coordinator
@@ -219,7 +216,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		guard action.identifier == Coordination.Action.showHealthcareOrganization.identifier else { return false }
 		
 		if action.params.count == 1,
-		   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
+		   let healthcareOrganization = action.params["healthcareOrganization"] as? OrganizationSearch.Organization {
 			
 			path.append(HealthcareCoordination.State.showHealthcareOrganization(healthcareOrganization: healthcareOrganization))
 			return true
@@ -237,7 +234,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		guard action.identifier == Coordination.Action.showHealthCategory.identifier else { return false }
 		
 		if action.params.count == 2,
-		   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
+		   let healthcareOrganization = action.params["healthcareOrganization"] as? OrganizationSearch.Organization,
 		   let category = action.params["category"] as? SharedHealthCategories.Category {
 			path.append(HealthcareCoordination.State.showHealthCategory(category: category, organization: healthcareOrganization))
 			return true
@@ -260,7 +257,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		
 		if action.params.count == 6,
 		   // let resource = action.params["resource"] as? MgoResouce,
-		   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
+		   let healthcareOrganization = action.params["healthcareOrganization"] as? OrganizationSearch.Organization,
 		   let backButtonTitle = action.params["backButtonTitle"] as? String,
 		   let titleInline = action.params["titleInline"] as? Bool,
 		   let inSheet = action.params["inSheet"] as? Bool,
@@ -299,7 +296,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		guard action.identifier == Coordination.Action.removeHealthcareOrganization.identifier else { return false }
 		
 		if action.params.count == 1,
-		   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
+		   let healthcareOrganization = action.params["healthcareOrganization"] as? OrganizationSearch.Organization {
 			
 			rootStateForSheet = HealthcareCoordination.State.removeHealthcareOrganization(healthcareOrganization: healthcareOrganization)
 			return true
@@ -402,7 +399,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// - Returns: A view for that state
 	@MainActor @ViewBuilder private func viewState(
 		for category: SharedHealthCategories.Category,
-		organization: MgoOrganization? = nil
+		organization: OrganizationSearch.Organization? = nil
 	) -> some View {
 		
 		if category.id == "documents" {

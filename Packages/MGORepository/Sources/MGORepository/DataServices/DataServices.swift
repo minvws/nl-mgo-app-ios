@@ -95,7 +95,7 @@ public struct DataServices: Sendable {
 	public var services: [DataService] = []
 	
 	/// Create the data services
-	public init(isDemo: Bool = false) {
+	public init() {
 		
 		var elements = [String]()
 		if let files = try? FileManager.default.contentsOfDirectory(atPath: Bundle.module.bundlePath) {
@@ -105,14 +105,6 @@ public struct DataServices: Sendable {
 				.filter({ $0.hasSuffix(".json") && $0 != "version.json" })
 				// Strip the .json suffix
 				.map({ $0.replacingOccurrences(of: ".json", with: "") })
-				// Adjust for demo
-				.filter({
-					if isDemo {
-						$0.hasSuffix("demo")
-					} else {
-						!$0.hasSuffix("demo")
-					}
-				})
 		}
 		for element in elements {
 			if let service = try? loadService(element) {

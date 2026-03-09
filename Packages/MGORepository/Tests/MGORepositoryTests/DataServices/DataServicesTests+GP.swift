@@ -15,28 +15,6 @@ class DataServicesGPTests {
 		self.sut = DataServices()
 	}
 	
-	@Test func generalPractitioner_isDemo() async throws {
-		
-		// Given
-		sut = DataServices(isDemo: true)
-		
-		// When
-		let dataService = try #require(sut.services.first(where: { $0.id == "49" }))
-		
-		// Then
-		#expect(dataService.id == "49")
-		#expect(dataService.name == "General Practitioner Data (demo)")
-		#expect(dataService.fhirVersion == "3.0")
-		#expect(dataService.fhirVersionEnum == .r3)
-		#expect(dataService.endpoints.count == 1)
-		
-		#expect(dataService.endpoints[0].id == "diagnosticAndLabResults")
-		#expect(dataService.endpoints[0].getPath() == "/Observation?code=https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen|&_include=Observation:related-target&_include=Observation:specimen")
-		#expect(dataService.endpoints[0].profiles.count == 2)
-		#expect(dataService.endpoints[0].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult")
-		#expect(dataService.endpoints[0].profiles.last == "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult")
-	}
-	
 	@Test func generalPractitioner() async throws {
 		
 		// Given

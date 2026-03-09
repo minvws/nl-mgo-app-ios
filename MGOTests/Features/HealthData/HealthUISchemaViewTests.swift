@@ -9,7 +9,7 @@ import MGOUI
 @testable import MGO
 final class HealthUISchemaViewTests: XCTestCase {
 	
-	private var healthcareOrganization: MgoOrganization!
+	private var healthcareOrganization: OrganizationSearch.Organization!
 	private var sut: HealthUISchemaView!
 	
 	override func setUp() {

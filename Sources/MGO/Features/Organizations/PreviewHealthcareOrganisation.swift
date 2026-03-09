@@ -4,24 +4,20 @@
  */
 
 import MGOFoundation
+import OrganizationSearch
 
 struct PreviewContent {
-	
-	static let healthcareOrganization = MgoOrganization(
-		medmij_id: "test",
-		display_name: "Tandarts Tandje Erbij",
-		identification: "1",
-		addresses: [LocalisationService.Components.Schemas.Address(
-			active: true,
-			address: "Boorplatform 5",
-			city: "Roermond",
-			lines: ["Boorplatform 5"],
-			postalcode: "1234AB")
-		],
-		types: [LocalisationService.Components.Schemas.CType(code: "01", display_name: "Tandarts", _type: "")],
-		data_services: []
+
+	static let healthcareOrganization = OrganizationSearch.Organization(
+		addressLine: "Boorplatform 5",
+		careTypeDisplay: "Tandarts",
+		city: "Roermond",
+		dataServices: nil,
+		displayName: "Tandarts Tandje Erbij",
+		id: "1",
+		postalCode: "1234AB"
 	)
-	
+
 	static let category = SharedHealthCategories.Category(
 		id: "medication",
 		heading: "hc_medication.heading",

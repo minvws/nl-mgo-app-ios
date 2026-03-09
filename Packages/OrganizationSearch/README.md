@@ -40,6 +40,8 @@ When a repopulate is needed, `prepare()` uses two techniques to keep memory usag
 
 ## Usage
 
+### Searching organizations
+
 ```swift
 import OrganizationSearch
 
@@ -61,6 +63,35 @@ await client.teardown()
 ```
 
 For dependency injection and testing, use `OrganizationSearchClientProtocol` and the bundled `OrganizationSearchClientSpy`.
+
+### Storing selected organizations
+
+`HealthcareOrganizationRepository` persists the user's saved healthcare organizations to disk as JSON via `FileStorage`. It exposes an in-memory `organizations` array (populated on init) and an `Observatory` that emits change events to observers.
+
+```swift
+import OrganizationSearch
+
+let repository = HealthcareOrganizationRepository()
+
+// Add
+try repository.store(organization)
+
+// Remove
+try repository.remove(organization)
+
+// Replace the full list
+try repository.set([organization])
+
+// Observe changes
+let token = repository.observatory.observe { (organization, reason) in
+    // reason is .added, .removed, or .changed
+}
+
+// Wipe all persisted data
+repository.wipePersistedData()
+```
+
+For dependency injection and testing, use `HealthcareOrganizationRepositoryProtocol` and the bundled `HealthcareOrganizationRepositorySpy`.
 
 
 ## Contribution process

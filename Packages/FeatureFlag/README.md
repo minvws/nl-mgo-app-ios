@@ -3,7 +3,7 @@
 ## Overview
 
 Some of the features in the app are not finalized and/or may only be turned on in specific sitation. Currently there is one such feature:
-- isDemo, used to demonstrate the optimized flow
+- bypassRemoteAuthentication, used to skip the DigiD login
 
 ## Usage
 
@@ -11,8 +11,8 @@ Some of the features in the app are not finalized and/or may only be turned on i
 import FeatureFlag
 let featureFlagManager = FeatureFlagManager()
 
-if featureFlagManager.isDemo {
-	// Demo flow
+if featureFlagManager.bypassRemoteAuthentication {
+	// Bypass flow
 	...
 }
 

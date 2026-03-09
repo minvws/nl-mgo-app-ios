@@ -12,7 +12,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var healthcareOrganization: MgoOrganization!
+	private var healthcareOrganization: OrganizationSearch.Organization!
 	private var viewModel: HealthCategoriesViewModel!
 	private var sut: HealthCategoriesView!
 	

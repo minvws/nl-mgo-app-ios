@@ -17,7 +17,6 @@ let package = Package(
 		// Internal
 		.package(name: "FeatureFlag", path: "../FeatureFlag"),
 		.package(name: "JailBreakDetector", path: "../JailBreakDetector"),
-		.package(name: "LocalisationService", path: "../LocalisationService"),
 		.package(name: "MGODebug", path: "../MGODebug"),
 		.package(name: "MGORepository", path: "../MGORepository"),
 		.package(name: "NetworkAvailability", path: "../NetworkAvailability"),
@@ -41,7 +40,6 @@ let package = Package(
 				.product(name: "FactoryKit", package: "Factory"),
 				.product(name: "FeatureFlag", package: "FeatureFlag"),
 				.product(name: "JailBreakDetector", package: "JailBreakDetector"),
-					.product(name: "LocalisationService", package: "LocalisationService"),
 				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "MGORepository", package: "MGORepository"),
 				.product(name: "NetworkAvailability", package: "NetworkAvailability"),
@@ -55,6 +53,6 @@ let package = Package(
 				.product(name: "RemoteConfiguration", package: "RemoteConfiguration"),
 				.product(name: "RemoteAuthentication", package: "RemoteAuthentication")
 			],
-			)
+		)
 	]
 )

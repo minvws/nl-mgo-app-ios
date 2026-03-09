@@ -90,8 +90,8 @@ class SearchOrganizationViewModel: ObservableObject {
 			isOnboarding: firstVisitor,
 			results: [],
 			storedOrganizationIDs: healthcareOrganizationRepository.organizations
-				.map(\.identification),
-			availableServiceIds: DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.map(\.id)
+				.map(\.id),
+			availableServiceIds: DataServices().services.map(\.id)
 		)
 		
 		memoryWarningObserver = NotificationCenter.default.addObserver(
@@ -209,66 +209,8 @@ class SearchOrganizationViewModel: ObservableObject {
 	
 	/// Store an organization
 	/// - Parameter organization: the organization to store
-	@MainActor private func store(_ organization: Organization) {
-		
-		// Transform OrganizationSearch.Organization to MgoOrganization
-		let mgoOrganization = MgoOrganization(
-			medmij_id: organization.id,
-			display_name: organization.displayName ?? "",
-			identification: organization.id,
-			addresses: {
-				// Only create an address if we have city (required field)
-				guard let city = organization.city else {
-					return []
-				}
-				
-				let addressLines: [String]?
-				if let addressLine = organization.addressLine {
-					addressLines = [addressLine]
-				} else {
-					addressLines = nil
-				}
-				
-				return [LocalisationService.Components.Schemas.Address(
-					active: true,
-					address: organization.addressLine,
-					city: city,
-					country: "NL",
-					lines: addressLines,
-					postalcode: organization.postalCode
-				)]
-			}(),
-			types: {
-				// Only create a type if we have careTypeDisplay
-				guard let careTypeDisplay = organization.careTypeDisplay else {
-					return []
-				}
-				
-				return [LocalisationService.Components.Schemas.CType(
-					code: "",
-					display_name: careTypeDisplay,
-					_type: ""
-				)]
-			}(),
-			data_services: organization.dataServices?.map { key, value in
-				LocalisationService.Components.Schemas.ZalDataServiceResponse(
-					id: key,
-					name: key,
-					interface_versions: [],
-					auth_endpoint: value.authEndpoint,
-					token_endpoint: value.tokenEndpoint,
-					roles: [
-						LocalisationService.Components.Schemas.ZalDataServiceRoleResponse(
-							code: "",
-							resource_endpoint: value.resourceEndpoint
-						)
-					]
-				)
-			}
-		)
-		
-		// Store the organization
-		try? healthcareOrganizationRepository.store(mgoOrganization)
+	@MainActor private func store(_ organization: OrganizationSearch.Organization) {
+		try? healthcareOrganizationRepository.store(organization)
 	}
 }
 

@@ -12,7 +12,6 @@
 @_exported import FileStorage
 @_exported import HCIMCore
 @_exported import JailBreakDetector
-@_exported import LocalisationService
 @_exported import MGODebug
 @_exported import MGORepository
 @_exported import NetworkAvailability
