@@ -19,8 +19,6 @@ let package = Package(
 		.package(name: "Observatory", path: "../Observatory"),
 		// External
 		.package(url: "https://github.com/groue/GRDB.swift", exact: "7.10.0"),
-		// Testing
-		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		.target(
@@ -36,8 +34,7 @@ let package = Package(
 		.testTarget(
 			name: "OrganizationSearchTests",
 			dependencies: [
-				"OrganizationSearch",
-				.product(name: "MGOTest", package: "MGOTest")
+				"OrganizationSearch"
 			],
 			resources: [.process("Resources")]
 		)

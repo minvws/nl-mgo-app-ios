@@ -4,16 +4,17 @@
  */
 
 @testable import OrganizationSearch
-import MGOTest
+import Testing
 
-final class HealthcareOrganizationRepositoryTests: XCTestCase {
+@Suite(.serialized)
+class HealthcareOrganizationRepositoryTests {
 
-	override func tearDown() {
-		super.tearDown()
+	init() {
 		HealthcareOrganizationRepository().wipePersistedData()
 	}
 
-	func test_storeToDisk() throws {
+	@Test("Store an organization to disk")
+	func storeToDisk() throws {
 
 		// Given
 		let sut = HealthcareOrganizationRepository()
@@ -24,13 +25,14 @@ final class HealthcareOrganizationRepositoryTests: XCTestCase {
 		let list = try sut.read()
 
 		// Then
-		expect(list).to(haveCount(1))
-		expect(list.first) == organization
-		expect(sut.organizations).to(haveCount(1))
-		expect(sut.organizations) == list
+		#expect(list.count == 1)
+		#expect(list.first == organization)
+		#expect(sut.organizations.count == 1)
+		#expect(sut.organizations == list)
 	}
 
-	func test_storeToDiskTwice_savesJustOne() throws {
+	@Test("Storing the same organization twice saves just one")
+	func storeToDiskTwice_savesJustOne() throws {
 
 		// Given
 		let sut = HealthcareOrganizationRepository()
@@ -42,13 +44,14 @@ final class HealthcareOrganizationRepositoryTests: XCTestCase {
 		let list = try sut.read()
 
 		// Then
-		expect(list).to(haveCount(1))
-		expect(list.first) == organization
-		expect(sut.organizations).to(haveCount(1))
-		expect(sut.organizations) == list
+		#expect(list.count == 1)
+		#expect(list.first == organization)
+		#expect(sut.organizations.count == 1)
+		#expect(sut.organizations == list)
 	}
 
-	func test_storeAndRemoveToDisk() throws {
+	@Test("Remove a stored organization from disk")
+	func storeAndRemoveToDisk() throws {
 
 		// Given
 		let sut = HealthcareOrganizationRepository()
@@ -60,11 +63,12 @@ final class HealthcareOrganizationRepositoryTests: XCTestCase {
 		let list = try sut.read()
 
 		// Then
-		expect(list).to(beEmpty())
-		expect(sut.organizations).to(beEmpty())
+		#expect(list.isEmpty)
+		#expect(sut.organizations.isEmpty)
 	}
 
-	func test_set() throws {
+	@Test("Set replaces the stored list")
+	func set() throws {
 
 		// Given
 		let sut = HealthcareOrganizationRepository()
@@ -75,11 +79,12 @@ final class HealthcareOrganizationRepositoryTests: XCTestCase {
 
 		// Then
 		let list = try sut.read()
-		expect(list).to(haveCount(1))
-		expect(list.first) == organization
+		#expect(list.count == 1)
+		#expect(list.first == organization)
 	}
 
-	func test_wipePersistentData() throws {
+	@Test("Wipe persistent data clears all stored organizations")
+	func wipePersistentData() throws {
 
 		// Given
 		let sut = HealthcareOrganizationRepository()
@@ -91,11 +96,16 @@ final class HealthcareOrganizationRepositoryTests: XCTestCase {
 		let list = try sut.read()
 
 		// Then
-		expect(list).to(beEmpty())
-		expect(sut.organizations).to(beEmpty())
+		#expect(list.isEmpty)
+		#expect(sut.organizations.isEmpty)
 	}
 
-	func makeOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB") -> Organization {
+	func makeOrganization(
+		_ id: String,
+		city: String = "Roermond",
+		address: String = "Boorplatform 5",
+		postalCode: String = "1234AB"
+	) -> Organization {
 		return Organization(
 			addressLine: address,
 			careTypeDisplay: "Tandarts",
