@@ -2,28 +2,9 @@
 
 ## Overview
 
-With the use of the [open-api generator](https://github.com/apple/swift-openapi-generator) this package creates methods to find Dutch Healthcare Organizations from [ZorgAB](https://www.vzvz.nl/diensten/gemeenschappelijke-diensten/zorg-ab) through the [lo-ad server](https://lo-ad.test.mgo.irealisatie.nl/docs#/) from iRealisatie. 
+With the use of the [open-api generator](https://github.com/apple/swift-openapi-generator) this package creates methods to store Dutch Healthcare Organizations. 
 
 ## Usage
-
-### Searching for Healthcare Organizations
-
-You can search for healthcare organizations with the LocalisationServiceClient by using two String parameters, city and name. It will return a list of healthcare organizations. 
-
-```swift
-import LocalisationService
-
-let client: LocalisationServiceClientProtocol = LocalisationServiceClient()
-let city: String = "Roermond"
-let name: String = "Tandarts"
-
-do {
-	let searchResultsList: [HealthcareOrganization] = try await client.searchHealthcareOrganizations(city: city, name: name)
-	print("We found \(searchResultsList.count) organisations.")
-} catch {
-	print("Error fetching organisations \(error)")
-}
-```
 
 ### Storing & Reading a Healthcare Organization
 

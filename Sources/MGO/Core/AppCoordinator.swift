@@ -140,9 +140,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Dependency injectable Feature Flag Manager
 	@Injected(\.featureFlagManager) private var featureFlagManager
 	
-	/// Dependency injectable Localization Service Client
-	@Injected(\.localisationServiceClient) private var localisationServiceClient
-	
 	/// Dependency injectable Remote Configuration Repository
 	@Injected(\.remoteConfigurationRepository) private var remoteConfigurationRepository
 	

@@ -66,12 +66,6 @@ import MGOUI
 		return SecureUserSettingsSpy()
 	}()
 	
-	var localisationServiceClientSpy: LocalisationServiceClientSpy = {
-		let url = URL(string: "https://example.com")!
-		let spy = LocalisationServiceClientSpy(serverUrl: url, username: nil, password: nil)
-		return spy
-	}()
-	
 	var remoteConfigurationRepositorySpy: RemoteConfigurationRepositorySpy = {
 		let spy = RemoteConfigurationRepositorySpy()
 		spy.stubbedStoredConfiguration = RemoteConfig.fallback
@@ -113,8 +107,6 @@ func setupServicesSpies() -> ServicesSpies {
 		.register { spies.healthcareOrganizationStoreSpy }
 	Container.shared.jailBreakDetector
 		.register { @MainActor in spies.jailBreakSpy }
-	Container.shared.localisationServiceClient
-		.register { spies.localisationServiceClientSpy }
 	Container.shared.osVersionChecker
 		.register { OSVersionCheckerTrue() }
 	Container.shared.patientFriendyTermsRepository

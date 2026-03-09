@@ -44,18 +44,6 @@ extension Container {
 			.shared
 	}
 	
-	/// The Client to fetch healthcare providers
-	var localisationServiceClient: Factory<LocalisationServiceClientProtocol> {
-		Factory(self) {
-			LocalisationServiceClient(
-				serverUrl: Configuration().urlForLocalisation(),
-				username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-				password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-			)
-		}
-		.singleton
-	}
-	
 	/// The organization Search client
 	var organizationSearchClient: Factory<OrganizationSearchClientProtocol> {
 		Factory(self) { OrganizationSearchClient() }

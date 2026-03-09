@@ -89,9 +89,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// The flow coordinator for routing
 	private weak var parentCoordinator: (any DashboardCoordinatorProtocol)?
 	
-	/// Dependency injectable Localization Service Client
-	@Injected(\.localisationServiceClient) private var localisationServiceClient
-	
 	/// Create a healthcare coordinator
 	/// - Parameter coordinator: the coordinator
 	init(parentCoordinator: (any DashboardCoordinatorProtocol)?, rootState: HealthcareCoordination.State) {
