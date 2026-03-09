@@ -14,7 +14,7 @@ let package = Package(
 	],
 	dependencies: [
 		// External
-		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.7.0"),
+		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.8.0"),
 		
 		// Testing
 		.package(name: "MGOTest", path: "../MGOTest")
