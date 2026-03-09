@@ -28,7 +28,7 @@ on:
         required: true
 
 env:
-  DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
   FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 180
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
 
