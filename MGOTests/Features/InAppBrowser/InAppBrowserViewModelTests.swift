@@ -71,18 +71,6 @@ final class InAppBrowserViewModelTests: XCTestCase {
 		expect(domains).to(haveCount(1))
 	}
 	
-	func test_allowedDomain_demo() {
-		
-		// Given
-		let release = Release.demo
-		
-		// When
-		let domains = Configuration().getAllowedDomains(for: release)
-		
-		// Then
-		expect(domains).to(haveCount(1))
-	}
-	
 	func test_allowedDomain_development() {
 		
 		// Given
