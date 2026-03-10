@@ -124,20 +124,6 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	@MainActor func test_coordinatorView_forLoginInfo() throws {
-		
-		// Given
-		setupSut()
-		let state = AppCoordination.State.loginInfo
-		
-		// When
-		let view = sut.view(for: state)
-		let content = NavigationStackBackport.NavigationStack { view }
-		
-		// Then
-		takeSnapShots(content: content, precision: 0.95)
-	}
-	
 	@MainActor func test_coordinatorView_forDashboard() throws {
 		
 		// Given

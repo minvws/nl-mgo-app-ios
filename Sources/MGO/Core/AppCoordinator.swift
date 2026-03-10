@@ -53,7 +53,6 @@ extension Coordination.Action {
 	// Remote Authentication
 	@MainActor static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
 	@MainActor static let deeplink = Coordination.Action(identifier: "deeplink")
-	@MainActor static let nextButtonPressedOnLoginInfo = Coordination.Action(identifier: "nextButtonPressedOnLoginInfo")
 	
 	// Other
 	@MainActor static let closeSheet = Coordination.Action(identifier: "closeSheet")
@@ -75,8 +74,7 @@ struct AppCoordination {
 		
 		// Remote Authentication
 		case login
-		case loginInfo
-		
+
 		// Manual Localization
 		case manualLocalization
 		
@@ -285,11 +283,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Remote Authentication
 				
 			case Coordination.Action.loggedInWithDigiD.identifier:
-			
-				resetNavigationStack(with: AppCoordination.State.loginInfo)
-				return true
-			
-			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
 				resetNavigationStack(with: AppCoordination.State.manualLocalization)
 				return true
 			
@@ -431,9 +424,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 						remoteAuthenticationClient: self.remoteAuthenticationClient
 					)
 				)
-				
-			case .loginInfo:
-				LoginInfoView(viewModel: LoginInfoViewModel(coordinator: self))
 				
 			// Manual Localization
 				
