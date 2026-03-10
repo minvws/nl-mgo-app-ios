@@ -95,16 +95,17 @@ enum StoreDatabase {
 			.flatMap { try decoder.decode([String: DataService].self, from: Data($0.utf8)) }
 
 		return Organization(
-			addressLine: row["addressLine"],
+			address: OrganizationAddress(
+				addressLine: row["addressLine"],
+				city: row["city"],
+				geoLat: row["geoLat"],
+				geoLng: row["geoLng"],
+				postalCode: row["postalCode"]
+			),
 			careTypeDisplay: row["careTypeDisplay"],
-			city: row["city"],
 			dataServices: dataServices,
 			displayName: row["displayName"],
-			geoLat: row["geoLat"],
-			geoLng: row["geoLng"],
-			id: row["id"],
-			postalCode: row["postalCode"],
-			searchBlob: nil
+			id: row["id"]
 		)
 	}
 
@@ -135,14 +136,14 @@ enum StoreDatabase {
 				""",
 			arguments: [
 				org.id,
-				org.addressLine,
+				org.address.addressLine,
 				org.careTypeDisplay,
-				org.city,
+				org.address.city,
 				dataServicesJSON,
 				org.displayName,
-				org.geoLat,
-				org.geoLng,
-				org.postalCode
+				org.address.geoLat,
+				org.address.geoLng,
+				org.address.postalCode
 			]
 		)
 	}

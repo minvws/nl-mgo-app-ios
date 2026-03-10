@@ -29,16 +29,15 @@ class Generator {
 		dataServices: [String: OrganizationSearch.DataService]? = nil
 	) -> OrganizationSearch.Organization {
 		return OrganizationSearch.Organization(
-			addressLine: addressLine,
+			address: OrganizationSearch.OrganizationAddress(
+				addressLine: addressLine,
+				city: city,
+				postalCode: postalCode
+			),
 			careTypeDisplay: careTypeDisplay,
-			city: city,
 			dataServices: dataServices,
 			displayName: displayName,
-			geoLat: nil,
-			geoLng: nil,
-			id: id,
-			postalCode: postalCode,
-			searchBlob: nil
+			id: id
 		)
 	}
 	
@@ -74,13 +73,15 @@ class Generator {
 		}
 
 		return OrganizationSearch.Organization(
-			addressLine: address,
+			address: OrganizationSearch.OrganizationAddress(
+				addressLine: address,
+				city: city,
+				postalCode: postalCode
+			),
 			careTypeDisplay: "Tandarts",
-			city: city,
 			dataServices: dataServicesDict,
 			displayName: name,
-			id: id,
-			postalCode: postalCode
+			id: id
 		)
 	}
 	

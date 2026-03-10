@@ -131,13 +131,15 @@ class HealthcareOrganizationRepositoryTests {
 		dataServices: [String: DataService]? = nil
 	) -> Organization {
 		return Organization(
-			addressLine: address,
+			address: OrganizationAddress(
+				addressLine: address,
+				city: city,
+				postalCode: postalCode
+			),
 			careTypeDisplay: "Tandarts",
-			city: city,
 			dataServices: dataServices,
 			displayName: "Tandarts Tandje Erbij",
-			id: id,
-			postalCode: postalCode
+			id: id
 		)
 	}
 }

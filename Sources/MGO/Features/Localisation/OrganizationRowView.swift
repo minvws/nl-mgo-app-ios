@@ -43,7 +43,7 @@ struct OrganizationRowView: View {
 			CardView(
 				title: organization.displayName ?? "",
 				message: (
-					(organization.addressLine ?? "") + ", " + (organization.city ?? "")
+					(organization.address.addressLine ?? "") + ", " + (organization.address.city ?? "")
 				).trim(),
 				details: {
 					switch cardState {

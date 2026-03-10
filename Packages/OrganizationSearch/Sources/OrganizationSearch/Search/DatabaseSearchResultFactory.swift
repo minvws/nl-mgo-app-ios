@@ -28,16 +28,17 @@ enum DatabaseSearchResultFactory {
 			.flatMap { try decoder.decode([String: DataService].self, from: Data($0.utf8)) }
 
 		let org = Organization(
-			addressLine: row["addressLine"],
+			address: OrganizationAddress(
+				addressLine: row["addressLine"],
+				city: row["city"],
+				geoLat: row["geoLat"],
+				geoLng: row["geoLng"],
+				postalCode: row["postalCode"]
+			),
 			careTypeDisplay: row["careTypeDisplay"],
-			city: row["city"],
 			dataServices: dataServices,
 			displayName: row["displayName"],
-			geoLat: row["geoLat"],
-			geoLng: row["geoLng"],
-			id: row["id"],
-			postalCode: row["postalCode"],
-			searchBlob: nil
+			id: row["id"]
 		)
 		return SearchResult(document: org, id: org.id, score: row["score"] ?? 0)
 	}

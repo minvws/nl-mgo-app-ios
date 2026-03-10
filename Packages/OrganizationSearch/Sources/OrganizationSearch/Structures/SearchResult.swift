@@ -7,7 +7,7 @@ import Foundation
 // MARK: - SearchResult
 
 /// A single result returned by an organization search query.
-public struct SearchResult: Codable, Hashable, Sendable {
+public struct SearchResult: Decodable, Hashable, Sendable {
 	
 	/// The matched organization.
 	public let document: Organization

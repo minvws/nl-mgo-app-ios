@@ -150,15 +150,15 @@ enum DatabasePopulator {
 				org.id,
 				org.displayName,
 				org.careTypeDisplay,
-				org.city,
-				org.postalCode,
-				org.addressLine,
-				org.geoLat,
-				org.geoLng,
+				org.address.city,
+				org.address.postalCode,
+				org.address.addressLine,
+				org.address.geoLat,
+				org.address.geoLng,
 				normalizeSearchText(org.searchBlob),
 				dataServicesJSON,
 				normalizeSearchText(org.displayName),
-				normalizeSearchText(org.city)
+				normalizeSearchText(org.address.city)
 			]
 		)
 	}

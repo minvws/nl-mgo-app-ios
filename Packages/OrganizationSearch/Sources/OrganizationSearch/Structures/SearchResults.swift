@@ -7,7 +7,7 @@ import Foundation
 // MARK: - SearchResults
 
 /// The top-level response from an organization search query.
-public struct SearchResults: Codable, Hashable, Sendable {
+public struct SearchResults: Decodable, Hashable, Sendable {
 	
 	/// The total number of matching organizations in the index.
 	public let count: Double
