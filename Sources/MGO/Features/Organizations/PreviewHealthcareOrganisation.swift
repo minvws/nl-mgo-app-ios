@@ -9,13 +9,14 @@ import OrganizationSearch
 struct PreviewContent {
 
 	static let healthcareOrganization = OrganizationSearch.Organization(
-		addressLine: "Boorplatform 5",
+		address: OrganizationSearch.OrganizationAddress(
+			addressLine: "Boorplatform 5",
+			city: "Roermond",
+			postalCode: "1234AB"
+		),
 		careTypeDisplay: "Tandarts",
-		city: "Roermond",
-		dataServices: nil,
 		displayName: "Tandarts Tandje Erbij",
-		id: "1",
-		postalCode: "1234AB"
+		id: "1"
 	)
 
 	static let category = SharedHealthCategories.Category(

@@ -34,8 +34,14 @@ extension Container {
 	
 	/// The repository for all the stored healthcare organizations
 	var healthcareOrganizationRepository: Factory<HealthcareOrganizationRepositoryProtocol> {
-		Factory(self) { HealthcareOrganizationRepository() }
-			.singleton
+		Factory(self) {
+			do {
+				return try HealthcareOrganizationRepository()
+			} catch {
+				fatalError("Failed to open healthcare organization database: \(error)")
+			}
+		}
+		.singleton
 	}
 	
 	/// Detect jail broken devices

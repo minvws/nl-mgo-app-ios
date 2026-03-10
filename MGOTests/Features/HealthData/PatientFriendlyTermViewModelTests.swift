@@ -26,6 +26,6 @@ final class PatientFriendlyTermViewModelTests: XCTestCase {
 		sut.reduce(.closeSheet)
 		
 		// Then
-		await expect(onClosePressed) == true
+		expect(onClosePressed) == true
 	}
 }

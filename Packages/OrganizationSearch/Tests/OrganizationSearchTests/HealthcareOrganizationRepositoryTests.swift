@@ -9,15 +9,15 @@ import Testing
 @Suite(.serialized)
 class HealthcareOrganizationRepositoryTests {
 
-	init() {
-		HealthcareOrganizationRepository().wipePersistedData()
+	init() throws {
+		try HealthcareOrganizationRepository().wipePersistedData()
 	}
 
 	@Test("Store an organization to disk")
 	func storeToDisk() throws {
 
 		// Given
-		let sut = HealthcareOrganizationRepository()
+		let sut = try HealthcareOrganizationRepository()
 		let organization = makeOrganization("1")
 
 		// When
@@ -35,7 +35,7 @@ class HealthcareOrganizationRepositoryTests {
 	func storeToDiskTwice_savesJustOne() throws {
 
 		// Given
-		let sut = HealthcareOrganizationRepository()
+		let sut = try HealthcareOrganizationRepository()
 		let organization = makeOrganization("1")
 
 		// When
@@ -54,7 +54,7 @@ class HealthcareOrganizationRepositoryTests {
 	func storeAndRemoveToDisk() throws {
 
 		// Given
-		let sut = HealthcareOrganizationRepository()
+		let sut = try HealthcareOrganizationRepository()
 		let organization = makeOrganization("1")
 		try sut.store(organization)
 
@@ -71,7 +71,7 @@ class HealthcareOrganizationRepositoryTests {
 	func set() throws {
 
 		// Given
-		let sut = HealthcareOrganizationRepository()
+		let sut = try HealthcareOrganizationRepository()
 		let organization = makeOrganization("1")
 
 		// When
@@ -87,7 +87,7 @@ class HealthcareOrganizationRepositoryTests {
 	func wipePersistentData() throws {
 
 		// Given
-		let sut = HealthcareOrganizationRepository()
+		let sut = try HealthcareOrganizationRepository()
 		let organization = makeOrganization("1")
 		try sut.store(organization)
 
@@ -100,19 +100,46 @@ class HealthcareOrganizationRepositoryTests {
 		#expect(sut.organizations.isEmpty)
 	}
 
-	func makeOrganization(
+	@Test("Data services round-trip through SQLite")
+	func dataServicesRoundTrip() throws {
+
+		// Given
+		let dataService = DataService(
+			authEndpoint: "https://example.com/auth",
+			resourceEndpoint: "https://example.com/fhir",
+			tokenEndpoint: "https://example.com/token"
+		)
+		let organization = makeOrganization("1", dataServices: ["urn:oid:2.16.840.1.113883.2.4.3.11.58.1": dataService])
+		let sut = try HealthcareOrganizationRepository()
+
+		// When
+		try sut.store(organization)
+		let stored = try sut.read()
+
+		// Then
+		let storedService = try #require(stored.first?.dataServices?["urn:oid:2.16.840.1.113883.2.4.3.11.58.1"])
+		#expect(storedService.authEndpoint == dataService.authEndpoint)
+		#expect(storedService.resourceEndpoint == dataService.resourceEndpoint)
+		#expect(storedService.tokenEndpoint == dataService.tokenEndpoint)
+	}
+
+	private func makeOrganization(
 		_ id: String,
 		city: String = "Roermond",
 		address: String = "Boorplatform 5",
-		postalCode: String = "1234AB"
+		postalCode: String = "1234AB",
+		dataServices: [String: DataService]? = nil
 	) -> Organization {
 		return Organization(
-			addressLine: address,
+			address: OrganizationAddress(
+				addressLine: address,
+				city: city,
+				postalCode: postalCode
+			),
 			careTypeDisplay: "Tandarts",
-			city: city,
+			dataServices: dataServices,
 			displayName: "Tandarts Tandje Erbij",
-			id: id,
-			postalCode: postalCode
+			id: id
 		)
 	}
 }

@@ -6,6 +6,11 @@
 import Foundation
 import Observatory
 
+/// Test double for `HealthcareOrganizationRepositoryProtocol`.
+///
+/// Records every call made to its methods and exposes the captured arguments
+/// via `invoked*` and `invokedParameters*` properties. Return values can be
+/// configured through `stubbed*` properties before the call is made.
 public class HealthcareOrganizationRepositorySpy: HealthcareOrganizationRepositoryProtocol {
 
 	public init() { /* Public initializer needed for public access */ }

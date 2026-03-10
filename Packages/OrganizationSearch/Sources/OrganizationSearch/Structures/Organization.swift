@@ -8,16 +8,13 @@ import Foundation
 // MARK: - Organization
 
 /// A healthcare organization returned by the organization search index.
-public struct Organization: Codable, Hashable, Sendable {
-	
-	/// The street address of the organization.
-	public let addressLine: String?
+public struct Organization: Decodable, Hashable, Sendable {
+
+	/// The physical location of the organization.
+	public let address: OrganizationAddress
 
 	/// A human-readable description of the type of care the organization provides.
 	public let careTypeDisplay: String?
-
-	/// The city in which the organization is located.
-	public let city: String?
 
 	/// The data services offered by this organization, keyed by data service identifier.
 	public let dataServices: [String: DataService]?
@@ -25,54 +22,58 @@ public struct Organization: Codable, Hashable, Sendable {
 	/// The display name of the organization shown in search results.
 	public let displayName: String?
 
-	/// The latitude coordinate of the organization's location.
-	public let geoLat: Double?
-
-	/// The longitude coordinate of the organization's location.
-	public let geoLng: Double?
-
 	/// The unique identifier of the organization.
 	public let id: String
-
-	/// The postal code of the organization's address.
-	public let postalCode: String?
 
 	/// A concatenated blob of searchable text used by the search index.
 	public let searchBlob: String?
 
 	/// Creates a new `Organization`.
 	/// - Parameters:
-	///   - addressLine: The street address of the organization.
+	///   - address: The physical location of the organization.
 	///   - careTypeDisplay: A human-readable description of the type of care provided.
-	///   - city: The city in which the organization is located.
 	///   - dataServices: The data services offered, keyed by data service identifier.
 	///   - displayName: The display name of the organization.
-	///   - geoLat: The latitude coordinate of the organization's location.
-	///   - geoLng: The longitude coordinate of the organization's location.
 	///   - id: The unique identifier of the organization.
-	///   - postalCode: The postal code of the organization's address.
 	///   - searchBlob: A concatenated blob of searchable text used by the search index.
 	public init(
-		addressLine: String? = nil,
+		address: OrganizationAddress = OrganizationAddress(),
 		careTypeDisplay: String? = nil,
-		city: String? = nil,
 		dataServices: [String: DataService]? = nil,
 		displayName: String? = nil,
-		geoLat: Double? = nil,
-		geoLng: Double? = nil,
 		id: String,
-		postalCode: String? = nil,
 		searchBlob: String? = nil
 	) {
-		self.addressLine = addressLine
+		self.address = address
 		self.careTypeDisplay = careTypeDisplay
-		self.city = city
 		self.dataServices = dataServices
 		self.displayName = displayName
-		self.geoLat = geoLat
-		self.geoLng = geoLng
 		self.id = id
-		self.postalCode = postalCode
 		self.searchBlob = searchBlob
+	}
+
+	// MARK: - Codable
+
+	/// Flat JSON keys — the bundled JSON has address fields at the top level,
+	/// not nested under an `address` object.
+	private enum CodingKeys: String, CodingKey {
+		case addressLine, careTypeDisplay, city, dataServices, displayName
+		case geoLat, geoLng, id, postalCode, searchBlob
+	}
+
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.address = OrganizationAddress(
+			addressLine: try container.decodeIfPresent(String.self, forKey: .addressLine),
+			city: try container.decodeIfPresent(String.self, forKey: .city),
+			geoLat: try container.decodeIfPresent(Double.self, forKey: .geoLat),
+			geoLng: try container.decodeIfPresent(Double.self, forKey: .geoLng),
+			postalCode: try container.decodeIfPresent(String.self, forKey: .postalCode)
+		)
+		self.careTypeDisplay = try container.decodeIfPresent(String.self, forKey: .careTypeDisplay)
+		self.dataServices = try container.decodeIfPresent([String: DataService].self, forKey: .dataServices)
+		self.displayName = try container.decodeIfPresent(String.self, forKey: .displayName)
+		self.id = try container.decode(String.self, forKey: .id)
+		self.searchBlob = try container.decodeIfPresent(String.self, forKey: .searchBlob)
 	}
 }

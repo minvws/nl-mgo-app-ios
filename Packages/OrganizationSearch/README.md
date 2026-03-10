@@ -66,7 +66,7 @@ For dependency injection and testing, use `OrganizationSearchClientProtocol` and
 
 ### Storing selected organizations
 
-`HealthcareOrganizationRepository` persists the user's saved healthcare organizations to disk as JSON via `FileStorage`. It exposes an in-memory `organizations` array (populated on init) and an `Observatory` that emits change events to observers.
+`HealthcareOrganizationRepository` persists the user's saved healthcare organizations to an on-disk SQLite database (via GRDB). It exposes an in-memory `organizations` array (populated on init from the database) and an `Observatory` that emits change events to observers.
 
 ```swift
 import OrganizationSearch

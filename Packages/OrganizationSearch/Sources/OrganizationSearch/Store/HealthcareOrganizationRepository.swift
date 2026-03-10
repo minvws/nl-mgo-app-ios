@@ -3,10 +3,9 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import Foundation
+import GRDB
 import MGODebug
 import Observatory
-import FileStorage
 
 public enum HealthcareOrganizationReason {
 	case added
@@ -38,23 +37,10 @@ public protocol HealthcareOrganizationRepositoryProtocol {
 	func wipePersistedData()
 }
 
-public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol {
+public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol, @unchecked Sendable {
 
-	/// The storage provider
-	private let storage: FileStorageProtocol
-
-	/// The name of file in which we store the organizations
-	private let fileName: String = {
-
-		if NSClassFromString("XCTestCase") == nil {
-			return "mgo_hco_v2.json"
-		} else {
-			return "mgo_hco_test_v2.json"
-		}
-	}()
-
-	/// Dispatch Queue
-	private let queue = DispatchQueue(label: "com.HealthcareOrganizationRepository.serialqueue.\(UUID().uuidString)")
+	/// The SQLite database queue (serial — provides synchronization guarantee)
+	private let dbQueue: DatabaseQueue
 
 	/// Observatory for changes
 	public let observatory: Observatory<(Organization?, HealthcareOrganizationReason)>
@@ -62,19 +48,19 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	/// Observers for changes
 	private let observers: ((Organization?, HealthcareOrganizationReason)) -> Void
 
-	/// The list of stored healthcare organization
+	/// The list of stored healthcare organizations (in-memory cache)
 	public var organizations: [Organization]
 
-	/// Initializer
-	/// - Parameter storage: storage protocol
-	public init(storage: FileStorageProtocol = FileStorage()) {
+	/// Initializer — opens the database, runs migrations, loads the stored list.
+	/// - Throws: GRDB or Foundation errors if the database cannot be opened or migrated.
+	public init() throws {
 
-		self.storage = storage
+		self.dbQueue = try StoreDatabaseSetup.openDatabase()
+		try StoreDatabaseMigrations.migrate(self.dbQueue)
 		(self.observatory, self.observers) = Observatory<(Organization?, HealthcareOrganizationReason)>.create()
 
-		self.organizations = []
 		do {
-			try self.organizations = read()
+			self.organizations = try StoreDatabase.fetchAll(from: self.dbQueue)
 		} catch {
 			logError("HealthcareOrganizationRepository - error initializing ", error)
 			self.organizations = []
@@ -90,20 +76,15 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 			return
 		}
 
+		try StoreDatabase.insert(organization, into: dbQueue)
 		organizations.append(organization)
 		observers((organization, HealthcareOrganizationReason.added))
-		try persistToStorage()
 	}
 
-	/// Get a list of all the stored healthcare organization
+	/// Get a list of all the stored healthcare organizations from the database
 	/// - Returns: array of healthcare organization
 	internal func read() throws -> [Organization] {
-
-		if let jsonData = storage.read(fileName: fileName) {
-			let data = try JSONDecoder().decode([Organization].self, from: jsonData)
-			return data
-		}
-		return []
+		try StoreDatabase.fetchAll(from: dbQueue)
 	}
 
 	/// Delete a healthcare organization from storage
@@ -111,33 +92,24 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	public func remove(_ organization: Organization) throws {
 
 		logInfo("About to delete \(organization.displayName ?? "")")
+		try StoreDatabase.delete(organization, from: dbQueue)
 		organizations = organizations.filter { $0 != organization }
 		observers((organization, HealthcareOrganizationReason.removed))
-		try persistToStorage()
 	}
 
 	/// set the list of organizations
 	/// - Parameter newListOfOrganizations: the healthcare organizations to be stored
 	public func set(_ newListOfOrganizations: [Organization]) throws {
 
+		try StoreDatabase.replace(with: newListOfOrganizations, in: dbQueue)
 		organizations = newListOfOrganizations
 		observers((nil, HealthcareOrganizationReason.changed))
-		try persistToStorage()
 	}
 
 	/// Remove all the healthcare organizations
 	public func wipePersistedData() {
 
+		try? StoreDatabase.deleteAll(from: dbQueue)
 		organizations = []
-		storage.remove(fileName)
-	}
-
-	/// Store a list of organizations
-	private func persistToStorage() throws {
-
-		try queue.sync {
-			let encoded = try JSONEncoder().encode(organizations)
-			try storage.store(encoded, as: fileName)
-		}
 	}
 }

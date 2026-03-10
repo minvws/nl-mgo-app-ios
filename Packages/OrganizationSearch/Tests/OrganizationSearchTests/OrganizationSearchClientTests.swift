@@ -26,6 +26,20 @@ class OrganizationSearchClientTests {
 		#expect(searchResult?.count == 9.0)
 	}
 
+	@Test("Search for a non-existent organization returns empty results")
+	func search_withNonMatchingTerm_returnsEmpty() async throws {
+
+		// Given
+		let sut = OrganizationSearchClient()
+		try await sut.prepare(dataset: .test)
+
+		// When
+		let searchResult = try await sut.searchHealthcareOrganizations("Wrong")
+
+		// Then
+		#expect(searchResult.hits.isEmpty)
+	}
+
 	@Test("Search for an organization without indexing")
 	func searchWithoutIndexing() async throws {
 

@@ -72,74 +72,83 @@ struct UpdateRequiredView: View {
 	var body: some View {
 		
 		ScrollViewWithFixedBottom {
-			
-			VStack(alignment: .leading, spacing: 0) {
-				
-				if showImage {
-					HStack {
-						Spacer(minLength: ViewTraits.Image.padding)
-						Image(ImageResource.Woman.womanWithPhoneCog)
-							.resizable()
-							.scaledToFit()
-							.accessibilityHidden(true)
-						.padding(ViewTraits.Image.insets)
-						Spacer(minLength: ViewTraits.Image.padding)
-					}
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-				}
-				
-				Text("update_required.heading")
-					.typography(.headingExtraLarge)
-					.padding(ViewTraits.Title.insets)
-					.accessibilityAddTraits(.isHeader)
-					.fixedSize(horizontal: false, vertical: true)
-					.accessibilityIdentifier("update_required.heading")
-				
-				SplittedText(
-					key: "update_required.subheading",
-					spacing: ViewTraits.Text.spacing
-				)
-					.typography(.bodyMedium)
-					.padding(ViewTraits.Text.insets)
-					.accessibilityIdentifier("update_required.subheading")
-				
-				Spacer()
-			}
-			.frame(maxWidth: .infinity, alignment: .topLeading)
-			.foregroundStyle(theme.labels.primary)
-			.onRotate { newOrientation in
-				
-				// Always show on iPad
-				guard UIDevice.current.userInterfaceIdiom != .pad else { return }
-				
-				// The device orientation can be isFlat (faceUp or faceDown). Skip that
-				guard !newOrientation.isFlat else { return }
-				
-				// Hide the image in landscape (on a phone)
-				showImage = !newOrientation.isLandscape
-			}
-			.onAppear {
-				showImage = verticalSizeClass != SwiftUI.UserInterfaceSizeClass.compact || UIDevice.current.userInterfaceIdiom == .pad
-			}
+			topContent
 		} bottomView: {
-			
-			CallToActionButton(
-				"update_required.download",
-				style: .solid(
-					rounded: osVersionChecker.available(version: .iOS(.v26)),
-					narrow: false
-				)
-			) {
-				viewModel.reduce(.actionButtonPressed)
-			}
-			.accessibilityIdentifier("update_required.download")
-			.padding(ViewTraits.Button.padding)
+			bottomContent
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
+	}
+	
+	/// The top content for the scroll view
+	@ViewBuilder private var topContent: some View {
+		
+		VStack(alignment: .leading, spacing: 0) {
+			
+			if showImage {
+				HStack {
+					Spacer(minLength: ViewTraits.Image.padding)
+					Image(ImageResource.Woman.womanWithPhoneCog)
+						.resizable()
+						.scaledToFit()
+						.accessibilityHidden(true)
+						.padding(ViewTraits.Image.insets)
+					Spacer(minLength: ViewTraits.Image.padding)
+				}
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+			}
+			
+			Text("update_required.heading")
+				.typography(.headingExtraLarge)
+				.padding(ViewTraits.Title.insets)
+				.accessibilityAddTraits(.isHeader)
+				.fixedSize(horizontal: false, vertical: true)
+				.accessibilityIdentifier("update_required.heading")
+			
+			SplittedText(
+				key: "update_required.subheading",
+				spacing: ViewTraits.Text.spacing
+			)
+			.typography(.bodyMedium)
+			.padding(ViewTraits.Text.insets)
+			.accessibilityIdentifier("update_required.subheading")
+			
+			Spacer()
+		}
+		.frame(maxWidth: .infinity, alignment: .topLeading)
+		.foregroundStyle(theme.labels.primary)
+		.onRotate { newOrientation in
+			
+			// Always show on iPad
+			guard UIDevice.current.userInterfaceIdiom != .pad else { return }
+			
+			// The device orientation can be isFlat (faceUp or faceDown). Skip that
+			guard !newOrientation.isFlat else { return }
+			
+			// Hide the image in landscape (on a phone)
+			showImage = !newOrientation.isLandscape
+		}
+		.onAppear {
+			showImage = verticalSizeClass != SwiftUI.UserInterfaceSizeClass.compact || UIDevice.current.userInterfaceIdiom == .pad
+		}
+	}
+	
+	@ViewBuilder private var bottomContent: some View {
+		
+		CallToActionButton(
+			"update_required.download",
+			style: .solid(
+				rounded: osVersionChecker.available(version: .iOS(.v26)),
+				narrow: false
+			)
+		) {
+			viewModel.reduce(.actionButtonPressed)
+		}
+		.accessibilityIdentifier("update_required.download")
+		.padding(ViewTraits.Button.padding)
 	}
 }
 
