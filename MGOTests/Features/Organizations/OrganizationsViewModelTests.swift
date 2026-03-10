@@ -171,8 +171,9 @@ final class OrganizationsViewModelTests: XCTestCase {
 	@MainActor func test_observe_healthcareOrganizationRepository() throws {
 		
 		// Given
+		let repo = try HealthcareOrganizationRepository()
 		Container.shared.healthcareOrganizationRepository
-			.register { try! HealthcareOrganizationRepository() }
+			.register { repo }
 		let healthcareOrganizationRepository = Container.shared.healthcareOrganizationRepository()
 		healthcareOrganizationRepository.wipePersistedData()
 		let organization = Generator.healthcareOrganization("1")
