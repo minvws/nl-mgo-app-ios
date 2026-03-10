@@ -278,17 +278,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
 	@MainActor private func handleRemoteAuthentication(_ action: Coordination.Action) -> Bool {
-		
-		switch action.identifier {
-			// Remote Authentication
-				
-			case Coordination.Action.loggedInWithDigiD.identifier:
-				resetNavigationStack(with: AppCoordination.State.manualLocalization)
-				return true
-			
-			default:
-				return false
+
+		if action.identifier == Coordination.Action.loggedInWithDigiD.identifier {
+			resetNavigationStack(with: AppCoordination.State.manualLocalization)
+			return true
 		}
+		return false
 	}
 
 	/// Handle the deeplink flow action from any of the view models
