@@ -1376,28 +1376,6 @@
         }
       }
     },
-    "login_info.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "U bent nu ingelogd met DigiD"
-          }
-        }
-      }
-    },
-    "login_info.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Normaal zou u nu naar de website of app van DigiD gaan om u te identificeren. Voor deze demo hoeft dat niet en bent u ingelogd met een fictief account. Als **Johan Helleman**. De gegevens die u ziet, zijn niet echt."
-          }
-        }
-      }
-    },
     "login.digid" : {
       "extractionState" : "manual",
       "localizations" : {
