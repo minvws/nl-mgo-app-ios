@@ -56,16 +56,7 @@ struct ProductionApp: App {
 	
 	var body: some Scene {
 		WindowGroup {
-			ZStack {
-				GeometryReader { geo in
-					AppCoordinatorView<AppCoordinator>(appCoordinator: coordinator)
-						.environment(\.safeAreaInsets, geo.safeAreaInsets)
-						.preferredColorScheme(selectedAppearance.colorScheme)
-				}
-				
-				SnapshotView(showSpinner: .constant(false))
-					.opacity(showPrivacyScene ? 1 : 0)
-			}
+			content
 		}
 		.onChange(of: phase) { newPhase in
 			switch newPhase {
@@ -78,6 +69,20 @@ struct ProductionApp: App {
 				default:
 					break
 			}
+		}
+	}
+	
+	// Main ZStacked content, wrapped in a GeometryReader
+	@ViewBuilder private var content: some View {
+		ZStack {
+			GeometryReader { geo in
+				AppCoordinatorView<AppCoordinator>(appCoordinator: coordinator)
+					.environment(\.safeAreaInsets, geo.safeAreaInsets)
+					.preferredColorScheme(selectedAppearance.colorScheme)
+			}
+			
+			SnapshotView(showSpinner: .constant(false))
+				.opacity(showPrivacyScene ? 1 : 0)
 		}
 	}
 	

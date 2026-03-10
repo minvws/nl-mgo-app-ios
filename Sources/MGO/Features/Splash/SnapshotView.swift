@@ -21,6 +21,29 @@ struct SnapshotView: View {
 		}
 	}
 	
+	fileprivate func extractedFunc() -> VStack<TupleView<(Spacer, some View)>> {
+		return VStack {
+			
+			Spacer()
+			
+			HStack(spacing: ViewTraits.General.spacing) {
+				
+				Spacer()
+				
+				ProgressView()
+					.tint(theme.labels.primary.opacity(ViewTraits.General.opacity))
+					.accessibilityHidden(true)
+				
+				Text("common.loading")
+					.foregroundStyle(theme.labels.primary.opacity(ViewTraits.General.opacity))
+					.typography(.bodyMedium)
+				
+				Spacer()
+			}
+			.offset(y: -geometry.size.height / 4)
+		}
+	}
+	
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
@@ -33,26 +56,7 @@ struct SnapshotView: View {
 					.accessibilityIdentifier("common.app_name")
 				
 				if showSpinner {
-					VStack {
-						
-						Spacer()
-						
-						HStack(spacing: ViewTraits.General.spacing) {
-							
-							Spacer()
-							
-							ProgressView()
-								.tint(theme.labels.primary.opacity(ViewTraits.General.opacity))
-								.accessibilityHidden(true)
-							
-							Text("common.loading")
-								.foregroundStyle(theme.labels.primary.opacity(ViewTraits.General.opacity))
-								.typography(.bodyMedium)
-							
-							Spacer()
-						}
-						.offset(y: -geometry.size.height / 4)
-					}
+					extractedFunc()
 				}
 			}
 		}
