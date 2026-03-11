@@ -7,6 +7,7 @@
 import SwiftUI
 import MGOTest
 
+@MainActor
 final class NavigationDividerViewTests: XCTestCase {
 
 	func test_navigationDivider() throws {

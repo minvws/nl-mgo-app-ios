@@ -7,6 +7,7 @@
 import SwiftUI
 import MGOTest
 
+@MainActor
 final class AccordionViewTests: XCTestCase {
 
 	func test_content_hidden() throws {

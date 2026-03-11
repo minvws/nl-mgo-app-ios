@@ -7,6 +7,7 @@
 import SwiftUI
 import MGOTest
 
+@MainActor
 final class NotificationCardViewTests: XCTestCase {
 
 	func test_notificationCard() throws {

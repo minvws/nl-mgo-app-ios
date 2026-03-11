@@ -7,6 +7,7 @@
 import SwiftUI
 import MGOTest
 
+@MainActor
 final class DetailRowTests: XCTestCase {
 
 	func test_detailrow() throws {
