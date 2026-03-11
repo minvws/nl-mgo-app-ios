@@ -8,12 +8,14 @@
 import MGOFoundation
 import MGOUI
 import OrganizationSearch
+import Testing
 
-final class ConfirmationAlertCoverViewTests: XCTestCase {
+@MainActor
+final class ConfirmationAlertCoverViewTests {
 
 	private var servicesSpies: ServicesSpies!
 
-	private var organization: OrganizationSearch.Organization {
+	private let organization: OrganizationSearch.Organization =
 		Generator.searchOrganization(
 			id: "org-1",
 			displayName: "Radboudumc",
@@ -28,17 +30,14 @@ final class ConfirmationAlertCoverViewTests: XCTestCase {
 				)
 			]
 		)
-	}
 
-	override func setUpWithError() throws {
-
-		try super.setUpWithError()
+	init() {
 		servicesSpies = setupServicesSpies()
 	}
 
 	// MARK: - Snapshot Tests
 
-	@MainActor func test_snapshot_confirmationDialog() {
+	@Test func snapshot_confirmationDialog() {
 
 		// When — startVisible: true skips the fade-in so the view is fully opaque from the
 		// first frame, giving a deterministic snapshot regardless of RunLoop timing.
@@ -53,11 +52,10 @@ final class ConfirmationAlertCoverViewTests: XCTestCase {
 			)
 		}
 
-		// Then
 		takeSnapShots(content: content)
 	}
 
-	@MainActor func test_snapshot_confirmationDialog_iOS18() {
+	@Test func snapshot_confirmationDialog_iOS18() {
 
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
@@ -75,52 +73,53 @@ final class ConfirmationAlertCoverViewTests: XCTestCase {
 			)
 		}
 
-		// Then
 		takeSnapShots(content: content)
 	}
 
 	// MARK: - Interaction Tests
 
-	@MainActor func test_yesButton_shouldCallOnConfirm() async throws {
+	@Test func yesButton_shouldCallOnConfirm() async throws {
 
-		// Given
-		let expectation = XCTestExpectation(description: "onConfirm called")
-		let sut = ConfirmationAlertCoverView(
-			organization: organization,
-			isPresented: .constant(true),
-			onConfirm: { expectation.fulfill() }
-		)
+		try await confirmation("onConfirm called") { confirm in
 
-		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "search_organization.dialog.action")
-		try view.view(CallToActionButton.self).find(button: "search_organization.dialog.yes").tap()
+			// Given
+			let sut = ConfirmationAlertCoverView(
+				organization: organization,
+				isPresented: .constant(true),
+				onConfirm: { confirm() }
+			)
 
-		// Then — wait for the 250ms dismiss animation before onConfirm is invoked
-		await fulfillment(of: [expectation], timeout: 1.0)
+			// When
+			let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "search_organization.dialog.action")
+			try view.view(CallToActionButton.self).find(button: "search_organization.dialog.yes").tap()
+
+			// Then — wait for the 250ms dismiss animation before onConfirm is invoked
+			try await Task.sleep(nanoseconds: 350_000_000)
+		}
 	}
 
-	@MainActor func test_cancelButton_shouldDismiss() async throws {
+	@Test func cancelButton_shouldDismiss() async throws {
 
-		// Given
-		let expectation = XCTestExpectation(description: "isPresented set to false")
-		var isPresented = true
-		let sut = ConfirmationAlertCoverView(
-			organization: organization,
-			isPresented: Binding(
-				get: { isPresented },
-				set: { newValue in
-					isPresented = newValue
-					if !newValue { expectation.fulfill() }
-				}
-			),
-			onConfirm: {}
-		)
+		try await confirmation("isPresented set to false") { confirm in
 
-		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "search_organization.dialog.cancel")
-		try view.view(CallToActionButton.self).find(button: "search_organization.dialog.no").tap()
+			// Given
+			let sut = ConfirmationAlertCoverView(
+				organization: organization,
+				isPresented: Binding(
+					get: { true },
+					set: { newValue in
+						if !newValue { confirm() }
+					}
+				),
+				onConfirm: {}
+			)
 
-		// Then — wait for the 250ms dismiss animation before isPresented is set to false
-		await fulfillment(of: [expectation], timeout: 1.0)
+			// When
+			let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "search_organization.dialog.cancel")
+			try view.view(CallToActionButton.self).find(button: "search_organization.dialog.no").tap()
+
+			// Then — wait for the 250ms dismiss animation before isPresented is set to false
+			try await Task.sleep(nanoseconds: 350_000_000)
+		}
 	}
 }
