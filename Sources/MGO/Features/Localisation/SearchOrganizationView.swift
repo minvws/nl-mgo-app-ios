@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -243,12 +243,12 @@ struct SearchOrganizationView: View {
 	
 	var body: some View {
 		List {
-			
+
 			topView
-			
+
 			if viewModel.state.results.isNotEmpty {
 				listHeader
-				
+
 				organizationsList
 			} else if !viewModel.state.isSearching && input.count > 2 {
 				emptyState
@@ -276,21 +276,16 @@ struct SearchOrganizationView: View {
 				isInputFocused = false
 			}
 		}
-		.alert(
-			String(
-				format: String(localized: "search_organization.dialog.heading"),
-				arguments: [selectedOrganization?.displayName ?? ""]
-			),
-			isPresented: $showConfirmationAlert,
-			presenting: selectedOrganization
-		) { organization in
-			Button("search_organization.dialog.yes", role: .none) {
-				viewModel.reduce(.store(organization))
+		.fullScreenCover(isPresented: $showConfirmationAlert) {
+			if let organization = selectedOrganization {
+				ConfirmationAlertCoverView(
+					organization: organization,
+					isPresented: $showConfirmationAlert,
+					onConfirm: { viewModel.reduce(.store(organization)) }
+				)
+				.clearFullScreenCoverBackground()
+				.interactiveDismissDisabled()
 			}
-			.accessibilityIdentifier("search_organization.dialog.action")
-			Button("search_organization.dialog.no", role: .cancel) { /* No action */ }
-		} message: { organization in
-			Text(String(localized: "search_organization.dialog.subheading"))
 		}
 	}
 	
@@ -424,7 +419,9 @@ struct SearchOrganizationView: View {
 					cardState: cardState(organization),
 					onSelect: {
 						selectedOrganization = organization
-						showConfirmationAlert = true
+						var transaction = Transaction()
+						transaction.disablesAnimations = true
+						withTransaction(transaction) { showConfirmationAlert = true }
 					}
 				)
 			}
