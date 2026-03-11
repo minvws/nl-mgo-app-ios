@@ -8,32 +8,32 @@ import MGOUI
 
 @MainActor
 class SearchOrganizationViewModel: ObservableObject {
-
+	
 	/// The state of the search organization view
 	struct SearchOrganizationViewState {
-
+		
 		/// Are we in the onboarding? -> True
 		/// Are we a repeat visitor? -> False
 		var isOnboarding: Bool = false
-
+		
 		/// Are we searching for results?
 		var isSearching: Bool = false
-
+		
 		/// All search results returned by the database (potentially thousands).
 		var results: [OrganizationSearch.Organization] = []
-
+		
 		/// How many results are currently rendered in the list.
 		var visibleCount: Int = 20
-
+		
 		/// The total number of search results
 		var totalResults: Int = 0
-
+		
 		/// All id of stored organizations
 		var storedOrganizationIDs: [String] = []
-
+		
 		/// All available service ids
 		var availableServiceIds: [String] = []
-
+		
 		/// The slice of `results` that is currently shown in the list.
 		var visibleResults: [OrganizationSearch.Organization] {
 			Array(results.prefix(visibleCount))
@@ -63,18 +63,6 @@ class SearchOrganizationViewModel: ObservableObject {
 	
 	/// The current search task that can be cancelled
 	private var searchTask: Task<Void, Never>?
-
-	/// Token for the memory-warning notification observer.
-	/// `nonisolated(unsafe)`: written once from `@MainActor` `init`, read once from
-	/// nonisolated `deinit`. The single-write / single-read pattern makes concurrent
-	/// access impossible.
-	nonisolated(unsafe) private var memoryWarningObserver: NSObjectProtocol?
-
-	/// Holds the search-client reference for teardown in `deinit`, which is nonisolated.
-	/// `nonisolated(unsafe)`: assigned once at the end of `@MainActor` `init`, read once
-	/// in `deinit`. The client itself is `Sendable`; the annotation only bypasses the
-	/// actor-isolation check on the stored-property accessor.
-	nonisolated(unsafe) private var clientForDeinit: (any OrganizationSearchClientProtocol)?
 	
 	/// Debounce delay in milliseconds
 	private let searchDebounceDelay: UInt64 = 100
@@ -93,28 +81,6 @@ class SearchOrganizationViewModel: ObservableObject {
 				.map(\.id),
 			availableServiceIds: DataServices().services.map(\.id)
 		)
-		
-		memoryWarningObserver = NotificationCenter.default.addObserver(
-			forName: UIApplication.didReceiveMemoryWarningNotification,
-			object: nil,
-			queue: nil
-		) { [weak self] _ in
-			Task { @MainActor [weak self] in
-				self?.handleMemoryPressure()
-			}
-		}
-
-		// Capture for use in nonisolated deinit (see clientForDeinit declaration).
-		clientForDeinit = organizationSearchClient
-	}
-
-	deinit {
-		if let token = memoryWarningObserver {
-			NotificationCenter.default.removeObserver(token)
-		}
-		if let client = clientForDeinit {
-			Task { await client.teardown() }
-		}
 	}
 	
 	/// Handle any action
@@ -135,7 +101,7 @@ class SearchOrganizationViewModel: ObservableObject {
 			case let .store(organization):
 				store(organization)
 				coordinator?.handle(Coordination.Action.closeSheet)
-
+				
 			case .loadMore:
 				state.visibleCount = min(
 					state.visibleCount + SearchOrganizationViewModel.pageSize,
@@ -144,30 +110,12 @@ class SearchOrganizationViewModel: ObservableObject {
 		}
 	}
 	
-	/// Free the search index and clear UI state in response to a memory-pressure warning.
-	///
-	/// Tears down the search backend so the OS can reclaim the index memory, then
-	/// clears any results currently displayed. The client remains in the same state
-	/// as a freshly initialised instance — `prepare` would need to be called again
-	/// before searches succeed (which happens automatically if the view is dismissed
-	/// and re-opened).
-	@MainActor private func handleMemoryPressure() {
-		Task {
-			await organizationSearchClient.teardown()
-		}
-		withAnimation {
-			state.results = []
-			state.totalResults = 0
-			state.isSearching = false
-		}
-	}
-
 	/// Handle user input for search
 	/// - Parameter term: the search term
 	@MainActor private func search(_ searchTerm: String?) {
 		// Cancel any existing search task
 		searchTask?.cancel()
-
+		
 		guard let searchTerm,
 			  let sanitized = Sanitizer.strip(searchTerm),
 			  sanitized.isNotEmpty,
@@ -177,24 +125,22 @@ class SearchOrganizationViewModel: ObservableObject {
 			state.isSearching = false
 			return
 		}
-
-		MemoryUsage.printMemoryUsage("SOVM: before searching")
+		
 		self.state.isSearching = true
-
+		
 		searchTask = Task {
 			// Delay the search to debounce
 			try? await Task.sleep(nanoseconds: searchDebounceDelay * 1_000_000)
-
+			
 			// Check if task was cancelled during the delay
 			guard !Task.isCancelled else { return }
-
+			
 			let searchResult = (try? await organizationSearchClient.searchHealthcareOrganizations(sanitized)) ?? SearchResults(count: 0, hits: [])
-
+			
 			// Discard results if a newer search superseded this one while the query was running
 			guard !Task.isCancelled else { return }
-
+			
 			let docs = searchResult.hits.map { $0.document }
-			MemoryUsage.printMemoryUsage("SOVM: after searching")
 			logDebug("results", searchResult.count)
 			await MainActor.run {
 				withAnimation {
