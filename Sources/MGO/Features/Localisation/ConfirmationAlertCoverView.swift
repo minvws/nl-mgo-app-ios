@@ -100,6 +100,7 @@ struct ConfirmationAlertCoverView: View {
 				) {
 					dismiss {}
 				}
+				.accessibilityIdentifier("search_organization.dialog.cancel")
 			}
 		}
 	}
