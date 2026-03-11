@@ -9,7 +9,7 @@ import MGOUI
 struct PrivacyShieldView: View {
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// The possible shield images
 	enum ShieldType {

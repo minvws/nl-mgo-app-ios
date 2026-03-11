@@ -17,7 +17,7 @@ struct HealthCategoriesView: View {
 	@State private var isScrolling: Bool = false
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	@State private var contentSize: CGSize = .zero
 	

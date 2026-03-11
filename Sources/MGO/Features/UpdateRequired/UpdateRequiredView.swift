@@ -38,7 +38,7 @@ struct UpdateRequiredView: View {
 	@StateObject var viewModel: UpdateRequiredViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Boolean to determine if the header image should be shown (hidden in landscape)
 	@State var showImage = true

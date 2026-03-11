@@ -8,7 +8,7 @@ import MGOUI
 struct SectionButtonStyle: ButtonStyle {
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Magic Numbers
 	private struct ViewTraits {

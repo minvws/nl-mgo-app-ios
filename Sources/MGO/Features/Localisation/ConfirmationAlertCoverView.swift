@@ -14,9 +14,16 @@ struct ConfirmationAlertCoverView: View {
 	let organization: OrganizationSearch.Organization
 	@Binding var isPresented: Bool
 	let onConfirm: () -> Void
-	
+	/// Pass `true` in tests to skip the fade-in and render fully visible immediately.
+	var startVisible: Bool = false
+
 	@State private var isVisible = false
-	@Environment(\.theme) var theme
+	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+
+	/// The Theme
+	@Environment(\.mgoTheme) var theme
 	
 	private struct ViewTraits {
 		enum Animation {
@@ -44,8 +51,12 @@ struct ConfirmationAlertCoverView: View {
 		}
 		.opacity(isVisible ? 1 : 0)
 		.onAppear {
-			withAnimation(.easeInOut(duration: ViewTraits.Animation.duration)) {
+			if startVisible {
 				isVisible = true
+			} else {
+				withAnimation(.easeInOut(duration: ViewTraits.Animation.duration)) {
+					isVisible = true
+				}
 			}
 		}
 	}
@@ -95,7 +106,7 @@ struct ConfirmationAlertCoverView: View {
 	
 	/// Card with background styling: Liquid Glass on iOS 26+, theme tertiary on iOS 18.
 	@ViewBuilder private var card: some View {
-		if #available(iOS 26, *) {
+		if #available(iOS 26, *), osVersionChecker.available(version: .iOS(.v26)) {
 			cardContent
 				.padding(ViewTraits.Card.padding)
 				.glassEffect(in: RoundedRectangle(cornerRadius: ViewTraits.Card.cornerRadius))

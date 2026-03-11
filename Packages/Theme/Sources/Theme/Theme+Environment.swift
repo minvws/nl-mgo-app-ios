@@ -10,5 +10,5 @@ import SwiftUI
 extension EnvironmentValues {
 	
 	/// The environment key for the theme
-	@Entry public var theme: any Themeable = Theme()
+	@Entry public var mgoTheme: any Themeable = Theme()
 }

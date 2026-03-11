@@ -166,7 +166,7 @@ struct SearchOrganizationView: View {
 	@StateObject var viewModel: SearchOrganizationViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Are we presented in a sheet?
 	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet

@@ -59,7 +59,7 @@ public struct ToastView: View {
 	}
 	
 	/// The Theme
-	@Environment(\.theme) private var theme
+	@Environment(\.mgoTheme) private var theme
 	
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme

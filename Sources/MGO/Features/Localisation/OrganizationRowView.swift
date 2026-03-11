@@ -33,7 +33,7 @@ struct OrganizationRowView: View {
 	@State private var isPressed = false
 
 	/// The current theme, used for row background colours.
-	@Environment(\.theme) private var theme
+	@Environment(\.mgoTheme) private var theme
 
 	var body: some View {
 		Button {

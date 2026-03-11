@@ -10,7 +10,7 @@ import Theme
 struct SolidButtonStyle: ButtonStyle {
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Use pill shaped rounded corners?
 	var rounded: Bool

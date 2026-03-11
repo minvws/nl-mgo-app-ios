@@ -14,7 +14,7 @@ public struct DetailRow: View {
 	private var content: String?
 	
 	/// The Theme
-	@Environment(\.theme) private var theme
+	@Environment(\.mgoTheme) private var theme
 	
 	/// Initializer
 	/// - Parameters:

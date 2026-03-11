@@ -90,7 +90,7 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 	}
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Progress for the spinner
 	@State private var progress: Double = 0

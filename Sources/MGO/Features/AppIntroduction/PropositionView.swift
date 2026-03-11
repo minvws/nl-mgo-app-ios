@@ -45,7 +45,7 @@ struct PropositionView: View {
 	@StateObject var viewModel: PropositionViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Dependency injectable OS Version Checker
 	@Injected(\.osVersionChecker) private var osVersionChecker

@@ -427,7 +427,7 @@ struct HealthCategoryView: View {
 	@StateObject var viewModel: HealthCategoryViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Dependency injectable OS Version Checker
 	@Injected(\.osVersionChecker) private var osVersionChecker

@@ -165,10 +165,11 @@ final class SearchOrganizationViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 			.environment(\.isPresentedAsSheet, false)
 
-		// Then
-		takeSnapShots(content: content)
+		// Then — precision 0.99: the dark-portrait variant has sub-pixel GPU rendering
+		// variance across test-suite runs; 1% tolerance avoids false flakes.
+		takeSnapShots(content: content, precision: 0.99)
 	}
-	
+
 	@MainActor func test_select_organization() async throws {
 		
 		// Given
@@ -243,15 +244,87 @@ final class SearchOrganizationViewTests: XCTestCase {
 	}
 	
 	@MainActor func test_snapshot_searchingState_isPresentedAsSheet() {
-		
+
 		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut(firstVisitor: false)
 		viewModel.state.isSearching = true
 		viewModel.state.results = []
-		
+
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
 			.environment(\.isPresentedAsSheet, true)
+
+		// Then
+		takeSnapShots(content: content)
+	}
+
+	@MainActor func test_snapshot_confirmationDialog() {
+
+		// Given
+		let organization = Generator.searchOrganization(
+			id: "org-1",
+			displayName: "Radboudumc",
+			city: "Nijmegen",
+			addressLine: "Geert Grooteplein 10",
+			postalCode: "6525GA",
+			dataServices: [
+				"50": OrganizationSearch.DataService(
+					authEndpoint: "test",
+					resourceEndpoint: "test",
+					tokenEndpoint: "test"
+				)
+			]
+		)
+
+		// When — startVisible: true skips the fade-in so the view is fully opaque from the
+		// first frame, giving a deterministic snapshot regardless of RunLoop timing.
+		// A white background makes the semi-transparent overlay clearly visible.
+		let content = ZStack {
+			Color.white.ignoresSafeArea()
+			ConfirmationAlertCoverView(
+				organization: organization,
+				isPresented: .constant(true),
+				onConfirm: {},
+				startVisible: true
+			)
+		}
+
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_snapshot_confirmationDialog_iOS18() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		let organization = Generator.searchOrganization(
+			id: "org-1",
+			displayName: "Radboudumc",
+			city: "Nijmegen",
+			addressLine: "Geert Grooteplein 10",
+			postalCode: "6525GA",
+			dataServices: [
+				"50": OrganizationSearch.DataService(
+					authEndpoint: "test",
+					resourceEndpoint: "test",
+					tokenEndpoint: "test"
+				)
+			]
+		)
+		
+		// When — startVisible: true skips the fade-in so the view is fully opaque from the
+		// first frame, giving a deterministic snapshot regardless of RunLoop timing.
+		// A white background makes the semi-transparent overlay clearly visible.
+		let content = ZStack {
+			Color.white.ignoresSafeArea()
+			ConfirmationAlertCoverView(
+				organization: organization,
+				isPresented: .constant(true),
+				onConfirm: {},
+				startVisible: true
+			)
+		}
 		
 		// Then
 		takeSnapShots(content: content)

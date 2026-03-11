@@ -16,7 +16,7 @@ public struct RestrictedBrowserView: View {
 	}
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// The View Model
 	@StateObject var viewModel: RestrictedBrowserViewModel
@@ -58,7 +58,7 @@ public struct RestrictedBrowserView: View {
 struct NavigationBarButtonStyle: ButtonStyle {
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Style the button to a navigation bar button
 	/// - Parameter configuration: the button configuration
