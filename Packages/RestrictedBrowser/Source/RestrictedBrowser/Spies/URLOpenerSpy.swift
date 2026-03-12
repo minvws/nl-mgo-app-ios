@@ -29,7 +29,7 @@ public class URLOpenerSpy: URLOpenerProtocol {
 	public var invokedOpenParametersList = [(url: URL, Void)]()
 	public var stubbedOpenCompletionResult: Bool! = false
 
-	public func open(_ url: URL) async -> Bool {
+	@MainActor public func open(_ url: URL) async -> Bool {
 		invokedOpen = true
 		invokedOpenCount += 1
 		invokedOpenParameters = (url, ())
