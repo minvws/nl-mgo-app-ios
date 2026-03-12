@@ -12,9 +12,8 @@ class SearchOrganizationViewModel: ObservableObject {
 	/// The state of the search organization view
 	struct SearchOrganizationViewState {
 
-		/// Are we in the onboarding? -> True
-		/// Are we a repeat visitor? -> False
-		var isOnboarding: Bool = false
+		/// The heading text key — set once at init based on whether this is the user's first visit.
+		var heading: LocalizedStringKey
 
 		/// Are we searching for results?
 		var isSearching: Bool = false
@@ -34,11 +33,8 @@ class SearchOrganizationViewModel: ObservableObject {
 		/// All available service ids
 		var availableServiceIds: [String] = []
 
-		/// Whether the confirmation cover is currently shown.
-		var showConfirmationAlert: Bool = false
-
-		/// The organization the user has tapped and is being asked to confirm.
-		var selectedOrganization: OrganizationSearch.Organization?
+		/// Non-nil when the confirmation cover is presented; the value is the org being confirmed.
+		var pendingConfirmation: OrganizationSearch.Organization?
 
 		/// The slice of `results` that is currently shown in the list.
 		var visibleResults: [OrganizationSearch.Organization] {
@@ -82,7 +78,7 @@ class SearchOrganizationViewModel: ObservableObject {
 	@MainActor init(coordinator: (any Coordinator)?, firstVisitor: Bool) {
 		self.coordinator = coordinator
 		self.state = SearchOrganizationViewState(
-			isOnboarding: firstVisitor,
+			heading: firstVisitor ? "search_organization.onboarding.heading" : "search_organization.heading",
 			results: [],
 			storedOrganizationIDs: healthcareOrganizationRepository.organizations
 				.map(\.id),

@@ -219,7 +219,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 
 		// Then — org is stored and the sheet is dismissed
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedStore) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.action).to(equal(Coordination.Action.closeSheet))
+		expect(self.coordinatorSpy.invokedHandleParameters?.action) == Coordination.Action.closeSheet
 	}
 
 	@MainActor func test_cancelConfirmation_shouldShowCoverAndNotStoreOrganization() throws {

@@ -133,7 +133,7 @@ struct ConfirmationAlertCoverView: View {
 				"search_organization.dialog.no",
 				style: .tonal(rounded: true)
 			) {
-				dismiss { /* no-op */}
+				dismiss { /* no-op */ }
 			}
 			.accessibilityIdentifier("search_organization.dialog.cancel")
 		}
