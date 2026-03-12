@@ -434,18 +434,23 @@ struct SearchOrganizationView: View {
 		.listRowBackground(Color.clear)
 	}
 	
+	/// A single organization row wrapped in its `Section`.
+	@ViewBuilder private func organizationRow(_ organization: OrganizationSearch.Organization) -> some View {
+		Section {
+			OrganizationRowView(
+				organization: organization,
+				cardState: cardState(organization),
+				onSelect: { viewModel.reduce(.select(organization)) }
+			)
+		}
+		.listRowInsets(ViewTraits.List.resultInset)
+	}
+
 	/// The list of search results
 	@ViewBuilder private var organizationsList: some View {
 
 		ForEach(viewModel.state.visibleResults) { organization in
-			Section {
-				OrganizationRowView(
-					organization: organization,
-					cardState: cardState(organization),
-					onSelect: { viewModel.reduce(.select(organization)) }
-				)
-			}
-			.listRowInsets(ViewTraits.List.resultInset)
+			organizationRow(organization)
 		}
 
 		// Load the next page when the user scrolls to the bottom.

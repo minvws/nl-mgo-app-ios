@@ -123,20 +123,26 @@ struct ConfirmationAlertCoverView: View {
 		VStack(spacing: ViewTraits.Card.spacing) {
 			CallToActionButton(
 				"search_organization.dialog.yes",
-				style: .solid(rounded: true, narrow: false)
-			) {
-				dismiss { onConfirm() }
-			}
+				style: .solid(rounded: true, narrow: false),
+				action: confirmTapped
+			)
 			.accessibilityIdentifier("search_organization.dialog.action")
-			
+
 			CallToActionButton(
 				"search_organization.dialog.no",
-				style: .tonal(rounded: true)
-			) {
-				dismiss { /* no-op */ }
-			}
+				style: .tonal(rounded: true),
+				action: cancelTapped
+			)
 			.accessibilityIdentifier("search_organization.dialog.cancel")
 		}
+	}
+
+	private func confirmTapped() {
+		dismiss { onConfirm() }
+	}
+
+	private func cancelTapped() {
+		dismiss { /* no-op: user cancelled, nothing to do after fade-out */ }
 	}
 	
 	/// Card with background styling: uses Liquid Glass on iOS 26+; falls back to the theme's tertiary background on earlier iOS versions.
