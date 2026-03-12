@@ -8,7 +8,7 @@ import MGOUI
 struct CategoryStateView: View {
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// The state
 	var state: CategoryState

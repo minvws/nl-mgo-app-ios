@@ -8,7 +8,7 @@ import MGOUI
 struct ActionCardView: View {
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// The title of the card
 	var title: LocalizedStringKey

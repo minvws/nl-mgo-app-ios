@@ -7,6 +7,7 @@
 import SwiftUI
 import MGOTest
 
+@MainActor
 final class ImageContentViewTests: XCTestCase {
 
 	func test_imageContentView() throws {

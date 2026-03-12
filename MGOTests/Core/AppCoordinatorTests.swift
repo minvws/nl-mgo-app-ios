@@ -150,31 +150,17 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen) == false
 	}
 	
-	@MainActor func test_coordinatorHandle_loginWithDigiD_shouldShowDashboard() {
-		
+	@MainActor func test_coordinatorHandle_loginWithDigiD_shouldShowManualLocalization() {
+
 		// Given
 		setupSut()
-		
+
 		// When
 		sut.handle(Coordination.Action.loggedInWithDigiD)
-		
+
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.loginInfo
-		expect(self.sut.path.isEmpty) == true
-	}
-	
-	@MainActor func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldShowManualLocalization() {
-		
-		// Given
-		setupSut()
-		
-		// When
-		sut.handle(Coordination.Action.nextButtonPressedOnLoginInfo)
-		
-		// Then
-		expect(self.sut.showChildCoordinator) == false
-		expect(self.sut.path.isEmpty) == true
 		expect(self.sut.rootState) == AppCoordination.State.manualLocalization
+		expect(self.sut.path.isEmpty) == true
 	}
 	
 	@MainActor func test_coordinatorHandle_closeSheet_inManualLocalization_shouldShowDashboard() {

@@ -85,19 +85,6 @@ You can apply it to any view, Here is an example of a button:
 
 <img style="float: left;" src="illustrations/Login.png" />
 
-### Circular Progress View
-
-To draw a circular progress view, you call 
-
-```swift
-	CircularProgressView(progress: 0.25, lineWidth: 6)
-		.frame(width: 50, height: 50)
-```
-
-Which draws something like
-
-<img style="float: left;" src="illustrations/CircularProgress.png" />
-
 ### Haptic Feedback
 
 Whenever you want to give some haptic feedback to the user, you can use `Haptic.light()`, `Haptic.medium()` or `Haptic.heavy()`

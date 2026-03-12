@@ -76,7 +76,7 @@ public struct ImageContentView: View {
 	}
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// The size classes
 	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?

@@ -25,7 +25,7 @@ public struct CardView: View {
 	private var showChevron: Bool = false
 
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Magic Numbers
 	private struct ViewTraits {

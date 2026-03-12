@@ -66,14 +66,6 @@ Build and deploy the app for Test via Firebase from CI
 
 Build and deploy the app for Acc via Firebase from CI
 
-### ios deploy_demo_ci
-
-```sh
-[bundle exec] fastlane ios deploy_demo_ci
-```
-
-Build and deploy the app for Demo via Firebase from CI
-
 ### ios deploy_prod_ci
 
 ```sh

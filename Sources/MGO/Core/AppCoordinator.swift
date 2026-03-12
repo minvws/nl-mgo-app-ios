@@ -53,7 +53,6 @@ extension Coordination.Action {
 	// Remote Authentication
 	@MainActor static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
 	@MainActor static let deeplink = Coordination.Action(identifier: "deeplink")
-	@MainActor static let nextButtonPressedOnLoginInfo = Coordination.Action(identifier: "nextButtonPressedOnLoginInfo")
 	
 	// Other
 	@MainActor static let closeSheet = Coordination.Action(identifier: "closeSheet")
@@ -75,8 +74,7 @@ struct AppCoordination {
 		
 		// Remote Authentication
 		case login
-		case loginInfo
-		
+
 		// Manual Localization
 		case manualLocalization
 		
@@ -280,22 +278,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
 	@MainActor private func handleRemoteAuthentication(_ action: Coordination.Action) -> Bool {
-		
-		switch action.identifier {
-			// Remote Authentication
-				
-			case Coordination.Action.loggedInWithDigiD.identifier:
-			
-				resetNavigationStack(with: AppCoordination.State.loginInfo)
-				return true
-			
-			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
-				resetNavigationStack(with: AppCoordination.State.manualLocalization)
-				return true
-			
-			default:
-				return false
+
+		if action.identifier == Coordination.Action.loggedInWithDigiD.identifier {
+			resetNavigationStack(with: AppCoordination.State.manualLocalization)
+			return true
 		}
+		return false
 	}
 
 	/// Handle the deeplink flow action from any of the view models
@@ -431,9 +419,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 						remoteAuthenticationClient: self.remoteAuthenticationClient
 					)
 				)
-				
-			case .loginInfo:
-				LoginInfoView(viewModel: LoginInfoViewModel(coordinator: self))
 				
 			// Manual Localization
 				

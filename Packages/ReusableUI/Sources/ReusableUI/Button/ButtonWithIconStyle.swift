@@ -10,7 +10,7 @@ import Theme
 struct ButtonWithIconStyle: ButtonStyle {
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Magic Numbers
 	private struct ViewTraits {

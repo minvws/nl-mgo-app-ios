@@ -216,7 +216,7 @@ struct HealthDataDownloadView: View {
 	@StateObject var viewModel: HealthDataDownloadViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	@State private var failedToOpenPreview: Bool = false
 	

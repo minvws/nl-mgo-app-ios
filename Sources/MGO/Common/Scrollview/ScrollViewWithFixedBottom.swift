@@ -9,7 +9,7 @@ import MGOUI
 struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// The content for the scrollView
 	@ViewBuilder let content: V1

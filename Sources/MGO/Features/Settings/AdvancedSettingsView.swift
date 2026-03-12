@@ -32,7 +32,7 @@ struct AdvancedSettingsView: View {
 	@StateObject var viewModel: AdvancedSettingsViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Variable to change the bypass Remote Authentication setting
 	@State private var bypassRemoteAuthentication: Bool = Container.shared.featureFlagManager().bypassRemoteAuthentication

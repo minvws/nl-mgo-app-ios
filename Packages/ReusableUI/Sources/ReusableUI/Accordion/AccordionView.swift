@@ -20,7 +20,7 @@ public struct AccordionView<Content: View>: View {
 	@State private var onHover = false
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Initializer
 	/// - Parameters:

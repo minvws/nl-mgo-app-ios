@@ -98,7 +98,7 @@ struct FavoritesView: View {
 	@StateObject var viewModel: FavoritesViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// The edit mode (used for reordering the favorites)
 	@State var editMode: EditMode = .active

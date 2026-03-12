@@ -132,7 +132,7 @@ struct AboutOpenSourceLibrariesView: View {
 	@StateObject var viewModel: AboutOpenSourceLibrariesViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Magic Numbers
 	private struct ViewTraits {

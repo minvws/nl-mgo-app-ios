@@ -58,7 +58,7 @@ struct AboutTheAppView: View {
 	@StateObject var viewModel: AboutTheAppViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// The horizontal size classes (to determine the layout)
 	@Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?

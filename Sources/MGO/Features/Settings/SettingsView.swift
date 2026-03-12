@@ -79,7 +79,7 @@ struct SettingsView: View {
 	@Environment(\.colorScheme) var colorScheme
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Magic Numbers
 	private struct ViewTraits {

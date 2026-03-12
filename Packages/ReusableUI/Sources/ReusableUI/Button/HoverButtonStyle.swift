@@ -10,7 +10,7 @@ import Theme
 public struct HoverButtonStyle: ButtonStyle {
 	
 	/// The Theme
-	@Environment(\.theme) private var theme
+	@Environment(\.mgoTheme) private var theme
 	
 	/// Initlializer
 	public init() { /* Public initializer needed for public access */ }

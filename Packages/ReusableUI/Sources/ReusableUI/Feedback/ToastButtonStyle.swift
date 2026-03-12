@@ -8,7 +8,7 @@ import SwiftUI
 struct ToastButtonStyle: ButtonStyle {
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Style the button to a back button
 	/// - Parameter configuration: the button configuration

@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -33,7 +33,7 @@ struct OrganizationRowView: View {
 	@State private var isPressed = false
 
 	/// The current theme, used for row background colours.
-	@Environment(\.theme) private var theme
+	@Environment(\.mgoTheme) private var theme
 
 	var body: some View {
 		Button {

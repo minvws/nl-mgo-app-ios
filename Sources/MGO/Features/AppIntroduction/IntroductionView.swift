@@ -39,7 +39,7 @@ struct IntroductionView: View {
 	@StateObject var viewModel: IntroductionViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Boolean to determine if the header image should be shown (hidden in landscape)
 	@State var showImage = true

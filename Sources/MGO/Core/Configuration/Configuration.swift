@@ -30,7 +30,7 @@ extension Configuration {
 		do {
 			switch getRelease() {
 				case .acceptance, .production: return try RemoteConfiguration.Servers.Server2.url()
-				case .demo, .development, .test: return try RemoteConfiguration.Servers.Server1.url()
+				case .development, .test: return try RemoteConfiguration.Servers.Server1.url()
 			}
 			
 		} catch {
@@ -48,7 +48,7 @@ extension Configuration {
 		
 		let urlString: String = {
 			switch getRelease() {
-				case .demo, .production, .acceptance: return "https://dvp-proxy.acc.mgo.irealisatie.nl/fhir"
+				case .production, .acceptance: return "https://dvp-proxy.acc.mgo.irealisatie.nl/fhir"
 				case .development, .test: return "https://dvp-proxy.test.mgo.irealisatie.nl/fhir"
 			}
 		}()
@@ -69,7 +69,7 @@ extension Configuration {
 		
 		let urlString: String = {
 			switch getRelease() {
-				case .demo, .production, .acceptance: return "https://dvp-proxy.acc.mgo.irealisatie.nl"
+				case .production, .acceptance: return "https://dvp-proxy.acc.mgo.irealisatie.nl"
 				case .development, .test: return "https://dvp-proxy.test.mgo.irealisatie.nl"
 //				case .development: return "http://localhost:8801"
 			}
@@ -95,7 +95,6 @@ extension Configuration {
 		switch getRelease() {
 			case .production: return "mgo"
 			case .acceptance: return "mgo-acc"
-			case .demo: return "mgo-demo"
 			case .test: return "mgo-test"
 			case .development: return "mgo-dev"
 		}

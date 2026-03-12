@@ -14,7 +14,7 @@ public struct CloseButtonViewModifier: ViewModifier {
 	public var glassStyle: Bool = false
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Create a Close Button in a toolbar
 	/// - Parameter content: the view to add the close button to

@@ -227,69 +227,90 @@ final class SearchOrganizationViewModelTests {
 		#expect(sut.state.visibleCount == organizations.count)
 	}
 
-	// MARK: - Memory Pressure Tests
-
-	@Test("handleMemoryPressure should clear state and call teardown on the search client")
-	func handleMemoryPressure_shouldClearStateAndCallTeardown() async throws {
-
-		// Given
-		sut.state.results = [Generator.searchOrganization()]
-		sut.state.totalResults = 5
-		sut.state.isSearching = true
-
-		// When - simulate a system memory warning
-		NotificationCenter.default.post(
-			name: UIApplication.didReceiveMemoryWarningNotification,
-			object: nil
-		)
-		// Yield once so the Task { @MainActor in } wrapper runs handleMemoryPressure(),
-		// then again so the inner Task { await client.teardown() } completes.
-		await Task.yield()
-		await Task.yield()
-
-		// Then
-		#expect(sut.state.results.isEmpty)
-		#expect(sut.state.totalResults == 0)
-		#expect(sut.state.isSearching == false)
-	}
-
 	// MARK: - State Tests
 	
 	@Test("Initial state should be configured correctly for first visitor")
 	func initialState_firstVisitor_shouldBeConfiguredCorrectly() async throws {
-		
+
 		// Given
 		let firstVisitorSut = SearchOrganizationViewModel(
 			coordinator: coordinatorSpy,
 			firstVisitor: true
 		)
-		
+
 		// When
 		// Initial state
-		
+
 		// Then
-		#expect(firstVisitorSut.state.isOnboarding == true)
+		#expect(firstVisitorSut.state.heading == "search_organization.onboarding.heading")
 		#expect(firstVisitorSut.state.isSearching == false)
 		#expect(firstVisitorSut.state.results.isEmpty)
 		#expect(firstVisitorSut.state.totalResults == 0)
 	}
-	
+
 	@Test("Initial state should be configured correctly for returning visitor")
 	func initialState_returningVisitor_shouldBeConfiguredCorrectly() {
-		
+
 		// Given
 		// sut initialized with firstVisitor: false in init
-		
+
 		// When
 		// Initial state
-		
+
 		// Then
-		#expect(sut.state.isOnboarding == false)
+		#expect(sut.state.heading == "search_organization.heading")
 		#expect(sut.state.isSearching == false)
 		#expect(sut.state.results.isEmpty)
 		#expect(sut.state.totalResults == 0)
 		#expect(
 			servicesSpies.searchOrganizationClientSpy.invokedPrepare == false
 		)
+	}
+
+	// MARK: - select Action Tests
+
+	@Test("Reduce select should set pendingConfirmation to the selected organization")
+	func reduce_select_shouldSetPendingConfirmation() {
+
+		// Given
+		let organization = Generator.searchOrganization(
+			id: "org-select",
+			dataServices: [
+				"50": OrganizationSearch.DataService(
+					authEndpoint: "test",
+					resourceEndpoint: "test",
+					tokenEndpoint: "test"
+				)
+			]
+		)
+
+		// When
+		sut.reduce(.select(organization))
+
+		// Then
+		#expect(sut.state.pendingConfirmation?.id == organization.id)
+	}
+
+	@Test("Reduce store should append organization id to storedOrganizationIDs")
+	func reduce_store_shouldUpdateStoredOrganizationIDs() {
+
+		// Given
+		let organization = Generator.searchOrganization(
+			id: "org-store",
+			dataServices: [
+				"50": OrganizationSearch.DataService(
+					authEndpoint: "test",
+					resourceEndpoint: "test",
+					tokenEndpoint: "test"
+				)
+			]
+		)
+		#expect(!sut.state.storedOrganizationIDs.contains(organization.id))
+
+		// When
+		sut.reduce(.store(organization))
+
+		// Then
+		#expect(sut.state.storedOrganizationIDs.contains(organization.id))
 	}
 }

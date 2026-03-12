@@ -26,7 +26,7 @@ public struct Cardify: ViewModifier {
 	}
 	
 	// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	public func body(content: Content) -> some View {
 		

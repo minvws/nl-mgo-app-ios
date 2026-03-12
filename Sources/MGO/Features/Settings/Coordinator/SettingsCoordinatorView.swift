@@ -18,7 +18,7 @@ struct SettingsCoordinatorView<T: SettingsCoordinatorProtocol>: View {
 	}
 	
 	// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme

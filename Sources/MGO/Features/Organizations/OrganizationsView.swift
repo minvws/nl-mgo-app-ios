@@ -194,7 +194,7 @@ struct OrganizationsView: View {
 	@StateObject var viewModel: OrganizationsViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Are we scrolling
 	@State private var isScrolling: Bool = false

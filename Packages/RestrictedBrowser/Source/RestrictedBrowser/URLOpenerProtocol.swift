@@ -18,7 +18,7 @@ public protocol URLOpenerProtocol {
 	/// - Parameters:
 	///   - url: the url to open
 	/// - Returns: True if the url is opened
-	func open(_ url: URL) async -> Bool
+	@MainActor func open(_ url: URL) async -> Bool
 }
 
 extension URLOpenerProtocol {

@@ -16,7 +16,7 @@ extension Configuration {
 		let productionDomain = "web.mgo.irealisatie.nl"
 		
 		switch release {
-			case .test, .demo: return [testDomain]
+			case .test: return [testDomain]
 			case .acceptance: return [testDomain, acceptationDomain]
 			case .production: return [productionDomain]
 			case .development: return [testDomain, acceptationDomain, productionDomain]

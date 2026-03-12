@@ -7,6 +7,7 @@ import MGOTest
 @testable import RestrictedBrowser
 import WebKit
 
+@MainActor
 final class RestrictedBrowserViewModelTests: XCTestCase {
 	
 	@MainActor func test_reduce() throws {

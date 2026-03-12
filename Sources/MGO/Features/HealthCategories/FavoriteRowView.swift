@@ -8,7 +8,7 @@ import MGOUI
 struct FavoriteRowView: View {
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// The category to display
 	var category: SharedHealthCategories.Category

@@ -66,7 +66,7 @@ struct InAppBrowserView: View {
 	@StateObject var viewModel: InAppBrowserViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Dependency injectable OS Version Checker
 	@Injected(\.osVersionChecker) private var osVersionChecker

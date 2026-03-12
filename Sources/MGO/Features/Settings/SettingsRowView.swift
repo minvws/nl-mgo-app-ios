@@ -8,7 +8,7 @@ import MGOUI
 struct SettingsRowView: View {
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// The icon to display at the leading side of the row
 	private var icon: Image?

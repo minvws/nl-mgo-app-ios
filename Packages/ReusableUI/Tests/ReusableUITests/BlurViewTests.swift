@@ -7,6 +7,7 @@
 import SwiftUI
 import MGOTest
 
+@MainActor
 final class BlurViewTests: XCTestCase {
 
 	func test_blurView() throws {

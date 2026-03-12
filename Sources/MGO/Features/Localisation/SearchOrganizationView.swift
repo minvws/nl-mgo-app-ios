@@ -1,20 +1,24 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
 import MGOFoundation
 import MGOUI
 
+/// View model for `SearchOrganizationView`.
+///
+/// Owns the search lifecycle (debounced queries, pagination) and the
+/// confirmation flow for adding a healthcare organization.  All state mutations
+/// happen on the `@MainActor`.
 @MainActor
 class SearchOrganizationViewModel: ObservableObject {
-
+	
 	/// The state of the search organization view
 	struct SearchOrganizationViewState {
 
-		/// Are we in the onboarding? -> True
-		/// Are we a repeat visitor? -> False
-		var isOnboarding: Bool = false
+		/// The heading text key — set once at init based on whether this is the user's first visit.
+		var heading: LocalizedStringKey = "search_organization.heading"
 
 		/// Are we searching for results?
 		var isSearching: Bool = false
@@ -34,6 +38,9 @@ class SearchOrganizationViewModel: ObservableObject {
 		/// All available service ids
 		var availableServiceIds: [String] = []
 
+		/// Non-nil when the confirmation cover is presented; the value is the org being confirmed.
+		var pendingConfirmation: OrganizationSearch.Organization?
+
 		/// The slice of `results` that is currently shown in the list.
 		var visibleResults: [OrganizationSearch.Organization] {
 			Array(results.prefix(visibleCount))
@@ -46,15 +53,22 @@ class SearchOrganizationViewModel: ObservableObject {
 	/// Dependency injectable organization Search Client
 	@Injected(\.organizationSearchClient) private var organizationSearchClient
 	
-	/// Dependency Healthcare Organization Store
+	/// Dependency injectable healthcare organization repository
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
 	
-	/// A list of all the actions this viewModel can handle
+	/// All actions this view model can handle.
 	enum Action {
+		/// Dismiss the sheet that contains this view.
 		case closeSheet
+		/// Resign the keyboard / end text editing.
 		case endEditing
+		/// Run a search for the given term, or clear results when `nil` / too short.
 		case search(String?)
+		/// The user tapped an organization row; show the confirmation cover.
+		case select(OrganizationSearch.Organization)
+		/// The user confirmed the selection; persist the organization and close the sheet.
 		case store(OrganizationSearch.Organization)
+		/// Render the next page of results.
 		case loadMore
 	}
 	
@@ -63,18 +77,6 @@ class SearchOrganizationViewModel: ObservableObject {
 	
 	/// The current search task that can be cancelled
 	private var searchTask: Task<Void, Never>?
-
-	/// Token for the memory-warning notification observer.
-	/// `nonisolated(unsafe)`: written once from `@MainActor` `init`, read once from
-	/// nonisolated `deinit`. The single-write / single-read pattern makes concurrent
-	/// access impossible.
-	nonisolated(unsafe) private var memoryWarningObserver: NSObjectProtocol?
-
-	/// Holds the search-client reference for teardown in `deinit`, which is nonisolated.
-	/// `nonisolated(unsafe)`: assigned once at the end of `@MainActor` `init`, read once
-	/// in `deinit`. The client itself is `Sendable`; the annotation only bypasses the
-	/// actor-isolation check on the stored-property accessor.
-	nonisolated(unsafe) private var clientForDeinit: (any OrganizationSearchClientProtocol)?
 	
 	/// Debounce delay in milliseconds
 	private let searchDebounceDelay: UInt64 = 100
@@ -82,39 +84,19 @@ class SearchOrganizationViewModel: ObservableObject {
 	/// The number of results rendered per page.
 	static let pageSize = 20
 	
-	/// Initializer
-	/// - Parameter coordinator: the coordinator
+	/// Creates the view model.
+	/// - Parameters:
+	///   - coordinator: the flow coordinator used for navigation/routing.
+	///   - firstVisitor: `true` when the user has not yet added any organization (onboarding flow).
 	@MainActor init(coordinator: (any Coordinator)?, firstVisitor: Bool) {
 		self.coordinator = coordinator
 		self.state = SearchOrganizationViewState(
-			isOnboarding: firstVisitor,
+			heading: firstVisitor ? "search_organization.onboarding.heading" : "search_organization.heading",
 			results: [],
 			storedOrganizationIDs: healthcareOrganizationRepository.organizations
 				.map(\.id),
 			availableServiceIds: DataServices().services.map(\.id)
 		)
-		
-		memoryWarningObserver = NotificationCenter.default.addObserver(
-			forName: UIApplication.didReceiveMemoryWarningNotification,
-			object: nil,
-			queue: nil
-		) { [weak self] _ in
-			Task { @MainActor [weak self] in
-				self?.handleMemoryPressure()
-			}
-		}
-
-		// Capture for use in nonisolated deinit (see clientForDeinit declaration).
-		clientForDeinit = organizationSearchClient
-	}
-
-	deinit {
-		if let token = memoryWarningObserver {
-			NotificationCenter.default.removeObserver(token)
-		}
-		if let client = clientForDeinit {
-			Task { await client.teardown() }
-		}
 	}
 	
 	/// Handle any action
@@ -122,18 +104,26 @@ class SearchOrganizationViewModel: ObservableObject {
 	@MainActor func reduce(_ action: SearchOrganizationViewModel.Action) {
 		
 		switch action {
-				
+
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
-				
+
 			case .endEditing:
 				UIApplication.shared.endEditing()
-				
+
 			case let .search(searchTerm):
 				search(searchTerm)
-				
+
+			case let .select(organization):
+				var transaction = Transaction()
+				transaction.disablesAnimations = true
+				withTransaction(transaction) {
+					state.pendingConfirmation = organization
+				}
+
 			case let .store(organization):
 				store(organization)
+				state.storedOrganizationIDs.append(organization.id)
 				coordinator?.handle(Coordination.Action.closeSheet)
 
 			case .loadMore:
@@ -144,30 +134,12 @@ class SearchOrganizationViewModel: ObservableObject {
 		}
 	}
 	
-	/// Free the search index and clear UI state in response to a memory-pressure warning.
-	///
-	/// Tears down the search backend so the OS can reclaim the index memory, then
-	/// clears any results currently displayed. The client remains in the same state
-	/// as a freshly initialised instance — `prepare` would need to be called again
-	/// before searches succeed (which happens automatically if the view is dismissed
-	/// and re-opened).
-	@MainActor private func handleMemoryPressure() {
-		Task {
-			await organizationSearchClient.teardown()
-		}
-		withAnimation {
-			state.results = []
-			state.totalResults = 0
-			state.isSearching = false
-		}
-	}
-
-	/// Handle user input for search
-	/// - Parameter term: the search term
+	/// Debounces and executes a search query, updating state when results arrive.
+	/// - Parameter searchTerm: the raw text typed by the user; results are cleared when `nil` or too short.
 	@MainActor private func search(_ searchTerm: String?) {
 		// Cancel any existing search task
 		searchTask?.cancel()
-
+		
 		guard let searchTerm,
 			  let sanitized = Sanitizer.strip(searchTerm),
 			  sanitized.isNotEmpty,
@@ -177,24 +149,22 @@ class SearchOrganizationViewModel: ObservableObject {
 			state.isSearching = false
 			return
 		}
-
-		MemoryUsage.printMemoryUsage("SOVM: before searching")
+		
 		self.state.isSearching = true
-
+		
 		searchTask = Task {
 			// Delay the search to debounce
 			try? await Task.sleep(nanoseconds: searchDebounceDelay * 1_000_000)
-
+			
 			// Check if task was cancelled during the delay
 			guard !Task.isCancelled else { return }
-
+			
 			let searchResult = (try? await organizationSearchClient.searchHealthcareOrganizations(sanitized)) ?? SearchResults(count: 0, hits: [])
-
+			
 			// Discard results if a newer search superseded this one while the query was running
 			guard !Task.isCancelled else { return }
-
+			
 			let docs = searchResult.hits.map { $0.document }
-			MemoryUsage.printMemoryUsage("SOVM: after searching")
 			logDebug("results", searchResult.count)
 			await MainActor.run {
 				withAnimation {
@@ -214,13 +184,17 @@ class SearchOrganizationViewModel: ObservableObject {
 	}
 }
 
+/// Lets the user search for a healthcare organization and add it to their profile.
+///
+/// Presents a debounced search field, a paginated list of results, and a
+/// full-screen confirmation cover when the user selects an organization.
 struct SearchOrganizationView: View {
 	
 	/// The view model
 	@StateObject var viewModel: SearchOrganizationViewModel
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Are we presented in a sheet?
 	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
@@ -231,7 +205,10 @@ struct SearchOrganizationView: View {
 	/// The binding input - can be injected for testing
 	@State var input: String
 	
-	/// Initializer
+	/// Creates the view.
+	/// - Parameters:
+	///   - viewModel: the view model; evaluated lazily via `@autoclosure` so `StateObject` owns the instance.
+	///   - input: initial text for the search field; defaults to empty. Inject a non-empty value in tests to pre-populate state.
 	init(
 		viewModel: @autoclosure @escaping () -> SearchOrganizationViewModel,
 		input: String = ""
@@ -240,15 +217,9 @@ struct SearchOrganizationView: View {
 		self._input = State(initialValue: input)
 	}
 	
-	/// helper to calculate the size of the view
+	/// Tracks the rendered size of the list so the empty-state image can scale proportionally.
 	@State private var contentSize: CGSize = .zero
-	
-	/// State for showing the confirmation alert
-	@State private var showConfirmationAlert: Bool = false
-	
-	/// The selected organization for the alert
-	@State private var selectedOrganization: OrganizationSearch.Organization?
-	
+
 	/// Focus state for the input field
 	@FocusState private var isInputFocused: Bool
 	
@@ -297,12 +268,12 @@ struct SearchOrganizationView: View {
 	
 	var body: some View {
 		List {
-			
+
 			topView
-			
+
 			if viewModel.state.results.isNotEmpty {
 				listHeader
-				
+
 				organizationsList
 			} else if !viewModel.state.isSearching && input.count > 2 {
 				emptyState
@@ -325,26 +296,21 @@ struct SearchOrganizationView: View {
 				.layoutForIPad()
 		})
 		.background(theme.backgrounds.primary.ignoresSafeArea())
-		.onChange(of: showConfirmationAlert) { isShowing in
-			if isShowing {
+		.onChange(of: viewModel.state.pendingConfirmation) { pending in
+			if pending != nil {
 				isInputFocused = false
 			}
 		}
-		.alert(
-			String(
-				format: String(localized: "search_organization.dialog.heading"),
-				arguments: [selectedOrganization?.displayName ?? ""]
-			),
-			isPresented: $showConfirmationAlert,
-			presenting: selectedOrganization
-		) { organization in
-			Button("search_organization.dialog.yes", role: .none) {
-				viewModel.reduce(.store(organization))
+		.inspectableFullScreenCover(isPresented: $viewModel.state.pendingConfirmation.presence()) {
+			if let organization = viewModel.state.pendingConfirmation {
+				ConfirmationAlertCoverView(
+					organization: organization,
+					isPresented: $viewModel.state.pendingConfirmation.presence(),
+					onConfirm: { viewModel.reduce(.store(organization)) }
+				)
+				.clearFullScreenCoverBackground()
+				.interactiveDismissDisabled()
 			}
-			.accessibilityIdentifier("search_organization.dialog.action")
-			Button("search_organization.dialog.no", role: .cancel) { /* No action */ }
-		} message: { organization in
-			Text(String(localized: "search_organization.dialog.subheading"))
 		}
 	}
 	
@@ -355,7 +321,7 @@ struct SearchOrganizationView: View {
 			
 			VStack(spacing: ViewTraits.Header.spacing) {
 				
-				Text(viewModel.state.isOnboarding ? "search_organization.onboarding.heading" : "search_organization.heading")
+				Text(viewModel.state.heading)
 					.typography(.headingExtraLarge)
 					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -468,21 +434,23 @@ struct SearchOrganizationView: View {
 		.listRowBackground(Color.clear)
 	}
 	
+	/// A single organization row wrapped in its `Section`.
+	@ViewBuilder private func organizationRow(_ organization: OrganizationSearch.Organization) -> some View {
+		Section {
+			OrganizationRowView(
+				organization: organization,
+				cardState: cardState(organization),
+				onSelect: { viewModel.reduce(.select(organization)) }
+			)
+		}
+		.listRowInsets(ViewTraits.List.resultInset)
+	}
+
 	/// The list of search results
 	@ViewBuilder private var organizationsList: some View {
 
 		ForEach(viewModel.state.visibleResults) { organization in
-			Section {
-				OrganizationRowView(
-					organization: organization,
-					cardState: cardState(organization),
-					onSelect: {
-						selectedOrganization = organization
-						showConfirmationAlert = true
-					}
-				)
-			}
-			.listRowInsets(ViewTraits.List.resultInset)
+			organizationRow(organization)
 		}
 
 		// Load the next page when the user scrolls to the bottom.
@@ -499,9 +467,9 @@ struct SearchOrganizationView: View {
 		}
 	}
 	
-	/// Get the card state of an organization
-	/// - Parameter organization: the organization
-	/// - Returns: card state
+	/// Determines how an organization row should be rendered.
+	/// - Parameter organization: the organization to evaluate.
+	/// - Returns: `.selected` if already stored, `.notParticipating` if no supported data services, `.regular` otherwise.
 	private func cardState(_ organization: Organization) -> CardState {
 		guard let dts = organization.dataServices else {
 			return .notParticipating

@@ -10,7 +10,7 @@ import Theme
 public struct LinkButtonStyle: ButtonStyle {
 	
 	/// The Theme
-	@Environment(\.theme) private var theme
+	@Environment(\.mgoTheme) private var theme
 	
 	/// The Alignment
 	private var alignment: Alignment

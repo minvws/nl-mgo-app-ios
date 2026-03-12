@@ -14,7 +14,7 @@ struct DisplaySettingsView: View {
 	@AppStorage("AppAppearance") private var selectedAppearance: AppAppearance = .system
 	
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.mgoTheme) var theme
 	
 	/// Magic Numbers
 	private struct ViewTraits {
