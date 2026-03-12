@@ -11,29 +11,35 @@ class SearchOrganizationViewModel: ObservableObject {
 	
 	/// The state of the search organization view
 	struct SearchOrganizationViewState {
-		
+
 		/// Are we in the onboarding? -> True
 		/// Are we a repeat visitor? -> False
 		var isOnboarding: Bool = false
-		
+
 		/// Are we searching for results?
 		var isSearching: Bool = false
-		
+
 		/// All search results returned by the database (potentially thousands).
 		var results: [OrganizationSearch.Organization] = []
-		
+
 		/// How many results are currently rendered in the list.
 		var visibleCount: Int = 20
-		
+
 		/// The total number of search results
 		var totalResults: Int = 0
-		
+
 		/// All id of stored organizations
 		var storedOrganizationIDs: [String] = []
-		
+
 		/// All available service ids
 		var availableServiceIds: [String] = []
-		
+
+		/// Whether the confirmation cover is currently shown.
+		var showConfirmationAlert: Bool = false
+
+		/// The organization the user has tapped and is being asked to confirm.
+		var selectedOrganization: OrganizationSearch.Organization?
+
 		/// The slice of `results` that is currently shown in the list.
 		var visibleResults: [OrganizationSearch.Organization] {
 			Array(results.prefix(visibleCount))
@@ -54,6 +60,7 @@ class SearchOrganizationViewModel: ObservableObject {
 		case closeSheet
 		case endEditing
 		case search(String?)
+		case select(OrganizationSearch.Organization)
 		case store(OrganizationSearch.Organization)
 		case loadMore
 	}
@@ -88,20 +95,24 @@ class SearchOrganizationViewModel: ObservableObject {
 	@MainActor func reduce(_ action: SearchOrganizationViewModel.Action) {
 		
 		switch action {
-				
+
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
-				
+
 			case .endEditing:
 				UIApplication.shared.endEditing()
-				
+
 			case let .search(searchTerm):
 				search(searchTerm)
-				
+
+			case let .select(organization):
+				state.selectedOrganization = organization
+				state.showConfirmationAlert = true
+
 			case let .store(organization):
 				store(organization)
 				coordinator?.handle(Coordination.Action.closeSheet)
-				
+
 			case .loadMore:
 				state.visibleCount = min(
 					state.visibleCount + SearchOrganizationViewModel.pageSize,
@@ -188,13 +199,7 @@ struct SearchOrganizationView: View {
 	
 	/// helper to calculate the size of the view
 	@State private var contentSize: CGSize = .zero
-	
-	/// State for showing the confirmation alert
-	@State private var showConfirmationAlert: Bool = false
-	
-	/// The selected organization for the alert
-	@State private var selectedOrganization: OrganizationSearch.Organization?
-	
+
 	/// Focus state for the input field
 	@FocusState private var isInputFocused: Bool
 	
@@ -271,16 +276,16 @@ struct SearchOrganizationView: View {
 				.layoutForIPad()
 		})
 		.background(theme.backgrounds.primary.ignoresSafeArea())
-		.onChange(of: showConfirmationAlert) { isShowing in
+		.onChange(of: viewModel.state.showConfirmationAlert) { isShowing in
 			if isShowing {
 				isInputFocused = false
 			}
 		}
-		.fullScreenCover(isPresented: $showConfirmationAlert) {
-			if let organization = selectedOrganization {
+		.inspectableFullScreenCover(isPresented: $viewModel.state.showConfirmationAlert) {
+			if let organization = viewModel.state.selectedOrganization {
 				ConfirmationAlertCoverView(
 					organization: organization,
-					isPresented: $showConfirmationAlert,
+					isPresented: $viewModel.state.showConfirmationAlert,
 					onConfirm: { viewModel.reduce(.store(organization)) }
 				)
 				.clearFullScreenCoverBackground()
@@ -417,12 +422,7 @@ struct SearchOrganizationView: View {
 				OrganizationRowView(
 					organization: organization,
 					cardState: cardState(organization),
-					onSelect: {
-						selectedOrganization = organization
-						var transaction = Transaction()
-						transaction.disablesAnimations = true
-						withTransaction(transaction) { showConfirmationAlert = true }
-					}
+					onSelect: { viewModel.reduce(.select(organization)) }
 				)
 			}
 			.listRowInsets(ViewTraits.List.resultInset)
