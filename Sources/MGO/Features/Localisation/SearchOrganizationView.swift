@@ -107,7 +107,11 @@ class SearchOrganizationViewModel: ObservableObject {
 
 			case let .select(organization):
 				state.selectedOrganization = organization
-				state.showConfirmationAlert = true
+				var transaction = Transaction()
+				transaction.disablesAnimations = true
+				withTransaction(transaction) {
+					state.showConfirmationAlert = true
+				}
 
 			case let .store(organization):
 				store(organization)
