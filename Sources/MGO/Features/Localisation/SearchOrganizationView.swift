@@ -6,6 +6,11 @@
 import MGOFoundation
 import MGOUI
 
+/// View model for `SearchOrganizationView`.
+///
+/// Owns the search lifecycle (debounced queries, pagination) and the
+/// confirmation flow for adding a healthcare organization.  All state mutations
+/// happen on the `@MainActor`.
 @MainActor
 class SearchOrganizationViewModel: ObservableObject {
 	
@@ -13,7 +18,7 @@ class SearchOrganizationViewModel: ObservableObject {
 	struct SearchOrganizationViewState {
 
 		/// The heading text key — set once at init based on whether this is the user's first visit.
-		var heading: LocalizedStringKey
+		var heading: LocalizedStringKey = "search_organization.heading"
 
 		/// Are we searching for results?
 		var isSearching: Bool = false
@@ -48,16 +53,22 @@ class SearchOrganizationViewModel: ObservableObject {
 	/// Dependency injectable organization Search Client
 	@Injected(\.organizationSearchClient) private var organizationSearchClient
 	
-	/// Dependency Healthcare Organization Store
+	/// Dependency injectable healthcare organization repository
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
 	
-	/// A list of all the actions this viewModel can handle
+	/// All actions this view model can handle.
 	enum Action {
+		/// Dismiss the sheet that contains this view.
 		case closeSheet
+		/// Resign the keyboard / end text editing.
 		case endEditing
+		/// Run a search for the given term, or clear results when `nil` / too short.
 		case search(String?)
+		/// The user tapped an organization row; show the confirmation cover.
 		case select(OrganizationSearch.Organization)
+		/// The user confirmed the selection; persist the organization and close the sheet.
 		case store(OrganizationSearch.Organization)
+		/// Render the next page of results.
 		case loadMore
 	}
 	
@@ -73,8 +84,10 @@ class SearchOrganizationViewModel: ObservableObject {
 	/// The number of results rendered per page.
 	static let pageSize = 20
 	
-	/// Initializer
-	/// - Parameter coordinator: the coordinator
+	/// Creates the view model.
+	/// - Parameters:
+	///   - coordinator: the flow coordinator used for navigation/routing.
+	///   - firstVisitor: `true` when the user has not yet added any organization (onboarding flow).
 	@MainActor init(coordinator: (any Coordinator)?, firstVisitor: Bool) {
 		self.coordinator = coordinator
 		self.state = SearchOrganizationViewState(
@@ -102,15 +115,15 @@ class SearchOrganizationViewModel: ObservableObject {
 				search(searchTerm)
 
 			case let .select(organization):
-				state.selectedOrganization = organization
 				var transaction = Transaction()
 				transaction.disablesAnimations = true
 				withTransaction(transaction) {
-					state.showConfirmationAlert = true
+					state.pendingConfirmation = organization
 				}
 
 			case let .store(organization):
 				store(organization)
+				state.storedOrganizationIDs.append(organization.id)
 				coordinator?.handle(Coordination.Action.closeSheet)
 
 			case .loadMore:
@@ -121,8 +134,8 @@ class SearchOrganizationViewModel: ObservableObject {
 		}
 	}
 	
-	/// Handle user input for search
-	/// - Parameter term: the search term
+	/// Debounces and executes a search query, updating state when results arrive.
+	/// - Parameter searchTerm: the raw text typed by the user; results are cleared when `nil` or too short.
 	@MainActor private func search(_ searchTerm: String?) {
 		// Cancel any existing search task
 		searchTask?.cancel()
@@ -171,6 +184,10 @@ class SearchOrganizationViewModel: ObservableObject {
 	}
 }
 
+/// Lets the user search for a healthcare organization and add it to their profile.
+///
+/// Presents a debounced search field, a paginated list of results, and a
+/// full-screen confirmation cover when the user selects an organization.
 struct SearchOrganizationView: View {
 	
 	/// The view model
@@ -188,7 +205,10 @@ struct SearchOrganizationView: View {
 	/// The binding input - can be injected for testing
 	@State var input: String
 	
-	/// Initializer
+	/// Creates the view.
+	/// - Parameters:
+	///   - viewModel: the view model; evaluated lazily via `@autoclosure` so `StateObject` owns the instance.
+	///   - input: initial text for the search field; defaults to empty. Inject a non-empty value in tests to pre-populate state.
 	init(
 		viewModel: @autoclosure @escaping () -> SearchOrganizationViewModel,
 		input: String = ""
@@ -197,7 +217,7 @@ struct SearchOrganizationView: View {
 		self._input = State(initialValue: input)
 	}
 	
-	/// helper to calculate the size of the view
+	/// Tracks the rendered size of the list so the empty-state image can scale proportionally.
 	@State private var contentSize: CGSize = .zero
 
 	/// Focus state for the input field
@@ -276,16 +296,16 @@ struct SearchOrganizationView: View {
 				.layoutForIPad()
 		})
 		.background(theme.backgrounds.primary.ignoresSafeArea())
-		.onChange(of: viewModel.state.showConfirmationAlert) { isShowing in
-			if isShowing {
+		.onChange(of: viewModel.state.pendingConfirmation) { pending in
+			if pending != nil {
 				isInputFocused = false
 			}
 		}
-		.inspectableFullScreenCover(isPresented: $viewModel.state.showConfirmationAlert) {
-			if let organization = viewModel.state.selectedOrganization {
+		.inspectableFullScreenCover(isPresented: $viewModel.state.pendingConfirmation.presence()) {
+			if let organization = viewModel.state.pendingConfirmation {
 				ConfirmationAlertCoverView(
 					organization: organization,
-					isPresented: $viewModel.state.showConfirmationAlert,
+					isPresented: $viewModel.state.pendingConfirmation.presence(),
 					onConfirm: { viewModel.reduce(.store(organization)) }
 				)
 				.clearFullScreenCoverBackground()
@@ -301,7 +321,7 @@ struct SearchOrganizationView: View {
 			
 			VStack(spacing: ViewTraits.Header.spacing) {
 				
-				Text(viewModel.state.isOnboarding ? "search_organization.onboarding.heading" : "search_organization.heading")
+				Text(viewModel.state.heading)
 					.typography(.headingExtraLarge)
 					.foregroundStyle(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -442,9 +462,9 @@ struct SearchOrganizationView: View {
 		}
 	}
 	
-	/// Get the card state of an organization
-	/// - Parameter organization: the organization
-	/// - Returns: card state
+	/// Determines how an organization row should be rendered.
+	/// - Parameter organization: the organization to evaluate.
+	/// - Returns: `.selected` if already stored, `.notParticipating` if no supported data services, `.regular` otherwise.
 	private func cardState(_ organization: Organization) -> CardState {
 		guard let dts = organization.dataServices else {
 			return .notParticipating

@@ -207,8 +207,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		// Given — set state directly so the inspectableFullScreenCover renders ConfirmationAlertCoverView.
 		// This covers the fullScreenCover content block in SearchOrganizationView.
 		createSut(firstVisitor: false)
-		viewModel.state.selectedOrganization = organization1
-		viewModel.state.showConfirmationAlert = true
+		viewModel.state.pendingConfirmation = organization1
 
 		// Then — the cover is part of the inspectable view tree
 		expect { try self.sut.inspect().find(ConfirmationAlertCoverView.self) }.toNot(throwError())
@@ -226,8 +225,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 
 		// Given — set state directly so the inspectableFullScreenCover renders ConfirmationAlertCoverView.
 		createSut(firstVisitor: false)
-		viewModel.state.selectedOrganization = organization1
-		viewModel.state.showConfirmationAlert = true
+		viewModel.state.pendingConfirmation = organization1
 
 		// Then — the cover is part of the inspectable view tree
 		expect { try self.sut.inspect().find(ConfirmationAlertCoverView.self) }.toNot(throwError())
