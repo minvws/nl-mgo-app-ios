@@ -11,9 +11,6 @@ import RijksoverheidFont
 
 class AppDelegate: NSObject, UIApplicationDelegate {
 	
-	/// set orientations you want to be allowed in this property by default
-	static var orientationLock = UIInterfaceOrientationMask.all
-	
 	/// Dependency injectable Secure User Settings
 	@Injected(\.secureUserSettings) private var secureUserSettings
 	
@@ -95,10 +92,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	}
 	
 	// MARK: Orientation
-	
-	func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-		return AppDelegate.orientationLock
-	}
 	
 	// MARK: 3rd Party Keyboard
 	

@@ -161,7 +161,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg een zorgaanbieder toe"
+            "value" : "Zorgaanbieder toevoegen"
           }
         }
       }
@@ -1657,7 +1657,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welkom"
+            "value" : "Overzicht"
           }
         }
       }
@@ -2528,7 +2528,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opnieuw instellen"
+            "value" : "Stel opnieuw in"
           }
         }
       }
@@ -2550,7 +2550,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "U verwijdert uw zorgaanbieders en toegangscode. Uw gegevens blijven bij uw zorgaanbieders bewaard."
+            "value" : "U verwijdert uw zorgaanbieders uit de app. De gegevens blijven altijd veilig bewaard bij de zorgaanbieder."
           }
         }
       }
