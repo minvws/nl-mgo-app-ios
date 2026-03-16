@@ -1,15 +1,22 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import MGODebug
 import MGOUI
 import MGOFoundation
 
+/// The application entry point.
+///
+/// Performs pre-launch configuration (logging) and then delegates to either
+/// `ProductionApp` or `TestApp` depending on whether XCTest is loaded.
 @main
 struct MainEntryPoint {
 	
+	/// Configures the app and launches the appropriate entry point.
 	static func main() {
+		configureLogging()
 		
 		guard isProduction() else {
 			TestApp.main()
@@ -18,11 +25,34 @@ struct MainEntryPoint {
 		ProductionApp.main()
 	}
 	
+	/// Returns `true` when the app is running outside of a test host process.
 	private static func isProduction() -> Bool {
 		return NSClassFromString("XCTestCase") == nil
 	}
+	
+	/// Reads `LOG_LEVEL` from the app's `Info.plist` and sets `SwiftLogger.level`.
+	///
+	/// The value is matched case-insensitively against the `LoggingLevel` case names
+	/// (`verbose`, `debug`, `info`, `warning`, `error`). Any missing or unrecognised
+	/// value results in `.off`, so no logging is produced in production builds unless
+	/// the key is explicitly set.
+	private static func configureLogging() {
+		let rawLevel = Bundle.main.infoDictionary?["LOG_LEVEL"] as? String
+		switch rawLevel?.lowercased() {
+			case "verbose": SwiftLogger.level = .verbose
+			case "debug":   SwiftLogger.level = .debug
+			case "info":    SwiftLogger.level = .info
+			case "warning": SwiftLogger.level = .warning
+			case "error":   SwiftLogger.level = .error
+			default:        SwiftLogger.level = .off
+		}
+	}
 }
 
+/// The production SwiftUI application.
+///
+/// Manages the top-level scene, app appearance, local authentication timeout,
+/// and the privacy overlay shown when the app moves to the background.
 struct ProductionApp: App {
 	
 	/// The application delegate for lifecycle events
@@ -54,6 +84,7 @@ struct ProductionApp: App {
 	/// Show the privacy scene
 	@State private var showPrivacyScene: Bool = false
 	
+	/// The root scene, containing the coordinator view and the privacy overlay.
 	var body: some Scene {
 		WindowGroup {
 			content
@@ -72,7 +103,8 @@ struct ProductionApp: App {
 		}
 	}
 	
-	// Main ZStacked content, wrapped in a GeometryReader
+	/// The main content view: the coordinator wrapped in a `GeometryReader` to
+	/// propagate safe area insets, with the privacy overlay stacked on top.
 	@ViewBuilder private var content: some View {
 		ZStack {
 			GeometryReader { geo in
@@ -97,6 +129,11 @@ struct ProductionApp: App {
 	}
 }
 
+/// A minimal SwiftUI application used as the host when running UI tests.
+///
+/// Presents an empty `WindowGroup` so XCTest can attach to the process without
+/// any production UI being initialised. Animations are disabled and accelerated
+/// to keep test runs fast and deterministic.
 struct TestApp: App {
 	
 	init() {
@@ -118,10 +155,9 @@ struct TestApp: App {
 			.speed = 100
 	}
 	
+	/// An empty scene — tests drive the UI directly via XCUIApplication.
+	/// See https://qualitycoding.org/bypass-swiftui-app-launch-unit-testing/
 	var body: some Scene {
-		WindowGroup {
-			// Nothing for the test app
-			// See https://qualitycoding.org/bypass-swiftui-app-launch-unit-testing/
-		}
+		WindowGroup {}
 	}
 }

@@ -5,21 +5,24 @@ import PackageDescription
 
 let package = Package(
 	name: "MGODebug",
+	platforms: [.iOS(.v15)],
 	products: [
 		.library(
 			name: "MGODebug",
 			targets: ["MGODebug"])
 	],
 	dependencies: [
-		// VWS
-		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main")
+		.package(
+			url: "https://github.com/RoolProductions/SwiftLogging",
+			branch: "main"
+		)
 	],
 	targets: [
 		.target(
 			name: "MGODebug",
 			dependencies: [
-				.product(name: "Logging", package: "nl-rdo-app-ios-modules")
+				.product(name: "SwiftLogging", package: "SwiftLogging")
 			],
-			)
+		)
 	]
 )

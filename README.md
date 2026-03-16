@@ -52,10 +52,9 @@ The majority of our (third-party) dependencies are included as Swift Packages. H
 * [GitHubArtifactDownload](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/GitHubArtifactDownload/README.md): script to assist with downloading the latest artifact for the Shared Core and Shared configurations
 * [HCIMCore](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/HCIMCore/README.md): the shared javascript library to parse FHIR data into Health and Care Information Models.
 * [JailBreakDetector](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/JailBreakDetector/README.md): helper to detect jail broken devices.
-* [Logging](https://github.com/minvws/nl-rdo-app-ios-modules): a tool for Logging, reused from CoronaCheck.
 * [MGOCommandLine](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOCommandLine/README.md): convenience package that exposes Figlet and Swift Argument Parser for easy import in command-line tools.
-* [MGODebug](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGODebug/README.md): debug package to help identify memory leaks.
-* [MGOFoundation](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOFoundation/README.md): convenience package that re-exports FHIRClient, MGORepository, FileStorage, JailBreakDetector, NotificationCenter, Observatory, RemoteConfiguration, SecureUserSettings and Logging for easy import in the app.
+* [MGODebug](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGODebug/README.md): debug package providing logging (via SwiftLogging) and memory usage utilities.
+* [MGOFoundation](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOFoundation/README.md): convenience package that re-exports FHIRClient, MGORepository, FileStorage, JailBreakDetector, NotificationCenter, Observatory, RemoteConfiguration and SecureUserSettings for easy import in the app.
 * [MGORepository](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGORepository/README.md): The linking class between the HCIMs, the HCIM parser and the FHIR Client.
 * [MGOUI](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOUI/README.md): convenience package that re-exports ReusableUI, Theme, RijksoverheidFont, SwiftIntrospect and NavigationStack Backport for easy import in the app.
 * [NetworkAvailability](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/NetworkAvailability/README.md): helper to check whether a network connection is available.
@@ -119,7 +118,9 @@ There is a [Makefile](./Makefile) which makes it easy to get started (if you enc
 
 Simply run `make dev` from the command line.  
 
-It will use [Homebrew](https://brew.sh) to install [these tools](./Brewfile), and will install githooks for:
+It will use [Homebrew](https://brew.sh) to install [these tools](./Brewfile), including [Mint](https://github.com/yonaskolb/Mint). Mint is used instead of Homebrew for XcodeGen and SwiftLint because it pins exact versions per project (via [Mintfile](./Mintfile)), ensuring every developer and CI run uses identical tool versions regardless of when they last ran `brew upgrade`.
+
+It will install githooks for:
 
 * GitLFS (which will download the [snapshot](https://github.com/pointfreeco/swift-snapshot-testing) PNGs used in our unit tests)
 * XcodeGen (which will update the Xcode project each time you change branches)

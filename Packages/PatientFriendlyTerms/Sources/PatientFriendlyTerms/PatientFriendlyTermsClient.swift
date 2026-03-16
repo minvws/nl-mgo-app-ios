@@ -7,7 +7,7 @@ import AuthorizationMiddleware
 import OpenAPIRuntime
 import OpenAPIURLSession
 import Foundation
-import Logging
+import SwiftLogging
 
 public protocol PatientFriendlyTermsAPIClientProtocol {
 	

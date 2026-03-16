@@ -64,8 +64,8 @@ class AboutOpenSourceLibrariesViewModel: BaseViewModel {
 				urlString: "https://github.com/AliSoftware/OHHTTPStubs?tab=MIT-1-ov-file#readme" // NOSONAR
 			),
 			Library(
-				name: "RDO Modules - Logging (EUPL 1.2)",
-				urlString: "https://github.com/minvws/nl-rdo-app-ios-modules?tab=EUPL-1.2-1-ov-file" // NOSONAR
+				name: "SwiftLogging (EUPL 1.2)",
+				urlString: "https://github.com/RoolProductions/SwiftLogging?tab=License-1-ov-file#readme" // NOSONAR
 			),
 			Library(
 				name: "📸 SnapshotTesting (MIT)",
