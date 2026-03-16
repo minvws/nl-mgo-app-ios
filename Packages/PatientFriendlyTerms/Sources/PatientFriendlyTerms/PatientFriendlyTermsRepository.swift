@@ -6,7 +6,7 @@
 import Foundation
 import FileStorage
 import Foil
-import Logging
+import SwiftLogging
 
 public protocol PatientFriendlyTermsRepositoryProtocol {
 	

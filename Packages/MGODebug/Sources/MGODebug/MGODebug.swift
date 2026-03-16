@@ -3,5 +3,4 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-// VWS
-@_exported import Logging
+@_exported import SwiftLogging
