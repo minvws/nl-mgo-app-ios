@@ -7,26 +7,26 @@ import Foundation
 import JavaScriptCore
 import MGODebug
 
-/// A parser that transforms raw FHIR data into Health and Care Information
-/// Models (HCIMs) and then into UI-ready representations using a shared
-/// JavaScript core.
+/// A type that can be initialised from a JSON string produced by the HCIM JavaScript core.
+protocol HCIMStringInitialisable {
+    init(_ json: String, using encoding: String.Encoding) throws
+}
+
+/// A parser that transforms raw FHIR data into Health and Care Information Models (HCIMs)
+/// and then into UI-ready representations using a shared JavaScript core.
 ///
-/// `HCIMParser` wraps a `JSContext` that evaluates `mgo-hcim-api.iife.js`
-/// — the shared JavaScript library responsible for all FHIR-to-HCIM
-/// conversions. The typical call sequence is:
+/// `HCIMParser` wraps a `JSContext` that evaluates `mgo-hcim-api.iife.js` — the shared
+/// JavaScript library responsible for all FHIR-to-HCIM conversions. The typical call
+/// sequence is:
 ///
-/// 1. ``splitBundleIntoResources(_:)`` — split a FHIR Bundle into
-///    individual FHIR resources.
-/// 2. ``transformFHIRResourceIntoHCIM(_:fhirVersion:)`` — convert each
-///    resource into a HCIM object.
-/// 3. ``getCard(_:organizationName:)``,
-///    ``getDetails(_:organizationName:)``, or
-///    ``getSummary(_:organizationName:)`` — convert the HCIM into a UI
-///    schema.
+/// 1. ``splitBundleIntoResources(_:)`` — split a FHIR Bundle into individual FHIR resources.
+/// 2. ``transformFHIRResourceIntoHCIM(_:fhirVersion:)`` — convert each resource into a HCIM
+///    object.
+/// 3. ``getCard(_:organizationName:)``, ``getDetails(_:organizationName:)``, or
+///    ``getSummary(_:organizationName:)`` — convert the HCIM into a UI schema.
 ///
-/// All public methods return `nil` (and log an error) rather than throwing
-/// when the JavaScript layer fails, so callers can handle individual parse
-/// failures without crashing.
+/// All public methods return `nil` (and log an error) rather than throwing when the
+/// JavaScript layer fails, so callers can handle individual parse failures without crashing.
 nonisolated public class HCIMParser {
 	
 	/// The JavaScript namespace under which the HCIM API methods are registered.
@@ -35,14 +35,11 @@ nonisolated public class HCIMParser {
 	/// The JavaScript execution context that hosts the shared HCIM core.
 	private var jsContext: JSContext?
 	
-	/// Creates a new `HCIMParser` and loads the shared JavaScript core into
-	/// its context.
+	/// Creates a new `HCIMParser` and loads the shared JavaScript core into its context.
 	///
-	/// During unit testing (detected via the `--unittesting` launch argument)
-	/// the JS source is intentionally not pre-loaded here; it is instead
-	/// loaded lazily on each call to
-	/// ``callJSMethod(_:with:fhirVersion:organizationName:)`` to ensure a
-	/// clean state per test.
+	/// During unit testing (detected via the `--unittesting` launch argument) the JS source
+	/// is intentionally not pre-loaded here; it is instead loaded lazily on each call to
+	/// ``callJSMethod(_:with:fhirVersion:organizationName:)`` to ensure a clean state per test.
 	public init() {
 		
 		jsContext = createContext()
@@ -54,11 +51,10 @@ nonisolated public class HCIMParser {
 	
 	/// Returns the version of the bundled HCIM shared core.
 	///
-	/// The version is read from the `version.json` resource bundled with
-	/// the module.
+	/// The version is read from the `version.json` resource bundled with the module.
 	///
-	/// - Throws: ``HCIMVersion/Error/noResource`` if the version file cannot
-	///   be located in the bundle.
+	/// - Throws: ``HCIMVersion/Error/noResource`` if the version file cannot be located in
+	///   the bundle.
 	/// - Returns: The parsed ``HCIMVersion``.
 	public func getVersion() throws -> HCIMVersion {
 		
@@ -73,12 +69,10 @@ nonisolated public class HCIMParser {
 		return try HCIMVersion(String(contentsOfFile: parserPath))
 	}
 	
-	/// Creates and configures a `JSContext`, installing an exception handler
-	/// that logs JavaScript errors (including stack trace, line number, and
-	/// column) via `logError`.
+	/// Creates and configures a `JSContext`, installing an exception handler that logs
+	/// JavaScript errors (including stack trace, line number, and column) via `logError`.
 	///
-	/// - Returns: A configured `JSContext`, or `nil` if the system could not
-	///   allocate one.
+	/// - Returns: A configured `JSContext`, or `nil` if the system could not allocate one.
 	private func createContext() -> JSContext? {
 		
 		let context = JSContext()
@@ -96,13 +90,12 @@ nonisolated public class HCIMParser {
 		return context
 	}
 	
-	/// Loads and evaluates the bundled HCIM JavaScript source into the given
-	/// context.
+	/// Loads and evaluates the bundled HCIM JavaScript source into the given context.
 	///
 	/// - Parameter jsContext: The `JSContext` to evaluate the source in.
-	/// - Throws: ``HCIMParserError/noJSContext`` if `jsContext` is `nil`,
-	///   or ``HCIMParserError/parserNotFound`` if the JS file is missing
-	///   from the bundle or cannot be read.
+	/// - Throws: ``HCIMParserError/noJSContext`` if `jsContext` is `nil`, or
+	///   ``HCIMParserError/parserNotFound`` if the JS file is missing from the bundle or
+	///   cannot be read.
 	private func loadSource(jsContext: JSContext?) throws {
 		
 		guard let jsContext else {
@@ -128,16 +121,13 @@ nonisolated public class HCIMParser {
 	
 	/// Splits a FHIR Bundle into its individual FHIR resources.
 	///
-	/// Invokes the `.splitBundle` JavaScript method on the HCIM core, which
-	/// returns a JSON array string. The string is re-encoded to `Data` and
-	/// parsed by `JSONSerialization` into an array of objects, each of which
-	/// is then individually serialised back to `Data`.
+	/// Invokes the `.splitBundle` JavaScript method on the HCIM core, which returns a JSON
+	/// array string. The string is re-encoded to `Data` and parsed by `JSONSerialization`
+	/// into an array of objects, each of which is then individually serialised back to `Data`.
 	///
-	/// - Parameter bundle: The raw FHIR Bundle JSON received from the DVA,
-	///   as `Data`.
-	/// - Returns: An array of individual FHIR resource payloads as `Data`,
-	///   or an empty array if the JS call fails or the output cannot be
-	///   parsed as a JSON array of objects.
+	/// - Parameter bundle: The raw FHIR Bundle JSON received from the DVA, as `Data`.
+	/// - Returns: An array of individual FHIR resource payloads as `Data`, or an empty array
+	///   if the JS call fails or the output cannot be parsed as a JSON array of objects.
 	public func splitBundleIntoResources(_ bundle: Data) -> [Data] {
 		
 		do {
@@ -162,12 +152,10 @@ nonisolated public class HCIMParser {
 	
 	/// Transforms a raw FHIR resource into a HCIM object.
 	///
-	/// Invokes the `.resource` JavaScript method on the HCIM core, passing
-	/// the serialised FHIR resource and the FHIR version hint. The result
-	/// is the HCIM JSON representation that can be passed to
-	/// ``getCard(_:organizationName:)``,
-	/// ``getDetails(_:organizationName:)``, or
-	/// ``getSummary(_:organizationName:)``.
+	/// Invokes the `.resource` JavaScript method on the HCIM core, passing the serialised
+	/// FHIR resource and the FHIR version hint. The result is the HCIM JSON representation
+	/// that can be passed to ``getCard(_:organizationName:)``,
+	/// ``getDetails(_:organizationName:)``, or ``getSummary(_:organizationName:)``.
 	///
 	/// - Parameters:
 	///   - fhirResource: The raw FHIR resource JSON, as `Data`.
@@ -192,13 +180,12 @@ nonisolated public class HCIMParser {
 		return nil
 	}
 	
-	/// Transforms a HCIM resource into an `HcimCardDetails` object suitable
-	/// for display in a card UI.
+	/// Transforms a HCIM resource into an `HcimCardDetails` object suitable for display in a
+	/// card UI.
 	///
-	/// This method invokes the `.card` JavaScript method on the shared HCIM
-	/// core, passing the serialised HCIM resource and an optional
-	/// organisation name. The JavaScript result is deserialised into an
-	/// `HcimCardDetails` value.
+	/// This method invokes the `.card` JavaScript method on the shared HCIM core, passing the
+	/// serialised HCIM resource and an optional organisation name. The JavaScript result is
+	/// deserialised into an `HcimCardDetails` value.
 	///
 	/// Returns `nil` and logs an error if:
 	/// - the JavaScript context is unavailable,
@@ -206,106 +193,71 @@ nonisolated public class HCIMParser {
 	/// - the returned JSON cannot be decoded into `HcimCardDetails`.
 	///
 	/// - Parameters:
-	///   - resource: The HCIM resource as raw JSON data, typically produced
-	///     by ``transformFHIRResourceIntoHCIM(_:fhirVersion:)``.
-	///   - organizationName: The display name of the healthcare organisation,
-	///     passed to the JavaScript core so it can be included in the card
-	///     output. Pass `nil` when unavailable.
+	///   - resource: The HCIM resource as raw JSON data, typically produced by
+	///     ``transformFHIRResourceIntoHCIM(_:fhirVersion:)``.
+	///   - organizationName: The display name of the healthcare organisation, passed to the
+	///     JavaScript core so it can be included in the card output. Pass `nil` when
+	///     unavailable.
 	/// - Returns: The decoded `HcimCardDetails`, or `nil` if parsing fails.
 	public func getCard(
 		_ resource: Data,
 		organizationName: String?
 	) -> HcimCardDetails? {
-		
-		do {
-			let resourcesJSValue = try callJSMethod(
-				.card,
-				with: resource,
-				organizationName: organizationName
-			)
-			if let object = resourcesJSValue.toString() {
-				return try HcimCardDetails(object)
-			}
-		} catch {
-			logError(error.localizedDescription)
-		}
-		return nil
+		return parse(.card, resource: resource, organizationName: organizationName)
 	}
 	
-	/// Transforms a HCIM resource into a detailed ``HealthUISchema`` for the
-	/// full detail view.
+	/// Transforms a HCIM resource into a detailed ``HealthUISchema`` for the full detail view.
 	///
-	/// Delegates to ``getSchema(_:resource:organizationName:)`` using the
-	/// `.details` JS method.
+	/// Delegates to ``parse(_:resource:organizationName:)`` using the `.details` JS method.
 	///
 	/// - Parameters:
-	///   - resource: The HCIM resource as raw JSON data, typically produced
-	///     by ``transformFHIRResourceIntoHCIM(_:fhirVersion:)``.
-	///   - organizationName: The display name of the healthcare organisation,
-	///     or `nil` if unavailable.
+	///   - resource: The HCIM resource as raw JSON data, typically produced by
+	///     ``transformFHIRResourceIntoHCIM(_:fhirVersion:)``.
+	///   - organizationName: The display name of the healthcare organisation, or `nil` if
+	///     unavailable.
 	/// - Returns: The decoded ``HealthUISchema``, or `nil` if parsing fails.
 	public func getDetails(
 		_ resource: Data,
 		organizationName: String?
 	) -> HealthUISchema? {
-		
-		return getSchema(
-			.details,
-			resource: resource,
-			organizationName: organizationName
-		)
+		return parse(.details, resource: resource, organizationName: organizationName)
 	}
 	
-	/// Transforms a HCIM resource into a summary ``HealthUISchema`` for list
-	/// or card views.
+	/// Transforms a HCIM resource into a summary ``HealthUISchema`` for list or card views.
 	///
-	/// Delegates to ``getSchema(_:resource:organizationName:)`` using the
-	/// `.summary` JS method.
+	/// Delegates to ``parse(_:resource:organizationName:)`` using the `.summary` JS method.
 	///
 	/// - Parameters:
-	///   - resource: The HCIM resource as raw JSON data, typically produced
-	///     by ``transformFHIRResourceIntoHCIM(_:fhirVersion:)``.
-	///   - organizationName: The display name of the healthcare organisation,
-	///     or `nil` if unavailable.
+	///   - resource: The HCIM resource as raw JSON data, typically produced by
+	///     ``transformFHIRResourceIntoHCIM(_:fhirVersion:)``.
+	///   - organizationName: The display name of the healthcare organisation, or `nil` if
+	///     unavailable.
 	/// - Returns: The decoded ``HealthUISchema``, or `nil` if parsing fails.
 	public func getSummary(
 		_ resource: Data,
 		organizationName: String?
 	) -> HealthUISchema? {
-		
-		return getSchema(
-			.summary,
-			resource: resource,
-			organizationName: organizationName
-		)
+		return parse(.summary, resource: resource, organizationName: organizationName)
 	}
 	
 	// MARK: Private helpers
 	
-	/// Invokes a named method on the `HcimApi` JavaScript namespace with the
-	/// given input data.
+	/// Invokes a named method on the `HcimApi` JavaScript namespace with the given input data.
 	///
 	/// Arguments are built as a JSON string array:
 	/// 1. The UTF-8 string representation of `input`.
-	/// 2. `{"fhirVersion": "<version>"}` — appended only when `fhirVersion`
-	///    is non-`nil`.
-	/// 3. `{"organization": {"name": "<name>"}}` — appended only when
-	///    `organizationName` is non-`nil`.
+	/// 2. `{"fhirVersion": "<version>"}` — appended only when `fhirVersion` is non-`nil`.
+	/// 3. `{"organization": {"name": "<name>"}}` — appended only when `organizationName` is
+	///    non-`nil`.
 	///
 	/// - Parameters:
 	///   - method: The ``ParseMethod`` identifying which JS function to call.
-	///   - input: The payload to pass as the first argument, as raw JSON
-	///     `Data`.
-	///   - fhirVersion: An optional FHIR version hint forwarded to the JS
-	///     core.
-	///   - organizationName: An optional organisation name forwarded to the
-	///     JS core.
-	/// - Throws: ``HCIMParserError/noJSContext`` if the context is
-	///   unavailable,
-	///   ``HCIMParserError/invalidNameSpace`` if `HcimApi` is not defined
-	///   in the context,
-	///   ``HCIMParserError/invalidInput`` if `input` cannot be decoded to a
-	///   UTF-8 string,
+	///   - input: The payload to pass as the first argument, as raw JSON `Data`.
+	///   - fhirVersion: An optional FHIR version hint forwarded to the JS core.
+	///   - organizationName: An optional organisation name forwarded to the JS core.
+	/// - Throws: ``HCIMParserError/noJSContext`` if the context is unavailable,
+	///   ``HCIMParserError/invalidNameSpace`` if `HcimApi` is not defined in the context,
+	///   ``HCIMParserError/invalidInput`` if `input` cannot be decoded to a UTF-8 string,
 	///   or ``HCIMParserError/noResult`` if the JS method returns `nil`.
 	/// - Returns: The raw `JSValue` returned by the JavaScript method.
 	private func callJSMethod(
@@ -358,22 +310,22 @@ nonisolated public class HCIMParser {
 		return resourcesJSValue
 	}
 	
-	/// Shared implementation for ``getDetails(_:organizationName:)`` and
-	/// ``getSummary(_:organizationName:)``.
+	/// Generic helper shared by ``getCard(_:organizationName:)``,
+	/// ``getDetails(_:organizationName:)``, and ``getSummary(_:organizationName:)``.
 	///
-	/// Invokes the given JS `method` and attempts to decode the result into
-	/// a ``HealthUISchema``. Returns `nil` and logs an error on any failure.
+	/// Invokes the given JS `method`, converts the result to a `String`, and initialises a
+	/// value of type `T` from it. Returns `nil` and logs an error on any failure.
 	///
 	/// - Parameters:
-	///   - method: The ``ParseMethod`` to invoke (`.details` or `.summary`).
+	///   - method: The ``ParseMethod`` to invoke.
 	///   - resource: The HCIM resource as raw JSON data.
 	///   - organizationName: The display name of the healthcare organisation, or `nil`.
-	/// - Returns: The decoded ``HealthUISchema``, or `nil` if parsing fails.
-	private func getSchema(
+	/// - Returns: The decoded value of type `T`, or `nil` if parsing fails.
+	private func parse<T: HCIMStringInitialisable>(
 		_ method: ParseMethod,
 		resource: Data,
 		organizationName: String?
-	) -> HealthUISchema? {
+	) -> T? {
 		
 		do {
 			let resourcesJSValue = try callJSMethod(
@@ -382,7 +334,7 @@ nonisolated public class HCIMParser {
 				organizationName: organizationName
 			)
 			if let object = resourcesJSValue.toString() {
-				return try HealthUISchema(object)
+				return try T(object, using: .utf8)
 			}
 		} catch {
 			logError(error.localizedDescription)
@@ -390,3 +342,8 @@ nonisolated public class HCIMParser {
 		return nil
 	}
 }
+
+// MARK: - HCIMStringInitialisable conformances
+
+extension HcimCardDetails: HCIMStringInitialisable { /* already implemented */ }
+extension HealthUISchema: HCIMStringInitialisable { /* already implemented */ }
