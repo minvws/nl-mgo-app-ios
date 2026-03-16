@@ -5,6 +5,7 @@
 			"label": "Section for a download link",
 			"children": [
 				{
+					"id": "label_download_link",
 					"label": "The label",
 					"value": {
 						"display": "Download link"
@@ -14,6 +15,7 @@
 					"url": "https://apple.com"
 				},
 				{
+					"id": "label_single_enry",
 					"label": "The label",
 					"value": {
 						"display": "Single Entry"
@@ -22,7 +24,8 @@
 					"reference": null,
 					"url": null
 				}
-			]
+			],
+			"id": "section_download_link"
 		}
 	]
 }

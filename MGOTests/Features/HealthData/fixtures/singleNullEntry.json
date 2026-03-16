@@ -5,6 +5,7 @@
 			"label": "Section for a single entry with null value",
 			"children": [
 				{
+					"id": "label_single_null_entry",
 					"label": "The label",
 					"value": null,
 					"type": "SINGLE_VALUE",

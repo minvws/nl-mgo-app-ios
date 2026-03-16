@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -109,6 +109,7 @@ class Generator {
 					HealthUIGroup(
 						children: [
 							UIElement(
+								id: "label_single_value",
 								label: "label single value",
 								type: .singleValue,
 								value: UIElementValue.displayValue(
@@ -123,6 +124,7 @@ class Generator {
 								url: nil
 							),
 							UIElement(
+								id: "label_reference_value",
 								label: "label reference value",
 								type: .referenceValue,
 								value: nil,
@@ -131,6 +133,7 @@ class Generator {
 								url: nil
 							),
 							UIElement(
+								id: "label_reference_value_display",
 								label: "label reference value display",
 								type: .referenceValue,
 								value: UIElementValue.displayValue(
@@ -145,6 +148,7 @@ class Generator {
 								url: nil
 							),
 							UIElement(
+								id: "label_reference_link",
 								label: "label reference link",
 								type: .referenceLink,
 								value: nil,
@@ -153,6 +157,7 @@ class Generator {
 								url: "Ref/123"
 							),
 							UIElement(
+								id: "label_download_link",
 								label: "label download link",
 								type: .downloadLink,
 								value: nil,
@@ -161,6 +166,7 @@ class Generator {
 								url: "https://www.apple.com"
 							),
 							UIElement(
+								id: "label_download_reference",
 								label: "label download reference",
 								type: .downloadBinary,
 								value: nil,
@@ -169,12 +175,14 @@ class Generator {
 								url: nil
 							)
 						],
+						id: "section_header_first_group",
 						label: "Section Header first group"
 					),
 					// Schema Group 2
 					HealthUIGroup(
 						children: [
 							UIElement(
+								id: "label_single_value_nil",
 								label: "label single value nil",
 								type: .singleValue,
 								value: nil,
@@ -183,6 +191,7 @@ class Generator {
 								url: nil
 							),
 							UIElement(
+								id: "label_multiple_group_value",
 								label: "label multiple group value",
 								type: .multipleGroupedValues,
 								value:
@@ -209,6 +218,7 @@ class Generator {
 								url: nil
 							),
 							UIElement(
+								id: "label_multiple_value",
 								label: "label multiple value",
 								type: .multipleValues,
 								value:
@@ -235,6 +245,7 @@ class Generator {
 								url: nil
 							),
 							UIElement(
+								id: "label_multiple_value",
 								label: "label multiple value",
 								type: .multipleValues,
 								value:
@@ -254,12 +265,14 @@ class Generator {
 								url: nil
 							)
 						],
+						id: "section_header_second_group",
 						label: "Section Header second group"
 					),
 					// Schema Group 3
 					HealthUIGroup(
 						children: [
 							UIElement(
+								id: "label_single_value_display_coding",
 								label: "label single value display coding",
 								type: .singleValue,
 								value: UIElementValue.displayValue(
@@ -274,6 +287,7 @@ class Generator {
 								url: nil
 							),
 							UIElement(
+								id: "label_multi_value_display_coding",
 								label: "label multi value display coding",
 								type: .multipleValues,
 								value: .unionArray(
@@ -292,6 +306,7 @@ class Generator {
 								url: nil
 							),
 							UIElement(
+								id: "label_grouped_value_display_coding",
 								label: "label grouped values display coding",
 								type: .multipleGroupedValues,
 								value: .unionArray(
@@ -312,6 +327,7 @@ class Generator {
 								url: nil
 							)
 						],
+						id: "section_header_third_group",
 						label: "Section Header third group"
 					)
 				],

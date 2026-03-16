@@ -1,6 +1,6 @@
 import Foundation
 
-public enum MgoCodeOfUnknownMaleFemaleOtherValue: String, Codable, Hashable, Sendable {
+public enum MgoCodeOfUnknownOtherMaleFemaleValue: String, Codable, Hashable, Sendable {
     case female = "female"
     case male = "male"
     case other = "other"

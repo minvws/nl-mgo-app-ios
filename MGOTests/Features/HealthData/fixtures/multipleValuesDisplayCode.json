@@ -5,6 +5,7 @@
 			"label": "Section for a multiple values with display codes",
 			"children": [
 				{
+					"id": "label_multiple_values_display_code",
 					"label": "The label",
 					"value":[
 						{

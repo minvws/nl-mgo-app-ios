@@ -13,10 +13,11 @@ import Foundation
 // MARK: - HealthUIGroup
 public struct HealthUIGroup: Codable, Hashable, Sendable {
     public let children: [UIElement]
-    public let label: String?
+    public let id, label: String?
 
-    public init(children: [UIElement], label: String?) {
+    public init(children: [UIElement], id: String?, label: String?) {
         self.children = children
+        self.id = id
         self.label = label
     }
 }
@@ -41,10 +42,12 @@ public extension HealthUIGroup {
 
     func with(
         children: [UIElement]? = nil,
+        id: String?? = nil,
         label: String?? = nil
     ) -> HealthUIGroup {
         return HealthUIGroup(
             children: children ?? self.children,
+            id: id ?? self.id,
             label: label ?? self.label
         )
     }

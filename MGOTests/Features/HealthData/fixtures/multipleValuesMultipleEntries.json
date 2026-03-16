@@ -5,6 +5,7 @@
 			"label": "Section for a multiple values with multiple entries",
 			"children": [
 				{
+					"id": "label_multiple_values",
 					"label": "The label",
 					"value":[
 						{

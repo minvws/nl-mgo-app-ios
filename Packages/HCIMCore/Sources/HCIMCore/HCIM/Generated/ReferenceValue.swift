@@ -13,12 +13,13 @@ import Foundation
 // MARK: - ReferenceValue
 public struct ReferenceValue: Codable, Hashable, Sendable {
     public let display: String?
-    public let label: String
+    public let id, label: String
     public let reference: String?
     public let type: ReferenceValueType
 
-    public init(display: String?, label: String, reference: String?, type: ReferenceValueType) {
+    public init(display: String?, id: String, label: String, reference: String?, type: ReferenceValueType) {
         self.display = display
+        self.id = id
         self.label = label
         self.reference = reference
         self.type = type
@@ -45,12 +46,14 @@ public extension ReferenceValue {
 
     func with(
         display: String?? = nil,
+        id: String? = nil,
         label: String? = nil,
         reference: String?? = nil,
         type: ReferenceValueType? = nil
     ) -> ReferenceValue {
         return ReferenceValue(
             display: display ?? self.display,
+            id: id ?? self.id,
             label: label ?? self.label,
             reference: reference ?? self.reference,
             type: type ?? self.type

@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -37,6 +37,7 @@ final class HealthDataViewModelTests: XCTestCase {
 					HealthUIGroup(
 						children: [
 							UIElement(
+								id: "label_single_value",
 								label: "label single value",
 								type: .singleValue,
 								value: UIElementValue
@@ -52,6 +53,7 @@ final class HealthDataViewModelTests: XCTestCase {
 								url: nil
 							),
 							UIElement(
+								id: "label_reference",
 								label: "label reference",
 								type: .referenceValue,
 								value: nil,
@@ -60,6 +62,7 @@ final class HealthDataViewModelTests: XCTestCase {
 								url: "reference/link"
 							),
 							UIElement(
+								id: "label_reference_link",
 								label: "label reference link",
 								type: .referenceLink,
 								value: nil,
@@ -68,6 +71,7 @@ final class HealthDataViewModelTests: XCTestCase {
 								url: "reference/link"
 							),
 							UIElement(
+								id: "label_download_link",
 								label: "label download link",
 								type: .downloadLink,
 								value: nil,
@@ -76,6 +80,7 @@ final class HealthDataViewModelTests: XCTestCase {
 								url: "https://www.apple.com"
 							),
 							UIElement(
+								id: "label_snomed_code",
 								label: "label snomed code",
 								type: .singleValue,
 								value: UIElementValue
@@ -91,6 +96,7 @@ final class HealthDataViewModelTests: XCTestCase {
 								url: nil
 							),
 							UIElement(
+								id: "label_non_snomed_code",
 								label: "label non snomed code",
 								type: .singleValue,
 								value: UIElementValue
@@ -106,6 +112,7 @@ final class HealthDataViewModelTests: XCTestCase {
 								url: nil
 							)
 						],
+						id: "section_header_first_group",
 						label: "Section Header first group"
 					)
 				],

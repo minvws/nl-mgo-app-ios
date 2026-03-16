@@ -12,11 +12,12 @@ import Foundation
 
 // MARK: - DownloadBinary
 public struct DownloadBinary: Codable, Hashable, Sendable {
-    public let label: String
+    public let id, label: String
     public let reference: String?
     public let type: DownloadBinaryType
 
-    public init(label: String, reference: String?, type: DownloadBinaryType) {
+    public init(id: String, label: String, reference: String?, type: DownloadBinaryType) {
+        self.id = id
         self.label = label
         self.reference = reference
         self.type = type
@@ -42,11 +43,13 @@ public extension DownloadBinary {
     }
 
     func with(
+        id: String? = nil,
         label: String? = nil,
         reference: String?? = nil,
         type: DownloadBinaryType? = nil
     ) -> DownloadBinary {
         return DownloadBinary(
+            id: id ?? self.id,
             label: label ?? self.label,
             reference: reference ?? self.reference,
             type: type ?? self.type

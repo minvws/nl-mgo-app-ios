@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -96,6 +96,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 				HealthUIGroup(
 					children: [
 						UIElement(
+							id: "label",
 							label: "label",
 							type: .singleValue,
 							value: UIElementValue
@@ -109,11 +110,13 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 							url: nil
 						)
 					],
+					id: "section_heading_1",
 					label: "section heading 1"
 				),
 				HealthUIGroup(
 					children: [
 						UIElement(
+							id: "label",
 							label: "label",
 							type: .singleValue,
 							value: UIElementValue
@@ -127,6 +130,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 							url: nil
 						)
 					],
+					id: "section_heading_2",
 					label: "section heading 2"
 				)
 			],
@@ -158,6 +162,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 				HealthUIGroup(
 					children: [
 						UIElement(
+							id: "label",
 							label: "label",
 							type: .singleValue,
 							value: UIElementValue
@@ -171,6 +176,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 							url: nil
 						)
 					],
+					id: "test_coordinatorView_forShowHealthCategoryData_inSheet",
 					label: "section heading")
 			],
 			label: "zib details"

@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let zibGeneralMeasurementRelated = try ZibGeneralMeasurementRelated(json)
+//   let hcimCardDetails = try HcimCardDetails(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,26 @@
 
 import Foundation
 
-// MARK: - ZibGeneralMeasurementRelated
-public struct ZibGeneralMeasurementRelated: Codable, Hashable, Sendable {
-    public let target: MgoReference?
-    public let type: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy?
+// MARK: - HcimCardDetails
+public struct HcimCardDetails: Codable, Hashable, Sendable {
+    public let description: String?
+    public let descriptionIcon: CardIconNames?
+    public let detail: String?
+    public let title: String
 
-    public init(target: MgoReference?, type: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy?) {
-        self.target = target
-        self.type = type
+    public init(description: String?, descriptionIcon: CardIconNames?, detail: String?, title: String) {
+        self.description = description
+        self.descriptionIcon = descriptionIcon
+        self.detail = detail
+        self.title = title
     }
 }
 
-// MARK: ZibGeneralMeasurementRelated convenience initializers and mutators
+// MARK: HcimCardDetails convenience initializers and mutators
 
-public extension ZibGeneralMeasurementRelated {
+public extension HcimCardDetails {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(ZibGeneralMeasurementRelated.self, from: data)
+        self = try newJSONDecoder().decode(HcimCardDetails.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,12 +44,16 @@ public extension ZibGeneralMeasurementRelated {
     }
 
     func with(
-        target: MgoReference?? = nil,
-        type: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy?? = nil
-    ) -> ZibGeneralMeasurementRelated {
-        return ZibGeneralMeasurementRelated(
-            target: target ?? self.target,
-            type: type ?? self.type
+        description: String?? = nil,
+        descriptionIcon: CardIconNames?? = nil,
+        detail: String?? = nil,
+        title: String? = nil
+    ) -> HcimCardDetails {
+        return HcimCardDetails(
+            description: description ?? self.description,
+            descriptionIcon: descriptionIcon ?? self.descriptionIcon,
+            detail: detail ?? self.detail,
+            title: title ?? self.title
         )
     }
 
