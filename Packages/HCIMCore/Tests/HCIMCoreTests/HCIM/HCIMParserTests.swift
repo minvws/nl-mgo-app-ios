@@ -115,12 +115,13 @@ struct HCIMParserTests {
 		let data = Data(resource.utf8)
 		
 		// When
-		let schema = sut.getCard(data, organizationName: "Test Org")
+		let cardDetails = sut.getCard(data, organizationName: "Test Org")
 		
 		// Then
-		#expect(schema?.title == "Paracetamol tablet 500mg")
-		#expect(schema?.description == "Test Org")
-		#expect(schema?.detail == "21 juli 2020")
+		#expect(cardDetails?.title == "Paracetamol tablet 500mg")
+		#expect(cardDetails?.description == "Test Org")
+		#expect(cardDetails?.descriptionIcon == nil)
+		#expect(cardDetails?.detail == "21 juli 2020")
 	}
 	
 	@Test func getDetails_withValidInput_shouldResultInSchema() throws {
