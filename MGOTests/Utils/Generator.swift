@@ -7,6 +7,7 @@ import MGOFoundation
 @testable import MGO
 import OrganizationSearch
 
+// swiftlint:disable type_body_length
 class Generator {
 	
 	/// Create a mock organization for search results
@@ -358,3 +359,4 @@ class Generator {
 		]
 	)
 }
+// swiftlint:enable type_body_length
