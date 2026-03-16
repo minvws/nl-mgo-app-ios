@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -62,7 +62,10 @@ nonisolated public class HCIMParser {
 	/// - Returns: The parsed ``HCIMVersion``.
 	public func getVersion() throws -> HCIMVersion {
 		
-		guard let parserPath = Bundle.module.path(forResource: "version", ofType: "json") else {
+		guard let parserPath = Bundle.module.path(
+			forResource: "version",
+			ofType: "json"
+		) else {
 			logError("HCIMParser: The version file could not be found")
 			throw HCIMVersion.Error.noResource
 		}
@@ -126,35 +129,31 @@ nonisolated public class HCIMParser {
 	/// Splits a FHIR Bundle into its individual FHIR resources.
 	///
 	/// Invokes the `.splitBundle` JavaScript method on the HCIM core, which
-	/// returns a JSON array string. Because the output is a comma-separated
-	/// string rather than a proper JSON array of objects, the result is
-	/// split on `},{` boundaries using a pill emoji (💊) as an intermediate
-	/// delimiter before being mapped to `Data`.
+	/// returns a JSON array string. The string is re-encoded to `Data` and
+	/// parsed by `JSONSerialization` into an array of objects, each of which
+	/// is then individually serialised back to `Data`.
 	///
 	/// - Parameter bundle: The raw FHIR Bundle JSON received from the DVA,
 	///   as `Data`.
 	/// - Returns: An array of individual FHIR resource payloads as `Data`,
-	///   or an empty array if the JS call fails or returns an unexpected
-	///   format.
+	///   or an empty array if the JS call fails or the output cannot be
+	///   parsed as a JSON array of objects.
 	public func splitBundleIntoResources(_ bundle: Data) -> [Data] {
 		
 		do {
 			let resourcesJSValue = try callJSMethod(.splitBundle, with: bundle)
 			
 			guard let resourceString = resourcesJSValue.toString(),
-				  resourceString.hasSuffix("]"),
-				  resourceString.hasPrefix("[") else {
+				  let arrayData = resourceString.data(using: .utf8) else {
 				throw HCIMParserError.noResult
 			}
-			/*
-			 We need to do some magic, as the output of the previous call
-			 is a comma separated string. We still need to split that into
-			 an array of strings and map it to Data
-			*/
-			return String(resourceString.dropFirst().dropLast())
-				.replacingOccurrences(of: "},{\"res", with: "}💊{\"res")
-				.split(separator: "💊")
-				.map { Data(String($0).utf8) }
+			guard let array = try JSONSerialization.jsonObject(with: arrayData)
+					as? [[String: Any]] else {
+				throw HCIMParserError.noResult
+			}
+			return try array.map {
+				try JSONSerialization.data(withJSONObject: $0)
+			}
 		} catch {
 			logError(error.localizedDescription)
 		}
