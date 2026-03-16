@@ -67,7 +67,7 @@ packages:
 # - Attributes:
 
 attributes:
-  LastUpgradeCheck: "1500"
+  LastUpgradeCheck: "1700"
 
 # - Configurations:
 
@@ -106,7 +106,11 @@ settings:
     ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: true
     SWIFT_STRICT_CONCURRENCY: complete
     SWIFT_ENABLE_EXPLICIT_MODULES: false
-    
+    GCC_C_LANGUAGE_STANDARD: gnu17
+    CLANG_CXX_LANGUAGE_STANDARD: "gnu++17"
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
+
     FRAMEWORK_SEARCH_PATHS:
       - "$(inherited)"
       - "$(PROJECT_DIR)"
@@ -140,21 +144,25 @@ targetTemplates:
           NETWORK_CONFIGURATION: ACC
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEAD_CODE_STRIPPING: YES
           DEEPLINK_SCHEMA: mgo-acc
         FirebaseTest:
           NETWORK_CONFIGURATION: TEST
           LOG_LEVEL: debug
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEAD_CODE_STRIPPING: YES
           DEEPLINK_SCHEMA: mgo-test
         FirebaseProduction:
           NETWORK_CONFIGURATION: Production
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEAD_CODE_STRIPPING: YES
           DEEPLINK_SCHEMA: mgo
         AppStore:
           NETWORK_CONFIGURATION: Production
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEAD_CODE_STRIPPING: YES
           DEEPLINK_SCHEMA: mgo
 
   Standard_Signing:
