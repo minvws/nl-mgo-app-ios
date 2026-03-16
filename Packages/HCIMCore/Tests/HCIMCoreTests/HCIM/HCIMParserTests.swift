@@ -26,9 +26,9 @@ struct HCIMParserTests {
 		let result = try sut.getVersion()
 		
 		// Then
-		#expect(result.version == "main-ef55529")
-		#expect(result.gitRef == "ef55529d311945a433dcd33722c8df1c07dc0adc")
-		#expect(result.created == "2026-03-13T08:20:00")
+		#expect(result.version == "main-a27a484")
+		#expect(result.gitRef == "a27a484c0569e9a274ec034d8fdd1a2780a7c3df")
+		#expect(result.created == "2026-03-16T14:22:29")
 	}
 	
 	@Test func getBundleResourcesJson_withValidInput_shouldResultInAListOfResources() throws {
@@ -106,6 +106,21 @@ struct HCIMParserTests {
 		
 		// Then
 		#expect(hcim == Data("undefined".utf8))
+	}
+	
+	@Test func getCard_withValidInput_shouldResultInSchema() throws {
+		
+		// Given
+		let resource = try ResourceLoader().getStringResource("zibMedicationUse")
+		let data = Data(resource.utf8)
+		
+		// When
+		let schema = sut.getCard(data, organizationName: "Test Org")
+		
+		// Then
+		#expect(schema?.title == "Paracetamol tablet 500mg")
+		#expect(schema?.description == "Test Org")
+		#expect(schema?.detail == "21 juli 2020")
 	}
 	
 	@Test func getDetails_withValidInput_shouldResultInSchema() throws {

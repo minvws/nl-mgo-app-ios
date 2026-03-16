@@ -54499,11 +54499,35 @@ ${indent}}` : "}";
     const summaryUiSchema = config2.summary(resource, context);
     return setEmptyEntries(context)(summaryUiSchema);
   }
+  function getCard(resource, options) {
+    if (!isMgoResource(resource)) {
+      throw new Error(`input does not seem to be a valid MGO Resource. Received MGO resource profile: "${resource?.profile}"`);
+    }
+    const config2 = getResourceConfig(resource.profile, resource.fhirVersion);
+    if (!config2) {
+      throw new Error(`No config found for MGO Resource with profile: "${resource.profile}" and fhir version: "${resource.fhirVersion}"`);
+    }
+    if (!config2.card) {
+      return {
+        title: resource.id ?? "",
+        description: options?.organization?.name
+      };
+    }
+    const context = createSchemaContext({
+      locale: options?.locale ?? "nl-NL",
+      ignoreMissingTranslations: true,
+      isSummary: true,
+      ...options
+    });
+    return config2.card(resource, context);
+  }
   const getBundleResourcesJson = createJsonApi(getBundleResources, { lossless: true });
   const getMgoResourceJson = createJsonApi(getMgoResource, { lossless: true });
+  const getCardJson = createJsonApi(getCard);
   const getSummaryJson = createJsonApi(getSummary);
   const getDetailsJson = createJsonApi(getDetails);
   exports.getBundleResourcesJson = getBundleResourcesJson;
+  exports.getCardJson = getCardJson;
   exports.getDetailsJson = getDetailsJson;
   exports.getMgoResourceJson = getMgoResourceJson;
   exports.getSummaryJson = getSummaryJson;
