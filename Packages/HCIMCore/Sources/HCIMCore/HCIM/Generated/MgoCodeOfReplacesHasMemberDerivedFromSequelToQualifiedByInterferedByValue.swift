@@ -1,6 +1,6 @@
 import Foundation
 
-public enum MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedByValue: String, Codable, Hashable, Sendable {
+public enum MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedByValue: String, Codable, Hashable, Sendable {
     case derivedFrom = "derived-from"
     case hasMember = "has-member"
     case interferedBy = "interfered-by"

@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -234,6 +234,7 @@ struct HealthUISchemaView: View {
 		} else {
 			viewFor(
 				SingleValue(
+					id: referenceLink.id,
 					label: referenceLink.label,
 					type: .singleValue,
 					value: DisplayValue(
@@ -274,6 +275,7 @@ struct HealthUISchemaView: View {
 		} else {
 			viewFor(
 				SingleValue(
+					id: referenceValue.id,
 					label: referenceValue.label,
 					type: .singleValue,
 					value: DisplayValue(

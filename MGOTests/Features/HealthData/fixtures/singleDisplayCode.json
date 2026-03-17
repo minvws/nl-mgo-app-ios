@@ -5,6 +5,7 @@
 			"label": "Section for a single display code",
 			"children": [
 				{
+					"id": "label_single_display_code",
 					"label": "The label",
 					"value": {
 						"code": "code",

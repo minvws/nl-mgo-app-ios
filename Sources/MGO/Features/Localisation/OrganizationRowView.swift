@@ -52,7 +52,10 @@ struct OrganizationRowView: View {
 						case .notParticipating: return String(localized: "search_organization.not_participating")
 					}
 				}(),
-				showChevron: cardState == .regular
+				config: CardViewConfig(
+					showChevron: cardState == .regular,
+					titleColor: cardState == .regular ? theme.labels.primary : theme.labels.secondary
+				)
 			)
 			.contentShape(Rectangle())
 			.accessibilityElement(children: .combine)

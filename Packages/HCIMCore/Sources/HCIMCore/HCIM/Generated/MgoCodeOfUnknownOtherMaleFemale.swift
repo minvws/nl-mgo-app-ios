@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let primitiveValueTypeOfCodeHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy = try PrimitiveValueTypeOfCodeHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy(json)
+//   let mgoCodeOfUnknownOtherMaleFemale = try MgoCodeOfUnknownOtherMaleFemale(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,27 +10,27 @@
 
 import Foundation
 
-// MARK: - PrimitiveValueTypeOfCodeHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy
-public struct PrimitiveValueTypeOfCodeHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy: Codable, Hashable, Sendable {
+// MARK: - MgoCodeOfUnknownOtherMaleFemale
+public struct MgoCodeOfUnknownOtherMaleFemale: Codable, Hashable, Sendable {
     public let type: MgoCodeType
-    public let value: MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedByValue
+    public let value: MgoCodeOfUnknownOtherMaleFemaleValue
 
     public enum CodingKeys: String, CodingKey {
         case type = "_type"
         case value
     }
 
-    public init(type: MgoCodeType, value: MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedByValue) {
+    public init(type: MgoCodeType, value: MgoCodeOfUnknownOtherMaleFemaleValue) {
         self.type = type
         self.value = value
     }
 }
 
-// MARK: PrimitiveValueTypeOfCodeHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy convenience initializers and mutators
+// MARK: MgoCodeOfUnknownOtherMaleFemale convenience initializers and mutators
 
-public extension PrimitiveValueTypeOfCodeHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy {
+public extension MgoCodeOfUnknownOtherMaleFemale {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(PrimitiveValueTypeOfCodeHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy.self, from: data)
+        self = try newJSONDecoder().decode(MgoCodeOfUnknownOtherMaleFemale.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -46,9 +46,9 @@ public extension PrimitiveValueTypeOfCodeHasMemberDerivedFromSequelToReplacesQua
 
     func with(
         type: MgoCodeType? = nil,
-        value: MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedByValue? = nil
-    ) -> PrimitiveValueTypeOfCodeHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy {
-        return PrimitiveValueTypeOfCodeHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy(
+        value: MgoCodeOfUnknownOtherMaleFemaleValue? = nil
+    ) -> MgoCodeOfUnknownOtherMaleFemale {
+        return MgoCodeOfUnknownOtherMaleFemale(
             type: type ?? self.type,
             value: value ?? self.value
         )

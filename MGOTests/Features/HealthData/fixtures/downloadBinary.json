@@ -5,6 +5,7 @@
 			"label": "Section for a download binary",
 			"children": [
 				{
+					"id": "label_binary",
 					"label": "The label",
 					"value": {
 						"display": "Download Binary"
@@ -14,6 +15,7 @@
 					"url": null
 				},
 				{
+					"id": "label_single_entry",
 					"label": "The label",
 					"value": {
 						"display": "Single Entry"
@@ -22,7 +24,8 @@
 					"reference": null,
 					"url": null
 				}
-			]
+			],
+			"id": "section_download_binary"
 		}
 	]
 }

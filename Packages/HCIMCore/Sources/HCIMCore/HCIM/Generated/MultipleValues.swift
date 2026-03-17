@@ -12,11 +12,12 @@ import Foundation
 
 // MARK: - MultipleValues
 public struct MultipleValues: Codable, Hashable, Sendable {
-    public let label: String
+    public let id, label: String
     public let type: MultipleValuesType
     public let value: [DisplayValue]?
 
-    public init(label: String, type: MultipleValuesType, value: [DisplayValue]?) {
+    public init(id: String, label: String, type: MultipleValuesType, value: [DisplayValue]?) {
+        self.id = id
         self.label = label
         self.type = type
         self.value = value
@@ -42,11 +43,13 @@ public extension MultipleValues {
     }
 
     func with(
+        id: String? = nil,
         label: String? = nil,
         type: MultipleValuesType? = nil,
         value: [DisplayValue]?? = nil
     ) -> MultipleValues {
         return MultipleValues(
+            id: id ?? self.id,
             label: label ?? self.label,
             type: type ?? self.type,
             value: value ?? self.value

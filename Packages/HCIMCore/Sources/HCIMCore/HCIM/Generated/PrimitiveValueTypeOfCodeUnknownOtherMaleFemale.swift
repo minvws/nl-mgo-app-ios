@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let mgoCodeOfUnknownMaleFemaleOther = try MgoCodeOfUnknownMaleFemaleOther(json)
+//   let primitiveValueTypeOfCodeUnknownOtherMaleFemale = try PrimitiveValueTypeOfCodeUnknownOtherMaleFemale(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,27 +10,27 @@
 
 import Foundation
 
-// MARK: - MgoCodeOfUnknownMaleFemaleOther
-public struct MgoCodeOfUnknownMaleFemaleOther: Codable, Hashable, Sendable {
+// MARK: - PrimitiveValueTypeOfCodeUnknownOtherMaleFemale
+public struct PrimitiveValueTypeOfCodeUnknownOtherMaleFemale: Codable, Hashable, Sendable {
     public let type: MgoCodeType
-    public let value: MgoCodeOfUnknownMaleFemaleOtherValue
+    public let value: MgoCodeOfUnknownOtherMaleFemaleValue
 
     public enum CodingKeys: String, CodingKey {
         case type = "_type"
         case value
     }
 
-    public init(type: MgoCodeType, value: MgoCodeOfUnknownMaleFemaleOtherValue) {
+    public init(type: MgoCodeType, value: MgoCodeOfUnknownOtherMaleFemaleValue) {
         self.type = type
         self.value = value
     }
 }
 
-// MARK: MgoCodeOfUnknownMaleFemaleOther convenience initializers and mutators
+// MARK: PrimitiveValueTypeOfCodeUnknownOtherMaleFemale convenience initializers and mutators
 
-public extension MgoCodeOfUnknownMaleFemaleOther {
+public extension PrimitiveValueTypeOfCodeUnknownOtherMaleFemale {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(MgoCodeOfUnknownMaleFemaleOther.self, from: data)
+        self = try newJSONDecoder().decode(PrimitiveValueTypeOfCodeUnknownOtherMaleFemale.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -46,9 +46,9 @@ public extension MgoCodeOfUnknownMaleFemaleOther {
 
     func with(
         type: MgoCodeType? = nil,
-        value: MgoCodeOfUnknownMaleFemaleOtherValue? = nil
-    ) -> MgoCodeOfUnknownMaleFemaleOther {
-        return MgoCodeOfUnknownMaleFemaleOther(
+        value: MgoCodeOfUnknownOtherMaleFemaleValue? = nil
+    ) -> PrimitiveValueTypeOfCodeUnknownOtherMaleFemale {
+        return PrimitiveValueTypeOfCodeUnknownOtherMaleFemale(
             type: type ?? self.type,
             value: value ?? self.value
         )

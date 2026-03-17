@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -25,9 +25,17 @@ final class HealthDownloadViewTests: XCTestCase {
 	
 	@MainActor private func createSut() {
 		
-		let entry = DownloadLink(label: "label", type: DownloadLinkType.downloadLink, url: "Binary/demo1")
+		let entry = DownloadLink(
+			id: "HealthDownloadViewTests",
+			label: "label",
+			type: DownloadLinkType.downloadLink,
+			url: "Binary/demo1"
+		)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, downloadLink: entry)
+		viewModel = HealthDataDownloadViewModel(
+			healthcareOrganization: healthcareOrganization,
+			downloadLink: entry
+		)
 		sut = HealthDataDownloadView(viewModel: self.viewModel)
 	}
 	
@@ -49,7 +57,10 @@ final class HealthDownloadViewTests: XCTestCase {
 		// Given
 		createSut()
 		let url = try XCTUnwrap(URL(string: "https://apple.com"))
-		viewModel.state = .downloaded(label: "Test download", documentUrl: url)
+		viewModel.state = .downloaded(
+			label: "Test download",
+			documentUrl: url
+		)
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
@@ -64,7 +75,10 @@ final class HealthDownloadViewTests: XCTestCase {
 		createSut()
 		let bundle = Bundle(for: type(of: self))
 		let resourceUrl = try XCTUnwrap(bundle.url(forResource: "test", withExtension: "txt"))
-		viewModel.state = .downloaded(label: "Test download", documentUrl: resourceUrl)
+		viewModel.state = .downloaded(
+			label: "Test download",
+			documentUrl: resourceUrl
+		)
 		viewModel.showPreview = true
 		
 		// When
@@ -79,7 +93,10 @@ final class HealthDownloadViewTests: XCTestCase {
 		// Given
 		createSut()
 		let url = try XCTUnwrap(URL(string: "https://apple.com"))
-		viewModel.state = .external(label: "Test download", documentUrl: url)
+		viewModel.state = .external(
+			label: "Test download",
+			documentUrl: url
+		)
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
@@ -118,6 +135,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		
 		// Given
 		let entry = DownloadBinary(
+			id: "test_HealthDownloadView_error_tryAgain",
 			label: "label",
 			reference: "Binary/demo1",
 			type: DownloadBinaryType.downloadBinary
@@ -131,13 +149,19 @@ final class HealthDownloadViewTests: XCTestCase {
 		sut = HealthDataDownloadView(viewModel: self.viewModel)
 		
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
-		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
+		let binary = FHIRBinary(
+			contentType: "application/pdf",
+			content: "Um9vbA=="
+		)
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
 		fileStorageSpy.stubbedFileUrlResult = url
 		viewModel.state = .error
 		
 		// When
-		try sut.inspect().find(viewWithAccessibilityIdentifier: "feedbackAction").button().tap()
+		try sut.inspect()
+			.find(viewWithAccessibilityIdentifier: "feedbackAction")
+			.button()
+			.tap()
 		
 		// Then
 		expect(self.viewModel.state).toEventually(

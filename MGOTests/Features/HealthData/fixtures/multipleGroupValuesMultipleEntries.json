@@ -5,6 +5,7 @@
 			"label": "Section for a multiple group values with multiple Entries",
 			"children": [
 				{
+					"id": "label_multiple_groups",
 					"label": "The label",
 					"value": [
 						[
@@ -29,7 +30,8 @@
 					"reference": null,
 					"url": null
 				}
-			]
+			],
+			"id": "section_multiple_groups"
 		}
 	]
 }

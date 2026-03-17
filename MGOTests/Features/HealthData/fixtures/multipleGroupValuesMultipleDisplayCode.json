@@ -5,6 +5,7 @@
 			"label": "Section for a multiple group values with multiple Entries",
 			"children": [
 				{
+					"id": "label_multiple_group_values_display_code",
 					"label": "The label",
 					"value": [
 						[

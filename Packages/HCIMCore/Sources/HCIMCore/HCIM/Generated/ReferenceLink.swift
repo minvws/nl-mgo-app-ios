@@ -12,10 +12,11 @@ import Foundation
 
 // MARK: - ReferenceLink
 public struct ReferenceLink: Codable, Hashable, Sendable {
-    public let label, reference: String
+    public let id, label, reference: String
     public let type: ReferenceLinkType
 
-    public init(label: String, reference: String, type: ReferenceLinkType) {
+    public init(id: String, label: String, reference: String, type: ReferenceLinkType) {
+        self.id = id
         self.label = label
         self.reference = reference
         self.type = type
@@ -41,11 +42,13 @@ public extension ReferenceLink {
     }
 
     func with(
+        id: String? = nil,
         label: String? = nil,
         reference: String? = nil,
         type: ReferenceLinkType? = nil
     ) -> ReferenceLink {
         return ReferenceLink(
+            id: id ?? self.id,
             label: label ?? self.label,
             reference: reference ?? self.reference,
             type: type ?? self.type

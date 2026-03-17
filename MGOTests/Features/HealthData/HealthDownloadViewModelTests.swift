@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -28,7 +28,12 @@ final class HealthDownloadViewModelTests: XCTestCase {
 	/// - Parameter url: the link for the download link
 	@MainActor private func createSut(url: String?) {
 		
-		let entry = DownloadLink(label: "label", type: DownloadLinkType.downloadLink, url: url)
+		let entry = DownloadLink(
+			id: "HealthDownloadViewModelTests",
+			label: "label",
+			type: DownloadLinkType.downloadLink,
+			url: url
+		)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		sut = HealthDataDownloadViewModel(
 			healthcareOrganization: healthcareOrganization,
@@ -41,7 +46,12 @@ final class HealthDownloadViewModelTests: XCTestCase {
 	/// - Parameter reference: the reference for the download binary
 	@MainActor private func createSut(reference: String) {
 		
-		let entry = DownloadBinary(label: "label", reference: reference, type: DownloadBinaryType.downloadBinary)
+		let entry = DownloadBinary(
+			id: "HealthDownloadViewModelTests",
+			label: "label",
+			reference: reference,
+			type: DownloadBinaryType.downloadBinary
+		)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		sut = HealthDataDownloadViewModel(
 			healthcareOrganization: healthcareOrganization,
@@ -95,7 +105,10 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		sut.reduce(.download)
 		
 		// Then
-		expect(self.sut.state) == .external(label: "label", documentUrl: url)
+		expect(self.sut.state) == .external(
+			label: "label",
+			documentUrl: url
+		)
 		expect(self.urlOpenerSpy.invokedCanOpenURL) == true
 		expect(self.urlOpenerSpy.invokedCanOpenURLParameters?.url) == url
 	}
@@ -143,7 +156,10 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		
 		// Given
 		createSut(url: "Binary/demo1")
-		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
+		let binary = FHIRBinary(
+			contentType: "application/pdf",
+			content: "Um9vbA=="
+		)
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		fileStorageSpy.stubbedFileUrlResult = url
@@ -159,7 +175,10 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		
 		// Given
 		createSut(reference: "test_reduce_download_binary")
-		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
+		let binary = FHIRBinary(
+			contentType: "application/pdf",
+			content: "Um9vbA=="
+		)
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		fileStorageSpy.stubbedFileUrlResult = url
@@ -175,7 +194,10 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		
 		// Given
 		createSut(reference: "test_reduce_download_binary")
-		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
+		let binary = FHIRBinary(
+			contentType: "application/pdf",
+			content: "Um9vbA=="
+		)
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
 		fileStorageSpy.stubbedFileUrlResult = nil
 		

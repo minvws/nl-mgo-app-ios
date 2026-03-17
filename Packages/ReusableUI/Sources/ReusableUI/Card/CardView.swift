@@ -5,11 +5,30 @@
 
 import SwiftUI
 
+/// Configuration options for a ``CardView``.
+public struct CardViewConfig {
+
+	/// Whether to show a trailing chevron indicating the card is navigable.
+	public var showChevron: Bool
+
+	/// The foreground colour of the card title.
+	public var titleColor: Color
+
+	/// Creates a `CardViewConfig`.
+	/// - Parameters:
+	///   - showChevron: Pass `true` to indicate the card is navigable (defaults to `false`).
+	///   - titleColor: The colour for the card title..
+	public init(showChevron: Bool = false, titleColor: Color) {
+		self.showChevron = showChevron
+		self.titleColor = titleColor
+	}
+}
+
 /// A card-shaped view that displays a title, an optional message, and optional detail text.
 ///
 /// When `details` is provided the title colour switches to secondary so the detail value stands out.
-/// Use `showChevron` to indicate that the card is tappable (the chevron itself is currently rendered
-/// by the parent; this flag is stored for future use or external access).
+/// Use `config.showChevron` to indicate that the card is tappable (the chevron itself is currently
+/// rendered by the parent; this flag is stored for future use or external access).
 public struct CardView: View {
 
 	/// The main heading of the card.
@@ -21,8 +40,8 @@ public struct CardView: View {
 	/// Optional trailing text placed to the right of the title, e.g. a date or value.
 	private var details: String?
 
-	/// Whether to show a trailing chevron indicating the card is navigable.
-	private var showChevron: Bool = false
+	/// Configuration options for this card.
+	public var config: CardViewConfig
 
 	/// The Theme
 	@Environment(\.mgoTheme) var theme
@@ -34,7 +53,7 @@ public struct CardView: View {
 			static let minHeight: CGFloat = 48
 		}
 		enum Accessory {
-			static let size: CGFloat = 22
+			static let size: CGFloat = 17
 		}
 	}
 	
@@ -43,31 +62,29 @@ public struct CardView: View {
 	///   - title: The main heading displayed on the card.
 	///   - message: An optional secondary line of text shown below the title.
 	///   - details: Optional trailing text placed to the right of the title.
-	///   - showChevron: Pass `true` to indicate the card is navigable (defaults to `false`).
+	///   - config: Configuration options for the card
 	public init(
 		title: String,
 		message: String? = nil,
 		details: String? = nil,
-		showChevron: Bool = false
+		config: CardViewConfig
 	) {
 		self.title = title
 		self.message = message
 		self.details = details
-		self.showChevron = showChevron
+		self.config = config
 	}
 	
 	public var body: some View {
 		
 		VStack(alignment: .leading, spacing: ViewTraits.General.spacing) {
 			
-			HStack(alignment: .top) {
+			HStack(alignment: .top, spacing: 0) {
 				
 				Text(title)
 					.lineLimit(2)
 					.typography(.bodyMedium, with: .bold)
-					.foregroundColor(
-						details == nil ? theme.labels.primary : theme.labels.secondary
-					)
+					.foregroundStyle(config.titleColor)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 				
@@ -76,16 +93,19 @@ public struct CardView: View {
 				if let details {
 					Text(details)
 						.typography(.bodySmall)
-						.foregroundColor(theme.labels.secondary)
+						.foregroundStyle(theme.labels.secondary)
 						.layoutPriority(100)
 				}
-				if showChevron {
-					Image(ImageResource.Icon.chevron)
+				
+				if config.showChevron {
+					Image(systemName: "chevron.right")
+						.font(.system(size: 17, weight: .semibold))
 						.foregroundStyle(theme.symbols.secondary)
 						.frame(
 							width: ViewTraits.Accessory.size,
-							height: ViewTraits.Accessory.size
+							alignment: .leading
 						)
+						.padding(.leading, 8)
 				}
 			}
 			if let message {
@@ -105,7 +125,7 @@ public struct CardView: View {
 		title: "title",
 		message: "message",
 		details: "details",
-		showChevron: true
+		config: CardViewConfig(showChevron: true, titleColor: .blue)
 	)
 	.padding(16)
 }

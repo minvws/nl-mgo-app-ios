@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let mgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy = try MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy(json)
+//   let primitiveValueTypeOfCodeReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy = try PrimitiveValueTypeOfCodeReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,27 +10,27 @@
 
 import Foundation
 
-// MARK: - MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy
-public struct MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy: Codable, Hashable, Sendable {
+// MARK: - PrimitiveValueTypeOfCodeReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy
+public struct PrimitiveValueTypeOfCodeReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy: Codable, Hashable, Sendable {
     public let type: MgoCodeType
-    public let value: MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedByValue
+    public let value: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedByValue
 
     public enum CodingKeys: String, CodingKey {
         case type = "_type"
         case value
     }
 
-    public init(type: MgoCodeType, value: MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedByValue) {
+    public init(type: MgoCodeType, value: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedByValue) {
         self.type = type
         self.value = value
     }
 }
 
-// MARK: MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy convenience initializers and mutators
+// MARK: PrimitiveValueTypeOfCodeReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy convenience initializers and mutators
 
-public extension MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy {
+public extension PrimitiveValueTypeOfCodeReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy.self, from: data)
+        self = try newJSONDecoder().decode(PrimitiveValueTypeOfCodeReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -46,9 +46,9 @@ public extension MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterfe
 
     func with(
         type: MgoCodeType? = nil,
-        value: MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedByValue? = nil
-    ) -> MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy {
-        return MgoCodeOfHasMemberDerivedFromSequelToReplacesQualifiedByInterferedBy(
+        value: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedByValue? = nil
+    ) -> PrimitiveValueTypeOfCodeReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy {
+        return PrimitiveValueTypeOfCodeReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy(
             type: type ?? self.type,
             value: value ?? self.value
         )

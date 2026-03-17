@@ -4,6 +4,7 @@
 		{
 			"children": [
 				{
+					"id": "label_single_entry",
 					"label": "The label",
 					"value": {
 						"display": "Single Entry"

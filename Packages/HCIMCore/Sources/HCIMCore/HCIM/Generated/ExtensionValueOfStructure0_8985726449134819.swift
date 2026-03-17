@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let extensionValueOfStructure06254709299269776 = try ExtensionValueOfStructure0_6254709299269776(json)
+//   let extensionValueOfStructure08985726449134819 = try ExtensionValueOfStructure0_8985726449134819(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,29 +10,29 @@
 
 import Foundation
 
-// MARK: - ExtensionValueOfStructure0_6254709299269776
-public struct ExtensionValueOfStructure0_6254709299269776: Codable, Hashable, Sendable {
+// MARK: - ExtensionValueOfStructure0_8985726449134819
+public struct ExtensionValueOfStructure0_8985726449134819: Codable, Hashable, Sendable {
     public let ext: Bool
-    public let accountNumber, bankcode, bankName: ExtensionValueOfMgoString?
+    public let indicator: ExtensionValueOfMgoBoolean?
+    public let onlineEditableUntil: ExtensionValueOfMgoDateTime?
 
     public enum CodingKeys: String, CodingKey {
         case ext = "_ext"
-        case accountNumber, bankcode, bankName
+        case indicator, onlineEditableUntil
     }
 
-    public init(ext: Bool, accountNumber: ExtensionValueOfMgoString?, bankcode: ExtensionValueOfMgoString?, bankName: ExtensionValueOfMgoString?) {
+    public init(ext: Bool, indicator: ExtensionValueOfMgoBoolean?, onlineEditableUntil: ExtensionValueOfMgoDateTime?) {
         self.ext = ext
-        self.accountNumber = accountNumber
-        self.bankcode = bankcode
-        self.bankName = bankName
+        self.indicator = indicator
+        self.onlineEditableUntil = onlineEditableUntil
     }
 }
 
-// MARK: ExtensionValueOfStructure0_6254709299269776 convenience initializers and mutators
+// MARK: ExtensionValueOfStructure0_8985726449134819 convenience initializers and mutators
 
-public extension ExtensionValueOfStructure0_6254709299269776 {
+public extension ExtensionValueOfStructure0_8985726449134819 {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(ExtensionValueOfStructure0_6254709299269776.self, from: data)
+        self = try newJSONDecoder().decode(ExtensionValueOfStructure0_8985726449134819.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -48,15 +48,13 @@ public extension ExtensionValueOfStructure0_6254709299269776 {
 
     func with(
         ext: Bool? = nil,
-        accountNumber: ExtensionValueOfMgoString?? = nil,
-        bankcode: ExtensionValueOfMgoString?? = nil,
-        bankName: ExtensionValueOfMgoString?? = nil
-    ) -> ExtensionValueOfStructure0_6254709299269776 {
-        return ExtensionValueOfStructure0_6254709299269776(
+        indicator: ExtensionValueOfMgoBoolean?? = nil,
+        onlineEditableUntil: ExtensionValueOfMgoDateTime?? = nil
+    ) -> ExtensionValueOfStructure0_8985726449134819 {
+        return ExtensionValueOfStructure0_8985726449134819(
             ext: ext ?? self.ext,
-            accountNumber: accountNumber ?? self.accountNumber,
-            bankcode: bankcode ?? self.bankcode,
-            bankName: bankName ?? self.bankName
+            indicator: indicator ?? self.indicator,
+            onlineEditableUntil: onlineEditableUntil ?? self.onlineEditableUntil
         )
     }
 

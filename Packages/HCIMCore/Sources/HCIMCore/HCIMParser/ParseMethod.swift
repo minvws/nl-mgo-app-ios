@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -13,6 +13,9 @@ public enum ParseMethod: String, Sendable {
 	
 	/// Parse a FHIR Resource into a HCIM Resource
 	case resource = "getMgoResourceJson"
+	
+	/// Parse an MGO Resource into a card HealthUISchema
+	case card = "getCardJson"
 	
 	/// Parse an MGO Resource into a details HealthUISchema
 	case details = "getDetailsJson"

@@ -5,6 +5,7 @@
 			"label": "Section for a multiple group values with just one entry",
 			"children": [
 				{
+					"id": "label_multiple_group_values_single_entry",
 					"label": "The label",
 					"value": [
 						[

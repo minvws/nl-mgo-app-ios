@@ -5,6 +5,7 @@
 			"label": "Section for a reference",
 			"children": [
 				{
+					"id": "label_reference_value",
 					"label": "The label",
 					"display": "Reference",
 					"type": "REFERENCE_VALUE",
