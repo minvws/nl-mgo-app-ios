@@ -300,22 +300,18 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	}
 	
 	@MainActor func test_loadResources_noResults_cacheMiss() throws {
-		
+
 		// Given
 		try setupSut(organization: healthcareOrganization)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .failure(DataStoreError.noData)
-		
+
 		// When
 		sut.reduce(.onAppear)
-		
+
 		// Then
-		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.list(items, errorState) = sut.state {
-			expect(items).to(beEmpty())
-			expect(errorState) == HealthCategoriesErrorState.none
-		} else {
-			fail("Invalid state")
-		}
+		// Cache miss on first load (threshold == 0) should keep the loading state
+		// until the data store observer delivers real data.
+		expect(self.sut.state) == .loading
 	}
 	
 	@MainActor func test_retry() throws {

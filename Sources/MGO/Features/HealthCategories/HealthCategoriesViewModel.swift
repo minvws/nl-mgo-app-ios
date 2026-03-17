@@ -425,8 +425,8 @@ class HealthCategoriesViewModel: ObservableObject {
 		var hasClientError = false
 		var hasServerError = false
 		for record in records where record.error != nil {
-			hasClientError = record.error == ResourceRepositoryError.client.rawValue
-			hasServerError = record.error == ResourceRepositoryError.server.rawValue
+			hasClientError = hasClientError || record.error == ResourceRepositoryError.client.rawValue
+			hasServerError = hasServerError || record.error == ResourceRepositoryError.server.rawValue
 		}
 		for record in records where record.resources.isNotEmpty {
 			for resource in record.resources {
