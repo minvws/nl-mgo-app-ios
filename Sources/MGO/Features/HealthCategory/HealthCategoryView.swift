@@ -213,25 +213,10 @@ struct HealthCategoryView: View {
 		
 		ForEach(Array(subCategory.rows.enumerated()), id: \.offset) { index, element in
 			Section {
-				Button {
-					element.action?()
-				} label: {
-					CardView(
-						title: element.heading,
-						message: element.subHeading,
-						details: element.details,
-						config: CardViewConfig(
-							showChevron: true,
-							titleColor: theme.labels.primary
-						)
-					)
-					.contentShape(Rectangle())
-					.accessibilityElement(children: .combine)
-				}
-				.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
-//				.buttonStyle(PressReportingButtonStyle(isPressed: $isPressed))
-//				.onPreferenceChange(PressedPreferenceKey.self) { isPressed = $0 }
-//				.listRowBackground(isPressed ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
+				HealthCategoryBlockRowView(
+					element: element,
+					accessibilityIdentifier: "category_element_\(subCategoryIndex)_\(index)"
+				)
 			}
 		}
 	}
