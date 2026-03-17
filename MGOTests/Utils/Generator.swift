@@ -334,6 +334,7 @@ class Generator {
 				],
 				label: "UI Schema"
 			),
+			details: "details",
 			action: nil
 		)
 	}

@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -17,6 +17,8 @@ struct HealthCategoryRow: Equatable, Identifiable {
 	static func == (lhs: HealthCategoryRow, rhs: HealthCategoryRow) -> Bool {
 		return lhs.heading == rhs.heading &&
 		lhs.subHeading == rhs.subHeading &&
+		lhs.details == rhs.details &&
+		lhs.schema == rhs.schema &&
 		lhs.id == rhs.id
 	}
 
@@ -29,8 +31,11 @@ struct HealthCategoryRow: Equatable, Identifiable {
 	/// The subtitle of a block
 	let subHeading: String?
 	
-	/// The underlying schema
+	/// The underlying schema (needed for pdf generation)
 	let schema: HealthUISchema
+	
+	/// The details of a block
+	let details: String?
 	
 	/// action to perform when the user taps on this block
 	var action: (() -> Void)?
@@ -110,14 +115,14 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Show the export dialog
 	@Published var showExportAlert: Bool = false
 	
+	/// The category to show
+	@Published var category: SharedHealthCategories.Category
+	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
 	/// The organization to show the categories for (optional, if nil, then show all organizations)
 	private var organization: OrganizationSearch.Organization?
-	
-	/// The category to show
-	@Published var category: SharedHealthCategories.Category
 	
 	/// Token for the data store observatory
 	private var dataStoreToken: Observatory.ObserverToken?
@@ -374,13 +379,15 @@ class HealthCategoryViewModel: ObservableObject {
 		// For all the MgoResources
 		for resource in record.resources where resource.hasProfile(acceptedProfile) {
 			let orginizationName = Sanitizer.strip(getOrganizationName(record.organizationId))
-			if let uiSchema = parser.getSummary(resource, organizationName: orginizationName) {
+			if let uiSchema = parser.getSummary(resource, organizationName: orginizationName),
+			   let cardInfo = parser.getCard(resource, organizationName: orginizationName) {
 				// Add a HealthCategoryBlock to the display list
 				items.append(
 					HealthCategoryRow(
-						heading: Sanitizer.sanitize(uiSchema.label),
-						subHeading: orginizationName,
-						schema: uiSchema
+						heading: Sanitizer.sanitize(cardInfo.title),
+						subHeading: cardInfo.description,
+						schema: uiSchema,
+						details: cardInfo.detail
 					) { [weak self] in
 							
 						guard let self else { return }
@@ -454,8 +461,7 @@ struct HealthCategoryView: View {
 			
 			switch viewModel.state {
 				case .loading:
-					fullScreenLoadingScreen()
-					
+					fullScreenLoadingScreen
 				case let .list(items, errorState):
 					if items.flatMap({ $0.rows }).isEmpty {
 						fullScreenEmptyScreen(errorState)
@@ -481,8 +487,7 @@ struct HealthCategoryView: View {
 	}
 	
 	/// The full screen loading state
-	/// - Returns: the full screen loading state
-	@ViewBuilder private func fullScreenLoadingScreen() -> some View {
+	@ViewBuilder private var fullScreenLoadingScreen: some View {
 		
 		VStack {
 			Spacer()
@@ -511,7 +516,7 @@ struct HealthCategoryView: View {
 				
 			case .loading:
 				// Should not happen
-				fullScreenLoadingScreen()
+				fullScreenLoadingScreen
 				
 			case .error(let heading, let subHeading):
 				
@@ -555,7 +560,7 @@ struct HealthCategoryView: View {
 				.backport.contentMargins(0)
 				.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		}
-		.toolbar(content: pdfExportToolbarContent)
+		.toolbar { pdfExportToolbarContent }
 		.alert(
 			String(localized: "export_pdf.dialog.heading"),
 			isPresented: $viewModel.showExportAlert
@@ -630,20 +635,31 @@ struct HealthCategoryView: View {
 		
 		ForEach(Array(subCategory.rows.enumerated()), id: \.offset) { index, element in
 			Section {
-				ActionCardView(
-					title: LocalizedStringKey(stringLiteral: element.heading),
-					message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
-					perform: element.action
-				)
-				.listRowInsets(ViewTraits.List.inset)
+				Button {
+					element.action?()
+				} label: {
+					CardView(
+						title: element.heading,
+						message: element.subHeading,
+						details: element.details,
+						config: CardViewConfig(
+							showChevron: true,
+							titleColor: theme.labels.primary
+						)
+					)
+					.contentShape(Rectangle())
+					.accessibilityElement(children: .combine)
+				}
 				.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
+//				.buttonStyle(PressReportingButtonStyle(isPressed: $isPressed))
+//				.onPreferenceChange(PressedPreferenceKey.self) { isPressed = $0 }
+//				.listRowBackground(isPressed ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
 			}
 		}
 	}
 	
-	/// Get the toolbar content (export to pdf)
-	/// - Returns: the toolbar content
-	@ToolbarContentBuilder private func pdfExportToolbarContent() -> some ToolbarContent {
+	/// The toolbar content (export to pdf)
+	@ToolbarContentBuilder private var pdfExportToolbarContent: some ToolbarContent {
 		ToolbarItemGroup(
 			placement: .topBarTrailing,
 			content: {
