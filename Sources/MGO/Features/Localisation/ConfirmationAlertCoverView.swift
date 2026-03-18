@@ -101,7 +101,7 @@ struct ConfirmationAlertCoverView: View {
 			Text(
 				String(
 					format: String(localized: "search_organization.dialog.heading"),
-					arguments: [organization.displayName ?? ""]
+					arguments: [organization.name ?? ""]
 				)
 			)
 			.typography(.bodyMedium, with: .semiBold)

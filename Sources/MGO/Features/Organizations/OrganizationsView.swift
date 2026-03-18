@@ -290,9 +290,9 @@ struct OrganizationsView: View {
 			Section {
 				ForEach(list, id: \.self) { healthcareOrganization in
 					rowFor(
-						title: Sanitizer.sanitize(healthcareOrganization.displayName ?? ""),
+						title: Sanitizer.sanitize(healthcareOrganization.name ?? ""),
 						imageResource: ImageResource.Overview.chevronRight,
-						accessibilityIdentifier: Sanitizer.sanitize(healthcareOrganization.displayName ?? "")) {
+						accessibilityIdentifier: Sanitizer.sanitize(healthcareOrganization.name ?? "")) {
 							viewModel.reduce(.details(healthcareOrganization))
 						}
 				}

@@ -78,6 +78,9 @@ enum DatabaseMigrations {
 			if try db.tableExists("organization") {
 				try db.drop(table: "organization")
 			}
+			if try db.tableExists("endpoint") {
+				try db.drop(table: "endpoint")
+			}
 		}
 	}
 
@@ -87,7 +90,7 @@ enum DatabaseMigrations {
 	/// `DatabaseActor` appends this to the JSON hash before storing it, so a
 	/// schema change forces a full repopulate even when the bundled JSON file
 	/// itself is unchanged.
-	static let schemaVersion = "v1"
+	static let schemaVersion = "v2"
 
 	/// Creates the `organization` content table and the `organization_fts` FTS5 virtual table.
 	///
@@ -114,12 +117,20 @@ enum DatabaseMigrations {
 	/// - Throws: GRDB errors if table creation fails.
 	static func createSchema(in dbQueue: any DatabaseWriter) async throws {
 		try await dbQueue.write { db in
+			try createEndpointTable(in: db)
 			try createOrganizationTable(in: db)
 			try createOrganizationFTSTable(in: db)
 		}
 	}
 
 	// MARK: - Private
+
+	private static func createEndpointTable(in db: Database) throws {
+		try db.create(table: "endpoint") { tableDefinition in
+			tableDefinition.primaryKey("id", .text)
+			tableDefinition.column("url", .text).notNull()
+		}
+	}
 
 	private static func createOrganizationTable(in db: Database) throws {
 		try db.create(table: "organization") { tableDefinition in

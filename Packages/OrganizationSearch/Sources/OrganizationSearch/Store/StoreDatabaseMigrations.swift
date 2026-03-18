@@ -23,13 +23,43 @@ enum StoreDatabaseMigrations {
 			try db.create(table: "stored_organization", ifNotExists: true) { tableDefinition in
 				tableDefinition.primaryKey("id", .text)
 				tableDefinition.column("addressLine", .text)
-				tableDefinition.column("careTypeDisplay", .text)
+				tableDefinition.column("careType", .text)
 				tableDefinition.column("city", .text)
 				tableDefinition.column("dataServicesJSON", .text)
-				tableDefinition.column("displayName", .text)
+				tableDefinition.column("name", .text)
 				tableDefinition.column("geoLat", .double)
 				tableDefinition.column("geoLng", .double)
 				tableDefinition.column("postalCode", .text)
+			}
+		}
+
+		// Wipe and recreate stored_organization because existing blobs use the old
+		// [String: DataService] dict format; new code writes a [DataService] array format.
+		migrator.registerMigration("v2_wipeStoredOrganization") { db in
+			try db.drop(table: "stored_organization")
+			try db.create(table: "stored_organization") { tableDefinition in
+				tableDefinition.primaryKey("id", .text)
+				tableDefinition.column("addressLine", .text)
+				tableDefinition.column("careType", .text)
+				tableDefinition.column("city", .text)
+				tableDefinition.column("dataServicesJSON", .text)
+				tableDefinition.column("name", .text)
+				tableDefinition.column("geoLat", .double)
+				tableDefinition.column("geoLng", .double)
+				tableDefinition.column("postalCode", .text)
+			}
+		}
+
+		// Rename careTypeDisplay → careType and displayName → name to match the
+		// updated Organization struct properties. Only renames if the old column names
+		// are present — databases already on the new names (fresh installs) are skipped.
+		migrator.registerMigration("v3_renameStoredOrganizationColumns") { db in
+			let columns = try db.columns(in: "stored_organization").map(\.name)
+			if columns.contains("careTypeDisplay") {
+				try db.execute(sql: "ALTER TABLE stored_organization RENAME COLUMN careTypeDisplay TO careType")
+			}
+			if columns.contains("displayName") {
+				try db.execute(sql: "ALTER TABLE stored_organization RENAME COLUMN displayName TO name")
 			}
 		}
 

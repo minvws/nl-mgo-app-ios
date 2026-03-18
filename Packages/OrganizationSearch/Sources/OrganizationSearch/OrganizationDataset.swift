@@ -23,4 +23,13 @@ public enum OrganizationDataset: Sendable {
 			case .benchmark: return "organizations-benchmark"
 		}
 	}
+
+	/// The resource name (without extension) of the endpoints JSON file for this dataset.
+	var endpointsResourceName: String {
+		switch self {
+			case .medmij: return "endpoints-medmij"
+			case .test: return "endpoints-test"
+			case .benchmark: return "endpoints-benchmark"
+		}
+	}
 }

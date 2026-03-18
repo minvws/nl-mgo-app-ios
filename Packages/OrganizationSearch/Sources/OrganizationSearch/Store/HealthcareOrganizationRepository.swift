@@ -91,7 +91,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	/// - Parameter organization: the healthcare organization to be removed
 	public func remove(_ organization: Organization) throws {
 
-		logInfo("About to delete \(organization.displayName ?? "")")
+		logInfo("About to delete \(organization.name ?? "")")
 		try StoreDatabase.delete(organization, from: dbQueue)
 		organizations = organizations.filter { $0 != organization }
 		observers((organization, HealthcareOrganizationReason.removed))

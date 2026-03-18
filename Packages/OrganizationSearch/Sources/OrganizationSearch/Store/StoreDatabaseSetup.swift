@@ -22,8 +22,13 @@ enum StoreDatabaseSetup {
 	/// - Throws: Foundation errors if the Application Support directory cannot
 	///   be resolved; GRDB errors if the database file cannot be opened.
 	static func openDatabase() throws -> DatabaseQueue {
-		var url = try FileManager.default
-			.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+		
+		var url = try FileManager.default.url(
+			for: .applicationSupportDirectory,
+			in: .userDomainMask,
+			appropriateFor: nil,
+			create: true
+		)
 			.appendingPathComponent(fileName)
 		var config = Configuration()
 		config.label = "HealthcareOrganizationRepository"

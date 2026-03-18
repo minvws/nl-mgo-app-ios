@@ -51,10 +51,11 @@ actor DatabaseActor {
 	///   not yet been called; GRDB or decoding errors if the query or row
 	///   decoding fails.
 	func search(_ searchTerm: String) async throws -> SearchResults {
+		
 		guard let dbPool = database else {
 			throw OrganizationSearchError.notPrepared
 		}
-
+		
 		let searchStart = clock.now()
 		let result = try await dbPool.read { db in
 			let rows = try DatabaseSearchQuery.fetch(matching: searchTerm, in: db)
@@ -98,35 +99,58 @@ actor DatabaseActor {
 	///   JSON is missing; GRDB errors if the database cannot be opened or written
 	///   to; decoding errors if the JSON is malformed.
 	func prepare(dataset: OrganizationDataset) async throws -> Int {
+		
 		let dbPool = try DatabaseSetup.openDatabase(for: dataset)
 		try await DatabaseMigrations.ensureMetadataTable(in: dbPool)
 
-		let jsonData = try DatabasePopulator.loadJSONData(for: dataset)
-		let currentHash = effectiveHash(of: jsonData)
+		let jsonData = try DatabasePopulator.loadJSONData(
+			for: dataset
+		)
+		let endpointsData = try DatabasePopulator.loadEndpointsData(
+			for: dataset
+		)
+		let currentHash = effectiveHash(
+			of: jsonData,
+			endpointsData: endpointsData
+		)
 
 		guard try await requiresRepopulation(hash: currentHash, in: dbPool) else {
 			self.database = dbPool
 			return 0
 		}
 
-		return try await repopulate(with: jsonData, hash: currentHash, in: dbPool)
+		return try await repopulate(
+			with: jsonData,
+			endpointsData: endpointsData,
+			hash: currentHash,
+			in: dbPool
+		)
 	}
 
 	// MARK: - Private
 
-	/// Returns the effective hash for `jsonData`: SHA-256 of the raw bytes suffixed
-	/// with the current `schemaVersion` so that schema or normalization changes
-	/// also force a rebuild.
-	private func effectiveHash(of jsonData: Data) -> String {
+	/// Returns the effective hash combining `jsonData` and `endpointsData`, suffixed with
+	/// the current `schemaVersion` so that any data or schema change forces a rebuild.
+	private func effectiveHash(
+		of jsonData: Data,
+		endpointsData: Data
+	) -> String {
+		
 		let start = clock.now()
-		let hash = DatabasePopulator.computeHash(of: jsonData) + ":" + DatabaseMigrations.schemaVersion
+		let hash = DatabasePopulator.computeHash(of: jsonData)
+			+ ":" + DatabasePopulator.computeHash(of: endpointsData)
+			+ ":" + DatabaseMigrations.schemaVersion
 		logDebug("DatabaseActor hash: \(clock.elapsed(since: start))")
 		return hash
 	}
 
 	/// Returns `true` when the stored hash differs from `hash`, meaning the database
 	/// needs to be rebuilt. Logs a skip message and returns `false` when up to date.
-	private func requiresRepopulation(hash: String, in dbPool: DatabasePool) async throws -> Bool {
+	private func requiresRepopulation(
+		hash: String,
+		in dbPool: DatabasePool
+	) async throws -> Bool {
+		
 		let storedHash = try await DatabaseMigrations.readHash(in: dbPool)
 		if storedHash == hash {
 			logDebug("DatabaseActor: dataset up to date, skipping populate")
@@ -135,12 +159,18 @@ actor DatabaseActor {
 		return true
 	}
 
-	/// Clears and recreates the schema, decodes and inserts all organizations,
+	/// Clears and recreates the schema, decodes and inserts endpoints and organizations,
 	/// then stores the new hash. Makes the pool available for reads before
 	/// inserting so that concurrent searches can proceed during population.
 	///
 	/// - Returns: The number of organizations inserted.
-	private func repopulate(with jsonData: Data, hash: String, in dbPool: DatabasePool) async throws -> Int {
+	private func repopulate(
+		with jsonData: Data,
+		endpointsData: Data,
+		hash: String,
+		in dbPool: DatabasePool
+	) async throws -> Int {
+		
 		let schemaStart = clock.now()
 		try await DatabaseMigrations.clearSchema(in: dbPool)
 		try await DatabaseMigrations.createSchema(in: dbPool)
@@ -150,7 +180,9 @@ actor DatabaseActor {
 		self.database = dbPool
 
 		let decodeStart = clock.now()
-		let organizations = try DatabasePopulator.decode(jsonData)
+		let endpoints = try DatabasePopulator.decodeEndpoints(endpointsData)
+		try await DatabasePopulator.insertEndpoints(endpoints, into: dbPool)
+		let organizations = try DatabasePopulator.decode(jsonData, endpoints: endpoints)
 		logDebug("DatabaseActor JSON decode: \(clock.elapsed(since: decodeStart))")
 
 		let insertStart = clock.now()

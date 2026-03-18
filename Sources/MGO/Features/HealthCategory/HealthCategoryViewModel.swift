@@ -419,7 +419,7 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Returns: optional name
 	func getOrganizationName(_ identifier: String) -> String? {
 
-		return getOrganization(identifier)?.displayName
+		return getOrganization(identifier)?.name
 	}
 
 	/// Get the name of a healthcare organisation

@@ -7,10 +7,10 @@ import OrganizationSearch
 
 extension OrganizationSearch.Organization {
 
-	var category: String? { careTypeDisplay }
+	var category: String? { careType }
 
 	func getResourceEndpoint(identifier: String) -> String? {
-		dataServices?[identifier]?.resourceEndpoint
+		dataServices?.first(where: { $0.id == identifier })?.resourceEndpoint
 	}
 
 	var identifier: String { id }

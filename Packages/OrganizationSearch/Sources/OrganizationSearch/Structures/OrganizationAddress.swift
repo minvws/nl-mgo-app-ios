@@ -11,7 +11,7 @@ import Foundation
 public struct OrganizationAddress: Hashable, Sendable {
 
 	/// The street address of the organization.
-	public let addressLine: String?
+	public let address: String?
 
 	/// The city in which the organization is located.
 	public let city: String?
@@ -26,13 +26,13 @@ public struct OrganizationAddress: Hashable, Sendable {
 	public let postalCode: String?
 
 	public init(
-		addressLine: String? = nil,
+		address: String? = nil,
 		city: String? = nil,
 		geoLat: Double? = nil,
 		geoLng: Double? = nil,
 		postalCode: String? = nil
 	) {
-		self.addressLine = addressLine
+		self.address = address
 		self.city = city
 		self.geoLat = geoLat
 		self.geoLng = geoLng

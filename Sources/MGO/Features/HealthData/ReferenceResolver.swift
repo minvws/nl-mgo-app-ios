@@ -33,7 +33,7 @@ class ReferenceResolver: ReferenceResolverProtocol {
 				}
 				
 				for resource in resources {
-					if let uiSchema = HCIMParser().getDetails(resource, organizationName: healthcareOrganization.displayName ?? "") {
+					if let uiSchema = HCIMParser().getDetails(resource, organizationName: healthcareOrganization.name ?? "") {
 						return (resource, uiSchema)
 					}
 				}

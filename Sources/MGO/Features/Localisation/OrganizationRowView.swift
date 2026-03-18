@@ -41,9 +41,9 @@ struct OrganizationRowView: View {
 			onSelect()
 		} label: {
 			CardView(
-				title: organization.displayName ?? "",
+				title: organization.name ?? "",
 				message: (
-					(organization.address.addressLine ?? "") + ", " + (organization.address.city ?? "")
+					(organization.address.address ?? "") + ", " + (organization.address.city ?? "")
 				).trim(),
 				details: {
 					switch cardState {

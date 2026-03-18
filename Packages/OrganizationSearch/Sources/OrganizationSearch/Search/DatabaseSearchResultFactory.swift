@@ -14,30 +14,30 @@ enum DatabaseSearchResultFactory {
 	/// Expects the row to contain all columns from the `organization` table plus a
 	/// `score` column (the negated FTS5 `rank`) produced by `DatabaseSearchQuery`.
 	/// The `dataServicesJSON` text column, if present, is decoded back into a
-	/// `[String: DataService]` dictionary using snake_case key conversion.
+	/// `[DataService]` array using snake_case key conversion.
 	///
 	/// - Parameter row: A row returned by `DatabaseSearchQuery.fetch(matching:in:)`.
 	/// - Returns: A fully populated `SearchResult`.
 	/// - Throws: Decoding errors if `dataServicesJSON` is present but malformed.
 	static func makeSearchResult(from row: Row) throws -> SearchResult {
-		
+
 		let decoder = newJSONDecoder()
 		decoder.keyDecodingStrategy = .convertFromSnakeCase
 
-		let dataServices: [String: DataService]? = try (row["dataServicesJSON"] as String?)
-			.flatMap { try decoder.decode([String: DataService].self, from: Data($0.utf8)) }
+		let dataServices: [DataService]? = try (row["dataServicesJSON"] as String?)
+			.flatMap { try decoder.decode([DataService].self, from: Data($0.utf8)) }
 
 		let org = Organization(
 			address: OrganizationAddress(
-				addressLine: row["addressLine"],
+				address: row["addressLine"],
 				city: row["city"],
 				geoLat: row["geoLat"],
 				geoLng: row["geoLng"],
 				postalCode: row["postalCode"]
 			),
-			careTypeDisplay: row["careTypeDisplay"],
+			careType: row["careTypeDisplay"],
 			dataServices: dataServices,
-			displayName: row["displayName"],
+			name: row["displayName"],
 			id: row["id"]
 		)
 		return SearchResult(document: org, id: org.id, score: row["score"] ?? 0)

@@ -121,7 +121,7 @@ struct RemoveHealthcareOrganizationView: View {
 			Text(
 				String(
 					format: String(localized: "remove_organization.heading"),
-					arguments: ["\(viewModel.healthcareOrganization.displayName ?? "")"]
+					arguments: ["\(viewModel.healthcareOrganization.name ?? "")"]
 				)
 			)
 			.typography(.headingExtraLarge)
@@ -133,7 +133,7 @@ struct RemoveHealthcareOrganizationView: View {
 			Text(
 				String(
 					format: String(localized: "remove_organization.subheading"),
-					arguments: ["\(viewModel.healthcareOrganization.displayName ?? "")"]
+					arguments: ["\(viewModel.healthcareOrganization.name ?? "")"]
 				)
 			)
 			.typography(.bodyMedium)

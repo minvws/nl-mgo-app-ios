@@ -26,7 +26,9 @@ enum DatabaseSetup {
 	/// - Returns: A configured `DatabasePool` ready for use.
 	/// - Throws: Foundation errors if the Application Support directory cannot
 	///   be resolved; GRDB errors if the database file cannot be opened.
-	static func openDatabase(for dataset: OrganizationDataset) throws -> DatabasePool {
+	static func openDatabase(
+		for dataset: OrganizationDataset
+	) throws -> DatabasePool {
 
 		let appSupportURL = try FileManager.default.url(
 			for: .applicationSupportDirectory,

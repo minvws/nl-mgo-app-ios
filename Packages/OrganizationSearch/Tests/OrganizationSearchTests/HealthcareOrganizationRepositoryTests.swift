@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -105,11 +105,12 @@ class HealthcareOrganizationRepositoryTests {
 
 		// Given
 		let dataService = DataService(
+			id: "urn:oid:2.16.840.1.113883.2.4.3.11.58.1",
 			authEndpoint: "https://example.com/auth",
 			resourceEndpoint: "https://example.com/fhir",
 			tokenEndpoint: "https://example.com/token"
 		)
-		let organization = makeOrganization("1", dataServices: ["urn:oid:2.16.840.1.113883.2.4.3.11.58.1": dataService])
+		let organization = makeOrganization("1", dataServices: [dataService])
 		let sut = try HealthcareOrganizationRepository()
 
 		// When
@@ -117,7 +118,7 @@ class HealthcareOrganizationRepositoryTests {
 		let stored = try sut.read()
 
 		// Then
-		let storedService = try #require(stored.first?.dataServices?["urn:oid:2.16.840.1.113883.2.4.3.11.58.1"])
+		let storedService = try #require(stored.first?.dataServices?.first(where: { $0.id == "urn:oid:2.16.840.1.113883.2.4.3.11.58.1" }))
 		#expect(storedService.authEndpoint == dataService.authEndpoint)
 		#expect(storedService.resourceEndpoint == dataService.resourceEndpoint)
 		#expect(storedService.tokenEndpoint == dataService.tokenEndpoint)
@@ -128,17 +129,17 @@ class HealthcareOrganizationRepositoryTests {
 		city: String = "Roermond",
 		address: String = "Boorplatform 5",
 		postalCode: String = "1234AB",
-		dataServices: [String: DataService]? = nil
+		dataServices: [DataService]? = nil
 	) -> Organization {
 		return Organization(
 			address: OrganizationAddress(
-				addressLine: address,
+				address: address,
 				city: city,
 				postalCode: postalCode
 			),
-			careTypeDisplay: "Tandarts",
+			careType: "Tandarts",
 			dataServices: dataServices,
-			displayName: "Tandarts Tandje Erbij",
+			name: "Tandarts Tandje Erbij",
 			id: id
 		)
 	}

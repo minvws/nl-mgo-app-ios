@@ -475,9 +475,9 @@ struct SearchOrganizationView: View {
 			return .notParticipating
 		}
 		
-		// Check if any data service key is included in available service IDs
-		let hasAvailableService = dts.keys.contains { key in
-			viewModel.state.availableServiceIds.contains(key)
+		// Check if any data service ID is included in available service IDs
+		let hasAvailableService = dts.contains { svc in
+			viewModel.state.availableServiceIds.contains(svc.id)
 		}
 		
 		if !hasAvailableService {

@@ -15,29 +15,29 @@ class Generator {
 	///   - id: the identifier of the organization
 	///   - displayName: the display name of the organization
 	///   - city: the city of the organization
-	///   - addressLine: the address line of the organization
+	///   - address: the address line of the organization
 	///   - postalCode: the postal code of the organization
 	///   - careTypeDisplay: the care type display name
-	///   - dataServices: optional data services dictionary
+	///   - dataServices: optional data services array
 	/// - Returns: an organization search organization
 	static func searchOrganization(
 		id: String = "test-id",
 		displayName: String = "Test Organization",
 		city: String = "Amsterdam",
-		addressLine: String = "Test Street 123",
+		address: String = "Test Street 123",
 		postalCode: String = "1234AB",
 		careTypeDisplay: String = "Hospital",
-		dataServices: [String: OrganizationSearch.DataService]? = nil
+		dataServices: [OrganizationSearch.DataService]? = nil
 	) -> OrganizationSearch.Organization {
 		return OrganizationSearch.Organization(
 			address: OrganizationSearch.OrganizationAddress(
-				addressLine: addressLine,
+				address: address,
 				city: city,
 				postalCode: postalCode
 			),
-			careTypeDisplay: careTypeDisplay,
+			careType: careTypeDisplay,
 			dataServices: dataServices,
-			displayName: displayName,
+			name: displayName,
 			id: id
 		)
 	}
@@ -62,10 +62,11 @@ class Generator {
 		serviceId: String = "48"
 	) -> OrganizationSearch.Organization {
 
-		var dataServicesDict: [String: OrganizationSearch.DataService]?
+		var dataServicesArray: [OrganizationSearch.DataService]?
 		if useDataService {
-			dataServicesDict = [
-				serviceId: OrganizationSearch.DataService(
+			dataServicesArray = [
+				OrganizationSearch.DataService(
+					id: serviceId,
 					authEndpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/authorize",
 					resourceEndpoint: "https://dva-mock.test.mgo.prolocation.net/48",
 					tokenEndpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/token"
@@ -75,13 +76,13 @@ class Generator {
 
 		return OrganizationSearch.Organization(
 			address: OrganizationSearch.OrganizationAddress(
-				addressLine: address,
+				address: address,
 				city: city,
 				postalCode: postalCode
 			),
-			careTypeDisplay: "Tandarts",
-			dataServices: dataServicesDict,
-			displayName: name,
+			careType: "Tandarts",
+			dataServices: dataServicesArray,
+			name: name,
 			id: id
 		)
 	}
