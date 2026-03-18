@@ -116,8 +116,9 @@ enum StoreDatabase {
 			),
 			careType: row["careType"],
 			dataServices: dataServices,
-			name: row["name"],
-			id: row["id"]
+			id: row["id"],
+			medmijId: row["medmijId"],
+			name: row["name"]
 		)
 	}
 
@@ -146,9 +147,9 @@ enum StoreDatabase {
 			sql: """
 				INSERT OR IGNORE INTO stored_organization
 					(id, addressLine, careType, city,
-					 dataServicesJSON, name, geoLat, geoLng,
+					 dataServicesJSON, medmijId, name, geoLat, geoLng,
 					 postalCode)
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 				""",
 			arguments: [
 				org.id,
@@ -156,6 +157,7 @@ enum StoreDatabase {
 				org.careType,
 				org.address.city,
 				dataServicesJSON,
+				org.medmijId,
 				org.name,
 				org.address.geoLat,
 				org.address.geoLng,

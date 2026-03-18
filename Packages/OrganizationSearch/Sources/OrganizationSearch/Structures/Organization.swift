@@ -19,11 +19,14 @@ public struct Organization: Decodable, Hashable, Sendable {
 	/// The data services offered by this organization.
 	public let dataServices: [DataService]?
 
-	/// The display name of the organization shown in search results.
-	public let name: String?
-
 	/// The unique identifier of the organization.
 	public let id: String
+
+	/// The MedMij identifier of the organization.
+	public let medmijId: String?
+
+	/// The display name of the organization shown in search results.
+	public let name: String?
 
 	/// A concatenated blob of searchable text used by the search index.
 	public let searchBlob: String?
@@ -33,22 +36,25 @@ public struct Organization: Decodable, Hashable, Sendable {
 	///   - address: The physical location of the organization.
 	///   - careType: A human-readable description of the type of care provided.
 	///   - dataServices: The data services offered by this organization.
-	///   - name: The display name of the organization.
 	///   - id: The unique identifier of the organization.
+	///   - medmijId: The MedMij identifier of the organization.
+	///   - name: The display name of the organization.
 	///   - searchBlob: A concatenated blob of searchable text used by the search index.
 	public init(
 		address: OrganizationAddress = OrganizationAddress(),
 		careType: String? = nil,
 		dataServices: [DataService]? = nil,
-		name: String? = nil,
 		id: String,
+		medmijId: String? = nil,
+		name: String? = nil,
 		searchBlob: String? = nil
 	) {
 		self.address = address
 		self.careType = careType
 		self.dataServices = dataServices
-		self.name = name
 		self.id = id
+		self.medmijId = medmijId
+		self.name = name
 		self.searchBlob = searchBlob
 	}
 
@@ -57,8 +63,8 @@ public struct Organization: Decodable, Hashable, Sendable {
 	/// Flat JSON keys — the bundled JSON has address fields at the top level,
 	/// not nested under an `address` object.
 	private enum CodingKeys: String, CodingKey {
-		case address, careType, city, dataServices, name
-		case geoLat, geoLng, id, postalCode, searchBlob
+		case address, careType, city, dataServices, id, medmijId, name
+		case geoLat, geoLng, postalCode, searchBlob
 	}
 
 	public init(from decoder: Decoder) throws {
@@ -72,8 +78,9 @@ public struct Organization: Decodable, Hashable, Sendable {
 		)
 		self.careType = try container.decodeIfPresent(String.self, forKey: .careType)
 		self.dataServices = try container.decodeIfPresent([DataService].self, forKey: .dataServices)
-		self.name = try container.decodeIfPresent(String.self, forKey: .name)
 		self.id = try container.decode(String.self, forKey: .id)
+		self.medmijId = try container.decodeIfPresent(String.self, forKey: .medmijId)
+		self.name = try container.decodeIfPresent(String.self, forKey: .name)
 		self.searchBlob = try container.decodeIfPresent(String.self, forKey: .searchBlob)
 	}
 }

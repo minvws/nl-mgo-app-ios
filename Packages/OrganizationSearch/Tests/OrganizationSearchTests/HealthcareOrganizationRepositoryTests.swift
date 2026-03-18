@@ -139,8 +139,8 @@ class HealthcareOrganizationRepositoryTests {
 			),
 			careType: "Tandarts",
 			dataServices: dataServices,
-			name: "Tandarts Tandje Erbij",
-			id: id
+			id: id,
+			name: "Tandarts Tandje Erbij"
 		)
 	}
 }

@@ -63,6 +63,12 @@ enum StoreDatabaseMigrations {
 			}
 		}
 
+		migrator.registerMigration("v4_addMedmijId") { db in
+			try db.alter(table: "stored_organization") { tableDefinition in
+				tableDefinition.add(column: "medmijId", .text)
+			}
+		}
+
 		try migrator.migrate(dbQueue)
 	}
 }

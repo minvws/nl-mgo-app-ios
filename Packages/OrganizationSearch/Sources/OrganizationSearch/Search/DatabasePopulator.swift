@@ -120,8 +120,9 @@ enum DatabasePopulator {
 				address: org.address,
 				careType: org.careType,
 				dataServices: resolved,
-				name: org.name,
 				id: org.id,
+				medmijId: org.medmijId,
+				name: org.name,
 				searchBlob: org.searchBlob
 			)
 		}
@@ -240,14 +241,15 @@ enum DatabasePopulator {
 		try db.execute(
 			sql: """
 				INSERT INTO organization
-					(id, name, careType,
+					(id, medmijId, name, careType,
 					 city, postalCode, addressLine, geoLat, geoLng,
 					 searchBlob, dataServicesJSON, normalizedName,
 					 normalizedCity)
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 				""",
 			arguments: [
 				org.id,
+				org.medmijId,
 				org.name,
 				org.careType,
 				org.address.city,

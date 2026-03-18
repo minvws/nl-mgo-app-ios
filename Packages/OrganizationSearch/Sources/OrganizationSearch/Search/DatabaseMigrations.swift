@@ -90,7 +90,7 @@ enum DatabaseMigrations {
 	/// `DatabaseActor` appends this to the JSON hash before storing it, so a
 	/// schema change forces a full repopulate even when the bundled JSON file
 	/// itself is unchanged.
-	static let schemaVersion = "v3"
+	static let schemaVersion = "v4"
 
 	/// Creates the `organization` content table and the `organization_fts` FTS5 virtual table.
 	///
@@ -135,6 +135,7 @@ enum DatabaseMigrations {
 	private static func createOrganizationTable(in db: Database) throws {
 		try db.create(table: "organization") { tableDefinition in
 			tableDefinition.primaryKey("id", .text).indexed()
+			tableDefinition.column("medmijId", .text)
 			tableDefinition.column("name", .text)
 			tableDefinition.column("careType", .text)
 			tableDefinition.column("city", .text)

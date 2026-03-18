@@ -15,8 +15,8 @@ struct PreviewContent {
 			postalCode: "1234AB"
 		),
 		careType: "Tandarts",
-		name: "Tandarts Tandje Erbij",
-		id: "1"
+		id: "1",
+		name: "Tandarts Tandje Erbij"
 	)
 
 	static let category = SharedHealthCategories.Category(

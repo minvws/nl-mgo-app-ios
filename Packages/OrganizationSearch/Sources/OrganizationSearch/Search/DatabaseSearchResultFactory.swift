@@ -37,8 +37,9 @@ enum DatabaseSearchResultFactory {
 			),
 			careType: row["careType"],
 			dataServices: dataServices,
-			name: row["name"],
-			id: row["id"]
+			id: row["id"],
+			medmijId: row["medmijId"],
+			name: row["name"]
 		)
 		return SearchResult(document: org, id: org.id, score: row["score"] ?? 0)
 	}

@@ -349,7 +349,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 						fhirVersion: dataService.fhirVersionEnum,
 						dvaTarget: dvaTarget,
 						dataServiceId: dataService.id,
-						providerId: healthcareOrganization.id
+						providerId: healthcareOrganization.medmijId
 					)
 				)
 			}

@@ -37,8 +37,8 @@ class Generator {
 			),
 			careType: careTypeDisplay,
 			dataServices: dataServices,
-			name: displayName,
-			id: id
+			id: id,
+			name: displayName
 		)
 	}
 	
@@ -82,8 +82,8 @@ class Generator {
 			),
 			careType: "Tandarts",
 			dataServices: dataServicesArray,
-			name: name,
-			id: id
+			id: id,
+			name: name
 		)
 	}
 	
