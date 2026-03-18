@@ -68,16 +68,16 @@ struct StoreDatabaseMigrationsTests {
 		// Given — simulate a pre-v3 database with the old column names
 		let queue = try makeInMemoryQueue()
 		try queue.write { db in
-			try db.create(table: "stored_organization") { t in
-				t.primaryKey("id", .text)
-				t.column("addressLine", .text)
-				t.column("careTypeDisplay", .text)  // old name
-				t.column("city", .text)
-				t.column("dataServicesJSON", .text)
-				t.column("displayName", .text)       // old name
-				t.column("geoLat", .double)
-				t.column("geoLng", .double)
-				t.column("postalCode", .text)
+			try db.create(table: "stored_organization") { desc in
+				desc.primaryKey("id", .text)
+				desc.column("addressLine", .text)
+				desc.column("careTypeDisplay", .text)  // old name
+				desc.column("city", .text)
+				desc.column("dataServicesJSON", .text)
+				desc.column("displayName", .text)       // old name
+				desc.column("geoLat", .double)
+				desc.column("geoLng", .double)
+				desc.column("postalCode", .text)
 			}
 			// Mark v1 and v2 as already applied so the migrator only runs v3 onwards
 			try db.execute(sql: "CREATE TABLE IF NOT EXISTS grdb_migrations (identifier TEXT NOT NULL PRIMARY KEY)")
@@ -102,16 +102,16 @@ struct StoreDatabaseMigrationsTests {
 		// Given — simulate a database that already has the new column names
 		let queue = try makeInMemoryQueue()
 		try queue.write { db in
-			try db.create(table: "stored_organization") { t in
-				t.primaryKey("id", .text)
-				t.column("addressLine", .text)
-				t.column("careType", .text)         // already renamed
-				t.column("city", .text)
-				t.column("dataServicesJSON", .text)
-				t.column("name", .text)             // already renamed
-				t.column("geoLat", .double)
-				t.column("geoLng", .double)
-				t.column("postalCode", .text)
+			try db.create(table: "stored_organization") { desc in
+				desc.primaryKey("id", .text)
+				desc.column("addressLine", .text)
+				desc.column("careType", .text)         // already renamed
+				desc.column("city", .text)
+				desc.column("dataServicesJSON", .text)
+				desc.column("name", .text)             // already renamed
+				desc.column("geoLat", .double)
+				desc.column("geoLng", .double)
+				desc.column("postalCode", .text)
 			}
 			try db.execute(sql: "CREATE TABLE IF NOT EXISTS grdb_migrations (identifier TEXT NOT NULL PRIMARY KEY)")
 			try db.execute(sql: "INSERT INTO grdb_migrations VALUES ('v1_createStoredOrganization')")
@@ -134,16 +134,16 @@ struct StoreDatabaseMigrationsTests {
 		// Given — apply only v1–v3, then run the full migrator to trigger v4
 		let queue = try makeInMemoryQueue()
 		try queue.write { db in
-			try db.create(table: "stored_organization") { t in
-				t.primaryKey("id", .text)
-				t.column("addressLine", .text)
-				t.column("careType", .text)
-				t.column("city", .text)
-				t.column("dataServicesJSON", .text)
-				t.column("name", .text)
-				t.column("geoLat", .double)
-				t.column("geoLng", .double)
-				t.column("postalCode", .text)
+			try db.create(table: "stored_organization") { desc in
+				desc.primaryKey("id", .text)
+				desc.column("addressLine", .text)
+				desc.column("careType", .text)
+				desc.column("city", .text)
+				desc.column("dataServicesJSON", .text)
+				desc.column("name", .text)
+				desc.column("geoLat", .double)
+				desc.column("geoLng", .double)
+				desc.column("postalCode", .text)
 				// medmijId intentionally absent — v4 should add it
 			}
 			try db.execute(sql: "CREATE TABLE IF NOT EXISTS grdb_migrations (identifier TEXT NOT NULL PRIMARY KEY)")

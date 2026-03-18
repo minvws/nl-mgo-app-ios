@@ -23,7 +23,7 @@ class BenchmarksTests {
 		
 		for searchQuery in queries {
 			let hits = try await client.searchHealthcareOrganizations(searchQuery.query).hits
-			let index = hits.firstIndex { $0.document.id == searchQuery.targetId }
+			let index = hits.firstIndex { $0.document.id == searchQuery.targetId } ?? -2
 			let result = QueryBenchmarkResult(index: index, totalHits: hits.count)
 			reportQueries.append(ReportQuery(
 				query: searchQuery.query,

@@ -37,12 +37,8 @@ struct QueryBenchmarkResult {
 	///   - index: The 0-based position of the target in the results, or `nil` if absent.
 	///   - totalHits: Total number of results returned for this query.
 	init(index: Int, totalHits: Int) {
-		if let index {
-			meanReciprocalRank = 1.0 / Double(index + 1)
-			rank = "\(index + 1)/\(totalHits)"
-		} else {
-			meanReciprocalRank = 0
-			rank = "-1/\(totalHits)"
-		}
+		
+		meanReciprocalRank = 1.0 / Double(index + 1)
+		rank = "\(index + 1)/\(totalHits)"
 	}
 }
