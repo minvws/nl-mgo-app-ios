@@ -35,9 +35,9 @@ enum DatabaseSearchResultFactory {
 				geoLng: row["geoLng"],
 				postalCode: row["postalCode"]
 			),
-			careType: row["careTypeDisplay"],
+			careType: row["careType"],
 			dataServices: dataServices,
-			name: row["displayName"],
+			name: row["name"],
 			id: row["id"]
 		)
 		return SearchResult(document: org, id: org.id, score: row["score"] ?? 0)

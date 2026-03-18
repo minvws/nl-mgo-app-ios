@@ -57,7 +57,7 @@ enum DatabaseSearchQuery {
 	/// ordered by weighted BM25 score (best match first).
 	///
 	/// Column weights match the declaration order in `organization_fts`:
-	/// `normalizedDisplayName` (25), `normalizedCity` (5), `searchBlob` (1).
+	/// `normalizedName` (25), `normalizedCity` (5), `searchBlob` (1).
 	/// The negated BM25 value is exposed as a `score` column (higher = better match).
 	private static func fetchRows(
 		matching pattern: FTS5Pattern,

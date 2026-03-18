@@ -10,11 +10,11 @@ import GRDB
 /// The schema consists of three tables:
 /// - `metadata` – a key/value table that persists across repopulations (e.g. the JSON hash).
 /// - `organization` – the main content table storing all organization fields, plus
-///   pre-normalized columns (`normalizedDisplayName`, `normalizedCity`) used
+///   pre-normalized columns (`normalizedName`, `normalizedCity`) used
 ///   as dedicated FTS5 index targets.
 /// - `organization_fts` – an FTS5 virtual table synchronised with `organization` via
 ///   content-table triggers. Three columns are indexed with descending BM25 weights:
-///   `normalizedDisplayName` (25), `normalizedCity` (5), `searchBlob` (1).
+///   `normalizedName` (25), `normalizedCity` (5), `searchBlob` (1).
 ///   The Porter stemmer (wrapping unicode61) is used as the tokenizer.
 enum DatabaseMigrations {
 
@@ -90,25 +90,25 @@ enum DatabaseMigrations {
 	/// `DatabaseActor` appends this to the JSON hash before storing it, so a
 	/// schema change forces a full repopulate even when the bundled JSON file
 	/// itself is unchanged.
-	static let schemaVersion = "v2"
+	static let schemaVersion = "v3"
 
 	/// Creates the `organization` content table and the `organization_fts` FTS5 virtual table.
 	///
 	/// ## `organization` table
 	/// Stores all organization fields. In addition to the raw JSON fields, two
 	/// pre-normalized columns are populated at insert time via `DatabasePopulator`:
-	/// - `normalizedDisplayName` — lowercased, punctuation-stripped display name.
+	/// - `normalizedName` — lowercased, punctuation-stripped name.
 	/// - `normalizedCity` — lowercased, punctuation-stripped city.
 	///
 	/// ## `organization_fts` virtual table
 	/// An FTS5 content table synchronised with `organization` via triggers.
 	/// Three columns are indexed with BM25 weights applied at query time:
 	///
-	/// | Column                  | Weight | Rationale                                     |
-	/// |-------------------------|--------|-----------------------------------------------|
-	/// | `normalizedDisplayName` |     25 | Primary search target; name matches dominate  |
-	/// | `normalizedCity`        |      5 | Key disambiguator for same-name organizations |
-	/// | `searchBlob`            |      1 | Supplementary text for broader coverage       |
+	/// | Column           | Weight | Rationale                                     |
+	/// |------------------|--------|-----------------------------------------------|
+	/// | `normalizedName` |     25 | Primary search target; name matches dominate  |
+	/// | `normalizedCity` |      5 | Key disambiguator for same-name organizations |
+	/// | `searchBlob`     |      1 | Supplementary text for broader coverage       |
 	///
 	/// The Porter stemmer (wrapping unicode61) is used as the tokenizer so that
 	/// morphological variants map to the same stem.
@@ -135,8 +135,8 @@ enum DatabaseMigrations {
 	private static func createOrganizationTable(in db: Database) throws {
 		try db.create(table: "organization") { tableDefinition in
 			tableDefinition.primaryKey("id", .text).indexed()
-			tableDefinition.column("displayName", .text)
-			tableDefinition.column("careTypeDisplay", .text)
+			tableDefinition.column("name", .text)
+			tableDefinition.column("careType", .text)
 			tableDefinition.column("city", .text)
 			tableDefinition.column("postalCode", .text)
 			tableDefinition.column("addressLine", .text)
@@ -144,7 +144,7 @@ enum DatabaseMigrations {
 			tableDefinition.column("geoLng", .double)
 			tableDefinition.column("searchBlob", .text)
 			tableDefinition.column("dataServicesJSON", .text)
-			tableDefinition.column("normalizedDisplayName", .text)
+			tableDefinition.column("normalizedName", .text)
 			tableDefinition.column("normalizedCity", .text)
 		}
 	}
@@ -153,9 +153,9 @@ enum DatabaseMigrations {
 		try db.create(virtualTable: "organization_fts", using: FTS5()) { tableDefinition in
 			tableDefinition.synchronize(withTable: "organization")
 			tableDefinition.tokenizer = .porter(wrapping: .unicode61())
-			tableDefinition.column("normalizedDisplayName") // weight 25 — display name
-			tableDefinition.column("normalizedCity")        // weight  5 — city
-			tableDefinition.column("searchBlob")            // weight  1 — searchblob
+			tableDefinition.column("normalizedName") // weight 25 — name
+			tableDefinition.column("normalizedCity") // weight  5 — city
+			tableDefinition.column("searchBlob")     // weight  1 — searchblob
 		}
 	}
 }

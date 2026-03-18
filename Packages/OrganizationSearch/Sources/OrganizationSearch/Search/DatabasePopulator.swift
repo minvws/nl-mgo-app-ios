@@ -164,7 +164,7 @@ enum DatabasePopulator {
 	///
 	/// The following columns are normalized via `normalizeSearchText(_:)` before
 	/// storage so the FTS5 index receives clean, consistent text:
-	/// `normalizedDisplayName`, `normalizedCity`, and `searchBlob`.
+	/// `normalizedName`, `normalizedCity`, and `searchBlob`.
 	///
 	/// - Parameters:
 	///   - organizations: The organizations to insert.
@@ -190,7 +190,7 @@ enum DatabasePopulator {
 
 	/// Normalizes a raw search string for consistent FTS5 indexing and querying.
 	///
-	/// Applied to `displayName` and `city` at insert time so the FTS5 index
+	/// Applied to `name` and `city` at insert time so the FTS5 index
 	/// receives clean, consistent text.
 	///
 	/// Replaces all non-letter, non-digit characters with a space (so hyphens,
@@ -240,9 +240,9 @@ enum DatabasePopulator {
 		try db.execute(
 			sql: """
 				INSERT INTO organization
-					(id, displayName, careTypeDisplay,
+					(id, name, careType,
 					 city, postalCode, addressLine, geoLat, geoLng,
-					 searchBlob, dataServicesJSON, normalizedDisplayName,
+					 searchBlob, dataServicesJSON, normalizedName,
 					 normalizedCity)
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 				""",
