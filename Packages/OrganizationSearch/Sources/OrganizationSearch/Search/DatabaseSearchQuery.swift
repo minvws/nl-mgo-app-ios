@@ -67,12 +67,11 @@ enum DatabaseSearchQuery {
 		try Row.fetchAll(
 			db,
 			sql: """
-				SELECT o.*,
-					   -bm25(organization_fts, 25.0, 5.0, 1.0) AS score
+				SELECT o.*, -bm25(organization_fts, 25.0, 5.0, 1.0) AS score
 				FROM organization_fts
 				JOIN organization o ON o.rowid = organization_fts.rowid
 				WHERE organization_fts MATCH ?
-				ORDER BY bm25(organization_fts, 25.0, 5.0, 1.0)
+				ORDER BY score DESC
 				""",
 			arguments: [pattern]
 		)
