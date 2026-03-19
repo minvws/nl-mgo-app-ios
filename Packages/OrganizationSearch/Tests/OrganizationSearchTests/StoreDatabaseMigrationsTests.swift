@@ -24,7 +24,7 @@ struct StoreDatabaseMigrationsTests {
 		}
 	}
 
-	// MARK: - Full migration from scratch (v1 → v4)
+	// MARK: - Full migration from scratch (v1 → v2)
 
 	@Test("migrate creates stored_organization with all expected columns")
 	func migrate_onFreshDatabase_createsTableWithAllColumns() throws {
@@ -38,15 +38,15 @@ struct StoreDatabaseMigrationsTests {
 		// Then
 		let columns = try columnNames(of: "stored_organization", in: queue)
 		#expect(columns.contains("id"))
-		#expect(columns.contains("addressLine"))
+		#expect(columns.contains("address"))
 		#expect(columns.contains("careType"))
 		#expect(columns.contains("city"))
 		#expect(columns.contains("dataServicesJSON"))
+		#expect(columns.contains("medmijId"))
 		#expect(columns.contains("name"))
 		#expect(columns.contains("geoLat"))
 		#expect(columns.contains("geoLng"))
 		#expect(columns.contains("postalCode"))
-		#expect(columns.contains("medmijId"))
 	}
 
 	@Test("migrate is idempotent when called twice")
@@ -60,83 +60,17 @@ struct StoreDatabaseMigrationsTests {
 		try StoreDatabaseMigrations.migrate(queue)
 	}
 
-	// MARK: - v3: rename careTypeDisplay → careType and displayName → name
+	// MARK: - v2: upgrade from v1 schema
 
-	@Test("v3 renames careTypeDisplay to careType when old column is present")
-	func v3_renamesCareTypeDisplayToCareType() throws {
+	@Test("v2 wipes and rebuilds stored_organization from a v1 database")
+	func v2_rebuildsTable_fromV1Schema() throws {
 
-		// Given — simulate a pre-v3 database with the old column names
+		// Given — simulate a v1 database (old column names, no medmijId)
 		let queue = try makeInMemoryQueue()
 		try queue.write { db in
 			try db.create(table: "stored_organization") { desc in
 				desc.primaryKey("id", .text)
-				desc.column("addressLine", .text)
-				desc.column("careTypeDisplay", .text)  // old name
-				desc.column("city", .text)
-				desc.column("dataServicesJSON", .text)
-				desc.column("displayName", .text)       // old name
-				desc.column("geoLat", .double)
-				desc.column("geoLng", .double)
-				desc.column("postalCode", .text)
-			}
-			// Mark v1 and v2 as already applied so the migrator only runs v3 onwards
-			try db.execute(sql: "CREATE TABLE IF NOT EXISTS grdb_migrations (identifier TEXT NOT NULL PRIMARY KEY)")
-			try db.execute(sql: "INSERT INTO grdb_migrations VALUES ('v1_createStoredOrganization')")
-			try db.execute(sql: "INSERT INTO grdb_migrations VALUES ('v2_wipeStoredOrganization')")
-		}
-
-		// When
-		try StoreDatabaseMigrations.migrate(queue)
-
-		// Then — columns are renamed
-		let columns = try columnNames(of: "stored_organization", in: queue)
-		#expect(columns.contains("careType"))
-		#expect(columns.contains("name"))
-		#expect(!columns.contains("careTypeDisplay"))
-		#expect(!columns.contains("displayName"))
-	}
-
-	@Test("v3 is a no-op when columns are already on new names")
-	func v3_isNoOp_whenColumnsAlreadyRenamed() throws {
-
-		// Given — simulate a database that already has the new column names
-		let queue = try makeInMemoryQueue()
-		try queue.write { db in
-			try db.create(table: "stored_organization") { desc in
-				desc.primaryKey("id", .text)
-				desc.column("addressLine", .text)
-				desc.column("careType", .text)         // already renamed
-				desc.column("city", .text)
-				desc.column("dataServicesJSON", .text)
-				desc.column("name", .text)             // already renamed
-				desc.column("geoLat", .double)
-				desc.column("geoLng", .double)
-				desc.column("postalCode", .text)
-			}
-			try db.execute(sql: "CREATE TABLE IF NOT EXISTS grdb_migrations (identifier TEXT NOT NULL PRIMARY KEY)")
-			try db.execute(sql: "INSERT INTO grdb_migrations VALUES ('v1_createStoredOrganization')")
-			try db.execute(sql: "INSERT INTO grdb_migrations VALUES ('v2_wipeStoredOrganization')")
-		}
-
-		// When / Then — must not throw
-		try StoreDatabaseMigrations.migrate(queue)
-
-		let columns = try columnNames(of: "stored_organization", in: queue)
-		#expect(columns.contains("careType"))
-		#expect(columns.contains("name"))
-	}
-
-	// MARK: - v4: adds medmijId column
-
-	@Test("v4 adds medmijId column to stored_organization")
-	func v4_addsMedmijIdColumn() throws {
-
-		// Given — apply only v1–v3, then run the full migrator to trigger v4
-		let queue = try makeInMemoryQueue()
-		try queue.write { db in
-			try db.create(table: "stored_organization") { desc in
-				desc.primaryKey("id", .text)
-				desc.column("addressLine", .text)
+				desc.column("addressLine", .text)   // old name
 				desc.column("careType", .text)
 				desc.column("city", .text)
 				desc.column("dataServicesJSON", .text)
@@ -144,19 +78,19 @@ struct StoreDatabaseMigrationsTests {
 				desc.column("geoLat", .double)
 				desc.column("geoLng", .double)
 				desc.column("postalCode", .text)
-				// medmijId intentionally absent — v4 should add it
+				// medmijId absent
 			}
 			try db.execute(sql: "CREATE TABLE IF NOT EXISTS grdb_migrations (identifier TEXT NOT NULL PRIMARY KEY)")
 			try db.execute(sql: "INSERT INTO grdb_migrations VALUES ('v1_createStoredOrganization')")
-			try db.execute(sql: "INSERT INTO grdb_migrations VALUES ('v2_wipeStoredOrganization')")
-			try db.execute(sql: "INSERT INTO grdb_migrations VALUES ('v3_renameStoredOrganizationColumns')")
 		}
 
 		// When
 		try StoreDatabaseMigrations.migrate(queue)
 
-		// Then
+		// Then — table rebuilt with final schema
 		let columns = try columnNames(of: "stored_organization", in: queue)
+		#expect(columns.contains("address"))
 		#expect(columns.contains("medmijId"))
+		#expect(!columns.contains("addressLine"))
 	}
 }

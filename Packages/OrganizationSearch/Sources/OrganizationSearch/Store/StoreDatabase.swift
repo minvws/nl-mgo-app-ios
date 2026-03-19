@@ -108,7 +108,7 @@ enum StoreDatabase {
 
 		return Organization(
 			address: OrganizationAddress(
-				address: row["addressLine"],
+				address: row["address"],
 				city: row["city"],
 				geoLat: row["geoLat"],
 				geoLng: row["geoLng"],
@@ -146,7 +146,7 @@ enum StoreDatabase {
 		try db.execute(
 			sql: """
 				INSERT OR IGNORE INTO stored_organization
-					(id, addressLine, careType, city,
+					(id, address, careType, city,
 					 dataServicesJSON, medmijId, name, geoLat, geoLng,
 					 postalCode)
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)

@@ -29,7 +29,7 @@ enum DatabaseSearchResultFactory {
 
 		let org = Organization(
 			address: OrganizationAddress(
-				address: row["addressLine"],
+				address: row["address"],
 				city: row["city"],
 				geoLat: row["geoLat"],
 				geoLng: row["geoLng"],

@@ -90,7 +90,7 @@ enum DatabaseMigrations {
 	/// `DatabaseActor` appends this to the JSON hash before storing it, so a
 	/// schema change forces a full repopulate even when the bundled JSON file
 	/// itself is unchanged.
-	static let schemaVersion = "v4"
+	static let schemaVersion = "v2"
 
 	/// Creates the `organization` content table and the `organization_fts` FTS5 virtual table.
 	///
@@ -140,7 +140,7 @@ enum DatabaseMigrations {
 			tableDefinition.column("careType", .text)
 			tableDefinition.column("city", .text)
 			tableDefinition.column("postalCode", .text)
-			tableDefinition.column("addressLine", .text)
+			tableDefinition.column("address", .text)
 			tableDefinition.column("geoLat", .double)
 			tableDefinition.column("geoLng", .double)
 			tableDefinition.column("searchBlob", .text)

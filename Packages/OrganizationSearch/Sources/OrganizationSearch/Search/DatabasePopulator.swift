@@ -242,7 +242,7 @@ enum DatabasePopulator {
 			sql: """
 				INSERT INTO organization
 					(id, medmijId, name, careType,
-					 city, postalCode, addressLine, geoLat, geoLng,
+					 city, postalCode, address, geoLat, geoLng,
 					 searchBlob, dataServicesJSON, normalizedName,
 					 normalizedCity)
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
