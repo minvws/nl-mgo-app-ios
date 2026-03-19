@@ -110,7 +110,7 @@ func setupServicesSpies() -> ServicesSpies {
 	Container.shared.osVersionChecker
 		.register { OSVersionCheckerTrue() }
 	Container.shared.patientFriendyTermsRepository
-		.register { spies.patientFriendlyTermsRepositorySpy }
+		.register { @MainActor in spies.patientFriendlyTermsRepositorySpy }
 	Container.shared.remoteConfigurationRepository
 		.register { spies.remoteConfigurationRepositorySpy }
 	Container.shared.resourceRepository

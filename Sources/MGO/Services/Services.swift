@@ -59,22 +59,24 @@ extension Container {
 	/// The patient friendly terms repository
 	var patientFriendyTermsRepository: Factory<PatientFriendlyTermsRepositoryProtocol> {
 		Factory(self) {
-			do {
-				let serverUrl = try PatientFriendlyTermsServers.Server1.url()
-				if let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-				   let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String {
-					return PatientFriendlyTermsRepository(
-						client: PatientFriendlyTermsAPIClient(
-							serverUrl,
-							username: username,
-							password: password
+			MainActor.assumeIsolated {
+				do {
+					let serverUrl = try PatientFriendlyTermsServers.Server1.url()
+					if let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+					   let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String {
+						return PatientFriendlyTermsRepository(
+							client: PatientFriendlyTermsAPIClient(
+								serverUrl,
+								username: username,
+								password: password
+							)
 						)
-					)
-				} else {
-					return PatientFriendlyTermsRepository(client: PatientFriendlyTermsAPIClient(serverUrl))
+					} else {
+						return PatientFriendlyTermsRepository(client: PatientFriendlyTermsAPIClient(serverUrl))
+					}
+				} catch {
+					fatalError("No Patient Friendly Terms Server available")
 				}
-			} catch {
-				fatalError("No Patient Friendly Terms Server available")
 			}
 		}
 		.singleton

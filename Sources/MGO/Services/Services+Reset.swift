@@ -8,7 +8,7 @@ import MGOFoundation
 extension Container {
 	
 	/// Reset all the data within applicable Services
-	func wipePersistedData() {
+	@MainActor func wipePersistedData() {
 		
 		dataStore().wipePersistedData()
 		favoritesRepository().wipePersistedData()

@@ -8,6 +8,7 @@ import Testing
 import Foundation
 import FileStorage
 
+@MainActor
 class PatientFriendlyTermsRepositoryTests {
 	
 	var sut: PatientFriendlyTermsRepository!
@@ -77,45 +78,24 @@ class PatientFriendlyTermsRepositoryTests {
 	}
 	
 	@Test("searching for an existing term should return the term")
-	func searchExistingTerm() async throws {
+	func searchExistingTerm() {
 		
 		// Given
-		let terms = PatientFriendlyTerms(
-			additionalProperties:
-				[
-					"100": PatientFriendlyTerm(
-						name: "name",
-						description: "description",
-						synonym: "synonym"
-					)
-				]
-		)
-		let data = try JSONEncoder().encode(terms)
-		storage.stubbedReadResult = data
+		let term = PatientFriendlyTerm(name: "name", description: "description", synonym: "synonym")
+		sut.terms = ["100": term]
 		
 		// When
 		let result = sut.find("100")
 		
 		// Then
-		#expect(result == terms.additionalProperties["100"])
+		#expect(result == term)
 	}
 	
-	@Test("searching for an non existing term should return nil")
-	func searchNonExistingTerm() async throws {
+	@Test("searching for a non existing term should return nil")
+	func searchNonExistingTerm() {
 		
 		// Given
-		let terms = PatientFriendlyTerms(
-			additionalProperties:
-				[
-					"100": PatientFriendlyTerm(
-						name: "name",
-						description: "description",
-						synonym: "synonym"
-					)
-				]
-		)
-		let data = try JSONEncoder().encode(terms)
-		storage.stubbedReadResult = data
+		sut.terms = ["100": PatientFriendlyTerm(name: "name", description: "description", synonym: "synonym")]
 		
 		// When
 		let result = sut.find("wrong")
@@ -124,11 +104,10 @@ class PatientFriendlyTermsRepositoryTests {
 		#expect(result == nil)
 	}
 	
-	@Test("searching for an non existing term should return nil")
-	func searchNonExistingTermNoData() async throws {
+	@Test("searching when terms are empty should return nil")
+	func searchNonExistingTermNoData() {
 		
-		// Given
-		storage.stubbedReadResult = Data()
+		// Given - sut.terms is empty by default
 		
 		// When
 		let result = sut.find("wrong")

@@ -17,13 +17,17 @@ class VersionViewModel: BaseViewModel {
 		
 		let hcim: Version
 		let shared: Version
+		let eTag: String?
 	}
 	
 	@Published var state: State?
 	
 	/// Dependency Injectable Resource Repository
 	@Injected(\.resourceRepository) private var resourceRepository
-	
+
+	/// Dependency Injectable Patient Friendly Terms Repository
+	@Injected(\.patientFriendyTermsRepository) private var patientFriendyTermsRepository
+
 	@MainActor override init(coordinator: (any Coordinator)? = nil) {
 		super.init(coordinator: coordinator)
 		Task(priority: .userInitiated) { await setState() }
@@ -45,7 +49,8 @@ class VersionViewModel: BaseViewModel {
 					version: sharedVersion.version,
 					date: sharedVersion.created,
 					git: String(sharedVersion.gitRef.prefix(7))
-				)
+				),
+				eTag: patientFriendyTermsRepository.eTag
 			)
 		} catch {
 			logError("No version found: \(error)")
@@ -63,9 +68,6 @@ struct VersionView: View {
 	
 	/// Dependency injectable OS Version Checker
 	@Injected(\.osVersionChecker) private var osVersionChecker
-	
-	/// Dependency Injectable Patient Friendly Terms Repository
-	@Injected(\.patientFriendyTermsRepository) private var patientFriendyTermsRepository
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -156,7 +158,7 @@ struct VersionView: View {
 		Section {
 			row(
 				heading: "ETag",
-				value: patientFriendyTermsRepository.eTag ?? unknown
+				value: viewModel.state?.eTag ?? unknown
 			)
 		}
 	}

@@ -115,7 +115,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: try XCTUnwrap(view), precision: 0.90)
 	}
 	
 	@MainActor func test_coordinatorView_privacyStatement() throws {

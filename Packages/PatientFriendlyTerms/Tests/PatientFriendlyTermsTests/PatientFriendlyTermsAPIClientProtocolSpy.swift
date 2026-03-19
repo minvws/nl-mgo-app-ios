@@ -6,7 +6,7 @@
 @testable import PatientFriendlyTerms
 import Foundation
 
-public class PatientFriendlyTermsAPIClientProtocolSpy: PatientFriendlyTermsAPIClientProtocol {
+public final class PatientFriendlyTermsAPIClientProtocolSpy: PatientFriendlyTermsAPIClientProtocol, @unchecked Sendable {
 	
 	public required init(_ url: Foundation.URL, username: String, password: String) {
 		/* required public initizaler*/
