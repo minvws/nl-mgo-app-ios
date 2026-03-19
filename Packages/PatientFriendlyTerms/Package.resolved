@@ -1,5 +1,5 @@
 {
-  "originHash" : "b9d45e2c959998cf42d6c51e64d68255e01d7fd0f3c6cdb06fa290e75cbbd145",
+  "originHash" : "ddd7a9f449d521b33a6021f90c9a4e4889d0b60b0de116aa426de567b23c5e3b",
   "pins" : [
     {
       "identity" : "foil",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "251c7cef038641ab7a46455797b7c3cb51b99824",
         "version" : "6.1.0"
+      }
+    },
+    {
+      "identity" : "ohhttpstubs",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AliSoftware/OHHTTPStubs",
+      "state" : {
+        "revision" : "12f19662426d0434d6c330c6974d53e2eb10ecd9",
+        "version" : "9.1.0"
       }
     },
     {

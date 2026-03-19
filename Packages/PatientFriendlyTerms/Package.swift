@@ -21,7 +21,10 @@ let package = Package(
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.4"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.11.0"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.2.0"),
-		.package(url: "https://github.com/jessesquires/Foil.git", exact: "6.1.0")
+		.package(url: "https://github.com/jessesquires/Foil.git", exact: "6.1.0"),
+		
+		// Testing
+		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0")
 	],
 	targets: [
 		.target(
@@ -41,7 +44,8 @@ let package = Package(
 		.testTarget(
 			name: "PatientFriendlyTermsTests",
 			dependencies: [
-				"PatientFriendlyTerms"
+				"PatientFriendlyTerms",
+				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs")
 			]
 		),
 	]

@@ -22,7 +22,10 @@ let package = Package(
 		// External
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.4"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.11.0"),
-		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.2.0")
+		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.2.0"),
+		
+		// Testing
+		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0")
 	],
 	targets: [
 		.target(
@@ -43,7 +46,8 @@ let package = Package(
 			name: "RemoteConfigurationTests",
 			dependencies: [
 				"RemoteConfiguration",
-				.product(name: "FileStorage", package: "FileStorage")
+				.product(name: "FileStorage", package: "FileStorage"),
+				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs")
 			]
 		)
 	]

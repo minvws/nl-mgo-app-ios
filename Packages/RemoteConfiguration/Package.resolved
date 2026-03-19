@@ -1,6 +1,15 @@
 {
-  "originHash" : "835c6e92ad79821398d06cc1cc07e14100524f15bf92c2c8157c6cfb42b0ece5",
+  "originHash" : "d874374361629a0e3a25bc997fec0567445ae374d2adf02b58992573e79660cd",
   "pins" : [
+    {
+      "identity" : "ohhttpstubs",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AliSoftware/OHHTTPStubs",
+      "state" : {
+        "revision" : "12f19662426d0434d6c330c6974d53e2eb10ecd9",
+        "version" : "9.1.0"
+      }
+    },
     {
       "identity" : "openapikit",
       "kind" : "remoteSourceControl",
