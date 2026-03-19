@@ -66,12 +66,12 @@ import MGOUI
 		return SecureUserSettingsSpy()
 	}()
 	
-	var remoteConfigurationRepositorySpy: RemoteConfigurationRepositorySpy = {
+	var remoteConfigurationRepositorySpy: RemoteConfigurationRepositorySpy = MainActor.assumeIsolated {
 		let spy = RemoteConfigurationRepositorySpy()
 		spy.stubbedStoredConfiguration = RemoteConfig.fallback
 		(spy.stubbedObservatory, _) = Observatory<RemoteConfig>.create()
 		return spy
-	}()
+	}
 	
 	var resourceRepositorySpy: ResourceRepositorySpy = {
 		return ResourceRepositorySpy()
@@ -112,7 +112,7 @@ func setupServicesSpies() -> ServicesSpies {
 	Container.shared.patientFriendyTermsRepository
 		.register { @MainActor in spies.patientFriendlyTermsRepositorySpy }
 	Container.shared.remoteConfigurationRepository
-		.register { spies.remoteConfigurationRepositorySpy }
+		.register { @MainActor in spies.remoteConfigurationRepositorySpy }
 	Container.shared.resourceRepository
 		.register { spies.resourceRepositorySpy }
 	Container.shared.networkAvailabilityChecker
