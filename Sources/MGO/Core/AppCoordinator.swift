@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -106,8 +106,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// the browser to open allowed domains in
 	private var browser: RestrictedBrowser!
 	
-	/// Token for the observatory 
-	private var observerToken: Observatory.ObserverToken?
+	/// Cleanup closure for deinit — captured at setup time to avoid actor isolation in deinit
+	nonisolated(unsafe) private var removeObserver: (() -> Void)?
 	
 	/// Are we forced into update required mode?
 	private var updateRequired: Bool = false
@@ -162,18 +162,19 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	}
 	
 	@MainActor private func registerObservers() {
-		
+
 		// Listen to changes in the remote configuration
-		self.observerToken = remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
+		let observatory = remoteConfigurationRepository.observatory
+		let token = observatory.append { [weak self] remoteConfiguration in
 			Task { @MainActor in
 				self?.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
 			}
 		}
+		removeObserver = { observatory.remove(observerToken: token) }
 	}
-	
+
 	deinit {
-		// Remove as observer
-		observerToken.map(remoteConfigurationRepository.observatory.remove)
+		removeObserver?()
 	}
 	
 	@MainActor internal func handleRemoteConfigChanges(remoteConfiguration: RemoteConfig) {

@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -8,23 +8,25 @@ import FileStorage
 import Foil
 import SwiftLogging
 
-public protocol PatientFriendlyTermsRepositoryProtocol {
-	
+@MainActor
+public protocol PatientFriendlyTermsRepositoryProtocol: AnyObject, Sendable {
+
 	var eTag: String? { get set }
-	
+
 	/// Fetch the patient friendly terms
 	func fetchTerms() async
-	
+
 	/// Find a patient friendly term
 	/// - Parameter code: the SnomedCT code
 	/// - Returns: a patient friendly term for that code
 	func find(_ code: String) -> PatientFriendlyTerm?
-	
+
 	/// Remove the patient friendly terms from storage
 	func wipePersistedData()
 }
 
-public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProtocol {
+@MainActor
+public final class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProtocol {
 	
 	/// The SnomedCT system
 	public static let snomedCTSystem: String = "http://snomed.info/sct" // NOSONAR
@@ -122,10 +124,6 @@ public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProto
 	/// - Parameter code: the SnomedCT code
 	/// - Returns: a patient friendly term for that code
 	public func find(_ code: String) -> PatientFriendlyTerm? {
-		
-		if terms.isEmpty {
-			loadData()
-		}
 		
 		return terms[code]
 	}

@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -14,7 +14,7 @@ class RemoteConfigurationClientTests {
 		HTTPStubs.removeAllStubs()
 	}
 	
-	@Test
+	@Test("client should fetch and decode the remote configuration")
 	func client() async throws {
 		
 		// Given
@@ -35,7 +35,7 @@ class RemoteConfigurationClientTests {
 		#expect(remoteConfig.iosMinimumVersion == "1.2.3")
 	}
 	
-	@Test
+	@Test("client should fetch the remote configuration when basic auth credentials are provided")
 	func client_withBasicAuth() async throws {
 		
 		// Given

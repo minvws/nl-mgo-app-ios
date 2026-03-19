@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -7,7 +7,7 @@ import OpenAPIRuntime
 import OpenAPIURLSession
 import Foundation
 
-public class RemoteConfigurationClientSpy: RemoteConfigurationClientProtocol {
+public final class RemoteConfigurationClientSpy: RemoteConfigurationClientProtocol, @unchecked Sendable {
 
 	public required init(serverUrl: Foundation.URL) { /* Public initializer needed for public access */ }
 	
