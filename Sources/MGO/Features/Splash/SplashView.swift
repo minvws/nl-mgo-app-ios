@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -11,8 +11,8 @@ final class SplashViewModel: ObservableObject {
 	/// The flow coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
-	/// Token for the observatory
-	private var observerToken: Observatory.ObserverToken?
+	/// Cleanup closure for deinit — captured at setup time to avoid actor isolation in deinit
+	nonisolated(unsafe) private var removeObserver: (() -> Void)?
 	
 	// All possible states for this ViewModel
 	enum State {
@@ -62,14 +62,13 @@ final class SplashViewModel: ObservableObject {
 	}
 	
 	deinit {
-		// Remove as observer
-		observerToken.map(remoteConfigurationRepository.observatory.remove)
+		removeObserver?()
 	}
 	
 	/// Start the services fetching remote data
 	@MainActor private func startServices() {
 		
-		_Concurrency.Task(priority: .userInitiated) {
+		Task(priority: .userInitiated) {
 			await remoteConfigurationRepository.fetchAndUpdateObservers()
 			await patientFriendyTermsRepository.fetchTerms()
 			try? await organizationSearchClient
@@ -85,12 +84,14 @@ final class SplashViewModel: ObservableObject {
 	private func setupObservers() {
 		
 		// Listen to changes in the remote configuration
-		observerToken = remoteConfigurationRepository.observatory.append { [weak self] _ in
+		let observatory = remoteConfigurationRepository.observatory
+		let token = observatory.append { [weak self] _ in
 			Task { @MainActor in
 				logDebug("LaunchViewModel: config loaded")
 				self?.reduce(.loaded)
 			}
 		}
+		removeObserver = { observatory.remove(observerToken: token) }
 	}
 	
 	/// Reduce the action to the next state

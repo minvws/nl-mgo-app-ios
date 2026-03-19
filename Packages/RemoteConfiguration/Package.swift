@@ -24,8 +24,8 @@ let package = Package(
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.11.0"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.2.0"),
 		
-		// Testing:
-		.package(name: "MGOTest", path: "../MGOTest")
+		// Testing
+		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0")
 	],
 	targets: [
 		.target(
@@ -46,7 +46,8 @@ let package = Package(
 			name: "RemoteConfigurationTests",
 			dependencies: [
 				"RemoteConfiguration",
-				.product(name: "MGOTest", package: "MGOTest")
+				.product(name: "FileStorage", package: "FileStorage"),
+				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs")
 			]
 		)
 	]

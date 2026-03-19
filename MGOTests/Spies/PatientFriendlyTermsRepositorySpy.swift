@@ -5,6 +5,7 @@
 
 import MGOFoundation
 
+@MainActor
 public class PatientFriendlyTermsRepositorySpy: PatientFriendlyTermsRepositoryProtocol {
 
 	public var invokedETagSetter = false

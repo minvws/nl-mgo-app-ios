@@ -1,24 +1,17 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+import Testing
 @testable import RemoteConfiguration
 
-final class AppVersionSupplierTests: XCTestCase {
-	
-	func test_buildAndVersion() {
-		
-		// Given
+struct AppVersionSupplierTests {
+
+	@Test("build and version should not be the default placeholder values")
+	func buildAndVersion() {
 		let sut = AppVersionSupplier()
-		
-		// When
-		let version = sut.getCurrentVersion()
-		let build = sut.getCurrentBuild()
-		
-		// Then
-		expect(version) != "1.0.0"
-		expect(build) != "1"
+		#expect(sut.getCurrentVersion() != "1.0.0")
+		#expect(sut.getCurrentBuild() != "1")
 	}
 }

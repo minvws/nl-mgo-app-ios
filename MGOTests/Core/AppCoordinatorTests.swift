@@ -41,7 +41,7 @@ final class AppCoordinatorTests: XCTestCase {
 	@MainActor func test_observe_remoteConfig() throws {
 		
 		// Given
-		Container.shared.remoteConfigurationRepository.register {
+		Container.shared.remoteConfigurationRepository.register { @MainActor in
 			RemoteConfigurationRepository(
 				apiClient: RemoteConfigurationClient(
 					serverUrl: Configuration().urlForRemoteConfiguration()

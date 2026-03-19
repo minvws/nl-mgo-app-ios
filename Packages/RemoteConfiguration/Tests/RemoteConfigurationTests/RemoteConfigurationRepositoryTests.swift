@@ -1,108 +1,92 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import Testing
 @testable import RemoteConfiguration
 import FileStorage
-import MGOTest
+import Foundation
 
-final class RemoteConfigurationRepositoryTests: XCTestCase {
-	
-	private var storageSpy: FileStorageSpy!
-	private var clientSpy: RemoteConfigurationClientSpy!
-	private var sut: RemoteConfigurationRepository!
-	
-	override func setUpWithError() throws {
-		
-		try super.setUpWithError()
-		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
+@MainActor
+class RemoteConfigurationRepositoryTests {
+
+	var storageSpy: FileStorageSpy
+	var clientSpy: RemoteConfigurationClientSpy
+	var sut: RemoteConfigurationRepository
+
+	init() throws {
+
+		let serverUrl = try #require(URL(string: "https://example.com"))
 		storageSpy = FileStorageSpy()
 		clientSpy = RemoteConfigurationClientSpy(serverUrl: serverUrl)
 		sut = RemoteConfigurationRepository(storage: storageSpy, apiClient: clientSpy)
 	}
-	
-	override func tearDown() {
 
-		super.tearDown()
-		sut.wipePersistedData()
-	}
-	
+	@Test("init should set the stored configuration to the fallback")
 	func test_init() {
-		
-		// Given
-		
+
 		// When
 		let config = sut.storedConfiguration
-		
+
 		// Then
-		expect(config) == RemoteConfig.fallback
+		#expect(config == RemoteConfig.fallback)
 	}
 
+	@Test("fetchAndUpdateObservers should store the config from the API")
 	func test_fetchFromAPI() async {
-		
+
 		// Given
 		clientSpy.stubbedRemoteConfiguration = RemoteConfig(iosMinimumVersion: "fetchFromApi")
-		
+
 		// When
 		await sut.fetchAndUpdateObservers()
-		
+
 		// Then
-		await expect(self.sut.storedConfiguration)
-			.toEventually(equal(clientSpy.stubbedRemoteConfiguration))
+		#expect(sut.storedConfiguration == clientSpy.stubbedRemoteConfiguration)
 	}
-	
+
+	@Test("fetchAndUpdateObservers should fall back to storage when the API fails")
 	func test_fetchFromStorage() async throws {
-		
+
 		// Given
-		let error = NSError(
-			domain: "RemoteConfigurationRepositoryTests",
-			code: 404
-		)
-		clientSpy.stubbedError = error // Error from API
+		clientSpy.stubbedError = NSError(domain: "RemoteConfigurationRepositoryTests", code: 404)
 		let config = RemoteConfig(iosMinimumVersion: "fetchFromStorage")
-		let encoded = try JSONEncoder().encode(config)
-		storageSpy.stubbedReadResult = encoded // Config from storage
-		
+		storageSpy.stubbedReadResult = try JSONEncoder().encode(config)
+
 		// When
 		await sut.fetchAndUpdateObservers()
-		
+
 		// Then
-		await expect(self.sut.storedConfiguration)
-			.toEventually(equal(config))
+		#expect(sut.storedConfiguration == config)
 	}
-	
+
+	@Test("fetchAndUpdateObservers should fall back to storage when there is no client")
 	func test_fetchFromStorage_noClient() async throws {
-		
+
 		// Given
 		let config = RemoteConfig(iosMinimumVersion: "fetchFromStorage")
-		let encoded = try JSONEncoder().encode(config)
-		storageSpy.stubbedReadResult = encoded // Config from storage
+		storageSpy.stubbedReadResult = try JSONEncoder().encode(config)
 		sut = RemoteConfigurationRepository(storage: storageSpy, apiClient: nil)
-		
+
 		// When
 		await sut.fetchAndUpdateObservers()
-		
+
 		// Then
-		await expect(self.sut.storedConfiguration)
-			.toEventually(equal(config))
+		#expect(sut.storedConfiguration == config)
 	}
-	
+
+	@Test("fetchAndUpdateObservers should fall back to the default config when API and storage both fail")
 	func test_fetchFromFallBack() async throws {
-		
+
 		// Given
-		let error = NSError(
-			domain: "RemoteConfigurationRepositoryTests",
-			code: 404
-		)
-		clientSpy.stubbedError = error // Error from API
-		storageSpy.stubbedReadResult = Data() // No config from storage
-		
+		clientSpy.stubbedError = NSError(domain: "RemoteConfigurationRepositoryTests", code: 404)
+		storageSpy.stubbedReadResult = Data()
+
 		// When
 		await sut.fetchAndUpdateObservers()
-		
+
 		// Then
-		await expect(self.sut.storedConfiguration)
-			.toEventually(equal(RemoteConfig.fallback))
+		#expect(sut.storedConfiguration == RemoteConfig.fallback)
 	}
 }

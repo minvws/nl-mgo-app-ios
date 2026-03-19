@@ -1,12 +1,12 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
 @testable import PatientFriendlyTerms
 import Foundation
 
-public class PatientFriendlyTermsAPIClientProtocolSpy: PatientFriendlyTermsAPIClientProtocol {
+public final class PatientFriendlyTermsAPIClientProtocolSpy: PatientFriendlyTermsAPIClientProtocol, @unchecked Sendable {
 	
 	public required init(_ url: Foundation.URL, username: String, password: String) {
 		/* required public initizaler*/
