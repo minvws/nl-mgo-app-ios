@@ -10,9 +10,9 @@ struct PreviewContent {
 
 	static let healthcareOrganization = OrganizationSearch.Organization(
 		address: OrganizationSearch.OrganizationAddress(
-			address: "Boorplatform 5",
-			city: "Roermond",
-			postalCode: "1234AB"
+			"Boorplatform 5",
+			"Roermond",
+			"1234AB"
 		),
 		careType: "Tandarts",
 		id: "1",

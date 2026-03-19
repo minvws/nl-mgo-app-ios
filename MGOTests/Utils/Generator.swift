@@ -31,9 +31,9 @@ class Generator {
 	) -> OrganizationSearch.Organization {
 		return OrganizationSearch.Organization(
 			address: OrganizationSearch.OrganizationAddress(
-				address: address,
-				city: city,
-				postalCode: postalCode
+				address,
+				city,
+				postalCode
 			),
 			careType: careTypeDisplay,
 			dataServices: dataServices,
@@ -76,9 +76,9 @@ class Generator {
 
 		return OrganizationSearch.Organization(
 			address: OrganizationSearch.OrganizationAddress(
-				address: address,
-				city: city,
-				postalCode: postalCode
+				address,
+				city,
+				postalCode
 			),
 			careType: "Tandarts",
 			dataServices: dataServicesArray,

@@ -38,4 +38,16 @@ public struct OrganizationAddress: Hashable, Sendable {
 		self.geoLng = geoLng
 		self.postalCode = postalCode
 	}
+	
+	public init(
+		_ address: String? = nil,
+		_ city: String? = nil,
+		_ postalCode: String? = nil
+	) {
+		self.address = address
+		self.city = city
+		self.geoLat = nil
+		self.geoLng = nil
+		self.postalCode = postalCode
+	}
 }
