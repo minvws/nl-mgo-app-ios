@@ -36,6 +36,7 @@ enum DatabaseSearchQuery {
 		matching searchTerm: String,
 		in db: Database
 	) throws -> [Row] {
+		
 		// Pass 1: fast path — all typed words must appear (AND + prefix).
 		if let pattern = FTS5Pattern(matchingAllPrefixesIn: searchTerm) {
 			let rows = try fetchRows(matching: pattern, in: db)
@@ -56,18 +57,21 @@ enum DatabaseSearchQuery {
 	/// ordered by weighted BM25 score (best match first).
 	///
 	/// Column weights match the declaration order in `organization_fts`:
-	/// `normalizedDisplayName` (25), `normalizedCity` (5), `searchBlob` (1).
+	/// `normalizedName` (25), `normalizedCity` (5), `searchBlob` (1).
 	/// The negated BM25 value is exposed as a `score` column (higher = better match).
-	private static func fetchRows(matching pattern: FTS5Pattern, in db: Database) throws -> [Row] {
+	private static func fetchRows(
+		matching pattern: FTS5Pattern,
+		in db: Database
+	) throws -> [Row] {
+		
 		try Row.fetchAll(
 			db,
 			sql: """
-				SELECT o.*,
-					   -bm25(organization_fts, 25.0, 5.0, 1.0) AS score
+				SELECT o.*, -bm25(organization_fts, 25.0, 5.0, 1.0) AS score
 				FROM organization_fts
 				JOIN organization o ON o.rowid = organization_fts.rowid
 				WHERE organization_fts MATCH ?
-				ORDER BY bm25(organization_fts, 25.0, 5.0, 1.0)
+				ORDER BY score DESC
 				""",
 			arguments: [pattern]
 		)
@@ -83,6 +87,7 @@ enum DatabaseSearchQuery {
 		for searchTerm: String,
 		db: Database
 	) throws -> FTS5Pattern? {
+		
 		let tokens = try tokenize(searchTerm, in: db)
 		guard !tokens.isEmpty else { return nil }
 
@@ -96,7 +101,11 @@ enum DatabaseSearchQuery {
 	/// unicode61 is used rather than Porter so that the raw user input is split on
 	/// standard word boundaries before ED1 variants are generated; Porter stemming
 	/// is then applied by FTS5 when the resulting MATCH query is evaluated.
-	private static func tokenize(_ text: String, in db: Database) throws -> [String] {
+	private static func tokenize(
+		_ text: String,
+		in db: Database
+	) throws -> [String] {
+		
 		try db.makeTokenizer(.unicode61())
 			.tokenize(query: text)
 			.filter { !$0.flags.contains(.colocated) }
@@ -109,6 +118,7 @@ enum DatabaseSearchQuery {
 	/// returned as a simple prefix term (e.g. `"de*"`) to avoid the combinatorial
 	/// explosion of ED1 on short strings.
 	private static func ed1Group(for token: String) -> String {
+		
 		guard token.count >= 4 else {
 			return "\(token)*"
 		}

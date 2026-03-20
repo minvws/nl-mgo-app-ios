@@ -20,10 +20,11 @@ final class ConfirmationAlertCoverViewTests {
 			id: "org-1",
 			displayName: "Radboudumc",
 			city: "Nijmegen",
-			addressLine: "Geert Grooteplein 10",
+			address: "Geert Grooteplein 10",
 			postalCode: "6525GA",
 			dataServices: [
-				"50": OrganizationSearch.DataService(
+				OrganizationSearch.DataService(
+					id: "50",
 					authEndpoint: "test",
 					resourceEndpoint: "test",
 					tokenEndpoint: "test"

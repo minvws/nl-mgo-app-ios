@@ -14,16 +14,19 @@ public struct Organization: Decodable, Hashable, Sendable {
 	public let address: OrganizationAddress
 
 	/// A human-readable description of the type of care the organization provides.
-	public let careTypeDisplay: String?
+	public let careType: String?
 
-	/// The data services offered by this organization, keyed by data service identifier.
-	public let dataServices: [String: DataService]?
-
-	/// The display name of the organization shown in search results.
-	public let displayName: String?
+	/// The data services offered by this organization.
+	public let dataServices: [DataService]?
 
 	/// The unique identifier of the organization.
 	public let id: String
+
+	/// The MedMij identifier of the organization.
+	public let medmijId: String?
+
+	/// The display name of the organization shown in search results.
+	public let name: String?
 
 	/// A concatenated blob of searchable text used by the search index.
 	public let searchBlob: String?
@@ -31,24 +34,27 @@ public struct Organization: Decodable, Hashable, Sendable {
 	/// Creates a new `Organization`.
 	/// - Parameters:
 	///   - address: The physical location of the organization.
-	///   - careTypeDisplay: A human-readable description of the type of care provided.
-	///   - dataServices: The data services offered, keyed by data service identifier.
-	///   - displayName: The display name of the organization.
+	///   - careType: A human-readable description of the type of care provided.
+	///   - dataServices: The data services offered by this organization.
 	///   - id: The unique identifier of the organization.
+	///   - medmijId: The MedMij identifier of the organization.
+	///   - name: The display name of the organization.
 	///   - searchBlob: A concatenated blob of searchable text used by the search index.
 	public init(
 		address: OrganizationAddress = OrganizationAddress(),
-		careTypeDisplay: String? = nil,
-		dataServices: [String: DataService]? = nil,
-		displayName: String? = nil,
+		careType: String? = nil,
+		dataServices: [DataService]? = nil,
 		id: String,
+		medmijId: String? = nil,
+		name: String? = nil,
 		searchBlob: String? = nil
 	) {
 		self.address = address
-		self.careTypeDisplay = careTypeDisplay
+		self.careType = careType
 		self.dataServices = dataServices
-		self.displayName = displayName
 		self.id = id
+		self.medmijId = medmijId
+		self.name = name
 		self.searchBlob = searchBlob
 	}
 
@@ -57,23 +63,24 @@ public struct Organization: Decodable, Hashable, Sendable {
 	/// Flat JSON keys — the bundled JSON has address fields at the top level,
 	/// not nested under an `address` object.
 	private enum CodingKeys: String, CodingKey {
-		case addressLine, careTypeDisplay, city, dataServices, displayName
-		case geoLat, geoLng, id, postalCode, searchBlob
+		case address, careType, city, dataServices, id, medmijId, name
+		case geoLat, geoLng, postalCode, searchBlob
 	}
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.address = OrganizationAddress(
-			addressLine: try container.decodeIfPresent(String.self, forKey: .addressLine),
+			address: try container.decodeIfPresent(String.self, forKey: .address),
 			city: try container.decodeIfPresent(String.self, forKey: .city),
 			geoLat: try container.decodeIfPresent(Double.self, forKey: .geoLat),
 			geoLng: try container.decodeIfPresent(Double.self, forKey: .geoLng),
 			postalCode: try container.decodeIfPresent(String.self, forKey: .postalCode)
 		)
-		self.careTypeDisplay = try container.decodeIfPresent(String.self, forKey: .careTypeDisplay)
-		self.dataServices = try container.decodeIfPresent([String: DataService].self, forKey: .dataServices)
-		self.displayName = try container.decodeIfPresent(String.self, forKey: .displayName)
+		self.careType = try container.decodeIfPresent(String.self, forKey: .careType)
+		self.dataServices = try container.decodeIfPresent([DataService].self, forKey: .dataServices)
 		self.id = try container.decode(String.self, forKey: .id)
+		self.medmijId = try container.decodeIfPresent(String.self, forKey: .medmijId)
+		self.name = try container.decodeIfPresent(String.self, forKey: .name)
 		self.searchBlob = try container.decodeIfPresent(String.self, forKey: .searchBlob)
 	}
 }

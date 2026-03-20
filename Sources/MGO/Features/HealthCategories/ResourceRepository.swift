@@ -151,14 +151,14 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 			case .added:
 				if let organization {
 					// New organization, load the data
-					logVerbose("ResourceRepository observatory .added triggered for  \(organization.displayName ?? "")")
+					logVerbose("ResourceRepository observatory .added triggered for  \(organization.name ?? "")")
 					loadFor(organization)
 				}
 			
 			case .removed:
 				if let organization {
 					// Remove stored data for the removed organization
-					logVerbose("ResourceRepository observatory .removed for \(organization.displayName ?? "")")
+					logVerbose("ResourceRepository observatory .removed for \(organization.name ?? "")")
 					dataRepository?.removeRecords(for: organization.identifier)
 				}
 			
@@ -349,7 +349,7 @@ class ResourceRepository: ResourceRepositoryProtocol, @unchecked Sendable {
 						fhirVersion: dataService.fhirVersionEnum,
 						dvaTarget: dvaTarget,
 						dataServiceId: dataService.id,
-						providerId: healthcareOrganization.id
+						providerId: healthcareOrganization.medmijId
 					)
 				)
 			}

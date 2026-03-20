@@ -21,11 +21,12 @@ final class SearchOrganizationViewTests: XCTestCase {
 		id: "org-1",
 		displayName: "Test Hospital Amsterdam",
 		city: "Amsterdam",
-		addressLine: "Hoofdstraat 123",
+		address: "Hoofdstraat 123",
 		postalCode: "1012AB",
 		dataServices: [
-			"50": OrganizationSearch.DataService(
-				authEndpoint: "test",
+			OrganizationSearch.DataService(
+				id: "50",
+					authEndpoint: "test",
 				resourceEndpoint: "test",
 				tokenEndpoint: "test"
 			)
@@ -95,10 +96,11 @@ final class SearchOrganizationViewTests: XCTestCase {
 			id: "org-2",
 			displayName: "Test Clinic Rotterdam",
 			city: "Rotterdam",
-			addressLine: "Testweg 456",
+			address: "Testweg 456",
 			postalCode: "3011CD",
 			dataServices: [
-				"9999999": OrganizationSearch.DataService(
+				OrganizationSearch.DataService(
+					id: "9999999",
 					authEndpoint: "test",
 					resourceEndpoint: "test",
 					tokenEndpoint: "test"
@@ -110,10 +112,11 @@ final class SearchOrganizationViewTests: XCTestCase {
 			id: "org-3",
 			displayName: "Test Medical Center Utrecht",
 			city: "Utrecht",
-			addressLine: "Testlaan 789",
+			address: "Testlaan 789",
 			postalCode: "3511EF",
 			dataServices: [
-				"50": OrganizationSearch.DataService(
+				OrganizationSearch.DataService(
+					id: "50",
 					authEndpoint: "test",
 					resourceEndpoint: "test",
 					tokenEndpoint: "test"

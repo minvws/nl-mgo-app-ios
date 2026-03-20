@@ -176,7 +176,8 @@ final class SearchOrganizationViewModelTests {
 		// Given
 		let organization = Generator.searchOrganization(
 			dataServices: [
-				"50": OrganizationSearch.DataService(
+				OrganizationSearch.DataService(
+					id: "50",
 					authEndpoint: "test",
 					resourceEndpoint: "test",
 					tokenEndpoint: "test"
@@ -276,7 +277,8 @@ final class SearchOrganizationViewModelTests {
 		let organization = Generator.searchOrganization(
 			id: "org-select",
 			dataServices: [
-				"50": OrganizationSearch.DataService(
+				OrganizationSearch.DataService(
+					id: "50",
 					authEndpoint: "test",
 					resourceEndpoint: "test",
 					tokenEndpoint: "test"
@@ -298,7 +300,8 @@ final class SearchOrganizationViewModelTests {
 		let organization = Generator.searchOrganization(
 			id: "org-store",
 			dataServices: [
-				"50": OrganizationSearch.DataService(
+				OrganizationSearch.DataService(
+					id: "50",
 					authEndpoint: "test",
 					resourceEndpoint: "test",
 					tokenEndpoint: "test"
