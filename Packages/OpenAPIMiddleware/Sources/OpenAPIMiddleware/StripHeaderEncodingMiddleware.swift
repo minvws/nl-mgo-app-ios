@@ -9,9 +9,13 @@ import HTTPTypes
 
 public struct StripHeaderEncodingMiddleware: ClientMiddleware {
 	
+	public init(strippableHeaders: [HTTPField.Name] = []) {
+		self.strippableHeaders = strippableHeaders
+	}
+	
 	/// All the headers where the encoding should be stripped.
 	var strippableHeaders: [HTTPField.Name] = []
-	
+
 	/// Intercepts an outgoing HTTP request and an incoming HTTP response.
 	/// - Parameters:
 	///   - request: An HTTP request.
@@ -28,7 +32,7 @@ public struct StripHeaderEncodingMiddleware: ClientMiddleware {
 		operationID: String,
 		next: @Sendable (HTTPRequest, HTTPBody?, URL) async throws -> (HTTPResponse, HTTPBody?)
 	) async throws -> (HTTPResponse, HTTPBody?) {
-		
+
 		var modifiedRequest = request
 		modifiedRequest.headerFields = HTTPFields(
 			request.headerFields.map { field in

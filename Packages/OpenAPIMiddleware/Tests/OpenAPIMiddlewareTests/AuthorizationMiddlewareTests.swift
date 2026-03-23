@@ -3,45 +3,48 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@testable import OpenAPIMiddleware
-import MGOTest
 import HTTPTypes
+import Foundation
+@testable import OpenAPIMiddleware
+import Testing
 
-final class AuthorizationMiddlewareTests: XCTestCase, @unchecked Sendable {
+class AuthorizationMiddlewareTests {
 
-	var actualAuth: String? = ""
-
+	@Test("Basic authentication should set the correct Authorization header")
 	func test_basicAuthentication() async throws {
-		
+
 		// Given
 		let middleware = AuthorizationMiddleware(username: "test", password: "test")
-		let url = try XCTUnwrap( URL(string: "https://example.com") )
-		let request = HTTPRequest(method: HTTPRequest.Method.get, scheme: nil, authority: nil, path: nil)
-		
+		let url = try #require(URL(string: "https://example.com"))
+		let request = HTTPRequest(method: .get, scheme: nil, authority: nil, path: nil)
+		nonisolated(unsafe) var capturedValue: String?
+
 		// When
 		_ = try await middleware.intercept(request, body: nil, baseURL: url, operationID: "test") { req, _, _ in
-			actualAuth = req.headerFields[.authorization]
+			capturedValue = req.headerFields[.authorization]
 			return (HTTPResponse(status: 200), nil)
 		}
-		
+
 		// Then
-		await expect(self.actualAuth).toEventually(equal("Basic dGVzdDp0ZXN0"))
+		#expect(capturedValue == "Basic dGVzdDp0ZXN0")
 	}
-	
+
+	@Test("Bearer authentication should set the correct Authorization header")
 	func test_bearerAuthentication() async throws {
-		
+
 		// Given
 		let middleware = AuthorizationMiddleware(token: "test")
-		let url = try XCTUnwrap( URL(string: "https://example.com") )
-		let request = HTTPRequest(method: HTTPRequest.Method.get, scheme: nil, authority: nil, path: nil)
-		
+		let url = try #require(URL(string: "https://example.com"))
+		let request = HTTPRequest(method: .get, scheme: nil, authority: nil, path: nil)
+		nonisolated(unsafe) var capturedValue: String?
+
 		// When
 		_ = try await middleware.intercept(request, body: nil, baseURL: url, operationID: "test") { req, _, _ in
-			actualAuth = req.headerFields[.authorization]
+			capturedValue = req.headerFields[.authorization]
 			return (HTTPResponse(status: 200), nil)
 		}
-		
+
 		// Then
-		await expect(self.actualAuth).toEventually(equal("Bearer test"))
+		#expect(capturedValue == "Bearer test")
 	}
 }

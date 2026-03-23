@@ -17,9 +17,6 @@ let package = Package(
 		// External
 		.package(url: "https://github.com/apple/swift-http-types", exact: "1.5.1"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.11.0"),
-
-		// Testing:
-		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		// Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -35,7 +32,6 @@ let package = Package(
 			name: "OpenAPIMiddlewareTests",
 			dependencies: [
 				"OpenAPIMiddleware",
-				.product(name: "MGOTest", package: "MGOTest")
 			]
 		),
 	]
