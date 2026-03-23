@@ -18,7 +18,7 @@ let package = Package(
 		.package(name: "RijksoverheidFont", path: "../RijksoverheidFont"),
 		
 		// External
-		.package(url: "https://github.com/siteline/SwiftUI-Introspect", exact: "26.0.0"),
+		.package(url: "https://github.com/siteline/SwiftUI-Introspect", exact: "26.0.1"),
 		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
