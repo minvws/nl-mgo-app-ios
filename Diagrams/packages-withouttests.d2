@@ -110,10 +110,6 @@ MGOapp <- UIKit
 
 # - Packages -
 
-AuthorizationMiddleware { style.fill: "#ffcc00" }
-AuthorizationMiddleware <- swift-openapi-runtime
-AuthorizationMiddleware <- swift-http-types
-
 FeatureFlag { style.fill: "#ffcc00" }
 
 FHIRClient { style.fill: "#ffcc00" }
@@ -169,6 +165,10 @@ NotificationCenter <- UIKit
 
 Observatory { style.fill: "#ffcc00" }
 
+OpenAPIMiddleware { style.fill: "#ffcc00" }
+OpenAPIMiddleware <- swift-openapi-runtime
+OpenAPIMiddleware <- swift-http-types
+
 OrganizationSearch { style.fill: "#ffcc00" }
 OrganizationSearch <- CryptoKit
 OrganizationSearch <- GRDB
@@ -178,7 +178,7 @@ OrganizationSearch <- Observatory
 OSVersion { style.fill: "#ffcc00" }
 
 PatientFriendlyTerms { style.fill: "#ffcc00" }
-PatientFriendlyTerms <- AuthorizationMiddleware
+PatientFriendlyTerms <- OpenAPIMiddleware
 PatientFriendlyTerms <- FileStorage
 PatientFriendlyTerms <- Foil
 PatientFriendlyTerms <- MGODebug
@@ -190,7 +190,7 @@ PdfExport { style.fill: "#ffcc00" }
 PdfExport <- PDFKit
 
 RemoteAuthentication { style.fill: "#ffcc00" }
-RemoteAuthentication <- AuthorizationMiddleware
+RemoteAuthentication <- OpenAPIMiddleware
 RemoteAuthentication <- MGODebug
 RemoteAuthentication <- swift-openapi-generator
 RemoteAuthentication <- swift-openapi-runtime

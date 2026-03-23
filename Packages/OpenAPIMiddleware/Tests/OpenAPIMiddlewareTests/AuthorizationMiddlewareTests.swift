@@ -3,7 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@testable import AuthorizationMiddleware
+@testable import OpenAPIMiddleware
 import MGOTest
 import HTTPTypes
 

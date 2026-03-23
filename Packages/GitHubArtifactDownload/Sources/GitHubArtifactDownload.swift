@@ -8,7 +8,7 @@ import GitHubRestAPIActions
 import OpenAPIRuntime
 import OpenAPIURLSession
 import Foundation
-import AuthorizationMiddleware
+import OpenAPIMiddleware
 
 @main
 struct GitHubArtifactDownload: AsyncParsableCommand {

@@ -6,14 +6,12 @@ name: MGO
 # - Packages:
 
 packages:
-  AuthorizationMiddleware:
-    path: ./Packages/AuthorizationMiddleware
   CopyImport:
     path: ./Packages/CopyImport
-  FHIRClient:
-    path: ./Packages/FHIRClient
   FeatureFlag:
     path: ./Packages/FeatureFlag
+  FHIRClient:
+    path: ./Packages/FHIRClient
   FileStorage:
     path: ./Packages/FileStorage
   GitHubArtifactDownload:
@@ -40,6 +38,8 @@ packages:
     path: ./Packages/NotificationCenter
   Observatory:
     path: ./Packages/Observatory
+  OpenAPIMiddleware:
+    path: ./Packages/OpenAPIMiddleware
   OrganizationSearch:
     path: ./Packages/OrganizationSearch
   OSVersion:
@@ -403,16 +403,16 @@ schemes:
     test:
       gatherCoverageData: true
       targets:
-        - package: AuthorizationMiddleware/AuthorizationMiddlewareTests
+        - package: FeatureFlag/FeatureFlagTests
           randomExecutionOrder: true
           parallelizable: false
         - package: FHIRClient/FHIRClientTests
           randomExecutionOrder: true
           parallelizable: false
-        - package: FeatureFlag/FeatureFlagTests
+        - package: FileStorage/FileStorageTests
           randomExecutionOrder: true
           parallelizable: false
-        - package: FileStorage/FileStorageTests
+        - package: HCIMCore/HCIMCoreTests
           randomExecutionOrder: true
           parallelizable: false
         - package: JailBreakDetector/JailBreakDetectorTests
@@ -425,6 +425,9 @@ schemes:
           parallelizable: false
           randomExecutionOrder: true
         - package: Observatory/ObservatoryTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: OpenAPIMiddleware/OpenAPIMiddlewareTests
           randomExecutionOrder: true
           parallelizable: false
         - package: OrganizationSearch/OrganizationSearchTests
@@ -454,16 +457,13 @@ schemes:
         - package: RijksoverheidFont/RijksoverheidFontTests
           randomExecutionOrder: true
           parallelizable: false
-        - package: Theme/ThemeTests
-          randomExecutionOrder: true
-          parallelizable: false
         - package: Sanitizer/SanitizerTests
           randomExecutionOrder: true
           parallelizable: false
         - package: SecureUserSettings/SecureUserSettingsTests
           randomExecutionOrder: true
           parallelizable: false
-        - package: HCIMCore/HCIMCoreTests
+        - package: Theme/ThemeTests
           randomExecutionOrder: true
           parallelizable: false
 

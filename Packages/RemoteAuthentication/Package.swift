@@ -15,7 +15,7 @@ let package = Package(
 	dependencies: [
 		
 		// Internal
-		.package(name: "AuthorizationMiddleware", path: "../AuthorizationMiddleware"),
+		.package(name: "OpenAPIMiddleware", path: "../OpenAPIMiddleware"),
 		.package(name: "MGODebug", path: "../MGODebug"),
 		
 		// External
@@ -32,7 +32,7 @@ let package = Package(
 		.target(
 			name: "RemoteAuthentication",
 			dependencies: [
-				.product(name: "AuthorizationMiddleware", package: "AuthorizationMiddleware"),
+				.product(name: "OpenAPIMiddleware", package: "OpenAPIMiddleware"),
 				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")

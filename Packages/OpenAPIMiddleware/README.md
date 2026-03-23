@@ -1,4 +1,4 @@
-# AuthorizationMiddleware
+# OpenAPIMiddleware
 
 ## Overview
 
@@ -9,7 +9,7 @@ This package provides a helper for basic authorization for an API client generat
 The authorization middleware can be used in the initializer of the API Client like:
 
 ```swift
-import AuthorizationMiddleware
+import OpenAPIMiddleware
 import OpenAPIRuntime
 import OpenAPIURLSession
 

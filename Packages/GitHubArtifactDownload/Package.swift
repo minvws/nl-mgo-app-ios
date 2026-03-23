@@ -11,7 +11,7 @@ let package = Package(
 	dependencies: [
 		
 		// Internal
-		.package(name: "AuthorizationMiddleware", path: "../AuthorizationMiddleware"),
+		.package(name: "OpenAPIMiddleware", path: "../OpenAPIMiddleware"),
 		.package(name: "MGOCommandLine", path: "../MGOCommandLine"),
 		
 		// External
@@ -21,7 +21,7 @@ let package = Package(
 		.executableTarget(
 			name: "GithubArtifactDownload",
 			dependencies: [
-				.product(name: "AuthorizationMiddleware", package: "AuthorizationMiddleware"),
+				.product(name: "OpenAPIMiddleware", package: "OpenAPIMiddleware"),
 				.product(name: "MGOCommandLine", package: "MGOCommandLine"),
 				.product(name: "GitHubRestAPIActions", package: "github-rest-api-swift-openapi")
 			],

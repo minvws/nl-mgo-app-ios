@@ -14,7 +14,7 @@ let package = Package(
 	],
 	dependencies: [
 		// Internal
-		.package(name: "AuthorizationMiddleware", path: "../AuthorizationMiddleware"),
+		.package(name: "OpenAPIMiddleware", path: "../OpenAPIMiddleware"),
 		.package(name: "FileStorage", path: "../FileStorage"),
 		.package(name: "MGODebug", path: "../MGODebug"),
 		.package(name: "Observatory", path: "../Observatory"),
@@ -31,7 +31,7 @@ let package = Package(
 		.target(
 			name: "RemoteConfiguration",
 			dependencies: [
-				.product(name: "AuthorizationMiddleware", package: "AuthorizationMiddleware"),
+				.product(name: "OpenAPIMiddleware", package: "OpenAPIMiddleware"),
 				.product(name: "FileStorage", package: "FileStorage"),
 				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "Observatory", package: "Observatory"),

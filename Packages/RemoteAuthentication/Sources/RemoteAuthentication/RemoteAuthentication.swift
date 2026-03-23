@@ -3,7 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import AuthorizationMiddleware
+import OpenAPIMiddleware
 import OpenAPIRuntime
 import OpenAPIURLSession
 import Foundation

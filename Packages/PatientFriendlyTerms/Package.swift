@@ -13,7 +13,7 @@ let package = Package(
 	],
 	dependencies: [
 		// Internal
-		.package(name: "AuthorizationMiddleware", path: "../AuthorizationMiddleware"),
+		.package(name: "OpenAPIMiddleware", path: "../OpenAPIMiddleware"),
 		.package(name: "FileStorage", path: "../FileStorage"),
 		.package(name: "MGODebug", path: "../MGODebug"),
 		
@@ -30,7 +30,7 @@ let package = Package(
 		.target(
 			name: "PatientFriendlyTerms",
 			dependencies: [
-				.product(name: "AuthorizationMiddleware", package: "AuthorizationMiddleware"),
+				.product(name: "OpenAPIMiddleware", package: "OpenAPIMiddleware"),
 				.product(name: "FileStorage", package: "FileStorage"),
 				.product(name: "Foil", package: "Foil"),
 				.product(name: "MGODebug", package: "MGODebug"),
