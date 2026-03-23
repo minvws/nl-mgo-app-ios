@@ -13,10 +13,11 @@ let package = Package(
 			targets: ["OpenAPIMiddleware"]),
 	],
 	dependencies: [
+		// Internal
+		.package(name: "OpenAPICore", path: "../OpenAPICore"),
 
 		// External
 		.package(url: "https://github.com/apple/swift-http-types", exact: "1.5.1"),
-		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.11.0"),
 	],
 	targets: [
 		// Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -24,8 +25,8 @@ let package = Package(
 		.target(
 			name: "OpenAPIMiddleware",
 			dependencies: [
+				.product(name: "OpenAPICore", package: "OpenAPICore"),
 				.product(name: "HTTPTypes", package: "swift-http-types"),
-				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 			],
 			),
 		.testTarget(

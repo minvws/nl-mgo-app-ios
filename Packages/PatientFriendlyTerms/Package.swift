@@ -13,14 +13,13 @@ let package = Package(
 	],
 	dependencies: [
 		// Internal
+		.package(name: "OpenAPICore", path: "../OpenAPICore"),
 		.package(name: "OpenAPIMiddleware", path: "../OpenAPIMiddleware"),
 		.package(name: "FileStorage", path: "../FileStorage"),
 		.package(name: "MGODebug", path: "../MGODebug"),
-		
+
 		// External
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.4"),
-		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.11.0"),
-		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.2.0"),
 		.package(url: "https://github.com/jessesquires/Foil.git", exact: "6.1.0"),
 		
 		// Testing
@@ -30,12 +29,11 @@ let package = Package(
 		.target(
 			name: "PatientFriendlyTerms",
 			dependencies: [
+				.product(name: "OpenAPICore", package: "OpenAPICore"),
 				.product(name: "OpenAPIMiddleware", package: "OpenAPIMiddleware"),
 				.product(name: "FileStorage", package: "FileStorage"),
 				.product(name: "Foil", package: "Foil"),
-				.product(name: "MGODebug", package: "MGODebug"),
-				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
-				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")
+				.product(name: "MGODebug", package: "MGODebug")
 			],
 			plugins: [
 				.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")

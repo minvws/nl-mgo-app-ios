@@ -165,8 +165,12 @@ NotificationCenter <- UIKit
 
 Observatory { style.fill: "#ffcc00" }
 
+OpenAPICore { style.fill: "#ffcc00" }
+OpenAPICore <- swift-openapi-runtime
+OpenAPICore <- swift-openapi-urlsession
+
 OpenAPIMiddleware { style.fill: "#ffcc00" }
-OpenAPIMiddleware <- swift-openapi-runtime
+OpenAPIMiddleware <- OpenAPICore
 OpenAPIMiddleware <- swift-http-types
 
 OrganizationSearch { style.fill: "#ffcc00" }
@@ -178,31 +182,28 @@ OrganizationSearch <- Observatory
 OSVersion { style.fill: "#ffcc00" }
 
 PatientFriendlyTerms { style.fill: "#ffcc00" }
+PatientFriendlyTerms <- OpenAPICore
 PatientFriendlyTerms <- OpenAPIMiddleware
 PatientFriendlyTerms <- FileStorage
 PatientFriendlyTerms <- Foil
 PatientFriendlyTerms <- MGODebug
 PatientFriendlyTerms <- swift-openapi-generator
-PatientFriendlyTerms <- swift-openapi-runtime
-PatientFriendlyTerms <- swift-openapi-urlsession
 
 PdfExport { style.fill: "#ffcc00" }
 PdfExport <- PDFKit
 
 RemoteAuthentication { style.fill: "#ffcc00" }
+RemoteAuthentication <- OpenAPICore
 RemoteAuthentication <- OpenAPIMiddleware
 RemoteAuthentication <- MGODebug
 RemoteAuthentication <- swift-openapi-generator
-RemoteAuthentication <- swift-openapi-runtime
-RemoteAuthentication <- swift-openapi-urlsession
 
 RemoteConfiguration { style.fill: "#ffcc00" }
+RemoteConfiguration <- OpenAPICore
 RemoteConfiguration <- FileStorage
 RemoteConfiguration <- MGODebug
 RemoteConfiguration <- Observatory
 RemoteConfiguration <- swift-openapi-generator
-RemoteConfiguration <- swift-openapi-runtime
-RemoteConfiguration <- swift-openapi-urlsession
 
 RestrictedBrowser { style.fill: "#ffcc00" }
 RestrictedBrowser <- SwiftUI

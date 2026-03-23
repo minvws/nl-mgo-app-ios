@@ -59,6 +59,7 @@ The majority of our (third-party) dependencies are included as Swift Packages. H
 * [NetworkAvailability](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/NetworkAvailability/README.md): helper to check whether a network connection is available.
 * [NotificationCenter](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/NotificationCenter/README.md): helper protocol for the Notification Center.
 * [Observatory](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/Observatory/README.md): helper class to facilitate subscription to changes.
+* [OpenAPICore](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/OpenAPICore/README.md): convenience package that re-exports OpenAPIRuntime and OpenAPIURLSession for easy import.
 * [OpenAPIMiddleware](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/OpenAPIMiddleware/README.md): Basic Authentication Middleware for the open-api generator.
 * [OrganizationSearch](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/OrganizationSearch/README.md): native search for healthcare organizations.
 * [OSVersion](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/OSVersion/README.md): helper class to determine which OS version we are running (testable).

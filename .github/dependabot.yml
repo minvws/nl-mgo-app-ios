@@ -138,6 +138,14 @@ updates:
       timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
+    directory: "/Packages/OpenAPICore"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
     directory: "/Packages/OpenAPIMiddleware"
     schedule:
       interval: weekly

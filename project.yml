@@ -38,6 +38,8 @@ packages:
     path: ./Packages/NotificationCenter
   Observatory:
     path: ./Packages/Observatory
+  OpenAPICore:
+    path: ./Packages/OpenAPICore
   OpenAPIMiddleware:
     path: ./Packages/OpenAPIMiddleware
   OrganizationSearch:

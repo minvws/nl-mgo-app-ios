@@ -3,9 +3,8 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import OpenAPICore
 import OpenAPIMiddleware
-import OpenAPIRuntime
-import OpenAPIURLSession
 import Foundation
 import SwiftLogging
 

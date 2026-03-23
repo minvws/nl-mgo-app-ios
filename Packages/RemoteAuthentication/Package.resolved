@@ -1,15 +1,6 @@
 {
-  "originHash" : "7d12142d08c803b5c509f439eda9681e9c914fd22575624f5dc29f9d3bcec1ae",
+  "originHash" : "4b0e25128f6bcaa510064eb47a40c722ac4af6ddba70fc62d50f8a3b41deb3ee",
   "pins" : [
-    {
-      "identity" : "appauth-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Rool/AppAuth-iOS",
-      "state" : {
-        "branch" : "feature/custom-url-support",
-        "revision" : "bbb95f33b4169a57039d59a9cc0cf90e61c51035"
-      }
-    },
     {
       "identity" : "cwlcatchexception",
       "kind" : "remoteSourceControl",
@@ -38,15 +29,6 @@
       }
     },
     {
-      "identity" : "nl-rdo-app-ios-modules",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/minvws/nl-rdo-app-ios-modules",
-      "state" : {
-        "branch" : "main",
-        "revision" : "798921058cdf099fac1d9a024249ce6d13e1ad30"
-      }
-    },
-    {
       "identity" : "ohhttpstubs",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/AliSoftware/OHHTTPStubs",
@@ -62,15 +44,6 @@
       "state" : {
         "revision" : "343b2c1793058fcc53c1bd7e2907f8e3a4d640fb",
         "version" : "3.9.0"
-      }
-    },
-    {
-      "identity" : "openssl",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/krzyzanowskim/OpenSSL",
-      "state" : {
-        "revision" : "623c84da314e85363236507ca38a4bde65df21c3",
-        "version" : "3.3.3001"
       }
     },
     {
@@ -159,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
       "state" : {
-        "revision" : "bf8d8c27f0f0c6d5e77bff0db76ab68f2050d15d",
-        "version" : "1.18.9"
+        "revision" : "05b6f05b55ff9e2dcdcc21ac78c6ba81ea624791",
+        "version" : "1.19.1"
       }
     },
     {
@@ -170,6 +143,15 @@
       "state" : {
         "revision" : "f99ae8aa18f0cf0d53481901f88a0991dc3bd4a2",
         "version" : "601.0.1"
+      }
+    },
+    {
+      "identity" : "swiftlogging",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RoolProductions/SwiftLogging",
+      "state" : {
+        "branch" : "main",
+        "revision" : "d22b24f7af692452d0136780b040c84f034cc12d"
       }
     },
     {
