@@ -21,10 +21,16 @@ let package = Package(
 		.package(name: "Observatory", path: "../Observatory"),
 
 		// External
-		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.4"),
+		.package(
+			url: "https://github.com/apple/swift-openapi-generator",
+			exact: "1.11.1"
+		),
 		
 		// Testing
-		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0")
+		.package(
+			url: "https://github.com/AliSoftware/OHHTTPStubs",
+			exact: "9.1.0"
+		)
 	],
 	targets: [
 		.target(
