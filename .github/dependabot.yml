@@ -144,6 +144,10 @@ updates:
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
+    groups:
+      swift-openapi:
+        patterns:
+          - "swift-openapi-*"
 
   - package-ecosystem: "swift"
     directory: "/Packages/OpenAPIMiddleware"
