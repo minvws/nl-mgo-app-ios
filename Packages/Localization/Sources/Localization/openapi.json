@@ -1,0 +1,101 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Organization Dataset API",
+    "version": "0.0.1",
+    "description": "API for downloading organization and endpoint datasets.",
+    "license": {
+      "name": "EUPL-1.2",
+      "url": "https://eupl.eu/1.2/en/"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://lo-ad.test.mgo.irealisatie.nl"
+    }
+  ],
+  "paths": {
+    "/static/search/organizations.json": {
+      "get": {
+        "summary": "Retrieve the organizations dataset",
+        "operationId": "getOrganizations",
+        "parameters": [
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Organisations JSON",
+            "headers": {
+              "ETag": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified"
+          }
+        }
+      }
+    },
+    "/static/search/endpoints.json": {
+      "get": {
+        "summary": "Retrieve the endpoints dataset",
+        "operationId": "getEndpoints",
+        "parameters": [
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Endpoints JSON",
+            "headers": {
+              "ETag": {
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified"
+          }
+        }
+      }
+    }
+  }
+}

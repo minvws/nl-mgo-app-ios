@@ -1,0 +1,15 @@
+{
+  "originHash" : "f4b363c65099b06bef6d2df5dcb9cd23601c122e503164f8f7fe71f0bd226818",
+  "pins" : [
+    {
+      "identity" : "swiftlogging",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RoolProductions/SwiftLogging",
+      "state" : {
+        "branch" : "main",
+        "revision" : "d22b24f7af692452d0136780b040c84f034cc12d"
+      }
+    }
+  ],
+  "version" : 3
+}

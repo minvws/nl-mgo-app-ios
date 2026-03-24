@@ -51,6 +51,7 @@ The majority of our (third-party) dependencies are included as Swift Packages. H
 * [GitHubArtifactDownload](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/GitHubArtifactDownload/README.md): script to assist with downloading the latest artifact for the Shared Core and Shared configurations
 * [HCIMCore](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/HCIMCore/README.md): the shared javascript library to parse FHIR data into Health and Care Information Models.
 * [JailBreakDetector](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/JailBreakDetector/README.md): helper to detect jail broken devices.
+* [Localization](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/Localization/README.md): open-api generated client to download localization datasets (organizations and endpoints).
 * [MGOCommandLine](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOCommandLine/README.md): convenience package that exposes Figlet and Swift Argument Parser for easy import in command-line tools.
 * [MGODebug](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGODebug/README.md): debug package providing logging (via SwiftLogging) and memory usage utilities.
 * [MGOFoundation](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/MGOFoundation/README.md): convenience package that re-exports FHIRClient, MGORepository, FileStorage, JailBreakDetector, NotificationCenter, Observatory, RemoteConfiguration and SecureUserSettings for easy import in the app.
