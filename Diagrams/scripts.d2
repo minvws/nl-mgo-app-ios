@@ -13,6 +13,10 @@ swift-openapi-runtime: {
   shape: oval
   style.fill: "#8FCAE7"
 }
+swift-openapi-urlsession: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 swift-http-types: {
   shape: oval
   style.fill: "#8FCAE7"
@@ -45,6 +49,10 @@ MGOCommandLine { style.fill: "#ffcc00" }
 MGOCommandLine <- example-package-figlet
 MGOCommandLine <- swift-argument-parser
 
+OpenAPICore { style.fill: "#ffcc00" }
+OpenAPICore <- swift-openapi-runtime
+OpenAPICore <- swift-openapi-urlsession
+
 OpenAPIMiddleware { style.fill: "#ffcc00" }
-OpenAPIMiddleware <- swift-openapi-runtime
+OpenAPIMiddleware <- OpenAPICore
 OpenAPIMiddleware <- swift-http-types
