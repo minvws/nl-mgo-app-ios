@@ -52,7 +52,23 @@ extension Container {
 	
 	/// The organization Search client
 	var organizationSearchClient: Factory<OrganizationSearchClientProtocol> {
-		Factory(self) { OrganizationSearchClient() }
+		Factory(self) {
+			MainActor.assumeIsolated {
+				let serverUrl = Configuration().urlForLocalization()
+				let apiClient: any LocalizationAPIClientProtocol
+				if let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+				   let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String {
+					apiClient = LocalizationAPIClient(serverUrl, username: username, password: password)
+				} else {
+					apiClient = LocalizationAPIClient(serverUrl)
+				}
+				let downloader = OrganizationDatasetDownloader(
+					apiClient: apiClient,
+					fileStorage: FileStorage(subDirectory: "localization")
+				)
+				return OrganizationSearchClient(downloader: downloader)
+			}
+		}
 		.singleton
 	}
 	

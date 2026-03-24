@@ -3,19 +3,20 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-/// Identifies which bundled organization JSON file to load into the search database.
+/// Identifies which organization dataset to load into the search database.
 public enum OrganizationDataset: Sendable {
-	
-	/// The remote filtered organization dataset (`organizations-remote.json`).
+
+	/// The remote organization dataset, fetched from the remote API.
 	case remote
-	
+
 	/// A small dataset intended for use in tests (`organizations-test.json`).
 	case test
-	
+
 	/// A dataset used for benchmark measurements (`organizations-benchmark.json`).
 	case benchmark
-	
-	/// The resource name (without extension) of the JSON file for this dataset.
+
+	/// The base name used for the on-disk SQLite file and (for bundle-backed datasets)
+	/// the bundled JSON resource name (without extension).
 	var resourceName: String {
 		switch self {
 			case .remote: return "organizations-remote"
@@ -32,4 +33,7 @@ public enum OrganizationDataset: Sendable {
 			case .benchmark: return "endpoints-benchmark"
 		}
 	}
+
+	/// Whether this dataset must be fetched from the remote API rather than the bundle.
+	var requiresAPIDownload: Bool { self == .remote }
 }

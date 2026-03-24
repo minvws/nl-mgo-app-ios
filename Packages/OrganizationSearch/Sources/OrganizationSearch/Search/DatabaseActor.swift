@@ -19,18 +19,23 @@ import MGODebug
 ///
 /// ## Lifecycle
 /// Call `prepare(dataset:)` once to open the database, build the schema, and
-/// populate it from the chosen bundled JSON. The pool is made available for
-/// concurrent reads as soon as the schema is ready, so `search(_:)` can be
-/// called while the background insert is still running.
+/// populate it from the chosen bundled JSON or remote API. The pool is made
+/// available for concurrent reads as soon as the schema is ready, so `search(_:)`
+/// can be called while the background insert is still running.
 actor DatabaseActor {
 
 	/// The live database pool, `nil` until `prepare(dataset:)` has completed schema setup.
 	var database: DatabasePool?
 
 	private let clock: any MeasurableClock
+	private let downloader: OrganizationDatasetDownloader?
 
-	init(clock: (any MeasurableClock)? = nil) {
+	init(
+		clock: (any MeasurableClock)? = nil,
+		downloader: OrganizationDatasetDownloader? = nil
+	) {
 		self.clock = clock ?? makeMeasurableClock()
+		self.downloader = downloader
 	}
 
 	// MARK: - Search
@@ -51,11 +56,11 @@ actor DatabaseActor {
 	///   not yet been called; GRDB or decoding errors if the query or row
 	///   decoding fails.
 	func search(_ searchTerm: String) async throws -> SearchResults {
-		
+
 		guard let dbPool = database else {
 			throw OrganizationSearchError.notPrepared
 		}
-		
+
 		let searchStart = clock.now()
 		let result = try await dbPool.read { db in
 			let rows = try DatabaseSearchQuery.fetch(matching: searchTerm, in: db)
@@ -82,11 +87,14 @@ actor DatabaseActor {
 
 	// MARK: - Prepare
 
-	/// Opens the on-disk SQLite database and populates it from the bundled JSON
-	/// resource, **unless the stored hash shows the data is already current**.
+	/// Opens the on-disk SQLite database and populates it from the bundled JSON or
+	/// remote API, **unless the stored content key shows the data is already current**.
 	///
-	/// The effective hash is `SHA-256(json) + ":" + schemaVersion`, so both a
-	/// JSON change and a schema/normalization change trigger a full rebuild.
+	/// For bundle-backed datasets the content key is `SHA-256(org) + ":" +
+	/// SHA-256(endpoints) + ":" + schemaVersion`. For API-downloaded datasets it is
+	/// `orgETag + ":" + endpointsETag + ":" + schemaVersion`, so a server-side data
+	/// change (reflected by a new ETag) triggers a full rebuild without re-hashing
+	/// the payload.
 	///
 	/// The pool is exposed for concurrent reads before the insert phase begins,
 	/// so `search(_:)` calls during population return partial results rather
@@ -96,33 +104,115 @@ actor DatabaseActor {
 	/// - Returns: The number of organizations inserted, or `0` when the database
 	///   was already up to date and population was skipped.
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the bundled
-	///   JSON is missing; GRDB errors if the database cannot be opened or written
-	///   to; decoding errors if the JSON is malformed.
+	///   JSON is missing; `OrganizationSearchError.dataUnavailable` if the API
+	///   is unreachable and no cached copy exists; GRDB errors if the database
+	///   cannot be opened or written to.
 	func prepare(dataset: OrganizationDataset) async throws -> Int {
-		
+		if dataset.requiresAPIDownload {
+			return try await prepareFromAPI(dataset: dataset)
+		} else {
+			return try await prepareFromBundle(dataset: dataset)
+		}
+	}
+
+	// MARK: - Private prepare variants
+
+	/// Prepare path for API-downloaded datasets.
+	///
+	/// The server drives freshness via ETags: 304 means nothing changed, 200 means
+	/// repopulate. No local hash check is needed.
+	private func prepareFromAPI(dataset: OrganizationDataset) async throws -> Int {
+
 		let dbPool = try DatabaseSetup.openDatabase(for: dataset)
 		try await DatabaseMigrations.ensureMetadataTable(in: dbPool)
 
-		let jsonData = try DatabasePopulator.loadJSONData(
-			for: dataset
+		let prepareStart = clock.now()
+		async let organizationsFetch = DatabasePopulator.loadOrganizationsData(
+			for: dataset,
+			downloader: downloader,
+			db: dbPool
 		)
-		let endpointsData = try DatabasePopulator.loadEndpointsData(
-			for: dataset
+		async let endpointsFetch = DatabasePopulator.loadEndpointsData(
+			for: dataset,
+			downloader: downloader,
+			db: dbPool
 		)
-		let currentHash = effectiveHash(
-			of: jsonData,
+		let (organizationsData, endpointsData) = try await (organizationsFetch, endpointsFetch)
+		logDebug("DatabaseActor prepareFromAPI fetch: \(clock.elapsed(since: prepareStart))")
+
+		// Both 304 — nothing changed, database is already current.
+		if organizationsData == nil && endpointsData == nil {
+			self.database = dbPool
+			return 0
+		}
+
+		// Both 200 — repopulate. Build content key from the ETags the downloader wrote.
+		let orgETag = try await DatabaseMigrations.readETag(
+			key: DatabaseMigrations.organizationsETagKey,
+			in: dbPool
+		)
+		let epETag = try await DatabaseMigrations.readETag(
+			key: DatabaseMigrations.endpointsETagKey,
+			in: dbPool
+		)
+		let contentKey = "\(orgETag ?? ""):\(epETag ?? ""):\(DatabaseMigrations.schemaVersion)"
+
+		guard let orgData = organizationsData, let epData = endpointsData else {
+			// Mixed 304/200 — one dataset changed, one didn't. Both datasets are needed to
+			// repopulate, but the server publishes them together so this shouldn't occur.
+			logWarning("DatabaseActor: partial dataset update (mixed 304/200), keeping existing database")
+			self.database = dbPool
+			return 0
+		}
+
+		let count = try await repopulate(with: orgData, endpointsData: epData, hash: contentKey, in: dbPool)
+		downloader?.cleanUp()
+		return count
+	}
+
+	/// Prepare path for bundle-backed datasets.
+	///
+	/// Freshness is determined locally by comparing a SHA-256 hash of both JSON files
+	/// against the stored content key.
+	private func prepareFromBundle(dataset: OrganizationDataset) async throws -> Int {
+
+		let dbPool = try DatabaseSetup.openDatabase(for: dataset)
+		try await DatabaseMigrations.ensureMetadataTable(in: dbPool)
+
+		let prepareStart = clock.now()
+		async let organizationsFetch = DatabasePopulator.loadOrganizationsData(
+			for: dataset,
+			downloader: nil,
+			db: dbPool
+		)
+		async let endpointsFetch = DatabasePopulator.loadEndpointsData(
+			for: dataset,
+			downloader: nil,
+			db: dbPool
+		)
+		let (organizationsData, endpointsData) = try await (organizationsFetch, endpointsFetch)
+		logDebug("DatabaseActor prepareFromBundle fetch: \(clock.elapsed(since: prepareStart))")
+
+		guard let organizationsData, let endpointsData else {
+			// Bundle resources always return Data or throw — nil is unreachable here.
+			logError("DatabaseActor: unexpected nil data from bundle")
+			throw OrganizationSearchError.dataUnavailable
+		}
+
+		let contentKey = effectiveHash(
+			of: organizationsData,
 			endpointsData: endpointsData
 		)
 
-		guard try await requiresRepopulation(hash: currentHash, in: dbPool) else {
+		guard try await requiresRepopulation(hash: contentKey, in: dbPool) else {
 			self.database = dbPool
 			return 0
 		}
 
 		return try await repopulate(
-			with: jsonData,
+			with: organizationsData,
 			endpointsData: endpointsData,
-			hash: currentHash,
+			hash: contentKey,
 			in: dbPool
 		)
 	}
@@ -135,7 +225,7 @@ actor DatabaseActor {
 		of jsonData: Data,
 		endpointsData: Data
 	) -> String {
-		
+
 		let start = clock.now()
 		let hash = DatabasePopulator.computeHash(of: jsonData)
 			+ ":" + DatabasePopulator.computeHash(of: endpointsData)
@@ -150,8 +240,8 @@ actor DatabaseActor {
 		hash: String,
 		in dbPool: DatabasePool
 	) async throws -> Bool {
-		
-		let storedHash = try await DatabaseMigrations.readContentKey(in: dbPool)
+
+		let storedHash = try await DatabaseMigrations.readHash(in: dbPool)
 		if storedHash == hash {
 			logDebug("DatabaseActor: dataset up to date, skipping populate")
 			return false
@@ -170,7 +260,7 @@ actor DatabaseActor {
 		hash: String,
 		in dbPool: DatabasePool
 	) async throws -> Int {
-		
+
 		let schemaStart = clock.now()
 		try await DatabaseMigrations.clearSchema(in: dbPool)
 		try await DatabaseMigrations.createSchema(in: dbPool)
@@ -189,7 +279,7 @@ actor DatabaseActor {
 		try await DatabasePopulator.insert(organizations, into: dbPool)
 		logDebug("DatabaseActor insert: \(clock.elapsed(since: insertStart)) for \(organizations.count) organizations")
 
-		try await DatabaseMigrations.writeContentKey(hash, in: dbPool)
+		try await DatabaseMigrations.writeHash(hash, in: dbPool)
 		return organizations.count
 	}
 }

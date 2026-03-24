@@ -14,6 +14,8 @@ let package = Package(
 	],
 	dependencies: [
 		// Internal
+		.package(name: "FileStorage", path: "../FileStorage"),
+		.package(name: "Localization", path: "../Localization"),
 		.package(name: "MGODebug", path: "../MGODebug"),
 		.package(name: "Observatory", path: "../Observatory"),
 		// External
@@ -23,6 +25,8 @@ let package = Package(
 		.target(
 			name: "OrganizationSearch",
 			dependencies: [
+				.product(name: "FileStorage", package: "FileStorage"),
+				.product(name: "Localization", package: "Localization"),
 				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "GRDB", package: "GRDB.swift")

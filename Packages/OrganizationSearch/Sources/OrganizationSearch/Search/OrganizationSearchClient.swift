@@ -7,17 +7,25 @@ import MGODebug
 
 /// GRDB-backed implementation of healthcare organization search.
 ///
-/// Loads organization data from a bundled JSON file into an on-disk SQLite
-/// database with FTS5 full-text search on `prepare()`.
+/// Loads organization data from a bundled JSON file or remote API into an
+/// on-disk SQLite database with FTS5 full-text search on `prepare()`.
 ///
 /// All database operations are delegated to `DatabaseActor`, keeping
 /// database I/O off the main thread and ensuring thread-safe access to the
 /// shared `DatabasePool`.
 public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchecked Sendable {
-	
-	private let dbActor = DatabaseActor()
-	
-	required public init() { /* Required by protocol, no-op */ }
+
+	private let dbActor: DatabaseActor
+
+	required public init() {
+		dbActor = DatabaseActor()
+	}
+
+	/// Creates a client that uses a downloader for remote datasets.
+	/// - Parameter downloader: The downloader used when `dataset.requiresAPIDownload` is `true`.
+	public init(downloader: OrganizationDatasetDownloader) {
+		dbActor = DatabaseActor(downloader: downloader)
+	}
 	
 	/// Prepares the search database on a background actor.
 	///

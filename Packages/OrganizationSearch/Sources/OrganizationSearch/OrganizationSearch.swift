@@ -3,6 +3,8 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+@_exported import Localization
+
 /// Protocol defining the interface for searching healthcare organizations.
 ///
 /// Conforming types provide functionality to search through healthcare organization data,
@@ -55,4 +57,7 @@ public enum OrganizationSearchError: Error, Sendable {
 
 	/// A search was attempted before `prepare(dataset:)` was called.
 	case notPrepared
+
+	/// The dataset could not be fetched from the API and no cached copy exists.
+	case dataUnavailable
 }

@@ -20,17 +20,26 @@ enum DatabasePopulator {
 
 	// MARK: - Loading
 
-	/// Returns the memory-mapped raw JSON data for the given dataset.
+	/// Returns organizations JSON data for the given dataset.
 	///
-	/// The file is opened with `.mappedIfSafe` so the OS pages bytes in on demand
-	/// rather than copying the full file into RAM.
+	/// Routes to the downloader when `dataset.requiresAPIDownload` is `true` and a
+	/// downloader is provided; otherwise loads the bundled resource file.
 	///
-	/// - Parameter dataset: Identifies which JSON resource file to load.
-	/// - Returns: Memory-mapped `Data` of the bundled JSON file.
-	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the JSON file is
-	///   absent from the module bundle; file I/O errors if the file cannot be opened.
-	static func loadJSONData(for dataset: OrganizationDataset) throws -> Data {
-		
+	/// - Parameters:
+	///   - dataset: Identifies the dataset to load.
+	///   - downloader: The API downloader, or `nil` for bundle-only use.
+	///   - db: The database pool used by the downloader to read/write ETags.
+	/// - Returns: Raw JSON data for the organizations dataset.
+	static func loadOrganizationsData(
+		for dataset: OrganizationDataset,
+		downloader: OrganizationDatasetDownloader?,
+		db: DatabasePool
+	) async throws -> Data? {
+
+		if dataset.requiresAPIDownload, let downloader {
+			return try await downloader.fetchOrganizationsData(db: db)
+		}
+
 		guard let jsonURL = Bundle.module.url(
 			forResource: dataset.resourceName,
 			withExtension: "json"
@@ -41,14 +50,26 @@ enum DatabasePopulator {
 		return try Data(contentsOf: jsonURL, options: .mappedIfSafe)
 	}
 
-	/// Returns the raw JSON data for the endpoint lookup table for the given dataset.
+	/// Returns endpoints JSON data for the given dataset.
 	///
-	/// - Parameter dataset: Identifies which endpoints JSON resource file to load.
-	/// - Returns: Memory-mapped `Data` of the bundled endpoints JSON file.
-	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the endpoints JSON file is
-	///   absent from the module bundle; file I/O errors if the file cannot be opened.
-	static func loadEndpointsData(for dataset: OrganizationDataset) throws -> Data {
-		
+	/// Routes to the downloader when `dataset.requiresAPIDownload` is `true` and a
+	/// downloader is provided; otherwise loads the bundled resource file.
+	///
+	/// - Parameters:
+	///   - dataset: Identifies the dataset to load.
+	///   - downloader: The API downloader, or `nil` for bundle-only use.
+	///   - db: The database pool used by the downloader to read/write ETags.
+	/// - Returns: Raw JSON data for the endpoints dataset.
+	static func loadEndpointsData(
+		for dataset: OrganizationDataset,
+		downloader: OrganizationDatasetDownloader?,
+		db: DatabasePool
+	) async throws -> Data? {
+
+		if dataset.requiresAPIDownload, let downloader {
+			return try await downloader.fetchEndpointsData(db: db)
+		}
+
 		guard let jsonURL = Bundle.module.url(
 			forResource: dataset.endpointsResourceName,
 			withExtension: "json"
