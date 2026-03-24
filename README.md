@@ -44,7 +44,6 @@ There are a number of Swift Packages in `Packages/`, which the app target depend
 
 The majority of our (third-party) dependencies are included as Swift Packages. Here is an overview of what dependencies are used and why.
 
-* [AuthorizationMiddleware](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/AuthorizationMiddleware/README.md): Basic Authentication Middleware for the open-api generator.
 * [CopyImport](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/CopyImport/README.md): script to assist with importing copy.
 * [FeatureFlag](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/FeatureFlag/README.md): some of the features of the application are locked behind a feature flag. This package controls those flags.
 * [FHIRClient](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/FHIRClient/README.md): the client for all API calls to fetch the FHIR data.
@@ -60,6 +59,8 @@ The majority of our (third-party) dependencies are included as Swift Packages. H
 * [NetworkAvailability](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/NetworkAvailability/README.md): helper to check whether a network connection is available.
 * [NotificationCenter](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/NotificationCenter/README.md): helper protocol for the Notification Center.
 * [Observatory](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/Observatory/README.md): helper class to facilitate subscription to changes.
+* [OpenAPICore](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/OpenAPICore/README.md): convenience package that re-exports OpenAPIRuntime and OpenAPIURLSession for easy import.
+* [OpenAPIMiddleware](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/OpenAPIMiddleware/README.md): Basic Authentication Middleware for the open-api generator.
 * [OrganizationSearch](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/OrganizationSearch/README.md): native search for healthcare organizations.
 * [OSVersion](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/OSVersion/README.md): helper class to determine which OS version we are running (testable).
 * [Patient Friendly Terms](https://github.com/minvws/nl-mgo-app-ios/tree/main/Packages/PatientFriendlyTerms/README.md): open-api generated class to help download the latest Patient Friendly Terms.

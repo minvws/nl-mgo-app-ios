@@ -15,13 +15,12 @@ let package = Package(
 	dependencies: [
 		
 		// Internal
-		.package(name: "AuthorizationMiddleware", path: "../AuthorizationMiddleware"),
+		.package(name: "OpenAPICore", path: "../OpenAPICore"),
+		.package(name: "OpenAPIMiddleware", path: "../OpenAPIMiddleware"),
 		.package(name: "MGODebug", path: "../MGODebug"),
-		
+
 		// External
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.4"),
-		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.11.0"),
-		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.2.0"),
 		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
@@ -32,10 +31,9 @@ let package = Package(
 		.target(
 			name: "RemoteAuthentication",
 			dependencies: [
-				.product(name: "AuthorizationMiddleware", package: "AuthorizationMiddleware"),
-				.product(name: "MGODebug", package: "MGODebug"),
-				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
-				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")
+				.product(name: "OpenAPICore", package: "OpenAPICore"),
+				.product(name: "OpenAPIMiddleware", package: "OpenAPIMiddleware"),
+				.product(name: "MGODebug", package: "MGODebug")
 			],
 			plugins: [
 				.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")
