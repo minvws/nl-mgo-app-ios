@@ -11,7 +11,12 @@
   },
   "servers": [
     {
-      "url": "https://lo-ad.test.mgo.irealisatie.nl"
+      "url": "https://lo-ad.test.mgo.irealisatie.nl",
+      "description": "Test"
+    },
+    {
+      "url": "https://lo-ad.acc.mgo.irealisatie.nl",
+      "description": "Acceptance"
     }
   ],
   "paths": {

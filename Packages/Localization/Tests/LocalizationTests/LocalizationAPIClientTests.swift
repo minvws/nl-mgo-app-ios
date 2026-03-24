@@ -31,7 +31,7 @@ class LocalizationAPIClientTests {
 				]
 			)
 		}
-		let serverURL = try LocalizationServers.Server.testUrl()
+		let serverURL = try LocalizationServers.testUrl()
 		let sut = LocalizationAPIClient(serverURL)
 
 		// When
@@ -58,7 +58,7 @@ class LocalizationAPIClientTests {
 				]
 			)
 		}
-		let serverURL = try LocalizationServers.Server.testUrl()
+		let serverURL = try LocalizationServers.testUrl()
 		let sut = LocalizationAPIClient(
 			serverURL,
 			username: "user",
@@ -81,7 +81,7 @@ class LocalizationAPIClientTests {
 		stub(condition: isPath("/static/search/organizations.json")) { _ in
 			HTTPStubsResponse(data: Data(), statusCode: 304, headers: nil)
 		}
-		let serverURL = try LocalizationServers.Server.testUrl()
+		let serverURL = try LocalizationServers.testUrl()
 		let sut = LocalizationAPIClient(serverURL)
 
 		// When
@@ -100,7 +100,7 @@ class LocalizationAPIClientTests {
 		stub(condition: isPath("/static/search/organizations.json")) { _ in
 			HTTPStubsResponse(data: Data(), statusCode: 500, headers: nil)
 		}
-		let serverURL = try LocalizationServers.Server.testUrl()
+		let serverURL = try LocalizationServers.testUrl()
 		let sut = LocalizationAPIClient(serverURL)
 
 		// Then
@@ -132,7 +132,7 @@ class LocalizationAPIClientTests {
 				]
 			)
 		}
-		let serverURL = try LocalizationServers.Server.testUrl()
+		let serverURL = try LocalizationServers.testUrl()
 		let sut = LocalizationAPIClient(serverURL)
 
 		// When
@@ -152,7 +152,7 @@ class LocalizationAPIClientTests {
 		stub(condition: isPath("/static/search/endpoints.json")) { _ in
 			HTTPStubsResponse(data: Data(), statusCode: 304, headers: nil)
 		}
-		let serverURL = try LocalizationServers.Server.testUrl()
+		let serverURL = try LocalizationServers.testUrl()
 		let sut = LocalizationAPIClient(serverURL)
 
 		// When
@@ -171,7 +171,7 @@ class LocalizationAPIClientTests {
 		stub(condition: isPath("/static/search/endpoints.json")) { _ in
 			HTTPStubsResponse(data: Data(), statusCode: 429, headers: nil)
 		}
-		let serverURL = try LocalizationServers.Server.testUrl()
+		let serverURL = try LocalizationServers.testUrl()
 		let sut = LocalizationAPIClient(serverURL)
 
 		// Then

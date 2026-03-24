@@ -24,15 +24,36 @@ public class Configuration {
 
 extension Configuration {
 	
+	/// Get the url for the localization (organization dataset) server
+	/// - Returns: url of the localization server
+	func urlForLocalization() -> URL {
+		urlForLocalization(for: getRelease())
+	}
+
+	func urlForLocalization(for release: Release) -> URL {
+		do {
+			switch release {
+				case .acceptance, .production: return try LocalizationServers.acceptanceUrl()
+				case .development, .test: return try LocalizationServers.testUrl()
+			}
+		} catch {
+			logError("Configuration: error creating localization url", error)
+		}
+		fatalError("Configuration: No url for the localization service")
+	}
+
 	/// Get the url for the remote config server
 	/// - Returns: url of the remote config server
 	func urlForRemoteConfiguration() -> URL {
+		urlForRemoteConfiguration(for: getRelease())
+	}
+
+	func urlForRemoteConfiguration(for release: Release) -> URL {
 		do {
-			switch getRelease() {
+			switch release {
 				case .acceptance, .production: return try RemoteConfiguration.Servers.Server2.url()
 				case .development, .test: return try RemoteConfiguration.Servers.Server1.url()
 			}
-			
 		} catch {
 			logError("Configuration: error creating remote config url", error)
 		}
@@ -45,18 +66,21 @@ extension Configuration {
 	/// Get the url for the dvp server
 	/// - Returns: url of the dvp server
 	func urlForDVP() -> URL {
-		
+		urlForDVP(for: getRelease())
+	}
+
+	func urlForDVP(for release: Release) -> URL {
 		let urlString: String = {
-			switch getRelease() {
+			switch release {
 				case .production, .acceptance: return "https://dvp-proxy.acc.mgo.irealisatie.nl/fhir"
 				case .development, .test: return "https://dvp-proxy.test.mgo.irealisatie.nl/fhir"
 			}
 		}()
-		
+
 		guard let url = Foundation.URL(string: urlString) else {
 			fatalError("Configuration: No url for the dvp server")
 		}
-		
+
 		return url
 	}
 }
@@ -66,19 +90,22 @@ extension Configuration {
 	/// Get the url for the oidc server
 	/// - Returns: url of the oidc server
 	func urlForOIDC() -> URL {
-		
+		urlForOIDC(for: getRelease())
+	}
+
+	func urlForOIDC(for release: Release) -> URL {
 		let urlString: String = {
-			switch getRelease() {
+			switch release {
 				case .production, .acceptance: return "https://dvp-proxy.acc.mgo.irealisatie.nl"
 				case .development, .test: return "https://dvp-proxy.test.mgo.irealisatie.nl"
 //				case .development: return "http://localhost:8801"
 			}
 		}()
-		
+
 		guard let url = Foundation.URL(string: urlString) else {
 			fatalError("Configuration: No url for the oidc server")
 		}
-		
+
 		return url
 	}
 	
