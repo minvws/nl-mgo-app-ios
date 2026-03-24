@@ -73,7 +73,7 @@ final class SplashViewModel: ObservableObject {
 			await patientFriendyTermsRepository.fetchTerms()
 			try? await organizationSearchClient
 				.prepare(
-					dataset: LaunchArgumentsHandler.useTestProviders() ? .test : .medmij
+					dataset: LaunchArgumentsHandler.useTestProviders() ? .test : .remote
 				)
 		}
 		resourceRepository.load()

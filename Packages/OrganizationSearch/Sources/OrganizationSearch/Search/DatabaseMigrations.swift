@@ -36,27 +36,27 @@ enum DatabaseMigrations {
 		}
 	}
 
-	/// Returns the effective hash stored under `"json_hash"`, or `nil` if absent.
+	/// Returns the effective content key stored under `"content_key"`, or `nil` if absent.
 	///
 	/// - Parameter dbPool: The database to query.
 	/// - Throws: GRDB errors if the read fails.
-	static func readHash(in dbPool: DatabasePool) async throws -> String? {
+	static func readContentKey(in dbPool: DatabasePool) async throws -> String? {
 		try await dbPool.read { db in
-			try String.fetchOne(db, sql: "SELECT value FROM metadata WHERE key = 'json_hash'")
+			try String.fetchOne(db, sql: "SELECT value FROM metadata WHERE key = 'content_key'")
 		}
 	}
 
-	/// Upserts the effective hash under `"json_hash"` in the metadata table.
+	/// Upserts the effective content key under `"content_key"` in the metadata table.
 	///
 	/// - Parameters:
 	///   - hash: The hash to store (SHA-256 of JSON + schema version suffix).
 	///   - dbQueue: The database to update.
 	/// - Throws: GRDB errors if the write fails.
-	static func writeHash(_ hash: String, in dbQueue: any DatabaseWriter) async throws {
+	static func writeContentKey(_ newKey: String, in dbQueue: any DatabaseWriter) async throws {
 		try await dbQueue.write { db in
 			try db.execute(
-				sql: "INSERT OR REPLACE INTO metadata (key, value) VALUES ('json_hash', ?)",
-				arguments: [hash]
+				sql: "INSERT OR REPLACE INTO metadata (key, value) VALUES ('content_key', ?)",
+				arguments: [newKey]
 			)
 		}
 	}

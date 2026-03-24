@@ -138,6 +138,6 @@ final class SplashViewModelTests {
 		#expect(servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers == true)
 		#expect(servicesSpies.patientFriendlyTermsRepositorySpy.invokedFetchTerms == true)
 		#expect(servicesSpies.searchOrganizationClientSpy.invokedPrepare == true)
-		#expect(servicesSpies.searchOrganizationClientSpy.invokedPrepareParameters?.dataset == .medmij)
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedPrepareParameters?.dataset == .remote)
 	}
 }
