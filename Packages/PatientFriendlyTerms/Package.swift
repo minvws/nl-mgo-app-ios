@@ -19,11 +19,20 @@ let package = Package(
 		.package(name: "MGODebug", path: "../MGODebug"),
 
 		// External
-		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.4"),
-		.package(url: "https://github.com/jessesquires/Foil.git", exact: "6.1.0"),
+		.package(
+			url: "https://github.com/apple/swift-openapi-generator",
+			exact: "1.11.1"
+		),
+		.package(
+			url: "https://github.com/jessesquires/Foil.git",
+			exact: "6.1.0"
+		),
 		
 		// Testing
-		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0")
+		.package(
+			url: "https://github.com/AliSoftware/OHHTTPStubs",
+			exact: "9.1.0"
+		)
 	],
 	targets: [
 		.target(

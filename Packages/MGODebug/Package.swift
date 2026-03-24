@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "MGODebug",
-	platforms: [.iOS(.v15)],
+	platforms: [.macOS(.v10_15), .iOS(.v15)],
 	products: [
 		.library(
 			name: "MGODebug",

@@ -66,6 +66,14 @@ updates:
 # No dependency check for JailBreakDetector due to licensing issue
 
   - package-ecosystem: "swift"
+    directory: "/Packages/Localization"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
     directory: "/Packages/MGOCommandLine"
     schedule:
       interval: weekly
@@ -144,6 +152,10 @@ updates:
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
+    groups:
+      swift-openapi:
+        patterns:
+          - "swift-openapi-*"
 
   - package-ecosystem: "swift"
     directory: "/Packages/OpenAPIMiddleware"

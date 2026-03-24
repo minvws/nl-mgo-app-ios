@@ -151,7 +151,7 @@ actor DatabaseActor {
 		in dbPool: DatabasePool
 	) async throws -> Bool {
 		
-		let storedHash = try await DatabaseMigrations.readHash(in: dbPool)
+		let storedHash = try await DatabaseMigrations.readContentKey(in: dbPool)
 		if storedHash == hash {
 			logDebug("DatabaseActor: dataset up to date, skipping populate")
 			return false
@@ -189,7 +189,7 @@ actor DatabaseActor {
 		try await DatabasePopulator.insert(organizations, into: dbPool)
 		logDebug("DatabaseActor insert: \(clock.elapsed(since: insertStart)) for \(organizations.count) organizations")
 
-		try await DatabaseMigrations.writeHash(hash, in: dbPool)
+		try await DatabaseMigrations.writeContentKey(hash, in: dbPool)
 		return organizations.count
 	}
 }

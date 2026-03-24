@@ -17,7 +17,7 @@ The package bundles several JSON organization datasets selected via `Organizatio
 
 | Case | File | Purpose |
 |---|---|---|
-| `.medmij` | `organizations-medmij.json` | MedMij-filtered subset |
+| `.remote` | `organizations-remote.json` | Remote dataset |
 | `.test` | `organizations-test.json` | Small fixture for unit tests |
 | `.benchmark` | `organizations-benchmark.json` | Benchmark measurements |
 
