@@ -36,7 +36,8 @@ let package = Package(
 		.testTarget(
 			name: "OrganizationSearchTests",
 			dependencies: [
-				"OrganizationSearch"
+				"OrganizationSearch",
+				.product(name: "FileStorage", package: "FileStorage")
 			],
 			resources: [.process("Resources")]
 		)

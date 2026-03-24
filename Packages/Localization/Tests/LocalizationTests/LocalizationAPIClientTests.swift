@@ -10,6 +10,10 @@ import OHHTTPStubsSwift
 
 class LocalizationAPIClientTests {
 
+	private let organizationsPath = "/static/search/temp-organizations.json"
+	private let endpointsPath = "/static/search/temp-endpoints.json"
+	private var serverURL: URL? { try? LocalizationServers.testUrl() }
+
 	deinit {
 		HTTPStubs.removeAllStubs()
 	}
@@ -21,7 +25,7 @@ class LocalizationAPIClientTests {
 
 		// Given
 		let jsonData = Data("[]".utf8)
-		stub(condition: isPath("/static/search/organizations.json")) { _ in
+		stub(condition: isPath(organizationsPath)) { _ in
 			HTTPStubsResponse(
 				data: jsonData,
 				statusCode: 200,
@@ -31,8 +35,7 @@ class LocalizationAPIClientTests {
 				]
 			)
 		}
-		let serverURL = try LocalizationServers.testUrl()
-		let sut = LocalizationAPIClient(serverURL)
+		let sut = LocalizationAPIClient(try #require(serverURL))
 
 		// When
 		let result = try await sut.fetch(.organizations, eTag: nil)
@@ -48,7 +51,7 @@ class LocalizationAPIClientTests {
 
 		// Given
 		let jsonData = Data("[]".utf8)
-		stub(condition: isPath("/static/search/organizations.json")) { _ in
+		stub(condition: isPath(organizationsPath)) { _ in
 			HTTPStubsResponse(
 				data: jsonData,
 				statusCode: 200,
@@ -58,9 +61,8 @@ class LocalizationAPIClientTests {
 				]
 			)
 		}
-		let serverURL = try LocalizationServers.testUrl()
 		let sut = LocalizationAPIClient(
-			serverURL,
+			try #require(serverURL),
 			username: "user",
 			password: "pass"
 		)
@@ -78,11 +80,10 @@ class LocalizationAPIClientTests {
 
 		// Given
 		let eTag = "\"abc123\""
-		stub(condition: isPath("/static/search/organizations.json")) { _ in
+		stub(condition: isPath(organizationsPath)) { _ in
 			HTTPStubsResponse(data: Data(), statusCode: 304, headers: nil)
 		}
-		let serverURL = try LocalizationServers.testUrl()
-		let sut = LocalizationAPIClient(serverURL)
+		let sut = LocalizationAPIClient(try #require(serverURL))
 
 		// When
 		let result = try await sut.fetch(.organizations, eTag: eTag)
@@ -97,11 +98,10 @@ class LocalizationAPIClientTests {
 	func getOrganizations_undocumented_response() async throws {
 
 		// Given
-		stub(condition: isPath("/static/search/organizations.json")) { _ in
+		stub(condition: isPath(organizationsPath)) { _ in
 			HTTPStubsResponse(data: Data(), statusCode: 500, headers: nil)
 		}
-		let serverURL = try LocalizationServers.testUrl()
-		let sut = LocalizationAPIClient(serverURL)
+		let sut = LocalizationAPIClient(try #require(serverURL))
 
 		// Then
 		await #expect {
@@ -122,7 +122,7 @@ class LocalizationAPIClientTests {
 		// Note: avoid URLs in stub values — NSJSONSerialization escapes forward slashes
 		// by default, which causes byte-level inequality even though the JSON is semantically equal.
 		let jsonData = Data("{\"key\":\"value\"}".utf8)
-		stub(condition: isPath("/static/search/endpoints.json")) { _ in
+		stub(condition: isPath(endpointsPath)) { _ in
 			HTTPStubsResponse(
 				data: jsonData,
 				statusCode: 200,
@@ -132,8 +132,7 @@ class LocalizationAPIClientTests {
 				]
 			)
 		}
-		let serverURL = try LocalizationServers.testUrl()
-		let sut = LocalizationAPIClient(serverURL)
+		let sut = LocalizationAPIClient(try #require(serverURL))
 
 		// When
 		let result = try await sut.fetch(.endpoints, eTag: nil)
@@ -149,11 +148,10 @@ class LocalizationAPIClientTests {
 
 		// Given
 		let eTag = "\"ep123\""
-		stub(condition: isPath("/static/search/endpoints.json")) { _ in
+		stub(condition: isPath(endpointsPath)) { _ in
 			HTTPStubsResponse(data: Data(), statusCode: 304, headers: nil)
 		}
-		let serverURL = try LocalizationServers.testUrl()
-		let sut = LocalizationAPIClient(serverURL)
+		let sut = LocalizationAPIClient(try #require(serverURL))
 
 		// When
 		let result = try await sut.fetch(.endpoints, eTag: eTag)
@@ -168,11 +166,10 @@ class LocalizationAPIClientTests {
 	func getEndpoints_undocumented_response() async throws {
 
 		// Given
-		stub(condition: isPath("/static/search/endpoints.json")) { _ in
+		stub(condition: isPath(endpointsPath)) { _ in
 			HTTPStubsResponse(data: Data(), statusCode: 429, headers: nil)
 		}
-		let serverURL = try LocalizationServers.testUrl()
-		let sut = LocalizationAPIClient(serverURL)
+		let sut = LocalizationAPIClient(try #require(serverURL))
 
 		// Then
 		await #expect {
