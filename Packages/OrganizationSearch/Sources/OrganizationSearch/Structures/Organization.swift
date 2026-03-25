@@ -28,8 +28,9 @@ public struct Organization: Decodable, Hashable, Sendable {
 	/// The display name of the organization shown in search results.
 	public let name: String?
 
-	/// A concatenated blob of searchable text used by the search index.
-	public let searchBlob: String?
+	/// A concatenated blob of searchable text used by the FTS5 search index.
+	/// Internal — consumers of `Organization` have no use for this field.
+	let searchBlob: String?
 
 	/// Creates a new `Organization`.
 	/// - Parameters:
@@ -39,15 +40,35 @@ public struct Organization: Decodable, Hashable, Sendable {
 	///   - id: The unique identifier of the organization.
 	///   - medmijId: The MedMij identifier of the organization.
 	///   - name: The display name of the organization.
-	///   - searchBlob: A concatenated blob of searchable text used by the search index.
 	public init(
 		address: OrganizationAddress = OrganizationAddress(),
 		careType: String? = nil,
 		dataServices: [DataService]? = nil,
 		id: String,
 		medmijId: String? = nil,
+		name: String? = nil
+	) {
+		self.address = address
+		self.careType = careType
+		self.dataServices = dataServices
+		self.id = id
+		self.medmijId = medmijId
+		self.name = name
+		self.searchBlob = nil
+	}
+
+	/// Creates a new `Organization` with a search index blob.
+	///
+	/// For internal use by the search index pipeline and tests. The `searchBlob`
+	/// parameter has no default value to prevent ambiguity with the public initializer.
+	init(
+		address: OrganizationAddress = OrganizationAddress(),
+		careType: String? = nil,
+		dataServices: [DataService]? = nil,
+		id: String,
+		medmijId: String? = nil,
 		name: String? = nil,
-		searchBlob: String? = nil
+		searchBlob: String?
 	) {
 		self.address = address
 		self.careType = careType
