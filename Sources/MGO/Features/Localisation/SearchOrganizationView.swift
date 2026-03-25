@@ -58,6 +58,8 @@ class SearchOrganizationViewModel: ObservableObject {
 	
 	/// All actions this view model can handle.
 	enum Action {
+		/// Prepare the organization search database.
+		case prepare
 		/// Dismiss the sheet that contains this view.
 		case closeSheet
 		/// Resign the keyboard / end text editing.
@@ -88,7 +90,7 @@ class SearchOrganizationViewModel: ObservableObject {
 	/// - Parameters:
 	///   - coordinator: the flow coordinator used for navigation/routing.
 	///   - firstVisitor: `true` when the user has not yet added any organization (onboarding flow).
-	@MainActor init(coordinator: (any Coordinator)?, firstVisitor: Bool) {
+	init(coordinator: (any Coordinator)?, firstVisitor: Bool) {
 		self.coordinator = coordinator
 		self.state = SearchOrganizationViewState(
 			heading: firstVisitor ? "search_organization.onboarding.heading" : "search_organization.heading",
@@ -101,9 +103,12 @@ class SearchOrganizationViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	@MainActor func reduce(_ action: SearchOrganizationViewModel.Action) {
-		
+	func reduce(_ action: SearchOrganizationViewModel.Action) {
+
 		switch action {
+
+			case .prepare:
+				prepare()
 
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
@@ -136,7 +141,7 @@ class SearchOrganizationViewModel: ObservableObject {
 	
 	/// Debounces and executes a search query, updating state when results arrive.
 	/// - Parameter searchTerm: the raw text typed by the user; results are cleared when `nil` or too short.
-	@MainActor private func search(_ searchTerm: String?) {
+	private func search(_ searchTerm: String?) {
 		// Cancel any existing search task
 		searchTask?.cancel()
 		
@@ -166,21 +171,32 @@ class SearchOrganizationViewModel: ObservableObject {
 			
 			let docs = searchResult.hits.map { $0.document }
 			logDebug("results", searchResult.count)
-			await MainActor.run {
-				withAnimation {
-					self.state.results = docs
-					self.state.visibleCount = SearchOrganizationViewModel.pageSize
-					self.state.isSearching = false
-					self.state.totalResults = searchResult.count
-				}
+			withAnimation {
+				self.state.results = docs
+				self.state.visibleCount = SearchOrganizationViewModel.pageSize
+				self.state.isSearching = false
+				self.state.totalResults = searchResult.count
 			}
 		}
 	}
 	
 	/// Store an organization
 	/// - Parameter organization: the organization to store
-	@MainActor private func store(_ organization: OrganizationSearch.Organization) {
+	private func store(_ organization: OrganizationSearch.Organization) {
 		try? healthcareOrganizationRepository.store(organization)
+	}
+
+	/// Prepares the organization search database.
+	private func prepare() {
+		Task {
+			do {
+				try await organizationSearchClient.prepare(
+					dataset: LaunchArgumentsHandler.useTestProviders() ? .test : .remote
+				)
+			} catch {
+				logError("SearchOrganizationViewModel: prepare failed: \(error)")
+			}
+		}
 	}
 }
 
@@ -278,6 +294,9 @@ struct SearchOrganizationView: View {
 			} else if !viewModel.state.isSearching && input.count > 2 {
 				emptyState
 			}
+		}
+		.task {
+			viewModel.reduce(.prepare)
 		}
 		.backport.listSectionSpacing(8)
 		.backport.contentMargins(0)

@@ -46,9 +46,6 @@ final class SplashViewModel: ObservableObject {
 	/// Dependency Injectable Patient Friendly Terms Repository
 	@Injected(\.patientFriendyTermsRepository) private var patientFriendyTermsRepository
 	
-	/// Dependency injectable organization Search Client
-	@Injected(\.organizationSearchClient) private var organizationSearchClient
-	
 	/// Create a splash view
 	/// - Parameters:
 	///   - coordinator: the flow coordinator
@@ -67,14 +64,10 @@ final class SplashViewModel: ObservableObject {
 	
 	/// Start the services fetching remote data
 	@MainActor private func startServices() {
-		
+
 		Task(priority: .userInitiated) {
 			await remoteConfigurationRepository.fetchAndUpdateObservers()
 			await patientFriendyTermsRepository.fetchTerms()
-			try? await organizationSearchClient
-				.prepare(
-					dataset: LaunchArgumentsHandler.useTestProviders() ? .test : .remote
-				)
 		}
 		resourceRepository.load()
 	}
