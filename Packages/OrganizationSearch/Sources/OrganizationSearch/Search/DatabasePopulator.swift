@@ -197,12 +197,13 @@ enum DatabasePopulator {
 		_ organizations: [Organization],
 		into dbQueue: any DatabaseWriter
 	) async throws {
-		
+
+		let encoder = newJSONEncoder()
 		for chunkStart in stride(from: 0, to: organizations.count, by: insertChunkSize) {
 			let chunk = organizations[chunkStart..<min(chunkStart + insertChunkSize, organizations.count)]
 			try await dbQueue.write { db in
 				for org in chunk {
-					try insertRow(for: org, into: db)
+					try insertRow(for: org, encoder: encoder, into: db)
 				}
 			}
 		}
@@ -253,10 +254,10 @@ enum DatabasePopulator {
 	///   - db: An open writable GRDB database connection.
 	/// - Throws: GRDB errors if the insert fails; encoding errors if `dataServices`
 	///   cannot be serialised to JSON.
-	private static func insertRow(for org: Organization, into db: Database) throws {
-		
+	private static func insertRow(for org: Organization, encoder: JSONEncoder, into db: Database) throws {
+
 		let dataServicesJSON = try org.dataServices
-			.map { try newJSONEncoder().encode($0) }
+			.map { try encoder.encode($0) }
 			.flatMap { String(data: $0, encoding: .utf8) }
 
 		try db.execute(

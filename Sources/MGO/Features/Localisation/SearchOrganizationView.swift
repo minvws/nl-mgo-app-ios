@@ -171,7 +171,7 @@ class SearchOrganizationViewModel: ObservableObject {
 					self.state.results = docs
 					self.state.visibleCount = SearchOrganizationViewModel.pageSize
 					self.state.isSearching = false
-					self.state.totalResults = Int(searchResult.count)
+					self.state.totalResults = searchResult.count
 				}
 			}
 		}

@@ -17,7 +17,7 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchec
 
 	private let dbActor: DatabaseActor
 
-	required public init() {
+	public init() {
 		dbActor = DatabaseActor()
 	}
 
@@ -39,11 +39,8 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchec
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the bundled
 	///   JSON is missing; GRDB errors if the database cannot be opened or written.
 	public func prepare(dataset: OrganizationDataset = .remote) async throws {
-		
-		let actor = dbActor
-		let count = try await Task(priority: .userInitiated) {
-			try await actor.prepare(dataset: dataset)
-		}.value
+
+		let count = try await dbActor.prepare(dataset: dataset)
 		logDebug("OrganizationSearchClient: prepared database with \(count) organizations")
 	}
 	
@@ -60,11 +57,8 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchec
 	public func searchHealthcareOrganizations(
 		_ searchTerm: String
 	) async throws -> SearchResults {
-		
-		let actor = dbActor
-		return try await Task(priority: .userInitiated) {
-			try await actor.search(searchTerm)
-		}.value
+
+		return try await dbActor.search(searchTerm)
 	}
 	
 	/// Closes the SQLite database pool and releases all associated resources.
@@ -72,11 +66,8 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchec
 	/// Delegates to `DatabaseActor.teardown()`. After this call, `prepare` must
 	/// be called again before searches will succeed.
 	public func teardown() async {
-		
-		let actor = dbActor
-		await Task(priority: .userInitiated) {
-			await actor.teardown()
-		}.value
+
+		await dbActor.teardown()
 	}
 }
 

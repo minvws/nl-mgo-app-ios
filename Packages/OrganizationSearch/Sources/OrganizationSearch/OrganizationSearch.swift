@@ -12,15 +12,12 @@
 ///
 /// Usage:
 /// ```swift
-/// let client = OrganizationSearchClient()
+/// let client = OrganizationSearchClient(downloader: downloader)
 /// try await client.prepare(dataset: .remote)
 /// let results = try await client.searchHealthcareOrganizations("hospital Amsterdam")
 /// ```
 public protocol OrganizationSearchClientProtocol: Sendable {
-	
-	/// Initialize a new organization search client.
-	init()
-	
+
 	/// Prepare the search index for querying.
 	///
 	/// This method must be called before performing searches. It loads organization data

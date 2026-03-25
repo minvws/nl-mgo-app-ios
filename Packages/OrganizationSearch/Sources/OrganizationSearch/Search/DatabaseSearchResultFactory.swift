@@ -16,13 +16,12 @@ enum DatabaseSearchResultFactory {
 	/// The `dataServicesJSON` text column, if present, is decoded back into a
 	/// `[DataService]` array using snake_case key conversion.
 	///
-	/// - Parameter row: A row returned by `DatabaseSearchQuery.fetch(matching:in:)`.
+	/// - Parameters:
+	///   - row: A row returned by `DatabaseSearchQuery.fetch(matching:in:)`.
+	///   - decoder: A shared `JSONDecoder` configured with snake_case key conversion.
 	/// - Returns: A fully populated `SearchResult`.
 	/// - Throws: Decoding errors if `dataServicesJSON` is present but malformed.
-	static func makeSearchResult(from row: Row) throws -> SearchResult {
-
-		let decoder = newJSONDecoder()
-		decoder.keyDecodingStrategy = .convertFromSnakeCase
+	static func makeSearchResult(from row: Row, decoder: JSONDecoder) throws -> SearchResult {
 
 		let dataServices: [DataService]? = try (row["dataServicesJSON"] as String?)
 			.flatMap { try decoder.decode([DataService].self, from: Data($0.utf8)) }
@@ -48,10 +47,12 @@ enum DatabaseSearchResultFactory {
 	///
 	/// - Parameter rows: The rows returned by the FTS5 search query.
 	/// - Returns: A `SearchResults` containing all decoded hits.
-	/// - Throws: Decoding errors from `makeSearchResult(from:)`.
+	/// - Throws: Decoding errors from `makeSearchResult(from:decoder:)`.
 	static func makeSearchResults(from rows: [Row]) throws -> SearchResults {
-		
-		let hits = try rows.map { try makeSearchResult(from: $0) }
-		return SearchResults(count: Double(hits.count), hits: hits)
+
+		let decoder = newJSONDecoder()
+		decoder.keyDecodingStrategy = .convertFromSnakeCase
+		let hits = try rows.map { try makeSearchResult(from: $0, decoder: decoder) }
+		return SearchResults(count: hits.count, hits: hits)
 	}
 }

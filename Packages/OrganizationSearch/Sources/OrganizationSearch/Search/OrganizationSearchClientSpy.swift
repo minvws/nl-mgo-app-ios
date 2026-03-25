@@ -12,9 +12,7 @@ import Foundation
 /// configured through `stubbed*` properties before the call is made.
 public class OrganizationSearchClientSpy: OrganizationSearchClientProtocol, @unchecked Sendable {
 	
-	public required init() {
-		// Public init required
-	}
+	public init() { /* no-op */ }
 	
 	public var invokedPrepare = false
 	public var invokedPrepareCount = 0
