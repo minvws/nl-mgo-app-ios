@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FileManagerSpy: FileManagerProtocol {
+public class FileManagerSpy: FileManagerProtocol, @unchecked Sendable {
 	
 	public init() { /* public initializer for public access */ }
 

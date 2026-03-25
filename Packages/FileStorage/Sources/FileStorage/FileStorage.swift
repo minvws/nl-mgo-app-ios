@@ -6,7 +6,7 @@
 import Foundation
 import MGODebug
 
-public protocol FileStorageProtocol: AnyObject {
+public protocol FileStorageProtocol: AnyObject, Sendable {
 	
 	/// Store data in documents directory
 	/// - Parameters:
@@ -36,7 +36,7 @@ public protocol FileStorageProtocol: AnyObject {
 	func fileUrl(_ fileName: String) -> URL?
 }
 
-final public class FileStorage: FileStorageProtocol {
+final public class FileStorage: FileStorageProtocol, Sendable {
 	
 	/// The underlying file manager
 	private let fileManager: FileManagerProtocol
@@ -66,7 +66,7 @@ final public class FileStorage: FileStorageProtocol {
 	}
 	
 	/// An optional sub directory
-	private var subDirectory: String?
+	private let subDirectory: String?
 	
 	/// Get url to documents directory
 	private var documentsURL: URL? {

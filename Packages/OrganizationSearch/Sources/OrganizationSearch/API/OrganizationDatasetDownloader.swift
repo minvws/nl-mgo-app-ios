@@ -17,7 +17,7 @@ import MGODebug
 /// 3. On 200 – persist body to `FileStorage` and write the new ETag.
 /// 4. On 304 – return the previously cached file.
 /// 5. On network error – fall back to the cached file; throw `dataUnavailable` if absent.
-public struct OrganizationDatasetDownloader: @unchecked Sendable {
+public struct OrganizationDatasetDownloader: Sendable {
 
 	let apiClient: any LocalizationAPIClientProtocol
 	let fileStorage: any FileStorageProtocol

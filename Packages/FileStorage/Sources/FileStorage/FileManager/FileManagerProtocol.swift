@@ -5,7 +5,7 @@
 
 import Foundation
 
-public protocol FileManagerProtocol {
+public protocol FileManagerProtocol: Sendable {
 		
 	func createDirectory(at url: URL, withIntermediateDirectories createIntermediates: Bool, attributes: [FileAttributeKey: Any]?) throws
 	
