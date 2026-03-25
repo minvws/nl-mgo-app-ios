@@ -48,7 +48,7 @@ struct DatabaseSearchQueryTests {
 			id: "4",
 			name: "Generieke Zorg",
 			searchBlob: "generieke zorg"
-		),
+		)
 	]
 
 	// MARK: - Exact match
