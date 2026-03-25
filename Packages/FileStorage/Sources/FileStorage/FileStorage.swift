@@ -44,7 +44,10 @@ final public class FileStorage: FileStorageProtocol, Sendable {
 	/// Initializer
 	/// - Parameter fileManager: the File Manager
 	/// - Parameter subDirectory: an optional sub directory for storage
-	public init(fileManager: FileManagerProtocol = FileManager.default, subDirectory: String? = nil) {
+	public init(
+		fileManager: FileManagerProtocol = FileManager.default,
+		subDirectory: String? = nil
+	) {
 		
 		self.fileManager = fileManager
 		self.subDirectory = subDirectory
@@ -55,7 +58,10 @@ final public class FileStorage: FileStorageProtocol, Sendable {
 	private func createSubDirectoryIfNeeded() {
 		
 		guard let subDirectory, let documentsURL else { return }
-		let subDirectoryUrl = documentsURL.appendingPathComponent(subDirectory, isDirectory: true)
+		let subDirectoryUrl = documentsURL.appendingPathComponent(
+			subDirectory,
+			isDirectory: true
+		)
 		if !fileManager.fileExists(atPath: subDirectoryUrl.path) {
 			try? fileManager.createDirectory(
 				at: subDirectoryUrl,
@@ -71,7 +77,10 @@ final public class FileStorage: FileStorageProtocol, Sendable {
 	/// Get url to documents directory
 	private var documentsURL: URL? {
 		
-		return fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+		return fileManager.urls(
+			for: .documentDirectory,
+			in: .userDomainMask
+		).first
 	}
 	
 	/// Get the url to the file

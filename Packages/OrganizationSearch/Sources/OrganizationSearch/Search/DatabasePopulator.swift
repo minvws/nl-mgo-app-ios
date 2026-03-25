@@ -106,47 +106,21 @@ enum DatabasePopulator {
 		return try JSONDecoder().decode([String: String].self, from: data)
 	}
 
-	/// Decodes an array of `Organization` values from raw JSON data, resolving
-	/// endpoint FK IDs using the provided endpoints lookup table.
+	/// Decodes an array of `Organization` values from raw JSON data.
 	///
 	/// Each `DataService`'s `authEndpoint`, `tokenEndpoint`, and `resourceEndpoint`
-	/// fields in the raw JSON contain FK IDs (e.g. `"1"`, `"2"`). This method
-	/// resolves them to full URL strings using `endpoints`. If an ID is not found
-	/// the raw value is kept as-is.
+	/// fields in the raw JSON contain FK IDs (e.g. `"1"`, `"2"`). These are stored
+	/// as-is and resolved to full URL strings at query time by
+	/// `DatabaseSearchResultFactory` using the `endpoint` table.
 	///
-	/// - Parameters:
-	///   - data: JSON data previously loaded via `loadJSONData(for:)`.
-	///   - endpoints: The endpoint lookup table from `decodeEndpoints(_:)`.
-	/// - Returns: All organizations decoded from the data with endpoint FKs resolved.
+	/// - Parameter data: JSON data previously loaded via `loadOrganizationsData(for:)`.
+	/// - Returns: All organizations decoded from the data.
 	/// - Throws: Decoding errors if the JSON is malformed.
-	static func decode(
-		_ data: Data,
-		endpoints: [String: String]
-	) throws -> [Organization] {
-		
+	static func decode(_ data: Data) throws -> [Organization] {
+
 		let decoder = newJSONDecoder()
 		decoder.keyDecodingStrategy = .convertFromSnakeCase
-		let raw = try decoder.decode([Organization].self, from: data)
-		return raw.map { org in
-			guard let services = org.dataServices else { return org }
-			let resolved = services.map { service in
-				DataService(
-					id: service.id,
-					authEndpoint: endpoints[service.authEndpoint] ?? service.authEndpoint,
-					resourceEndpoint: endpoints[service.resourceEndpoint] ?? service.resourceEndpoint,
-					tokenEndpoint: endpoints[service.tokenEndpoint] ?? service.tokenEndpoint
-				)
-			}
-			return Organization(
-				address: org.address,
-				careType: org.careType,
-				dataServices: resolved,
-				id: org.id,
-				medmijId: org.medmijId,
-				name: org.name,
-				searchBlob: org.searchBlob
-			)
-		}
+		return try decoder.decode([Organization].self, from: data)
 	}
 
 	// MARK: - Inserting
@@ -246,11 +220,13 @@ enum DatabasePopulator {
 	/// Encodes and inserts a single organization row into the database.
 	///
 	/// The `dataServices` array is JSON-encoded to a text blob stored in
-	/// `dataServicesJSON`, decoded back to `[DataService]` at query time
-	/// by `DatabaseSearchResultFactory`.
+	/// `dataServicesJSON`. Endpoint FK IDs (e.g. `"1"`, `"2"`) are kept as-is
+	/// and resolved to full URL strings at query time by `DatabaseSearchResultFactory`
+	/// using the `endpoint` table.
 	///
 	/// - Parameters:
 	///   - org: The organization to insert.
+	///   - encoder: A shared `JSONEncoder` used to serialise `dataServices`.
 	///   - db: An open writable GRDB database connection.
 	/// - Throws: GRDB errors if the insert fails; encoding errors if `dataServices`
 	///   cannot be serialised to JSON.

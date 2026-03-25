@@ -65,7 +65,7 @@ actor DatabaseActor {
 		let result = try await dbPool.read { db in
 			let rows = try DatabaseSearchQuery.fetch(matching: searchTerm, in: db)
 			guard !rows.isEmpty else { return SearchResults(count: 0, hits: []) }
-			return try DatabaseSearchResultFactory.makeSearchResults(from: rows)
+			return try DatabaseSearchResultFactory.makeSearchResults(from: rows, in: db)
 		}
 		logDebug("DatabaseActor search(\"\(searchTerm)\"): \(clock.elapsed(since: searchStart))")
 		return result
@@ -253,6 +253,9 @@ actor DatabaseActor {
 	/// then stores the new hash. Makes the pool available for reads before
 	/// inserting so that concurrent searches can proceed during population.
 	///
+	/// Organization data service fields store raw endpoint FK IDs; resolution to
+	/// full URLs happens at query time in `DatabaseSearchResultFactory`.
+	///
 	/// - Returns: The number of organizations inserted.
 	private func repopulate(
 		with jsonData: Data,
@@ -272,7 +275,7 @@ actor DatabaseActor {
 		let decodeStart = clock.now()
 		let endpoints = try DatabasePopulator.decodeEndpoints(endpointsData)
 		try await DatabasePopulator.insertEndpoints(endpoints, into: dbPool)
-		let organizations = try DatabasePopulator.decode(jsonData, endpoints: endpoints)
+		let organizations = try DatabasePopulator.decode(jsonData)
 		logDebug("DatabaseActor JSON decode: \(clock.elapsed(since: decodeStart))")
 
 		let insertStart = clock.now()
