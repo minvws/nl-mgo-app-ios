@@ -36,28 +36,70 @@ enum DatabaseMigrations {
 		}
 	}
 
-	/// Returns the effective content key stored under `"content_key"`, or `nil` if absent.
+	/// Returns the stored content hash under `"content_key"`, or `nil` if absent.
 	///
 	/// - Parameter dbPool: The database to query.
 	/// - Throws: GRDB errors if the read fails.
-	static func readContentKey(in dbPool: DatabasePool) async throws -> String? {
+	static func readHash(in dbPool: DatabasePool) async throws -> String? {
 		try await dbPool.read { db in
 			try String.fetchOne(db, sql: "SELECT value FROM metadata WHERE key = 'content_key'")
 		}
 	}
 
-	/// Upserts the effective content key under `"content_key"` in the metadata table.
+	/// Upserts the content hash under `"content_key"` in the metadata table.
 	///
 	/// - Parameters:
-	///   - hash: The hash to store (SHA-256 of JSON + schema version suffix).
+	///   - hash: The value to store (hash or ETag-derived key + schema version suffix).
 	///   - dbQueue: The database to update.
 	/// - Throws: GRDB errors if the write fails.
-	static func writeContentKey(_ newKey: String, in dbQueue: any DatabaseWriter) async throws {
+	static func writeHash(_ newKey: String, in dbQueue: any DatabaseWriter) async throws {
 		try await dbQueue.write { db in
 			try db.execute(
 				sql: "INSERT OR REPLACE INTO metadata (key, value) VALUES ('content_key', ?)",
 				arguments: [newKey]
 			)
+		}
+	}
+
+	// MARK: - ETags
+
+	static let organizationsETagKey = "organizationsETag"
+	static let endpointsETagKey = "endpointsETag"
+
+	/// Returns the ETag stored under `key`, or `nil` if absent.
+	///
+	/// - Parameters:
+	///   - key: The metadata key for the ETag.
+	///   - dbPool: The database to query.
+	/// - Throws: GRDB errors if the read fails.
+	static func readETag(key: String, in dbPool: DatabasePool) async throws -> String? {
+		try await dbPool.read { db in
+			try String.fetchOne(db, sql: "SELECT value FROM metadata WHERE key = ?", arguments: [key])
+		}
+	}
+
+	/// Upserts or deletes the ETag stored under `key` in the metadata table.
+	///
+	/// Passing `nil` deletes the row (used during a full wipe).
+	///
+	/// - Parameters:
+	///   - eTag: The ETag to store, or `nil` to delete the row.
+	///   - key: The metadata key for the ETag.
+	///   - dbQueue: The database to update.
+	/// - Throws: GRDB errors if the write fails.
+	static func writeETag(_ eTag: String?, key: String, in dbQueue: any DatabaseWriter) async throws {
+		try await dbQueue.write { db in
+			if let eTag {
+				try db.execute(
+					sql: "INSERT OR REPLACE INTO metadata (key, value) VALUES (?, ?)",
+					arguments: [key, eTag]
+				)
+			} else {
+				try db.execute(
+					sql: "DELETE FROM metadata WHERE key = ?",
+					arguments: [key]
+				)
+			}
 		}
 	}
 

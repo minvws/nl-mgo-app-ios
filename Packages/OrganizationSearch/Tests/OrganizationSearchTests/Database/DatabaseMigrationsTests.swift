@@ -4,6 +4,7 @@
  */
 
 @testable import OrganizationSearch
+import Foundation
 import GRDB
 import Testing
 
@@ -148,5 +149,158 @@ struct DatabaseMigrationsTests {
 
 		// Then — second call on already-empty schema must also succeed
 		try await DatabaseMigrations.clearSchema(in: queue)
+	}
+}
+
+// MARK: -
+
+@Suite("DatabaseMigrations.ETags")
+struct DatabaseMigrationsETagTests {
+
+	// MARK: - Helpers
+
+	/// Creates a temporary DatabasePool backed by a unique file.
+	///
+	/// `DatabasePool` requires a file-backed database (WAL mode).
+	/// The caller is responsible for cleaning up the returned URL.
+	private func makePool() throws -> (DatabasePool, URL) {
+		let url = FileManager.default.temporaryDirectory
+			.appendingPathComponent(UUID().uuidString + ".sqlite")
+		return (try DatabasePool(path: url.path), url)
+	}
+
+	// MARK: - readETag
+
+	@Test("readETag returns nil when key is absent")
+	func readETag_returnsNilWhenAbsent() async throws {
+
+		// Given
+		let (pool, url) = try makePool()
+		defer { try? FileManager.default.removeItem(at: url) }
+		try await DatabaseMigrations.ensureMetadataTable(in: pool)
+
+		// When
+		let result = try await DatabaseMigrations.readETag(
+			key: DatabaseMigrations.organizationsETagKey, in: pool
+		)
+
+		// Then
+		#expect(result == nil)
+	}
+
+	@Test("writeETag stores value and readETag returns it")
+	func writeETag_storesValue() async throws {
+
+		// Given
+		let (pool, url) = try makePool()
+		defer { try? FileManager.default.removeItem(at: url) }
+		try await DatabaseMigrations.ensureMetadataTable(in: pool)
+
+		// When
+		try await DatabaseMigrations.writeETag(
+			"\"etag-abc\"", key: DatabaseMigrations.organizationsETagKey, in: pool
+		)
+		let result = try await DatabaseMigrations.readETag(
+			key: DatabaseMigrations.organizationsETagKey, in: pool
+		)
+
+		// Then
+		#expect(result == "\"etag-abc\"")
+	}
+
+	@Test("writeETag nil deletes existing row")
+	func writeETag_nil_deletesRow() async throws {
+
+		// Given — write a value first, then delete it
+		let (pool, url) = try makePool()
+		defer { try? FileManager.default.removeItem(at: url) }
+		try await DatabaseMigrations.ensureMetadataTable(in: pool)
+		try await DatabaseMigrations.writeETag(
+			"\"etag-abc\"", key: DatabaseMigrations.organizationsETagKey, in: pool
+		)
+
+		// When
+		try await DatabaseMigrations.writeETag(
+			nil, key: DatabaseMigrations.organizationsETagKey, in: pool
+		)
+
+		// Then
+		let result = try await DatabaseMigrations.readETag(
+			key: DatabaseMigrations.organizationsETagKey, in: pool
+		)
+		#expect(result == nil)
+	}
+
+	@Test("writeETag overwrites existing value")
+	func writeETag_overwritesExistingValue() async throws {
+
+		// Given
+		let (pool, url) = try makePool()
+		defer { try? FileManager.default.removeItem(at: url) }
+		try await DatabaseMigrations.ensureMetadataTable(in: pool)
+		try await DatabaseMigrations.writeETag(
+			"\"etag-v1\"", key: DatabaseMigrations.organizationsETagKey, in: pool
+		)
+
+		// When
+		try await DatabaseMigrations.writeETag(
+			"\"etag-v2\"", key: DatabaseMigrations.organizationsETagKey, in: pool
+		)
+
+		// Then
+		let result = try await DatabaseMigrations.readETag(
+			key: DatabaseMigrations.organizationsETagKey, in: pool
+		)
+		#expect(result == "\"etag-v2\"")
+	}
+
+	// MARK: - readHash / writeHash
+
+	@Test("readHash returns nil when absent")
+	func readHash_returnsNilWhenAbsent() async throws {
+
+		// Given
+		let (pool, url) = try makePool()
+		defer { try? FileManager.default.removeItem(at: url) }
+		try await DatabaseMigrations.ensureMetadataTable(in: pool)
+
+		// When
+		let result = try await DatabaseMigrations.readHash(in: pool)
+
+		// Then
+		#expect(result == nil)
+	}
+
+	@Test("writeHash stores value and readHash returns it")
+	func writeHash_storesValue() async throws {
+
+		// Given
+		let (pool, url) = try makePool()
+		defer { try? FileManager.default.removeItem(at: url) }
+		try await DatabaseMigrations.ensureMetadataTable(in: pool)
+
+		// When
+		try await DatabaseMigrations.writeHash("abc123hash", in: pool)
+		let result = try await DatabaseMigrations.readHash(in: pool)
+
+		// Then
+		#expect(result == "abc123hash")
+	}
+
+	@Test("writeHash overwrites existing value")
+	func writeHash_overwritesExistingValue() async throws {
+
+		// Given
+		let (pool, url) = try makePool()
+		defer { try? FileManager.default.removeItem(at: url) }
+		try await DatabaseMigrations.ensureMetadataTable(in: pool)
+		try await DatabaseMigrations.writeHash("hash-v1", in: pool)
+
+		// When
+		try await DatabaseMigrations.writeHash("hash-v2", in: pool)
+
+		// Then
+		let result = try await DatabaseMigrations.readHash(in: pool)
+		#expect(result == "hash-v2")
 	}
 }

@@ -8,11 +8,16 @@ import Foundation
 /// Exposes the generated server URL publicly so callers outside the module
 /// can resolve the base URL without depending on internal generated types.
 public enum LocalizationServers {
-	public enum Server {
-		/// Returns the base URL of Server 1 as defined in the OpenAPI spec.
-		/// - Throws: An error if the URL cannot be constructed.
-		public static func testUrl() throws -> URL {
-			try Servers.Server1.url()
-		}
+
+	/// Returns the base URL of the test server.
+	/// - Throws: An error if the URL cannot be constructed.
+	public static func testUrl() throws -> URL {
+		try Servers.Server1.url()
+	}
+
+	/// Returns the base URL of the acceptance server.
+	/// - Throws: An error if the URL cannot be constructed.
+	public static func acceptanceUrl() throws -> URL {
+		try Servers.Server2.url()
 	}
 }

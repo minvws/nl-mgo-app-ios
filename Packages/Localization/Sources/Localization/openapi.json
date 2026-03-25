@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Organization Dataset API",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "API for downloading organization and endpoint datasets.",
     "license": {
       "name": "EUPL-1.2",
@@ -11,11 +11,16 @@
   },
   "servers": [
     {
-      "url": "https://lo-ad.test.mgo.irealisatie.nl"
+      "url": "https://lo-ad.test.mgo.irealisatie.nl",
+      "description": "Test"
+    },
+    {
+      "url": "https://lo-ad.acc.mgo.irealisatie.nl",
+      "description": "Acceptance"
     }
   ],
   "paths": {
-    "/static/search/organizations.json": {
+    "/static/search/temp-organizations.json": {
       "get": {
         "summary": "Retrieve the organizations dataset",
         "operationId": "getOrganizations",
@@ -55,7 +60,7 @@
         }
       }
     },
-    "/static/search/endpoints.json": {
+    "/static/search/temp-endpoints.json": {
       "get": {
         "summary": "Retrieve the endpoints dataset",
         "operationId": "getEndpoints",

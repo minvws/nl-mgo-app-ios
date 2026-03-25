@@ -3,6 +3,8 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+@_exported import Localization
+
 /// Protocol defining the interface for searching healthcare organizations.
 ///
 /// Conforming types provide functionality to search through healthcare organization data,
@@ -10,15 +12,12 @@
 ///
 /// Usage:
 /// ```swift
-/// let client = OrganizationSearchClient()
+/// let client = OrganizationSearchClient(downloader: downloader)
 /// try await client.prepare(dataset: .remote)
 /// let results = try await client.searchHealthcareOrganizations("hospital Amsterdam")
 /// ```
 public protocol OrganizationSearchClientProtocol: Sendable {
-	
-	/// Initialize a new organization search client.
-	init()
-	
+
 	/// Prepare the search index for querying.
 	///
 	/// This method must be called before performing searches. It loads organization data
@@ -55,4 +54,7 @@ public enum OrganizationSearchError: Error, Sendable {
 
 	/// A search was attempted before `prepare(dataset:)` was called.
 	case notPrepared
+
+	/// The dataset could not be fetched from the API and no cached copy exists.
+	case dataUnavailable
 }

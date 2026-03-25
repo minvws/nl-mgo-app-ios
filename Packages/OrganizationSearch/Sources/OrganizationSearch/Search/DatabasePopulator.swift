@@ -20,17 +20,26 @@ enum DatabasePopulator {
 
 	// MARK: - Loading
 
-	/// Returns the memory-mapped raw JSON data for the given dataset.
+	/// Returns organizations JSON data for the given dataset.
 	///
-	/// The file is opened with `.mappedIfSafe` so the OS pages bytes in on demand
-	/// rather than copying the full file into RAM.
+	/// Routes to the downloader when `dataset.requiresAPIDownload` is `true` and a
+	/// downloader is provided; otherwise loads the bundled resource file.
 	///
-	/// - Parameter dataset: Identifies which JSON resource file to load.
-	/// - Returns: Memory-mapped `Data` of the bundled JSON file.
-	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the JSON file is
-	///   absent from the module bundle; file I/O errors if the file cannot be opened.
-	static func loadJSONData(for dataset: OrganizationDataset) throws -> Data {
-		
+	/// - Parameters:
+	///   - dataset: Identifies the dataset to load.
+	///   - downloader: The API downloader, or `nil` for bundle-only use.
+	///   - db: The database pool used by the downloader to read/write ETags.
+	/// - Returns: Raw JSON data for the organizations dataset.
+	static func loadOrganizationsData(
+		for dataset: OrganizationDataset,
+		downloader: OrganizationDatasetDownloader?,
+		db: DatabasePool
+	) async throws -> Data? {
+
+		if dataset.requiresAPIDownload, let downloader {
+			return try await downloader.fetchOrganizationsData(db: db)
+		}
+
 		guard let jsonURL = Bundle.module.url(
 			forResource: dataset.resourceName,
 			withExtension: "json"
@@ -41,14 +50,26 @@ enum DatabasePopulator {
 		return try Data(contentsOf: jsonURL, options: .mappedIfSafe)
 	}
 
-	/// Returns the raw JSON data for the endpoint lookup table for the given dataset.
+	/// Returns endpoints JSON data for the given dataset.
 	///
-	/// - Parameter dataset: Identifies which endpoints JSON resource file to load.
-	/// - Returns: Memory-mapped `Data` of the bundled endpoints JSON file.
-	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the endpoints JSON file is
-	///   absent from the module bundle; file I/O errors if the file cannot be opened.
-	static func loadEndpointsData(for dataset: OrganizationDataset) throws -> Data {
-		
+	/// Routes to the downloader when `dataset.requiresAPIDownload` is `true` and a
+	/// downloader is provided; otherwise loads the bundled resource file.
+	///
+	/// - Parameters:
+	///   - dataset: Identifies the dataset to load.
+	///   - downloader: The API downloader, or `nil` for bundle-only use.
+	///   - db: The database pool used by the downloader to read/write ETags.
+	/// - Returns: Raw JSON data for the endpoints dataset.
+	static func loadEndpointsData(
+		for dataset: OrganizationDataset,
+		downloader: OrganizationDatasetDownloader?,
+		db: DatabasePool
+	) async throws -> Data? {
+
+		if dataset.requiresAPIDownload, let downloader {
+			return try await downloader.fetchEndpointsData(db: db)
+		}
+
 		guard let jsonURL = Bundle.module.url(
 			forResource: dataset.endpointsResourceName,
 			withExtension: "json"
@@ -85,75 +106,46 @@ enum DatabasePopulator {
 		return try JSONDecoder().decode([String: String].self, from: data)
 	}
 
-	/// Decodes an array of `Organization` values from raw JSON data, resolving
-	/// endpoint FK IDs using the provided endpoints lookup table.
+	/// Decodes an array of `Organization` values from raw JSON data.
 	///
 	/// Each `DataService`'s `authEndpoint`, `tokenEndpoint`, and `resourceEndpoint`
-	/// fields in the raw JSON contain FK IDs (e.g. `"1"`, `"2"`). This method
-	/// resolves them to full URL strings using `endpoints`. If an ID is not found
-	/// the raw value is kept as-is.
+	/// fields in the raw JSON contain FK IDs (e.g. `"1"`, `"2"`). These are stored
+	/// as-is and resolved to full URL strings at query time by
+	/// `DatabaseSearchResultFactory` using the `endpoint` table.
 	///
-	/// - Parameters:
-	///   - data: JSON data previously loaded via `loadJSONData(for:)`.
-	///   - endpoints: The endpoint lookup table from `decodeEndpoints(_:)`.
-	/// - Returns: All organizations decoded from the data with endpoint FKs resolved.
+	/// - Parameter data: JSON data previously loaded via `loadOrganizationsData(for:)`.
+	/// - Returns: All organizations decoded from the data.
 	/// - Throws: Decoding errors if the JSON is malformed.
-	static func decode(
-		_ data: Data,
-		endpoints: [String: String]
-	) throws -> [Organization] {
-		
+	static func decode(_ data: Data) throws -> [Organization] {
+
 		let decoder = newJSONDecoder()
 		decoder.keyDecodingStrategy = .convertFromSnakeCase
-		let raw = try decoder.decode([Organization].self, from: data)
-		return raw.map { org in
-			guard let services = org.dataServices else { return org }
-			let resolved = services.map { service in
-				DataService(
-					id: service.id,
-					authEndpoint: endpoints[service.authEndpoint] ?? service.authEndpoint,
-					resourceEndpoint: endpoints[service.resourceEndpoint] ?? service.resourceEndpoint,
-					tokenEndpoint: endpoints[service.tokenEndpoint] ?? service.tokenEndpoint
-				)
-			}
-			return Organization(
-				address: org.address,
-				careType: org.careType,
-				dataServices: resolved,
-				id: org.id,
-				medmijId: org.medmijId,
-				name: org.name,
-				searchBlob: org.searchBlob
-			)
-		}
+		return try decoder.decode([Organization].self, from: data)
 	}
 
 	// MARK: - Inserting
 
-	/// Inserts endpoint rows into the `endpoint` table in chunks of `insertChunkSize` records.
+	/// Inserts all endpoint rows into the `endpoint` table in a single transaction.
 	///
-	/// Each chunk is written in its own transaction so GRDB can release the
-	/// WAL journal state between batches, reducing peak memory for large endpoint sets.
+	/// The endpoint table is a small lookup table (a few hundred rows), so a single
+	/// transaction is sufficient — unlike the organizations insert which chunks at
+	/// `insertChunkSize` to manage WAL journal pressure for large datasets.
 	///
 	/// - Parameters:
 	///   - endpoints: The `{id: url}` dictionary to persist.
 	///   - dbQueue: The database to write into.
-	/// - Throws: GRDB errors if a write transaction fails.
+	/// - Throws: GRDB errors if the write transaction fails.
 	static func insertEndpoints(
 		_ endpoints: [String: String],
 		into dbQueue: any DatabaseWriter
 	) async throws {
-		
-		let pairs = Array(endpoints)
-		for chunkStart in stride(from: 0, to: pairs.count, by: insertChunkSize) {
-			let chunk = pairs[chunkStart..<min(chunkStart + insertChunkSize, pairs.count)]
-			try await dbQueue.write { db in
-				for (id, url) in chunk {
-					try db.execute(
-						sql: "INSERT INTO endpoint (id, url) VALUES (?, ?)",
-						arguments: [id, url]
-					)
-				}
+
+		try await dbQueue.write { db in
+			for (id, url) in endpoints {
+				try db.execute(
+					sql: "INSERT INTO endpoint (id, url) VALUES (?, ?)",
+					arguments: [id, url]
+				)
 			}
 		}
 	}
@@ -176,12 +168,13 @@ enum DatabasePopulator {
 		_ organizations: [Organization],
 		into dbQueue: any DatabaseWriter
 	) async throws {
-		
+
+		let encoder = newJSONEncoder()
 		for chunkStart in stride(from: 0, to: organizations.count, by: insertChunkSize) {
 			let chunk = organizations[chunkStart..<min(chunkStart + insertChunkSize, organizations.count)]
 			try await dbQueue.write { db in
 				for org in chunk {
-					try insertRow(for: org, into: db)
+					try insertRow(for: org, encoder: encoder, into: db)
 				}
 			}
 		}
@@ -224,18 +217,20 @@ enum DatabasePopulator {
 	/// Encodes and inserts a single organization row into the database.
 	///
 	/// The `dataServices` array is JSON-encoded to a text blob stored in
-	/// `dataServicesJSON`, decoded back to `[DataService]` at query time
-	/// by `DatabaseSearchResultFactory`.
+	/// `dataServicesJSON`. Endpoint FK IDs (e.g. `"1"`, `"2"`) are kept as-is
+	/// and resolved to full URL strings at query time by `DatabaseSearchResultFactory`
+	/// using the `endpoint` table.
 	///
 	/// - Parameters:
 	///   - org: The organization to insert.
+	///   - encoder: A shared `JSONEncoder` used to serialise `dataServices`.
 	///   - db: An open writable GRDB database connection.
 	/// - Throws: GRDB errors if the insert fails; encoding errors if `dataServices`
 	///   cannot be serialised to JSON.
-	private static func insertRow(for org: Organization, into db: Database) throws {
-		
+	private static func insertRow(for org: Organization, encoder: JSONEncoder, into db: Database) throws {
+
 		let dataServicesJSON = try org.dataServices
-			.map { try newJSONEncoder().encode($0) }
+			.map { try encoder.encode($0) }
 			.flatMap { String(data: $0, encoding: .utf8) }
 
 		try db.execute(

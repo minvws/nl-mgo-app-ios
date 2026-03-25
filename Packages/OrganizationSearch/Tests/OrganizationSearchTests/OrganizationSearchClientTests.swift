@@ -23,7 +23,7 @@ class OrganizationSearchClientTests {
 
 		// Then
 		#expect(searchResult != nil)
-		#expect(searchResult?.count == 9.0)
+		#expect(searchResult?.count == 9)
 	}
 
 	@Test("Search for a non-existent organization returns empty results")
@@ -83,7 +83,7 @@ class OrganizationSearchClientTests {
 		let result = try? await sut.searchHealthcareOrganizations("Testtest")
 
 		// Then
-		#expect(result?.count == 9.0)
+		#expect(result?.count == 9)
 	}
 
 	// MARK: - Search text normalization

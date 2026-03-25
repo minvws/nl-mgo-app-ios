@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FileStorageSpy: FileStorageProtocol {
+public class FileStorageSpy: FileStorageProtocol, @unchecked Sendable {
 	
 	public init() { /* Empty initalizer  */ }
 

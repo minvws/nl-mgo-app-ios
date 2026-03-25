@@ -126,7 +126,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 
 		// Create search results with three hits
 		let searchResults = SearchResults(
-			count: 3.0,
+			count: 3,
 			hits: [
 				SearchResult(document: organization1, id: "org-1", score: 0.95),
 				SearchResult(document: organization2, id: "org-2", score: 0.85),
@@ -139,7 +139,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 
 		// Set the state to show results
 		viewModel.state.results = searchResults.hits.map { $0.document }
-		viewModel.state.totalResults = Int(searchResults.count)
+		viewModel.state.totalResults = searchResults.count
 		viewModel.state.isSearching = false
 
 		// When
@@ -154,7 +154,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 
 		// Given
 		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = SearchResults(
-			count: 0.0,
+			count: 0,
 			hits: []
 		)
 		createSut(firstVisitor: false, input: "Test")
@@ -181,7 +181,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 
 		// Create search results with one hit
 		let searchResults = SearchResults(
-			count: 1.0,
+			count: 1,
 			hits: [
 				SearchResult(document: organization1, id: "org-1", score: 0.95)
 			]
@@ -192,7 +192,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 
 		// Set the state to show results
 		viewModel.state.results = searchResults.hits.map { $0.document }
-		viewModel.state.totalResults = Int(searchResults.count)
+		viewModel.state.totalResults = searchResults.count
 		viewModel.state.isSearching = false
 
 		// When

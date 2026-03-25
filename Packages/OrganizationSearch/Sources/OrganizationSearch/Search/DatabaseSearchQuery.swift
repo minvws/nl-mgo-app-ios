@@ -72,6 +72,7 @@ enum DatabaseSearchQuery {
 				JOIN organization o ON o.rowid = organization_fts.rowid
 				WHERE organization_fts MATCH ?
 				ORDER BY score DESC
+				LIMIT 100
 				""",
 			arguments: [pattern]
 		)

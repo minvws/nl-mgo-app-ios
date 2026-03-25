@@ -7,17 +7,25 @@ import MGODebug
 
 /// GRDB-backed implementation of healthcare organization search.
 ///
-/// Loads organization data from a bundled JSON file into an on-disk SQLite
-/// database with FTS5 full-text search on `prepare()`.
+/// Loads organization data from a bundled JSON file or remote API into an
+/// on-disk SQLite database with FTS5 full-text search on `prepare()`.
 ///
 /// All database operations are delegated to `DatabaseActor`, keeping
 /// database I/O off the main thread and ensuring thread-safe access to the
 /// shared `DatabasePool`.
-public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchecked Sendable {
-	
-	private let dbActor = DatabaseActor()
-	
-	required public init() { /* Required by protocol, no-op */ }
+public final class OrganizationSearchClient: OrganizationSearchClientProtocol, Sendable {
+
+	private let dbActor: DatabaseActor
+
+	public init() {
+		dbActor = DatabaseActor()
+	}
+
+	/// Creates a client that uses a downloader for remote datasets.
+	/// - Parameter downloader: The downloader used when `dataset.requiresAPIDownload` is `true`.
+	public init(downloader: OrganizationDatasetDownloader) {
+		dbActor = DatabaseActor(downloader: downloader)
+	}
 	
 	/// Prepares the search database on a background actor.
 	///
@@ -31,11 +39,8 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchec
 	/// - Throws: `OrganizationSearchClientError.resourceNotFound` if the bundled
 	///   JSON is missing; GRDB errors if the database cannot be opened or written.
 	public func prepare(dataset: OrganizationDataset = .remote) async throws {
-		
-		let actor = dbActor
-		let count = try await Task(priority: .userInitiated) {
-			try await actor.prepare(dataset: dataset)
-		}.value
+
+		let count = try await dbActor.prepare(dataset: dataset)
 		logDebug("OrganizationSearchClient: prepared database with \(count) organizations")
 	}
 	
@@ -52,11 +57,8 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchec
 	public func searchHealthcareOrganizations(
 		_ searchTerm: String
 	) async throws -> SearchResults {
-		
-		let actor = dbActor
-		return try await Task(priority: .userInitiated) {
-			try await actor.search(searchTerm)
-		}.value
+
+		return try await dbActor.search(searchTerm)
 	}
 	
 	/// Closes the SQLite database pool and releases all associated resources.
@@ -64,11 +66,8 @@ public class OrganizationSearchClient: OrganizationSearchClientProtocol, @unchec
 	/// Delegates to `DatabaseActor.teardown()`. After this call, `prepare` must
 	/// be called again before searches will succeed.
 	public func teardown() async {
-		
-		let actor = dbActor
-		await Task(priority: .userInitiated) {
-			await actor.teardown()
-		}.value
+
+		await dbActor.teardown()
 	}
 }
 
