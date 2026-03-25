@@ -125,30 +125,27 @@ enum DatabasePopulator {
 
 	// MARK: - Inserting
 
-	/// Inserts endpoint rows into the `endpoint` table in chunks of `insertChunkSize` records.
+	/// Inserts all endpoint rows into the `endpoint` table in a single transaction.
 	///
-	/// Each chunk is written in its own transaction so GRDB can release the
-	/// WAL journal state between batches, reducing peak memory for large endpoint sets.
+	/// The endpoint table is a small lookup table (a few hundred rows), so a single
+	/// transaction is sufficient — unlike the organizations insert which chunks at
+	/// `insertChunkSize` to manage WAL journal pressure for large datasets.
 	///
 	/// - Parameters:
 	///   - endpoints: The `{id: url}` dictionary to persist.
 	///   - dbQueue: The database to write into.
-	/// - Throws: GRDB errors if a write transaction fails.
+	/// - Throws: GRDB errors if the write transaction fails.
 	static func insertEndpoints(
 		_ endpoints: [String: String],
 		into dbQueue: any DatabaseWriter
 	) async throws {
-		
-		let pairs = Array(endpoints)
-		for chunkStart in stride(from: 0, to: pairs.count, by: insertChunkSize) {
-			let chunk = pairs[chunkStart..<min(chunkStart + insertChunkSize, pairs.count)]
-			try await dbQueue.write { db in
-				for (id, url) in chunk {
-					try db.execute(
-						sql: "INSERT INTO endpoint (id, url) VALUES (?, ?)",
-						arguments: [id, url]
-					)
-				}
+
+		try await dbQueue.write { db in
+			for (id, url) in endpoints {
+				try db.execute(
+					sql: "INSERT INTO endpoint (id, url) VALUES (?, ?)",
+					arguments: [id, url]
+				)
 			}
 		}
 	}
