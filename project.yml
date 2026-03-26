@@ -389,7 +389,7 @@ schemeTemplates:
         MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
       targets:
         - name: ${uiTestTargetName}
-          parallelizable: true
+          parallelizable: false
           randomExecutionOrder: true
 
 # - Schemes

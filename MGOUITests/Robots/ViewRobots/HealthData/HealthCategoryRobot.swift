@@ -27,7 +27,7 @@ import XCTest
 	}
 	
 	private func sectionButton(_ identifier: String) -> XCUIElement {
-		app.staticTexts[identifier]
+		app.buttons[identifier]
 	}
 	
 	// MARK: - Validations
@@ -46,7 +46,7 @@ import XCTest
 	
 	@discardableResult
 	func verifySectionRowExists(_ section: String) -> Self {
-		XCTAssertTrue(sectionLabel(section).exists)
+		XCTAssertTrue(sectionButton(section).exists)
 		return self
 	}
 	

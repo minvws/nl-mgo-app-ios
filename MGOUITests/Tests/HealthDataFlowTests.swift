@@ -22,7 +22,7 @@ final class HealthDataFlowTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
-			.verifyTitleExists("Welkom")
+			.verifyTitleExists("Overzicht")
 			.verifyAllCategories()
 		
 			.verifyOverviewButtonExists()
@@ -35,7 +35,7 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifyHeadingExists("Medicijnen")
 			.verifySectionExists("Wat u nu gebruikt")
 			.verifySectionButtonExists(0, section: 0)
-			.verifySectionRowExists("Zestril tablet 10mg, Kwalificatie Medmij: BGZ")
+			.verifySectionRowExists("Zestril tablet 10mg, 28 juni 2018, Kwalificatie Medmij: BGZ")
 			.verifySectionExists("Afspraken over uw medicijnen")
 			.verifySectionButtonExists(0, section: 1)
 			.verifySectionRowExists("a257c163-5250-4589-9e0d-dfecf807ce0c, Kwalificatie Medmij: BGZ")
@@ -108,7 +108,7 @@ final class HealthDataFlowTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithGP()
-			.verifyTitleExists("Welkom")
+			.verifyTitleExists("Overzicht")
 			// Laboratory Results Category
 			.swipeDownToCategory("lab_results")
 			.tapHealthCategory("lab_results")
@@ -125,8 +125,8 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifySectionRowExists("Status", value: "Definitief")
 			.verifySectionRowExists("Materiaal", value: "Niet bekend")
 			.verifySectionHeaderExists("Normale referentiewaarden")
-			.verifySectionRowExists("Minimale waarde", value: "3,5 millimol per liter")
-			.verifySectionRowExists("Maximale waarde", value: "5,6 millimol per liter")
+			.verifySectionRowExists("Referentiewaarden", value: "3,5 millimol per liter")
+			.verifySectionRowExists("Referentiewaarden", value: "5,6 millimol per liter")
 			.swipeDownToSection("Test afgenomen door")
 			.verifySectionHeaderExists("Test afgenomen door")
 			.verifySectionRowExists("Zorgverlener", value: "Dokter Bernard")
@@ -166,7 +166,7 @@ final class HealthDataFlowTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithPDFA()
-			.verifyTitleExists("Welkom")
+			.verifyTitleExists("Overzicht")
 			// Document Category
 			.swipeDownToCategory("documents")
 			.tapHealthCategory("documents")
@@ -222,7 +222,7 @@ final class HealthDataFlowTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithVaccination()
-			.verifyTitleExists("Welkom")
+			.verifyTitleExists("Overzicht")
 			// Vaccination Category
 			.swipeUpToCategory("vaccinations")
 			.tapHealthCategory("vaccinations")
@@ -262,7 +262,7 @@ final class HealthDataFlowTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithLongTermCare()
-			.verifyTitleExists("Welkom")
+			.verifyTitleExists("Overzicht")
 			// Care Team
 			.swipeDownToCategory("care_team")
 			.tapHealthCategory("care_team")
