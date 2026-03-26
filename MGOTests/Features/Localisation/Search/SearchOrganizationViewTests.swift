@@ -55,6 +55,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 
 		// Given
 		createSut(firstVisitor: false)
+		viewModel.state.preparationState = .loaded
 
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
@@ -68,6 +69,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 
 		// Given
 		createSut(firstVisitor: false, input: "AB")
+		viewModel.state.preparationState = .loaded
 		viewModel.state.results = []
 		viewModel.state.totalResults = 0
 		viewModel.state.isSearching = false
@@ -138,6 +140,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		servicesSpies.searchOrganizationClientSpy.stubbedSearchHealthcareOrganizationsSearchResults = searchResults
 
 		// Set the state to show results
+		viewModel.state.preparationState = .loaded
 		viewModel.state.results = searchResults.hits.map { $0.document }
 		viewModel.state.totalResults = searchResults.count
 		viewModel.state.isSearching = false
@@ -158,6 +161,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 			hits: []
 		)
 		createSut(firstVisitor: false, input: "Test")
+		viewModel.state.preparationState = .loaded
 
 		// When the snapshot framework renders the view, SwiftUI triggers .onChange(of: input)
 		// which starts a debounced search task (100ms). Wait for it to complete so the
@@ -178,6 +182,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 
 		// Given
 		createSut(firstVisitor: false, input: "Test")
+		viewModel.state.preparationState = .loaded
 
 		// Create search results with one hit
 		let searchResults = SearchResults(
@@ -254,10 +259,28 @@ final class SearchOrganizationViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 
+	@MainActor func test_snapshot_errorState() {
+
+		// Given — stub prepare to fail so any .task-triggered loadDatabase() also lands on .error,
+		// then set state directly so the snapshot captures .error regardless of task timing.
+		struct PrepareError: Error { /* no-op */ }
+		servicesSpies.searchOrganizationClientSpy.stubbedPrepareError = PrepareError()
+		createSut(firstVisitor: false)
+		viewModel.state.preparationState = .error
+
+		// When
+		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
+
+		// Then
+		takeSnapShots(content: content)
+	}
+
 	@MainActor func test_snapshot_searchingState() {
 
 		// Given
 		createSut(firstVisitor: false)
+		viewModel.state.preparationState = .loading
 		viewModel.state.isSearching = true
 		viewModel.state.results = []
 
@@ -274,6 +297,7 @@ final class SearchOrganizationViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		createSut(firstVisitor: false)
+		viewModel.state.preparationState = .loading
 		viewModel.state.isSearching = true
 		viewModel.state.results = []
 
@@ -284,5 +308,4 @@ final class SearchOrganizationViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-
 }

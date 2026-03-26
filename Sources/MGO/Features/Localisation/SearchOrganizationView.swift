@@ -14,6 +14,18 @@ import MGOUI
 @MainActor
 class SearchOrganizationViewModel: ObservableObject {
 	
+	/// The preparation state of the organization search database.
+	enum PreparationState {
+		/// No preparation has started.
+		case none
+		/// The database is being prepared.
+		case loading
+		/// The database is being loaded.
+		case loaded
+		/// Preparation failed.
+		case error
+	}
+	
 	/// The state of the search organization view
 	struct SearchOrganizationViewState {
 
@@ -40,7 +52,10 @@ class SearchOrganizationViewModel: ObservableObject {
 
 		/// Non-nil when the confirmation cover is presented; the value is the org being confirmed.
 		var pendingConfirmation: OrganizationSearch.Organization?
-
+		
+		/// What state of database preparation are we?
+		var preparationState: PreparationState = .none
+		
 		/// The slice of `results` that is currently shown in the list.
 		var visibleResults: [OrganizationSearch.Organization] {
 			Array(results.prefix(visibleCount))
@@ -58,20 +73,20 @@ class SearchOrganizationViewModel: ObservableObject {
 	
 	/// All actions this view model can handle.
 	enum Action {
-		/// Prepare the organization search database.
-		case prepare
 		/// Dismiss the sheet that contains this view.
 		case closeSheet
 		/// Resign the keyboard / end text editing.
 		case endEditing
+		/// Render the next page of results.
+		case loadMore
+		/// Prepare the organization search database.
+		case prepare
 		/// Run a search for the given term, or clear results when `nil` / too short.
 		case search(String?)
 		/// The user tapped an organization row; show the confirmation cover.
 		case select(OrganizationSearch.Organization)
 		/// The user confirmed the selection; persist the organization and close the sheet.
 		case store(OrganizationSearch.Organization)
-		/// Render the next page of results.
-		case loadMore
 	}
 	
 	/// The flow coordinator for routing
@@ -104,38 +119,38 @@ class SearchOrganizationViewModel: ObservableObject {
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	func reduce(_ action: SearchOrganizationViewModel.Action) {
-
+		
 		switch action {
-
-			case .prepare:
-				prepare()
-
+				
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
-
+				
 			case .endEditing:
 				UIApplication.shared.endEditing()
-
+				
+			case .loadMore:
+				state.visibleCount = min(
+					state.visibleCount + SearchOrganizationViewModel.pageSize,
+					state.results.count
+				)
+			
+			case .prepare:
+				loadDatabase()
+			
 			case let .search(searchTerm):
 				search(searchTerm)
-
+				
 			case let .select(organization):
 				var transaction = Transaction()
 				transaction.disablesAnimations = true
 				withTransaction(transaction) {
 					state.pendingConfirmation = organization
 				}
-
+				
 			case let .store(organization):
 				store(organization)
 				state.storedOrganizationIDs.append(organization.id)
 				coordinator?.handle(Coordination.Action.closeSheet)
-
-			case .loadMore:
-				state.visibleCount = min(
-					state.visibleCount + SearchOrganizationViewModel.pageSize,
-					state.results.count
-				)
 		}
 	}
 	
@@ -145,9 +160,16 @@ class SearchOrganizationViewModel: ObservableObject {
 		// Cancel any existing search task
 		searchTask?.cancel()
 		
+		guard state.preparationState == .loaded else {
+			if state.preparationState == .error {
+				state.preparationState = .none
+				loadDatabase()
+			}
+			return
+		}
+		
 		guard let searchTerm,
 			  let sanitized = Sanitizer.strip(searchTerm),
-			  sanitized.isNotEmpty,
 			  sanitized.count > 2 else {
 			state.results = []
 			state.totalResults = 0
@@ -186,15 +208,19 @@ class SearchOrganizationViewModel: ObservableObject {
 		try? healthcareOrganizationRepository.store(organization)
 	}
 
-	/// Prepares the organization search database.
-	private func prepare() {
+	/// Load the database so we can start searching.
+	private func loadDatabase() {
+		guard state.preparationState == .none else { return }
 		Task {
 			do {
+				state.preparationState = .loading
 				try await organizationSearchClient.prepare(
 					dataset: LaunchArgumentsHandler.useTestProviders() ? .test : .remote
 				)
+				state.preparationState = .loaded
 			} catch {
-				logError("SearchOrganizationViewModel: prepare failed: \(error)")
+				logError("SearchOrganizationViewModel: loadDatabase failed: \(error)")
+				state.preparationState = .error
 			}
 		}
 	}
@@ -284,15 +310,29 @@ struct SearchOrganizationView: View {
 	
 	var body: some View {
 		List {
-
+			
 			topView
-
-			if viewModel.state.results.isNotEmpty {
-				listHeader
-
-				organizationsList
-			} else if !viewModel.state.isSearching && input.count > 2 {
-				emptyState
+			
+			switch viewModel.state.preparationState {
+				case .none, .loading:
+					EmptyView()
+					
+				case .loaded:
+					if viewModel.state.results.isNotEmpty {
+						listHeader
+						organizationsList
+					} else if !viewModel.state.isSearching && input.count > 2 {
+						searchState(
+							heading: "search_organization.no_results.heading",
+							subHeading: "search_organization.no_results.subheading"
+						)
+					}
+					
+				case .error:
+					searchState(
+						heading: "search_organization.error.heading",
+						subHeading: "search_organization.error.subheading"
+					)
 			}
 		}
 		.task {
@@ -400,7 +440,7 @@ struct SearchOrganizationView: View {
 			}
 			.overlay(alignment: .leading) {
 				
-				if viewModel.state.isSearching {
+				if viewModel.state.isSearching || viewModel.state.preparationState == .loading {
 					ProgressView()
 						.progressViewStyle(.circular)
 						.frame(
@@ -418,11 +458,18 @@ struct SearchOrganizationView: View {
 			.onChange(of: input) { newValue in
 				viewModel.reduce(.search(newValue))
 			}
+			.onChange(of: viewModel.state.preparationState) { state in
+				if state == .loaded, input.isNotEmpty {
+					viewModel.reduce(.search(input))
+				}
+			}
 	}
 	
-	/// The empty state, ie. the search resulted in no organizations
-	@ViewBuilder private var emptyState: some View {
-		
+	@ViewBuilder private func searchState(
+		heading: LocalizedStringKey,
+		subHeading: LocalizedStringKey
+	) -> some View {
+			
 		Section {
 			
 			VStack(alignment: .center, spacing: ViewTraits.Empty.spacing, content: {
@@ -435,12 +482,12 @@ struct SearchOrganizationView: View {
 					.frame(width: contentSize.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.33 : ViewTraits.Empty.maxWidthPercentage))
 					.padding(.bottom, ViewTraits.Empty.bottom)
 				
-				Text("search_organization.no_results.heading")
+				Text(heading)
 					.typography(.headingSmall)
 					.foregroundStyle(theme.labels.primary)
 					.multilineTextAlignment(.center)
 				
-				Text("search_organization.no_results.subheading")
+				Text(subHeading)
 					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.secondary)
 					.multilineTextAlignment(.center)
@@ -454,7 +501,9 @@ struct SearchOrganizationView: View {
 	}
 	
 	/// A single organization row wrapped in its `Section`.
-	@ViewBuilder private func organizationRow(_ organization: OrganizationSearch.Organization) -> some View {
+	@ViewBuilder private func organizationRow(
+		_ organization: OrganizationSearch.Organization
+	) -> some View {
 		Section {
 			OrganizationRowView(
 				organization: organization,

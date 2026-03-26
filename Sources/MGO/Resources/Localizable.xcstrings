@@ -2142,6 +2142,28 @@
         }
       }
     },
+    "search_organization.error.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er is iets misgegaan"
+          }
+        }
+      }
+    },
+    "search_organization.error.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het zoeken naar zorgaanbieders is niet gelukt. Probeer het opnieuw."
+          }
+        }
+      }
+    },
     "search_organization.heading" : {
       "extractionState" : "manual",
       "localizations" : {
