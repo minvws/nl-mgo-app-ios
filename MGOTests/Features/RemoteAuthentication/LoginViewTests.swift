@@ -119,4 +119,22 @@ final class LoginViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
 	}
+	
+	@MainActor func test_backbuttonPressed() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut(.firstTime)
+		let content = NavigationStackBackport.NavigationStack { sut }
+		
+		// When
+		try content.inspect()
+			.find(viewWithAccessibilityIdentifier: "common.previous")
+			.button()
+			.tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
+	}
 }

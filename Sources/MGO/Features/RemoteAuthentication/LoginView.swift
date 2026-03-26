@@ -29,6 +29,7 @@ class LoginViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case loginWithDigiD
+		case backButtonPressed
 	}
 	
 	/// The flow coordinator for routing
@@ -69,10 +70,14 @@ class LoginViewModel: ObservableObject {
 	/// - Parameter action: the action to be handled
 	@MainActor public func reduce(_ action: Action) {
 		
-		if action == .loginWithDigiD {
-			_Concurrency.Task(priority: .userInitiated) {
-				await authenticate()
-			}
+		switch action {
+			case .backButtonPressed:
+				coordinator?.handle(Coordination.Action.backButtonPressed)
+				
+			case .loginWithDigiD:
+				Task(priority: .userInitiated) {
+					await authenticate()
+				}
 		}
 	}
 	
@@ -179,6 +184,12 @@ struct LoginView: View {
 		}
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
+		.when(viewModel.state.mode == .firstTime) { view in
+			view
+				.navigationBarItems(leading: BackButton {
+					viewModel.reduce(.backButtonPressed)
+				})
+		}
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
@@ -214,6 +225,9 @@ struct LoginView: View {
 		} perform: {
 			viewModel.reduce(.loginWithDigiD)
 		}
+		.accessibilityIdentifier("login.digid")
+		.buttonStyle(PressReportingButtonStyle(isPressed: $isPressed))
+		.onPreferenceChange(PressedPreferenceKey.self) { isPressed = $0 }
 	}
 }
 
