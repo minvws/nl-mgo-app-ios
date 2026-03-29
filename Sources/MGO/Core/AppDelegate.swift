@@ -8,6 +8,8 @@ import MGOUI
 import MGOFoundation
 import FileStorage
 import RijksoverheidFont
+import OHHTTPStubs
+import OHHTTPStubsSwift
 
 class AppDelegate: NSObject, UIApplicationDelegate {
 	

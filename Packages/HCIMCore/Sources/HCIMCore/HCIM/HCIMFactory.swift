@@ -5,6 +5,7 @@
 
 import Foundation
 import MGODebug
+@_exported import HCIMCoreModels
 
 /*
  Health and Care Information models (HCIM), or Clinical Buildingblocks (CBB's) or Zorginformatiebouwstenen (zib's)

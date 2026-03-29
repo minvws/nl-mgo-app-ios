@@ -46,3 +46,4 @@ report.xml
 /tmp
 Sources/MGO/Info.plist
 /.claude
+/.build-benchmark
