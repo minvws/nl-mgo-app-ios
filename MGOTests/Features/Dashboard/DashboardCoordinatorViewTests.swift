@@ -20,10 +20,10 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 	}
 	
 	@MainActor private func createSut() {
-	
+		
 		coordinator = DashboardCoordinator(parentCoordinator: AppCoordinatorSpy())
 	}
-
+	
 	@MainActor func test_default() throws {
 		
 		// Given
