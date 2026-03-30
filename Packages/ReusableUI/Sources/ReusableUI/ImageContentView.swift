@@ -145,18 +145,18 @@ public struct ImageContentView: View {
 				.fixedSize(horizontal: false, vertical: true)
 				.accessibilityIdentifier("imagecontentview.subheading")
 			
-			Spacer()
+			Spacer(minLength: 0)
 		}
 		.frame(maxWidth: .infinity,
 			   alignment: configuration.textAlignment == .center ? .center : .leading
 		)
 	}
-	
+
 	@ViewBuilder
 	private var imageStack: some View {
 		// Image, 50% width
 		VStack(alignment: .center) {
-			Spacer()
+			Spacer(minLength: 0)
 			
 			icon
 				.resizable()
