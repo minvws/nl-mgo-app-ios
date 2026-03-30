@@ -52,7 +52,7 @@ public struct DataServices: Sendable {
 		
 		static let dateFormatter: DateFormatter = {
 			let formater = DateFormatter()
-			formater.timeZone = TimeZone(abbreviation: "CET")
+			formater.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 			formater.dateFormat = "yyyy-MM-dd"
 			
 			return formater

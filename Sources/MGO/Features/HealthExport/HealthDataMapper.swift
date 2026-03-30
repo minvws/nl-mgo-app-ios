@@ -11,7 +11,7 @@ class HealthDataMapper {
 	/// The date formatter
 	@MainActor private static var dateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
-		formatter.timeZone = TimeZone(abbreviation: "CET")
+		formatter.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 		formatter.dateStyle = .medium
 		formatter.timeStyle = .none
 		return formatter
@@ -20,7 +20,7 @@ class HealthDataMapper {
 	/// The time formatter
 	@MainActor private static var timeFormatter: DateFormatter = {
 		let formatter = DateFormatter()
-		formatter.timeZone = TimeZone(abbreviation: "CET")
+		formatter.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 		formatter.dateStyle = .none
 		formatter.timeStyle = .short
 		return formatter
@@ -31,7 +31,10 @@ class HealthDataMapper {
 	///   - category: the health category
 	///   - data: the health sub categories
 	/// - Returns: pdf Data
-	@MainActor func map(_ category: SharedHealthCategories.Category, data: [HealthCategoryBlock]) -> PdfData? {
+	@MainActor func map(
+		_ category: SharedHealthCategories.Category,
+		data: [HealthCategoryBlock]
+	) -> PdfData? {
 		
 		let date = Container.shared.now()()
 		
@@ -52,7 +55,9 @@ class HealthDataMapper {
 	/// Transform a Health sub category in a PDF Grouped tables
 	/// - Parameter subCategory: the sub category to transform
 	/// - Returns: a PDF grouped table
-	@MainActor private func mapSubCategory(_ subCategory: HealthCategoryBlock) -> PdfGroupedTables {
+	@MainActor private func mapSubCategory(
+		_ subCategory: HealthCategoryBlock
+	) -> PdfGroupedTables {
 		
 		return PdfGroupedTables(
 			heading: String(localized: String.LocalizationValue(stringLiteral: subCategory.heading)),
@@ -70,7 +75,9 @@ class HealthDataMapper {
 	/// Transform a Health ui schema into an array of PDF sub tables
 	/// - Parameter schema: the health schema to transform
 	/// - Returns: an array of PDF sub tables
-	@MainActor private func mapSchema(_ schema: HealthUISchema) -> [PdfSubTable] {
+	@MainActor private func mapSchema(
+		_ schema: HealthUISchema
+	) -> [PdfSubTable] {
 		
 		var result = [PdfSubTable]()
 		
@@ -86,7 +93,9 @@ class HealthDataMapper {
 	/// Map a UIElement onto a PDF sub table pair
 	/// - Parameter element: the element
 	/// - Returns: PDF sub table pair
-	@MainActor private func mapElement(_ element: UIElementProtocol) -> PdfSubTablePair? {
+	@MainActor private func mapElement(
+		_ element: UIElementProtocol
+	) -> PdfSubTablePair? {
 		
 		if element is SingleValue,
 		   let display = (element as? SingleValue)?.value?.display {

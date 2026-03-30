@@ -83,7 +83,10 @@ extension PdfDrawElement {
 	/// - Parameters:
 	///   - context: The drawing environment for a PDF renderer.
 	///   - inset: the inset as a result
-	@MainActor private func drawBorder(_ context: UIGraphicsPDFRendererContext, inset: inout CGFloat) {
+	@MainActor private func drawBorder(
+		_ context: UIGraphicsPDFRendererContext,
+		inset: inout CGFloat
+	) {
 		
 		guard let borderColor else { return }
 		
@@ -104,7 +107,10 @@ extension PdfDrawElement {
 	/// - Parameters:
 	///   - context: The drawing environment for a PDF renderer.
 	///   - inset: the inset as a result
-	@MainActor private func drawBackground(_ context: UIGraphicsPDFRendererContext, inset: inout CGFloat) {
+	@MainActor private func drawBackground(
+		_ context: UIGraphicsPDFRendererContext,
+		inset: inout CGFloat
+	) {
 		
 		guard let backgroundColor else { return }
 		
