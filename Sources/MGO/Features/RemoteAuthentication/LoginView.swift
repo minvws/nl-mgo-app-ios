@@ -29,6 +29,7 @@ class LoginViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case loginWithDigiD
+		case backButtonPressed
 	}
 	
 	/// The flow coordinator for routing
@@ -69,10 +70,14 @@ class LoginViewModel: ObservableObject {
 	/// - Parameter action: the action to be handled
 	@MainActor public func reduce(_ action: Action) {
 		
-		if action == .loginWithDigiD {
-			_Concurrency.Task(priority: .userInitiated) {
-				await authenticate()
-			}
+		switch action {
+			case .backButtonPressed:
+				coordinator?.handle(Coordination.Action.backButtonPressed)
+				
+			case .loginWithDigiD:
+				Task(priority: .userInitiated) {
+					await authenticate()
+				}
 		}
 	}
 	
@@ -179,41 +184,48 @@ struct LoginView: View {
 		}
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
+		.navigationBarTitleDisplayMode(.large)
+		.when(viewModel.state.mode == .firstTime) { view in
+			view
+				.navigationBarItems(leading: BackButton {
+					viewModel.reduce(.backButtonPressed)
+				})
+		}
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 	
 	/// Whether the user is currently pressing (but has not yet released) the DigiD button.
-	@State private var onHover = false
-	
+	@State private var isPressed = false
+
 	/// The button to use DigiD for authentication
 	/// - Returns: the button
 	@ViewBuilder private func digidButton() -> some View {
 		
-		HStack {
-			Spacer()
-			
-			Image(ImageResource.RemoteAuthentication.digid)
-				.opacity(onHover ? ViewTraits.Icon.opacity : 1)
-			
-			Text("login.digid")
-				.typography(.bodyMedium, with: .bold)
-			
-			Spacer()
-		}
-		.foregroundColor(theme.actions.solid.text.opacity(onHover ? ViewTraits.Button.opacity : 1))
-		.tint(theme.actions.solid.text)
-		.padding(ViewTraits.ButtonTitle.insets)
-		.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-		.background(theme.actions.solid.background.opacity(onHover ? ViewTraits.Button.opacity : 1))
-		.cornerRadius(osVersionChecker.available(version: .iOS(.v26)) ? ViewTraits.Button.roundedRadius : ViewTraits.Button.cornerRadius)
-		.accessibilityAddTraits(.isButton)
-		.accessibilityIdentifier("login.digid")
-		._onButtonGesture { pressed in
-			self.onHover = pressed
-		} perform: {
+		Button {
 			viewModel.reduce(.loginWithDigiD)
+		} label: {
+			HStack {
+				Spacer()
+				
+				Image(ImageResource.RemoteAuthentication.digid)
+					.opacity(isPressed ? ViewTraits.Icon.opacity : 1)
+				
+				Text("login.digid")
+					.typography(.bodyMedium, with: .bold)
+				
+				Spacer()
+			}
+			.foregroundColor(theme.actions.solid.text.opacity(isPressed ? ViewTraits.Button.opacity : 1))
+			.tint(theme.actions.solid.text)
+			.padding(ViewTraits.ButtonTitle.insets)
+			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
+			.background(theme.actions.solid.background.opacity(isPressed ? ViewTraits.Button.opacity : 1))
+			.cornerRadius(osVersionChecker.available(version: .iOS(.v26)) ? ViewTraits.Button.roundedRadius : ViewTraits.Button.cornerRadius)
 		}
+		.accessibilityIdentifier("login.digid")
+		.buttonStyle(PressReportingButtonStyle(isPressed: $isPressed))
+		.onPreferenceChange(PressedPreferenceKey.self) { isPressed = $0 }
 	}
 }
 

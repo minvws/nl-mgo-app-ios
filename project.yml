@@ -68,6 +68,9 @@ packages:
     path: ./Packages/SecureUserSettings
   Theme:
     path: ./Packages/Theme
+  OHHTTPStubs:
+    url: https://github.com/AliSoftware/OHHTTPStubs
+    exactVersion: 9.1.0
 # - Attributes:
 
 attributes:
@@ -114,6 +117,7 @@ settings:
     CLANG_CXX_LANGUAGE_STANDARD: "gnu++17"
     LOCALIZATION_PREFERS_STRING_CATALOGS: YES
     SWIFT_EMIT_LOC_STRINGS: YES
+    COMPILATION_CACHING: YES # Rec #1: cache Swift/Clang compilation results; 5-14% faster clean builds
 
     FRAMEWORK_SEARCH_PATHS:
       - "$(inherited)"
@@ -144,6 +148,8 @@ targetTemplates:
           VALIDATE_PRODUCT: NO
           LOG_LEVEL: debug
           DEEPLINK_SCHEMA: mgo-dev
+          DEBUG_INFORMATION_FORMAT: dwarf # Rec #5: no dSYM needed locally; saves ~1.2s per clean build
+          EAGER_LINKING: YES # Rec #6: let linker start before all compile tasks finish
         FirebaseAcceptance:
           NETWORK_CONFIGURATION: ACC
           LOG_LEVEL: error
@@ -191,6 +197,10 @@ targetTemplates:
       - package: RestrictedBrowser
       - package: PdfExport
         embed: false
+      - package: OHHTTPStubs
+        product: OHHTTPStubs
+      - package: OHHTTPStubs
+        product: OHHTTPStubsSwift
     settings:
       base:
         CURRENT_PROJECT_VERSION: 1 # needs to be present for project to build locally, but is overwritten by fastlane. No need to change.
@@ -240,12 +250,18 @@ targetTemplates:
 
     preBuildScripts:
       - name: Run SwiftLint
-        basedOnDependencyAnalysis: false
+        basedOnDependencyAnalysis: true # Rec #4: skip when sources haven't changed (~1s per no-op build)
+        inputFiles:
+          - $(SRCROOT)/Sources/MGO
+          - $(SRCROOT)/.swiftlint.yml
+        outputFiles:
+          - $(DERIVED_FILE_DIR)/swiftlint.timestamp
         script: |
           export PATH="$PATH:/opt/homebrew/bin" # for M1 macs
 
           if mint list | grep -q -i 'swiftlint'; then
             mint run swiftlint --quiet --config=./.swiftlint.yml
+            touch "${SCRIPT_OUTPUT_FILE_0}"
           else
             echo "warning: SwiftLint not found, run 'make dev' in the project root folder"
           fi
@@ -389,7 +405,7 @@ schemeTemplates:
         MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
       targets:
         - name: ${uiTestTargetName}
-          parallelizable: true
+          parallelizable: false
           randomExecutionOrder: true
 
 # - Schemes

@@ -30,7 +30,6 @@ let package = Package(
 		.package(name: "RemoteConfiguration", path: "../RemoteConfiguration"),
 		
 		// External
-		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", exact: "9.1.0"),
 		.package(url: "https://github.com/hmlongco/Factory", exact: "2.5.3")
 	],
 	targets: [
@@ -46,7 +45,6 @@ let package = Package(
 				.product(name: "NotificationCenter", package: "NotificationCenter"),
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "OrganizationSearch", package: "OrganizationSearch"),
-				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
 				.product(name: "PatientFriendlyTerms", package: "PatientFriendlyTerms"),
 				.product(name: "Sanitizer", package: "Sanitizer"),
 				.product(name: "SecureUserSettings", package: "SecureUserSettings"),

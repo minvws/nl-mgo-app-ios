@@ -3,32 +3,27 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@preconcurrency import MGOTest
 @testable import MGO
+import Testing
 import RestrictedBrowser
+import Foundation
 
-final class LoginViewModelTests: XCTestCase {
-
-	private var coordinatorSpy: AppCoordinatorSpy!
-	private var remoteAuthenticationClientSpy: RemoteAuthenticationClientSpy!
-	private var sut: LoginViewModel!
-	private var servicesSpies: ServicesSpies!
-	private var urlOpenerSpy: URLOpenerSpy!
+@MainActor
+final class LoginViewModelTests {
 	
-	override func setUpWithError() throws {
-		
+	private var coordinatorSpy: AppCoordinatorSpy
+	private var remoteAuthenticationClientSpy: RemoteAuthenticationClientSpy
+	private var sut: LoginViewModel
+	private var servicesSpies: ServicesSpies
+	private var urlOpenerSpy: URLOpenerSpy
+	
+	init() throws {
+		let url = try #require(URL(string: "https://example.com"))
 		coordinatorSpy = AppCoordinatorSpy()
-		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url)
 		servicesSpies = setupServicesSpies()
 		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		
-		super.setUp()
-	}
-	
-	@MainActor private func createSut() {
-		
 		sut = LoginViewModel(
 			coordinator: coordinatorSpy,
 			mode: .firstTime,
@@ -37,19 +32,30 @@ final class LoginViewModelTests: XCTestCase {
 		)
 	}
 	
-	@MainActor func test_loginWithDigiD() async throws {
+	@Test("Reduce backButtonPressed should call coordinator")
+	func reduce_backButtonPressed_shouldCallCoordinator() {
+		
+		// When
+		sut.reduce(.backButtonPressed)
+		
+		// Then
+		#expect(coordinatorSpy.invokedHandle == true)
+		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.backButtonPressed)
+	}
+	
+	@Test("Reduce loginWithDigiD should open the authentication URL")
+	func reduce_loginWithDigiD_shouldOpenAuthenticationURL() async throws {
 		
 		// Given
-		createSut()
-		let auth = try XCTUnwrap(URL(string: "https://example.com/auth"))
+		let auth = try #require(URL(string: "https://example.com/auth"))
 		await remoteAuthenticationClientSpy.setStubedGetAuthenticationUrl(auth)
 		
 		// When
 		sut.reduce(.loginWithDigiD)
 		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == false
-		await expect { self.urlOpenerSpy.invokedCanOpenURL }
-			.toEventually(beTrue())
+		// Then — coordinator is not called; the URL opener is invoked once the auth URL resolves
+		#expect(coordinatorSpy.invokedHandle == false)
+		try await Task.sleep(nanoseconds: 200 * 1_000_000)
+		#expect(urlOpenerSpy.invokedCanOpenURL == true)
 	}
 }

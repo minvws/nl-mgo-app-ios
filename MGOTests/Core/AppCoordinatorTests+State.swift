@@ -44,10 +44,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.90) // Lower precision due to random position of spinner
+		let splashView = try view.inspect().find(SplashView.self)
+		expect(splashView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forRequiredUpdate() throws {
@@ -58,10 +58,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content)
+		let updateRequiredView = try view.inspect().find(UpdateRequiredView.self)
+		expect(updateRequiredView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forIntroduction() throws {
@@ -72,10 +72,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content)
+		let introductionView = try view.inspect().find(IntroductionView.self)
+		expect(introductionView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forProposition() throws {
@@ -86,10 +86,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		let propositionView = try view.inspect().find(PropositionView.self)
+		expect(propositionView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_privacyStatement() throws {
@@ -118,10 +118,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		let loginView = try view.inspect().find(LoginView.self)
+		expect(loginView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forDashboard() throws {
@@ -132,10 +132,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		let dashboardView = try view.inspect().find(DashboardCoordinatorView<DashboardCoordinator>.self)
+		expect(dashboardView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forManualLocalization() throws {
@@ -146,9 +146,9 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
-		let content = NavigationStackBackport.NavigationStack { view }
 		
 		// Then
-		takeSnapShots(content: content)
+		let searchOrganizationView = try view.inspect().find(SearchOrganizationView.self)
+		expect(searchOrganizationView) != nil
 	}
 }

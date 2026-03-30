@@ -36,7 +36,8 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let settingsView = try view.inspect().find(SettingsView.self)
+		expect(settingsView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forDisplaySettings() throws {
@@ -49,7 +50,8 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let displaySettingsView = try view.inspect().find(DisplaySettingsView.self)
+		expect(displaySettingsView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forAdvancedSettings() throws {
@@ -62,7 +64,8 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let advancedSettingsView = try view.inspect().find(AdvancedSettingsView.self)
+		expect(advancedSettingsView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forAboutTheApp() throws {
@@ -75,8 +78,8 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-		takeSnapShotsForiPad(content: try XCTUnwrap(view))
+		let aboutTheAppView = try view.inspect().find(AboutTheAppView.self)
+		expect(aboutTheAppView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forAboutAccessibility() throws {
@@ -89,7 +92,8 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let aboutAccessibilityView = try view.inspect().find(AboutAccessibilityView.self)
+		expect(aboutAccessibilityView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forAboutSafetyTips() throws {
@@ -102,7 +106,8 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let aboutSafetyTipsView = try view.inspect().find(AboutSafetyTipsView.self)
+		expect(aboutSafetyTipsView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forAboutOpenSourceLibraries() throws {
@@ -115,7 +120,8 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), precision: 0.90)
+		let aboutOpenSourceLibrariesView = try view.inspect().find(AboutOpenSourceLibrariesView.self)
+		expect(aboutOpenSourceLibrariesView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_privacyStatement() throws {

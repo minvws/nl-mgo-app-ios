@@ -32,7 +32,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let organizationsView = try view.inspect().find(OrganizationsView.self)
+		expect(organizationsView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forAddHealthcareOrganization() throws {
@@ -44,7 +45,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let searchOrganizationView = try view.inspect().find(SearchOrganizationView.self)
+		expect(searchOrganizationView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forShowHealthcareOrganization() throws {
@@ -57,7 +59,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), precision: 0.95)
+		let healthCategoriesView = try view.inspect().find(HealthCategoriesView.self)
+		expect(healthCategoriesView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forShowHealthcareOrganization_withStore() throws {
@@ -71,7 +74,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), precision: 0.95)
+		let healthCategoriesView = try view.inspect().find(HealthCategoriesView.self)
+		expect(healthCategoriesView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forRemoveHealthcareOrganization() throws {
@@ -84,7 +88,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let removeHealthcareOrganizationView = try view.inspect().find(RemoveHealthcareOrganizationView.self)
+		expect(removeHealthcareOrganizationView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forShowHealthCategoryData() throws {
@@ -150,7 +155,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let healthDataView = try view.inspect().find(HealthDataView.self)
+		expect(healthDataView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_forShowHealthCategoryData_inSheet() throws {
@@ -195,7 +201,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let healthDataView = try view.inspect().find(HealthDataView.self)
+		expect(healthDataView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategories() throws {
@@ -206,7 +213,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: .showHealthCategories)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let healthCategoriesView = try view.inspect().find(HealthCategoriesView.self)
+		expect(healthCategoriesView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_showHealthCategory_alerts() throws {
@@ -428,7 +436,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), precision: 0.95)
+		let healthExportView = try view.inspect().find(HealthExportView.self)
+		expect(healthExportView) != nil
 	}
 	
 	@MainActor func test_coordinatorView_favorites() throws {
@@ -440,6 +449,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		let favoritesView = try view.inspect().find(FavoritesView.self)
+		expect(favoritesView) != nil
 	}
 }

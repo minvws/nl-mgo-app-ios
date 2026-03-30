@@ -7,6 +7,13 @@ let package = Package(
 	name: "HCIMCore",
 	platforms: [.iOS(.v15)],
 	products: [
+		// HCIMCoreModels exposes the 480 generated FHIR model types plus small companion
+		// model files as a standalone product. Keeping this separate lets Xcode cache it
+		// independently — a change to HCIMCore logic files does not trigger a recompile
+		// of the stable generated models.
+		.library(
+			name: "HCIMCoreModels",
+			targets: ["HCIMCoreModels"]),
 		.library(
 			name: "HCIMCore",
 			targets: ["HCIMCore"]),
@@ -16,12 +23,30 @@ let package = Package(
 		.package(name: "MGODebug", path: "../MGODebug"),
 	],
 	targets: [
-		// Targets are the basic building blocks of a package, defining a module or a test suite.
-		// Targets can depend on other targets in this package and products from dependencies.
+		// Stable model types: 480 generated FHIR structs + small companion models.
+		// Foundation-only, no other dependencies. These files rarely change.
+		.target(
+			name: "HCIMCoreModels",
+			path: "Sources/HCIMCore",
+			sources: [
+				"HCIM/Generated",
+				"HCIM/HCIMVersion.swift",
+				"FHIR/FHIRBinary.swift",
+			]
+		),
+		// Active logic: parser, factory, data helpers.
+		// Re-exports HCIMCoreModels so callers only need to import HCIMCore.
 		.target(
 			name: "HCIMCore",
 			dependencies: [
+				"HCIMCoreModels",
 				.product(name: "MGODebug", package: "MGODebug")
+			],
+			path: "Sources/HCIMCore",
+			sources: [
+				"HCIM/Data+Profile.swift",
+				"HCIM/HCIMFactory.swift",
+				"HCIMParser",
 			],
 			resources: [.process("Resources")]
 		),

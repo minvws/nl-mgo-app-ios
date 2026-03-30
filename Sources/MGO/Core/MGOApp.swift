@@ -158,6 +158,6 @@ struct TestApp: App {
 	/// An empty scene — tests drive the UI directly via XCUIApplication.
 	/// See https://qualitycoding.org/bypass-swiftui-app-launch-unit-testing/
 	var body: some Scene {
-		WindowGroup {}
+		WindowGroup { /* an empty scene*/ }
 	}
 }

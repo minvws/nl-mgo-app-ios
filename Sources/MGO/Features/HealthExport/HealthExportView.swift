@@ -113,14 +113,14 @@ class HealthExportViewModel: ObservableObject {
 	/// Create a share window
 	/// - Parameter url: the url of the document to share
 	@MainActor private func shareDocument(_ url: URL) {
-		
+
+		presentSharing = true
 		guard let vc = UIApplication.shared.firstKeyWindow?.rootViewController else { return }
-		
+
 		let shareActivity = UIActivityViewController(activityItems: [url], applicationActivities: nil)
 		shareActivity.popoverPresentationController?.sourceView = vc.view
 		shareActivity.popoverPresentationController?.sourceRect = CGRect(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height, width: 0, height: 0)
 		shareActivity.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
-		presentSharing = true
 		vc.present(shareActivity, animated: true, completion: nil)
 	}
 	

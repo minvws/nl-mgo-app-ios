@@ -35,9 +35,9 @@ struct HealthCategoryBlockRowView: View {
 				)
 			)
 			.contentShape(Rectangle())
-			.accessibilityElement(children: .combine)
 		}
 		.accessibilityIdentifier(accessibilityIdentifier)
+		.accessibilityRemoveTraits(.isHeader)
 		.buttonStyle(PressReportingButtonStyle(isPressed: $isPressed))
 		.onPreferenceChange(PressedPreferenceKey.self) { isPressed = $0 }
 		.listRowBackground(isPressed ? theme.backgrounds.tertiary : theme.backgrounds.secondary)

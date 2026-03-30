@@ -119,4 +119,45 @@ final class LoginViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
 	}
+	
+	@MainActor func test_digidButtonPressed() async throws {
+
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		let authUrl = try XCTUnwrap(URL(string: "https://auth.example.com"))
+		await remoteAuthenticationClientSpy.setStubedGetAuthenticationUrl(authUrl)
+		createSut(.firstTime)
+		let content = NavigationStackBackport.NavigationStack { sut }
+
+		// When
+		try content.inspect()
+			.find(viewWithAccessibilityIdentifier: "login.digid")
+			.button()
+			.tap()
+
+		// Wait for async authentication task to complete
+		try await Task.sleep(nanoseconds: 100_000_000)
+
+		// Then
+		let invoked = await remoteAuthenticationClientSpy.invokedGetAuthenticationUrl
+		expect(invoked) == true
+	}
+
+	@MainActor func test_backbuttonPressed() throws {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut(.firstTime)
+		let content = NavigationStackBackport.NavigationStack { sut }
+		
+		// When
+		try content.inspect()
+			.find(viewWithAccessibilityIdentifier: "common.previous")
+			.button()
+			.tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
+	}
 }

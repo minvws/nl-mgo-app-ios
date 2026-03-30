@@ -116,7 +116,7 @@ struct PropositionView: View {
 					.accessibilityIdentifier("proposition.statement_4")
 				}
 				
-				Spacer()
+				Spacer(minLength: 0)
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
 			.padding(.top, ViewTraits.Navigation.padding)
