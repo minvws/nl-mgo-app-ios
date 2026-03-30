@@ -184,6 +184,7 @@ struct LoginView: View {
 		}
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
+		.navigationBarTitleDisplayMode(.large)
 		.when(viewModel.state.mode == .firstTime) { view in
 			view
 				.navigationBarItems(leading: BackButton {
