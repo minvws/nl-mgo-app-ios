@@ -40,6 +40,25 @@ final class HealthExportViewModelTests: XCTestCase {
 								]
 							)
 						]
+					),
+					PdfTable(
+						heading: "Table #1",
+						subTables: [
+							PdfSubTable(
+								heading: nil,
+								data: [
+									PdfSubTablePair(key: "Key 1", value: "Value 1"),
+									PdfSubTablePair(key: "Key 2", value: "Value 2")
+								]
+							),
+							PdfSubTable(
+								heading: "Subtable #2",
+								data: [
+									PdfSubTablePair(key: "Key 3", value: "Value 3"),
+									PdfSubTablePair(key: "Key 4", value: "Value 4")
+								]
+							)
+						]
 					)
 				]
 			),
@@ -130,7 +149,7 @@ final class HealthExportViewModelTests: XCTestCase {
 		
 		let pdfUrl = try XCTUnwrap(sut.pdfUrl)
 		let data = FileManager.default.contents(atPath: pdfUrl.path)
-		expect(Double(data?.count ?? 0)).to(beCloseTo(13490, within: 10.0))
+		expect(Double(data?.count ?? 0)).to(beCloseTo(13897, within: 10.0))
 		try? FileManager.default.removeItem(atPath: pdfUrl.path)
 	}
 	

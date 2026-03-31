@@ -5,39 +5,56 @@
 
 import SwiftUI
 
+/// Which sides of a bordered element to draw
+public struct BorderSides: OptionSet, Sendable {
+	public let rawValue: Int
+	public init(rawValue: Int) { self.rawValue = rawValue }
+	public static let top    = BorderSides(rawValue: 1 << 0)
+	public static let bottom = BorderSides(rawValue: 1 << 1)
+	public static let left   = BorderSides(rawValue: 1 << 2)
+	public static let right  = BorderSides(rawValue: 1 << 3)
+	public static let all: BorderSides = [.top, .bottom, .left, .right]
+}
+
 @MainActor public struct PdfDrawElement {
-	
+
 	/// The text to draw
 	public let text: NSAttributedString?
-	
+
 	/// The optional border color
 	public let borderColor: Color?
-	
+
+	/// Which sides of the border to draw
+	public var borderSides: BorderSides
+
 	/// The rect to draw in.
 	public var rect: CGRect
-	
+
 	/// The height this element uses
 	public let height: CGFloat
-	
+
 	/// Is this a page break
 	public let isPageBreak: Bool
-	
+
 	/// Create a PDF Draw Element
 	/// - Parameters:
 	///   - text: the text to draw
 	///   - borderColor: the optional border color
+	///   - borderSides: which sides of the border to draw
 	///   - rect: the rect to draw in.
 	///   - height: the height this element uses
 	///   - isPageBreak: is this a page break
 	public init(
 		text: NSAttributedString?,
 		borderColor: Color? = nil,
+		borderSides: BorderSides = .all,
 		rect: CGRect,
 		height: CGFloat,
 		isPageBreak: Bool = false
 	) {
 		self.text = text
 		self.borderColor = borderColor
+		self.borderSides = borderSides
 		self.rect = rect
 		self.height = height
 		self.isPageBreak = isPageBreak
@@ -85,20 +102,38 @@ extension PdfDrawElement {
 		_ context: UIGraphicsPDFRendererContext,
 		inset: inout CGFloat
 	) {
-		
+
 		guard let borderColor else { return }
-		
+
 		inset = DrawTraits.General.padding
 		context.cgContext.setLineWidth(DrawTraits.Border.width)
 		context.cgContext.setStrokeColor(UIColor(borderColor).cgColor)
-		context.stroke(
-			CGRect(
-				x: rect.origin.x,
-				y: rect.origin.y,
-				width: rect.width,
-				height: rect.height + (2 * DrawTraits.General.padding)
-			)
+
+		let borderRect = CGRect(
+			x: rect.origin.x,
+			y: rect.origin.y,
+			width: rect.width,
+			height: rect.height + (2 * DrawTraits.General.padding)
 		)
+
+		context.cgContext.beginPath()
+		if borderSides.contains(.top) {
+			context.cgContext.move(to: CGPoint(x: borderRect.minX, y: borderRect.minY))
+			context.cgContext.addLine(to: CGPoint(x: borderRect.maxX, y: borderRect.minY))
+		}
+		if borderSides.contains(.bottom) {
+			context.cgContext.move(to: CGPoint(x: borderRect.minX, y: borderRect.maxY))
+			context.cgContext.addLine(to: CGPoint(x: borderRect.maxX, y: borderRect.maxY))
+		}
+		if borderSides.contains(.left) {
+			context.cgContext.move(to: CGPoint(x: borderRect.minX, y: borderRect.minY))
+			context.cgContext.addLine(to: CGPoint(x: borderRect.minX, y: borderRect.maxY))
+		}
+		if borderSides.contains(.right) {
+			context.cgContext.move(to: CGPoint(x: borderRect.maxX, y: borderRect.minY))
+			context.cgContext.addLine(to: CGPoint(x: borderRect.maxX, y: borderRect.maxY))
+		}
+		context.cgContext.strokePath()
 	}
 	
 	/// Draw the text

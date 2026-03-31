@@ -160,18 +160,19 @@ class HealthExportViewModel: ObservableObject {
 		currentY += PdfExport.Constants.innerMargin
 		
 		dataSource.tables.forEach({ groupedTable in
-			
+
 			// Grouped Table
-			var groupTableDrawElement = factory.createGroupedHeadingDrawElement(groupedTable, yPosition: currentY)
-			if currentY + groupTableDrawElement.height > availableHeight {
+			var groupHeading = factory.createGroupedHeadingDrawElement(groupedTable, yPosition: currentY)
+			if currentY + groupHeading.height > availableHeight {
 				drawElements.append(PdfDrawElement.pageBreak)
 				currentY = PdfExport.Constants.outerMargin
-				groupTableDrawElement.rect.origin.y = currentY
+				groupHeading.rect.origin.y = currentY
 			}
-			drawElements.append(groupTableDrawElement)
+			drawElements.append(groupHeading)
 			currentY += drawElements.last?.height ?? 0
-			
+
 			if groupedTable.tables.isEmpty {
+				// Empty group: single bordered element with all sides
 				drawElements.append(
 					factory.createEmptySubCategoryDrawElement(
 						String(localized: "export_pdf.no_data"),
@@ -180,25 +181,41 @@ class HealthExportViewModel: ObservableObject {
 				)
 				currentY += drawElements.last?.height ?? 0
 			}
-			
+
+			// Pre-compute the last bordered item in this group so we know when to draw the bottom border.
+			// Walk backwards: last pair of last non-empty subTable → last subTable heading → last table heading.
+			let lastBorderedPair: PdfSubTablePair? = groupedTable.tables.last?.subTables.reversed().lazy.compactMap { $0.data.last }.first
+			let lastBorderedSubTableHeading: PdfSubTable? = lastBorderedPair == nil
+				? groupedTable.tables.last?.subTables.reversed().first(where: { $0.heading != nil })
+				: nil
+			let lastBorderedIsTableHeading: Bool = lastBorderedPair == nil && lastBorderedSubTableHeading == nil
+
 			groupedTable.tables.forEach({ table in
-				
-				// Table
-				var tableDrawElement = factory.createTableHeadingDrawElement(table, yPosition: currentY)
-				if currentY + tableDrawElement.height > availableHeight {
+
+				// Table heading: top + left + right always (outer top on first; inner separator on subsequent)
+				var tableHeading = factory.createTableHeadingDrawElement(table, yPosition: currentY)
+				tableHeading.borderSides = [.top, .left, .right]
+				if lastBorderedIsTableHeading && table == groupedTable.tables.last {
+					tableHeading.borderSides.insert(.bottom)
+				}
+				if currentY + tableHeading.height > availableHeight {
 					drawElements.append(PdfDrawElement.pageBreak)
 					currentY = PdfExport.Constants.outerMargin
-					tableDrawElement.rect.origin.y = currentY
+					tableHeading.rect.origin.y = currentY
 				}
-				drawElements.append(tableDrawElement)
+				drawElements.append(tableHeading)
 				currentY += drawElements.last?.height ?? 0
-				
+
 				table.subTables.forEach({ subTable in
-					
+
 					// Subtables
 					if let heading = subTable.heading {
-						
+
 						var subTableHeadingDrawElement = factory.createSubTableHeadingDrawElement(heading: heading, yPosition: currentY)
+						subTableHeadingDrawElement.borderSides = [.left, .right]
+						if subTable == lastBorderedSubTableHeading {
+							subTableHeadingDrawElement.borderSides.insert(.bottom)
+						}
 						if currentY + subTableHeadingDrawElement.height > availableHeight {
 							drawElements.append(PdfDrawElement.pageBreak)
 							currentY = PdfExport.Constants.outerMargin
@@ -207,11 +224,20 @@ class HealthExportViewModel: ObservableObject {
 						drawElements.append(subTableHeadingDrawElement)
 						currentY += drawElements.last?.height ?? 0
 					}
-					
+
 					subTable.data.forEach({ pair in
-						
+
 						var rowDrawElements = factory.createSubTableRowDrawElement(pair, yPosition: currentY)
-						
+						// Key cell: left only
+						rowDrawElements[0].borderSides = [.left]
+						// Value cell: right only
+						rowDrawElements[1].borderSides = [.right]
+						// Last pair in the group gets a bottom border on both cells
+						if pair == lastBorderedPair {
+							rowDrawElements[0].borderSides.insert(.bottom)
+							rowDrawElements[1].borderSides.insert(.bottom)
+						}
+
 						if currentY + (rowDrawElements.last?.height ?? 0) > availableHeight {
 							drawElements.append(PdfDrawElement.pageBreak)
 							currentY = PdfExport.Constants.outerMargin
@@ -220,17 +246,17 @@ class HealthExportViewModel: ObservableObject {
 								rowDrawElements[1].rect.origin.y = currentY
 							}
 						}
-						
+
 						drawElements.append(contentsOf: rowDrawElements)
 						currentY += drawElements.last?.height ?? 0
 					}) // foreach subtable.data
 				}) // foreach table.subtable
-				
+
 				// Padding between tables
 				currentY += PdfExport.Constants.innerMargin
-				
+
 			})
-			
+
 			// New Page after Grouped Table (except the last one)
 			if groupedTable != dataSource.tables.last {
 				drawElements.append(PdfDrawElement.pageBreak)

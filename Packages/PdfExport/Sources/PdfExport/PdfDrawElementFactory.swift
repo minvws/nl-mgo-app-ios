@@ -281,9 +281,9 @@ public class PdfDrawElementFactory {
 				text: valueText,
 				borderColor: theme.border,
 				rect: CGRect(
-					x: PdfExport.Constants.outerMargin + (PdfExport.Constants.contentSize.width / 2) - 1,
+					x: PdfExport.Constants.outerMargin + (PdfExport.Constants.contentSize.width / 2),
 					y: yPosition,
-					width: (PdfExport.Constants.contentSize.width / 2) + 1,
+					width: PdfExport.Constants.contentSize.width / 2,
 					height: textHeight
 				),
 				height: textHeight + 11
