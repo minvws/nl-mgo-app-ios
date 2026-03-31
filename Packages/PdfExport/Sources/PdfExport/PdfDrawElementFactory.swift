@@ -153,15 +153,11 @@ public class PdfDrawElementFactory {
 		yPosition: CGFloat,
 	) -> PdfDrawElement {
 		
-		let style = NSMutableParagraphStyle()
-		style.alignment = NSTextAlignment.center
-		
 		let text = NSAttributedString(
 			string: table.heading,
 			attributes: [
 				.font: UIFont.helveticaBold(12) as Any,
-				.foregroundColor: UIColor(theme.primaryText),
-				.paragraphStyle: style
+				.foregroundColor: UIColor(theme.primaryText)
 			]
 		)
 		
