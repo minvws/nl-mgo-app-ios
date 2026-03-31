@@ -223,9 +223,8 @@ class HealthExportViewModel: ObservableObject {
 						
 						drawElements.append(contentsOf: rowDrawElements)
 						currentY += drawElements.last?.height ?? 0
-					})
-					
-				})
+					}) // foreach subtable.data
+				}) // foreach table.subtable
 				
 				// Padding between tables
 				currentY += PdfExport.Constants.innerMargin
@@ -237,8 +236,7 @@ class HealthExportViewModel: ObservableObject {
 				drawElements.append(PdfDrawElement.pageBreak)
 				currentY = PdfExport.Constants.outerMargin
 			}
-			
-		})
+		}) // foreach groupTable.table
 		
 		// Start drawing
 		drawPDF(drawElements, footer: footer)

@@ -50,7 +50,12 @@ import SwiftUI
 	}
 	
 	/// A page break element
-	static public let pageBreak: PdfDrawElement = .init(text: nil, rect: .zero, height: 0, isPageBreak: true)
+	static public let pageBreak: PdfDrawElement = .init(
+		text: nil,
+		rect: .zero,
+		height: 0,
+		isPageBreak: true
+	)
 }
 
 extension PdfDrawElement {
