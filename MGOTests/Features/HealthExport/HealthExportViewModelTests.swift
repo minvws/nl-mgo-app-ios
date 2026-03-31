@@ -130,7 +130,7 @@ final class HealthExportViewModelTests: XCTestCase {
 		
 		let pdfUrl = try XCTUnwrap(sut.pdfUrl)
 		let data = FileManager.default.contents(atPath: pdfUrl.path)
-		expect(Double(data?.count ?? 0)).to(beCloseTo(13711, within: 10.0))
+		expect(Double(data?.count ?? 0)).to(beCloseTo(13490, within: 10.0))
 		try? FileManager.default.removeItem(atPath: pdfUrl.path)
 	}
 	

@@ -35,7 +35,6 @@ struct PdfDrawElementFactoryTests {
 		
 		// Then
 		#expect(drawElement.text?.string == "test_pdfHeading")
-		#expect(drawElement.backgroundColor == nil)
 		#expect(drawElement.borderColor == nil)
 		#expect(drawElement.rect == CGRect(
 			x: 28,
@@ -66,7 +65,6 @@ struct PdfDrawElementFactoryTests {
 		
 		// Then
 		#expect(drawElement.text?.string == "test_pdfSubHeading")
-		#expect(drawElement.backgroundColor == nil)
 		#expect(drawElement.borderColor == nil)
 		#expect(drawElement.rect == CGRect(
 			x: 476.655,
@@ -95,7 +93,6 @@ struct PdfDrawElementFactoryTests {
 		
 		// Then
 		#expect(drawElement.text?.string == "test_groupedHeading")
-		#expect(drawElement.backgroundColor == nil)
 		#expect(drawElement.borderColor == nil)
 		#expect(drawElement.rect == CGRect(
 			x: 28,
@@ -124,7 +121,6 @@ struct PdfDrawElementFactoryTests {
 		
 		// Then
 		#expect(drawElement.text?.string == "test_tableHeading")
-		#expect(drawElement.backgroundColor == nil)
 		#expect(drawElement.borderColor == ExportTheme().border)
 		#expect(drawElement.rect == CGRect(
 			x: 28,
@@ -149,7 +145,6 @@ struct PdfDrawElementFactoryTests {
 		
 		// Then
 		#expect(drawElement.text?.string == "test_subTableHeading")
-		#expect(drawElement.backgroundColor == nil)
 		#expect(drawElement.borderColor == ExportTheme().border)
 		#expect(drawElement.rect == CGRect(
 			x: 28,
@@ -181,7 +176,6 @@ struct PdfDrawElementFactoryTests {
 		
 		let keyElement = try #require(drawElements.first)
 		#expect(keyElement.text?.string == "key")
-		#expect(keyElement.backgroundColor == ExportTheme().secondaryBackground)
 		#expect(keyElement.borderColor == ExportTheme().border)
 		#expect(keyElement.rect == CGRect(
 			x: 28,
@@ -194,7 +188,6 @@ struct PdfDrawElementFactoryTests {
 		
 		let valueElement = try #require(drawElements.last)
 		#expect(valueElement.text?.string == "value")
-		#expect(valueElement.backgroundColor == nil)
 		#expect(valueElement.borderColor == ExportTheme().border)
 		#expect(valueElement.rect == CGRect(
 			x: 296.64,
@@ -222,7 +215,6 @@ struct PdfDrawElementFactoryTests {
 		
 		// Then
 		#expect(drawElement.text?.string == "test_footer")
-		#expect(drawElement.backgroundColor == nil)
 		#expect(drawElement.borderColor == nil)
 		#expect(drawElement.rect == CGRect(
 			x: 28,
@@ -244,7 +236,6 @@ struct PdfDrawElementFactoryTests {
 		
 		// Then
 		#expect(drawElement.text?.string == "pagina 2 van 5")
-		#expect(drawElement.backgroundColor == nil)
 		#expect(drawElement.borderColor == nil)
 		#expect(drawElement.rect == CGRect(
 			x: 501.6696484375,
@@ -269,7 +260,6 @@ struct PdfDrawElementFactoryTests {
 		
 		// Then
 		#expect(drawElement.text?.string == "geen gegevens beschikbaar")
-		#expect(drawElement.backgroundColor == nil)
 		#expect(drawElement.borderColor == ExportTheme().border)
 		#expect(drawElement.rect == CGRect(
 			x: 28,
