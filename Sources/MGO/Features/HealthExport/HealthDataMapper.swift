@@ -26,20 +26,20 @@ class HealthDataMapper {
 		return formatter
 	}()
 	
-	/// Map a category and its sub categories to pdf data
+	/// Map a heading and its sub categories to pdf data
 	/// - Parameters:
-	///   - category: the health category
-	///   - data: the health sub categories
+	///   - heading: the heading
+	///   - blocks: the health sub categories
 	/// - Returns: pdf Data
 	@MainActor func map(
-		_ category: SharedHealthCategories.Category,
-		data: [HealthCategoryBlock]
+		_ heading: String,
+		blocks: [HealthCategoryBlock]
 	) -> PdfData? {
 		
 		let date = Container.shared.now()()
 		
 		return PdfData(
-			heading: category.localizedHeading(),
+			heading: heading,
 			subHeading: String(
 				format: String(localized: "export_pdf.subheading"),
 				arguments: [
@@ -47,7 +47,7 @@ class HealthDataMapper {
 					HealthDataMapper.timeFormatter.string(from: date)
 				]
 			),
-			tables: data.map(mapSubCategory),
+			tables: blocks.map(mapBlock),
 			footer: String(localized: "export_pdf.footer")
 		)
 	}
@@ -55,13 +55,13 @@ class HealthDataMapper {
 	/// Transform a Health sub category in a PDF Grouped tables
 	/// - Parameter subCategory: the sub category to transform
 	/// - Returns: a PDF grouped table
-	@MainActor private func mapSubCategory(
-		_ subCategory: HealthCategoryBlock
+	@MainActor private func mapBlock(
+		_ block: HealthCategoryBlock
 	) -> PdfGroupedTables {
 		
 		return PdfGroupedTables(
-			heading: String(localized: String.LocalizationValue(stringLiteral: subCategory.heading)),
-			tables: subCategory.rows.compactMap { row in
+			heading: String(localized: String.LocalizationValue(stringLiteral: block.heading)),
+			tables: block.rows.compactMap { row in
 				let subTables = mapSchema(row.schema)
 				if subTables.isEmpty {
 					return nil
