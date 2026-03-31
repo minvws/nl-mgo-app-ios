@@ -50,7 +50,6 @@ public class PdfDrawElementFactory {
 		
 		return PdfDrawElement(
 			text: text,
-			backgroundColor: nil,
 			borderColor: nil,
 			rect: CGRect(
 				x: PdfExport.Constants.outerMargin,
@@ -91,7 +90,6 @@ public class PdfDrawElementFactory {
 		
 		return PdfDrawElement(
 			text: text,
-			backgroundColor: nil,
 			borderColor: nil,
 			rect: CGRect(
 				x: PdfExport.Constants.outerMargin + PdfExport.Constants.contentSize.width - textBox.width,
@@ -131,7 +129,6 @@ public class PdfDrawElementFactory {
 		
 		return PdfDrawElement(
 			text: text,
-			backgroundColor: nil,
 			borderColor: nil,
 			rect: CGRect(
 				x: PdfExport.Constants.outerMargin,
@@ -171,7 +168,6 @@ public class PdfDrawElementFactory {
 		
 		return PdfDrawElement(
 			text: text,
-			backgroundColor: nil,
 			borderColor: theme.border,
 			rect: CGRect(
 				x: PdfExport.Constants.outerMargin,
@@ -212,7 +208,6 @@ public class PdfDrawElementFactory {
 		
 		return PdfDrawElement(
 			text: text,
-			backgroundColor: nil,
 			borderColor: theme.border,
 			rect: CGRect(
 				x: PdfExport.Constants.outerMargin,
@@ -273,7 +268,6 @@ public class PdfDrawElementFactory {
 		return [
 			PdfDrawElement(
 				text: keyText,
-				backgroundColor: theme.secondaryBackground,
 				borderColor: theme.border,
 				rect: CGRect(
 					x: PdfExport.Constants.outerMargin,
@@ -285,7 +279,6 @@ public class PdfDrawElementFactory {
 			),
 			PdfDrawElement(
 				text: valueText,
-				backgroundColor: nil,
 				borderColor: theme.border,
 				rect: CGRect(
 					x: PdfExport.Constants.outerMargin + (PdfExport.Constants.contentSize.width / 2) - 1,
@@ -322,7 +315,6 @@ public class PdfDrawElementFactory {
 		
 		return PdfDrawElement(
 			text: text,
-			backgroundColor: nil,
 			borderColor: nil,
 			rect: CGRect(
 				x: PdfExport.Constants.outerMargin,
@@ -359,7 +351,6 @@ public class PdfDrawElementFactory {
 		
 		return PdfDrawElement(
 			text: text,
-			backgroundColor: nil,
 			borderColor: nil,
 			rect: CGRect(
 				x: PdfExport.Constants.outerMargin + PdfExport.Constants.contentSize.width - textBox.width,
@@ -397,7 +388,6 @@ public class PdfDrawElementFactory {
 		
 		return PdfDrawElement(
 			text: text,
-			backgroundColor: nil,
 			borderColor: theme.border,
 			rect: CGRect(
 				x: PdfExport.Constants.outerMargin,

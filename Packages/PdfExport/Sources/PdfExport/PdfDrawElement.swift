@@ -10,9 +10,6 @@ import SwiftUI
 	/// The text to draw
 	public let text: NSAttributedString?
 	
-	/// The optional background color
-	public let backgroundColor: Color?
-	
 	/// The optional border color
 	public let borderColor: Color?
 	
@@ -28,21 +25,18 @@ import SwiftUI
 	/// Create a PDF Draw Element
 	/// - Parameters:
 	///   - text: the text to draw
-	///   - backgroundColor: the optional background color
 	///   - borderColor: the optional border color
 	///   - rect: the rect to draw in.
 	///   - height: the height this element uses
 	///   - isPageBreak: is this a page break
 	public init(
 		text: NSAttributedString?,
-		backgroundColor: Color? = nil,
 		borderColor: Color? = nil,
 		rect: CGRect,
 		height: CGFloat,
 		isPageBreak: Bool = false
 	) {
 		self.text = text
-		self.backgroundColor = backgroundColor
 		self.borderColor = borderColor
 		self.rect = rect
 		self.height = height
@@ -80,7 +74,6 @@ extension PdfDrawElement {
 		var inset: CGFloat = 0
 		
 		drawBorder(context, inset: &inset)
-		drawBackground(context, inset: &inset)
 		drawText(inset: inset)
 	}
 	
@@ -104,29 +97,6 @@ extension PdfDrawElement {
 				y: rect.origin.y,
 				width: rect.width,
 				height: rect.height + (2 * DrawTraits.General.padding)
-			)
-		)
-	}
-	
-	/// Draw the background
-	/// - Parameters:
-	///   - context: The drawing environment for a PDF renderer.
-	///   - inset: the inset as a result
-	@MainActor private func drawBackground(
-		_ context: UIGraphicsPDFRendererContext,
-		inset: inout CGFloat
-	) {
-		
-		guard let backgroundColor else { return }
-		
-		inset = DrawTraits.General.padding
-		context.cgContext.setFillColor(UIColor(backgroundColor).cgColor)
-		context.fill(
-			CGRect(
-				x: rect.origin.x + DrawTraits.Background.inset,
-				y: rect.origin.y + DrawTraits.Background.inset,
-				width: rect.width - (2 * DrawTraits.Background.inset),
-				height: rect.height + (2 * (DrawTraits.General.padding - DrawTraits.Background.inset))
 			)
 		)
 	}
