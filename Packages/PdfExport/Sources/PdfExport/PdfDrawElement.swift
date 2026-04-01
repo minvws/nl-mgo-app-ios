@@ -5,52 +5,75 @@
 
 import SwiftUI
 
-@MainActor public struct PdfDrawElement {
+/// Which sides of a bordered element to draw
+public struct BorderSides: OptionSet, Sendable {
 	
+	public let rawValue: Int
+	
+	public init(rawValue: Int) { self.rawValue = rawValue }
+	
+	public static let top    = BorderSides(rawValue: 1 << 0)
+	
+	public static let bottom = BorderSides(rawValue: 1 << 1)
+	
+	public static let left   = BorderSides(rawValue: 1 << 2)
+	
+	public static let right  = BorderSides(rawValue: 1 << 3)
+	
+	public static let all: BorderSides = [.top, .bottom, .left, .right]
+}
+
+@MainActor public struct PdfDrawElement {
+
 	/// The text to draw
 	public let text: NSAttributedString?
-	
-	/// The optional background color
-	public let backgroundColor: Color?
-	
+
 	/// The optional border color
 	public let borderColor: Color?
-	
+
+	/// Which sides of the border to draw
+	public var borderSides: BorderSides
+
 	/// The rect to draw in.
 	public var rect: CGRect
-	
+
 	/// The height this element uses
 	public let height: CGFloat
-	
+
 	/// Is this a page break
 	public let isPageBreak: Bool
-	
+
 	/// Create a PDF Draw Element
 	/// - Parameters:
 	///   - text: the text to draw
-	///   - backgroundColor: the optional background color
 	///   - borderColor: the optional border color
+	///   - borderSides: which sides of the border to draw
 	///   - rect: the rect to draw in.
 	///   - height: the height this element uses
 	///   - isPageBreak: is this a page break
 	public init(
 		text: NSAttributedString?,
-		backgroundColor: Color? = nil,
 		borderColor: Color? = nil,
+		borderSides: BorderSides = .all,
 		rect: CGRect,
 		height: CGFloat,
 		isPageBreak: Bool = false
 	) {
 		self.text = text
-		self.backgroundColor = backgroundColor
 		self.borderColor = borderColor
+		self.borderSides = borderSides
 		self.rect = rect
 		self.height = height
 		self.isPageBreak = isPageBreak
 	}
 	
 	/// A page break element
-	static public let pageBreak: PdfDrawElement = .init(text: nil, rect: .zero, height: 0, isPageBreak: true)
+	static public let pageBreak: PdfDrawElement = .init(
+		text: nil,
+		rect: .zero,
+		height: 0,
+		isPageBreak: true
+	)
 }
 
 extension PdfDrawElement {
@@ -58,7 +81,8 @@ extension PdfDrawElement {
 	/// Magic Numbers
 	private struct DrawTraits {
 		enum General {
-			static let padding: CGFloat = 6
+			static let verticalPadding: CGFloat = 6
+			static let horizontalPadding: CGFloat = 12
 		}
 		enum Background {
 			static let inset: CGFloat = 1
@@ -71,68 +95,71 @@ extension PdfDrawElement {
 	/// Draw this pdf draw element
 	/// - Parameter context: The drawing environment for a PDF renderer.
 	@MainActor public func draw(_ context: UIGraphicsPDFRendererContext) {
-		
-		var inset: CGFloat = 0
-		
-		drawBorder(context, inset: &inset)
-		drawBackground(context, inset: &inset)
-		drawText(inset: inset)
+
+		var verticalInset: CGFloat = 0
+
+		drawBorder(context, inset: &verticalInset)
+		let horizontalInset: CGFloat = borderColor != nil ? DrawTraits.General.horizontalPadding : 0
+		drawText(verticalInset: verticalInset, horizontalInset: horizontalInset)
 	}
 	
 	/// Draw the border
 	/// - Parameters:
 	///   - context: The drawing environment for a PDF renderer.
 	///   - inset: the inset as a result
-	@MainActor private func drawBorder(_ context: UIGraphicsPDFRendererContext, inset: inout CGFloat) {
-		
+	@MainActor private func drawBorder(
+		_ context: UIGraphicsPDFRendererContext,
+		inset: inout CGFloat
+	) {
+
 		guard let borderColor else { return }
-		
-		inset = DrawTraits.General.padding
+
+		let topPadding: CGFloat = borderSides.contains(.top) ? DrawTraits.General.horizontalPadding : DrawTraits.General.verticalPadding
+		let bottomPadding: CGFloat = borderSides.contains(.bottom) ? DrawTraits.General.horizontalPadding : DrawTraits.General.verticalPadding
+		inset = topPadding
 		context.cgContext.setLineWidth(DrawTraits.Border.width)
 		context.cgContext.setStrokeColor(UIColor(borderColor).cgColor)
-		context.stroke(
-			CGRect(
-				x: rect.origin.x,
-				y: rect.origin.y,
-				width: rect.width,
-				height: rect.height + (2 * DrawTraits.General.padding)
-			)
+
+		let borderRect = CGRect(
+			x: rect.origin.x,
+			y: rect.origin.y,
+			width: rect.width,
+			height: rect.height + topPadding + bottomPadding
 		)
-	}
-	
-	/// Draw the background
-	/// - Parameters:
-	///   - context: The drawing environment for a PDF renderer.
-	///   - inset: the inset as a result
-	@MainActor private func drawBackground(_ context: UIGraphicsPDFRendererContext, inset: inout CGFloat) {
-		
-		guard let backgroundColor else { return }
-		
-		inset = DrawTraits.General.padding
-		context.cgContext.setFillColor(UIColor(backgroundColor).cgColor)
-		context.fill(
-			CGRect(
-				x: rect.origin.x + DrawTraits.Background.inset,
-				y: rect.origin.y + DrawTraits.Background.inset,
-				width: rect.width - (2 * DrawTraits.Background.inset),
-				height: rect.height + (2 * (DrawTraits.General.padding - DrawTraits.Background.inset))
-			)
-		)
+
+		context.cgContext.beginPath()
+		if borderSides.contains(.top) {
+			context.cgContext.move(to: CGPoint(x: borderRect.minX, y: borderRect.minY))
+			context.cgContext.addLine(to: CGPoint(x: borderRect.maxX, y: borderRect.minY))
+		}
+		if borderSides.contains(.bottom) {
+			context.cgContext.move(to: CGPoint(x: borderRect.minX, y: borderRect.maxY))
+			context.cgContext.addLine(to: CGPoint(x: borderRect.maxX, y: borderRect.maxY))
+		}
+		if borderSides.contains(.left) {
+			context.cgContext.move(to: CGPoint(x: borderRect.minX, y: borderRect.minY))
+			context.cgContext.addLine(to: CGPoint(x: borderRect.minX, y: borderRect.maxY))
+		}
+		if borderSides.contains(.right) {
+			context.cgContext.move(to: CGPoint(x: borderRect.maxX, y: borderRect.minY))
+			context.cgContext.addLine(to: CGPoint(x: borderRect.maxX, y: borderRect.maxY))
+		}
+		context.cgContext.strokePath()
 	}
 	
 	/// Draw the text
 	/// - Parameters:
 	///   - context: The drawing environment for a PDF renderer.
 	///   - inset: the inset to use
-	@MainActor private func drawText(inset: CGFloat) {
-		
+	@MainActor private func drawText(verticalInset: CGFloat, horizontalInset: CGFloat) {
+
 		guard let text else { return }
-		
+
 		text.draw(
 			in: CGRect(
-				x: rect.origin.x + inset,
-				y: rect.origin.y + inset,
-				width: rect.width - 2 * inset,
+				x: rect.origin.x + horizontalInset,
+				y: rect.origin.y + verticalInset,
+				width: rect.width - 2 * horizontalInset,
 				height: rect.height
 			)
 		)

@@ -212,12 +212,17 @@ class HealthCategoryViewModel: ObservableObject {
 				if case let .list(items, _) = state {
 					blocks = items
 				}
-
+				
+				let data = HealthDataMapper().map(
+					category.localizedHeading(),
+					blocks: blocks
+				)
+				
 				coordinator?.handle(
 					Coordination.Action(
 						identifier: Coordination.Action.exportHealthData.identifier,
 						params: [
-							"healthData": HealthDataMapper().map(category, data: blocks)
+							"healthData": data
 						]
 					)
 				)
