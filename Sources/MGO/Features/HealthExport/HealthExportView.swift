@@ -2,12 +2,13 @@
  *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
-	
+
 import MGOFoundation
 import MGOUI
 import PdfExport
 import FileStorage
 
+@MainActor
 class HealthExportViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
@@ -60,7 +61,7 @@ class HealthExportViewModel: ObservableObject {
 	/// - Parameter healthData: the health data to export
 	/// - Parameter storage: the file storage system
 	/// - Parameter forIpad: should we render for iPad
-	@MainActor init(
+	init(
 		coordinator: (any Coordinator)? = nil,
 		healthData: PdfData,
 		storage: FileStorageProtocol = FileStorage(subDirectory: HealthDirectory.export),
@@ -79,15 +80,15 @@ class HealthExportViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	@MainActor func reduce(_ action: HealthExportViewModel.Action) {
+	func reduce(_ action: HealthExportViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
-			
+				
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
-			
+				
 			case .onAppear:
 				generatePDF()
 				
@@ -97,7 +98,7 @@ class HealthExportViewModel: ObservableObject {
 					logDebug("Saving PDF onAppear", url as Any)
 					pdfUrl = url
 				}
-			
+				
 			case .safePdf:
 				if case let .document(pDFDocument) = state,
 				   let data = pDFDocument.dataRepresentation(),
@@ -112,11 +113,11 @@ class HealthExportViewModel: ObservableObject {
 	
 	/// Create a share window
 	/// - Parameter url: the url of the document to share
-	@MainActor private func shareDocument(_ url: URL) {
-
+	private func shareDocument(_ url: URL) {
+		
 		presentSharing = true
 		guard let vc = UIApplication.shared.firstKeyWindow?.rootViewController else { return }
-
+		
 		let shareActivity = UIActivityViewController(activityItems: [url], applicationActivities: nil)
 		shareActivity.popoverPresentationController?.sourceView = vc.view
 		shareActivity.popoverPresentationController?.sourceRect = CGRect(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height, width: 0, height: 0)
@@ -132,140 +133,238 @@ class HealthExportViewModel: ObservableObject {
 	] as [CFString: Any]
 	
 	/// Generate the PDF
-	/// - Parameter source: the data source
-	@MainActor internal func generatePDF() {
+	internal func generatePDF() {
 		
-		// Our pointer to the position where we should draw the next element
 		var currentY: CGFloat = PdfExport.Constants.outerMargin
-		
-		// The array with all the draw elements we are creating
 		var drawElements = [PdfDrawElement]()
-		
-		// Footer, reusable
 		let footer = factory.createFooterElement(dataSource)
-		
-		// What is the height we have for our tables? the content height minus footer minus the margins.
 		let availableHeight = PdfExport.Constants.contentSize.height - footer.height - PdfExport.Constants.innerMargin
-
-		// We should always start with a page break
-		drawElements.append(PdfDrawElement.pageBreak)
 		
-		// The heading and sub heading on the first page
-		drawElements.append(factory.createPdfSubHeadingDrawElement(dataSource, yPosition: currentY))
-		currentY += drawElements.last?.height ?? 0
-		drawElements.append(factory.createPdfHeadingDrawElement(dataSource, yPosition: currentY))
-		currentY += drawElements.last?.height ?? 0
-
-		// Padding between heading and tables
+		drawElements.append(PdfDrawElement.pageBreak)
+		appendPageHeader(to: &drawElements, currentY: &currentY)
 		currentY += PdfExport.Constants.innerMargin
 		
-		dataSource.tables.forEach({ groupedTable in
-
-			// Grouped Table
-			var groupHeading = factory.createGroupedHeadingDrawElement(groupedTable, yPosition: currentY)
-			if currentY + groupHeading.height > availableHeight {
-				drawElements.append(PdfDrawElement.pageBreak)
-				currentY = PdfExport.Constants.outerMargin
-				groupHeading.rect.origin.y = currentY
-			}
-			drawElements.append(groupHeading)
-			currentY += drawElements.last?.height ?? 0
-
-			if groupedTable.tables.isEmpty {
-				// Empty group: single bordered element with all sides
-				drawElements.append(
-					factory.createEmptySubCategoryDrawElement(
-						String(localized: "export_pdf.no_data"),
-						yPosition: currentY
-					)
-				)
-				currentY += drawElements.last?.height ?? 0
-			}
-
-			// Pre-compute the last bordered item in this group so we know when to draw the bottom border.
-			// Walk backwards: last pair of last non-empty subTable → last subTable heading → last table heading.
-			let lastBorderedPair: PdfSubTablePair? = groupedTable.tables.last?.subTables.reversed().lazy.compactMap { $0.data.last }.first
-			let lastBorderedSubTableHeading: PdfSubTable? = lastBorderedPair == nil
-				? groupedTable.tables.last?.subTables.reversed().first(where: { $0.heading != nil })
-				: nil
-			let lastBorderedIsTableHeading: Bool = lastBorderedPair == nil && lastBorderedSubTableHeading == nil
-
-			groupedTable.tables.forEach({ table in
-
-				// Table heading: top + left + right always (outer top on first; inner separator on subsequent)
-				var tableHeading = factory.createTableHeadingDrawElement(table, yPosition: currentY)
-				tableHeading.borderSides = [.top, .left, .right]
-				if lastBorderedIsTableHeading && table == groupedTable.tables.last {
-					tableHeading.borderSides.insert(.bottom)
-				}
-				if currentY + tableHeading.height > availableHeight {
-					drawElements.append(PdfDrawElement.pageBreak)
-					currentY = PdfExport.Constants.outerMargin
-					tableHeading.rect.origin.y = currentY
-				}
-				drawElements.append(tableHeading)
-				currentY += drawElements.last?.height ?? 0
-
-				table.subTables.forEach({ subTable in
-
-					// Subtables
-					if let heading = subTable.heading {
-
-						var subTableHeadingDrawElement = factory.createSubTableHeadingDrawElement(heading: heading, yPosition: currentY)
-						subTableHeadingDrawElement.borderSides = [.left, .right]
-						if subTable == lastBorderedSubTableHeading {
-							subTableHeadingDrawElement.borderSides.insert(.bottom)
-						}
-						if currentY + subTableHeadingDrawElement.height > availableHeight {
-							drawElements.append(PdfDrawElement.pageBreak)
-							currentY = PdfExport.Constants.outerMargin
-							subTableHeadingDrawElement.rect.origin.y = currentY
-						}
-						drawElements.append(subTableHeadingDrawElement)
-						currentY += drawElements.last?.height ?? 0
-					}
-
-					subTable.data.forEach({ pair in
-
-						var rowDrawElements = factory.createSubTableRowDrawElement(pair, yPosition: currentY)
-						// Key cell: left only
-						rowDrawElements[0].borderSides = [.left]
-						// Value cell: right only
-						rowDrawElements[1].borderSides = [.right]
-						// Last pair in the group gets a bottom border on both cells
-						if pair == lastBorderedPair {
-							rowDrawElements[0].borderSides.insert(.bottom)
-							rowDrawElements[1].borderSides.insert(.bottom)
-						}
-
-						if currentY + (rowDrawElements.last?.height ?? 0) > availableHeight {
-							drawElements.append(PdfDrawElement.pageBreak)
-							currentY = PdfExport.Constants.outerMargin
-							if rowDrawElements.count == 2 {
-								rowDrawElements[0].rect.origin.y = currentY
-								rowDrawElements[1].rect.origin.y = currentY
-							}
-						}
-
-						drawElements.append(contentsOf: rowDrawElements)
-						currentY += drawElements.last?.height ?? 0
-					}) // foreach subtable.data
-				}) // foreach table.subtable
-
-				// Padding between tables
-				currentY += PdfExport.Constants.innerMargin
-
-			})
-
-			// New Page after Grouped Table (except the last one)
+		dataSource.tables.forEach { groupedTable in
+			appendGroupedTable(
+				groupedTable,
+				to: &drawElements,
+				currentY: &currentY,
+				availableHeight: availableHeight
+			)
 			if groupedTable != dataSource.tables.last {
 				drawElements.append(PdfDrawElement.pageBreak)
 				currentY = PdfExport.Constants.outerMargin
 			}
-		}) // foreach groupTable.table
+		}
 		
-		// Start drawing
 		drawPDF(drawElements, footer: footer)
+	}
+	
+	/// Append the sub-heading and heading elements for the first page
+	private func appendPageHeader(
+		to drawElements: inout [PdfDrawElement],
+		currentY: inout CGFloat
+	) {
+		// Creation Date
+		drawElements.append(factory.createPdfSubHeadingDrawElement(
+			dataSource,
+			yPosition: currentY)
+		)
+		currentY += drawElements.last?.height ?? 0
+		drawElements.append(factory.createPdfHeadingDrawElement(
+			dataSource,
+			yPosition: currentY)
+		)
+		currentY += drawElements.last?.height ?? 0
+	}
+	
+	/// Append all draw elements for a single PdfGroupedTable
+	private func appendGroupedTable(
+		_ groupedTable: PdfGroupedTables,
+		to drawElements: inout [PdfDrawElement],
+		currentY: inout CGFloat,
+		availableHeight: CGFloat
+	) {
+		var groupHeading = factory.createGroupedHeadingDrawElement(
+			groupedTable,
+			yPosition: currentY
+		)
+		append(
+			&groupHeading,
+			to: &drawElements,
+			currentY: &currentY,
+			availableHeight: availableHeight
+		)
+		
+		guard !groupedTable.tables.isEmpty else {
+			var empty = factory.createEmptySubCategoryDrawElement(
+				String(localized: "export_pdf.no_data"),
+				yPosition: currentY
+			)
+			append(
+				&empty,
+				to: &drawElements,
+				currentY: &currentY,
+				availableHeight: availableHeight
+			)
+			return
+		}
+		
+		let (lastPair, lastSubTableHeading, lastIsTableHeading) = lastBorderedElements(in: groupedTable)
+		
+		groupedTable.tables.forEach { table in
+			appendTable(
+				table,
+				to: &drawElements,
+				currentY: &currentY,
+				availableHeight: availableHeight,
+				lastBorderedPair: lastPair,
+				lastBorderedSubTableHeading: lastSubTableHeading,
+				lastBorderedIsTableHeading: lastIsTableHeading,
+				isLastTable: table == groupedTable.tables.last
+			)
+			currentY += PdfExport.Constants.innerMargin
+		}
+	}
+	
+	/// Pre-compute which element in a group receives the bottom border
+	nonisolated private func lastBorderedElements(
+		in groupedTable: PdfGroupedTables
+	) -> (pair: PdfSubTablePair?, subTableHeading: PdfSubTable?, isTableHeading: Bool) {
+		let lastPair = groupedTable.tables.last?.subTables.reversed().lazy.compactMap { $0.data.last }.first
+		let lastSubTableHeading = lastPair == nil
+		? groupedTable.tables.last?.subTables.reversed().first(where: { $0.heading != nil })
+		: nil
+		return (lastPair, lastSubTableHeading, lastPair == nil && lastSubTableHeading == nil)
+	}
+	
+	/// Append all draw elements for a single PdfTable
+	private func appendTable(
+		_ table: PdfTable,
+		to drawElements: inout [PdfDrawElement],
+		currentY: inout CGFloat,
+		availableHeight: CGFloat,
+		lastBorderedPair: PdfSubTablePair?,
+		lastBorderedSubTableHeading: PdfSubTable?,
+		lastBorderedIsTableHeading: Bool,
+		isLastTable: Bool
+	) {
+		var tableHeading = factory.createTableHeadingDrawElement(
+			table,
+			yPosition: currentY
+		)
+		tableHeading.borderSides = [.top, .left, .right]
+		if lastBorderedIsTableHeading && isLastTable {
+			tableHeading.borderSides.insert(.bottom)
+		}
+		append(
+			&tableHeading,
+			to: &drawElements,
+			currentY: &currentY,
+			availableHeight: availableHeight
+		)
+		
+		table.subTables.forEach { subTable in
+			appendSubTable(
+				subTable,
+				to: &drawElements,
+				currentY: &currentY,
+				availableHeight: availableHeight,
+				lastBorderedPair: lastBorderedPair,
+				lastBorderedSubTableHeading: lastBorderedSubTableHeading
+			)
+		}
+	}
+	
+	/// Append all draw elements for a single PdfSubTable
+	private func appendSubTable(
+		_ subTable: PdfSubTable,
+		to drawElements: inout [PdfDrawElement],
+		currentY: inout CGFloat,
+		availableHeight: CGFloat,
+		lastBorderedPair: PdfSubTablePair?,
+		lastBorderedSubTableHeading: PdfSubTable?
+	) {
+		if let heading = subTable.heading {
+			var element = factory.createSubTableHeadingDrawElement(
+				heading: heading,
+				yPosition: currentY
+			)
+			element.borderSides = [.left, .right]
+			if subTable == lastBorderedSubTableHeading {
+				element.borderSides.insert(.bottom)
+			}
+			append(
+				&element,
+				to: &drawElements,
+				currentY: &currentY,
+				availableHeight: availableHeight
+			)
+		}
+		
+		subTable.data.forEach { pair in
+			appendRow(
+				pair,
+				to: &drawElements,
+				currentY: &currentY,
+				availableHeight: availableHeight,
+				isLastInGroup: pair == lastBorderedPair
+			)
+		}
+	}
+	
+	/// Append a key/value row pair with the correct border sides
+	private func appendRow(
+		_ pair: PdfSubTablePair,
+		to drawElements: inout [PdfDrawElement],
+		currentY: inout CGFloat,
+		availableHeight: CGFloat,
+		isLastInGroup: Bool
+	) {
+		var row = factory.createSubTableRowDrawElement(
+			pair,
+			yPosition: currentY
+		)
+		row[0].borderSides = isLastInGroup ? [.left, .bottom] : [.left]
+		row[1].borderSides = isLastInGroup ? [.right, .bottom] : [.right]
+		appendRowPair(
+			&row,
+			to: &drawElements,
+			currentY: &currentY,
+			availableHeight: availableHeight
+		)
+	}
+	
+	/// Append a single draw element, inserting a page break first if needed
+	private func append(
+		_ element: inout PdfDrawElement,
+		to drawElements: inout [PdfDrawElement],
+		currentY: inout CGFloat,
+		availableHeight: CGFloat
+	) {
+		if currentY + element.height > availableHeight {
+			drawElements.append(PdfDrawElement.pageBreak)
+			currentY = PdfExport.Constants.outerMargin
+			element.rect.origin.y = currentY
+		}
+		drawElements.append(element)
+		currentY += element.height
+	}
+	
+	/// Append a two-element row pair, inserting a page break first if needed
+	private func appendRowPair(
+		_ elements: inout [PdfDrawElement],
+		to drawElements: inout [PdfDrawElement],
+		currentY: inout CGFloat,
+		availableHeight: CGFloat
+	) {
+		if currentY + (elements.last?.height ?? 0) > availableHeight {
+			drawElements.append(PdfDrawElement.pageBreak)
+			currentY = PdfExport.Constants.outerMargin
+			elements.indices.forEach { elements[$0].rect.origin.y = currentY }
+		}
+		drawElements.append(contentsOf: elements)
+		currentY += elements.last?.height ?? 0
 	}
 	
 	/// Draw all the elements in a PDF
@@ -273,11 +372,14 @@ class HealthExportViewModel: ObservableObject {
 	///   - elements: the elements to draw (should start with a page break)
 	///   - footer: the footer for each page
 	///   - contentSize: the content size
-	@MainActor func drawPDF(_ elements: [PdfDrawElement], footer: PdfDrawElement) {
+	func drawPDF(
+		_ elements: [PdfDrawElement],
+		footer: PdfDrawElement
+	) {
 		
 		let format = UIGraphicsPDFRendererFormat()
 		format.documentInfo = metaData as [String: Any]
-
+		
 		// The engine to render the PDF
 		let pdfRenderer = UIGraphicsPDFRenderer(
 			bounds: CGRect(x: 0, y: 0, width: PdfExport.Constants.pageWidth, height: PdfExport.Constants.pageHeight),
@@ -319,7 +421,7 @@ class HealthExportViewModel: ObservableObject {
 	///   - currentPage: the page we are currently drawing on
 	///   - totalPages: the total number of pages
 	///   - footer: the footer for each page
-	@MainActor private func handlePageBreak(
+	private func handlePageBreak(
 		_ context: UIGraphicsPDFRendererContext,
 		currentPage: inout Int,
 		totalPages: Int,
@@ -328,7 +430,7 @@ class HealthExportViewModel: ObservableObject {
 		
 		// We should draw a new page
 		context.beginPage()
-
+		
 		// Increase page number
 		currentPage += 1
 		
@@ -349,11 +451,12 @@ class HealthExportViewModel: ObservableObject {
 	///   - data: the pdf in binary
 	///   - fileName: the name of the file
 	/// - Returns: url to the saved file.
-	@MainActor func savePDF(data: Data) -> URL? {
+	func savePDF(data: Data) -> URL? {
 		
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateFormat = "d_MMM_yyyy"
 		dateFormatter.locale = Locale(identifier: "nl")
+		dateFormatter.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 		let dateString = dateFormatter.string(from: Container.shared.now()())
 		
 		let categoryName = dataSource.heading
@@ -401,7 +504,7 @@ struct HealthExportView: View {
 			switch viewModel.state {
 				case .loading:
 					loadingView
-				
+					
 				case .document(let pdfDocument):
 					pdfContent(pdfDocument: pdfDocument)
 			}

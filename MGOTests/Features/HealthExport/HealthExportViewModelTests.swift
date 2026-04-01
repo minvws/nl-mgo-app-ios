@@ -2,18 +2,21 @@
  *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
-	
+
+import Testing
 import MGOTest
 import MGOFoundation
 import MGOUI
 import PdfExport
 @testable import MGO
 
-final class HealthExportViewModelTests: XCTestCase {
+@MainActor
+@Suite
+struct HealthExportViewModelTests {
 	
-	private var coordinatorSpy: DashboardCoordinatorSpy!
-	private var servicesSpies: ServicesSpies!
-	private var sut: HealthExportViewModel!
+	private let coordinatorSpy: DashboardCoordinatorSpy
+	private let servicesSpies: ServicesSpies
+	private let sut: HealthExportViewModel
 	
 	static let pdfData = PdfData(
 		heading: "PDF Test Heading",
@@ -94,77 +97,69 @@ final class HealthExportViewModelTests: XCTestCase {
 		footer: "footer"
 	)
 	
-	override func setUp() {
-		
-		super.setUp()
+	init() {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
-	}
-	
-	@MainActor func setupSut() {
-		
 		sut = HealthExportViewModel(
 			coordinator: coordinatorSpy,
 			healthData: HealthExportViewModelTests.pdfData
 		)
 	}
 	
-	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
+	@Test("Tapping back calls coordinator with backButtonPressed")
+	func backButtonPressed() {
 		
 		// Given
-		setupSut()
 		
 		// When
 		sut.reduce(.backButtonPressed)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
+		#expect(coordinatorSpy.invokedHandle == true)
+		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.backButtonPressed)
 	}
+	
+	@Test("Tapping close calls coordinator with closeSheet")
+	func closeSheet() {
 
-	@MainActor func test_closeSheet_shouldCallCoordinator() {
-		
 		// Given
-		setupSut()
 		
 		// When
 		sut.reduce(.closeSheet)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
+		#expect(coordinatorSpy.invokedHandle == true)
+		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.closeSheet)
 	}
 	
-	@MainActor func test_onAppear_shouldSavePDF() throws {
-		
+	@Test("onAppear generates the PDF and saves it to disk")
+	func onAppear() throws {
+
 		// Given
-		setupSut()
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.sut.pdfUrl).toEventuallyNot(beNil())
-		
-		let pdfUrl = try XCTUnwrap(sut.pdfUrl)
+		#expect(coordinatorSpy.invokedHandle == false)
+		let pdfUrl = try #require(sut.pdfUrl)
 		let data = FileManager.default.contents(atPath: pdfUrl.path)
-		expect(Double(data?.count ?? 0)).to(beCloseTo(13897, within: 10.0))
+		#expect(abs(Double(data?.count ?? 0) - 13897) <= 10)
 		try? FileManager.default.removeItem(atPath: pdfUrl.path)
 	}
 	
-	@MainActor func test_savePDF() throws {
+	@Test("safePdf triggers sharing without updating pdfUrl")
+	func safePdf() {
 		
 		// Given
-		setupSut()
 		sut.generatePDF()
 		
 		// When
 		sut.reduce(.safePdf)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.sut.pdfUrl) == nil
-		expect(self.sut.presentSharing) == true
+		#expect(coordinatorSpy.invokedHandle == false)
+		#expect(sut.pdfUrl == nil)
+		#expect(sut.presentSharing == true)
 	}
 }
