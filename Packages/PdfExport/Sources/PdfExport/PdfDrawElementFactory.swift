@@ -9,30 +9,30 @@ import SwiftUI
  * Factory to create draw elements from pdf data
  */
 @MainActor public class PdfDrawElementFactory {
-	
+
 	/// The theme
 	private var theme: ExportTheme
-	
+
 	// Common bounding size for attributed text measurement
 	private let boundingSize = CGSize(
 		width: PdfExport.Constants.contentSize.width,
 		height: .greatestFiniteMagnitude
 	)
-	
+
 	// Common half-width bounding size for sub table measurements
 	private let halfWidthBoundingSize = CGSize(
 		width: (PdfExport.Constants.contentSize.width / 2) - 12,
 		height: .greatestFiniteMagnitude
 	)
-	
+
 	/// Create a PDF draw elements factory
 	/// - Parameter theme: the visual theme
 	public init(theme: ExportTheme) {
 		self.theme = theme
 	}
-	
+
 	// MARK: - Create Methods
-	
+
 	/// Create a draw element for the heading
 	/// - Parameters:
 	///   - pdfData: the pdf data
@@ -43,33 +43,11 @@ import SwiftUI
 		yPosition: CGFloat,
 	) -> PdfDrawElement {
 		
-		let text = NSAttributedString(
-			string: pdfData.heading,
-			attributes: [
-				.font: UIFont.helveticaBold(24) as Any,
-				.foregroundColor: UIColor(theme.primaryText)
-			]
-		)
-		
-		let textHeight = text.boundingRect(
-			with: boundingSize,
-			options: .usesLineFragmentOrigin,
-			context: nil
-		).height
-		
-		return PdfDrawElement(
-			text: text,
-			borderColor: nil,
-			rect: CGRect(
-				x: PdfExport.Constants.outerMargin,
-				y: yPosition,
-				width: PdfExport.Constants.contentSize.width,
-				height: textHeight
-			),
-			height: textHeight
-		)
+		let text = attributed(pdfData.heading, font: .helveticaBold(24), color: theme.primaryText)
+		let textHeight = text.height(in: boundingSize)
+		return fullWidthElement(text: text, borderColor: nil, yPosition: yPosition, textHeight: textHeight)
 	}
-	
+
 	/// Create a draw element for the sub heading
 	/// - Parameters:
 	///   - pdfData: the pdf data
@@ -80,20 +58,8 @@ import SwiftUI
 		yPosition: CGFloat
 	) -> PdfDrawElement {
 		
-		let text = NSAttributedString(
-			string: pdfData.subHeading,
-			attributes: [
-				.font: UIFont.helvetica(10) as Any,
-				.foregroundColor: UIColor(theme.secondaryText)
-			]
-		)
-		
-		let textBox = text.boundingRect(
-			with: boundingSize,
-			options: .usesLineFragmentOrigin,
-			context: nil
-		)
-		
+		let text = attributed(pdfData.subHeading, font: .helvetica(10), color: theme.secondaryText)
+		let textBox = text.measure(in: boundingSize)
 		return PdfDrawElement(
 			text: text,
 			borderColor: nil,
@@ -106,10 +72,10 @@ import SwiftUI
 			height: 0
 		)
 	}
-	
+
 	/// Create a draw element for the heading for grouped tables
 	/// - Parameters:
-	///   - pdfData: the pdf data
+	///   - tables: the grouped tables
 	///   - yPosition: the  y-position to draw from
 	/// - Returns: PDF draw element for the grouped tables heading
 	public func createGroupedHeadingDrawElement(
@@ -117,35 +83,14 @@ import SwiftUI
 		yPosition: CGFloat
 	) -> PdfDrawElement {
 		
-		let text = NSAttributedString(
-			string: tables.heading,
-			attributes: [
-				.font: UIFont.helveticaBold(16) as Any,
-				.foregroundColor: UIColor(theme.primaryText)
-			]
-		)
-		
-		let textHeight = text.boundingRect(
-			with: boundingSize,
-			options: .usesLineFragmentOrigin,
-			context: nil).height + 12
-		
-		return PdfDrawElement(
-			text: text,
-			borderColor: nil,
-			rect: CGRect(
-				x: PdfExport.Constants.outerMargin,
-				y: yPosition,
-				width: PdfExport.Constants.contentSize.width,
-				height: textHeight
-			),
-			height: textHeight
-		)
+		let text = attributed(tables.heading, font: .helveticaBold(16), color: theme.primaryText)
+		let textHeight = text.height(in: boundingSize) + 16
+		return fullWidthElement(text: text, borderColor: nil, yPosition: yPosition, textHeight: textHeight)
 	}
-	
+
 	/// Create a draw element for the heading for a table
 	/// - Parameters:
-	///   - pdfData: the pdf data
+	///   - table: the table
 	///   - yPosition: the  y-position to draw from
 	/// - Returns: PDF draw element for a table
 	public func createTableHeadingDrawElement(
@@ -153,32 +98,11 @@ import SwiftUI
 		yPosition: CGFloat,
 	) -> PdfDrawElement {
 		
-		let text = NSAttributedString(
-			string: table.heading,
-			attributes: [
-				.font: UIFont.helveticaBold(14) as Any,
-				.foregroundColor: UIColor(theme.primaryText)
-			]
-		)
-		
-		let textHeight = text.boundingRect(
-			with: boundingSize,
-			options: .usesLineFragmentOrigin,
-			context: nil).height
-		
-		return PdfDrawElement(
-			text: text,
-			borderColor: theme.border,
-			rect: CGRect(
-				x: PdfExport.Constants.outerMargin,
-				y: yPosition,
-				width: PdfExport.Constants.contentSize.width,
-				height: textHeight
-			),
-			height: textHeight + 11
-		)
+		let text = attributed(table.heading, font: .helveticaBold(14), color: theme.primaryText)
+		let textHeight = text.height(in: boundingSize)
+		return fullWidthElement(text: text, borderColor: theme.border, yPosition: yPosition, textHeight: textHeight, heightOffset: 18)
 	}
-	
+
 	/// Create a draw element for the heading for a sub table
 	/// - Parameters:
 	///   - heading: the content to draw (String)
@@ -189,33 +113,11 @@ import SwiftUI
 		yPosition: CGFloat
 	) -> PdfDrawElement {
 		
-		let text = NSAttributedString(
-			string: heading,
-			attributes: [
-				.font: UIFont.helveticaBold(12) as Any,
-				.foregroundColor: UIColor(theme.primaryText)
-			]
-		)
-		
-		let textHeight = text.boundingRect(
-			with: boundingSize,
-			options: .usesLineFragmentOrigin,
-			context: nil
-		).height
-		
-		return PdfDrawElement(
-			text: text,
-			borderColor: theme.border,
-			rect: CGRect(
-				x: PdfExport.Constants.outerMargin,
-				y: yPosition,
-				width: PdfExport.Constants.contentSize.width,
-				height: textHeight
-			),
-			height: textHeight + 11
-		)
+		let text = attributed(heading, font: .helveticaBold(12), color: theme.primaryText)
+		let textHeight = text.height(in: boundingSize)
+		return fullWidthElement(text: text, borderColor: theme.border, yPosition: yPosition, textHeight: textHeight, heightOffset: 8)
 	}
-	
+
 	/// Create the draw elements for the heading for a sub table key value pair
 	/// - Parameters:
 	///   - pair: key value pair
@@ -226,114 +128,49 @@ import SwiftUI
 		yPosition: CGFloat
 	) -> [PdfDrawElement] {
 		
-		let keyText = NSAttributedString(
-			string: pair.key,
-			attributes: [
-				.font: UIFont.helvetica(10) as Any,
-				.foregroundColor: UIColor(theme.secondaryText)
-			]
-		)
-		
-		let valueText = NSAttributedString(
-			string: pair.value,
-			attributes: [
-				.font: UIFont.helvetica(10) as Any,
-				.foregroundColor: UIColor(theme.primaryText)
-			]
-		)
-		
-		let keyHeight = keyText.boundingRect(
-			with: halfWidthBoundingSize,
-			options: .usesLineFragmentOrigin,
-			context: nil
-		).height
-		
-		let valueHeight = valueText.boundingRect(
-			with: halfWidthBoundingSize,
-			options: .usesLineFragmentOrigin,
-			context: nil
-		).height
-		
-		let textHeight = max(keyHeight, valueHeight)
-		
+		let keyText = attributed(pair.key, font: .helvetica(10), color: theme.secondaryText)
+		let valueText = attributed(pair.value, font: .helvetica(10), color: theme.primaryText)
+		let textHeight = max(keyText.height(in: halfWidthBoundingSize), valueText.height(in: halfWidthBoundingSize))
+		let halfWidth = PdfExport.Constants.contentSize.width / 2
 		return [
 			PdfDrawElement(
 				text: keyText,
 				borderColor: theme.border,
-				rect: CGRect(
-					x: PdfExport.Constants.outerMargin,
-					y: yPosition,
-					width: PdfExport.Constants.contentSize.width / 2,
-					height: textHeight
-				),
-				height: textHeight + 11
+				rect: CGRect(x: PdfExport.Constants.outerMargin, y: yPosition, width: halfWidth, height: textHeight),
+				height: textHeight + 8
 			),
 			PdfDrawElement(
 				text: valueText,
 				borderColor: theme.border,
-				rect: CGRect(
-					x: PdfExport.Constants.outerMargin + (PdfExport.Constants.contentSize.width / 2),
-					y: yPosition,
-					width: PdfExport.Constants.contentSize.width / 2,
-					height: textHeight
-				),
-				height: textHeight + 11
+				rect: CGRect(x: PdfExport.Constants.outerMargin + halfWidth, y: yPosition, width: halfWidth, height: textHeight),
+				height: textHeight + 8
 			)
 		]
 	}
-	
+
 	/// Get the PDF draw element for the footer
 	/// - Parameter pdfData: the pdf data
 	/// - Returns: footer PDF draw element
 	public func createFooterElement(_ pdfData: PdfData) -> PdfDrawElement {
 		
-		let text = NSAttributedString(
-			string: pdfData.footer,
-			attributes: [
-				.font: UIFont.helvetica(10) as Any,
-				.foregroundColor: UIColor(theme.secondaryText)
-			]
-		)
-		
-		let textHeight = text.boundingRect(
-			with: boundingSize,
-			options: .usesLineFragmentOrigin,
-			context: nil
-		).height
-		
-		return PdfDrawElement(
+		let text = attributed(pdfData.footer, font: .helvetica(10), color: theme.secondaryText)
+		let textHeight = text.height(in: boundingSize)
+		return fullWidthElement(
 			text: text,
 			borderColor: nil,
-			rect: CGRect(
-				x: PdfExport.Constants.outerMargin,
-				y: PdfExport.Constants.contentSize.height - textHeight,
-				width: PdfExport.Constants.contentSize.width,
-				height: textHeight
-			),
-			height: textHeight
+			yPosition: PdfExport.Constants.contentSize.height - textHeight,
+			textHeight: textHeight
 		)
 	}
-	
+
 	/// Create a PDF draw element for pagination
 	/// - Parameters:
 	///   - pagination: pagination text
 	/// - Returns: pdf draw element for the pagination
 	public func createPaginationElement(_ pagination: String) -> PdfDrawElement {
 		
-		let text = NSAttributedString(
-			string: pagination,
-			attributes: [
-				.font: UIFont.helvetica(10) as Any,
-				.foregroundColor: UIColor(theme.secondaryText)
-			]
-		)
-		
-		let textBox = text.boundingRect(
-			with: boundingSize,
-			options: .usesLineFragmentOrigin,
-			context: nil
-		)
-		
+		let text = attributed(pagination, font: .helvetica(10), color: theme.secondaryText)
+		let textBox = text.measure(in: boundingSize)
 		return PdfDrawElement(
 			text: text,
 			borderColor: nil,
@@ -346,7 +183,7 @@ import SwiftUI
 			height: 0
 		)
 	}
-	
+
 	/// Create a PDF draw element for an empty sub category
 	/// - Parameters:
 	///   - content: the  content to draw (String)
@@ -357,29 +194,64 @@ import SwiftUI
 		yPosition: CGFloat
 	) -> PdfDrawElement {
 		
-		let text = NSAttributedString(
-			string: content,
+		let text = attributed(content, font: .helvetica(10), color: theme.primaryText)
+		let textHeight = text.height(in: boundingSize)
+		return fullWidthElement(text: text, borderColor: theme.border, yPosition: yPosition, textHeight: textHeight)
+	}
+
+	// MARK: - Private Helpers
+
+	/// Build an attributed string with font and foreground color
+	private func attributed(
+		_ string: String,
+		font: UIFont?,
+		color: Color
+	) -> NSAttributedString {
+		
+		NSAttributedString(
+			string: string,
 			attributes: [
-				.font: UIFont.helvetica(10) as Any,
-				.foregroundColor: UIColor(theme.primaryText)
+				.font: font as Any,
+					.foregroundColor: UIColor(color)
 			]
 		)
-		
-		let textHeight = text.boundingRect(
-			with: boundingSize,
-			options: .usesLineFragmentOrigin,
-			context: nil).height
-		
-		return PdfDrawElement(
+	}
+
+	/// Build a full-width draw element at the outer margin
+	private func fullWidthElement(
+		text: NSAttributedString,
+		borderColor: Color?,
+		yPosition: CGFloat,
+		textHeight: CGFloat,
+		heightOffset: CGFloat = 0
+	) -> PdfDrawElement {
+		PdfDrawElement(
 			text: text,
-			borderColor: theme.border,
+			borderColor: borderColor,
 			rect: CGRect(
 				x: PdfExport.Constants.outerMargin,
 				y: yPosition,
 				width: PdfExport.Constants.contentSize.width,
 				height: textHeight
 			),
-			height: textHeight
+			height: textHeight + heightOffset
+		)
+	}
+}
+
+private extension NSAttributedString {
+
+	/// The height of the text bounded by the given size
+	func height(in size: CGSize) -> CGFloat {
+		measure(in: size).height
+	}
+
+	/// The bounding rect of the text bounded by the given size
+	func measure(in size: CGSize) -> CGRect {
+		boundingRect(
+			with: size,
+			options: .usesLineFragmentOrigin,
+			context: nil
 		)
 	}
 }

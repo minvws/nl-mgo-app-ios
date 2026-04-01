@@ -95,11 +95,12 @@ extension PdfDrawElement {
 	/// Draw this pdf draw element
 	/// - Parameter context: The drawing environment for a PDF renderer.
 	@MainActor public func draw(_ context: UIGraphicsPDFRendererContext) {
-		
-		var inset: CGFloat = 0
-		
-		drawBorder(context, inset: &inset)
-		drawText(inset: inset)
+
+		var verticalInset: CGFloat = 0
+
+		drawBorder(context, inset: &verticalInset)
+		let horizontalInset: CGFloat = borderColor != nil ? DrawTraits.General.horizontalPadding : 0
+		drawText(verticalInset: verticalInset, horizontalInset: horizontalInset)
 	}
 	
 	/// Draw the border
@@ -150,15 +151,15 @@ extension PdfDrawElement {
 	/// - Parameters:
 	///   - context: The drawing environment for a PDF renderer.
 	///   - inset: the inset to use
-	@MainActor private func drawText(inset: CGFloat) {
-		
+	@MainActor private func drawText(verticalInset: CGFloat, horizontalInset: CGFloat) {
+
 		guard let text else { return }
-		
+
 		text.draw(
 			in: CGRect(
-				x: rect.origin.x + DrawTraits.General.horizontalPadding,
-				y: rect.origin.y + inset,
-				width: rect.width - 2 * DrawTraits.General.horizontalPadding,
+				x: rect.origin.x + horizontalInset,
+				y: rect.origin.y + verticalInset,
+				width: rect.width - 2 * horizontalInset,
 				height: rect.height
 			)
 		)

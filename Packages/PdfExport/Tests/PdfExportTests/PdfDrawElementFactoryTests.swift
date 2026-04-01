@@ -98,9 +98,9 @@ struct PdfDrawElementFactoryTests {
 			x: 28,
 			y: 20,
 			width: 539.28,
-			height: 30.4)
+			height: 34.4)
 		)
-		#expect(drawElement.height == 30.4)
+		#expect(drawElement.height == 34.4)
 		#expect(drawElement.isPageBreak == false)
 	}
 	
@@ -129,7 +129,7 @@ struct PdfDrawElementFactoryTests {
 			width: 539.28,
 			height: 16.1)
 		)
-		#expect(drawElement.height == 27.1)
+		#expect(drawElement.height == 34.1)
 		#expect(drawElement.isPageBreak == false)
 	}
 	
@@ -154,7 +154,7 @@ struct PdfDrawElementFactoryTests {
 			width: 539.28,
 			height: 13.8)
 		)
-		#expect(drawElement.height == 24.8)
+		#expect(drawElement.height == 21.8)
 		#expect(drawElement.isPageBreak == false)
 	}
 	
@@ -186,7 +186,7 @@ struct PdfDrawElementFactoryTests {
 			width: 269.64,
 			height: 11.5)
 		)
-		#expect(keyElement.height == 22.5)
+		#expect(keyElement.height == 19.5)
 		#expect(keyElement.isPageBreak == false)
 		
 		let valueElement = try #require(drawElements.last)
@@ -199,7 +199,7 @@ struct PdfDrawElementFactoryTests {
 			width: 269.64,
 			height: 11.5)
 		)
-		#expect(valueElement.height == 22.5)
+		#expect(valueElement.height == 19.5)
 		#expect(valueElement.isPageBreak == false)
 	}
 	
