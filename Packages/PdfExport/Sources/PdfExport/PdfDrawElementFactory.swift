@@ -8,11 +8,22 @@ import SwiftUI
 /**
  * Factory to create draw elements from pdf data
  */
-// swiftlint:disable type_body_length
 @MainActor public class PdfDrawElementFactory {
 	
 	/// The theme
 	private var theme: ExportTheme
+	
+	// Common bounding size for attributed text measurement
+	private let boundingSize = CGSize(
+		width: PdfExport.Constants.contentSize.width,
+		height: .greatestFiniteMagnitude
+	)
+	
+	// Common half-width bounding size for sub table measurements
+	private let halfWidthBoundingSize = CGSize(
+		width: (PdfExport.Constants.contentSize.width / 2) - 12,
+		height: .greatestFiniteMagnitude
+	)
 	
 	/// Create a PDF draw elements factory
 	/// - Parameter theme: the visual theme
@@ -41,10 +52,7 @@ import SwiftUI
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(
-				width: PdfExport.Constants.contentSize.width,
-				height: .greatestFiniteMagnitude
-			),
+			with: boundingSize,
 			options: .usesLineFragmentOrigin,
 			context: nil
 		).height
@@ -81,10 +89,7 @@ import SwiftUI
 		)
 		
 		let textBox = text.boundingRect(
-			with: CGSize(
-				width: PdfExport.Constants.contentSize.width,
-				height: .greatestFiniteMagnitude
-			),
+			with: boundingSize,
 			options: .usesLineFragmentOrigin,
 			context: nil
 		)
@@ -121,10 +126,7 @@ import SwiftUI
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(
-				width: PdfExport.Constants.contentSize.width,
-				height: .greatestFiniteMagnitude
-			),
+			with: boundingSize,
 			options: .usesLineFragmentOrigin,
 			context: nil).height + 12
 		
@@ -160,10 +162,7 @@ import SwiftUI
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(
-				width: PdfExport.Constants.contentSize.width,
-				height: .greatestFiniteMagnitude
-			),
+			with: boundingSize,
 			options: .usesLineFragmentOrigin,
 			context: nil).height
 		
@@ -199,10 +198,7 @@ import SwiftUI
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(
-				width: PdfExport.Constants.contentSize.width,
-				height: .greatestFiniteMagnitude
-			),
+			with: boundingSize,
 			options: .usesLineFragmentOrigin,
 			context: nil
 		).height
@@ -247,19 +243,13 @@ import SwiftUI
 		)
 		
 		let keyHeight = keyText.boundingRect(
-			with: CGSize(
-				width: (PdfExport.Constants.contentSize.width / 2) - 12,
-				height: .greatestFiniteMagnitude
-			),
+			with: halfWidthBoundingSize,
 			options: .usesLineFragmentOrigin,
 			context: nil
 		).height
 		
 		let valueHeight = valueText.boundingRect(
-			with: CGSize(
-				width: (PdfExport.Constants.contentSize.width / 2) - 12,
-				height: .greatestFiniteMagnitude
-			),
+			with: halfWidthBoundingSize,
 			options: .usesLineFragmentOrigin,
 			context: nil
 		).height
@@ -306,10 +296,7 @@ import SwiftUI
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(
-				width: PdfExport.Constants.contentSize.width,
-				height: .greatestFiniteMagnitude
-			),
+			with: boundingSize,
 			options: .usesLineFragmentOrigin,
 			context: nil
 		).height
@@ -342,10 +329,7 @@ import SwiftUI
 		)
 		
 		let textBox = text.boundingRect(
-			with: CGSize(
-				width: PdfExport.Constants.contentSize.width,
-				height: .greatestFiniteMagnitude
-			),
+			with: boundingSize,
 			options: .usesLineFragmentOrigin,
 			context: nil
 		)
@@ -382,10 +366,7 @@ import SwiftUI
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(
-				width: PdfExport.Constants.contentSize.width,
-				height: .greatestFiniteMagnitude
-			),
+			with: boundingSize,
 			options: .usesLineFragmentOrigin,
 			context: nil).height
 		
@@ -402,4 +383,4 @@ import SwiftUI
 		)
 	}
 }
-// swiftlint: enable type_body_length
+
