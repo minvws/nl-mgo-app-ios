@@ -127,9 +127,9 @@ struct PdfDrawElementFactoryTests {
 			x: 28,
 			y: 20,
 			width: 539.28,
-			height: 13.8)
+			height: 16.1)
 		)
-		#expect(drawElement.height == 24.8)
+		#expect(drawElement.height == 27.1)
 		#expect(drawElement.isPageBreak == false)
 	}
 	
@@ -152,9 +152,9 @@ struct PdfDrawElementFactoryTests {
 			x: 28,
 			y: 20,
 			width: 539.28,
-			height: 11.5)
+			height: 13.8)
 		)
-		#expect(drawElement.height == 22.5)
+		#expect(drawElement.height == 24.8)
 		#expect(drawElement.isPageBreak == false)
 	}
 	
