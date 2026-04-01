@@ -8,7 +8,7 @@ import SwiftUI
 /**
  * Factory to create draw elements from pdf data
  */
-public class PdfDrawElementFactory {
+@MainActor public class PdfDrawElementFactory {
 	
 	/// The theme
 	private var theme: ExportTheme
@@ -26,7 +26,7 @@ public class PdfDrawElementFactory {
 	///   - pdfData: the pdf data
 	///   - yPosition: the  y-position to draw from
 	/// - Returns: PDF draw element for the heading
-	@MainActor public func createPdfHeadingDrawElement(
+	public func createPdfHeadingDrawElement(
 		_ pdfData: PdfData,
 		yPosition: CGFloat,
 	) -> PdfDrawElement {
@@ -66,7 +66,7 @@ public class PdfDrawElementFactory {
 	///   - pdfData: the pdf data
 	///   - yPosition: the  y-position to draw from
 	/// - Returns: PDF draw element for the sub heading
-	@MainActor public func createPdfSubHeadingDrawElement(
+	public func createPdfSubHeadingDrawElement(
 		_ pdfData: PdfData,
 		yPosition: CGFloat
 	) -> PdfDrawElement {
@@ -106,7 +106,7 @@ public class PdfDrawElementFactory {
 	///   - pdfData: the pdf data
 	///   - yPosition: the  y-position to draw from
 	/// - Returns: PDF draw element for the grouped tables heading
-	@MainActor public func createGroupedHeadingDrawElement(
+	public func createGroupedHeadingDrawElement(
 		_ tables: PdfGroupedTables,
 		yPosition: CGFloat
 	) -> PdfDrawElement {
@@ -145,7 +145,7 @@ public class PdfDrawElementFactory {
 	///   - pdfData: the pdf data
 	///   - yPosition: the  y-position to draw from
 	/// - Returns: PDF draw element for a table
-	@MainActor public func createTableHeadingDrawElement(
+	public func createTableHeadingDrawElement(
 		_ table: PdfTable,
 		yPosition: CGFloat,
 	) -> PdfDrawElement {
@@ -184,7 +184,7 @@ public class PdfDrawElementFactory {
 	///   - heading: the content to draw (String)
 	///   - yPosition: the  y-position to draw from
 	/// - Returns: PDF draw element for a sub table
-	@MainActor public func createSubTableHeadingDrawElement(
+	public func createSubTableHeadingDrawElement(
 		heading: String,
 		yPosition: CGFloat
 	) -> PdfDrawElement {
@@ -224,7 +224,7 @@ public class PdfDrawElementFactory {
 	///   - pair: key value pair
 	///   - yPosition: the  y-position to draw from
 	/// - Returns: PDF draw elements for a sub table key value pair
-	@MainActor public func createSubTableRowDrawElement(
+	public func createSubTableRowDrawElement(
 		_ pair: PdfSubTablePair,
 		yPosition: CGFloat
 	) -> [PdfDrawElement] {
@@ -294,7 +294,7 @@ public class PdfDrawElementFactory {
 	/// Get the PDF draw element for the footer
 	/// - Parameter pdfData: the pdf data
 	/// - Returns: footer PDF draw element
-	@MainActor public func createFooterElement(_ pdfData: PdfData) -> PdfDrawElement {
+	public func createFooterElement(_ pdfData: PdfData) -> PdfDrawElement {
 		
 		let text = NSAttributedString(
 			string: pdfData.footer,
@@ -330,7 +330,7 @@ public class PdfDrawElementFactory {
 	/// - Parameters:
 	///   - pagination: pagination text
 	/// - Returns: pdf draw element for the pagination
-	@MainActor public func createPaginationElement(_ pagination: String) -> PdfDrawElement {
+	public func createPaginationElement(_ pagination: String) -> PdfDrawElement {
 		
 		let text = NSAttributedString(
 			string: pagination,
@@ -367,7 +367,9 @@ public class PdfDrawElementFactory {
 	///   - content: the  content to draw (String)
 	///   - yPosition: the  y-position to draw from
 	/// - Returns: pdf draw element for an empty sub category
-	@MainActor public func createEmptySubCategoryDrawElement(_ content: String, yPosition: CGFloat
+	public func createEmptySubCategoryDrawElement(
+		_ content: String,
+		yPosition: CGFloat
 	) -> PdfDrawElement {
 		
 		let text = NSAttributedString(
