@@ -153,7 +153,7 @@ import SwiftUI
 		let text = NSAttributedString(
 			string: table.heading,
 			attributes: [
-				.font: UIFont.helveticaBold(12) as Any,
+				.font: UIFont.helveticaBold(14) as Any,
 				.foregroundColor: UIColor(theme.primaryText)
 			]
 		)
@@ -192,7 +192,7 @@ import SwiftUI
 		let text = NSAttributedString(
 			string: heading,
 			attributes: [
-				.font: UIFont.helveticaBold(10) as Any,
+				.font: UIFont.helveticaBold(12) as Any,
 				.foregroundColor: UIColor(theme.primaryText)
 			]
 		)
@@ -233,7 +233,7 @@ import SwiftUI
 			string: pair.key,
 			attributes: [
 				.font: UIFont.helvetica(10) as Any,
-				.foregroundColor: UIColor(theme.primaryText)
+				.foregroundColor: UIColor(theme.secondaryText)
 			]
 		)
 		
