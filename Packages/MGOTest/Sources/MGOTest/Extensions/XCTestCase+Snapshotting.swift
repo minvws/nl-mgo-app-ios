@@ -36,7 +36,7 @@ extension XCTestCase {
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPhone17Pro(.portrait), precision: precision),
 			named: "_darkPortrait",
-			record: isRecording,
+			record: isRecording ? .all : nil,
 			file: file,
 			testName: name
 		)
@@ -46,7 +46,7 @@ extension XCTestCase {
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPhone17Pro(.portrait), precision: precision),
 			named: "_lightPortrait",
-			record: isRecording,
+			record: isRecording ? .all : nil,
 			file: file,
 			testName: name
 		)
@@ -56,7 +56,7 @@ extension XCTestCase {
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPhone17Pro(.landscape), precision: precision),
 			named: "_darkLandscape",
-			record: isRecording,
+			record: isRecording ? .all : nil,
 			file: file,
 			testName: name
 		)
@@ -66,7 +66,7 @@ extension XCTestCase {
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPhone17Pro(.landscape), precision: precision),
 			named: "_lightLandscape",
-			record: isRecording,
+			record: isRecording ? .all : nil,
 			file: file,
 			testName: name
 		)
@@ -92,7 +92,7 @@ extension XCTestCase {
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPadPro11(.portrait), precision: precision),
 			named: "_iPad_darkPortrait",
-			record: isRecording,
+			record: isRecording ? .all : nil,
 			file: file,
 			testName: name
 		)
@@ -102,7 +102,7 @@ extension XCTestCase {
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPadPro11(.portrait), precision: precision),
 			named: "_iPad_lightPortrait",
-			record: isRecording,
+			record: isRecording ? .all : nil,
 			file: file,
 			testName: name
 		)
@@ -112,7 +112,7 @@ extension XCTestCase {
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPadPro11(.landscape), precision: precision),
 			named: "_iPad_darkLandscape",
-			record: isRecording,
+			record: isRecording ? .all : nil,
 			file: file,
 			testName: name
 		)
@@ -122,7 +122,7 @@ extension XCTestCase {
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPadPro11(.landscape), precision: precision),
 			named: "_iPad_lightLandscape",
-			record: isRecording,
+			record: isRecording ? .all : nil,
 			file: file,
 			testName: name
 		)
@@ -132,13 +132,18 @@ extension XCTestCase {
 	/// 1. Draining the RunLoop so any lingering SnapshotTesting rendering window from the
 	///    previous assertSnapshot call (even from a prior test) has its dispose() closure
 	///    executed and is removed from the CALayer tree before we begin.
-	/// 2. Embedding the controller in a UIWindow placed far off-screen (y: -height*2) so
-	///    its CALayer content falls outside the bounds that SnapshotTesting's
-	///    layer.render(in:) captures, while still allowing onAppear / onGeometryChange /
-	///    geometry callbacks to fire normally.
-	/// 3. Running the RunLoop a second time so State updates and re-layouts triggered by
+	/// 2. Embedding the controller in a UINavigationController (with hidden nav bar and
+	///    toolbar) so that SwiftUI toolbar items — including iOS 26's UIKitToolbar used for
+	///    .bottomBar placement — have a proper UIKit view hierarchy to attach to. Without
+	///    this, UIKit falls back to adding UIKitToolbar as a subview of
+	///    UIHostingController.view, which is unsupported and triggers a runtime warning.
+	/// 3. Embedding the navigation controller in a UIWindow placed far off-screen
+	///    (y: -height*2) so its CALayer content falls outside the bounds that
+	///    SnapshotTesting's layer.render(in:) captures, while still allowing onAppear /
+	///    onGeometryChange / geometry callbacks to fire normally.
+	/// 4. Running the RunLoop a second time so State updates and re-layouts triggered by
 	///    those callbacks settle before the snapshot is taken.
-	/// 4. Hiding the prep window before returning so it is not composited into
+	/// 5. Hiding the prep window before returning so it is not composited into
 	///    SnapshotTesting's own rendering window.
 	private func preparedHostingController<V: View>(rootView: V) -> UIHostingController<V> {
 		// Wrap in @unchecked Sendable so we can safely pass the view value into the
@@ -161,7 +166,14 @@ extension XCTestCase {
 			// callbacks to fire) but its content is outside the render bounds.
 			let offscreenOrigin = CGPoint(x: 0, y: -size.height * 2)
 			let window = UIWindow(frame: CGRect(origin: offscreenOrigin, size: size))
-			window.rootViewController = controller
+			// Embed in a UINavigationController so toolbar infrastructure (including
+			// iOS 26's UIKitToolbar for .bottomBar placement) has a proper container
+			// in the view hierarchy. The nav bar and toolbar are hidden so they don't
+			// affect snapshot output.
+			let navigationController = UINavigationController(rootViewController: controller)
+			navigationController.setNavigationBarHidden(true, animated: false)
+			navigationController.setToolbarHidden(true, animated: false)
+			window.rootViewController = navigationController
 			window.isHidden = false
 			controller.view.setNeedsLayout()
 			controller.view.layoutIfNeeded()
