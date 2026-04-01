@@ -81,7 +81,8 @@ extension PdfDrawElement {
 	/// Magic Numbers
 	private struct DrawTraits {
 		enum General {
-			static let padding: CGFloat = 6
+			static let verticalPadding: CGFloat = 6
+			static let horizontalPadding: CGFloat = 12
 		}
 		enum Background {
 			static let inset: CGFloat = 1
@@ -112,7 +113,9 @@ extension PdfDrawElement {
 
 		guard let borderColor else { return }
 
-		inset = DrawTraits.General.padding
+		let topPadding: CGFloat = borderSides.contains(.top) ? DrawTraits.General.horizontalPadding : DrawTraits.General.verticalPadding
+		let bottomPadding: CGFloat = borderSides.contains(.bottom) ? DrawTraits.General.horizontalPadding : DrawTraits.General.verticalPadding
+		inset = topPadding
 		context.cgContext.setLineWidth(DrawTraits.Border.width)
 		context.cgContext.setStrokeColor(UIColor(borderColor).cgColor)
 
@@ -120,7 +123,7 @@ extension PdfDrawElement {
 			x: rect.origin.x,
 			y: rect.origin.y,
 			width: rect.width,
-			height: rect.height + (2 * DrawTraits.General.padding)
+			height: rect.height + topPadding + bottomPadding
 		)
 
 		context.cgContext.beginPath()
@@ -153,9 +156,9 @@ extension PdfDrawElement {
 		
 		text.draw(
 			in: CGRect(
-				x: rect.origin.x + inset,
+				x: rect.origin.x + DrawTraits.General.horizontalPadding,
 				y: rect.origin.y + inset,
-				width: rect.width - 2 * inset,
+				width: rect.width - 2 * DrawTraits.General.horizontalPadding,
 				height: rect.height
 			)
 		)

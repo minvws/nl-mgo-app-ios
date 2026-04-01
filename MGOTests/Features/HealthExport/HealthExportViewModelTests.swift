@@ -144,7 +144,7 @@ struct HealthExportViewModelTests {
 		#expect(coordinatorSpy.invokedHandle == false)
 		let pdfUrl = try #require(sut.pdfUrl)
 		let data = FileManager.default.contents(atPath: pdfUrl.path)
-		#expect(abs(Double(data?.count ?? 0) - 14057) <= 10)
+		#expect(abs(Double(data?.count ?? 0) - 13878) <= 10)
 		try? FileManager.default.removeItem(atPath: pdfUrl.path)
 	}
 	
