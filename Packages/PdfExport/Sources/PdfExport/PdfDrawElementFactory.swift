@@ -8,6 +8,7 @@ import SwiftUI
 /**
  * Factory to create draw elements from pdf data
  */
+// swiftlint:disable type_body_length
 @MainActor public class PdfDrawElementFactory {
 	
 	/// The theme
@@ -401,3 +402,4 @@ import SwiftUI
 		)
 	}
 }
+// swiftlint: enable type_body_length
