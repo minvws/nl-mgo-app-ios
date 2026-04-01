@@ -67,7 +67,7 @@ public func takeSnapShots(
 		of: makeSnapshotHostingController(rootView: content.colorScheme(.dark)),
 		as: .image(on: .iPhone17Pro(.portrait), precision: precision),
 		named: "_darkPortrait",
-		record: isRecording,
+		record: isRecording ? .all : nil,
 		file: file,
 		testName: name
 	)
@@ -75,7 +75,7 @@ public func takeSnapShots(
 		of: makeSnapshotHostingController(rootView: content.colorScheme(.light)),
 		as: .image(on: .iPhone17Pro(.portrait), precision: precision),
 		named: "_lightPortrait",
-		record: isRecording,
+		record: isRecording ? .all : nil,
 		file: file,
 		testName: name
 	)
@@ -83,7 +83,7 @@ public func takeSnapShots(
 		of: makeSnapshotHostingController(rootView: content.colorScheme(.dark)),
 		as: .image(on: .iPhone17Pro(.landscape), precision: precision),
 		named: "_darkLandscape",
-		record: isRecording,
+		record: isRecording ? .all : nil,
 		file: file,
 		testName: name
 	)
@@ -91,7 +91,7 @@ public func takeSnapShots(
 		of: makeSnapshotHostingController(rootView: content.colorScheme(.light)),
 		as: .image(on: .iPhone17Pro(.landscape), precision: precision),
 		named: "_lightLandscape",
-		record: isRecording,
+		record: isRecording ? .all : nil,
 		file: file,
 		testName: name
 	)
