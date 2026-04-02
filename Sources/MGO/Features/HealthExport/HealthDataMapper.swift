@@ -10,7 +10,7 @@ import PdfExport
 struct HealthDataMapper {
 	
 	/// The date formatter
-	private let dateFormatter: DateFormatter = {
+	private static let dateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 		formatter.dateStyle = .medium
@@ -19,7 +19,7 @@ struct HealthDataMapper {
 	}()
 	
 	/// The time formatter
-	private let timeFormatter: DateFormatter = {
+	private static let timeFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 		formatter.dateStyle = .none
@@ -44,8 +44,8 @@ struct HealthDataMapper {
 			subHeading: String(
 				format: String(localized: "export_pdf.subheading"),
 				arguments: [
-					dateFormatter.string(from: date),
-					timeFormatter.string(from: date)
+					HealthDataMapper.dateFormatter.string(from: date),
+					HealthDataMapper.timeFormatter.string(from: date)
 				]
 			),
 			tables: blocks.map(mapBlock),
