@@ -1,15 +1,16 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 	
 import MGOFoundation
 import PdfExport
 
-class HealthDataMapper {
+@MainActor
+struct HealthDataMapper {
 	
 	/// The date formatter
-	@MainActor private static var dateFormatter: DateFormatter = {
+	private let dateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 		formatter.dateStyle = .medium
@@ -18,7 +19,7 @@ class HealthDataMapper {
 	}()
 	
 	/// The time formatter
-	@MainActor private static var timeFormatter: DateFormatter = {
+	private let timeFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 		formatter.dateStyle = .none
@@ -31,7 +32,7 @@ class HealthDataMapper {
 	///   - heading: the heading
 	///   - blocks: the health sub categories
 	/// - Returns: pdf Data
-	@MainActor func map(
+	func map(
 		_ heading: String,
 		blocks: [HealthCategoryBlock]
 	) -> PdfData? {
@@ -43,8 +44,8 @@ class HealthDataMapper {
 			subHeading: String(
 				format: String(localized: "export_pdf.subheading"),
 				arguments: [
-					HealthDataMapper.dateFormatter.string(from: date),
-					HealthDataMapper.timeFormatter.string(from: date)
+					dateFormatter.string(from: date),
+					timeFormatter.string(from: date)
 				]
 			),
 			tables: blocks.map(mapBlock),
@@ -55,7 +56,7 @@ class HealthDataMapper {
 	/// Transform a Health sub category in a PDF Grouped tables
 	/// - Parameter subCategory: the sub category to transform
 	/// - Returns: a PDF grouped table
-	@MainActor private func mapBlock(
+	private func mapBlock(
 		_ block: HealthCategoryBlock
 	) -> PdfGroupedTables {
 		
@@ -75,7 +76,7 @@ class HealthDataMapper {
 	/// Transform a Health ui schema into an array of PDF sub tables
 	/// - Parameter schema: the health schema to transform
 	/// - Returns: an array of PDF sub tables
-	@MainActor private func mapSchema(
+	private func mapSchema(
 		_ schema: HealthUISchema
 	) -> [PdfSubTable] {
 		
@@ -93,7 +94,7 @@ class HealthDataMapper {
 	/// Map a UIElement onto a PDF sub table pair
 	/// - Parameter element: the element
 	/// - Returns: PDF sub table pair
-	@MainActor private func mapElement(
+	private func mapElement(
 		_ element: UIElementProtocol
 	) -> PdfSubTablePair? {
 		
