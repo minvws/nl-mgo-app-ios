@@ -24,12 +24,13 @@ final class HealthExportViewTests: XCTestCase {
 	}
 	
 	@MainActor private func createSut(forIpad: Bool = false) {
-		
+
 		viewModel = HealthExportViewModel(
 			coordinator: coordinatorSpy,
 			healthData: HealthExportViewModelTests.pdfData,
 			forIpad: forIpad
 		)
+		viewModel.generatePDF()
 		sut = HealthExportView(viewModel: self.viewModel)
 	}
 	
@@ -73,14 +74,32 @@ final class HealthExportViewTests: XCTestCase {
 	}
 	
 	@MainActor func test_exportView_iPad_iOS18() {
-		
+
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		createSut(forIpad: true)
-		
+
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
-		
+
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+
+	@MainActor func test_exportView_withLastGroupExcluded() {
+
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		let block = Generator.healthCategoryBlockWithLastGroupExcluded()
+		if let pdfData = HealthDataMapper().map("Medicijnen", blocks: [block]) {
+			viewModel = HealthExportViewModel(coordinator: coordinatorSpy, healthData: pdfData)
+			viewModel.generatePDF()
+			sut = HealthExportView(viewModel: self.viewModel)
+		}
+
+		// When
+		let content = NavigationStackBackport.NavigationStack { sut }
+
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
 	}

@@ -89,13 +89,36 @@ class Generator {
 	
 	/// Return a dummy health sub category
 	static func healthCategoryBlock() -> HealthCategoryBlock {
-		
+
 		return HealthCategoryBlock(
 			heading: "heading subcategory",
 			rows: [
 				healthCategoryRow()
 			]
 		)
+	}
+
+	/// Return a dummy health sub category where the last schema group is excluded from print
+	static func healthCategoryBlockWithLastGroupExcluded() -> HealthCategoryBlock {
+		let row = healthCategoryRow()
+		let children = row.schema.children
+		guard let last = children.last else { return HealthCategoryBlock(heading: row.heading, rows: []) }
+		let excluded = HealthUIGroup(
+			children: last.children,
+			excludeFromPrint: true,
+			id: last.id,
+			label: last.label
+		)
+		let modified = children.dropLast() + [excluded]
+		let schema = row.schema.with(children: Array(modified))
+		let modifiedRow = HealthCategoryRow(
+			heading: row.heading,
+			subHeading: row.subHeading,
+			schema: schema,
+			details: row.details,
+			action: nil
+		)
+		return HealthCategoryBlock(heading: "heading subcategory (excluded)", rows: [modifiedRow])
 	}
 	
 	// swiftlint: disable function_body_length

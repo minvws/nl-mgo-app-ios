@@ -67,7 +67,10 @@ struct HealthDataMapper {
 				if subTables.isEmpty {
 					return nil
 				} else {
-					return PdfTable(heading: row.heading, subTables: subTables)
+					return PdfTable(
+						heading: row.heading,
+						subTables: subTables
+					)
 				}
 			}
 		)
@@ -79,57 +82,15 @@ struct HealthDataMapper {
 	private func mapSchema(
 		_ schema: HealthUISchema
 	) -> [PdfSubTable] {
-		
-		var result = [PdfSubTable]()
-		
-		for child in schema.children {
-			let pairs = child.uiElements.compactMap(mapElement)
-			if pairs.isNotEmpty {
-				result.append(PdfSubTable(heading: child.label, data: pairs))
-			}
-		}
-		return result
-	}
-	
-	/// Map a UIElement onto a PDF sub table pair
-	/// - Parameter element: the element
-	/// - Returns: PDF sub table pair
-	private func mapElement(
-		_ element: UIElementProtocol
-	) -> PdfSubTablePair? {
-		
-		if element is SingleValue,
-		   let display = (element as? SingleValue)?.value?.display {
-			return PdfSubTablePair(key: element.label, value: display)
-		}
-		
-		if element is MultipleValues,
-		   let display = (element as? MultipleValues)?.value {
-			let values = display
-				.compactMap { $0.display }
+		schema.children.compactMap { child in
+			// Only include where excludeFromPrint is false
+			guard child.excludeFromPrint != true else { return nil }
 			
-			return PdfSubTablePair(
-				key: element.label,
-				value: values.joined(separator: ", ")
+			let pairs = child.uiElements.compactMap { $0.getPdfMapping() }
+			return pairs.isEmpty ? nil : PdfSubTable(
+				heading: child.label,
+				data: pairs
 			)
 		}
-		
-		if element is MultipleGroupedValues,
-		   let display = (element as? MultipleGroupedValues)?.value {
-			let values = display
-				.flatMap { $0 }
-				.compactMap { $0.display }
-			
-			return PdfSubTablePair(
-				key: element.label,
-				value: values.joined(separator: ", ")
-			)
-		}
-
-		if element is ReferenceValue,
-		   let value = (element as? ReferenceValue)?.display {
-			return PdfSubTablePair(key: element.label, value: value)
-		}
-		return nil
 	}
 }
