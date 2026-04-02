@@ -67,31 +67,25 @@ extension ReferenceValue {
 }
 
 extension ReferenceLink {
-	/// PDF mapping for a reference link; prefixed with "RL".
-	/// Emits a placeholder mapping for a reference link, labeled with "RL".
-	/// - Note: Replace the placeholder value with a human-readable representation if available.
+
+	/// PDF mapping for a reference link element.
+	/// Builds a `PdfSubTablePair` from the element's `label` as the value, and a empty string as key.
 	public func getPdfMapping() -> PdfSubTablePair? {
 		
-		return PdfSubTablePair(key: "RL \(label)", value: /*display*/ "ReferenceLink")
+		return PdfSubTablePair(key: "", value: label)
 	}
 }
 
 extension DownloadLink {
-	/// PDF mapping for a download link; prefixed with "DL".
-	/// Emits a placeholder mapping for a download link, labeled with "DL".
-	/// - Note: Replace the placeholder value with link metadata when available.
+	/// PDF mapping for a download link: full-width row with icon and label in blue.
 	public func getPdfMapping() -> PdfSubTablePair? {
-		
-		return PdfSubTablePair(key: "DL \(label)", value: /*display*/ "DownloadLink")
+		return PdfSubTablePair(key: "", value: label, style: .download)
 	}
 }
 
 extension DownloadBinary {
-	/// PDF mapping for a downloadable binary; prefixed with "DB".
-	/// Emits a placeholder mapping for a downloadable binary, labeled with "DB".
-	/// - Note: Replace the placeholder value with file metadata when available.
+	/// PDF mapping for a downloadable binary: full-width row with icon and label in blue.
 	public func getPdfMapping() -> PdfSubTablePair? {
-		
-		return PdfSubTablePair(key: "DB \(label)", value: /*display*/ "DownloadBinary")
+		return PdfSubTablePair(key: "", value: label, style: .download)
 	}
 }

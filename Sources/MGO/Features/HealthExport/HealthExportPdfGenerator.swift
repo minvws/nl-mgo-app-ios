@@ -203,8 +203,12 @@ class HealthExportPdfGenerator {
 			pair,
 			yPosition: currentY
 		)
-		row[0].borderSides = isLastInGroup ? [.left, .bottom] : [.left]
-		row[1].borderSides = isLastInGroup ? [.right, .bottom] : [.right]
+		if row.count == 2 {
+			row[0].borderSides = isLastInGroup ? [.left, .bottom] : [.left]
+			row[1].borderSides = isLastInGroup ? [.right, .bottom] : [.right]
+		} else {
+			row[0].borderSides = isLastInGroup ? [.left, .right, .bottom] : [.left, .right]
+		}
 		appendRowPair(
 			&row,
 			to: &drawElements,

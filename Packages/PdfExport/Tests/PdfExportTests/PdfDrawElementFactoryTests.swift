@@ -160,22 +160,23 @@ struct PdfDrawElementFactoryTests {
 	
 	@Test("createSubTableRowDrawElement returns two elements with correct key/value styling")
 	func subTablePair() throws {
-		
+
 		// Given
 		let pair = PdfSubTablePair(
 			key: "key",
-			value: "value"
+			value: "value",
+			style: .standard
 		)
-		
+
 		// When
 		let drawElements = sut.createSubTableRowDrawElement(
 			pair,
 			yPosition: 20
 		)
-		
+
 		// Then
 		try #require(drawElements.count == 2)
-		
+
 		let keyElement = try #require(drawElements.first)
 		#expect(keyElement.text?.string == "key")
 		#expect(keyElement.borderColor == ExportTheme().border)
@@ -188,7 +189,7 @@ struct PdfDrawElementFactoryTests {
 		)
 		#expect(keyElement.height == 19.5)
 		#expect(keyElement.isPageBreak == false)
-		
+
 		let valueElement = try #require(drawElements.last)
 		#expect(valueElement.text?.string == "value")
 		#expect(valueElement.borderColor == ExportTheme().border)
@@ -201,6 +202,39 @@ struct PdfDrawElementFactoryTests {
 		)
 		#expect(valueElement.height == 19.5)
 		#expect(valueElement.isPageBreak == false)
+	}
+
+	@Test("createSubTableRowDrawElement with .download style returns single full-width element with label")
+	func subTablePair_download() throws {
+
+		// Given
+		let pair = PdfSubTablePair(
+			key: "",
+			value: "value",
+			style: .download
+		)
+
+		// When
+		let drawElements = sut.createSubTableRowDrawElement(
+			pair,
+			yPosition: 20
+		)
+
+		// Then
+		try #require(drawElements.count == 1)
+
+		let element = try #require(drawElements.first)
+		#expect(element.text?.string.contains("value") == true)
+		#expect(element.borderColor == ExportTheme().border)
+		#expect(element.borderSides == .all)
+		#expect(element.rect == CGRect(
+			x: 28,
+			y: 20,
+			width: 539.28,
+			height: 13.8)
+		)
+		#expect(element.height == 21.8)
+		#expect(element.isPageBreak == false)
 	}
 	
 	@Test("createFooterElement returns element positioned at bottom of page")
@@ -253,15 +287,15 @@ struct PdfDrawElementFactoryTests {
 	
 	@Test("createEmptySubCategoryDrawElement returns full-width element with border")
 	func emptySubCategory() {
-		
+
 		// Given
-		
+
 		// When
 		let drawElement = sut.createEmptySubCategoryDrawElement(
 			"geen gegevens beschikbaar",
 			yPosition: 20
 		)
-		
+
 		// Then
 		#expect(drawElement.text?.string == "geen gegevens beschikbaar")
 		#expect(drawElement.borderColor == ExportTheme().border)
@@ -275,4 +309,5 @@ struct PdfDrawElementFactoryTests {
 		#expect(drawElement.height == 11.5)
 		#expect(drawElement.isPageBreak == false)
 	}
+
 }

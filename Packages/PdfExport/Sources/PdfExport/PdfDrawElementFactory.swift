@@ -169,7 +169,22 @@ import SwiftUI
 		_ pair: PdfSubTablePair,
 		yPosition: CGFloat
 	) -> [PdfDrawElement] {
-		
+
+		switch pair.style {
+			case .standard:
+				return standardRowElements(pair, yPosition: yPosition)
+			case .download:
+				return [downloadRowElement(pair, yPosition: yPosition)]
+		}
+	}
+
+	// MARK: - Row style helpers
+
+	private func standardRowElements(
+		_ pair: PdfSubTablePair,
+		yPosition: CGFloat
+	) -> [PdfDrawElement] {
+
 		let keyText = attributed(
 			pair.key,
 			font: .helvetica(10),
@@ -209,6 +224,45 @@ import SwiftUI
 				height: textHeight + 8
 			)
 		]
+	}
+
+	private func downloadRowElement(
+		_ pair: PdfSubTablePair,
+		yPosition: CGFloat
+	) -> PdfDrawElement {
+
+		let fontSize: CGFloat = 10
+		let text = NSMutableAttributedString()
+
+		let iconSize = CGSize(width: fontSize, height: fontSize)
+		let config = UIImage.SymbolConfiguration(pointSize: fontSize, weight: .regular)
+		if let symbolImage = UIImage(systemName: "paperclip", withConfiguration: config)?
+			.withTintColor(UIColor(theme.linkText), renderingMode: .alwaysOriginal) {
+			let rasterized = UIGraphicsImageRenderer(size: iconSize).image { _ in
+				symbolImage.draw(in: CGRect(origin: .zero, size: iconSize))
+			}
+			let attachment = NSTextAttachment(image: rasterized)
+			attachment.bounds = CGRect(x: 0, y: -1, width: fontSize, height: fontSize)
+			text.append(NSAttributedString(attachment: attachment))
+			text.append(NSAttributedString(string: " "))
+		}
+		
+		text.append(
+			attributed(
+				pair.value,
+				font: .helvetica(fontSize),
+				color: theme.linkText
+			)
+		)
+
+		let textHeight = text.height(in: boundingSize)
+		return fullWidthElement(
+			text: text,
+			borderColor: theme.border,
+			yPosition: yPosition,
+			textHeight: textHeight,
+			heightOffset: 8
+		)
 	}
 
 	/// Get the PDF draw element for the footer
