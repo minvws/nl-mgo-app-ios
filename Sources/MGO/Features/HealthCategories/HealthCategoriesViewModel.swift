@@ -68,6 +68,8 @@ class HealthCategoriesViewModel: ObservableObject {
 	}
 	
 	private var observationTokens = Tokens()
+
+	private var updateStateDebounceTask: Task<Void, Never>?
 	
 	/// Dependency Healthcare Organization Store
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
@@ -157,8 +159,9 @@ class HealthCategoriesViewModel: ObservableObject {
 		self.observationTokens.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
 				Task { @MainActor in
-					// Handle updates in the fetched data
-					self?.updateState()
+					// Handle updates in the fetched data — debounced to avoid flooding the main
+					// thread when many records are stored in rapid succession (e.g. many providers).
+					self?.scheduleUpdateState()
 				}
 			}
 		}
@@ -298,6 +301,21 @@ class HealthCategoriesViewModel: ObservableObject {
 		updateState()
 	}
 	
+	/// Debounced entry point for observer-triggered state updates. Cancels any pending
+	/// update and schedules a new one, so rapid-fire store notifications collapse into
+	/// a single `updateState()` call once the burst settles.
+	@MainActor private func scheduleUpdateState() {
+		updateStateDebounceTask?.cancel()
+		updateStateDebounceTask = Task { [weak self] in
+			do {
+				try await Task.sleep(nanoseconds: 150_000_000)
+			} catch {
+				return
+			}
+			self?.updateState()
+		}
+	}
+
 	/// The store has changed, update the
 	@MainActor private func updateState() {
 		

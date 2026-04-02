@@ -127,6 +127,8 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Token for the data store observatory
 	private var dataStoreToken: Observatory.ObserverToken?
 
+	private var handleDataStoreChangesDebounceTask: Task<Void, Never>?
+
 	/// The HCIM parser
 	private let parser = HCIMParser()
 
@@ -174,10 +176,23 @@ class HealthCategoryViewModel: ObservableObject {
 		self.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
 				Task { @MainActor in
-					// Handle updates in the fetched data
-					self?.handleDataStoreChanges()
+					// Handle updates in the fetched data — debounced to avoid flooding the main
+					// thread when many records are stored in rapid succession (e.g. many providers).
+					self?.scheduleHandleDataStoreChanges()
 				}
 			}
+		}
+	}
+
+	@MainActor private func scheduleHandleDataStoreChanges() {
+		handleDataStoreChangesDebounceTask?.cancel()
+		handleDataStoreChangesDebounceTask = Task { [weak self] in
+			do {
+				try await Task.sleep(nanoseconds: 150_000_000)
+			} catch {
+				return
+			}
+			self?.handleDataStoreChanges()
 		}
 	}
 
