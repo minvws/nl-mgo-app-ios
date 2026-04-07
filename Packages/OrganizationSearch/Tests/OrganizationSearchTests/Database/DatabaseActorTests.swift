@@ -24,11 +24,6 @@ class DatabaseActorTests {
 		sut = DatabaseActor(downloader: downloader)
 	}
 
-	deinit {
-		let sut = sut
-		Task { await sut.teardown() }
-	}
-
 	// MARK: - prepareFromAPI — both 304
 
 	@Test("prepareFromAPI both 304 after prior 200 sets database and returns 0")

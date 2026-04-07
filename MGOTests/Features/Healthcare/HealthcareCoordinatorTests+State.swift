@@ -115,6 +115,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 							url: nil
 						)
 					],
+					excludeFromPrint: false,
 					id: "section_heading_1",
 					label: "section heading 1"
 				),
@@ -135,6 +136,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 							url: nil
 						)
 					],
+					excludeFromPrint: false,
 					id: "section_heading_2",
 					label: "section heading 2"
 				)
@@ -182,6 +184,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 							url: nil
 						)
 					],
+					excludeFromPrint: false,
 					id: "test_coordinatorView_forShowHealthCategoryData_inSheet",
 					label: "section heading")
 			],

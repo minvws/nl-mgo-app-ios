@@ -79,6 +79,7 @@ extension PreviewContent {
 						url: nil
 					)
 				],
+				excludeFromPrint: false,
 				id: "section_header_first_group",
 				label: "Section Header first group"
 			),
@@ -169,6 +170,7 @@ extension PreviewContent {
 						url: nil
 					)
 				],
+				excludeFromPrint: false,
 				id: "section_header_second_group",
 				label: "Section Header second group"
 			),
@@ -231,6 +233,7 @@ extension PreviewContent {
 						url: nil
 					)
 				],
+				excludeFromPrint: false,
 				id: "section_header_third_group",
 				label: "Section Header third group"
 			)

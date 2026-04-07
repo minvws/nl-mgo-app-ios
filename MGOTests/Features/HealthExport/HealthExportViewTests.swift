@@ -23,63 +23,101 @@ final class HealthExportViewTests: XCTestCase {
 		coordinatorSpy = DashboardCoordinatorSpy()
 	}
 	
-	@MainActor private func createSut(forIpad: Bool = false) {
+	@MainActor private func createSut(forIpad: Bool = false) async {
 		
 		viewModel = HealthExportViewModel(
 			coordinator: coordinatorSpy,
 			healthData: HealthExportViewModelTests.pdfData,
 			forIpad: forIpad
 		)
+		await viewModel.generatePDF()
 		sut = HealthExportView(viewModel: self.viewModel)
 	}
 	
-	@MainActor func test_exportView() {
+	@MainActor func test_exportView() async {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut()
+		await createSut()
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	@MainActor func test_exportView_iPad() {
+	@MainActor func test_exportView_asSheet() async {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
-		createSut(forIpad: true)
+		await createSut()
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, true)
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	@MainActor func test_exportView_iOS18() {
+	@MainActor func test_exportView_iPad() async {
 		
 		// Given
-		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
-		createSut()
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		await createSut(forIpad: true)
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	@MainActor func test_exportView_iPad_iOS18() {
+	@MainActor func test_exportView_iOS18() async {
 		
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
-		createSut(forIpad: true)
+		await createSut()
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
+	@MainActor func test_exportView_iPad_iOS18() async {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		await createSut(forIpad: true)
+		
+		// When
+		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
+	@MainActor func test_exportView_withLastGroupExcluded() async {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		let block = Generator.healthCategoryBlockWithLastGroupExcluded()
+		if let pdfData = HealthDataMapper().map("Medicijnen", blocks: [block]) {
+			viewModel = HealthExportViewModel(coordinator: coordinatorSpy, healthData: pdfData)
+			await viewModel.generatePDF()
+			sut = HealthExportView(viewModel: self.viewModel)
+		}
+		
+		// When
+		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
