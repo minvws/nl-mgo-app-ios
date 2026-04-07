@@ -204,9 +204,7 @@ struct HealthExportView: View {
 			// Happens on iOS 15
 			view
 				.toolbar(content: shareTopBarTrailing)
-				.navigationBarItems(leading: BackButton {
-					Task { await viewModel.reduce(.backButtonPressed) }
-				})
+				.navigationBarItems(leading: BackButton { backButtonTapped() })
 				.navigationBarTitleDisplayMode(.inline)
 		})
 	}
@@ -270,17 +268,13 @@ struct HealthExportView: View {
 				
 				if osVersionChecker.available(version: .iOS(.v26)) {
 					if #available(iOS 26.0, *) {
-						Button(role: .close) {
-							Task { await viewModel.reduce(.closeSheet) }
-						}
+						Button(role: .close) { closeButtonTapped() }
 						.accessibilityLabel(closeKey)
 						.tint(theme.labels.primary)
 					}
 				} else {
 					
-					Button(closeKey) {
-						Task { await viewModel.reduce(.closeSheet) }
-					}
+					Button(closeKey) { closeButtonTapped() }
 					.buttonStyle(ToolbarButtonStyle())
 					.accessibilityIdentifier("export_pdf.close")
 				}
@@ -294,9 +288,7 @@ struct HealthExportView: View {
 		ToolbarItemGroup(
 			placement: .topBarTrailing,
 			content: {
-				Button {
-					Task { await viewModel.reduce(.safePdf) }
-				} label: {
+				Button { shareButtonTapped() } label: {
 					Image(systemName: "square.and.arrow.up")
 				}
 				.accessibilityLabel("export_pdf.share")
@@ -347,5 +339,19 @@ struct HealthExportView: View {
 				.accessibilityIdentifier("export_pdf.share")
 			}
 		}
+	}
+
+	// MARK: - Actions
+
+	private func backButtonTapped() {
+		Task { await viewModel.reduce(.backButtonPressed) }
+	}
+
+	private func closeButtonTapped() {
+		Task { await viewModel.reduce(.closeSheet) }
+	}
+
+	private func shareButtonTapped() {
+		Task { await viewModel.reduce(.safePdf) }
 	}
 }
