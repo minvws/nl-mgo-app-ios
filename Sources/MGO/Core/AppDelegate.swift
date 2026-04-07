@@ -8,8 +8,6 @@ import MGOUI
 import MGOFoundation
 import FileStorage
 import RijksoverheidFont
-import OHHTTPStubs
-import OHHTTPStubsSwift
 
 class AppDelegate: NSObject, UIApplicationDelegate {
 	
@@ -21,7 +19,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		
-		HTTPStubs.removeAllStubs()
 		checkLaunchArguments()
 		styleUI()
 		
@@ -61,6 +58,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).minimumScaleFactor = 0.80
 	}
 	
+	@MainActor
 	private func checkLaunchArguments() {
 		
 		if LaunchArgumentsHandler.shouldDisableTransitions() {
@@ -76,9 +74,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 		
 		if LaunchArgumentsHandler.shouldShowUpdateRequired() {
-			// Stub the remote config call
-			stub(condition: isHost("app-api.test.mgo.irealisatie.nl")) { _ in
-				return HTTPStubsResponse(jsonObject: ["iosMinimumVersion": "99999"], statusCode: 200, headers: nil)
+			Container.shared.remoteConfigurationRepository.register { @MainActor in
+				UpdateRequiredRemoteConfigurationRepository()
 			}
 		}
 		if LaunchArgumentsHandler.repeatVisitor() {
