@@ -148,6 +148,24 @@ struct HealthExportViewModelTests {
 		try? FileManager.default.removeItem(atPath: pdfUrl.path)
 	}
 	
+	@Test("generatePDF returns nil when the task is cancelled before rendering")
+	func generatePDF_cancelledBeforeRendering() async {
+
+		// Given — empty tables so the layout loop has zero iterations and no existing
+		// isCancelled check fires; only the guard before makePDFDocument can catch this.
+		let emptyData = PdfData(heading: "Test", subHeading: "", tables: [], footer: "")
+		let generator = HealthExportPdfGenerator(dataSource: emptyData)
+
+		// When — cancel the task before it gets a chance to run.
+		// PDFDocument is not Sendable, so the nil check stays inside the task.
+		let task = Task { await generator.generatePDF() == nil }
+		task.cancel()
+		let resultIsNil = await task.value
+
+		// Then
+		#expect(resultIsNil)
+	}
+
 	@Test("safePdf triggers sharing without updating pdfUrl")
 	func safePdf() async {
 		

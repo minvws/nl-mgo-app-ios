@@ -66,6 +66,7 @@ class HealthExportPdfGenerator {
 			await Task.yield()
 		}
 
+		guard !Task.isCancelled else { return nil }
 		return makePDFDocument(from: drawElements, footer: footer)
 	}
 
