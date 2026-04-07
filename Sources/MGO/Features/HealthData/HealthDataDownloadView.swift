@@ -243,7 +243,7 @@ struct HealthDataDownloadView: View {
 			case let .idle(label: label):
 				CallToActionButton(
 					title: label,
-					icon: Image(ImageResource.Schema.attachFile),
+					icon: Image(systemName: "paperclip"),
 					style: .withIcon) {
 						viewModel.reduce(.download)
 					}
@@ -251,7 +251,7 @@ struct HealthDataDownloadView: View {
 			case let .downloaded(label: label, documentUrl: documentUrl):
 				CallToActionButton(
 					title: label,
-					icon: Image(ImageResource.Schema.attachFile),
+					icon: Image(systemName: "paperclip"),
 					style: .withIcon) {
 						if failedToOpenPreview {
 							viewModel.reduce(.shareDocument(url: documentUrl))
@@ -275,7 +275,7 @@ struct HealthDataDownloadView: View {
 			case let .external(label: label, documentUrl: documentUrl):
 				CallToActionButton(
 					title: label,
-					icon: Image(ImageResource.Schema.attachFile),
+					icon: Image(systemName: "paperclip"),
 					style: .withIcon) {
 						viewModel.reduce(.shareUrl(url: documentUrl))
 					}
