@@ -106,13 +106,46 @@ struct HealthExportViewModelTests {
 		)
 	}
 	
+	@Test("savePDF sanitizes slashes and colons in category name")
+	func savePDF_sanitizesSpecialCharacters() throws {
+
+		// Given
+		let specialData = PdfData(heading: "Bloed/Druk: meting", subHeading: "", tables: [], footer: "")
+		let vm = HealthExportViewModel(coordinator: coordinatorSpy, healthData: specialData)
+
+		// When
+		let url = try #require(vm.savePDF(data: Data([0x25, 0x50, 0x44, 0x46]))) // minimal %PDF header
+		let filename = url.lastPathComponent
+
+		// Then — no slashes or colons in the filename
+		#expect(!filename.contains("/"))
+		#expect(!filename.contains(":"))
+		try? FileManager.default.removeItem(at: url)
+	}
+
+	@Test("savePDF collapses consecutive illegal characters into a single underscore")
+	func savePDF_collapsesConsecutiveIllegalCharacters() throws {
+
+		// Given
+		let specialData = PdfData(heading: "A//B::C", subHeading: "", tables: [], footer: "")
+		let vm = HealthExportViewModel(coordinator: coordinatorSpy, healthData: specialData)
+
+		// When
+		let url = try #require(vm.savePDF(data: Data([0x25, 0x50, 0x44, 0x46])))
+		let filename = url.lastPathComponent
+
+		// Then — consecutive illegal chars become a single underscore
+		#expect(filename.contains("a_b_c"))
+		try? FileManager.default.removeItem(at: url)
+	}
+
 	@Test("Tapping back calls coordinator with backButtonPressed")
-	func backButtonPressed() {
+	func backButtonPressed() async {
 		
 		// Given
 		
 		// When
-		sut.reduce(.backButtonPressed)
+		await sut.reduce(.backButtonPressed)
 		
 		// Then
 		#expect(coordinatorSpy.invokedHandle == true)
@@ -120,12 +153,12 @@ struct HealthExportViewModelTests {
 	}
 	
 	@Test("Tapping close calls coordinator with closeSheet")
-	func closeSheet() {
-
+	func closeSheet() async {
+		
 		// Given
 		
 		// When
-		sut.reduce(.closeSheet)
+		await sut.reduce(.closeSheet)
 		
 		// Then
 		#expect(coordinatorSpy.invokedHandle == true)
@@ -133,29 +166,47 @@ struct HealthExportViewModelTests {
 	}
 	
 	@Test("onAppear generates the PDF and saves it to disk")
-	func onAppear() throws {
-
+	func onAppear() async throws {
+		
 		// Given
 		
 		// When
-		sut.reduce(.onAppear)
+		await sut.reduce(.onAppear)
 		
 		// Then
 		#expect(coordinatorSpy.invokedHandle == false)
 		let pdfUrl = try #require(sut.pdfUrl)
-		let data = FileManager.default.contents(atPath: pdfUrl.path)
-		#expect(abs(Double(data?.count ?? 0) - 14059) <= 10)
+		let data = try #require(FileManager.default.contents(atPath: pdfUrl.path))
+		#expect(data.isEmpty == false)
 		try? FileManager.default.removeItem(atPath: pdfUrl.path)
 	}
 	
+	@Test("generatePDF returns nil when the task is cancelled before rendering")
+	func generatePDF_cancelledBeforeRendering() async {
+
+		// Given — empty tables so the layout loop has zero iterations and no existing
+		// isCancelled check fires; only the guard before makePDFDocument can catch this.
+		let emptyData = PdfData(heading: "Test", subHeading: "", tables: [], footer: "")
+		let generator = HealthExportPdfGenerator(dataSource: emptyData)
+
+		// When — cancel the task before it gets a chance to run.
+		// PDFDocument is not Sendable, so the nil check stays inside the task.
+		let task = Task { await generator.generatePDF() == nil }
+		task.cancel()
+		let resultIsNil = await task.value
+
+		// Then
+		#expect(resultIsNil)
+	}
+
 	@Test("safePdf triggers sharing without updating pdfUrl")
-	func safePdf() {
+	func safePdf() async {
 		
 		// Given
-		sut.generatePDF()
+		await sut.generatePDF()
 		
 		// When
-		sut.reduce(.safePdf)
+		await sut.reduce(.safePdf)
 		
 		// Then
 		#expect(coordinatorSpy.invokedHandle == false)

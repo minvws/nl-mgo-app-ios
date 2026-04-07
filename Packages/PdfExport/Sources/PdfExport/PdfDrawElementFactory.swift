@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -43,9 +43,18 @@ import SwiftUI
 		yPosition: CGFloat,
 	) -> PdfDrawElement {
 		
-		let text = attributed(pdfData.heading, font: .helveticaBold(24), color: theme.primaryText)
+		let text = attributed(
+			pdfData.heading,
+			font: .helveticaBold(24),
+			color: theme.primaryText
+		)
 		let textHeight = text.height(in: boundingSize)
-		return fullWidthElement(text: text, borderColor: nil, yPosition: yPosition, textHeight: textHeight)
+		return fullWidthElement(
+			text: text,
+			borderColor: nil,
+			yPosition: yPosition,
+			textHeight: textHeight
+		)
 	}
 
 	/// Create a draw element for the sub heading
@@ -58,8 +67,14 @@ import SwiftUI
 		yPosition: CGFloat
 	) -> PdfDrawElement {
 		
-		let text = attributed(pdfData.subHeading, font: .helvetica(10), color: theme.secondaryText)
+		let text = attributed(
+			pdfData.subHeading,
+			font: .helvetica(10),
+			color: theme.secondaryText
+		)
 		let textBox = text.measure(in: boundingSize)
+		// height: 0 — intentional. The sub-heading is right-aligned and overlaps the
+		// heading row visually, so it must not consume vertical space in the layout pass.
 		return PdfDrawElement(
 			text: text,
 			borderColor: nil,
@@ -83,9 +98,18 @@ import SwiftUI
 		yPosition: CGFloat
 	) -> PdfDrawElement {
 		
-		let text = attributed(tables.heading, font: .helveticaBold(16), color: theme.primaryText)
+		let text = attributed(
+			tables.heading,
+			font: .helveticaBold(16),
+			color: theme.primaryText
+		)
 		let textHeight = text.height(in: boundingSize) + 16
-		return fullWidthElement(text: text, borderColor: nil, yPosition: yPosition, textHeight: textHeight)
+		return fullWidthElement(
+			text: text,
+			borderColor: nil,
+			yPosition: yPosition,
+			textHeight: textHeight
+		)
 	}
 
 	/// Create a draw element for the heading for a table
@@ -98,9 +122,19 @@ import SwiftUI
 		yPosition: CGFloat,
 	) -> PdfDrawElement {
 		
-		let text = attributed(table.heading, font: .helveticaBold(14), color: theme.primaryText)
+		let text = attributed(
+			table.heading,
+			font: .helveticaBold(14),
+			color: theme.primaryText
+		)
 		let textHeight = text.height(in: boundingSize)
-		return fullWidthElement(text: text, borderColor: theme.border, yPosition: yPosition, textHeight: textHeight, heightOffset: 18)
+		return fullWidthElement(
+			text: text,
+			borderColor: theme.border,
+			yPosition: yPosition,
+			textHeight: textHeight,
+			heightOffset: 18
+		)
 	}
 
 	/// Create a draw element for the heading for a sub table
@@ -113,9 +147,19 @@ import SwiftUI
 		yPosition: CGFloat
 	) -> PdfDrawElement {
 		
-		let text = attributed(heading, font: .helveticaBold(12), color: theme.primaryText)
+		let text = attributed(
+			heading,
+			font: .helveticaBold(12),
+			color: theme.primaryText
+		)
 		let textHeight = text.height(in: boundingSize)
-		return fullWidthElement(text: text, borderColor: theme.border, yPosition: yPosition, textHeight: textHeight, heightOffset: 8)
+		return fullWidthElement(
+			text: text,
+			borderColor: theme.border,
+			yPosition: yPosition,
+			textHeight: textHeight,
+			heightOffset: 8
+		)
 	}
 
 	/// Create the draw elements for the heading for a sub table key value pair
@@ -127,25 +171,100 @@ import SwiftUI
 		_ pair: PdfSubTablePair,
 		yPosition: CGFloat
 	) -> [PdfDrawElement] {
-		
-		let keyText = attributed(pair.key, font: .helvetica(10), color: theme.secondaryText)
-		let valueText = attributed(pair.value, font: .helvetica(10), color: theme.primaryText)
-		let textHeight = max(keyText.height(in: halfWidthBoundingSize), valueText.height(in: halfWidthBoundingSize))
+
+		switch pair.style {
+			case .standard:
+				return standardRowElements(pair, yPosition: yPosition)
+			case .download:
+				return [downloadRowElement(pair, yPosition: yPosition)]
+		}
+	}
+
+	// MARK: - Row style helpers
+
+	private func standardRowElements(
+		_ pair: PdfSubTablePair,
+		yPosition: CGFloat
+	) -> [PdfDrawElement] {
+
+		let keyText = attributed(
+			pair.key,
+			font: .helvetica(10),
+			color: theme.secondaryText
+		)
+		let valueText = attributed(
+			pair.value,
+			font: .helvetica(10),
+			color: theme.primaryText
+		)
+		let textHeight = max(
+			keyText.height(in: halfWidthBoundingSize),
+			valueText.height(in: halfWidthBoundingSize)
+		)
 		let halfWidth = PdfExport.Constants.contentSize.width / 2
 		return [
 			PdfDrawElement(
 				text: keyText,
 				borderColor: theme.border,
-				rect: CGRect(x: PdfExport.Constants.outerMargin, y: yPosition, width: halfWidth, height: textHeight),
+				rect: CGRect(
+					x: PdfExport.Constants.outerMargin,
+					y: yPosition,
+					width: halfWidth,
+					height: textHeight
+				),
 				height: textHeight + 8
 			),
 			PdfDrawElement(
 				text: valueText,
 				borderColor: theme.border,
-				rect: CGRect(x: PdfExport.Constants.outerMargin + halfWidth, y: yPosition, width: halfWidth, height: textHeight),
+				rect: CGRect(
+					x: PdfExport.Constants.outerMargin + halfWidth,
+					y: yPosition,
+					width: halfWidth,
+					height: textHeight
+				),
 				height: textHeight + 8
 			)
 		]
+	}
+
+	private func downloadRowElement(
+		_ pair: PdfSubTablePair,
+		yPosition: CGFloat
+	) -> PdfDrawElement {
+
+		let fontSize: CGFloat = 10
+		let text = NSMutableAttributedString()
+
+		let iconSize = CGSize(width: fontSize, height: fontSize)
+		let config = UIImage.SymbolConfiguration(pointSize: fontSize, weight: .regular)
+		if let symbolImage = UIImage(systemName: "paperclip", withConfiguration: config)?
+			.withTintColor(UIColor(theme.linkText), renderingMode: .alwaysOriginal) {
+			let rasterized = UIGraphicsImageRenderer(size: iconSize).image { _ in
+				symbolImage.draw(in: CGRect(origin: .zero, size: iconSize))
+			}
+			let attachment = NSTextAttachment(image: rasterized)
+			attachment.bounds = CGRect(x: 0, y: -1, width: fontSize, height: fontSize)
+			text.append(NSAttributedString(attachment: attachment))
+			text.append(NSAttributedString(string: " "))
+		}
+		
+		text.append(
+			attributed(
+				pair.value,
+				font: .helvetica(fontSize),
+				color: theme.linkText
+			)
+		)
+
+		let textHeight = text.height(in: boundingSize)
+		return fullWidthElement(
+			text: text,
+			borderColor: theme.border,
+			yPosition: yPosition,
+			textHeight: textHeight,
+			heightOffset: 8
+		)
 	}
 
 	/// Get the PDF draw element for the footer
@@ -153,7 +272,11 @@ import SwiftUI
 	/// - Returns: footer PDF draw element
 	public func createFooterElement(_ pdfData: PdfData) -> PdfDrawElement {
 		
-		let text = attributed(pdfData.footer, font: .helvetica(10), color: theme.secondaryText)
+		let text = attributed(
+			pdfData.footer,
+			font: .helvetica(10),
+			color: theme.secondaryText
+		)
 		let textHeight = text.height(in: boundingSize)
 		return fullWidthElement(
 			text: text,
@@ -169,7 +292,11 @@ import SwiftUI
 	/// - Returns: pdf draw element for the pagination
 	public func createPaginationElement(_ pagination: String) -> PdfDrawElement {
 		
-		let text = attributed(pagination, font: .helvetica(10), color: theme.secondaryText)
+		let text = attributed(
+			pagination,
+			font: .helvetica(10),
+			color: theme.secondaryText
+		)
 		let textBox = text.measure(in: boundingSize)
 		return PdfDrawElement(
 			text: text,
@@ -194,9 +321,17 @@ import SwiftUI
 		yPosition: CGFloat
 	) -> PdfDrawElement {
 		
-		let text = attributed(content, font: .helvetica(10), color: theme.primaryText)
+		let text = attributed(
+			content, font: .helvetica(10),
+			color: theme.primaryText
+		)
 		let textHeight = text.height(in: boundingSize)
-		return fullWidthElement(text: text, borderColor: theme.border, yPosition: yPosition, textHeight: textHeight)
+		return fullWidthElement(
+			text: text,
+			borderColor: theme.border,
+			yPosition: yPosition,
+			textHeight: textHeight
+		)
 	}
 
 	// MARK: - Private Helpers

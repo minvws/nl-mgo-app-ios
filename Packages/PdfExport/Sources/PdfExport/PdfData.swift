@@ -6,24 +6,43 @@
 import Foundation
 
 /**
+ * Controls how a `PdfSubTablePair` row is rendered in the PDF.
+ */
+public enum PdfSubTablePairStyle: Codable, Hashable, Sendable {
+	/// Standard two-column layout: key (left, half-width) | value (right, half-width).
+	case standard
+	/// Full-width row with a download icon and the value in the link colour.
+	case download
+}
+
+/**
  * Represents a table row par, containing a key and a value
  */
-public struct PdfSubTablePair: Equatable, Codable, Hashable, Sendable {
-	
+public struct PdfSubTablePair: Codable, Equatable, Hashable, Sendable {
+
 	/// Create a table row pair
 	/// - Parameters:
 	///   - key: the row key
 	///   - value: the row value
-	public init(key: String, value: String) {
+	///   - style: rendering style (defaults to `.standard`)
+	public init(
+		key: String,
+		value: String,
+		style: PdfSubTablePairStyle = .standard
+	) {
 		self.key = key
 		self.value = value
+		self.style = style
 	}
-	
+
 	/// The row key
 	public let key: String
-	
+
 	/// The row value
 	public let value: String
+
+	/// How this row should be rendered
+	public let style: PdfSubTablePairStyle
 }
 
 /**
@@ -101,7 +120,12 @@ public struct PdfData: Equatable, Codable, Hashable, Sendable {
 	///   - subHeading: the subtitle
 	///   - tables: a list of grouped tables for each category
 	///   - footer: a footer for each page
-	public init(heading: String, subHeading: String, tables: [PdfGroupedTables], footer: String) {
+	public init(
+		heading: String,
+		subHeading: String,
+		tables: [PdfGroupedTables],
+		footer: String
+	) {
 		self.heading = heading
 		self.subHeading = subHeading
 		self.tables = tables

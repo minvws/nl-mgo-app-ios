@@ -6,12 +6,14 @@
 import MGOTest
 import MGOUI
 import MGOFoundation
+import RestrictedBrowser
 @testable import MGO
 
 final class LoginViewTests: XCTestCase {
 	
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var remoteAuthenticationClientSpy: RemoteAuthenticationClientSpy!
+	private var urlOpenerSpy: URLOpenerSpy!
 	private var viewModel: LoginViewModel!
 	private var servicesSpies: ServicesSpies!
 	private var sut: LoginView!
@@ -22,6 +24,7 @@ final class LoginViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url)
+		urlOpenerSpy = URLOpenerSpy()
 		
 		super.setUp()
 	}
@@ -33,7 +36,8 @@ final class LoginViewTests: XCTestCase {
 		viewModel = LoginViewModel(
 			coordinator: coordinatorSpy,
 			mode: mode,
-			remoteAuthenticationClient: remoteAuthenticationClientSpy
+			remoteAuthenticationClient: remoteAuthenticationClientSpy,
+			urlOpener: urlOpenerSpy
 		)
 		sut = LoginView(viewModel: self.viewModel)
 	}
@@ -126,6 +130,7 @@ final class LoginViewTests: XCTestCase {
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		let authUrl = try XCTUnwrap(URL(string: "https://auth.example.com"))
 		await remoteAuthenticationClientSpy.setStubedGetAuthenticationUrl(authUrl)
+		urlOpenerSpy.stubbedCanOpenURLResult = true
 		createSut(.firstTime)
 		let content = NavigationStackBackport.NavigationStack { sut }
 
@@ -141,6 +146,8 @@ final class LoginViewTests: XCTestCase {
 		// Then
 		let invoked = await remoteAuthenticationClientSpy.invokedGetAuthenticationUrl
 		expect(invoked) == true
+		expect(self.urlOpenerSpy.invokedOpen) == true
+		expect(self.urlOpenerSpy.invokedOpenParameters?.url) == authUrl
 	}
 
 	@MainActor func test_backbuttonPressed() throws {

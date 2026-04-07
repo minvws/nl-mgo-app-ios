@@ -16,7 +16,7 @@ class HealthExportViewModel: ObservableObject {
 	
 	/// The PDF data source
 	private var dataSource: PdfData
-
+	
 	/// The storage provider
 	private let storage: FileStorageProtocol
 	
@@ -71,7 +71,7 @@ class HealthExportViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthExportViewModel.Action) {
+	func reduce(_ action: HealthExportViewModel.Action) async {
 		
 		switch action {
 			case .backButtonPressed:
@@ -81,7 +81,7 @@ class HealthExportViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.closeSheet)
 				
 			case .onAppear:
-				generatePDF()
+				await generatePDF()
 				
 				if case let .document(pDFDocument) = state, !isIOS15,
 				   let data = pDFDocument.dataRepresentation(),
@@ -117,12 +117,12 @@ class HealthExportViewModel: ObservableObject {
 	}
 	
 	/// Generate the PDF
-	internal func generatePDF() {
-		if let document = HealthExportPdfGenerator(dataSource: dataSource).generatePDF() {
+	internal func generatePDF() async {
+		if let document = await HealthExportPdfGenerator(dataSource: dataSource).generatePDF() {
 			state = .document(document)
 		}
 	}
-
+	
 	/// Save the document
 	/// - Parameters:
 	///   - data: the pdf in binary
@@ -136,8 +136,12 @@ class HealthExportViewModel: ObservableObject {
 		dateFormatter.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 		let dateString = dateFormatter.string(from: Container.shared.now()())
 		
-		let categoryName = dataSource.heading
-		let fileName = String("mgo_\(categoryName.lowercased().replacingOccurrences(of: " ", with: "_"))_\(dateString)")
+		let allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "_"))
+		let sanitized = dataSource.heading.lowercased()
+			.components(separatedBy: allowed.inverted)
+			.filter { !$0.isEmpty }
+			.joined(separator: "_")
+		let fileName = "mgo_\(sanitized)_\(dateString)"
 		
 		do {
 			try storage.store(data, as: "\(fileName).pdf")
@@ -190,7 +194,9 @@ struct HealthExportView: View {
 		.frame(maxWidth: .infinity)
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.onAppear {
-			viewModel.reduce(.onAppear)
+			Task {
+				await viewModel.reduce(.onAppear)
+			}
 		}
 		.navigationTitle(viewModel.title)
 		.navigationBarBackButtonHidden()
@@ -202,9 +208,7 @@ struct HealthExportView: View {
 			// Happens on iOS 15
 			view
 				.toolbar(content: shareTopBarTrailing)
-				.navigationBarItems(leading: BackButton {
-					viewModel.reduce(.backButtonPressed)
-				})
+				.navigationBarItems(leading: BackButton { backButtonTapped() })
 				.navigationBarTitleDisplayMode(.inline)
 		})
 	}
@@ -268,17 +272,13 @@ struct HealthExportView: View {
 				
 				if osVersionChecker.available(version: .iOS(.v26)) {
 					if #available(iOS 26.0, *) {
-						Button(role: .close) {
-							viewModel.reduce(.closeSheet)
-						}
+						Button(role: .close) { closeButtonTapped() }
 						.accessibilityLabel(closeKey)
 						.tint(theme.labels.primary)
 					}
 				} else {
 					
-					Button(closeKey) {
-						viewModel.reduce(.closeSheet)
-					}
+					Button(closeKey) { closeButtonTapped() }
 					.buttonStyle(ToolbarButtonStyle())
 					.accessibilityIdentifier("export_pdf.close")
 				}
@@ -292,9 +292,7 @@ struct HealthExportView: View {
 		ToolbarItemGroup(
 			placement: .topBarTrailing,
 			content: {
-				Button {
-					viewModel.reduce(.safePdf)
-				} label: {
+				Button { shareButtonTapped() } label: {
 					Image(systemName: "square.and.arrow.up")
 				}
 				.accessibilityLabel("export_pdf.share")
@@ -345,5 +343,19 @@ struct HealthExportView: View {
 				.accessibilityIdentifier("export_pdf.share")
 			}
 		}
+	}
+
+	// MARK: - Actions
+
+	private func backButtonTapped() {
+		Task { await viewModel.reduce(.backButtonPressed) }
+	}
+
+	private func closeButtonTapped() {
+		Task { await viewModel.reduce(.closeSheet) }
+	}
+
+	private func shareButtonTapped() {
+		Task { await viewModel.reduce(.safePdf) }
 	}
 }

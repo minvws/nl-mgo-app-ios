@@ -16,23 +16,31 @@ class HealthExportPdfGenerator {
 	private let factory: PdfDrawElementFactory
 
 	/// PDF document metadata
-	private let metaData = [
-		kCGPDFContextAuthor: String(localized: "common.app_name"),
-		kCGPDFContextSubject: String(localized: "export_pdf.footer"),
-		kCGPDFContextAllowsPrinting: true,
-		kCGPDFContextAllowsCopying: true
-	] as [CFString: Any]
+	private var metaData: [CFString: Any] {
+		[
+			kCGPDFContextTitle: dataSource.heading,
+			kCGPDFContextSubject: String(localized: "export_pdf.footer"),
+			kCGPDFContextCreator: String(localized: "common.app_name"),
+			kCGPDFContextAllowsPrinting: true,
+			kCGPDFContextAllowsCopying: true
+		]
+	}
 
 	/// Create a PDF generator
-	/// - Parameter dataSource: the PDF data to render
-	init(dataSource: PdfData) {
+	/// - Parameters:
+	///   - dataSource: the PDF data to render
+	///   - factory: the factory that creates draw elements
+	init(
+		dataSource: PdfData,
+		factory: PdfDrawElementFactory = PdfDrawElementFactory(theme: .init())
+	) {
 		self.dataSource = dataSource
-		self.factory = PdfDrawElementFactory(theme: .init())
+		self.factory = factory
 	}
 
 	/// Generate the PDF document
-	/// - Returns: the rendered PDF document, or nil if rendering failed
-	func generatePDF() -> PDFDocument? {
+	/// - Returns: the rendered PDF document, or nil if rendering failed or cancelled
+	func generatePDF() async -> PDFDocument? {
 
 		var currentY: CGFloat = PdfExport.Constants.outerMargin
 		var drawElements = [PdfDrawElement]()
@@ -43,29 +51,23 @@ class HealthExportPdfGenerator {
 		appendPageHeader(to: &drawElements, currentY: &currentY)
 		currentY += PdfExport.Constants.innerMargin
 
-		dataSource.tables.forEach { groupedTable in
+		for index in dataSource.tables.indices {
+			guard !Task.isCancelled else { return nil }
 			appendGroupedTable(
-				groupedTable,
+				dataSource.tables[index],
 				to: &drawElements,
 				currentY: &currentY,
 				availableHeight: availableHeight
 			)
-			if groupedTable != dataSource.tables.last {
+			if index < dataSource.tables.count - 1 {
 				drawElements.append(PdfDrawElement.pageBreak)
 				currentY = PdfExport.Constants.outerMargin
 			}
+			await Task.yield()
 		}
 
+		guard !Task.isCancelled else { return nil }
 		return makePDFDocument(from: drawElements, footer: footer)
-	}
-
-	// MARK: - Supporting Types
-
-	/// Identifies which element in a PdfGroupedTable receives the bottom border
-	private struct BorderContext {
-		let lastPair: PdfSubTablePair?
-		let lastSubTableHeading: PdfSubTable?
-		let isTableHeading: Bool
 	}
 
 	// MARK: - Page Layout
@@ -75,17 +77,13 @@ class HealthExportPdfGenerator {
 		to drawElements: inout [PdfDrawElement],
 		currentY: inout CGFloat
 	) {
-		// Creation Date
-		drawElements.append(factory.createPdfSubHeadingDrawElement(
-			dataSource,
-			yPosition: currentY)
-		)
-		currentY += drawElements.last?.height ?? 0
-		drawElements.append(factory.createPdfHeadingDrawElement(
-			dataSource,
-			yPosition: currentY)
-		)
-		currentY += drawElements.last?.height ?? 0
+		// Creation Date — right-aligned overlay; height is 0 so currentY does not advance
+		let subHeading = factory.createPdfSubHeadingDrawElement(dataSource, yPosition: currentY)
+		drawElements.append(subHeading)
+		currentY += subHeading.height
+		let heading = factory.createPdfHeadingDrawElement(dataSource, yPosition: currentY)
+		drawElements.append(heading)
+		currentY += heading.height
 	}
 
 	/// Append all draw elements for a single PdfGroupedTable
@@ -120,32 +118,15 @@ class HealthExportPdfGenerator {
 			return
 		}
 
-		let context = borderContext(for: groupedTable)
-
 		groupedTable.tables.forEach { table in
 			appendTable(
 				table,
 				to: &drawElements,
 				currentY: &currentY,
-				availableHeight: availableHeight,
-				borderContext: context,
-				isLastTable: table == groupedTable.tables.last
+				availableHeight: availableHeight
 			)
 			currentY += PdfExport.Constants.innerMargin
 		}
-	}
-
-	/// Pre-compute which element in a group receives the bottom border
-	nonisolated private func borderContext(for groupedTable: PdfGroupedTables) -> BorderContext {
-		let lastPair = groupedTable.tables.last?.subTables.reversed().lazy.compactMap { $0.data.last }.first
-		let lastSubTableHeading = lastPair == nil
-		? groupedTable.tables.last?.subTables.reversed().first(where: { $0.heading != nil })
-		: nil
-		return BorderContext(
-			lastPair: lastPair,
-			lastSubTableHeading: lastSubTableHeading,
-			isTableHeading: lastPair == nil && lastSubTableHeading == nil
-		)
 	}
 
 	/// Append all draw elements for a single PdfTable
@@ -153,18 +134,13 @@ class HealthExportPdfGenerator {
 		_ table: PdfTable,
 		to drawElements: inout [PdfDrawElement],
 		currentY: inout CGFloat,
-		availableHeight: CGFloat,
-		borderContext: BorderContext,
-		isLastTable: Bool
+		availableHeight: CGFloat
 	) {
 		var tableHeading = factory.createTableHeadingDrawElement(
 			table,
 			yPosition: currentY
 		)
 		tableHeading.borderSides = [.top, .left, .right]
-		if borderContext.isTableHeading && isLastTable {
-			tableHeading.borderSides.insert(.bottom)
-		}
 		append(
 			&tableHeading,
 			to: &drawElements,
@@ -172,13 +148,13 @@ class HealthExportPdfGenerator {
 			availableHeight: availableHeight
 		)
 
-		table.subTables.forEach { subTable in
+		table.subTables.indices.forEach { index in
 			appendSubTable(
-				subTable,
+				table.subTables[index],
 				to: &drawElements,
 				currentY: &currentY,
 				availableHeight: availableHeight,
-				borderContext: borderContext
+				isLastSubTable: index == table.subTables.count - 1
 			)
 		}
 	}
@@ -189,7 +165,7 @@ class HealthExportPdfGenerator {
 		to drawElements: inout [PdfDrawElement],
 		currentY: inout CGFloat,
 		availableHeight: CGFloat,
-		borderContext: BorderContext
+		isLastSubTable: Bool
 	) {
 		if let heading = subTable.heading {
 			var element = factory.createSubTableHeadingDrawElement(
@@ -197,7 +173,7 @@ class HealthExportPdfGenerator {
 				yPosition: currentY
 			)
 			element.borderSides = [.left, .right]
-			if subTable == borderContext.lastSubTableHeading {
+			if isLastSubTable && subTable.data.isEmpty {
 				element.borderSides.insert(.bottom)
 			}
 			append(
@@ -208,13 +184,13 @@ class HealthExportPdfGenerator {
 			)
 		}
 
-		subTable.data.forEach { pair in
+		subTable.data.indices.forEach { index in
 			appendRow(
-				pair,
+				subTable.data[index],
 				to: &drawElements,
 				currentY: &currentY,
 				availableHeight: availableHeight,
-				isLastInGroup: pair == borderContext.lastPair
+				isLastInGroup: isLastSubTable && index == subTable.data.count - 1
 			)
 		}
 	}
@@ -231,8 +207,12 @@ class HealthExportPdfGenerator {
 			pair,
 			yPosition: currentY
 		)
-		row[0].borderSides = isLastInGroup ? [.left, .bottom] : [.left]
-		row[1].borderSides = isLastInGroup ? [.right, .bottom] : [.right]
+		if row.count == 2 {
+			row[0].borderSides = isLastInGroup ? [.left, .bottom] : [.left]
+			row[1].borderSides = isLastInGroup ? [.right, .bottom] : [.right]
+		} else if row.isNotEmpty {
+			row[0].borderSides = isLastInGroup ? [.left, .right, .bottom] : [.left, .right]
+		}
 		appendRowPair(
 			&row,
 			to: &drawElements,
@@ -264,13 +244,14 @@ class HealthExportPdfGenerator {
 		currentY: inout CGFloat,
 		availableHeight: CGFloat
 	) {
-		if currentY + (elements.last?.height ?? 0) > availableHeight {
+		guard let rowHeight = elements.last?.height else { return }
+		if currentY + rowHeight > availableHeight {
 			drawElements.append(PdfDrawElement.pageBreak)
 			currentY = PdfExport.Constants.outerMargin
 			elements.indices.forEach { elements[$0].rect.origin.y = currentY }
 		}
 		drawElements.append(contentsOf: elements)
-		currentY += elements.last?.height ?? 0
+		currentY += rowHeight
 	}
 
 	// MARK: - Rendering
@@ -306,8 +287,9 @@ class HealthExportPdfGenerator {
 						totalPages: totalPages,
 						footer: footer
 					)
+				} else {
+					drawElement.draw(context)
 				}
-				drawElement.draw(context)
 			}
 		}
 
