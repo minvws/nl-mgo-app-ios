@@ -25,6 +25,7 @@ extension SingleValue {
 	public func getPdfMapping() -> PdfSubTablePair? {
 		
 		guard let display = value?.display else { return nil }
+		guard label.isNotEmpty else { return nil }
 		return PdfSubTablePair(key: label, value: display)
 	}
 }
@@ -37,6 +38,7 @@ extension MultipleValues {
 	public func getPdfMapping() -> PdfSubTablePair? {
 		
 		guard let values = value else { return nil }
+		guard label.isNotEmpty else { return nil }
 		let joined = values.compactMap(\.display).joined(separator: "\n")
 		return joined.isEmpty ? nil : PdfSubTablePair(key: label, value: joined)
 	}
@@ -50,6 +52,7 @@ extension MultipleGroupedValues {
 	public func getPdfMapping() -> PdfSubTablePair? {
 		
 		guard let values = value else { return nil }
+		guard label.isNotEmpty else { return nil }
 		let joined = values.flatMap { $0 }.compactMap(\.display).joined(separator: "\n")
 		return joined.isEmpty ? nil : PdfSubTablePair(key: label, value: joined)
 	}
@@ -62,6 +65,7 @@ extension ReferenceValue {
 	public func getPdfMapping() -> PdfSubTablePair? {
 		
 		guard let display else { return nil }
+		guard label.isNotEmpty else { return nil }
 		return PdfSubTablePair(key: label, value: display)
 	}
 }
@@ -72,6 +76,7 @@ extension ReferenceLink {
 	/// Builds a `PdfSubTablePair` from the element's `label` as the value, and a empty string as key.
 	public func getPdfMapping() -> PdfSubTablePair? {
 		
+		guard label.isNotEmpty else { return nil }
 		return PdfSubTablePair(key: "", value: label)
 	}
 }
@@ -79,6 +84,8 @@ extension ReferenceLink {
 extension DownloadLink {
 	/// PDF mapping for a download link: full-width row with icon and label in blue.
 	public func getPdfMapping() -> PdfSubTablePair? {
+		
+		guard label.isNotEmpty else { return nil }
 		return PdfSubTablePair(key: "", value: label, style: .download)
 	}
 }
@@ -86,6 +93,8 @@ extension DownloadLink {
 extension DownloadBinary {
 	/// PDF mapping for a downloadable binary: full-width row with icon and label in blue.
 	public func getPdfMapping() -> PdfSubTablePair? {
+		
+		guard label.isNotEmpty else { return nil }
 		return PdfSubTablePair(key: "", value: label, style: .download)
 	}
 }

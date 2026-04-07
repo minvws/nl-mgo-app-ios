@@ -52,6 +52,25 @@ struct UIElementPdfMappingTests {
 		#expect(element.getPdfMapping() == nil)
 	}
 	
+	@Test("SingleValue getPdfMapping returns nil when label is empty")
+	func singleValue_withEmptyLabel() {
+		
+		// Given
+		let element = SingleValue(
+			id: "1",
+			label: "",
+			type: .singleValue,
+			value: DisplayValue(
+				code: nil,
+				display: "Jan Jansen",
+				system: nil
+			)
+		)
+		
+		// When / Then
+		#expect(element.getPdfMapping() == nil)
+	}
+	
 	@Test("SingleValue getPdfMapping returns nil when display is nil")
 	func singleValue_withNilDisplay() {
 		
@@ -107,6 +126,24 @@ struct UIElementPdfMappingTests {
 		#expect(element.getPdfMapping() == nil)
 	}
 	
+	@Test("MultipleValues getPdfMapping returns nil when label is empty")
+	func multipleValues_withEmptyLabel() {
+		
+		// Given
+		let element = MultipleValues(
+			id: "1",
+			label: "",
+			type: .multipleValues,
+			value: [
+				DisplayValue(code: nil, display: "Hypertensie", system: nil),
+				DisplayValue(code: nil, display: "Diabetes", system: nil)
+			]
+		)
+		
+		// When / Then
+		#expect(element.getPdfMapping() == nil)
+	}
+	
 	@Test("MultipleValues getPdfMapping returns nil when all displays are nil")
 	func multipleValues_withAllNilDisplays() {
 		
@@ -150,6 +187,27 @@ struct UIElementPdfMappingTests {
 		#expect(pair.style == .standard)
 		#expect(pair.key == "Medicijnen")
 		#expect(pair.value == "Aspirine\nIbuprofen\nParacetamol")
+	}
+	
+	@Test("MultipleGroupedValues getPdfMapping returns nil when label is empty")
+	func multipleGroupedValues_withEmptyLabel() {
+		
+		// Given
+		let element = MultipleGroupedValues(
+			id: "1",
+			label: "",
+			type: .multipleGroupedValues,
+			value: [
+				[DisplayValue(code: nil, display: "Aspirine", system: nil)],
+				[
+					DisplayValue(code: nil, display: "Ibuprofen", system: nil),
+					DisplayValue(code: nil, display: "Paracetamol", system: nil)
+				]
+			]
+		)
+		
+		// When / Then
+		#expect(element.getPdfMapping() == nil)
 	}
 	
 	@Test("MultipleGroupedValues getPdfMapping returns nil when value is nil")
@@ -206,6 +264,22 @@ struct UIElementPdfMappingTests {
 		#expect(element.getPdfMapping() == nil)
 	}
 	
+	@Test("ReferenceValue getPdfMapping returns nil when label is empty")
+	func referenceValue_withEmptyLabel() {
+		
+		// Given
+		let element = ReferenceValue(
+			display: "Actief",
+			id: "1",
+			label: "",
+			reference: nil,
+			type: .referenceValue
+		)
+		
+		// When / Then
+		#expect(element.getPdfMapping() == nil)
+	}
+	
 	// MARK: - ReferenceLink
 	
 	@Test("ReferenceLink getPdfMapping returns standard pair with empty key and label as value")
@@ -250,6 +324,21 @@ struct UIElementPdfMappingTests {
 		#expect(pair.key == "")
 	}
 	
+	@Test("DownloadLink getPdfMapping returns nil when label is empty")
+	func downloadLink_withEmptyLabel() throws {
+		
+		// Given
+		let element = DownloadLink(
+			id: "1",
+			label: "",
+			type: .downloadLink,
+			url: nil
+		)
+		
+		// When / Then
+		#expect(element.getPdfMapping() == nil)
+	}
+	
 	// MARK: - DownloadBinary
 	
 	@Test("DownloadBinary getPdfMapping returns download style with label as value")
@@ -270,5 +359,20 @@ struct UIElementPdfMappingTests {
 		#expect(pair.style == .download)
 		#expect(pair.value == "Scan resultaat.pdf")
 		#expect(pair.key == "")
+	}
+	
+	@Test("DownloadBinary getPdfMapping returns nil when label is empty")
+	func downloadBinary_withEmptyLabel() throws {
+		
+		// Given
+		let element = DownloadBinary(
+			id: "1",
+			label: "",
+			reference: nil,
+			type: .downloadBinary
+		)
+		
+		// When / Then
+		#expect(element.getPdfMapping() == nil)
 	}
 }
