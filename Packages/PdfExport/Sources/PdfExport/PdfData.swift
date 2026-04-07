@@ -18,14 +18,18 @@ public enum PdfSubTablePairStyle: Codable, Hashable, Sendable {
 /**
  * Represents a table row par, containing a key and a value
  */
-public struct PdfSubTablePair: Equatable, Hashable, Sendable {
+public struct PdfSubTablePair: Codable, Equatable, Hashable, Sendable {
 
 	/// Create a table row pair
 	/// - Parameters:
 	///   - key: the row key
 	///   - value: the row value
 	///   - style: rendering style (defaults to `.standard`)
-	public init(key: String, value: String, style: PdfSubTablePairStyle = .standard) {
+	public init(
+		key: String,
+		value: String,
+		style: PdfSubTablePairStyle = .standard
+	) {
 		self.key = key
 		self.value = value
 		self.style = style
@@ -39,20 +43,6 @@ public struct PdfSubTablePair: Equatable, Hashable, Sendable {
 
 	/// How this row should be rendered
 	public let style: PdfSubTablePairStyle
-}
-
-extension PdfSubTablePair: Codable {
-
-	private enum CodingKeys: String, CodingKey {
-		case key, value, style
-	}
-
-	public init(from decoder: any Decoder) throws {
-		let container = try decoder.container(keyedBy: CodingKeys.self)
-		key = try container.decode(String.self, forKey: .key)
-		value = try container.decode(String.self, forKey: .value)
-		style = (try? container.decodeIfPresent(PdfSubTablePairStyle.self, forKey: .style)) ?? .standard
-	}
 }
 
 /**
@@ -130,7 +120,12 @@ public struct PdfData: Equatable, Codable, Hashable, Sendable {
 	///   - subHeading: the subtitle
 	///   - tables: a list of grouped tables for each category
 	///   - footer: a footer for each page
-	public init(heading: String, subHeading: String, tables: [PdfGroupedTables], footer: String) {
+	public init(
+		heading: String,
+		subHeading: String,
+		tables: [PdfGroupedTables],
+		footer: String
+	) {
 		self.heading = heading
 		self.subHeading = subHeading
 		self.tables = tables

@@ -73,6 +73,8 @@ import SwiftUI
 			color: theme.secondaryText
 		)
 		let textBox = text.measure(in: boundingSize)
+		// height: 0 — intentional. The sub-heading is right-aligned and overlaps the
+		// heading row visually, so it must not consume vertical space in the layout pass.
 		return PdfDrawElement(
 			text: text,
 			borderColor: nil,

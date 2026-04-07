@@ -42,6 +42,21 @@ final class HealthExportViewTests: XCTestCase {
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
+	@MainActor func test_exportView_asSheet() {
+		
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		createSut()
+		
+		// When
+		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, true)
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -55,6 +70,7 @@ final class HealthExportViewTests: XCTestCase {
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -68,6 +84,7 @@ final class HealthExportViewTests: XCTestCase {
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -81,6 +98,7 @@ final class HealthExportViewTests: XCTestCase {
 
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
 
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
@@ -99,6 +117,7 @@ final class HealthExportViewTests: XCTestCase {
 
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
 
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
