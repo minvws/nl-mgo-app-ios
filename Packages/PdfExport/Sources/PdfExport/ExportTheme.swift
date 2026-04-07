@@ -15,6 +15,9 @@ public class ExportTheme {
 	@Published public var primaryText: Color = Color("PrimaryText", bundle: .module)
 	@Published public var secondaryText: Color = Color("SecondaryText", bundle: .module)
 	
+	// Link / download
+	@Published public var linkText: Color = Color("LinkText", bundle: .module)
+
 	// Border
 	@Published public var border: Color = Color("Border", bundle: .module)
 }

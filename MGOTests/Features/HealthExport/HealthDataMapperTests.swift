@@ -66,7 +66,7 @@ struct HealthDataMapperTests {
 		
 		let subTable0 = table.subTables[0]
 		#expect(subTable0.heading == "Section Header first group")
-		#expect(subTable0.data.count == 1)
+		#expect(subTable0.data.count == 4)
 		
 		let subTable1 = table.subTables[1]
 		#expect(subTable1.heading == "Section Header second group")

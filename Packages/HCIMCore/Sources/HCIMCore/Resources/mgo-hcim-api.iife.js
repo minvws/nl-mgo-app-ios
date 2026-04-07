@@ -43132,6 +43132,7 @@ ${indent}}` : "}";
     return {
       id: formatMessage2(`summary.options`),
       label: formatMessage2(`summary.options`),
+      excludeFromPrint: true,
       children: [
         {
           id: `summary.${i18n2}.show_details`,

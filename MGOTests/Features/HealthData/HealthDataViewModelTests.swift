@@ -112,6 +112,7 @@ final class HealthDataViewModelTests: XCTestCase {
 								url: nil
 							)
 						],
+						excludeFromPrint: false,
 						id: "section_header_first_group",
 						label: "Section Header first group"
 					)

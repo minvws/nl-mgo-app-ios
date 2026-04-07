@@ -1,15 +1,16 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 	
 import MGOFoundation
 import PdfExport
 
-class HealthDataMapper {
+@MainActor
+struct HealthDataMapper {
 	
 	/// The date formatter
-	@MainActor private static var dateFormatter: DateFormatter = {
+	private static let dateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 		formatter.dateStyle = .medium
@@ -18,7 +19,7 @@ class HealthDataMapper {
 	}()
 	
 	/// The time formatter
-	@MainActor private static var timeFormatter: DateFormatter = {
+	private static let timeFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 		formatter.dateStyle = .none
@@ -31,7 +32,7 @@ class HealthDataMapper {
 	///   - heading: the heading
 	///   - blocks: the health sub categories
 	/// - Returns: pdf Data
-	@MainActor func map(
+	func map(
 		_ heading: String,
 		blocks: [HealthCategoryBlock]
 	) -> PdfData? {
@@ -55,7 +56,7 @@ class HealthDataMapper {
 	/// Transform a Health sub category in a PDF Grouped tables
 	/// - Parameter subCategory: the sub category to transform
 	/// - Returns: a PDF grouped table
-	@MainActor private func mapBlock(
+	private func mapBlock(
 		_ block: HealthCategoryBlock
 	) -> PdfGroupedTables {
 		
@@ -66,7 +67,10 @@ class HealthDataMapper {
 				if subTables.isEmpty {
 					return nil
 				} else {
-					return PdfTable(heading: row.heading, subTables: subTables)
+					return PdfTable(
+						heading: row.heading,
+						subTables: subTables
+					)
 				}
 			}
 		)
@@ -75,60 +79,18 @@ class HealthDataMapper {
 	/// Transform a Health ui schema into an array of PDF sub tables
 	/// - Parameter schema: the health schema to transform
 	/// - Returns: an array of PDF sub tables
-	@MainActor private func mapSchema(
+	private func mapSchema(
 		_ schema: HealthUISchema
 	) -> [PdfSubTable] {
-		
-		var result = [PdfSubTable]()
-		
-		for child in schema.children {
-			let pairs = child.uiElements.compactMap(mapElement)
-			if pairs.isNotEmpty {
-				result.append(PdfSubTable(heading: child.label, data: pairs))
-			}
-		}
-		return result
-	}
-	
-	/// Map a UIElement onto a PDF sub table pair
-	/// - Parameter element: the element
-	/// - Returns: PDF sub table pair
-	@MainActor private func mapElement(
-		_ element: UIElementProtocol
-	) -> PdfSubTablePair? {
-		
-		if element is SingleValue,
-		   let display = (element as? SingleValue)?.value?.display {
-			return PdfSubTablePair(key: element.label, value: display)
-		}
-		
-		if element is MultipleValues,
-		   let display = (element as? MultipleValues)?.value {
-			let values = display
-				.compactMap { $0.display }
+		schema.children.compactMap { child in
+			// Only include where excludeFromPrint is false
+			guard child.excludeFromPrint != true else { return nil }
 			
-			return PdfSubTablePair(
-				key: element.label,
-				value: values.joined(separator: ", ")
+			let pairs = child.uiElements.compactMap { $0.getPdfMapping() }
+			return pairs.isEmpty ? nil : PdfSubTable(
+				heading: child.label,
+				data: pairs
 			)
 		}
-		
-		if element is MultipleGroupedValues,
-		   let display = (element as? MultipleGroupedValues)?.value {
-			let values = display
-				.flatMap { $0 }
-				.compactMap { $0.display }
-			
-			return PdfSubTablePair(
-				key: element.label,
-				value: values.joined(separator: ", ")
-			)
-		}
-
-		if element is ReferenceValue,
-		   let value = (element as? ReferenceValue)?.display {
-			return PdfSubTablePair(key: element.label, value: value)
-		}
-		return nil
 	}
 }

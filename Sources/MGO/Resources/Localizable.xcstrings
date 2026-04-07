@@ -442,7 +442,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "U heeft nog geen onderdelen toegevoegd. Klik op het plusje (+) om iets toe te voegen."
+            "value" : "U heeft nog geen onderdelen toegevoegd. Druk op het plusje (+) om iets toe te voegen."
           }
         }
       }
@@ -1397,7 +1397,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hier is niets opgeslagen. Zodra uw zorgaanbieders informatie toevoegen, staat die hier."
+            "value" : "Hier is niets opgeslagen. Als uw zorgaanbieders informatie toevoegen, staat die hier."
           }
         }
       }
