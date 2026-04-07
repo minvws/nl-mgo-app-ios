@@ -106,6 +106,39 @@ struct HealthExportViewModelTests {
 		)
 	}
 	
+	@Test("savePDF sanitizes slashes and colons in category name")
+	func savePDF_sanitizesSpecialCharacters() throws {
+
+		// Given
+		let specialData = PdfData(heading: "Bloed/Druk: meting", subHeading: "", tables: [], footer: "")
+		let vm = HealthExportViewModel(coordinator: coordinatorSpy, healthData: specialData)
+
+		// When
+		let url = try #require(vm.savePDF(data: Data([0x25, 0x50, 0x44, 0x46]))) // minimal %PDF header
+		let filename = url.lastPathComponent
+
+		// Then — no slashes or colons in the filename
+		#expect(!filename.contains("/"))
+		#expect(!filename.contains(":"))
+		try? FileManager.default.removeItem(at: url)
+	}
+
+	@Test("savePDF collapses consecutive illegal characters into a single underscore")
+	func savePDF_collapsesConsecutiveIllegalCharacters() throws {
+
+		// Given
+		let specialData = PdfData(heading: "A//B::C", subHeading: "", tables: [], footer: "")
+		let vm = HealthExportViewModel(coordinator: coordinatorSpy, healthData: specialData)
+
+		// When
+		let url = try #require(vm.savePDF(data: Data([0x25, 0x50, 0x44, 0x46])))
+		let filename = url.lastPathComponent
+
+		// Then — consecutive illegal chars become a single underscore
+		#expect(filename.contains("a_b_c"))
+		try? FileManager.default.removeItem(at: url)
+	}
+
 	@Test("Tapping back calls coordinator with backButtonPressed")
 	func backButtonPressed() async {
 		

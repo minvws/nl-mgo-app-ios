@@ -136,8 +136,12 @@ class HealthExportViewModel: ObservableObject {
 		dateFormatter.timeZone = TimeZone(identifier: "Europe/Amsterdam")
 		let dateString = dateFormatter.string(from: Container.shared.now()())
 		
-		let categoryName = dataSource.heading
-		let fileName = String("mgo_\(categoryName.lowercased().replacingOccurrences(of: " ", with: "_"))_\(dateString)")
+		let allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "_"))
+		let sanitized = dataSource.heading.lowercased()
+			.components(separatedBy: allowed.inverted)
+			.filter { !$0.isEmpty }
+			.joined(separator: "_")
+		let fileName = "mgo_\(sanitized)_\(dateString)"
 		
 		do {
 			try storage.store(data, as: "\(fileName).pdf")
