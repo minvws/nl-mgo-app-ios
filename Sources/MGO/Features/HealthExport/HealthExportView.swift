@@ -16,7 +16,7 @@ class HealthExportViewModel: ObservableObject {
 	
 	/// The PDF data source
 	private var dataSource: PdfData
-
+	
 	/// The storage provider
 	private let storage: FileStorageProtocol
 	
@@ -71,7 +71,7 @@ class HealthExportViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthExportViewModel.Action) {
+	func reduce(_ action: HealthExportViewModel.Action) async {
 		
 		switch action {
 			case .backButtonPressed:
@@ -81,7 +81,7 @@ class HealthExportViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.closeSheet)
 				
 			case .onAppear:
-				generatePDF()
+				await generatePDF()
 				
 				if case let .document(pDFDocument) = state, !isIOS15,
 				   let data = pDFDocument.dataRepresentation(),
@@ -117,12 +117,12 @@ class HealthExportViewModel: ObservableObject {
 	}
 	
 	/// Generate the PDF
-	internal func generatePDF() {
-		if let document = HealthExportPdfGenerator(dataSource: dataSource).generatePDF() {
+	internal func generatePDF() async {
+		if let document = await HealthExportPdfGenerator(dataSource: dataSource).generatePDF() {
 			state = .document(document)
 		}
 	}
-
+	
 	/// Save the document
 	/// - Parameters:
 	///   - data: the pdf in binary
@@ -190,7 +190,9 @@ struct HealthExportView: View {
 		.frame(maxWidth: .infinity)
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.onAppear {
-			viewModel.reduce(.onAppear)
+			Task {
+				await viewModel.reduce(.onAppear)
+			}
 		}
 		.navigationTitle(viewModel.title)
 		.navigationBarBackButtonHidden()
@@ -203,7 +205,7 @@ struct HealthExportView: View {
 			view
 				.toolbar(content: shareTopBarTrailing)
 				.navigationBarItems(leading: BackButton {
-					viewModel.reduce(.backButtonPressed)
+					Task { await viewModel.reduce(.backButtonPressed) }
 				})
 				.navigationBarTitleDisplayMode(.inline)
 		})
@@ -269,7 +271,7 @@ struct HealthExportView: View {
 				if osVersionChecker.available(version: .iOS(.v26)) {
 					if #available(iOS 26.0, *) {
 						Button(role: .close) {
-							viewModel.reduce(.closeSheet)
+							Task { await viewModel.reduce(.closeSheet) }
 						}
 						.accessibilityLabel(closeKey)
 						.tint(theme.labels.primary)
@@ -277,7 +279,7 @@ struct HealthExportView: View {
 				} else {
 					
 					Button(closeKey) {
-						viewModel.reduce(.closeSheet)
+						Task { await viewModel.reduce(.closeSheet) }
 					}
 					.buttonStyle(ToolbarButtonStyle())
 					.accessibilityIdentifier("export_pdf.close")
@@ -293,7 +295,7 @@ struct HealthExportView: View {
 			placement: .topBarTrailing,
 			content: {
 				Button {
-					viewModel.reduce(.safePdf)
+					Task { await viewModel.reduce(.safePdf) }
 				} label: {
 					Image(systemName: "square.and.arrow.up")
 				}

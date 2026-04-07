@@ -39,8 +39,8 @@ class HealthExportPdfGenerator {
 	}
 
 	/// Generate the PDF document
-	/// - Returns: the rendered PDF document, or nil if rendering failed
-	func generatePDF() -> PDFDocument? {
+	/// - Returns: the rendered PDF document, or nil if rendering failed or cancelled
+	func generatePDF() async -> PDFDocument? {
 
 		var currentY: CGFloat = PdfExport.Constants.outerMargin
 		var drawElements = [PdfDrawElement]()
@@ -51,7 +51,8 @@ class HealthExportPdfGenerator {
 		appendPageHeader(to: &drawElements, currentY: &currentY)
 		currentY += PdfExport.Constants.innerMargin
 
-		dataSource.tables.indices.forEach { index in
+		for index in dataSource.tables.indices {
+			guard !Task.isCancelled else { return nil }
 			appendGroupedTable(
 				dataSource.tables[index],
 				to: &drawElements,
@@ -62,6 +63,7 @@ class HealthExportPdfGenerator {
 				drawElements.append(PdfDrawElement.pageBreak)
 				currentY = PdfExport.Constants.outerMargin
 			}
+			await Task.yield()
 		}
 
 		return makePDFDocument(from: drawElements, footer: footer)

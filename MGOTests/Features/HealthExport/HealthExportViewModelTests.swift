@@ -107,12 +107,12 @@ struct HealthExportViewModelTests {
 	}
 	
 	@Test("Tapping back calls coordinator with backButtonPressed")
-	func backButtonPressed() {
+	func backButtonPressed() async {
 		
 		// Given
 		
 		// When
-		sut.reduce(.backButtonPressed)
+		await sut.reduce(.backButtonPressed)
 		
 		// Then
 		#expect(coordinatorSpy.invokedHandle == true)
@@ -120,12 +120,12 @@ struct HealthExportViewModelTests {
 	}
 	
 	@Test("Tapping close calls coordinator with closeSheet")
-	func closeSheet() {
-
+	func closeSheet() async {
+		
 		// Given
 		
 		// When
-		sut.reduce(.closeSheet)
+		await sut.reduce(.closeSheet)
 		
 		// Then
 		#expect(coordinatorSpy.invokedHandle == true)
@@ -133,12 +133,12 @@ struct HealthExportViewModelTests {
 	}
 	
 	@Test("onAppear generates the PDF and saves it to disk")
-	func onAppear() throws {
-
+	func onAppear() async throws {
+		
 		// Given
 		
 		// When
-		sut.reduce(.onAppear)
+		await sut.reduce(.onAppear)
 		
 		// Then
 		#expect(coordinatorSpy.invokedHandle == false)
@@ -149,13 +149,13 @@ struct HealthExportViewModelTests {
 	}
 	
 	@Test("safePdf triggers sharing without updating pdfUrl")
-	func safePdf() {
+	func safePdf() async {
 		
 		// Given
-		sut.generatePDF()
+		await sut.generatePDF()
 		
 		// When
-		sut.reduce(.safePdf)
+		await sut.reduce(.safePdf)
 		
 		// Then
 		#expect(coordinatorSpy.invokedHandle == false)
