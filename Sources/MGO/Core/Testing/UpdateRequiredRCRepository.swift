@@ -9,7 +9,7 @@ import Observatory
 /// A stub repository used during UI testing to force the "update required" screen.
 /// Registered only when the `-updateRequired` launch argument is present.
 @MainActor
-final class UpdateRequiredRemoteConfigurationRepository: RemoteConfigurationRepositoryProtocol {
+final class UpdateRequiredRCRepository: RemoteConfigurationRepositoryProtocol {
 
 	let observatory: Observatory<RemoteConfig>
 	private let notify: (RemoteConfig) -> Void

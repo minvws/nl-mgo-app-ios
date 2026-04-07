@@ -75,7 +75,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		if LaunchArgumentsHandler.shouldShowUpdateRequired() {
 			Container.shared.remoteConfigurationRepository.register { @MainActor in
-				UpdateRequiredRemoteConfigurationRepository()
+				UpdateRequiredRCRepository()
 			}
 		}
 		if LaunchArgumentsHandler.repeatVisitor() {
