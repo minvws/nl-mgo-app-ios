@@ -96,8 +96,13 @@ struct SettingsRowView: View {
 					.frame(minHeight: ViewTraits.Icon.size)
 			}
 			
-			if showChevron || showExternalLink {
-				Image(showChevron ? ImageResource.Overview.chevronRight : ImageResource.Settings.arrowOutward)
+			if showChevron {
+				Image(systemName: "chevron.right")
+					.foregroundStyle(theme.symbols.secondary)
+					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
+					.accessibilityHidden(true)
+			} else if showExternalLink {
+				Image(ImageResource.Settings.arrowOutward)
 					.foregroundStyle(theme.symbols.secondary)
 					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
 					.accessibilityHidden(true)

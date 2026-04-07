@@ -291,7 +291,6 @@ struct OrganizationsView: View {
 				ForEach(list, id: \.self) { healthcareOrganization in
 					rowFor(
 						title: Sanitizer.sanitize(healthcareOrganization.name ?? ""),
-						imageResource: ImageResource.Overview.chevronRight,
 						accessibilityIdentifier: Sanitizer.sanitize(healthcareOrganization.name ?? "")) {
 							viewModel.reduce(.details(healthcareOrganization))
 						}
@@ -324,11 +323,39 @@ struct OrganizationsView: View {
 	/// - Returns: row view
 	@ViewBuilder func rowFor(
 		title: String,
-		imageResource: ImageResource,
 		accessibilityIdentifier: String,
 		action: @escaping () -> Void
 	) -> some View {
 		
+		Button {
+			action()
+		} label: {
+			HStack {
+				Text(title)
+					.typography(.bodyMedium)
+					.foregroundStyle(theme.labels.primary)
+
+				Spacer()
+
+				Image(systemName: "chevron.right")
+					.foregroundColor(theme.symbols.secondary)
+			}
+			.padding(ViewTraits.List.padding)
+		}
+		.frame( maxWidth: .infinity, alignment: .leading)
+		.buttonStyle(HoverButtonStyle())
+		.accessibilityIdentifier(accessibilityIdentifier)
+		.listRowInsets(ViewTraits.List.rowInset)
+	}
+
+	/// - Returns: row view
+	@ViewBuilder func rowFor(
+		title: String,
+		imageResource: ImageResource,
+		accessibilityIdentifier: String,
+		action: @escaping () -> Void
+	) -> some View {
+
 		Button {
 			action()
 		} label: {

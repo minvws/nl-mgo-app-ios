@@ -25,7 +25,7 @@ struct CategoryStateView: View {
 		
 		switch state {
 			case .loaded:
-				Image(ImageResource.Icon.chevron)
+				Image(systemName: "chevron.right")
 					.foregroundStyle(theme.symbols.secondary)
 					.frame(
 						width: ViewTraits.Accessory.size,
