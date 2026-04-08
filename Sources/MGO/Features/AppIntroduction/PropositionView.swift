@@ -86,35 +86,7 @@ struct PropositionView: View {
 					.tint(theme.actions.ghost.text)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 				
-				VStack(spacing: ViewTraits.Items.bottom) {
-					PrivacyShieldView(
-						"proposition.statement.heading_1",
-						subHeading: "proposition.statement.subheading_1",
-						shieldType: .secure
-					)
-						.accessibilityIdentifier("proposition.statement_1")
-
-					PrivacyShieldView(
-						"proposition.statement.heading_2",
-						subHeading: "proposition.statement.subheading_2",
-						shieldType: .personal
-					)
-					.accessibilityIdentifier("proposition.statement_2")
-					
-					PrivacyShieldView(
-						"proposition.statement.heading_3",
-						subHeading: "proposition.statement.subheading_3",
-						shieldType: .storage
-					)
-					.accessibilityIdentifier("proposition.statement_3")
-					
-					PrivacyShieldView(
-						"proposition.statement.heading_4",
-						subHeading: "proposition.statement.subheading_4",
-						shieldType: .control
-					)
-					.accessibilityIdentifier("proposition.statement_4")
-				}
+				statementsView
 				
 				Spacer(minLength: 0)
 			}
@@ -129,6 +101,39 @@ struct PropositionView: View {
 		})
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
+	}
+	
+	@ViewBuilder
+	private var statementsView: some View {
+		VStack(spacing: ViewTraits.Items.bottom) {
+			PrivacyShieldView(
+				"proposition.statement.heading_1",
+				subHeading: "proposition.statement.subheading_1",
+				shieldType: .secure
+			)
+			.accessibilityIdentifier("proposition.statement_1")
+			
+			PrivacyShieldView(
+				"proposition.statement.heading_2",
+				subHeading: "proposition.statement.subheading_2",
+				shieldType: .personal
+			)
+			.accessibilityIdentifier("proposition.statement_2")
+			
+			PrivacyShieldView(
+				"proposition.statement.heading_3",
+				subHeading: "proposition.statement.subheading_3",
+				shieldType: .storage
+			)
+			.accessibilityIdentifier("proposition.statement_3")
+			
+			PrivacyShieldView(
+				"proposition.statement.heading_4",
+				subHeading: "proposition.statement.subheading_4",
+				shieldType: .control
+			)
+			.accessibilityIdentifier("proposition.statement_4")
+		}
 	}
 	
 	@ViewBuilder
