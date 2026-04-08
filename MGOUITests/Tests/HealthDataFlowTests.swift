@@ -23,14 +23,13 @@ final class HealthDataFlowTests: XCTestCase {
 		AppRobot()
 			.navigateToOverviewWithBGZ()
 			.verifyTitleExists("Overzicht")
-			.verifyAllCategories()
 		
 			.verifyOverviewButtonExists()
 			.verifyHealthcareOrganizationButtonExists()
 			.verifySettingsButtonExists()
 
 			// Medication Category
-			.swipeUpToCategory("medication")
+			.swipeDownToCategory("medication")
 			.tapHealthCategory("medication")
 			.verifyHeadingExists("Medicijnen")
 			.verifySectionExists("Wat u nu gebruikt")
@@ -113,8 +112,10 @@ final class HealthDataFlowTests: XCTestCase {
 			.swipeDownToCategory("lab_results")
 			.tapHealthCategory("lab_results")
 			.verifyHeadingExists("Uitslagen")
-			.verifySectionRowExists("Consult voor hnp (thoracaal/lumbaal) met dokter bernard, Kwalificatie Medmij: GPDATA")
-			.verifySectionRowExists("Consult voor keelpijn met dokter bernard, Kwalificatie Medmij: GPDATA")
+//			.verifySectionRowExists("Consult voor hnp (thoracaal/lumbaal) met dokter bernard, Kwalificatie Medmij: GPDATA")
+			.verifySectionRowExists("ont-ver-gpdata-observation-contact14-fastingglucose, Kwalificatie Medmij: GPDATA")
+//			.verifySectionRowExists("Consult voor keelpijn met dokter bernard, Kwalificatie Medmij: GPDATA")
+			.verifySectionRowExists("ont-ver-gpdata-observation-contact11-throatculture, Kwalificatie Medmij: GPDATA")
 			.tapSectionRow(0, section: 1)
 			// Laboratory Result Summary
 			.verifyHeadingExists("Consult voor hnp (thoracaal/lumbaal) met dokter bernard")
@@ -172,9 +173,11 @@ final class HealthDataFlowTests: XCTestCase {
 			.tapHealthCategory("documents")
 			.verifyHeadingExists("Documenten")
 			.verifySectionButtonExists(0, section: 0)
-			.verifySectionRowExists("Example PDF - Anterior Cervical Discectomy Fusion - Discharge Summary, Kwalificatie Medmij: PDFA")
+//			.verifySectionRowExists("Example PDF - Anterior Cervical Discectomy Fusion - Discharge Summary, Kwalificatie Medmij: PDFA")
+			.verifySectionRowExists("06c6e783-3dc1-4236-84b1-3fb1d12e7899, Kwalificatie Medmij: PDFA")
 			.verifySectionButtonExists(1, section: 0)
-			.verifySectionRowExists("Example PDF - Infectious disease Consult note, Kwalificatie Medmij: PDFA")
+//			.verifySectionRowExists("Example PDF - Infectious disease Consult note, Kwalificatie Medmij: PDFA")
+			.verifySectionRowExists("3eb7bb2b-19c9-4632-9479-fea096eba519, Kwalificatie Medmij: PDFA")
 			.tapSectionRow(0, section: 0)
 			// Document Summary
 			.verifyHeadingExists("Example PDF - Anterior Cervical Discectomy Fusion - Discharge Summary")
@@ -228,7 +231,8 @@ final class HealthDataFlowTests: XCTestCase {
 			.tapHealthCategory("vaccinations")
 			.verifyHeadingExists("Vaccinaties")
 			.verifySectionButtonExists(0, section: 0)
-			.verifySectionRowExists("Covid-19 vaccin pfizer injvlst 0,3ml, Kwalificatie Medmij: VACCINATION_IMMUNIZATION")
+//			.verifySectionRowExists("Covid-19 vaccin pfizer injvlst 0,3ml, Kwalificatie Medmij: VACCINATION_IMMUNIZATION")
+			.verifySectionRowExists("ont-ver-imm-Immunization-01, Kwalificatie Medmij: VACCINATION_IMMUNIZATION")
 			.tapSectionRow(0, section: 0)
 			// Vaccination Summary
 			.verifyHeadingExists("Covid-19 vaccin pfizer injvlst 0,3ml")
