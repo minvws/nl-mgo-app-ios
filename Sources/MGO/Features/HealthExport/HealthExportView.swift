@@ -274,6 +274,7 @@ struct HealthExportView: View {
 					if #available(iOS 26.0, *) {
 						Button(role: .close) { closeButtonTapped() }
 						.accessibilityLabel(closeKey)
+						.accessibilityIdentifier("export_pdf.close")
 						.tint(theme.labels.primary)
 					}
 				} else {

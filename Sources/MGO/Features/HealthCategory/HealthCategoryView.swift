@@ -233,6 +233,7 @@ struct HealthCategoryView: View {
 					}
 					.tint(theme.labels.primary)
 					.accessibilityLabel("export_pdf.menu")
+					.accessibilityIdentifier("export_pdf.menu")
 				} else {
 					Button {
 						viewModel.reduce(.showExportAlert)
@@ -241,6 +242,7 @@ struct HealthCategoryView: View {
 					}
 					.tint(theme.labels.primary)
 					.accessibilityLabel("export_pdf.menu")
+					.accessibilityIdentifier("export_pdf.menu")
 				}
 			}
 		)
