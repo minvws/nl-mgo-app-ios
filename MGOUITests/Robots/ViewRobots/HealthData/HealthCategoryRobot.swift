@@ -63,4 +63,11 @@ import XCTest
 		sectionButton("category_element_\(section)_\(index)").firstMatch.tap()
 		return HealthUISchemaRobot(app)
 	}
+
+	@discardableResult
+	func tapExportPdf() -> HealthExportRobot {
+		app.buttons["export_pdf.menu"].tap()
+		app.alerts.buttons["Maak pdf"].tap()
+		return HealthExportRobot(app)
+	}
 }

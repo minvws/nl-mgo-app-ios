@@ -162,7 +162,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	}
 	
 	@MainActor private func registerObservers() {
-
+		
 		// Listen to changes in the remote configuration
 		let observatory = remoteConfigurationRepository.observatory
 		let token = observatory.append { [weak self] remoteConfiguration in
@@ -177,8 +177,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		removeObserver?()
 	}
 	
-	@MainActor internal func handleRemoteConfigChanges(remoteConfiguration: RemoteConfig) {
-		// Updated configuration
+	/// Check the remote configuration for required app updated
+	/// - Parameter remoteConfiguration: the new remote configuration
+	@MainActor internal func handleRemoteConfigChanges(
+		remoteConfiguration: RemoteConfig
+	) {
 		
 		let minimumVersion = remoteConfiguration.iosMinimumVersion.semanticVersion()
 		let currentVersion = Container.shared.appVersionSupplier().getCurrentVersion().semanticVersion()

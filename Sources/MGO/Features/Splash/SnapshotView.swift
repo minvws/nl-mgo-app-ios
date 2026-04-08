@@ -21,38 +21,43 @@ struct SnapshotView: View {
 		}
 	}
 	
+	@ViewBuilder
+	private func spinnerView(geometry: GeometryProxy) -> some View {
+		VStack {
+			
+			Spacer()
+			
+			HStack(spacing: ViewTraits.General.spacing) {
+				
+				Spacer()
+				
+				ProgressView()
+					.tint(theme.labels.primary.opacity(ViewTraits.General.opacity))
+					.accessibilityHidden(true)
+				
+				Text("common.loading")
+					.foregroundStyle(theme.labels.primary.opacity(ViewTraits.General.opacity))
+					.typography(.bodyMedium)
+				
+				Spacer()
+			}
+			.offset(y: -geometry.size.height / 4)
+		}
+	}
+	
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
-
+				
 				theme.backgrounds.primary
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
-
+				
 				Image(ImageResource.splashLogo)
 					.accessibilityLabel("common.app_name")
 					.accessibilityIdentifier("common.app_name")
-
+				
 				if showSpinner {
-					VStack {
-
-						Spacer()
-
-						HStack(spacing: ViewTraits.General.spacing) {
-
-							Spacer()
-
-							ProgressView()
-								.tint(theme.labels.primary.opacity(ViewTraits.General.opacity))
-								.accessibilityHidden(true)
-
-							Text("common.loading")
-								.foregroundStyle(theme.labels.primary.opacity(ViewTraits.General.opacity))
-								.typography(.bodyMedium)
-
-							Spacer()
-						}
-						.offset(y: -geometry.size.height / 4)
-					}
+					spinnerView(geometry: geometry)
 				}
 			}
 		}

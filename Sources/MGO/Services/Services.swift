@@ -110,22 +110,28 @@ extension Container {
 	var remoteConfigurationRepository: Factory<RemoteConfigurationRepositoryProtocol> {
 		Factory(self) {
 			MainActor.assumeIsolated {
-				if let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-				   let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String {
-
-					RemoteConfigurationRepository(
-						apiClient: RemoteConfigurationClient(
-							serverUrl: Configuration().urlForRemoteConfiguration(),
-							username: username,
-							password: password
-						)
-					)
+				
+				if LaunchArgumentsHandler.shouldShowUpdateRequired() {
+					UpdateRequiredRCRepository()
 				} else {
-					RemoteConfigurationRepository(
-						apiClient: RemoteConfigurationClient(
-							serverUrl: Configuration().urlForRemoteConfiguration()
+					
+					if let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+					   let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String {
+						
+						RemoteConfigurationRepository(
+							apiClient: RemoteConfigurationClient(
+								serverUrl: Configuration().urlForRemoteConfiguration(),
+								username: username,
+								password: password
+							)
 						)
-					)
+					} else {
+						RemoteConfigurationRepository(
+							apiClient: RemoteConfigurationClient(
+								serverUrl: Configuration().urlForRemoteConfiguration()
+							)
+						)
+					}
 				}
 			}
 		}

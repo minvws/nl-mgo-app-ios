@@ -87,11 +87,11 @@ fileGroups:
   - sonar-project.properties
   - .github
   - fastlane
+  - Documentation
   - Diagrams
   - Scripts
   - Makefile
   - README.md
-  - Certificate.md
   - LICENSES
   - REUSE.toml
 

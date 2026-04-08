@@ -229,46 +229,4 @@ import XCTest
 		addOrganizationsButton.tap()
 		return OrganizationSearchRobot(app)
 	}
-	
-	func verifyAllCategories() -> Self {
-		
-		verifyHeadingExists("Gezondheid")
-		.verifyCategoryExists("problems")
-		.verifyCategoryExists("allergies")
-		.verifyCategoryExists("alerts")
-		.swipeDownToCategory("vaccinations")
-		.verifyCategoryExists("vaccinations")
-		.swipeDownToCategory("mental_wellbeing")
-		.verifyCategoryExists("mental_wellbeing")
-		.swipeDownToCategory("lifestyle")
-		.verifyCategoryExists("lifestyle")
-		
-		.swipeDownToCategory("treatments")
-		.verifyHeadingExists("Zorg")
-		.verifyCategoryExists("treatments")
-		.swipeDownToCategory("plans")
-		.verifyCategoryExists("plans")
-		.swipeDownToCategory("medication")
-		.verifyCategoryExists("medication")
-		.swipeDownToCategory("appointments")
-		.verifyCategoryExists("appointments")
-		.swipeDownToCategory("documents")
-		.verifyCategoryExists("documents")
-		.swipeDownToCategory("medical_devices")
-		.verifyCategoryExists("medical_devices")
-
-		.swipeDownToCategory("measurements")
-		.verifyHeadingExists("Onderzoek")
-		.verifyCategoryExists("measurements")
-		.swipeDownToCategory("lab_results")
-		.verifyCategoryExists("lab_results")
-		
-		.swipeDownToCategory("patient")
-		.verifyHeadingExists("Persoonlijk")
-		.verifyCategoryExists("patient")
-		.swipeDownToCategory("care_team")
-		.verifyCategoryExists("care_team")
-		
-		return self
-	}
 }

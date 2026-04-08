@@ -18,14 +18,13 @@ The [Robot Pattern](https://github.com/JamesSedlacek/Scrumdinger/blob/main/Scrum
 ```swift
 AppRobot()
     .launchApp() // Returns IntroductionRobot
-    .tapNextButton() // Move through introduction
-    .tapReferenceButton() // Returns LoginRobot
-    .tapDigiDButton() // Returns MockDigiDRobot
-    .performDigiDLogin() // Returns SearchOrganizationRobot
-    .enterSearchField("Huisarts Breda") // Stays on SearchOrganizationRobot
-    .tapListElement(id: "1234") // Stays on SearchOrganizationRobot
-    .tapAlertOkButton() // Stays on SearchOrganizationRobot
-    .tapSearchButton() // Returns HealthCategoriesRobot
+    .tapNextButton() // Returns PropositionRobot
+    .tapNextButton() // Returns LoginRobot
+    .tapLoginWithDigiDButton() // Returns MockDigiDRobot
+    .performCompleteDigiDLogin() // Returns OrganizationSearchRobot
+    .enterSearchField("Huisarts Breda") // Stays on OrganizationSearchRobot
+    .tapListElement(id: "1234") // Stays on OrganizationSearchRobot
+    .tapAlertOkButton() // Returns HealthCategoriesRobot
 ```
 
 ## The Elements of a Robot
@@ -51,6 +50,7 @@ The `AppRobot` also manages common launch flows. For example, it includes `navig
 - `-disableTransitions` will speedup animation and navigation
 - `-updateRequired` will force the update required flow by mocking the remote configuration
 - `-repeatVisitor` will skip the introduction flow and go directly to the health categories screen
+- `-useTestProviders` will use mock/test healthcare providers instead of remote ones
 
 To use a launch option, you have to create helper method for `AppRobot` method
 
@@ -61,6 +61,7 @@ To use a launch option, you have to create helper method for `AppRobot` method
 func launchApp() -> IntroductionRobot {
 	app.launchArguments.append("-resetOnStart")
 	app.launchArguments.append("-disableTransitions")
+	app.launchArguments.append("-useTestProviders")
 	app.launch()
 	return IntroductionRobot(app)
 }
@@ -72,6 +73,7 @@ func launchAppRepeatVisitor() -> HealthCategoriesRobot {
 	app.launchArguments.append("-resetOnStart")
 	app.launchArguments.append("-disableTransitions")
 	app.launchArguments.append("-repeatVisitor")
+	app.launchArguments.append("-useTestProviders")
 	app.launch()
 	return HealthCategoriesRobot(app)
 }
