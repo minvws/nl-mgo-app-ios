@@ -72,12 +72,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 			// Reset Featureflag settings
 			featureFlagManager.wipePersistedData()
 		}
-		
-		if LaunchArgumentsHandler.shouldShowUpdateRequired() {
-			Container.shared.remoteConfigurationRepository.register { @MainActor in
-				UpdateRequiredRCRepository()
-			}
-		}
 		if LaunchArgumentsHandler.repeatVisitor() {
 			secureUserSettings.firstTimeVisitor = false
 			featureFlagManager.bypassRemoteAuthentication = true
