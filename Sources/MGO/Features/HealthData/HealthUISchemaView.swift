@@ -353,7 +353,7 @@ struct HealthUISchemaView: View {
 			
 			if showChevron {
 				
-				Image(ImageResource.Overview.chevronRight)
+				Image(systemName: "chevron.right")
 					.foregroundStyle(theme.symbols.primary)
 					.frame(
 						width: ViewTraits.Chevron.size,

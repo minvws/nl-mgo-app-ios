@@ -291,7 +291,7 @@ struct OrganizationsView: View {
 				ForEach(list, id: \.self) { healthcareOrganization in
 					rowFor(
 						title: Sanitizer.sanitize(healthcareOrganization.name ?? ""),
-						imageResource: ImageResource.Overview.chevronRight,
+						trailingSystemImageName: "chevron.right",
 						accessibilityIdentifier: Sanitizer.sanitize(healthcareOrganization.name ?? "")) {
 							viewModel.reduce(.details(healthcareOrganization))
 						}
@@ -304,7 +304,7 @@ struct OrganizationsView: View {
 			Section {
 				rowFor(
 					title: String(localized: "overview.add_organization"),
-					imageResource: ImageResource.Overview.add,
+					trailingImageResource: ImageResource.Overview.add,
 					accessibilityIdentifier: "overview.add_organization") {
 						viewModel.reduce(.search)
 					}
@@ -319,16 +319,19 @@ struct OrganizationsView: View {
 	/// The view for a row of the healthcare organizations list
 	/// - Parameters:
 	///   - title: the title of the row
-	///   - imageResource: the image resource for the trailing end
+	///   - trailingSystemImageName: optional SF Symbol name for the trailing end
+	///   - trailingImageResource: optional asset image resource for the trailing end
+	///   - accessibilityIdentifier: the accessibility identifier
 	///   - action: the action when tapped on
 	/// - Returns: row view
 	@ViewBuilder func rowFor(
 		title: String,
-		imageResource: ImageResource,
+		trailingSystemImageName: String? = nil,
+		trailingImageResource: ImageResource? = nil,
 		accessibilityIdentifier: String,
 		action: @escaping () -> Void
 	) -> some View {
-		
+
 		Button {
 			action()
 		} label: {
@@ -336,11 +339,16 @@ struct OrganizationsView: View {
 				Text(title)
 					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.primary)
-				
+
 				Spacer()
-				
-				Image(imageResource)
-					.foregroundColor(theme.symbols.secondary)
+
+				if let systemName = trailingSystemImageName {
+					Image(systemName: systemName)
+						.foregroundColor(theme.symbols.secondary)
+				} else if let imageResource = trailingImageResource {
+					Image(imageResource)
+						.foregroundColor(theme.symbols.secondary)
+				}
 			}
 			.padding(ViewTraits.List.padding)
 		}
