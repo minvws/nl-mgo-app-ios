@@ -364,4 +364,3 @@ struct OrganizationsView: View {
 		OrganizationsView(viewModel: OrganizationsViewModel(coordinator: nil))
 	}
 }
-
