@@ -110,7 +110,7 @@ struct HealthUISchemaView: View {
 			.padding()
 			.listRowInsets(.init())
 			.listRowSeparator(.hidden)
-			.listRowBackground(theme.backgrounds.primary)
+			.listRowBackground(Color.clear)
 			.onAppear {
 				withAnimation(
 					.easeInOut(duration: ViewTraits.Title.duration)
