@@ -3,97 +3,101 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+import Testing
 import MGOFoundation
 import MGOUI
 import PdfExport
 @testable import MGO
 
-final class HealthcareCoordinatorStateTests: XCTestCase {
-	
-	private var sut: HealthcareCoordinator!
-	private var parentCoordinator: DashboardCoordinatorSpy!
-	private var servicesSpies: ServicesSpies!
-	
-	override func setUp() {
-		
-		super.setUp()
+@MainActor
+@Suite
+struct HealthcareCoordinatorStateTests {
+
+	private let sut: HealthcareCoordinator
+	private let parentCoordinator: DashboardCoordinatorSpy
+	private let servicesSpies: ServicesSpies
+
+	init() {
 		servicesSpies = setupServicesSpies()
 		parentCoordinator = DashboardCoordinatorSpy()
-		sut = HealthcareCoordinator(parentCoordinator: parentCoordinator, rootState: .showHealthCategories)
+		sut = HealthcareCoordinator(
+			parentCoordinator: parentCoordinator,
+			rootState: .showHealthCategories
+		)
 	}
-	
-	@MainActor func test_coordinatorView_forOverview() throws {
-		
+
+	@Test("organizations state renders OrganizationsView")
+	func coordinatorView_forOverview() throws {
+
 		// Given
 		let state = HealthcareCoordination.State.organizations
-		
+
 		// When
 		let view = sut.view(for: state)
-		
+
 		// Then
-		let organizationsView = try view.inspect().find(OrganizationsView.self)
-		expect(organizationsView) != nil
+		_ = try view.inspect().find(OrganizationsView.self)
 	}
-	
-	@MainActor func test_coordinatorView_forAddHealthcareOrganization() throws {
-		
+
+	@Test("manualLocalization state renders SearchOrganizationView")
+	func coordinatorView_forAddHealthcareOrganization() throws {
+
 		// Given
 		let state = HealthcareCoordination.State.manualLocalization
-		
+
 		// When
 		let view = sut.view(for: state)
-		
+
 		// Then
-		let searchOrganizationView = try view.inspect().find(SearchOrganizationView.self)
-		expect(searchOrganizationView) != nil
+		_ = try view.inspect().find(SearchOrganizationView.self)
 	}
-	
-	@MainActor func test_coordinatorView_forShowHealthcareOrganization() throws {
-		
+
+	@Test("showHealthcareOrganization state renders HealthCategoriesView")
+	func coordinatorView_forShowHealthcareOrganization() throws {
+
 		// Given
 		let organization = Generator.healthcareOrganization("1")
 		let state = HealthcareCoordination.State.showHealthcareOrganization(healthcareOrganization: organization)
-		
+
 		// When
 		let view = sut.view(for: state)
-		
+
 		// Then
-		let healthCategoriesView = try view.inspect().find(HealthCategoriesView.self)
-		expect(healthCategoriesView) != nil
+		_ = try view.inspect().find(HealthCategoriesView.self)
 	}
-	
-	@MainActor func test_coordinatorView_forShowHealthcareOrganization_withStore() throws {
-		
+
+	@Test("showHealthcareOrganization with stored organization renders HealthCategoriesView")
+	func coordinatorView_forShowHealthcareOrganization_withStore() throws {
+
 		// Given
 		let organization = Generator.healthcareOrganization("1")
 		let state = HealthcareCoordination.State.showHealthcareOrganization(healthcareOrganization: organization)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [organization]
-		
+
 		// When
 		let view = sut.view(for: state)
-		
+
 		// Then
-		let healthCategoriesView = try view.inspect().find(HealthCategoriesView.self)
-		expect(healthCategoriesView) != nil
+		_ = try view.inspect().find(HealthCategoriesView.self)
 	}
-	
-	@MainActor func test_coordinatorView_forRemoveHealthcareOrganization() throws {
-		
+
+	@Test("removeHealthcareOrganization state renders RemoveHealthcareOrganizationView")
+	func coordinatorView_forRemoveHealthcareOrganization() throws {
+
 		// Given
 		let organization = Generator.healthcareOrganization("1")
 		let state = HealthcareCoordination.State.removeHealthcareOrganization(healthcareOrganization: organization)
-		
+
 		// When
 		let view = sut.view(for: state)
-		
+
 		// Then
-		let removeHealthcareOrganizationView = try view.inspect().find(RemoveHealthcareOrganizationView.self)
-		expect(removeHealthcareOrganizationView) != nil
+		_ = try view.inspect().find(RemoveHealthcareOrganizationView.self)
 	}
-	
-	@MainActor func test_coordinatorView_forShowHealthCategoryData() throws {
-		
+
+	@Test("showHealthData state renders HealthDataView")
+	func coordinatorView_forShowHealthCategoryData() throws {
+
 		// Given
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		let schema = HealthUISchema(
@@ -146,23 +150,22 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let state = HealthcareCoordination.State.showHealthData(
 			config: HealthDataViewConfig(
 				backButtonTitle: "Heading",
-				titleInline: false,
 				inSheet: false
 			),
 			schema: schema,
 			organization: healthcareOrganization,
 		)
-		
+
 		// When
 		let view = sut.view(for: state)
-		
+
 		// Then
-		let healthDataView = try view.inspect().find(HealthDataView.self)
-		expect(healthDataView) != nil
+		_ = try view.inspect().find(HealthDataView.self)
 	}
-	
-	@MainActor func test_coordinatorView_forShowHealthCategoryData_inSheet() throws {
-		
+
+	@Test("showHealthData in sheet state renders HealthDataView")
+	func coordinatorView_forShowHealthCategoryData_inSheet() throws {
+
 		// Given
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		let schema = HealthUISchema(
@@ -193,266 +196,90 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let state = HealthcareCoordination.State.showHealthData(
 			config: HealthDataViewConfig(
 				backButtonTitle: "Heading",
-				titleInline: false,
 				inSheet: true
 			),
 			schema: schema,
 			organization: healthcareOrganization,
 		)
-		
+
 		// When
 		let view = sut.view(for: state)
-		
+
 		// Then
-		let healthDataView = try view.inspect().find(HealthDataView.self)
-		expect(healthDataView) != nil
+		_ = try view.inspect().find(HealthDataView.self)
 	}
-	
-	@MainActor func test_coordinatorView_showHealthCategories() throws {
-		
+
+	@Test("showHealthCategories state renders HealthCategoriesView")
+	func coordinatorView_showHealthCategories() throws {
+
 		// Given
-		
+
 		// When
 		let view = sut.view(for: .showHealthCategories)
-		
+
 		// Then
-		let healthCategoriesView = try view.inspect().find(HealthCategoriesView.self)
-		expect(healthCategoriesView) != nil
+		_ = try view.inspect().find(HealthCategoriesView.self)
 	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_alerts() throws {
-		
+
+	@Test(
+		"Health category view translations",
+		arguments: [
+			("alerts", "hc_alerts.heading"),
+			("allergies", "hc_allergies.heading"),
+			("appointments", "hc_appointments.heading"),
+			("problems", "hc_complaints.heading"),
+			("medical_devices", "hc_devices.heading"),
+			("documents", "hc_documents.heading"),
+			("lab_results", "hc_lab_results.heading"),
+			("lifestyle", "hc_lifestyle.heading"),
+			("measurements", "hc_measurements.heading"),
+			("medication", "hc_medication.heading"),
+			("mental_wellbeing", "hc_mental.heading"),
+			("patient", "hc_patient.heading"),
+			("care_team", "hc_care_team.heading"),
+			("plans", "hc_plans.heading"),
+			("treatments", "hc_treatments.heading"),
+			("vaccinations", "hc_vaccinations.heading")
+		]
+	)
+	func coordinatorView_showHealthCategory_translations(categoryId: String, expectedHeading: String) throws {
+
 		// Given
 		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "alerts"))
-		
+		let category = try #require(sharedCategories.findCategory(id: categoryId))
+
 		// When
 		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
+
 		// Then
-		expect(translations?.heading) == "hc_alerts.heading"
+		#expect(translations?.heading == String.LocalizationValue(stringLiteral: expectedHeading))
 	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_allergies() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "allergies"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_allergies.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_appointments() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "appointments"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_appointments.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_complaints() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "problems"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_complaints.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_devices() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "medical_devices"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_devices.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_documents() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "documents"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_documents.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_labresults() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "lab_results"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_lab_results.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_lifestyle() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "lifestyle"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_lifestyle.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_measurements() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "measurements"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_measurements.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_medication() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "medication"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_medication.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_functionalOrMentalStatus() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "mental_wellbeing"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_mental.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_patient() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "patient"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_patient.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_careTeam() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "care_team"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_care_team.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_plans() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "plans"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_plans.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_treatments() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "treatments"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_treatments.heading"
-	}
-	
-	@MainActor func test_coordinatorView_showHealthCategory_vaccinations() throws {
-		
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "vaccinations"))
-		
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-		
-		// Then
-		expect(translations?.heading) == "hc_vaccinations.heading"
-	}
-	
-	@MainActor func test_coordinatorView_exportHealthData() throws {
-		
+
+	@Test("exportHealthData state renders HealthExportView")
+	func coordinatorView_exportHealthData() throws {
+
 		// Given
 		let state = HealthcareCoordination.State.exportHealthData(
 			PdfData(heading: "test", subHeading: "test", tables: [], footer: "test")
 		)
-		
+
 		// When
 		let view = sut.view(for: state)
-		
+
 		// Then
-		let healthExportView = try view.inspect().find(HealthExportView.self)
-		expect(healthExportView) != nil
+		_ = try view.inspect().find(HealthExportView.self)
 	}
-	
-	@MainActor func test_coordinatorView_favorites() throws {
-		
+
+	@Test("showFavorites state renders FavoritesView")
+	func coordinatorView_favorites() throws {
+
 		// Given
 		let state = HealthcareCoordination.State.showFavorites
-		
+
 		// When
 		let view = sut.view(for: state)
-		
+
 		// Then
-		let favoritesView = try view.inspect().find(FavoritesView.self)
-		expect(favoritesView) != nil
+		_ = try view.inspect().find(FavoritesView.self)
 	}
 }
