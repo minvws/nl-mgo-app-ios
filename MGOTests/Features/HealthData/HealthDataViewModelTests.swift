@@ -29,7 +29,6 @@ final class HealthDataViewModelTests: XCTestCase {
 			coordinator: coordinatorSpy,
 			config: HealthDataViewConfig(
 				backButtonTitle: "HealthCategoryDataViewModelTests",
-				titleInline: false,
 				inSheet: false
 			),
 			schema: HealthUISchema(

@@ -3,21 +3,21 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+import Testing
 import MGOFoundation
 import MGOUI
 import PdfExport
 @testable import MGO
 
-final class HealthcareCoordinatorTests: XCTestCase {
-	
-	private var sut: HealthcareCoordinator!
-	private var parentCoordinator: DashboardCoordinatorSpy!
-	private var servicesSpies: ServicesSpies!
-	
-	override func setUp() {
-		
-		super.setUp()
+@MainActor
+@Suite
+struct HealthcareCoordinatorTests {
+
+	private let sut: HealthcareCoordinator
+	private let parentCoordinator: DashboardCoordinatorSpy
+	private let servicesSpies: ServicesSpies
+
+	init() {
 		servicesSpies = setupServicesSpies()
 		parentCoordinator = DashboardCoordinatorSpy()
 		sut = HealthcareCoordinator(
@@ -25,76 +25,81 @@ final class HealthcareCoordinatorTests: XCTestCase {
 			rootState: .showHealthCategories
 		)
 	}
-	
+
 	// MARK: - Handle -
-	
-	@MainActor func test_coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet() {
-		
+
+	@Test("addHealthcareOrganization sets sheet path to manualLocalization")
+	func coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet() {
+
 		// Given
-		
+
 		// When
 		sut.handle(Coordination.Action.addHealthcareOrganization)
-		
+
 		// Then
-		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.manualLocalization
+		#expect(sut.rootStateForSheet == HealthcareCoordination.State.manualLocalization)
 	}
-	
-	@MainActor func test_coordinatorHandle_closeSheet_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
-		
+
+	@Test("closeSheet clears path and root state for sheet")
+	func coordinatorHandle_closeSheet_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
+
 		// Given
 		sut.rootStateForSheet = HealthcareCoordination.State.manualLocalization
 		sut.pathForSheet = NavigationStackBackport.NavigationPath(
 			[HealthcareCoordination.State.manualLocalization]
 		)
-		
+
 		// When
 		sut.handle(Coordination.Action.closeSheet)
-		
+
 		// Then
-		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
-		expect(self.sut.rootStateForSheet) == nil
+		#expect(sut.pathForSheet == NavigationStackBackport.NavigationPath())
+		#expect(sut.rootStateForSheet == nil)
 	}
-	
-	@MainActor func test_coordinatorHandle_backButtonPressed_pathForSheetNotEmpty_shouldBeReduced() {
-		
+
+	@Test("backButtonPressed removes last item from sheet path when sheet path is non-empty")
+	func coordinatorHandle_backButtonPressed_pathForSheetNotEmpty_shouldBeReduced() {
+
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([HealthcareCoordination.State.showHealthCategories])
 		sut.pathForSheet = NavigationStackBackport.NavigationPath(
 			[HealthcareCoordination.State.manualLocalization,
 			 HealthcareCoordination.State.manualLocalization]
 		)
-		
+
 		// When
 		sut.handle(Coordination.Action.backButtonPressed)
-		
+
 		// Then
-		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath(
+		#expect(sut.pathForSheet == NavigationStackBackport.NavigationPath(
 			[HealthcareCoordination.State.manualLocalization]
-		)
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath(
+		))
+		#expect(sut.path == NavigationStackBackport.NavigationPath(
 			[HealthcareCoordination.State.showHealthCategories]
-		)
+		))
 	}
-	
-	@MainActor func test_coordinatorHandle_backButtonPressed_pathForSheetEmpty_path_shouldBeReduced() {
-		
+
+	@Test("backButtonPressed removes last item from main path when sheet path is empty")
+	func coordinatorHandle_backButtonPressed_pathForSheetEmpty_path_shouldBeReduced() {
+
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([HealthcareCoordination.State.organizations])
 		sut.pathForSheet = NavigationStackBackport.NavigationPath()
-		
+
 		// When
 		sut.handle(Coordination.Action.backButtonPressed)
-		
+
 		// Then
-		expect(self.sut.pathForSheet.isEmpty) == true
-		expect(self.sut.path.isEmpty) == true
+		#expect(sut.pathForSheet.isEmpty)
+		#expect(sut.path.isEmpty)
 	}
-	
-	@MainActor func test_coordinatorHandle_showHealthcareOrganization_path_shouldContainShowHealthcareOrganization() {
-		
+
+	@Test("showHealthcareOrganization pushes organization onto path")
+	func coordinatorHandle_showHealthcareOrganization_path_shouldContainShowHealthcareOrganization() {
+
 		// Given
 		let organization = Generator.healthcareOrganization("1")
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -102,32 +107,34 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				params: ["healthcareOrganization": organization]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath(
+		#expect(sut.path == NavigationStackBackport.NavigationPath(
 			[
 				HealthcareCoordination.State.showHealthcareOrganization(
 					healthcareOrganization: organization
 				)
 			]
-		)
+		))
 	}
-	
-	@MainActor func test_coordinatorHandle_showHealthcareOrganization_missingParams_path_shouldBeEmpty() {
-		
+
+	@Test("showHealthcareOrganization with missing params leaves path empty")
+	func coordinatorHandle_showHealthcareOrganization_missingParams_path_shouldBeEmpty() {
+
 		// Given
-		
+
 		// When
 		sut.handle(Coordination.Action(identifier: "showHealthcareOrganization", params: [:]))
-		
+
 		// Then
-		expect(self.sut.path.isEmpty) == true
+		#expect(sut.path.isEmpty)
 	}
-	
-	@MainActor func test_coordinatorHandle_showHealthcareOrganization_wrongParams_path_shouldBeEmpty() {
-		
+
+	@Test("showHealthcareOrganization with wrong params leaves path empty")
+	func coordinatorHandle_showHealthcareOrganization_wrongParams_path_shouldBeEmpty() {
+
 		// Given
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -135,26 +142,28 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				params: ["showHealthcareOrganization": "wrong"]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.path.isEmpty) == true
+		#expect(sut.path.isEmpty)
 	}
-	
-	@MainActor func test_coordinatorHandle_showMedication_missingParams_path_shouldBeEmpty() {
-		
+
+	@Test("showMedication with missing params leaves path empty")
+	func coordinatorHandle_showMedication_missingParams_path_shouldBeEmpty() {
+
 		// Given
-		
+
 		// When
 		sut.handle(Coordination.Action(identifier: "showMedication", params: [:]))
-		
+
 		// Then
-		expect(self.sut.path.isEmpty) == true
+		#expect(sut.path.isEmpty)
 	}
-	
-	@MainActor func test_coordinatorHandle_showMedication_wrongParams_path_shouldBeEmpty() {
-		
+
+	@Test("showMedication with wrong params leaves path empty")
+	func coordinatorHandle_showMedication_wrongParams_path_shouldBeEmpty() {
+
 		// Given
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -162,16 +171,17 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				params: ["showHealthcareOrganization": "wrong"]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.path.isEmpty) == true
+		#expect(sut.path.isEmpty)
 	}
-	
-	@MainActor func test_coordinatorHandle_removeHealthcareOrganization() {
-		
+
+	@Test("removeHealthcareOrganization sets confirmation sheet state")
+	func coordinatorHandle_removeHealthcareOrganization() {
+
 		// Given
 		let organization = Generator.healthcareOrganization("1")
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -179,39 +189,41 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				params: ["healthcareOrganization": organization]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.removeHealthcareOrganization(
+		#expect(sut.rootStateForSheet == HealthcareCoordination.State.removeHealthcareOrganization(
 			healthcareOrganization: organization
-		)
+		))
 	}
-	
-	@MainActor func test_coordinatorHandle_removedHealthcareOrganization() {
-		
+
+	@Test("removedHealthcareOrganization clears sheet and pops organization from path")
+	func coordinatorHandle_removedHealthcareOrganization() {
+
 		// Given
 		let organization = Generator.healthcareOrganization("1")
-		self.sut.rootStateForSheet = HealthcareCoordination.State.removeHealthcareOrganization(healthcareOrganization: organization)
-		self.sut.path = NavigationStackBackport.NavigationPath([
+		sut.rootStateForSheet = HealthcareCoordination.State.removeHealthcareOrganization(healthcareOrganization: organization)
+		sut.path = NavigationStackBackport.NavigationPath([
 			HealthcareCoordination.State.organizations,
 			HealthcareCoordination.State.showHealthcareOrganization(healthcareOrganization: organization)
 		])
-		
+
 		// When
 		sut.handle(Coordination.Action.removedHealthcareOrganization)
-		
+
 		// Then
-		expect(self.sut.rootStateForSheet) == nil
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath(
+		#expect(sut.rootStateForSheet == nil)
+		#expect(sut.path == NavigationStackBackport.NavigationPath(
 			[HealthcareCoordination.State.organizations]
-		)
+		))
 	}
-	
-	@MainActor func test_coordinatorHandle_showHealthCategory() {
-		
+
+	@Test("showHealthCategory pushes category and organization onto path")
+	func coordinatorHandle_showHealthCategory() {
+
 		// Given
 		let organization = Generator.healthcareOrganization("1")
 		let category = Generator.healthCategory
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -222,23 +234,24 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath(
+		#expect(sut.path == NavigationStackBackport.NavigationPath(
 			[
 				HealthcareCoordination.State.showHealthCategory(
 					category: category,
 					organization: organization
 				)
 			]
-		)
+		))
 	}
-	
-	@MainActor func test_coordinatorHandle_showHealthCategory_withoutOrganization() {
-		
+
+	@Test("showHealthCategory without organization pushes category with nil organization")
+	func coordinatorHandle_showHealthCategory_withoutOrganization() {
+
 		// Given
 		let category = Generator.healthCategory
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -246,22 +259,23 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				params: ["category": category]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath(
+		#expect(sut.path == NavigationStackBackport.NavigationPath(
 			[
 				HealthcareCoordination.State.showHealthCategory(
 					category: category,
 					organization: nil
 				)
 			]
-		)
+		))
 	}
-	
-	@MainActor func test_coordinatorHandle_showHealthCategory_invalidParam() {
-		
+
+	@Test("showHealthCategory with invalid params leaves path empty")
+	func coordinatorHandle_showHealthCategory_invalidParam() {
+
 		// Given
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -269,18 +283,19 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				params: ["param": "wrong"]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.path.isEmpty) == true
+		#expect(sut.path.isEmpty)
 	}
-	
-	@MainActor func test_coordinatorHandle_showHealthCategoryData() {
-		
+
+	@Test("showHealthData pushes health data view onto path")
+	func coordinatorHandle_showHealthCategoryData() {
+
 		// Given
 		let heading = "showHealthData"
 		let schema = HealthUISchema(children: [], label: "test")
 		let org = Generator.healthcareOrganization("1")
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -288,37 +303,36 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				params: [
 					"resource": Data(),
 					"backButtonTitle": heading,
-					"titleInline": false,
 					"uiSchema": schema,
 					"healthcareOrganization": org,
 					"inSheet": false
 				]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath(
+		#expect(sut.path == NavigationStackBackport.NavigationPath(
 			[
 				HealthcareCoordination.State.showHealthData(
 					config: HealthDataViewConfig(
 						backButtonTitle: heading,
-						titleInline: false,
 						inSheet: false
 					),
 					schema: schema,
 					organization: org,
 				)
 			]
-		)
+		))
 	}
-	
-	@MainActor func test_coordinatorHandle_showHealthCategoryData_inSheet() {
-		
+
+	@Test("showHealthData in sheet opens as sheet instead of push")
+	func coordinatorHandle_showHealthCategoryData_inSheet() {
+
 		// Given
 		let heading = "showHealthData"
 		let schema = HealthUISchema(children: [], label: "test")
 		let org = Generator.healthcareOrganization("1")
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -326,33 +340,32 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				params: [
 					"resource": Data(),
 					"backButtonTitle": heading,
-					"titleInline": true,
 					"uiSchema": schema,
 					"healthcareOrganization": org,
 					"inSheet": true
 				]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.path.isEmpty) == true
-		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.showHealthData(
+		#expect(sut.path.isEmpty)
+		#expect(sut.rootStateForSheet == HealthcareCoordination.State.showHealthData(
 			config: HealthDataViewConfig(
 				backButtonTitle: nil,
-				titleInline: true,
 				inSheet: true
 			),
 			schema: schema,
 			organization: org,
-		)
+		))
 	}
-	
-	@MainActor func test_coordinatorHandle_showHealthCategoryData_missingParam() {
-		
+
+	@Test("showHealthData with missing params leaves path empty")
+	func coordinatorHandle_showHealthCategoryData_missingParam() {
+
 		// Given
 		let heading = "showHealthData"
 		let schema = HealthUISchema(children: [], label: "test")
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -363,16 +376,17 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.path.isEmpty) == true
+		#expect(sut.path.isEmpty)
 	}
-	
-	@MainActor func test_coordinatorHandle_exportHealthData() {
-		
+
+	@Test("exportHealthData opens PDF export as sheet")
+	func coordinatorHandle_exportHealthData() {
+
 		// Given
 		let data = PdfData(heading: "test", subHeading: "test", tables: [], footer: "test")
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -382,16 +396,17 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.path.isEmpty) == true
-		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.exportHealthData(data)
+		#expect(sut.path.isEmpty)
+		#expect(sut.rootStateForSheet == HealthcareCoordination.State.exportHealthData(data))
 	}
-	
-	@MainActor func test_coordinatorHandle_exportHealthData_missingData() {
-		
+
+	@Test("exportHealthData with missing data does not open sheet")
+	func coordinatorHandle_exportHealthData_missingData() {
+
 		// Given
-		
+
 		// When
 		sut.handle(
 			Coordination.Action(
@@ -399,20 +414,21 @@ final class HealthcareCoordinatorTests: XCTestCase {
 				params: [:]
 			)
 		)
-		
+
 		// Then
-		expect(self.sut.path.isEmpty) == true
-		expect(self.sut.rootStateForSheet) == nil
+		#expect(sut.path.isEmpty)
+		#expect(sut.rootStateForSheet == nil)
 	}
-	
-	@MainActor func test_coordinatorHandle_showFavorites() {
-		
+
+	@Test("showFavorites opens favorites as sheet")
+	func coordinatorHandle_showFavorites() {
+
 		// Given
-		
+
 		// When
 		sut.handle(Coordination.Action.showFavorites)
-		
+
 		// Then
-		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.showFavorites
+		#expect(sut.rootStateForSheet == HealthcareCoordination.State.showFavorites)
 	}
 }

@@ -22,7 +22,7 @@ final class HealthDataViewTests: XCTestCase {
 		coordinatorSpy = DashboardCoordinatorSpy()
 	}
 	
-	@MainActor private func createSut(titleInline: Bool = false) throws {
+	@MainActor private func createSut() throws {
 		
 		let data = try getResource("multipleValuesMultipleEntries")
 		let schema = try HealthUISchema(data: data)
@@ -31,7 +31,6 @@ final class HealthDataViewTests: XCTestCase {
 			coordinator: coordinatorSpy,
 			config: HealthDataViewConfig(
 				backButtonTitle: "common.previous",
-				titleInline: titleInline,
 				inSheet: false
 			),
 			schema: schema,
@@ -44,18 +43,6 @@ final class HealthDataViewTests: XCTestCase {
 		
 		// Given
 		try createSut()
-		
-		// When
-		let content = NavigationStackBackport.NavigationStack { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	@MainActor func test_HealthCategoryDataView_titleInline() throws {
-		
-		// Given
-		try createSut(titleInline: true)
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }

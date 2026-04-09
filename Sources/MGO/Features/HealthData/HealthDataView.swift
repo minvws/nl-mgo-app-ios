@@ -10,7 +10,6 @@ struct ZibDetailViewState {
 	
 	var schema: HealthUISchema
 	var backButton: String?
-	var inline: Bool
 }
 
 typealias ReferenceStoreEntry = (resource: MgoResource, isReferenceValue: Bool, schema: HealthUISchema)
@@ -73,7 +72,6 @@ class HealthDataViewModel: ObservableObject {
 		self.state = ZibDetailViewState(
 			schema: schema,
 			backButton: config.backButtonTitle,
-			inline: config.titleInline
 		)
 		self.healthcareOrganization = healthcareOrganization
 		self.referenceResolver = referenceResolver
@@ -201,7 +199,6 @@ class HealthDataViewModel: ObservableObject {
 					params: [
 						"healthcareOrganization": healthcareOrganization,
 						"backButtonTitle": "common.previous",
-						"titleInline": true,
 						"resource": resource,
 						"uiSchema": refSchema,
 						"inSheet": isReferenceValue
@@ -270,16 +267,11 @@ struct HealthDataView: View {
 		.navigationBarBackButtonHidden()
 		.when(viewModel.state.backButton != nil) { view in
 			view
-				.navigationBarItems(leading: BackButton(LocalizedStringKey(stringLiteral: viewModel.state.backButton!)) {
+				.navigationBarItems(leading: BackButton {
 					viewModel.reduce(.backButtonPressed)
 				})
 		}
 		.navigationBarHidden(false)
-		.navigationTitle(viewModel.state.schema.label)
-		.when(viewModel.state.inline, transform: { view in
-			view
-				.navigationBarTitleDisplayMode(.inline)
-		})
 		.when(isPresentedAsSheet, transform: { view in
 			view
 				.withToolbarCloseButton(osVersionChecker.available(version: .iOS(.v26))) {
@@ -332,7 +324,6 @@ struct HealthDataView: View {
 					coordinator: nil,
 					config: HealthDataViewConfig(
 						backButtonTitle: String(localized: "hc_medication.heading"),
-						titleInline: false,
 						inSheet: false
 					),
 					schema: PreviewContent.uiSchema,

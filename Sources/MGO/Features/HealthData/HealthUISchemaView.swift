@@ -28,7 +28,9 @@ struct HealthUISchemaView: View {
 	var resolvedCodes: [String: Bool]
 	
 	let unknown = String(localized: "common.unknown")
-	
+
+	@State private var showToolbarTitle = false
+
 	/// The Theme
 	@Environment(\.mgoTheme) var theme
 	
@@ -59,11 +61,19 @@ struct HealthUISchemaView: View {
 		enum QuestionMark {
 			static let size: CGFloat = 20.0
 		}
+		enum Title {
+			static let duration: Double = 0.2
+		}
 	}
-	
+
 	var body: some View {
+
 		List {
-			// A HealthUISchema consists of an array of schema groups (blocks of correlated data)
+			Section {
+				titleSection
+			}
+			// A HealthUISchema consists of an array of schema groups
+			// (blocks of correlated data)
 			ForEach(schema.children, id: \.self) { schemaGroup in
 				viewFor(schemaGroup)
 			}
@@ -72,6 +82,49 @@ struct HealthUISchemaView: View {
 		.backport.contentMargins(0)
 		.backport.scrollContentBackground(.hidden)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
+		.navigationBarTitleDisplayMode(.inline)
+		.toolbar { toolbarContent }
+	}
+	
+	// MARK: - Title helper -
+	
+	/// Inline navigation bar title that fades in once the in-content title has scrolled out of view.
+	@ToolbarContentBuilder private var toolbarContent: some ToolbarContent {
+		ToolbarItem(placement: .principal) {
+			Text(schema.label)
+				.typography(.bodyMedium, with: .bold)
+				.lineLimit(2)
+				.multilineTextAlignment(.center)
+				.opacity(showToolbarTitle ? 1 : 0)
+				.fixedSize(horizontal: false, vertical: true)
+		}
+	}
+	
+	/// Large in-content title row. Triggers toolbar title visibility via `onAppear`/`onDisappear`.
+	@ViewBuilder private var titleSection: some View {
+		
+		Text(schema.label)
+			.typography(.headingExtraLarge)
+			.multilineTextAlignment(.leading)
+			.frame(maxWidth: .infinity, alignment: .leading)
+			.padding()
+			.listRowInsets(.init())
+			.listRowSeparator(.hidden)
+			.listRowBackground(Color.clear)
+			.onAppear {
+				withAnimation(
+					.easeInOut(duration: ViewTraits.Title.duration)
+				) {
+					showToolbarTitle = false
+				}
+			}
+			.onDisappear {
+				withAnimation(
+					.easeInOut(duration: ViewTraits.Title.duration)
+				) {
+					showToolbarTitle = true
+				}
+			}
 	}
 	
 	// MARK: - viewFor methods -
@@ -104,8 +157,8 @@ struct HealthUISchemaView: View {
 		}
 		// A schema group consists of an array of UIElementProtocol structs
 		Section {
-			ForEach(Array(schemaGroup.uiElements.enumerated()), id: \.offset) { _, element in
-				viewFor(element)
+			ForEach(schemaGroup.uiElements.indices, id: \.self) { index in
+				viewFor(schemaGroup.uiElements[index])
 			}
 		} footer: {
 			if schemaGroup == schema.children.last {
