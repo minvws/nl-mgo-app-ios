@@ -104,7 +104,7 @@ struct HealthUISchemaView: View {
 	@ViewBuilder private var titleSection: some View {
 		
 		Text(schema.label)
-			.typography(.headingLarge)
+			.typography(.headingExtraLarge)
 			.multilineTextAlignment(.leading)
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.padding()
