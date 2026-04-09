@@ -255,18 +255,16 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		
 		guard action.identifier == Coordination.Action.showHealthData.identifier else { return false }
 		
-		if action.params.count == 6,
+		if action.params.count == 5,
 		   // let resource = action.params["resource"] as? MgoResouce,
 		   let healthcareOrganization = action.params["healthcareOrganization"] as? OrganizationSearch.Organization,
 		   let backButtonTitle = action.params["backButtonTitle"] as? String,
-		   let titleInline = action.params["titleInline"] as? Bool,
 		   let inSheet = action.params["inSheet"] as? Bool,
 		   let schema = action.params["uiSchema"] as? HealthUISchema {
 			
 			let newState = HealthcareCoordination.State.showHealthData(
 				config: HealthDataViewConfig(
 					backButtonTitle: inSheet && rootStateForSheet == nil ? nil : backButtonTitle,
-					titleInline: titleInline,
 					inSheet: inSheet)
 				,
 				schema: schema,
