@@ -20,7 +20,7 @@
     }
   ],
   "paths": {
-    "/static/search/temp-organizations.json": {
+    "/static/search/organizations.json": {
       "get": {
         "summary": "Retrieve the organizations dataset",
         "operationId": "getOrganizations",
@@ -60,7 +60,7 @@
         }
       }
     },
-    "/static/search/temp-endpoints.json": {
+    "/static/search/endpoints.json": {
       "get": {
         "summary": "Retrieve the endpoints dataset",
         "operationId": "getEndpoints",
