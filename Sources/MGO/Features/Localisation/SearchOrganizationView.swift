@@ -354,6 +354,7 @@ struct SearchOrganizationView: View {
 			view
 				.layoutForIPad()
 		})
+		.navigationBarHidden(false)
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.onChange(of: viewModel.state.pendingConfirmation) { pending in
 			if pending != nil {
