@@ -10,8 +10,8 @@ import OHHTTPStubsSwift
 
 class LocalizationAPIClientTests {
 
-	private let organizationsPath = "/static/search/temp-organizations.json"
-	private let endpointsPath = "/static/search/temp-endpoints.json"
+	private let organizationsPath = "/static/search/organizations.json"
+	private let endpointsPath = "/static/search/endpoints.json"
 	private var serverURL: URL? { try? LocalizationServers.testUrl() }
 
 	deinit {

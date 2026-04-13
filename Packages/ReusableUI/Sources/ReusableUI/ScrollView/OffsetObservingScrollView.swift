@@ -69,7 +69,16 @@ public struct OffsetObservingScrollView<Content: View>: View {
 			)
 		}
 		.coordinateSpace(name: coordinateSpaceName)
-		.introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18), customize: { view in
+		.introspect(
+			.scrollView,
+			on: .iOS(
+				.v15,
+				.v16,
+				.v17,
+				.v18,
+				.v26
+			),
+			customize: { view in
 			view.bounces = bounces
 		})
 	}

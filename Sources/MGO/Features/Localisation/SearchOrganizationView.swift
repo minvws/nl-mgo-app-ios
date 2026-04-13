@@ -354,6 +354,7 @@ struct SearchOrganizationView: View {
 			view
 				.layoutForIPad()
 		})
+		.navigationBarHidden(false)
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.onChange(of: viewModel.state.pendingConfirmation) { pending in
 			if pending != nil {
@@ -408,7 +409,11 @@ struct SearchOrganizationView: View {
 	/// The input field for the search
 	@ViewBuilder private var inputField: some View {
 		
-		TextField("search_organization.search_placeholder", text: $input)
+		TextField(
+			text: $input,
+			prompt: Text("search_organization.search_placeholder")
+				.foregroundColor(theme.labels.secondary)
+		) { /* no-op */ }
 			.focused($isInputFocused)
 			.padding(.leading, ViewTraits.Input.leading)
 			.padding(.trailing, ViewTraits.Input.trailing)
@@ -440,7 +445,7 @@ struct SearchOrganizationView: View {
 			}
 			.overlay(alignment: .leading) {
 				
-				if viewModel.state.isSearching || viewModel.state.preparationState == .loading {
+				if viewModel.state.preparationState == .loading {
 					ProgressView()
 						.progressViewStyle(.circular)
 						.frame(
