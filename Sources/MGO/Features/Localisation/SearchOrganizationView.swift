@@ -445,7 +445,7 @@ struct SearchOrganizationView: View {
 			}
 			.overlay(alignment: .leading) {
 				
-				if viewModel.state.isSearching || viewModel.state.preparationState == .loading {
+				if viewModel.state.preparationState == .loading {
 					ProgressView()
 						.progressViewStyle(.circular)
 						.frame(
