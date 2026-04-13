@@ -409,7 +409,6 @@ struct SearchOrganizationView: View {
 	/// The input field for the search
 	@ViewBuilder private var inputField: some View {
 		
-		
 		TextField(
 			text: $input,
 			prompt: Text("search_organization.search_placeholder")
