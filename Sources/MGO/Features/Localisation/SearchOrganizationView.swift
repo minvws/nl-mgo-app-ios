@@ -364,7 +364,13 @@ struct SearchOrganizationView: View {
 		.inspectableFullScreenCover(isPresented: $viewModel.state.pendingConfirmation.presence()) {
 			if let organization = viewModel.state.pendingConfirmation {
 				ConfirmationAlertCoverView(
-					organization: organization,
+					heading: String(
+						format: String(localized: "search_organization.dialog.heading"),
+						arguments: [organization.name ?? ""]
+					),
+					subheading: String(localized: "search_organization.dialog.subheading"),
+					actionText: String(localized: "search_organization.dialog.yes"),
+					cancelText: String(localized: "search_organization.dialog.no"),
 					isPresented: $viewModel.state.pendingConfirmation.presence(),
 					onConfirm: { viewModel.reduce(.store(organization)) }
 				)

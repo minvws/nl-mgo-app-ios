@@ -6,14 +6,23 @@
 import MGOFoundation
 import MGOUI
 
-/// Full-screen cover content for the add-organisation confirmation dialog.
+/// Full-screen cover content for a confirmation dialog.
 /// Handles its own fade-in/out animation: the transparent fullScreenCover container
 /// is invisible during the UIKit slide, so only the opacity animation is perceived.
 struct ConfirmationAlertCoverView: View {
-	
-	/// The selected organization to confirm adding to the user's list.
-	let organization: OrganizationSearch.Organization
-	
+
+	/// The heading text displayed at the top of the card.
+	let heading: String
+
+	/// The subheading text displayed below the heading.
+	let subheading: String
+
+	/// The label for the confirm action button.
+	let actionText: String
+
+	/// The label for the cancel button.
+	let cancelText: String
+
 	/// Binding that controls the presentation of the full-screen cover.
 	@Binding var isPresented: Bool
 	
@@ -33,8 +42,8 @@ struct ConfirmationAlertCoverView: View {
 	/// Current theme from the environment for colors and typography.
 	@Environment(\.mgoTheme) var theme
 	
+	/// Visual constants that define layout, spacing and animation timing for this view.
 	private struct ViewTraits {
-		/// Visual constants that define layout, spacing and animation timing for this view.
 		
 		/// Animation-related constants.
 		enum Animation {
@@ -66,6 +75,7 @@ struct ConfirmationAlertCoverView: View {
 	}
 	
 	var body: some View {
+		
 		ZStack {
 			Color.black.opacity(0.4)
 				.ignoresSafeArea()
@@ -86,6 +96,7 @@ struct ConfirmationAlertCoverView: View {
 	
 	/// Title, body text and action buttons — the inner content of the card.
 	@ViewBuilder private var cardContent: some View {
+		
 		VStack(spacing: ViewTraits.Card.spacing) {
 			
 			textSection
@@ -96,19 +107,14 @@ struct ConfirmationAlertCoverView: View {
 	
 	/// Text section with heading and subheading, wrapped and padded.
 	@ViewBuilder private var textSection: some View {
-		
+
 		VStack(alignment: .leading, spacing: ViewTraits.Card.spacing) {
-			Text(
-				String(
-					format: String(localized: "search_organization.dialog.heading"),
-					arguments: [organization.name ?? ""]
-				)
-			)
-			.typography(.bodyMedium, with: .semiBold)
-			.foregroundStyle(theme.labels.primary)
-			.frame(maxWidth: .infinity, alignment: .leading)
-			
-			Text(String(localized: "search_organization.dialog.subheading"))
+			Text(heading)
+				.typography(.bodyMedium, with: .semiBold)
+				.foregroundStyle(theme.labels.primary)
+				.frame(maxWidth: .infinity, alignment: .leading)
+
+			Text(subheading)
 				.typography(.bodyMedium)
 				.foregroundStyle(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .leading)
@@ -120,16 +126,17 @@ struct ConfirmationAlertCoverView: View {
 	
 	/// Button section with primary and secondary actions.
 	@ViewBuilder private var buttonSection: some View {
+
 		VStack(spacing: ViewTraits.Card.spacing) {
 			CallToActionButton(
-				"search_organization.dialog.yes",
+				title: actionText,
 				style: .solid(rounded: true, narrow: false),
 				action: confirmTapped
 			)
 			.accessibilityIdentifier("search_organization.dialog.action")
 
 			CallToActionButton(
-				"search_organization.dialog.no",
+				title: cancelText,
 				style: .tonal(rounded: true),
 				action: cancelTapped
 			)
@@ -138,15 +145,18 @@ struct ConfirmationAlertCoverView: View {
 	}
 
 	private func confirmTapped() {
+		
 		dismiss { onConfirm() }
 	}
 
 	private func cancelTapped() {
+		
 		dismiss { /* no-op: user cancelled, nothing to do after fade-out */ }
 	}
 	
 	/// Card with background styling: uses Liquid Glass on iOS 26+; falls back to the theme's tertiary background on earlier iOS versions.
 	@ViewBuilder private var card: some View {
+		
 		if #available(iOS 26, *), osVersionChecker.available(version: .iOS(.v26)) {
 			cardContent
 				.padding(ViewTraits.Card.padding)
@@ -164,6 +174,7 @@ struct ConfirmationAlertCoverView: View {
 	/// Fades out the content and then dismisses the cover without animation.
 	/// Disabling the dismissal animation avoids the fullScreenCover's slide-out being visible.
 	private func dismiss(completion: @escaping () -> Void) {
+		
 		withAnimation(.easeInOut(duration: ViewTraits.Animation.duration)) {
 			isVisible = false
 		}
@@ -177,6 +188,21 @@ struct ConfirmationAlertCoverView: View {
 			completion()
 		}
 	}
+}
+
+#Preview {
+	ConfirmationAlertCoverView(
+		heading: String(
+			format: String(localized: "search_organization.dialog.heading"),
+			arguments: [PreviewContent.healthcareOrganization.name ?? ""]
+		),
+		subheading: String(localized: "search_organization.dialog.subheading"),
+		actionText: String(localized: "search_organization.dialog.yes"),
+		cancelText: String(localized: "search_organization.dialog.no"),
+		isPresented: .constant(true),
+		onConfirm: { /* no-op */ },
+		startVisible: true
+	)
 }
 
 extension View {
