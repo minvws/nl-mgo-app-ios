@@ -39,13 +39,27 @@ final class HealthDataViewTests: XCTestCase {
 		sut = HealthDataView(viewModel: self.viewModel)
 	}
 
-	@MainActor func test_HealthCategoryDataView() throws {
+	@MainActor func test_view() throws {
 		
 		// Given
 		try createSut()
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_view_inSheet() throws {
+		
+		// Given
+		try createSut()
+		
+		// When
+		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, true)
 		
 		// Then
 		takeSnapShots(content: content)
@@ -56,6 +70,7 @@ final class HealthDataViewTests: XCTestCase {
 		// Given
 		try createSut()
 		let content = NavigationStackBackport.NavigationStack { sut }
+			.environment(\.isPresentedAsSheet, false)
 		
 		// When
 		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()

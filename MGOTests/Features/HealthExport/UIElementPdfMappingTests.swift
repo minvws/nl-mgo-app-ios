@@ -33,8 +33,9 @@ struct UIElementPdfMappingTests {
 		
 		// Then
 		#expect(pair.style == .standard)
-		#expect(pair.key == "Naam")
-		#expect(pair.value == "Jan Jansen")
+		#expect(pair.key == element.label)
+		#expect(pair.value == element.value?.display)
+		#expect(pair.style == .standard)
 	}
 	
 	@Test("SingleValue getPdfMapping returns nil when value is nil")
@@ -107,8 +108,9 @@ struct UIElementPdfMappingTests {
 		
 		// Then
 		#expect(pair.style == .standard)
-		#expect(pair.key == "Diagnoses")
+		#expect(pair.key == element.label)
 		#expect(pair.value == "Hypertensie\nDiabetes")
+		#expect(pair.style == .standard)
 	}
 	
 	@Test("MultipleValues getPdfMapping returns nil when value is nil")
@@ -185,8 +187,9 @@ struct UIElementPdfMappingTests {
 		
 		// Then
 		#expect(pair.style == .standard)
-		#expect(pair.key == "Medicijnen")
+		#expect(pair.key == element.label)
 		#expect(pair.value == "Aspirine\nIbuprofen\nParacetamol")
+		#expect(pair.style == .standard)
 	}
 	
 	@Test("MultipleGroupedValues getPdfMapping returns nil when label is empty")
@@ -244,8 +247,9 @@ struct UIElementPdfMappingTests {
 		
 		// Then
 		#expect(pair.style == .standard)
-		#expect(pair.key == "Status")
-		#expect(pair.value == "Actief")
+		#expect(pair.key == element.label)
+		#expect(pair.value == element.display)
+		#expect(pair.style == .standard)
 	}
 	
 	@Test("ReferenceValue getPdfMapping returns nil when display is nil")
@@ -282,7 +286,7 @@ struct UIElementPdfMappingTests {
 	
 	// MARK: - ReferenceLink
 	
-	@Test("ReferenceLink getPdfMapping returns standard pair with empty key and label as value")
+	@Test("ReferenceLink getPdfMapping returns standard pair with label and reference")
 	func referenceLink_mapping() throws {
 		
 		// Given
@@ -298,10 +302,11 @@ struct UIElementPdfMappingTests {
 		
 		// Then
 		#expect(pair.style == .standard)
-		#expect(pair.key == "")
-		#expect(pair.value == "Meer informatie")
+		#expect(pair.key == element.label)
+		#expect(pair.value == element.reference)
+		#expect(pair.style == .standard)
 	}
-	
+
 	// MARK: - DownloadLink
 	
 	@Test("DownloadLink getPdfMapping returns download style with label as value")
@@ -320,7 +325,7 @@ struct UIElementPdfMappingTests {
 		
 		// Then
 		#expect(pair.style == .download)
-		#expect(pair.value == "Bijlage rapport.pdf")
+		#expect(pair.value == element.label)
 		#expect(pair.key == "")
 	}
 	
@@ -357,7 +362,7 @@ struct UIElementPdfMappingTests {
 		
 		// Then
 		#expect(pair.style == .download)
-		#expect(pair.value == "Scan resultaat.pdf")
+		#expect(pair.value == element.label)
 		#expect(pair.key == "")
 	}
 	

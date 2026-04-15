@@ -81,8 +81,9 @@ class HealthExportViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.closeSheet)
 				
 			case .onAppear:
+				guard case .loading = state else { return }
 				await generatePDF()
-				
+
 				if case let .document(pDFDocument) = state, !isIOS15,
 				   let data = pDFDocument.dataRepresentation(),
 				   let url = savePDF(data: data) {
@@ -118,7 +119,9 @@ class HealthExportViewModel: ObservableObject {
 	
 	/// Generate the PDF
 	internal func generatePDF() async {
-		if let document = await HealthExportPdfGenerator(dataSource: dataSource).generatePDF() {
+		if let document = await HealthExportPdfGenerator(
+			dataSource: dataSource
+		).generatePDF() {
 			state = .document(document)
 		}
 	}
@@ -193,10 +196,8 @@ struct HealthExportView: View {
 		.interactiveDismissDisabled(true) // Disable dragging by the user for this sheet
 		.frame(maxWidth: .infinity)
 		.background(theme.backgrounds.primary.ignoresSafeArea())
-		.onAppear {
-			Task {
-				await viewModel.reduce(.onAppear)
-			}
+		.task {
+			await viewModel.reduce(.onAppear)
 		}
 		.navigationTitle(viewModel.title)
 		.navigationBarBackButtonHidden()

@@ -109,11 +109,10 @@ final class HealthExportViewTests: XCTestCase {
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		let block = Generator.healthCategoryBlockWithLastGroupExcluded()
-		if let pdfData = HealthDataMapper().map("Medicijnen", blocks: [block]) {
-			viewModel = HealthExportViewModel(coordinator: coordinatorSpy, healthData: pdfData)
-			await viewModel.generatePDF()
-			sut = HealthExportView(viewModel: self.viewModel)
-		}
+		let pdfData = HealthDataMapper().map("Medicijnen", blocks: [block])
+		viewModel = HealthExportViewModel(coordinator: coordinatorSpy, healthData: pdfData)
+		await viewModel.generatePDF()
+		sut = HealthExportView(viewModel: self.viewModel)
 		
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }

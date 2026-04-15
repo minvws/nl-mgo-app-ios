@@ -6,18 +6,23 @@
 import MGOFoundation
 import MGOUI
 
-struct ZibDetailViewState {
+struct HealthDataViewState {
 	
 	var schema: HealthUISchema
 	var backButton: String?
+	var showExportAlert: Bool
 }
 
-typealias ReferenceStoreEntry = (resource: MgoResource, isReferenceValue: Bool, schema: HealthUISchema)
+typealias ReferenceStoreEntry = (
+	resource: MgoResource,
+	isReferenceValue: Bool,
+	schema: HealthUISchema
+)
 
 class HealthDataViewModel: ObservableObject {
 	
 	/// The state of the view
-	@Published var state: ZibDetailViewState
+	@Published var state: HealthDataViewState
 	
 	/// An array of resolved references
 	@Published var resolvedReferences: [String: Bool] = [:]
@@ -49,9 +54,12 @@ class HealthDataViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
+		case cancelExportAlert
 		case closeSheet
 		case closeTermSheet
+		case exportHealthData
 		case reference(String)
+		case showExportAlert
 		case term(DisplayValue)
 	}
 	
@@ -69,9 +77,10 @@ class HealthDataViewModel: ObservableObject {
 		referenceResolver: ReferenceResolverProtocol = ReferenceResolver()
 	) {
 		self.coordinator = coordinator
-		self.state = ZibDetailViewState(
+		self.state = HealthDataViewState(
 			schema: schema,
 			backButton: config.backButtonTitle,
+			showExportAlert: false
 		)
 		self.healthcareOrganization = healthcareOrganization
 		self.referenceResolver = referenceResolver
@@ -170,6 +179,9 @@ class HealthDataViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
+				
+			case .cancelExportAlert:
+				state.showExportAlert = false
 			
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
@@ -177,9 +189,26 @@ class HealthDataViewModel: ObservableObject {
 			case .closeTermSheet:
 				selectedPatientFriendlyTerm = nil
 			
+			case .exportHealthData:
+				let data = HealthDataMapper().map(
+					state.schema
+				)
+				
+				coordinator?.handle(
+					Coordination.Action(
+						identifier: Coordination.Action.exportHealthData.identifier,
+						params: [
+							"healthData": data
+						]
+					)
+				)
+				
 			case let .reference(reference):
 				referenceTapped(reference)
 			
+			case .showExportAlert:
+				state.showExportAlert = true
+				
 			case let .term(displayValue):
 				termTapped(displayValue)
 		}
@@ -263,6 +292,17 @@ struct HealthDataView: View {
 			},
 			resolvedCodes: viewModel.resolvedCodes
 		)
+		.toolbar { pdfExportToolbarContent }
+		.alert(
+			String(localized: "export_pdf.dialog.heading"),
+			isPresented: $viewModel.state.showExportAlert
+		) {
+			Button("export_pdf.dialog.create_document") { viewModel.reduce(.exportHealthData) }
+			Button("common.cancel", role: ButtonRole.cancel) { viewModel.reduce(.cancelExportAlert) }
+				.keyboardShortcut(.cancelAction)
+		} message: {
+			Text("export_pdf.dialog.subheading")
+		}
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.navigationBarBackButtonHidden()
 		.when(viewModel.state.backButton != nil) { view in
@@ -312,6 +352,13 @@ struct HealthDataView: View {
 				.backport.presentationContentInteraction(.scrolls)
 				.backport.presentationDragIndicator(UIDevice.current.userInterfaceIdiom == .pad ? Visibility.hidden : Visibility.visible) // Hide on iPad
 			}
+		}
+	}
+	
+	/// The toolbar content (export to pdf)
+	private var pdfExportToolbarContent: some ToolbarContent {
+		PDFExportToolbarContent {
+			viewModel.reduce(.showExportAlert)
 		}
 	}
 }

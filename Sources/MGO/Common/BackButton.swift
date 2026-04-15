@@ -45,18 +45,19 @@ struct BackButton: View {
 		let identifier: String = "common.previous"
 		
 		if osVersionChecker.available(version: .iOS(.v26)) {
-			
-			Button(
-				action: {
-					action?()
-				},
-				label: {
-					Label(title, systemImage: "chevron.backward")
-						.labelStyle(IconOnlyLabelStyle())
-						.foregroundStyle(theme.labels.primary)
-				}
-			)
-			.accessibilityIdentifier(identifier)
+			if #available(iOS 26.0, *) {
+				Button(
+					action: {
+						action?()
+					},
+					label: {
+						Label(title, systemImage: "chevron.backward")
+							.labelStyle(IconOnlyLabelStyle())
+							.foregroundStyle(theme.labels.primary)
+					}
+				)
+				.accessibilityIdentifier(identifier)
+			}
 		} else {
 			
 			Button(

@@ -63,7 +63,8 @@ struct HealthExportViewModelTests {
 							)
 						]
 					)
-				]
+				],
+				shouldStartOnNewPage: false
 			),
 			PdfGroupedTables(
 				heading: "Group #2",
@@ -87,11 +88,13 @@ struct HealthExportViewModelTests {
 							)
 						]
 					)
-				]
+				],
+				shouldStartOnNewPage: true
 			),
 			PdfGroupedTables(
 				heading: "Group #3",
-				tables: []
+				tables: [],
+				shouldStartOnNewPage: true
 			)
 		],
 		footer: "footer"
@@ -167,12 +170,12 @@ struct HealthExportViewModelTests {
 	
 	@Test("onAppear generates the PDF and saves it to disk")
 	func onAppear() async throws {
-		
+
 		// Given
-		
+
 		// When
 		await sut.reduce(.onAppear)
-		
+
 		// Then
 		#expect(coordinatorSpy.invokedHandle == false)
 		let pdfUrl = try #require(sut.pdfUrl)
@@ -180,7 +183,21 @@ struct HealthExportViewModelTests {
 		#expect(data.isEmpty == false)
 		try? FileManager.default.removeItem(atPath: pdfUrl.path)
 	}
-	
+
+	@Test("Second onAppear is a no-op when PDF is already generated")
+	func onAppear_idempotent() async throws {
+		// Given — first appearance generates the PDF
+		await sut.reduce(.onAppear)
+		let firstUrl = try #require(sut.pdfUrl)
+
+		// When — second appearance (view re-presented)
+		await sut.reduce(.onAppear)
+
+		// Then — pdfUrl unchanged, PDF was not re-generated
+		#expect(sut.pdfUrl == firstUrl)
+		try? FileManager.default.removeItem(at: firstUrl)
+	}
+
 	@Test("generatePDF returns nil when the task is cancelled before rendering")
 	func generatePDF_cancelledBeforeRendering() async {
 

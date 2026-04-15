@@ -47,3 +47,6 @@ report.xml
 Sources/MGO/Info.plist
 /.claude
 /.build-benchmark
+
+# Superpowers plans & specs
+docs/

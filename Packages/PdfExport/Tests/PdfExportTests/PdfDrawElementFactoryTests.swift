@@ -82,7 +82,8 @@ struct PdfDrawElementFactoryTests {
 		// Given
 		let groupedTables = PdfGroupedTables(
 			heading: "test_groupedHeading",
-			tables: []
+			tables: [],
+			shouldStartOnNewPage: false
 		)
 		
 		// When
@@ -92,16 +93,16 @@ struct PdfDrawElementFactoryTests {
 		)
 		
 		// Then
-		#expect(drawElement.text?.string == "test_groupedHeading")
-		#expect(drawElement.borderColor == nil)
-		#expect(drawElement.rect == CGRect(
+		#expect(drawElement?.text?.string == "test_groupedHeading")
+		#expect(drawElement?.borderColor == nil)
+		#expect(drawElement?.rect == CGRect(
 			x: 28,
 			y: 20,
 			width: 539.28,
 			height: 34.4)
 		)
-		#expect(drawElement.height == 34.4)
-		#expect(drawElement.isPageBreak == false)
+		#expect(drawElement?.height == 34.4)
+		#expect(drawElement?.isPageBreak == false)
 	}
 	
 	@Test("createTableHeadingDrawElement returns element with border and correct dimensions")
@@ -120,17 +121,17 @@ struct PdfDrawElementFactoryTests {
 		)
 		
 		// Then
-		#expect(drawElement.text?.string == "test_tableHeading")
-		#expect(drawElement.borderColor == ExportTheme().border)
-		#expect(drawElement.borderSides == .all)
-		#expect(drawElement.rect == CGRect(
+		#expect(drawElement?.text?.string == "test_tableHeading")
+		#expect(drawElement?.borderColor == ExportTheme().border)
+		#expect(drawElement?.borderSides == .all)
+		#expect(drawElement?.rect == CGRect(
 			x: 28,
 			y: 20,
 			width: 539.28,
 			height: 16.1)
 		)
-		#expect(drawElement.height == 34.1)
-		#expect(drawElement.isPageBreak == false)
+		#expect(drawElement?.height == 34.1)
+		#expect(drawElement?.isPageBreak == false)
 	}
 	
 	@Test("createSubTableHeadingDrawElement returns element with border and correct dimensions")

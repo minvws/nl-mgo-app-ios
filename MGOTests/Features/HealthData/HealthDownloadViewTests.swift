@@ -131,8 +131,8 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 
-	@MainActor func test_HealthDownloadView_error_tryAgain() throws {
-		
+	@MainActor func test_HealthDownloadView_error_tryAgain() async throws {
+
 		// Given
 		let entry = DownloadBinary(
 			id: "test_HealthDownloadView_error_tryAgain",
@@ -147,7 +147,7 @@ final class HealthDownloadViewTests: XCTestCase {
 			storage: fileStorageSpy
 		)
 		sut = HealthDataDownloadView(viewModel: self.viewModel)
-		
+
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		let binary = FHIRBinary(
 			contentType: "application/pdf",
@@ -156,18 +156,29 @@ final class HealthDownloadViewTests: XCTestCase {
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
 		fileStorageSpy.stubbedFileUrlResult = url
 		viewModel.state = .error
-		
+
 		// When
 		try sut.inspect()
 			.find(viewWithAccessibilityIdentifier: "feedbackAction")
 			.button()
 			.tap()
-		
+
 		// Then
-		expect(self.viewModel.state).toEventually(
-			equal(.downloaded(label: "label", documentUrl: url)),
-			timeout: .seconds(10)
+		let expectedState = HealthDataDownloadState.downloaded(
+			label: "label",
+			documentUrl: url
 		)
+		let stateExpectation = expectation(
+			description: "state should become downloaded"
+		)
+		let cancellable = viewModel.$state.sink { state in
+			if state == expectedState {
+				stateExpectation.fulfill()
+			}
+		}
+		await fulfillment(of: [stateExpectation], timeout: 10)
+		cancellable.cancel()
+		XCTAssertEqual(viewModel.state, expectedState)
 	}
 	
 	@MainActor func test_HealthDownloadView_noDocument() throws {

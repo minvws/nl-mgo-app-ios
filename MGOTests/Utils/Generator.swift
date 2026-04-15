@@ -121,14 +121,22 @@ class Generator {
 		return HealthCategoryBlock(heading: "heading subcategory (excluded)", rows: [modifiedRow])
 	}
 	
-	// swiftlint: disable function_body_length
 	/// Create a dummy health category row
 	static func healthCategoryRow() -> HealthCategoryRow {
 		
 		return HealthCategoryRow(
 			heading: "heading",
 			subHeading: "healthcare organization",
-			schema: HealthUISchema(
+			schema: Self.healthUISchema(),
+			details: "details",
+			action: nil
+		)
+	}
+	
+	// swiftlint: disable function_body_length
+	/// Create a mock health UI Schema
+	static func healthUISchema() -> HealthUISchema {
+			HealthUISchema(
 				children: [
 					// Schema Group 1
 					HealthUIGroup(
@@ -360,14 +368,10 @@ class Generator {
 					)
 				],
 				label: "UI Schema"
-			),
-			details: "details",
-			action: nil
-		)
-	}
-	// swiftlint: enable function_body_length
-	
-	static let healthCategory = SharedHealthCategories.Category(
+			)
+		}
+		
+		static let healthCategory = SharedHealthCategories.Category(
 		id: "medication",
 		heading: "hc_medication.heading",
 		subheading: "hc_medication.subheading",
@@ -386,5 +390,6 @@ class Generator {
 			)
 		]
 	)
+	// swiftlint: enable function_body_length
 }
 // swiftlint:enable type_body_length

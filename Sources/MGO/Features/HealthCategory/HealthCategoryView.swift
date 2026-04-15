@@ -222,30 +222,10 @@ struct HealthCategoryView: View {
 	}
 	
 	/// The toolbar content (export to pdf)
-	@ToolbarContentBuilder private var pdfExportToolbarContent: some ToolbarContent {
-		ToolbarItemGroup(
-			placement: .topBarTrailing,
-			content: {
-				
-				if osVersionChecker.available(version: .iOS(.v26)) {
-					Button("export_pdf.menu.save_pdf", systemImage: "square.and.arrow.down") {
-						viewModel.reduce(.showExportAlert)
-					}
-					.tint(theme.labels.primary)
-					.accessibilityLabel("export_pdf.menu")
-					.accessibilityIdentifier("export_pdf.menu")
-				} else {
-					Button {
-						viewModel.reduce(.showExportAlert)
-					} label: {
-						Image(ImageResource.Icon.download)
-					}
-					.tint(theme.labels.primary)
-					.accessibilityLabel("export_pdf.menu")
-					.accessibilityIdentifier("export_pdf.menu")
-				}
-			}
-		)
+	private var pdfExportToolbarContent: some ToolbarContent {
+		PDFExportToolbarContent {
+			viewModel.reduce(.showExportAlert)
+		}
 	}
 
 	/// Full Screen page

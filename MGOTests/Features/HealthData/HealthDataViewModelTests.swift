@@ -3,29 +3,28 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import Testing
 import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class HealthDataViewModelTests: XCTestCase {
+@MainActor
+@Suite(.serialized)
+struct HealthDataViewModelTests {
 	
-	private var coordinatorSpy: DashboardCoordinatorSpy!
-	private var servicesSpies: ServicesSpies!
-	private var sut: HealthDataViewModel!
-	private var referenceResolverSpy: ReferenceResolverSpy!
+	private let coordinatorSpy: DashboardCoordinatorSpy
+	private let servicesSpies: ServicesSpies
+	private let referenceResolverSpy: ReferenceResolverSpy
 	
-	override func setUp() {
-		
-		super.setUp()
+	init() {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		referenceResolverSpy = ReferenceResolverSpy()
 	}
 	
-	@MainActor private func setupSut() {
-		
-		sut = HealthDataViewModel(
+	private func makeSut() -> HealthDataViewModel {
+		HealthDataViewModel(
 			coordinator: coordinatorSpy,
 			config: HealthDataViewConfig(
 				backButtonTitle: "HealthCategoryDataViewModelTests",
@@ -123,91 +122,100 @@ final class HealthDataViewModelTests: XCTestCase {
 		)
 	}
 	
-	@MainActor func test_state() {
+	@Test("Initial state has correct backButton title and schema label")
+	func state() {
 		
 		// Given
-		setupSut()
-		
-		// When
-		let state = sut.state
+		let sut = makeSut()
 		
 		// Then
-		expect(state.backButton) == "HealthCategoryDataViewModelTests"
-		expect(state.schema.label) == "test"
+		#expect(sut.state.backButton == "HealthCategoryDataViewModelTests")
+		#expect(sut.state.schema.label == "test")
 	}
 	
-	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
+	// MARK: - Basic interaction
+	
+	@Test("Tapping back calls coordinator with backButtonPressed")
+	func backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
-		setupSut()
+		let sut = makeSut()
 		
 		// When
 		sut.reduce(.backButtonPressed)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
+		#expect(coordinatorSpy.invokedHandle == true)
+		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.backButtonPressed)
 	}
-
-	@MainActor func test_closeSheet_shouldCallCoordinator() {
+	
+	@Test("Tapping close calls coordinator with closeSheet")
+	func closeSheet_shouldCallCoordinator() {
 		
 		// Given
-		setupSut()
+		let sut = makeSut()
 		
 		// When
 		sut.reduce(.closeSheet)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
+		#expect(coordinatorSpy.invokedHandle == true)
+		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.closeSheet)
 	}
 	
-	@MainActor func test_resolveReferenceValue_shouldCallCoordinator() throws {
+	// MARK: - References
+	
+	@Test("Tapping a referenceValue reference navigates to showHealthData")
+	func resolveReferenceValue_shouldCallCoordinator() throws {
 		
 		// Given
 		let schema = HealthUISchema(children: [], label: "test")
-		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
-		setupSut()
+		referenceResolverSpy.stubbedResolveResult = (Data(), schema)
+		let sut = makeSut()
 		
 		// When
 		sut.reduce(.reference("test_resolveReference"))
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
+		#expect(coordinatorSpy.invokedHandle == true)
 		
-		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.showHealthData.identifier
-		expect(params.params["resource"] as? MgoResource) == Data()
-		expect(params.params["backButtonTitle"] as? String) == "common.previous"
-		expect((params.params["uiSchema"] as? HealthUISchema)?.label) == schema.label
+		let params = try #require(coordinatorSpy.invokedHandleParameters?.0)
+		#expect(params.identifier == Coordination.Action.showHealthData.identifier)
+		#expect(params.params["resource"] as? MgoResource == Data())
+		#expect(params.params["backButtonTitle"] as? String == "common.previous")
+		#expect((params.params["uiSchema"] as? HealthUISchema)?.label == schema.label)
 	}
 	
-	@MainActor func test_resolveReferenceLink_shouldCallCoordinator() throws {
+	@Test("Tapping a referenceLink reference navigates to showHealthData")
+	func resolveReferenceLink_shouldCallCoordinator() throws {
 		
 		// Given
 		let schema = HealthUISchema(children: [], label: "test")
-		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
-		setupSut()
+		referenceResolverSpy.stubbedResolveResult = (Data(), schema)
+		let sut = makeSut()
 		
 		// When
 		sut.reduce(.reference("test_resolveReferenceLink"))
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
+		#expect(coordinatorSpy.invokedHandle == true)
 		
-		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.showHealthData.identifier
-		expect(params.params["resource"] as? MgoResource) == Data()
-		expect(params.params["backButtonTitle"] as? String) == "common.previous"
-		expect((params.params["uiSchema"] as? HealthUISchema)?.label) == schema.label
+		let params = try #require(coordinatorSpy.invokedHandleParameters?.0)
+		#expect(params.identifier == Coordination.Action.showHealthData.identifier)
+		#expect(params.params["resource"] as? MgoResource == Data())
+		#expect(params.params["backButtonTitle"] as? String == "common.previous")
+		#expect((params.params["uiSchema"] as? HealthUISchema)?.label == schema.label)
 	}
 	
-	@MainActor func test_resolve_term() {
+	// MARK: - Patient Friendly Term
+	
+	@Test("Tapping a SNOMED term with known code sets selectedPatientFriendlyTerm")
+	func resolve_term() {
 		
 		// Given
 		let term = PatientFriendlyTerm(description: "Test")
 		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedFindResult = term
-		setupSut()
+		let sut = makeSut()
 		
 		// When
 		sut.reduce(
@@ -221,15 +229,16 @@ final class HealthDataViewModelTests: XCTestCase {
 		)
 		
 		// Then
-		expect(self.sut.selectedPatientFriendlyTerm) == term
+		#expect(sut.selectedPatientFriendlyTerm == term)
 	}
 	
-	@MainActor func test_resolve_invalidTerm() {
+	@Test("Tapping a SNOMED term with unknown code leaves selectedPatientFriendlyTerm nil")
+	func resolve_invalidTerm() {
 		
 		// Given
 		let term = PatientFriendlyTerm(description: "Test")
 		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedFindResult = term
-		setupSut()
+		let sut = makeSut()
 		
 		// When
 		sut.reduce(
@@ -243,21 +252,67 @@ final class HealthDataViewModelTests: XCTestCase {
 		)
 		
 		// Then
-		expect(self.sut.selectedPatientFriendlyTerm) == nil
+		#expect(sut.selectedPatientFriendlyTerm == nil)
 	}
 	
-	@MainActor func test_resolve_closeTermSheet() {
+	@Test("closeTermSheet clears selectedPatientFriendlyTerm")
+	func resolve_closeTermSheet() {
 		
 		// Given
 		let term = PatientFriendlyTerm(description: "Test")
 		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedFindResult = term
-		setupSut()
+		let sut = makeSut()
 		sut.selectedPatientFriendlyTerm = term
 		
 		// When
 		sut.reduce(.closeTermSheet)
 		
 		// Then
-		expect(self.sut.selectedPatientFriendlyTerm) == nil
+		#expect(sut.selectedPatientFriendlyTerm == nil)
+	}
+	
+	// MARK: - Export
+	
+	@Test("showExportAlert sets showExportAlert to true")
+	func showExportAlert() {
+		
+		// Given
+		let sut = makeSut()
+		sut.state.showExportAlert = false
+		
+		// When
+		sut.reduce(.showExportAlert)
+		
+		// Then
+		#expect(sut.state.showExportAlert == true)
+	}
+	
+	@Test("cancelExportAlert sets showExportAlert to false")
+	func cancelExportAlert() {
+		
+		// Given
+		let sut = makeSut()
+		sut.state.showExportAlert = true
+		
+		// When
+		sut.reduce(.cancelExportAlert)
+		
+		// Then
+		#expect(sut.state.showExportAlert == false)
+	}
+	
+	@Test("exportHealthData calls coordinator with exportHealthData identifier")
+	func exportHealthData_list_shouldCallCoordinator() throws {
+		
+		// Given
+		let sut = makeSut()
+		
+		// When
+		sut.reduce(.exportHealthData)
+		
+		// Then
+		#expect(coordinatorSpy.invokedHandle == true)
+		#expect(coordinatorSpy.invokedHandleParameters?.0.identifier == Coordination.Action.exportHealthData.identifier)
+		#expect(coordinatorSpy.invokedHandleParameters?.0.params != nil)
 	}
 }

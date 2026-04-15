@@ -131,6 +131,9 @@ class HealthCategoryViewModel: ObservableObject {
 
 	/// The HCIM parser
 	private let parser = HCIMParser()
+	
+	/// The file storage
+	private let fileStorage: FileStorageProtocol
 
 	/// Dependency Healthcare Organization Store
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
@@ -157,13 +160,15 @@ class HealthCategoryViewModel: ObservableObject {
 		coordinator: (any Coordinator)? = nil,
 		category: SharedHealthCategories.Category,
 		organization: OrganizationSearch.Organization?,
-		translations: HealthCategoryViewTranslations
+		translations: HealthCategoryViewTranslations,
+		fileStorage: FileStorageProtocol = FileStorage()
 	) {
 		self.coordinator = coordinator
 		self.category = category
 		self.organization = organization
 		self.state = .loading
 		self.translations = translations
+		self.fileStorage = fileStorage
 		registerObservers()
 	}
 
@@ -205,8 +210,9 @@ class HealthCategoryViewModel: ObservableObject {
 				coordinator?.handle(.backButtonPressed)
 
 			case .onAppear:
-				FileStorage().remove(HealthDirectory.binary)
-				FileStorage().remove(HealthDirectory.export)
+				guard case .loading = state else { return }
+				fileStorage.remove(HealthDirectory.binary)
+				fileStorage.remove(HealthDirectory.export)
 				_Concurrency.Task(priority: .userInitiated) {
 					 await loadResources()
 				}

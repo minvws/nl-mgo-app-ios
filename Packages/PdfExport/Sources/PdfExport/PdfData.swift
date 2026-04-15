@@ -76,13 +76,13 @@ public struct PdfTable: Equatable, Codable, Hashable, Sendable {
 	/// - Parameters:
 	///   - heading: the title of the resource
 	///   - subTables: a list of sub tables for each section
-	public init(heading: String, subTables: [PdfSubTable]) {
+	public init(heading: String?, subTables: [PdfSubTable]) {
 		self.heading = heading
 		self.subTables = subTables
 	}
 	
 	/// The title of the table.
-	public let heading: String
+	public let heading: String?
 	
 	/// A list of subtables that make up the full table structure.
 	public let subTables: [PdfSubTable]
@@ -97,16 +97,25 @@ public struct PdfGroupedTables: Equatable, Codable, Hashable, Sendable {
 	/// - Parameters:
 	///   - heading: the title of the grouped table (sub category title)
 	///   - tables: a list of tables for each sub categories of that category
-	public init(heading: String, tables: [PdfTable]) {
+	///   - shouldStartOnNewPage: should this grouped table start on a new page?
+	public init(
+		heading: String?,
+		tables: [PdfTable],
+		shouldStartOnNewPage: Bool
+	) {
 		self.heading = heading
 		self.tables = tables
+		self.shouldStartOnNewPage = shouldStartOnNewPage
 	}
 	
 	/// The title for this group of tables.
-	public let heading: String
+	public let heading: String?
 	
 	/// A list of individual tables included in this group.
 	public let tables: [PdfTable]
+	
+	/// Should this grouped table start on a new page?
+	public let shouldStartOnNewPage: Bool
 }
 
 /**

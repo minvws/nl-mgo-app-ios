@@ -4,56 +4,57 @@
  */
 
 @testable import FileStorage
-import MGOTest
+import Testing
 
-class FileStorageTests: XCTestCase {
-	
-	private var sut: FileStorage!
-	
-	func test_fileUrl() {
-		
+struct FileStorageTests {
+
+	@Test("fileUrl returns a URL pointing to the documents directory")
+	func fileUrl() {
+
 		// Given
-		sut = FileStorage()
-		
+		let sut = FileStorage()
+
 		// When
-		let url: URL? = sut.fileUrl("test.txt")
-		
+		let url = sut.fileUrl("test.txt")
+
 		// Then
-		expect(url) != nil
-		expect(url?.absoluteString).to(endWith("/data/Documents/test.txt"))
+		#expect(url != nil)
+		#expect(url?.absoluteString.hasSuffix("/data/Documents/test.txt") == true)
 	}
-	
-	func test_fileUrl_withSubDirectory() {
-		
+
+	@Test("fileUrl with sub directory returns a URL pointing to the sub directory")
+	func fileUrl_withSubDirectory() {
+
 		// Given
-		sut = FileStorage(subDirectory: "filestorage")
-		
+		let sut = FileStorage(subDirectory: "filestorage")
+
 		// When
-		let url: URL? = sut.fileUrl("test.txt")
-		
+		let url = sut.fileUrl("test.txt")
+
 		// Then
-		expect(url) != nil
-		expect(url?.absoluteString).to(endWith("/data/Documents/filestorage/test.txt"))
+		#expect(url != nil)
+		#expect(url?.absoluteString.hasSuffix("/data/Documents/filestorage/test.txt") == true)
 	}
-	
-	func test_store_exists_read_remove() throws {
-		
+
+	@Test("stored file can be read back and is gone after removal")
+	func storeExistsReadRemove() throws {
+
 		// Given
-		sut = FileStorage()
+		let sut = FileStorage()
 		let file = try getResource("test")
 		let fileName = "test_store.md"
-		
-		// When
+
+		// Store
 		try sut.store(file, as: fileName)
-		
+
 		// Read
-		expect(self.sut.fileExists(fileName)).toEventually(beTrue())
+		#expect(sut.fileExists(fileName))
 		let readFile = sut.read(fileName: fileName)
-		expect(file) == readFile
-		
+		#expect(file == readFile)
+
 		// Remove
 		sut.remove(fileName)
-		expect(self.sut.fileExists(fileName)).toEventually(beFalse())
-		expect(self.sut.read(fileName: fileName)) == nil
+		#expect(!sut.fileExists(fileName))
+		#expect(sut.read(fileName: fileName) == nil)
 	}
 }

@@ -50,22 +50,24 @@ class HealthExportPdfGenerator {
 		drawElements.append(PdfDrawElement.pageBreak)
 		appendPageHeader(to: &drawElements, currentY: &currentY)
 		currentY += PdfExport.Constants.innerMargin
-
-		for index in dataSource.tables.indices {
+		
+		for groupedTable in dataSource.tables {
 			guard !Task.isCancelled else { return nil }
+			
+			if groupedTable.shouldStartOnNewPage {
+				drawElements.append(PdfDrawElement.pageBreak)
+				currentY = PdfExport.Constants.outerMargin
+			}
+			
 			appendGroupedTable(
-				dataSource.tables[index],
+				groupedTable,
 				to: &drawElements,
 				currentY: &currentY,
 				availableHeight: availableHeight
 			)
-			if index < dataSource.tables.count - 1 {
-				drawElements.append(PdfDrawElement.pageBreak)
-				currentY = PdfExport.Constants.outerMargin
-			}
 			await Task.yield()
 		}
-
+		
 		guard !Task.isCancelled else { return nil }
 		return makePDFDocument(from: drawElements, footer: footer)
 	}
@@ -93,29 +95,30 @@ class HealthExportPdfGenerator {
 		currentY: inout CGFloat,
 		availableHeight: CGFloat
 	) {
-		var groupHeading = factory.createGroupedHeadingDrawElement(
+		if var groupHeading = factory.createGroupedHeadingDrawElement(
 			groupedTable,
 			yPosition: currentY
-		)
-		append(
-			&groupHeading,
-			to: &drawElements,
-			currentY: &currentY,
-			availableHeight: availableHeight
-		)
-
-		guard !groupedTable.tables.isEmpty else {
-			var empty = factory.createEmptySubCategoryDrawElement(
-				String(localized: "export_pdf.no_data"),
-				yPosition: currentY
-			)
+		) {
 			append(
-				&empty,
+				&groupHeading,
 				to: &drawElements,
 				currentY: &currentY,
 				availableHeight: availableHeight
 			)
-			return
+			
+			guard !groupedTable.tables.isEmpty else {
+				var empty = factory.createEmptySubCategoryDrawElement(
+					String(localized: "export_pdf.no_data"),
+					yPosition: currentY
+				)
+				append(
+					&empty,
+					to: &drawElements,
+					currentY: &currentY,
+					availableHeight: availableHeight
+				)
+				return
+			}
 		}
 
 		groupedTable.tables.forEach { table in
@@ -136,25 +139,30 @@ class HealthExportPdfGenerator {
 		currentY: inout CGFloat,
 		availableHeight: CGFloat
 	) {
-		var tableHeading = factory.createTableHeadingDrawElement(
+		let hasHeading: Bool
+		if var tableHeading = factory.createTableHeadingDrawElement(
 			table,
 			yPosition: currentY
-		)
-		tableHeading.borderSides = [.top, .left, .right]
-		append(
-			&tableHeading,
-			to: &drawElements,
-			currentY: &currentY,
-			availableHeight: availableHeight
-		)
-
+		) {
+			tableHeading.borderSides = [.top, .left, .right]
+			append(
+				&tableHeading,
+				to: &drawElements,
+				currentY: &currentY,
+				availableHeight: availableHeight
+			)
+			hasHeading = true
+		} else {
+			hasHeading = false
+		}
 		table.subTables.indices.forEach { index in
 			appendSubTable(
 				table.subTables[index],
 				to: &drawElements,
 				currentY: &currentY,
 				availableHeight: availableHeight,
-				isLastSubTable: index == table.subTables.count - 1
+				isLastSubTable: index == table.subTables.count - 1,
+				needsTopBorder: !hasHeading && index == 0
 			)
 		}
 	}
@@ -165,7 +173,8 @@ class HealthExportPdfGenerator {
 		to drawElements: inout [PdfDrawElement],
 		currentY: inout CGFloat,
 		availableHeight: CGFloat,
-		isLastSubTable: Bool
+		isLastSubTable: Bool,
+		needsTopBorder: Bool = false
 	) {
 		if let heading = subTable.heading {
 			var element = factory.createSubTableHeadingDrawElement(
@@ -173,6 +182,9 @@ class HealthExportPdfGenerator {
 				yPosition: currentY
 			)
 			element.borderSides = [.left, .right]
+			if needsTopBorder {
+				element.borderSides.insert(.top)
+			}
 			if isLastSubTable && subTable.data.isEmpty {
 				element.borderSides.insert(.bottom)
 			}
@@ -190,7 +202,8 @@ class HealthExportPdfGenerator {
 				to: &drawElements,
 				currentY: &currentY,
 				availableHeight: availableHeight,
-				isLastInGroup: isLastSubTable && index == subTable.data.count - 1
+				isLastInGroup: isLastSubTable && index == subTable.data.count - 1,
+				needsTopBorder: needsTopBorder && subTable.heading == nil && index == 0
 			)
 		}
 	}
@@ -201,7 +214,8 @@ class HealthExportPdfGenerator {
 		to drawElements: inout [PdfDrawElement],
 		currentY: inout CGFloat,
 		availableHeight: CGFloat,
-		isLastInGroup: Bool
+		isLastInGroup: Bool,
+		needsTopBorder: Bool = false
 	) {
 		var row = factory.createSubTableRowDrawElement(
 			pair,
@@ -210,8 +224,15 @@ class HealthExportPdfGenerator {
 		if row.count == 2 {
 			row[0].borderSides = isLastInGroup ? [.left, .bottom] : [.left]
 			row[1].borderSides = isLastInGroup ? [.right, .bottom] : [.right]
+			if needsTopBorder {
+				row[0].borderSides.insert(.top)
+				row[1].borderSides.insert(.top)
+			}
 		} else if row.isNotEmpty {
 			row[0].borderSides = isLastInGroup ? [.left, .right, .bottom] : [.left, .right]
+			if needsTopBorder {
+				row[0].borderSides.insert(.top)
+			}
 		}
 		appendRowPair(
 			&row,
@@ -219,6 +240,11 @@ class HealthExportPdfGenerator {
 			currentY: &currentY,
 			availableHeight: availableHeight
 		)
+		if needsTopBorder {
+			// .top changes topPadding from 6 → 12 in drawBorder, expanding the border rect by 6.
+			// Advance by that extra 6 so the next row has the same 4pt overlap as normal rows.
+			currentY += 6
+		}
 	}
 
 	/// Append a single draw element, inserting a page break first if needed

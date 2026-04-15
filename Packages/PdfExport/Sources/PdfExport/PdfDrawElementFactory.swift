@@ -96,10 +96,12 @@ import SwiftUI
 	public func createGroupedHeadingDrawElement(
 		_ tables: PdfGroupedTables,
 		yPosition: CGFloat
-	) -> PdfDrawElement {
+	) -> PdfDrawElement? {
+		
+		guard let heading = tables.heading else { return nil }
 		
 		let text = attributed(
-			tables.heading,
+			heading,
 			font: .helveticaBold(16),
 			color: theme.primaryText
 		)
@@ -120,10 +122,12 @@ import SwiftUI
 	public func createTableHeadingDrawElement(
 		_ table: PdfTable,
 		yPosition: CGFloat,
-	) -> PdfDrawElement {
+	) -> PdfDrawElement? {
+		
+		guard let heading = table.heading else { return nil }
 		
 		let text = attributed(
-			table.heading,
+			heading,
 			font: .helveticaBold(14),
 			color: theme.primaryText
 		)

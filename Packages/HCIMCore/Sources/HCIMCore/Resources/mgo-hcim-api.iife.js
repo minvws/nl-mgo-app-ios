@@ -43615,7 +43615,7 @@ ${indent}}` : "}";
     "system.code.http://hl7.org/fhir/referencerange-meaning|recommended": [{ "type": 0, "value": "Aanbevolen referentiewaarden" }],
     "system.code.http://hl7.org/fhir/referencerange-meaning|therapeutic": [{ "type": 0, "value": "Therapeutische referentiewaarden" }],
     "system.code.http://hl7.org/fhir/referencerange-meaning|treatment": [{ "type": 0, "value": "Behandelings referentiewaarden" }],
-    "system.urn:oid:2.16.840.1.113883.2.4.4.9": [{ "type": 0, "value": "G-Standaard Toedieningswegen (tabel 7)" }],
+    "system.system.urn:oid:2.16.840.1.113883.2.4.4.9": [{ "type": 0, "value": "G-Standaard Toedieningswegen (tabel 7)" }],
     "system.value.http://unitsofmeasure.org|d": [{ "offset": 0, "options": { "one": { "value": [{ "type": 0, "value": "één dag" }] }, "other": { "value": [{ "style": null, "type": 2, "value": "value" }, { "type": 0, "value": " dagen" }] } }, "pluralType": "cardinal", "type": 6, "value": "value" }],
     "system.value.http://unitsofmeasure.org|mmol/L": [{ "offset": 0, "options": { "one": { "value": [{ "style": null, "type": 2, "value": "value" }, { "type": 0, "value": " millimol per liter" }] }, "other": { "value": [{ "style": null, "type": 2, "value": "value" }, { "type": 0, "value": " millimol per liter" }] } }, "pluralType": "cardinal", "type": 6, "value": "value" }],
     "system.value.urn:oid:2.16.840.1.113883.2.4.4.1.900.2|245": [{ "offset": 0, "options": { "one": { "value": [{ "style": null, "type": 2, "value": "value" }, { "type": 0, "value": " stuk" }] }, "other": { "value": [{ "style": null, "type": 2, "value": "value" }, { "type": 0, "value": " stuks" }] } }, "pluralType": "cardinal", "type": 6, "value": "value" }]
@@ -54479,6 +54479,7 @@ ${indent}}` : "}";
           {
             id: "options",
             label: "Opties",
+            excludeFromPrint: true,
             children: [
               {
                 id: "reference_link",

@@ -73,16 +73,19 @@ extension ReferenceValue {
 extension ReferenceLink {
 
 	/// PDF mapping for a reference link element.
-	/// Builds a `PdfSubTablePair` from the element's `label` as the value, and a empty string as key.
+	/// Builds a `PdfSubTablePair` from the element's `label` and `reference` value.
 	public func getPdfMapping() -> PdfSubTablePair? {
 		
 		guard label.isNotEmpty else { return nil }
-		return PdfSubTablePair(key: "", value: label)
+		return PdfSubTablePair(key: label, value: reference)
 	}
 }
 
 extension DownloadLink {
-	/// PDF mapping for a download link: full-width row with icon and label in blue.
+	/// PDF mapping for a download link.
+	/// Produces a full-width `.download`-styled row showing the label; `key` is empty
+	/// because download rows span the full cell width without a separate key column.
+	/// - Returns: `nil` when `label` is empty.
 	public func getPdfMapping() -> PdfSubTablePair? {
 		
 		guard label.isNotEmpty else { return nil }
@@ -91,7 +94,10 @@ extension DownloadLink {
 }
 
 extension DownloadBinary {
-	/// PDF mapping for a downloadable binary: full-width row with icon and label in blue.
+	/// PDF mapping for a downloadable binary attachment.
+	/// Produces a full-width `.download`-styled row showing the label; `key` is empty
+	/// because download rows span the full cell width without a separate key column.
+	/// - Returns: `nil` when `label` is empty.
 	public func getPdfMapping() -> PdfSubTablePair? {
 		
 		guard label.isNotEmpty else { return nil }
