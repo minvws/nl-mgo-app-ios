@@ -133,14 +133,14 @@ struct ConfirmationAlertCoverView: View {
 				style: .solid(rounded: true, narrow: false),
 				action: confirmTapped
 			)
-			.accessibilityIdentifier("search_organization.dialog.action")
+			.accessibilityIdentifier("confirmationAlertCoverView.action")
 
 			CallToActionButton(
 				title: cancelText,
 				style: .tonal(rounded: true),
 				action: cancelTapped
 			)
-			.accessibilityIdentifier("search_organization.dialog.cancel")
+			.accessibilityIdentifier("confirmationAlertCoverView.cancel")
 		}
 	}
 

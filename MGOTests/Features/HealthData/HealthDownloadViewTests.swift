@@ -74,7 +74,12 @@ final class HealthDownloadViewTests: XCTestCase {
 		// Given
 		createSut()
 		let bundle = Bundle(for: type(of: self))
-		let resourceUrl = try XCTUnwrap(bundle.url(forResource: "test", withExtension: "txt"))
+		let resourceUrl = try XCTUnwrap(
+			bundle.url(
+				forResource: "test",
+				withExtension: "txt"
+			)
+		)
 		viewModel.state = .downloaded(
 			label: "Test download",
 			documentUrl: resourceUrl
