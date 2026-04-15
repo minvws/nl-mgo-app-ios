@@ -139,15 +139,17 @@ struct HealthCategoryView: View {
 				.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		}
 		.toolbar { pdfExportToolbarContent }
-		.alert(
-			String(localized: "export_pdf.dialog.heading"),
-			isPresented: $viewModel.showExportAlert
-		) {
-			Button("export_pdf.dialog.create_document") { viewModel.reduce(.exportHealthData) }
-			Button("common.cancel", role: ButtonRole.cancel) { viewModel.reduce(.cancelExportAlert) }
-				.keyboardShortcut(.cancelAction)
-		} message: {
-			Text("export_pdf.dialog.subheading")
+		.inspectableFullScreenCover(isPresented: $viewModel.showExportAlert) {
+			ConfirmationAlertCoverView(
+				heading: String(localized: "export_pdf.dialog.heading"),
+				subheading: String(localized: "export_pdf.dialog.subheading"),
+				actionText: String(localized: "export_pdf.dialog.create_document"),
+				cancelText: String(localized: "common.cancel"),
+				isPresented: $viewModel.showExportAlert,
+				onConfirm: { viewModel.reduce(.exportHealthData) }
+			)
+			.clearFullScreenCoverBackground()
+			.interactiveDismissDisabled()
 		}
 	}
 	

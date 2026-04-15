@@ -207,7 +207,9 @@ class HealthDataViewModel: ObservableObject {
 				referenceTapped(reference)
 			
 			case .showExportAlert:
-				state.showExportAlert = true
+				var transaction = Transaction()
+				transaction.disablesAnimations = true
+				withTransaction(transaction) { state.showExportAlert = true }
 				
 			case let .term(displayValue):
 				termTapped(displayValue)
@@ -293,15 +295,17 @@ struct HealthDataView: View {
 			resolvedCodes: viewModel.resolvedCodes
 		)
 		.toolbar { pdfExportToolbarContent }
-		.alert(
-			String(localized: "export_pdf.dialog.heading"),
-			isPresented: $viewModel.state.showExportAlert
-		) {
-			Button("export_pdf.dialog.create_document") { viewModel.reduce(.exportHealthData) }
-			Button("common.cancel", role: ButtonRole.cancel) { viewModel.reduce(.cancelExportAlert) }
-				.keyboardShortcut(.cancelAction)
-		} message: {
-			Text("export_pdf.dialog.subheading")
+		.inspectableFullScreenCover(isPresented: $viewModel.state.showExportAlert) {
+			ConfirmationAlertCoverView(
+				heading: String(localized: "export_pdf.dialog.heading"),
+				subheading: String(localized: "export_pdf.dialog.subheading"),
+				actionText: String(localized: "export_pdf.dialog.create_document"),
+				cancelText: String(localized: "common.cancel"),
+				isPresented: $viewModel.state.showExportAlert,
+				onConfirm: { viewModel.reduce(.exportHealthData) }
+			)
+			.clearFullScreenCoverBackground()
+			.interactiveDismissDisabled()
 		}
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.navigationBarBackButtonHidden()
