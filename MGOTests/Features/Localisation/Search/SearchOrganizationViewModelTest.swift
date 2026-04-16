@@ -236,6 +236,34 @@ final class SearchOrganizationViewModelTests {
 		#expect(sut.state.preparationState == .error)
 	}
 	
+	@Test("Reduce prepare when already loading should not call prepare a second time")
+	func reduce_prepare_whenAlreadyLoading_shouldNotCallPrepareAgain() async {
+
+		// Given
+		sut.state.preparationState = .loading
+
+		// When
+		sut.reduce(.prepare)
+		try? await Task.sleep(nanoseconds: 200 * 1_000_000)
+
+		// Then
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedPrepareCount == 0)
+	}
+
+	@Test("Reduce prepare when already loaded should not call prepare again")
+	func reduce_prepare_whenAlreadyLoaded_shouldNotCallPrepareAgain() async {
+
+		// Given
+		sut.state.preparationState = .loaded
+
+		// When
+		sut.reduce(.prepare)
+		try? await Task.sleep(nanoseconds: 200 * 1_000_000)
+
+		// Then — guard blocks re-run; per-session dedup is handled by DatabaseActor
+		#expect(servicesSpies.searchOrganizationClientSpy.invokedPrepareCount == 0)
+	}
+
 	// MARK: - store Action Tests
 	
 	@Test("Reduce store should call coordinator to finish searching")
