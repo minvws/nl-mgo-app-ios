@@ -111,6 +111,44 @@ There are four different types of Toast: **.info**, **.warning**, **.error** and
 
 <img style="float: left;" src="illustrations/Toast.png" />
 
+### ConfirmationAlert
+
+A styled confirmation dialog that replaces the system `.alert` when custom styling is needed. It renders as a full-screen cover with a dimmed backdrop and a card — Liquid Glass on iOS 26+, themed tertiary background on earlier versions. The cover fades in and out; swipe-to-dismiss is disabled so the user must tap a button.
+
+Use the `.confirmationAlert` view modifier:
+
+```swift
+.confirmationAlert(
+    heading: String(localized: "delete.dialog.heading"),
+    subheading: String(localized: "delete.dialog.subheading"),
+    actionText: String(localized: "delete.dialog.confirm"),
+    cancelText: String(localized: "common.cancel"),
+    isPresented: $showDeleteAlert,
+    onConfirm: { viewModel.reduce(.deleteItem) }
+)
+```
+
+Set `isPresented` to `true` inside `withTransaction { $0.disablesAnimations = true }` to suppress the UIKit full-screen cover slide-in animation:
+
+```swift
+var transaction = Transaction()
+transaction.disablesAnimations = true
+withTransaction(transaction) { showDeleteAlert = true }
+```
+
+When using an optional binding (e.g. a selected item), derive a `Binding<Bool>` with `.presence()` and read the value inside `onConfirm` — it is guaranteed to be non-nil at that point:
+
+```swift
+.confirmationAlert(
+    heading: String(format: String(localized: "confirm.dialog.heading"), item?.name ?? ""),
+    ...
+    isPresented: $selectedItem.presence(),
+    onConfirm: {
+        if let item = selectedItem { viewModel.reduce(.confirm(item)) }
+    }
+)
+```
+
 ### ConditionalViewModifier
 
 You can not aways use an **if** statement in a view, especially when using view modifiers, hence the conditionalViewModifier. 
