@@ -39,7 +39,7 @@ private struct ConfirmationAlertModifier: ViewModifier {
 					isPresented: $isPresented,
 					onConfirm: onConfirm
 				)
-				.clearFullScreenCoverBackground()
+				.backport.presentationBackground(.clear)
 				.interactiveDismissDisabled()
 			}
 	}

@@ -192,16 +192,3 @@ public struct ConfirmationAlertCoverView: View {
 	}
 }
 
-extension View {
-
-	/// Makes the fullScreenCover container transparent so only our custom dim and card are visible.
-	/// Uses presentationBackground(.clear) on iOS 16.4+.
-	/// On iOS 15–16.3 no transparency is applied; the dim overlay still obscures the cover's default background.
-	@ViewBuilder public func clearFullScreenCoverBackground() -> some View {
-		if #available(iOS 16.4, *) {
-			self.presentationBackground(.clear)
-		} else {
-			self
-		}
-	}
-}
