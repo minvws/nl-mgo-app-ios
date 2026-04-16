@@ -222,7 +222,9 @@ class HealthCategoryViewModel: ObservableObject {
 				retry()
 
 			case .showExportAlert:
-				showExportAlert = true
+				var transaction = Transaction()
+				transaction.disablesAnimations = true
+				withTransaction(transaction) { showExportAlert = true }
 
 			case .cancelExportAlert:
 				showExportAlert = false

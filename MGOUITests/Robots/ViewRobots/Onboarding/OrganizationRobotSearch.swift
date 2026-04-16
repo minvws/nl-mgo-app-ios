@@ -39,7 +39,7 @@ import XCTest
 	}
 	
 	private var alertOkButton: XCUIElement {
-		app.buttons["search_organization.dialog.action"]
+		app.buttons["confirmationAlertCoverView.action"]
 	}
 
 	// MARK: - Validations
