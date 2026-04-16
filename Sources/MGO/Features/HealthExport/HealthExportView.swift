@@ -333,17 +333,15 @@ struct HealthExportView: View {
 	/// - Returns: share link for the pdf
 	@ViewBuilder func shareLink(_ url: URL?) -> some View {
 		
-		if #available(iOS 16.0, *) {
-			if let url {
-				ShareLink(item: url) {
-					Image(systemName: "square.and.arrow.up")
-						.resizable()
-						.scaledToFit()
-						.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
-				}
-				.accessibilityLabel("export_pdf.share")
-				.accessibilityIdentifier("export_pdf.share")
+		if #available(iOS 16.0, *), let url {
+			ShareLink(item: url) {
+				Image(systemName: "square.and.arrow.up")
+					.resizable()
+					.scaledToFit()
+					.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
 			}
+			.accessibilityLabel("export_pdf.share")
+			.accessibilityIdentifier("export_pdf.share")
 		}
 	}
 
