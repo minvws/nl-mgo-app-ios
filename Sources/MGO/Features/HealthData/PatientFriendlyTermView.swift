@@ -69,67 +69,50 @@ struct PatientFriendlyTermView: View {
 		enum General {
 			static let padding: CGFloat = 16
 			static let spacing: CGFloat = 4
-			static let synonymBottomPadding: CGFloat = 8
 		}
 	}
 	
 	/// The heading of the view
 	@ViewBuilder private func header() -> some View {
-		
-		HStack(alignment: .top, spacing: 0) {
-			if let title = viewModel.title {
-				SelectableTextView(
-					text: title,
-						textColor: theme.labels.primary,
-					font: UIFont(
-						name: RijksoverheidFont.bold.fontName,
-						size: Font.TextStyle.title2.pointSize
-					)
-				)
+
+		if let title = viewModel.title {
+			Text(title)
+				.typography(.headingMedium)
+				.foregroundStyle(theme.labels.primary)
+				.textSelection(.enabled)
 				.accessibilityAddTraits(.isHeader)
 				.frame(maxWidth: .infinity, alignment: .leading)
-			}
-			Spacer()
-			
-			CloseButton({
-				viewModel.reduce(.closeSheet)
-			})
-			.buttonStyle(CloseButtonStyle(small: !osVersionChecker.available(version: .iOS(.v26))))
+				.padding(.trailing, 40)
+				.overlay(alignment: .topTrailing) {
+					CloseButton({
+						viewModel.reduce(.closeSheet)
+					})
+					.buttonStyle(CloseButtonStyle(small: !osVersionChecker.available(version: .iOS(.v26))))
+				}
+				.padding(.top, osVersionChecker.available(version: .iOS(.v26)) ? 5 : 3)
 		}
-		.padding(.top, osVersionChecker.available(version: .iOS(.v26)) ? 5 : 3)
 	}
-	
+
 	/// The synonym
 	@ViewBuilder private func synonym() -> some View {
 
 		if let synonym = viewModel.synonym {
-			
-			SelectableTextView(
-				text: String(
-					format: String(localized: "patientfriendlyterms.synonym"),
-					arguments: [synonym]
-				),
-				textColor: theme.labels.secondary,
-				font: UIFont.rijksoverheidFont(
-					.semiBold,
-					size: Font.TextStyle.body.pointSize
-				)
-			)
-			.frame(maxWidth: .infinity, alignment: .leading)
+			Text(String(format: String(localized: "patientfriendlyterms.synonym"), arguments: [synonym]))
+				.typography(.headingExtraSmall, with: .semiBold)
+				.foregroundStyle(theme.labels.secondary)
+				.textSelection(.enabled)
+				.frame(maxWidth: .infinity, alignment: .leading)
 		}
 	}
-	
+
 	/// The description
 	@ViewBuilder private func description() -> some View {
-		
-		SelectableTextView(
-			text: viewModel.description,
-			textColor: theme.labels.primary,
-			font: UIFont(
-				name: RijksoverheidFont.regular.fontName,
-				size: Font.TextStyle.body.pointSize
-			)
-		)
+
+		Text(viewModel.description)
+			.typography(.bodyMedium)
+			.foregroundStyle(theme.labels.primary)
+			.textSelection(.enabled)
+			.frame(maxWidth: .infinity, alignment: .leading)
 	}
 	
 	var body: some View {
@@ -140,8 +123,8 @@ struct PatientFriendlyTermView: View {
 				
 				header()
 				synonym()
-					.padding(.bottom, ViewTraits.General.synonymBottomPadding)
 				description()
+					.padding(.top, 12)
 				Spacer()
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
