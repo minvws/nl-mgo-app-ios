@@ -3,54 +3,56 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOFoundation
-import MGOUI
+import SwiftUI
+import OSVersion
+import Theme
+import RijksoverheidFont
 
 /// Full-screen cover content for a confirmation dialog.
 /// Handles its own fade-in/out animation: the transparent fullScreenCover container
 /// is invisible during the UIKit slide, so only the opacity animation is perceived.
-struct ConfirmationAlertCoverView: View {
+public struct ConfirmationAlertCoverView: View {
 
 	/// The heading text displayed at the top of the card.
-	let heading: String
+	public let heading: String
 
 	/// The subheading text displayed below the heading.
-	let subheading: String
+	public let subheading: String
 
 	/// The label for the confirm action button.
-	let actionText: String
+	public let actionText: String
 
 	/// The label for the cancel button.
-	let cancelText: String
+	public let cancelText: String
 
 	/// Binding that controls the presentation of the full-screen cover.
-	@Binding var isPresented: Bool
-	
+	@Binding public var isPresented: Bool
+
 	/// Callback invoked after the user confirms and the cover is dismissed.
-	let onConfirm: () -> Void
-	
+	public let onConfirm: () -> Void
+
 	/// When `true`, skips the fade-in animation and renders the content fully visible immediately.
 	/// Useful in UI tests to avoid flakiness due to timing.
-	var startVisible: Bool = false
+	public var startVisible: Bool = false
+
+	/// Provides OS version checks; injectable so tests can simulate different iOS versions.
+	public var osVersionChecker: any OSVersionProtocol = OSVersionChecker()
 
 	/// Internal visibility state that drives the fade-in/out opacity animation.
 	@State private var isVisible = false
-	
-	/// Injected helper used to check OS availability at runtime.
-	@Injected(\.osVersionChecker) private var osVersionChecker
 
 	/// Current theme from the environment for colors and typography.
 	@Environment(\.mgoTheme) var theme
-	
+
 	/// Visual constants that define layout, spacing and animation timing for this view.
 	private struct ViewTraits {
-		
+
 		/// Animation-related constants.
 		enum Animation {
 			/// Duration (seconds) for fade-in/out animations.
 			static let duration: Double = 0.25
 		}
-		
+
 		/// Card layout constants.
 		enum Card {
 			/// Inner padding of the card content.
@@ -62,7 +64,7 @@ struct ConfirmationAlertCoverView: View {
 			/// Vertical spacing between elements inside the card.
 			static let spacing: CGFloat = 10
 		}
-		
+
 		/// Text section spacing constants.
 		enum TextSection {
 			/// Horizontal padding around the text block.
@@ -73,13 +75,13 @@ struct ConfirmationAlertCoverView: View {
 			static let bottomPadding: CGFloat = 24
 		}
 	}
-	
-	var body: some View {
-		
+
+	public var body: some View {
+
 		ZStack {
 			Color.black.opacity(0.4)
 				.ignoresSafeArea()
-			
+
 			card
 		}
 		.opacity(isVisible ? 1 : 0)
@@ -93,18 +95,18 @@ struct ConfirmationAlertCoverView: View {
 			}
 		}
 	}
-	
+
 	/// Title, body text and action buttons — the inner content of the card.
 	@ViewBuilder private var cardContent: some View {
-		
+
 		VStack(spacing: ViewTraits.Card.spacing) {
-			
+
 			textSection
-			
+
 			buttonSection
 		}
 	}
-	
+
 	/// Text section with heading and subheading, wrapped and padded.
 	@ViewBuilder private var textSection: some View {
 
@@ -123,7 +125,7 @@ struct ConfirmationAlertCoverView: View {
 		.padding(.top, ViewTraits.TextSection.topPadding)
 		.padding(.bottom, ViewTraits.TextSection.bottomPadding)
 	}
-	
+
 	/// Button section with primary and secondary actions.
 	@ViewBuilder private var buttonSection: some View {
 
@@ -145,18 +147,18 @@ struct ConfirmationAlertCoverView: View {
 	}
 
 	private func confirmTapped() {
-		
+
 		dismiss { onConfirm() }
 	}
 
 	private func cancelTapped() {
-		
+
 		dismiss { /* no-op: user cancelled, nothing to do after fade-out */ }
 	}
-	
+
 	/// Card with background styling: uses Liquid Glass on iOS 26+; falls back to the theme's tertiary background on earlier iOS versions.
 	@ViewBuilder private var card: some View {
-		
+
 		if #available(iOS 26, *), osVersionChecker.available(version: .iOS(.v26)) {
 			cardContent
 				.padding(ViewTraits.Card.padding)
@@ -170,47 +172,32 @@ struct ConfirmationAlertCoverView: View {
 				.padding(.horizontal, ViewTraits.Card.horizontalPadding)
 		}
 	}
-	
+
 	/// Fades out the content and then dismisses the cover without animation.
 	/// Disabling the dismissal animation avoids the fullScreenCover's slide-out being visible.
 	private func dismiss(completion: @escaping () -> Void) {
-		
+
 		withAnimation(.easeInOut(duration: ViewTraits.Animation.duration)) {
 			isVisible = false
 		}
 		Task {
 			try? await Task.sleep(nanoseconds: UInt64(ViewTraits.Animation.duration * 1_000_000_000))
+			completion()
 			var transaction = Transaction()
 			transaction.disablesAnimations = true
 			withTransaction(transaction) {
 				isPresented = false
 			}
-			completion()
 		}
 	}
 }
 
-#Preview {
-	ConfirmationAlertCoverView(
-		heading: String(
-			format: String(localized: "search_organization.dialog.heading"),
-			arguments: [PreviewContent.healthcareOrganization.name ?? ""]
-		),
-		subheading: String(localized: "search_organization.dialog.subheading"),
-		actionText: String(localized: "search_organization.dialog.yes"),
-		cancelText: String(localized: "search_organization.dialog.no"),
-		isPresented: .constant(true),
-		onConfirm: { /* no-op */ },
-		startVisible: true
-	)
-}
-
 extension View {
-	
+
 	/// Makes the fullScreenCover container transparent so only our custom dim and card are visible.
 	/// Uses presentationBackground(.clear) on iOS 16.4+.
 	/// On iOS 15–16.3 no transparency is applied; the dim overlay still obscures the cover's default background.
-	@ViewBuilder func clearFullScreenCoverBackground() -> some View {
+	@ViewBuilder public func clearFullScreenCoverBackground() -> some View {
 		if #available(iOS 16.4, *) {
 			self.presentationBackground(.clear)
 		} else {

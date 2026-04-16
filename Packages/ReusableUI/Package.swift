@@ -14,12 +14,13 @@ let package = Package(
 	],
 	dependencies: [
 		// Internal
+		.package(name: "OSVersion", path: "../OSVersion"),
 		.package(name: "Theme", path: "../Theme"),
 		.package(name: "RijksoverheidFont", path: "../RijksoverheidFont"),
-		
+
 		// External
 		.package(url: "https://github.com/siteline/SwiftUI-Introspect", exact: "26.0.1"),
-		
+
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
 	],
@@ -29,6 +30,7 @@ let package = Package(
 		.target(
 			name: "ReusableUI",
 			dependencies: [
+				.product(name: "OSVersion", package: "OSVersion"),
 				.product(name: "SwiftUIIntrospect", package: "swiftui-introspect"),
 				.product(name: "Theme", package: "Theme"),
 				.product(name: "RijksoverheidFont", package: "RijksoverheidFont")

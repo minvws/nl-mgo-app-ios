@@ -361,23 +361,21 @@ struct SearchOrganizationView: View {
 				isInputFocused = false
 			}
 		}
-		.inspectableFullScreenCover(isPresented: $viewModel.state.pendingConfirmation.presence()) {
-			if let organization = viewModel.state.pendingConfirmation {
-				ConfirmationAlertCoverView(
-					heading: String(
-						format: String(localized: "search_organization.dialog.heading"),
-						arguments: [organization.name ?? ""]
-					),
-					subheading: String(localized: "search_organization.dialog.subheading"),
-					actionText: String(localized: "search_organization.dialog.yes"),
-					cancelText: String(localized: "search_organization.dialog.no"),
-					isPresented: $viewModel.state.pendingConfirmation.presence(),
-					onConfirm: { viewModel.reduce(.store(organization)) }
-				)
-				.clearFullScreenCoverBackground()
-				.interactiveDismissDisabled()
+		.confirmationAlert(
+			heading: String(
+				format: String(localized: "search_organization.dialog.heading"),
+				arguments: [viewModel.state.pendingConfirmation?.name ?? ""]
+			),
+			subheading: String(localized: "search_organization.dialog.subheading"),
+			actionText: String(localized: "search_organization.dialog.yes"),
+			cancelText: String(localized: "search_organization.dialog.no"),
+			isPresented: $viewModel.state.pendingConfirmation.presence(),
+			onConfirm: {
+				if let organization = viewModel.state.pendingConfirmation {
+					viewModel.reduce(.store(organization))
+				}
 			}
-		}
+		)
 	}
 	
 	/// The top view with heading, subheading and input field

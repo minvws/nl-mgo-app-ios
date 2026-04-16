@@ -295,18 +295,14 @@ struct HealthDataView: View {
 			resolvedCodes: viewModel.resolvedCodes
 		)
 		.toolbar { pdfExportToolbarContent }
-		.inspectableFullScreenCover(isPresented: $viewModel.state.showExportAlert) {
-			ConfirmationAlertCoverView(
-				heading: String(localized: "export_pdf.dialog.heading"),
-				subheading: String(localized: "export_pdf.dialog.subheading"),
-				actionText: String(localized: "export_pdf.dialog.create_document"),
-				cancelText: String(localized: "common.cancel"),
-				isPresented: $viewModel.state.showExportAlert,
-				onConfirm: { viewModel.reduce(.exportHealthData) }
-			)
-			.clearFullScreenCoverBackground()
-			.interactiveDismissDisabled()
-		}
+		.confirmationAlert(
+			heading: String(localized: "export_pdf.dialog.heading"),
+			subheading: String(localized: "export_pdf.dialog.subheading"),
+			actionText: String(localized: "export_pdf.dialog.create_document"),
+			cancelText: String(localized: "common.cancel"),
+			isPresented: $viewModel.state.showExportAlert,
+			onConfirm: { viewModel.reduce(.exportHealthData) }
+		)
 		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.navigationBarBackButtonHidden()
 		.when(viewModel.state.backButton != nil) { view in

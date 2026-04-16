@@ -3,27 +3,21 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@preconcurrency import MGOTest
-@testable import MGO
-import MGOFoundation
-import MGOUI
+@testable import ReusableUI
+import OSVersion
+import MGOTest
 import Testing
+import SwiftUI
 
 /// Tests for ``ConfirmationAlertCoverView``.
 @MainActor
 final class ConfirmationAlertCoverViewTests {
-
-	private var servicesSpies: ServicesSpies!
 
 	/// Stub texts used across all tests; content is intentionally generic since these tests cover behaviour, not localisation.
 	private let heading = "Heading"
 	private let subheading = "subheading"
 	private let actionText = "OK Action"
 	private let cancelText = "Cancel Action"
-
-	init() {
-		servicesSpies = setupServicesSpies()
-	}
 
 	// MARK: - Snapshot Tests
 
@@ -42,7 +36,7 @@ final class ConfirmationAlertCoverViewTests {
 				actionText: actionText,
 				cancelText: cancelText,
 				isPresented: .constant(true),
-				onConfirm: {},
+				onConfirm: { /* no-op */ },
 				startVisible: true
 			)
 		}
@@ -53,9 +47,6 @@ final class ConfirmationAlertCoverViewTests {
 	/// Verifies the fallback card appearance on iOS 18 (theme tertiary background, no Liquid Glass).
 	@Test("Snapshot: confirmation dialog with tertiary background (iOS 18)")
 	func snapshot_confirmationDialog_iOS18() {
-
-		// Given
-		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 
 		// When — startVisible: true skips the fade-in so the view is fully opaque from the
 		// first frame, giving a deterministic snapshot regardless of RunLoop timing.
@@ -68,8 +59,9 @@ final class ConfirmationAlertCoverViewTests {
 				actionText: actionText,
 				cancelText: cancelText,
 				isPresented: .constant(true),
-				onConfirm: {},
-				startVisible: true
+				onConfirm: { /* no-op */ },
+				startVisible: true,
+				osVersionChecker: OSVersionCheckerFalse()
 			)
 		}
 
@@ -121,7 +113,7 @@ final class ConfirmationAlertCoverViewTests {
 						if !newValue { confirm() }
 					}
 				),
-				onConfirm: {}
+				onConfirm: { /* no-op */ }
 			)
 
 			// When
