@@ -2,7 +2,7 @@
  *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
-	
+
 import MGOTest
 @testable import MGO
 import MGOUI
@@ -74,5 +74,23 @@ final class PatientFriendlyTermViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_closeButton_callsOnClose() throws {
+		
+		// Given
+		var onCloseCalled = false
+		viewModel = PatientFriendlyTermViewModel(
+			onClose: { onCloseCalled = true },
+			term: term
+		)
+		sut = PatientFriendlyTermView(viewModel: self.viewModel)
+		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(true) }
+		
+		// When
+		try content.inspect().find(viewWithAccessibilityIdentifier: "common.close").button().tap()
+		
+		// Then
+		expect(onCloseCalled) == true
 	}
 }
