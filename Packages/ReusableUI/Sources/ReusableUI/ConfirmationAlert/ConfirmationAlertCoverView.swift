@@ -191,4 +191,3 @@ public struct ConfirmationAlertCoverView: View {
 		}
 	}
 }
-
