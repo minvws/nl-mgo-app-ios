@@ -25,7 +25,7 @@ import XCTest
 	// MARK: - Elements
 	
 	private var headingLabel: XCUIElement {
-		app.navigationBars.staticTexts["Uw zorgaanbieders"]
+		app.navigationBars.staticTexts["Zorgaanbieders"]
 	}
 
 	private func healthOrganizationButton(_ organization: String) -> XCUIElement {

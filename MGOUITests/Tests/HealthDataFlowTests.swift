@@ -173,7 +173,7 @@ final class HealthDataFlowTests: XCTestCase {
 			// Document Category
 			.swipeDownToCategory("documents")
 			.tapHealthCategory("documents")
-			.verifyHeadingExists("Documenten")
+			.verifyHeadingExists("Documenten en beelden")
 			.verifySectionButtonExists(0, section: 0)
 //			.verifySectionRowExists("Example PDF - Anterior Cervical Discectomy Fusion - Discharge Summary, Kwalificatie Medmij: PDFA")
 			.verifySectionRowExists("06c6e783-3dc1-4236-84b1-3fb1d12e7899, Kwalificatie Medmij: PDFA")
@@ -213,8 +213,8 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifySectionRowExists("Formaat", value: "Niet bekend")
 			.verifySectionHeaderExists("Klinische context")
 			.verifySectionRowExists("Aanvullende details", value: "Niet bekend")
+			.swipeDownToRowHeading("Patiënt informatie")
 			.verifySectionRowExists("Faciliteit", value: "Niet bekend")
-			.swipeDownToRowHeading("Periode")
 			.verifySectionRowExists("Patiënt informatie", value: "Niet bekend")
 			.verifySectionRowExists("Periode", value: "Niet bekend")
 			.tapAttachmentButton("Example PDF - Anterior Cervical Discectomy Fusion - Discharge Summary")
