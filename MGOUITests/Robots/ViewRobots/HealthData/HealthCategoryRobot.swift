@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -21,7 +21,7 @@ import XCTest
 	private func headingLabel(_ heading: String) -> XCUIElement {
 		app.staticTexts[heading]
 	}
-
+	
 	private func sectionLabel(_ section: String) -> XCUIElement {
 		app.staticTexts[section]
 	}
@@ -55,7 +55,7 @@ import XCTest
 		XCTAssertTrue(sectionButton("category_element_\(section)_\(index)").exists)
 		return self
 	}
-
+	
 	// MARK: - Interactions
 	
 	@discardableResult
@@ -63,11 +63,11 @@ import XCTest
 		sectionButton("category_element_\(section)_\(index)").firstMatch.tap()
 		return HealthUISchemaRobot(app)
 	}
-
+	
 	@discardableResult
 	func tapExportPdf() -> HealthExportRobot {
 		app.buttons["export_pdf.menu"].tap()
-		app.alerts.buttons["Maak pdf"].tap()
+		app.buttons["Maak pdf"].tap()
 		return HealthExportRobot(app)
 	}
 }

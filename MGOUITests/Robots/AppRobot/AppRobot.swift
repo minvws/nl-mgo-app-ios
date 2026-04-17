@@ -80,34 +80,34 @@ class AppRobot: Robot {
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithBGZ() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: "test-04")
+		self.navigateToOverview(organization: "mock-qualification-bgz")
 	}
 	
 	/// Launch the app with a GP Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithGP() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: "test-05")
+		self.navigateToOverview(organization: "mock-qualification-gpdata")
 	}
 	
 	/// Launch the app with a Document (PDFA) Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithPDFA() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: "test-06")
+		self.navigateToOverview(organization: "mock-qualification-pdfa")
 	}
 
 	/// Launch the app with a BgLZ Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithLongTermCare() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: "test-07")
+		self.navigateToOverview(organization: "mock-qualification-bglz")
 	}
 	
 	/// Launch the app with a Vaccination Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithVaccination() -> HealthCategoriesRobot {
-		self.navigateToOverview(organization: "test-08")
+		self.navigateToOverview(organization: "mock-qualification-vaccination-immunization")
 	}
 }

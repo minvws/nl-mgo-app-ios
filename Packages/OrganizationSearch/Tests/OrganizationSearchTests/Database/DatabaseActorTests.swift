@@ -26,52 +26,73 @@ class DatabaseActorTests {
 
 	// MARK: - prepareFromAPI — both 304
 
-	@Test("prepareFromAPI both 304 after prior 200 sets database and returns 0")
+	@Test("prepareFromAPI both 304 on first call of new session sets database and returns 0")
 	func prepareFromAPI_bothNotModified_setsDatabase_returnsZero() async throws {
 
-		// Given — first prepare populates the database (200 for both)
-		let orgData = Data(#"[{"id":"org-1","name":"Test Org"}]"#.utf8)
-		let epData = Data("{}".utf8)
-		apiClient.stubbedFetchResults[.organizations] = (200, "\"org-etag-v1\"", orgData)
-		apiClient.stubbedFetchResults[.endpoints] = (200, "\"ep-etag-v1\"", epData)
-		_ = try await sut.prepare(dataset: .remote)
+		// Given — simulate a prior session: schema + ETags already on disk
+		let dbPool = try DatabaseSetup.openDatabase(for: .remote)
+		try await DatabaseMigrations.ensureMetadataTable(in: dbPool)
+		try await DatabaseMigrations.createSchema(in: dbPool)
+		try await DatabaseMigrations.writeETag("\"org-etag-v1\"", key: DatabaseMigrations.organizationsETagKey, in: dbPool)
+		try await DatabaseMigrations.writeETag("\"ep-etag-v1\"", key: DatabaseMigrations.endpointsETagKey, in: dbPool)
 
-		// Given — second prepare: server returns 304 (data unchanged)
-		apiClient.stubbedFetchResults = [:]
+		// Server returns 304 — ETags match, data unchanged
 		apiClient.stubbedFetchResult = (statusCode: 304, eTag: nil, data: nil)
 
-		// When
+		// When — first prepare call of this session
 		let count = try await sut.prepare(dataset: .remote)
 
-		// Then
+		// Then — database is set and accessible; nothing repopulated
 		#expect(count == 0)
-		// Database is accessible — search does not throw notPrepared
 		let result = try await sut.search("anything")
 		#expect(result.hits.isEmpty)
 	}
 
 	// MARK: - prepareFromAPI — mixed 304/200
 
-	@Test("prepareFromAPI mixed 304/200 keeps existing database and returns 0")
+	@Test("prepareFromAPI mixed 304/200 on first call of new session keeps existing database and returns 0")
 	func prepareFromAPI_mixed_keepsExistingDatabase_returnsZero() async throws {
 
-		// Given — first prepare populates the database (200 for both)
+		// Given — simulate a prior session: schema + ETags already on disk
+		let dbPool = try DatabaseSetup.openDatabase(for: .remote)
+		try await DatabaseMigrations.ensureMetadataTable(in: dbPool)
+		try await DatabaseMigrations.createSchema(in: dbPool)
+		try await DatabaseMigrations.writeETag("\"org-etag-v1\"", key: DatabaseMigrations.organizationsETagKey, in: dbPool)
+		try await DatabaseMigrations.writeETag("\"ep-etag-v1\"", key: DatabaseMigrations.endpointsETagKey, in: dbPool)
+
+		// Server returns mixed: organizations changed (200), endpoints unchanged (304)
+		let newOrgData = Data(#"[{"id":"org-2","name":"Other Org"}]"#.utf8)
+		apiClient.stubbedFetchResults[.organizations] = (200, "\"org-etag-v2\"", newOrgData)
+		apiClient.stubbedFetchResults[.endpoints] = (statusCode: 304, eTag: nil, data: nil)
+
+		// When — first prepare call of this session
+		let count = try await sut.prepare(dataset: .remote)
+
+		// Then — mixed path: kept existing DB, no repopulation
+		#expect(count == 0)
+		let result = try await sut.search("anything")
+		#expect(result.hits.isEmpty)
+	}
+
+	// MARK: - per-session deduplication
+
+	@Test("prepare called twice in the same session makes API calls only once")
+	func prepare_calledTwice_makesAPICallsOnlyOnFirstCall() async throws {
+
+		// Given — first prepare populates the database
 		let orgData = Data(#"[{"id":"org-1","name":"Test Org"}]"#.utf8)
 		let epData = Data("{}".utf8)
 		apiClient.stubbedFetchResults[.organizations] = (200, "\"org-etag-v1\"", orgData)
 		apiClient.stubbedFetchResults[.endpoints] = (200, "\"ep-etag-v1\"", epData)
 		_ = try await sut.prepare(dataset: .remote)
+		let fetchCountAfterFirst = apiClient.invokedFetchCount
 
-		// Given — second prepare: organizations changed (200), endpoints unchanged (304)
-		let newOrgData = Data(#"[{"id":"org-2","name":"Other Org"}]"#.utf8)
-		apiClient.stubbedFetchResults[.organizations] = (200, "\"org-etag-v2\"", newOrgData)
-		apiClient.stubbedFetchResults[.endpoints] = (statusCode: 304, eTag: nil, data: nil)
-
-		// When
+		// When — second prepare in the same session
 		let count = try await sut.prepare(dataset: .remote)
 
-		// Then — mixed path: kept existing DB, no repopulation
+		// Then — no additional API calls made, database still accessible
 		#expect(count == 0)
+		#expect(apiClient.invokedFetchCount == fetchCountAfterFirst)
 		let result = try await sut.search("anything")
 		#expect(result.hits.isEmpty)
 	}

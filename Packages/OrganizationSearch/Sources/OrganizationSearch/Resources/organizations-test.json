@@ -1,8 +1,28 @@
 [
 	{
-		"id": "test-01",
-		"medmij_id": "medmij_test-01",
-		"name": "Mocky hospital (all dataservices)",
+		"id": "agb:01054712",
+		"name": "Huisartsenpraktijk \"de Vondel\"",
+		"care_type": "Huisartspraktijk",
+		"city": "leiden",
+		"postal_code": "2332AA",
+		"address": "Vondellaan 35 AB",
+		"geo_lat": 52.16085004514488,
+		"geo_lng": 4.472629631395157,
+		"search_blob": "Huisartspraktijk Huisartsenpraktijk \"de Vondel\" leiden | maatschap huisartsenpraktijk de vondel | huisartsenpraktijk de vondel | 2332AA | Vondellaan 35 AB",
+		"data_services": [
+			{
+				"id": "49",
+				"auth_endpoint": "12",
+				"token_endpoint": "13",
+				"resource_endpoint": "14"
+			}
+		],
+		"medmij_id": "devondel.huisartspraktijk.leiden"
+	},
+	{
+		"id": "mock-mocky-hospital",
+		"medmij_id": "mocky.hospital",
+		"name": "Mocky hospital",
 		"care_type": "Ziekenhuis",
 		"city": "STAD",
 		"postal_code": "1000AB",
@@ -13,70 +33,209 @@
 		"data_services": [
 			{
 				"id": "48",
-				"auth_endpoint": "1",
-				"token_endpoint": "1",
-				"resource_endpoint": "2"
+				"auth_endpoint": "99999999999948",
+				"token_endpoint": "99999999999948",
+				"resource_endpoint": "99999999999948"
 			},
 			{
 				"id": "49",
-				"auth_endpoint": "1",
-				"token_endpoint": "1",
-				"resource_endpoint": "3"
+				"auth_endpoint": "99999999999949",
+				"token_endpoint": "99999999999949",
+				"resource_endpoint": "99999999999949"
 			},
 			{
 				"id": "50",
-				"auth_endpoint": "1",
-				"token_endpoint": "1",
-				"resource_endpoint": "4"
+				"auth_endpoint": "99999999999950",
+				"token_endpoint": "99999999999950",
+				"resource_endpoint": "99999999999950"
 			},
 			{
 				"id": "51",
-				"auth_endpoint": "1",
-				"token_endpoint": "1",
-				"resource_endpoint": "5"
+				"auth_endpoint": "99999999999951",
+				"token_endpoint": "99999999999951",
+				"resource_endpoint": "99999999999951"
 			},
 			{
 				"id": "61",
-				"auth_endpoint": "1",
-				"token_endpoint": "1",
-				"resource_endpoint": "6"
+				"auth_endpoint": "99999999999961",
+				"token_endpoint": "99999999999961",
+				"resource_endpoint": "99999999999961"
 			}
 		]
 	},
 	{
-		"id": "test-02",
-		"name": "Huisartsenpraktijk de Vries (No dataservices)",
-		"care_type": "Huisartsen",
-		"city": "Amsterdam",
-		"postal_code": "1000AB",
-		"address": "Poststraat 10\r\n1020BD AMSTERDAM",
-		"geo_lat": 53.21864104881037,
-		"geo_lng": 6.567660572054596,
-		"search_blob": "testtest"
-	},
-	{
-		"id": "test-03",
-		"medmij_id": "medmij_test-03",
-		"name": "Verloskundigen praktijk Rotterdam Oost (Unsupported)",
+		"id": "mock-interoplab-hospital",
+		"medmij_id": "medmij.ontwikkel.verplicht.interoplab",
+		"name": "Interoplab Hospital",
 		"care_type": "Ziekenhuis",
-		"city": "Rotterdam",
+		"city": "STAD",
 		"postal_code": "1000AB",
-		"address": "Kerstant van den Bergeln 3\r\n3125HC ROTTERDAM",
+		"address": "Straatnaam 123A\n1000AB STAD",
 		"geo_lat": 53.21864104881037,
 		"geo_lng": 6.567660572054596,
 		"search_blob": "testtest",
 		"data_services": [
 			{
+				"id": "47",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991047"
+			},
+			{
+				"id": "48",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991048"
+			},
+			{
+				"id": "49",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991049"
+			},
+			{
+				"id": "50",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991050"
+			},
+			{
+				"id": "51",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991051"
+			},
+			{
+				"id": "52",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991052"
+			},
+			{
+				"id": "53",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991053"
+			},
+			{
+				"id": "54",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991054"
+			},
+			{
+				"id": "61",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991061"
+			},
+			{
 				"id": "65",
-				"auth_endpoint": "1",
-				"token_endpoint": "1",
-				"resource_endpoint": "7"
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991065"
+			},
+			{
+				"id": "66",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991066"
+			},
+			{
+				"id": "101",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991101"
+			},
+			{
+				"id": "102",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991102"
+			},
+			{
+				"id": "103",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991103"
+			},
+			{
+				"id": "104",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991104"
+			},
+			{
+				"id": "105",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991105"
+			},
+			{
+				"id": "106",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991106"
+			},
+			{
+				"id": "107",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991107"
+			},
+			{
+				"id": "108",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991108"
+			},
+			{
+				"id": "109",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991109"
+			},
+			{
+				"id": "110",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991110"
+			},
+			{
+				"id": "111",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991111"
+			},
+			{
+				"id": "112",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991112"
+			},
+			{
+				"id": "113",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991113"
+			},
+			{
+				"id": "9000002",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "999999999919000002"
+			},
+			{
+				"id": "1000003",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "999999999911000003"
 			}
 		]
 	},
 	{
-		"id": "test-04",
-		"medmij_id": "medmij_test-04",
+		"id": "mock-qualification-bgz",
+		"medmij_id": "bgz.qualification",
 		"name": "Kwalificatie Medmij: BGZ",
 		"care_type": "Ziekenhuis",
 		"city": "STAD",
@@ -88,15 +247,15 @@
 		"data_services": [
 			{
 				"id": "48",
-				"auth_endpoint": "1",
-				"token_endpoint": "1",
-				"resource_endpoint": "8"
+				"auth_endpoint": "99999999999948",
+				"token_endpoint": "99999999999948",
+				"resource_endpoint": "99999999999948"
 			}
 		]
 	},
 	{
-		"id": "test-05",
-		"medmij_id": "medmij_test-05",
+		"id": "mock-qualification-gpdata",
+		"medmij_id": "gpdata.qualification",
 		"name": "Kwalificatie Medmij: GPDATA",
 		"care_type": "Huisarts",
 		"city": "STAD",
@@ -108,15 +267,35 @@
 		"data_services": [
 			{
 				"id": "49",
-				"auth_endpoint": "1",
-				"token_endpoint": "1",
-				"resource_endpoint": "9"
+				"auth_endpoint": "99999999999949",
+				"token_endpoint": "99999999999949",
+				"resource_endpoint": "99999999999949"
 			}
 		]
 	},
 	{
-		"id": "test-06",
-		"medmij_id": "medmij_test-06",
+		"id": "mock-qualification-bggz",
+		"medmij_id": "bggz.qualification",
+		"name": "Kwalificatie Medmij: BGGZ",
+		"care_type": "Huisarts",
+		"city": "STAD",
+		"postal_code": "1000AB",
+		"address": "Straatnaam 123A\n1000AB STAD",
+		"geo_lat": 53.21864104881037,
+		"geo_lng": 6.567660572054596,
+		"search_blob": "testtest",
+		"data_services": [
+			{
+				"id": "50",
+				"auth_endpoint": "99999999999950",
+				"token_endpoint": "99999999999950",
+				"resource_endpoint": "99999999999950"
+			}
+		]
+	},
+	{
+		"id": "mock-qualification-pdfa",
+		"medmij_id": "pdfa.qualification",
 		"name": "Kwalificatie Medmij: PDFA",
 		"care_type": "Huisarts",
 		"city": "STAD",
@@ -128,15 +307,15 @@
 		"data_services": [
 			{
 				"id": "51",
-				"auth_endpoint": "1",
-				"token_endpoint": "1",
-				"resource_endpoint": "10"
+				"auth_endpoint": "99999999999951",
+				"token_endpoint": "99999999999951",
+				"resource_endpoint": "99999999999951"
 			}
 		]
 	},
 	{
-		"id": "test-07",
-		"medmij_id": "medmij_test-07",
+		"id": "mock-qualification-bglz",
+		"medmij_id": "bglz.qualification",
 		"name": "Kwalificatie Medmij: BGLZ",
 		"care_type": "Huisarts",
 		"city": "STAD",
@@ -148,15 +327,15 @@
 		"data_services": [
 			{
 				"id": "61",
-				"auth_endpoint": "1",
-				"token_endpoint": "1",
-				"resource_endpoint": "11"
+				"auth_endpoint": "99999999999961",
+				"token_endpoint": "99999999999961",
+				"resource_endpoint": "99999999999961"
 			}
 		]
 	},
 	{
-		"id": "test-08",
-		"medmij_id": "medmij_test-08",
+		"id": "mock-qualification-vaccination-immunization",
+		"medmij_id": "vaccination.immunization.qualification",
 		"name": "Kwalificatie Medmij: VACCINATION_IMMUNIZATION",
 		"care_type": "Huisarts",
 		"city": "STAD",
@@ -168,29 +347,40 @@
 		"data_services": [
 			{
 				"id": "63",
-				"auth_endpoint": "1",
-				"token_endpoint": "1",
-				"resource_endpoint": "12"
+				"auth_endpoint": "99999999999963",
+				"token_endpoint": "99999999999963",
+				"resource_endpoint": "99999999999963"
 			}
 		]
 	},
 	{
-		"id": "test-09",
-		"medmij_id": "medmij_test-09",
-		"name": "Kwalificatie Medmij: BgGGZ",
-		"care_type": "Huisarts",
-		"city": "STAD",
+		"id": "mock-qualification-no-dataservices",
+		"name": "Huisartsenpraktijk de Vries (No dataservices)",
+		"care_type": "Huisartsen",
+		"city": "Amsterdam",
 		"postal_code": "1000AB",
-		"address": "Straatnaam 123A\n1000AB STAD",
+		"address": "Poststraat 10",
+		"geo_lat": 53.21864104881037,
+		"geo_lng": 6.567660572054596,
+		"search_blob": "testtest"
+	},
+	{
+		"id": "mock-qualification-only-unsupported",
+		"medmij_id": "unsupported.qualification",
+		"name": "Verloskundigen praktijk Rotterdam Oost (Unsupported)",
+		"care_type": "Ziekenhuis",
+		"city": "Rotterdam",
+		"postal_code": "1000AB",
+		"address": "Kerstant van den Bergeln 3",
 		"geo_lat": 53.21864104881037,
 		"geo_lng": 6.567660572054596,
 		"search_blob": "testtest",
 		"data_services": [
 			{
-				"id": "50",
+				"id": "65",
 				"auth_endpoint": "1",
 				"token_endpoint": "1",
-				"resource_endpoint": "13"
+				"resource_endpoint": "7"
 			}
 		]
 	}

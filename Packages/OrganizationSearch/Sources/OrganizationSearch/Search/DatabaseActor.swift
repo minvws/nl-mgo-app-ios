@@ -27,6 +27,11 @@ actor DatabaseActor {
 	/// The live database pool, `nil` until `prepare(dataset:)` has completed schema setup.
 	var database: DatabasePool?
 
+	/// Set to `true` after the first successful `prepare(dataset:)` call within this actor's
+	/// lifetime (i.e. this app session). Prevents redundant network calls on repeat visits
+	/// to the search screen. Resets to `false` on failure so the next visit can retry.
+	private var hasBeenPrepared = false
+
 	private let clock: any MeasurableClock
 	private let downloader: OrganizationDatasetDownloader?
 
@@ -108,10 +113,19 @@ actor DatabaseActor {
 	///   is unreachable and no cached copy exists; GRDB errors if the database
 	///   cannot be opened or written to.
 	func prepare(dataset: OrganizationDataset) async throws -> Int {
-		if dataset.requiresAPIDownload {
-			return try await prepareFromAPI(dataset: dataset)
-		} else {
-			return try await prepareFromBundle(dataset: dataset)
+		guard !hasBeenPrepared else { return 0 }
+		// Set immediately (before any suspension point) to prevent concurrent calls
+		// slipping past the guard due to actor reentrancy.
+		hasBeenPrepared = true
+		do {
+			if dataset.requiresAPIDownload {
+				return try await prepareFromAPI(dataset: dataset)
+			} else {
+				return try await prepareFromBundle(dataset: dataset)
+			}
+		} catch {
+			hasBeenPrepared = false
+			throw error
 		}
 	}
 

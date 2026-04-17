@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -21,7 +21,7 @@ import XCTest
 	private func headingLabel(_ heading: String) -> XCUIElement {
 		app.staticTexts[heading]
 	}
-
+	
 	private func row(_ section: String) -> XCUIElement {
 		return app.textViews[String(section.prefix(128))]
 	}
@@ -76,7 +76,7 @@ import XCTest
 		XCTAssertTrue(attachmentButton(heading).exists, "can't find attachment button for \(heading)")
 		return self
 	}
-
+	
 	// MARK: - Interactions
 	
 	@discardableResult
@@ -119,5 +119,12 @@ import XCTest
 		}
 		
 		return self
+	}
+	
+	@discardableResult
+	func tapExportPdf() -> HealthExportRobot {
+		app.buttons["export_pdf.menu"].tap()
+		app.buttons["Maak pdf"].tap()
+		return HealthExportRobot(app)
 	}
 }

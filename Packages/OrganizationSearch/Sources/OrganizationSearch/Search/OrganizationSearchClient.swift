@@ -41,7 +41,11 @@ public final class OrganizationSearchClient: OrganizationSearchClientProtocol, S
 	public func prepare(dataset: OrganizationDataset = .remote) async throws {
 
 		let count = try await dbActor.prepare(dataset: dataset)
-		logDebug("OrganizationSearchClient: prepared database with \(count) organizations")
+		if count > 0 {
+			logDebug("OrganizationSearchClient: prepared database with \(count) organizations")
+		} else {
+			logDebug("OrganizationSearchClient: database already up to date, skipping prepare")
+		}
 	}
 	
 	/// Searches for healthcare organizations matching the given term.

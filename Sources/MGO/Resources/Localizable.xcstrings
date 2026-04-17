@@ -131,7 +131,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uw zorgaanbieders"
+            "value" : "Zorgaanbieders"
           }
         }
       }
@@ -555,7 +555,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pdf maken van deze lijst?"
+            "value" : "Wilt u deze gegevens opslaan?"
           }
         }
       }
@@ -566,7 +566,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "U maakt een document met uw medische gegevens. Die kunt u daarna op uw telefoon opslaan."
+            "value" : "Maak een pdf-document met uw medische gegevens. Dit document kunt u opslaan op uw telefoon."
           }
         }
       }
@@ -924,7 +924,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Documenten"
+            "value" : "Documenten en beelden"
           }
         }
       }
@@ -963,7 +963,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Brieven, verslagen, foto’s en scans van zorgverleners."
+            "value" : "Brieven, verslagen en beelden zoals röntgenfoto’s en scans."
           }
         }
       }
@@ -1408,7 +1408,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Documenten"
+            "value" : "Documenten en beelden"
           }
         }
       }
@@ -1694,7 +1694,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uw zorgaanbieders"
+            "value" : "Zorgaanbieders"
           }
         }
       }
@@ -1804,7 +1804,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dit is uw overzicht met gegevens van de zorgaanbieders die u hebt toegevoegd."
+            "value" : "Hier vindt u de gegevens van de zorgaanbieders die u heeft toegevoegd."
           }
         }
       }
