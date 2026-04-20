@@ -20,7 +20,7 @@ let package = Package(
 		),
 		.package(
 			url: "https://github.com/apple/swift-openapi-urlsession",
-			exact: "1.2.0"
+			exact: "1.3.0"
 		)
 	],
 	targets: [
