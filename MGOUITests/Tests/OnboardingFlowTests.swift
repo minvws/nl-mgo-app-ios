@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -10,21 +10,20 @@ final class OnboardingFlowTests: XCTestCase {
 	
 	/*
 	 This e2e test will test the onboarding flow
-	 - Verify the existence of the introduction page
-	 - Press the next button on the introduction page, verify the proposition page
-	 - Press the next button on the proposition page, verify the login page
-	 - Press the DigiD login button, verify Safari opens with the mock DigiD website
+	 ✅ Verify the introduction page
+	 ✅ Verify the proposition page, verify the privacy page
+	 ✅ Verify the login page, verify the mock digid page
 	 */
 	
 	@MainActor
-	func testOnboardingFlow_verifyIntroductionScreenExists() {
+	func testOnboardingFlow_verifyIntroductionScreen() {
 		AppRobot()
 			.launchApp()
 			.verifySubHeadingExists()
 	}
 	
 	@MainActor
-	func testOnboardingFlow_verifyPropositionScreenExists() {
+	func testOnboardingFlow_verifyPropositionScreen_verifyPrivacy() {
 		AppRobot()
 			.launchApp()
 			.tapNextButton()
@@ -33,7 +32,12 @@ final class OnboardingFlowTests: XCTestCase {
 			.verifyPropositionExists(label: "proposition.statement_2")
 			.verifyPropositionExists(label: "proposition.statement_3")
 			.verifyPropositionExists(label: "proposition.statement_4")
+			.tapPrivacyButton()
+			.verifyWebViewExists()
+			.verifySafariButtonExists()
+			.tapCloseButton()
 	}
+	
 	@MainActor
 	func testOnboardingFlow_verifyLoginScreen() {
 		AppRobot()
@@ -41,15 +45,6 @@ final class OnboardingFlowTests: XCTestCase {
 			.tapNextButton()
 			.tapNextButton()
 			.verifySubHeadingExists()
-	}
-	
-	@MainActor
-	func testOnboardingFlow_verifyMockDigiD() {
-		
-		AppRobot()
-			.launchApp()
-			.tapNextButton()
-			.tapNextButton()
 			.tapLoginWithDigiDButton()
 			.verifySafariIsOpen()
 			.verifyMockDigiDWebsite()

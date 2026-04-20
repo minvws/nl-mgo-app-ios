@@ -45,4 +45,10 @@ import XCTest
 		closeButton.tap()
 		return AboutTheAppRobot(app)
 	}
+	
+	@discardableResult
+	func tapPrivacyButton() -> InAppBrowserRobot {
+		safariButton.tap()
+		return InAppBrowserRobot(app)
+	}
 }

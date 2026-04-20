@@ -27,6 +27,10 @@ import XCTest
 		app.buttons["common.next"]
 	}
 	
+	private var privacyButton: XCUIElement {
+		app.buttons["proposition.open_privacy.button"]
+	}
+	
 	private var titleLabel: XCUIElement {
 		app.staticTexts["proposition.heading"]
 	}
@@ -59,5 +63,11 @@ import XCTest
 	func tapNextButton() -> LoginRobot {
 		nextButton.tap()
 		return LoginRobot(app)
+	}
+	
+	@discardableResult
+	func tapPrivacyButton() -> InAppBrowserRobot {
+		privacyButton.tap()
+		return InAppBrowserRobot(app)
 	}
 }
