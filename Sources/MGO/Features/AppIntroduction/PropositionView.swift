@@ -143,14 +143,6 @@ struct PropositionView: View {
 			let rounded = osVersionChecker.available(version: .iOS(.v26))
 			
 			CallToActionButton(
-				"proposition.open_privacy.button",
-				style: .tonal(rounded: rounded)
-			) {
-				viewModel.reduce(.privacyLinkClicked)
-			}
-			.accessibilityIdentifier("proposition.open_privacy.button")
-			
-			CallToActionButton(
 				"common.next",
 				style: .solid(
 					rounded: rounded,
@@ -160,6 +152,14 @@ struct PropositionView: View {
 				viewModel.reduce(.nextButttonPressed)
 			}
 			.accessibilityIdentifier("common.next")
+			
+			CallToActionButton(
+				"proposition.open_privacy.button",
+				style: .tonal(rounded: rounded)
+			) {
+				viewModel.reduce(.privacyLinkClicked)
+			}
+			.accessibilityIdentifier("proposition.open_privacy.button")
 		}
 		.padding(ViewTraits.General.padding)
 	}
