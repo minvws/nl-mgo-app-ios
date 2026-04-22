@@ -96,8 +96,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-openapi-urlsession",
       "state" : {
-        "revision" : "279aa6b77be6aa842a4bf3c45fa79fa15edf3e07",
-        "version" : "1.2.0"
+        "revision" : "576a65b4ffb8c12ddad4950dc21eea2ef071bec2",
+        "version" : "1.3.0"
       }
     },
     {
@@ -105,8 +105,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RoolProductions/SwiftLogging",
       "state" : {
-        "branch" : "main",
-        "revision" : "d22b24f7af692452d0136780b040c84f034cc12d"
+        "revision" : "d22b24f7af692452d0136780b040c84f034cc12d",
+        "version" : "1.0.0"
       }
     },
     {

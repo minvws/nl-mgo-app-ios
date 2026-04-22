@@ -80,10 +80,20 @@ class HealthExportPdfGenerator {
 		currentY: inout CGFloat
 	) {
 		// Creation Date — right-aligned overlay; height is 0 so currentY does not advance
-		let subHeading = factory.createPdfSubHeadingDrawElement(dataSource, yPosition: currentY)
+		let subHeading = factory.createPdfSubHeadingDrawElement(
+			dataSource,
+			yPosition: currentY
+		)
 		drawElements.append(subHeading)
 		currentY += subHeading.height
-		let heading = factory.createPdfHeadingDrawElement(dataSource, yPosition: currentY)
+		
+		// Reserve space for the date column (+ 12pt gap) so the title never wraps into it
+		let reservedWidth = subHeading.rect.width + 12
+		let heading = factory.createPdfHeadingDrawElement(
+			dataSource,
+			yPosition: currentY,
+			reservedTrailingWidth: reservedWidth
+		)
 		drawElements.append(heading)
 		currentY += heading.height
 	}

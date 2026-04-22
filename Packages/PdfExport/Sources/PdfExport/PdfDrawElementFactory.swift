@@ -37,23 +37,32 @@ import SwiftUI
 	/// - Parameters:
 	///   - pdfData: the pdf data
 	///   - yPosition: the  y-position to draw from
+	///   - reservedTrailingWidth: width to reserve on the right (e.g. for the sub-heading date overlay)
 	/// - Returns: PDF draw element for the heading
 	public func createPdfHeadingDrawElement(
 		_ pdfData: PdfData,
 		yPosition: CGFloat,
+		reservedTrailingWidth: CGFloat = 0
 	) -> PdfDrawElement {
-		
+
+		let maxWidth = PdfExport.Constants.contentSize.width - reservedTrailingWidth
+		let headingBoundingSize = CGSize(width: maxWidth, height: .greatestFiniteMagnitude)
 		let text = attributed(
 			pdfData.heading,
 			font: .helveticaBold(24),
 			color: theme.primaryText
 		)
-		let textHeight = text.height(in: boundingSize)
-		return fullWidthElement(
+		let textHeight = text.height(in: headingBoundingSize)
+		return PdfDrawElement(
 			text: text,
 			borderColor: nil,
-			yPosition: yPosition,
-			textHeight: textHeight
+			rect: CGRect(
+				x: PdfExport.Constants.outerMargin,
+				y: yPosition,
+				width: maxWidth,
+				height: textHeight
+			),
+			height: textHeight
 		)
 	}
 

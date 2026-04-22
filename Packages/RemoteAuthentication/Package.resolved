@@ -1,5 +1,5 @@
 {
-  "originHash" : "2ba43d154a6ba10579665fe649072f3b7456b9fa04f38a0b26d8dea5be8937bc",
+  "originHash" : "6d5e62818eda8ef079547f8355997f83b2450e5e13ca9cb06454c32e3e925e6d",
   "pins" : [
     {
       "identity" : "cwlcatchexception",
@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-openapi-urlsession",
       "state" : {
-        "revision" : "279aa6b77be6aa842a4bf3c45fa79fa15edf3e07",
-        "version" : "1.2.0"
+        "revision" : "576a65b4ffb8c12ddad4950dc21eea2ef071bec2",
+        "version" : "1.3.0"
       }
     },
     {
@@ -132,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
       "state" : {
-        "revision" : "05b6f05b55ff9e2dcdcc21ac78c6ba81ea624791",
-        "version" : "1.19.1"
+        "revision" : "ad5e3190cc63dc288f28546f9c6827efc1e9d495",
+        "version" : "1.19.2"
       }
     },
     {
@@ -150,8 +150,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RoolProductions/SwiftLogging",
       "state" : {
-        "branch" : "main",
-        "revision" : "d22b24f7af692452d0136780b040c84f034cc12d"
+        "revision" : "d22b24f7af692452d0136780b040c84f034cc12d",
+        "version" : "1.0.0"
       }
     },
     {

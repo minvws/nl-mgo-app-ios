@@ -14,7 +14,7 @@ let package = Package(
 	dependencies: [
 		.package(
 			url: "https://github.com/RoolProductions/SwiftLogging",
-			branch: "main"
+			exact: "1.0.0"
 		)
 	],
 	targets: [
