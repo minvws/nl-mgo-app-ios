@@ -12,7 +12,7 @@ import Foundation
 
 // MARK: - R4NlCorePatientContact
 public struct R4NlCorePatientContact: Codable, Hashable, Sendable {
-    public let profile: ContactProfile
+    public let profile: R4NlCoreContactPersonProfile
     public let address: R4NlCoreAddressInformation
     public let name: NameClass
     public let relationship: FluffyRelationship
@@ -23,7 +23,7 @@ public struct R4NlCorePatientContact: Codable, Hashable, Sendable {
         case address, name, relationship, telecom
     }
 
-    public init(profile: ContactProfile, address: R4NlCoreAddressInformation, name: NameClass, relationship: FluffyRelationship, telecom: R4NlCoreContactInformation) {
+    public init(profile: R4NlCoreContactPersonProfile, address: R4NlCoreAddressInformation, name: NameClass, relationship: FluffyRelationship, telecom: R4NlCoreContactInformation) {
         self.profile = profile
         self.address = address
         self.name = name
@@ -51,7 +51,7 @@ public extension R4NlCorePatientContact {
     }
 
     func with(
-        profile: ContactProfile? = nil,
+        profile: R4NlCoreContactPersonProfile? = nil,
         address: R4NlCoreAddressInformation? = nil,
         name: NameClass? = nil,
         relationship: FluffyRelationship? = nil,

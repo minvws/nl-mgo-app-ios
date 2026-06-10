@@ -20,11 +20,13 @@ opt_in_rules:
   - unneeded_parentheses_in_closure_argument
 excluded:
   - DerivedData
+  - SourcePackages # SPM checkouts written here by CI (cloned_source_packages_path in Fastfile)
   - Pods
   - Packages/*/.build
   - Packages/*/Package.swift
   - vendor
-  - Packages/HCIMCore/Sources/HCIMCore/HCIM/Generated/*.swift # Generated files.
+  - Packages/HCIMCore/Sources/HCIMCore/HCIM/Generated # Generated files.
+  - .claude # Claude Code worktrees
 force_cast: warning
 force_try:
   severity: warning

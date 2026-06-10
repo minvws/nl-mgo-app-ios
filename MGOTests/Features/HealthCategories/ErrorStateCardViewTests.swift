@@ -21,7 +21,7 @@ final class ErrorStateCardViewTests: XCTestCase {
 			.background(Theme().backgrounds.primary)
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content)
 	}
 	
 	@MainActor

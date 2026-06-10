@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -13,7 +13,6 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 	 - Verify the existence of the healthcare organizations tab
 	 - Verify the existence of the remove healthcare organizations button
 	 - Try to remove a healthcare organization, tap the cancel button
-	 - Try to remove a healthcare organization, close the sheet
 	 - Remove a healthcare organization, close the confirmation toast
 	 - Remove a healthcare organization, recover via the toast
 	 */
@@ -53,29 +52,9 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 			.verifyHeadingExists(self.healthcareOrganizationName)
 			.tapMenu()
 			.tapRemoveHealthcareOrganizationButton()
-			.verifySubHeadingExists()
-			.verifyCloseButtonExists()
 			.verifyCancelButtonExists()
 			.verifyRemoveButtonExists()
 			.tapCancelButton()
-	}
-	
-	@MainActor
-	func testHealthcareOrganizations_removeOrganizationCloseSheet() {
-		
-		AppRobot()
-			.navigateToOverviewWithBGZ()
-			.verifyTitleExists("Overzicht")
-			.tapHealthcareOrganizationTab()
-			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
-			.verifyHeadingExists(self.healthcareOrganizationName)
-			.tapMenu()
-			.tapRemoveHealthcareOrganizationButton()
-			.verifySubHeadingExists()
-			.verifyCloseButtonExists()
-			.verifyCancelButtonExists()
-			.verifyRemoveButtonExists()
-			.tapCloseButton()
 	}
 	
 	@MainActor
@@ -89,8 +68,6 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 			.verifyHeadingExists(self.healthcareOrganizationName)
 			.tapMenu()
 			.tapRemoveHealthcareOrganizationButton()
-			.verifySubHeadingExists()
-			.verifyCloseButtonExists()
 			.verifyCancelButtonExists()
 			.verifyRemoveButtonExists()
 			.tapRemoveButton()
@@ -111,8 +88,6 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 			.verifyHeadingExists(self.healthcareOrganizationName)
 			.tapMenu()
 			.tapRemoveHealthcareOrganizationButton()
-			.verifySubHeadingExists()
-			.verifyCloseButtonExists()
 			.verifyCancelButtonExists()
 			.verifyRemoveButtonExists()
 			.tapRemoveButton()

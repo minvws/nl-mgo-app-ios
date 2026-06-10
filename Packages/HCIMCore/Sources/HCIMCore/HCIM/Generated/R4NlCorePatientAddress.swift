@@ -13,11 +13,11 @@ import Foundation
 // MARK: - R4NlCorePatientAddress
 public struct R4NlCorePatientAddress: Codable, Hashable, Sendable {
     public let profile: R4NlCoreAddressInformationProfile
-    public let city: PrimitiveValueTypeOfStringString?
+    public let city: MgoString?
     public let country: TentacledCountry
-    public let district: PrimitiveValueTypeOfStringString?
+    public let district: MgoString?
     public let line: [TentacledLine]?
-    public let postalCode: PrimitiveValueTypeOfStringString?
+    public let postalCode: MgoString?
     public let type, use: MgoCodeOfString?
 
     public enum CodingKeys: String, CodingKey {
@@ -25,7 +25,7 @@ public struct R4NlCorePatientAddress: Codable, Hashable, Sendable {
         case city, country, district, line, postalCode, type, use
     }
 
-    public init(profile: R4NlCoreAddressInformationProfile, city: PrimitiveValueTypeOfStringString?, country: TentacledCountry, district: PrimitiveValueTypeOfStringString?, line: [TentacledLine]?, postalCode: PrimitiveValueTypeOfStringString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
+    public init(profile: R4NlCoreAddressInformationProfile, city: MgoString?, country: TentacledCountry, district: MgoString?, line: [TentacledLine]?, postalCode: MgoString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
         self.profile = profile
         self.city = city
         self.country = country
@@ -57,11 +57,11 @@ public extension R4NlCorePatientAddress {
 
     func with(
         profile: R4NlCoreAddressInformationProfile? = nil,
-        city: PrimitiveValueTypeOfStringString?? = nil,
+        city: MgoString?? = nil,
         country: TentacledCountry? = nil,
-        district: PrimitiveValueTypeOfStringString?? = nil,
+        district: MgoString?? = nil,
         line: [TentacledLine]?? = nil,
-        postalCode: PrimitiveValueTypeOfStringString?? = nil,
+        postalCode: MgoString?? = nil,
         type: MgoCodeOfString?? = nil,
         use: MgoCodeOfString?? = nil
     ) -> R4NlCorePatientAddress {

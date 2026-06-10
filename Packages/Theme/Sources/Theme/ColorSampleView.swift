@@ -60,6 +60,10 @@ struct ColorSampleView: View {
 						colorSample(theme.separators.primary, text: Texts.primary)
 						colorSample(theme.separators.secondary, text: Texts.secondary)
 						colorSample(theme.separators.invert, text: Texts.invert)
+						colorSample(
+							theme.separators.timeline,
+							text: "Timeline"
+						)
 					}
 					
 					Text(Texts.symbols).bold()

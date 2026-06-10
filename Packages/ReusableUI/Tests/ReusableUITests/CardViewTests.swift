@@ -32,11 +32,11 @@ struct CardViewTests {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.light)),
-			as: .image
+			as: .image(perceptualPrecision: 0.95)
 		)
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.dark)),
-			as: .image
+			as: .image(perceptualPrecision: 0.95)
 		)
 	}
 	
@@ -61,11 +61,11 @@ struct CardViewTests {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.light)),
-			as: .image
+			as: .image(perceptualPrecision: 0.95)
 		)
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.dark)),
-			as: .image
+			as: .image(perceptualPrecision: 0.95)
 		)
 	}
 	
@@ -90,11 +90,11 @@ struct CardViewTests {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.light)),
-			as: .image
+			as: .image(perceptualPrecision: 0.95)
 		)
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.dark)),
-			as: .image
+			as: .image(perceptualPrecision: 0.95)
 		)
 	}
 	
@@ -116,11 +116,11 @@ struct CardViewTests {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.light)),
-			as: .image
+			as: .image(perceptualPrecision: 0.95)
 		)
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.dark)),
-			as: .image
+			as: .image(perceptualPrecision: 0.95)
 		)
 	}
 	
@@ -142,11 +142,11 @@ struct CardViewTests {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.light)),
-			as: .image
+			as: .image(perceptualPrecision: 0.95)
 		)
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.dark)),
-			as: .image
+			as: .image(perceptualPrecision: 0.95)
 		)
 	}
 }

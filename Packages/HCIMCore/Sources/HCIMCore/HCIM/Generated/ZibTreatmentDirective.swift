@@ -15,9 +15,9 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
     public let additionalSources: AdditionalSources?
     public let comment: ExtensionValueOfMgoString?
     public let consentingParty: [MgoReference]?
-    public let dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let dateTime: MgoDateTime?
     public let exceptRestrictions: [ExceptRestriction]?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: MgoIdentifier?
     public let patient: MgoReference?
@@ -28,7 +28,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
     public let sourceIdentifier: MgoIdentifier?
     public let sourceReference: MgoReference?
     public let treatment, treatmentPermitted: ExtensionValueOfMgoCodeableConcept?
-    public let verification: ExtensionValueOfStructure0_39661369522723877?
+    public let verification: ZibTreatmentDirectiveVerification?
 
     public enum CodingKeys: String, CodingKey {
         case additionalSources, comment, consentingParty, dateTime, exceptRestrictions, fhirVersion, id, identifier, patient, period, profile
@@ -36,7 +36,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
         case resourceType, sourceAttachment, sourceIdentifier, sourceReference, treatment, treatmentPermitted, verification
     }
 
-    public init(additionalSources: AdditionalSources?, comment: ExtensionValueOfMgoString?, consentingParty: [MgoReference]?, dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, exceptRestrictions: [ExceptRestriction]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: MgoIdentifier?, patient: MgoReference?, period: MgoPeriod?, profile: ZibTreatmentDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, treatment: ExtensionValueOfMgoCodeableConcept?, treatmentPermitted: ExtensionValueOfMgoCodeableConcept?, verification: ExtensionValueOfStructure0_39661369522723877?) {
+    public init(additionalSources: AdditionalSources?, comment: ExtensionValueOfMgoString?, consentingParty: [MgoReference]?, dateTime: MgoDateTime?, exceptRestrictions: [ExceptRestriction]?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: MgoIdentifier?, patient: MgoReference?, period: MgoPeriod?, profile: ZibTreatmentDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, treatment: ExtensionValueOfMgoCodeableConcept?, treatmentPermitted: ExtensionValueOfMgoCodeableConcept?, verification: ZibTreatmentDirectiveVerification?) {
         self.additionalSources = additionalSources
         self.comment = comment
         self.consentingParty = consentingParty
@@ -81,9 +81,9 @@ public extension ZibTreatmentDirective {
         additionalSources: AdditionalSources?? = nil,
         comment: ExtensionValueOfMgoString?? = nil,
         consentingParty: [MgoReference]?? = nil,
-        dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        dateTime: MgoDateTime?? = nil,
         exceptRestrictions: [ExceptRestriction]?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: MgoIdentifier?? = nil,
         patient: MgoReference?? = nil,
@@ -96,7 +96,7 @@ public extension ZibTreatmentDirective {
         sourceReference: MgoReference?? = nil,
         treatment: ExtensionValueOfMgoCodeableConcept?? = nil,
         treatmentPermitted: ExtensionValueOfMgoCodeableConcept?? = nil,
-        verification: ExtensionValueOfStructure0_39661369522723877?? = nil
+        verification: ZibTreatmentDirectiveVerification?? = nil
     ) -> ZibTreatmentDirective {
         return ZibTreatmentDirective(
             additionalSources: additionalSources ?? self.additionalSources,

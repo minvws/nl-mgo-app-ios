@@ -95,9 +95,20 @@ struct HealthCategoriesView: View {
 			view
 				.navigationBarTitleDisplayMode(.inline)
 		}
-		.when(viewModel.state.showRemoveHealthcareProvider) { view in
+		.when(viewModel.state.showRemoveHealthcareProviderOption) { view in
 			view
 				.toolbar(content: toolbarContent)
+				.confirmationAlert(
+					heading: String(
+						format: String(localized: "dialog.remove_organization_heading"),
+						viewModel.state.heading
+					),
+					subheading: String(localized: "dialog.remove_organization_subheading"),
+					actionText: String(localized: "organizations.remove_organization"),
+					cancelText: String(localized: "common.cancel"),
+					isPresented: $viewModel.state.showRemoveHealthcareProviderDialog,
+					onConfirm: { viewModel.reduce(.removeHealthcareOrganization) }
+				)
 		}
 		.navigationBarHidden(false)
 		.background(theme.backgrounds.primary.ignoresSafeArea())
@@ -398,7 +409,7 @@ struct HealthCategoriesView: View {
 			placement: .topBarTrailing,
 			content: {
 				Menu {
-					if viewModel.state.showRemoveHealthcareProvider {
+					if viewModel.state.showRemoveHealthcareProviderOption {
 						menuRemoveHealthcareOrganizationOption()
 					}
 				} label: {
@@ -426,7 +437,7 @@ struct HealthCategoriesView: View {
 	@ViewBuilder func menuRemoveHealthcareOrganizationOption() -> some View {
 		
 		Button(role: .destructive) {
-			viewModel.reduce(.removeHealthcareOrganization)
+			viewModel.reduce(.showRemovalDialog)
 		} label: {
 			Label("organizations.remove_organization", systemImage: "trash")
 				.tint(theme.states.critical)

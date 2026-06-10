@@ -13,7 +13,7 @@ import Foundation
 // MARK: - NlCorePractitioner
 public struct NlCorePractitioner: Codable, Hashable, Sendable {
     public let address: [NlCorePractitionerAddress]?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: NlCorePractitionerIdentifier
     public let name: [NlCorePractitionerName]?
@@ -27,7 +27,7 @@ public struct NlCorePractitioner: Codable, Hashable, Sendable {
         case resourceType, telecom
     }
 
-    public init(address: [NlCorePractitionerAddress]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: NlCorePractitionerIdentifier, name: [NlCorePractitionerName]?, profile: NlCorePractitionerProfile, referenceID: String, resourceType: String, telecom: [NlCorePractitionerTelecom]?) {
+    public init(address: [NlCorePractitionerAddress]?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: NlCorePractitionerIdentifier, name: [NlCorePractitionerName]?, profile: NlCorePractitionerProfile, referenceID: String, resourceType: String, telecom: [NlCorePractitionerTelecom]?) {
         self.address = address
         self.fhirVersion = fhirVersion
         self.id = id
@@ -60,7 +60,7 @@ public extension NlCorePractitioner {
 
     func with(
         address: [NlCorePractitionerAddress]?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: NlCorePractitionerIdentifier? = nil,
         name: [NlCorePractitionerName]?? = nil,

@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -15,6 +15,8 @@ class AppRobot: Robot {
 	init() {
 		app = XCUIApplication()
 	}
+	
+	// MARK: - Launch sequences -
 	
 	/// Launch the application
 	/// - Returns: Introduction Robot for the first scene
@@ -50,7 +52,21 @@ class AppRobot: Robot {
 		app.launch()
 		return HealthCategoriesRobot(app)
 	}
-
+	
+	/// Launch the application with the screenshot simulation trigger enabled
+	/// - Returns: Introduction Robot for the first scene
+	@discardableResult
+	func launchAppWithScreenshotTrigger() -> IntroductionRobot {
+		app.launchArguments.append("-resetOnStart")
+		app.launchArguments.append("-disableTransitions")
+		app.launchArguments.append("-useTestProviders")
+		app.launchArguments.append("-simulateScreenshot")
+		app.launch()
+		return IntroductionRobot(app)
+	}
+	
+	// MARK: - Navigation -
+	
 	/// Launch the app with a Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
@@ -96,7 +112,7 @@ class AppRobot: Robot {
 	func navigateToOverviewWithPDFA() -> HealthCategoriesRobot {
 		self.navigateToOverview(organization: "mock-qualification-pdfa")
 	}
-
+	
 	/// Launch the app with a BgLZ Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult

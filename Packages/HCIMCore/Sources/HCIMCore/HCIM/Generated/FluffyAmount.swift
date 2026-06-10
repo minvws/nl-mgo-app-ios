@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - FluffyAmount
 public struct FluffyAmount: Codable, Hashable, Sendable {
-    public let valueString: PrimitiveValueTypeOfStringString?
+    public let valueQuantity: MgoQuantity?
 
-    public init(valueString: PrimitiveValueTypeOfStringString?) {
-        self.valueString = valueString
+    public init(valueQuantity: MgoQuantity?) {
+        self.valueQuantity = valueQuantity
     }
 }
 
@@ -38,10 +38,10 @@ public extension FluffyAmount {
     }
 
     func with(
-        valueString: PrimitiveValueTypeOfStringString?? = nil
+        valueQuantity: MgoQuantity?? = nil
     ) -> FluffyAmount {
         return FluffyAmount(
-            valueString: valueString ?? self.valueString
+            valueQuantity: valueQuantity ?? self.valueQuantity
         )
     }
 

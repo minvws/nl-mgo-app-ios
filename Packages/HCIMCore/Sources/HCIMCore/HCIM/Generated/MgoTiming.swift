@@ -14,7 +14,7 @@ import Foundation
 public struct MgoTiming: Codable, Hashable, Sendable {
     public let type: MgoTimingType
     public let code: MgoCodeableConcept?
-    public let event: [PrimitiveValueTypeOfDateTimeDateTimeString]?
+    public let event: [MgoDateTime]?
     public let mgoTimingRepeat: MgoTimingRepeat
 
     public enum CodingKeys: String, CodingKey {
@@ -23,7 +23,7 @@ public struct MgoTiming: Codable, Hashable, Sendable {
         case mgoTimingRepeat = "repeat"
     }
 
-    public init(type: MgoTimingType, code: MgoCodeableConcept?, event: [PrimitiveValueTypeOfDateTimeDateTimeString]?, mgoTimingRepeat: MgoTimingRepeat) {
+    public init(type: MgoTimingType, code: MgoCodeableConcept?, event: [MgoDateTime]?, mgoTimingRepeat: MgoTimingRepeat) {
         self.type = type
         self.code = code
         self.event = event
@@ -52,7 +52,7 @@ public extension MgoTiming {
     func with(
         type: MgoTimingType? = nil,
         code: MgoCodeableConcept?? = nil,
-        event: [PrimitiveValueTypeOfDateTimeDateTimeString]?? = nil,
+        event: [MgoDateTime]?? = nil,
         mgoTimingRepeat: MgoTimingRepeat? = nil
     ) -> MgoTiming {
         return MgoTiming(

@@ -13,7 +13,7 @@ import Foundation
 // MARK: - ExtensionValueOfMgoPeriod
 public struct ExtensionValueOfMgoPeriod: Codable, Hashable, Sendable {
     public let ext: Bool
-    public let type: MgoPeriodType
+    public let type: ExtensionValueOfMgoPeriodType
     public let end, start: String?
 
     public enum CodingKeys: String, CodingKey {
@@ -22,7 +22,7 @@ public struct ExtensionValueOfMgoPeriod: Codable, Hashable, Sendable {
         case end, start
     }
 
-    public init(ext: Bool, type: MgoPeriodType, end: String?, start: String?) {
+    public init(ext: Bool, type: ExtensionValueOfMgoPeriodType, end: String?, start: String?) {
         self.ext = ext
         self.type = type
         self.end = end
@@ -50,7 +50,7 @@ public extension ExtensionValueOfMgoPeriod {
 
     func with(
         ext: Bool? = nil,
-        type: MgoPeriodType? = nil,
+        type: ExtensionValueOfMgoPeriodType? = nil,
         end: String?? = nil,
         start: String?? = nil
     ) -> ExtensionValueOfMgoPeriod {

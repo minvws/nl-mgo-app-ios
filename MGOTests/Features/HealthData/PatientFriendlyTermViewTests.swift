@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -20,6 +20,7 @@ final class PatientFriendlyTermViewTests: XCTestCase {
 	)
 	
 	@MainActor func createSut() {
+		
 		viewModel = PatientFriendlyTermViewModel(onClose: nil, term: term)
 		sut = PatientFriendlyTermView(viewModel: self.viewModel)
 	}
@@ -31,7 +32,9 @@ final class PatientFriendlyTermViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(false) }
+		let content = NavigationStackBackport.NavigationStack {
+			sut.isPresentedAsSheet(false)
+		}
 		
 		// Then
 		takeSnapShots(content: content)
@@ -44,7 +47,9 @@ final class PatientFriendlyTermViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(false) }
+		let content = NavigationStackBackport.NavigationStack {
+			sut.isPresentedAsSheet(false)
+		}
 		
 		// Then
 		takeSnapShots(content: content)
@@ -57,7 +62,9 @@ final class PatientFriendlyTermViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(true) }
+		let content = NavigationStackBackport.NavigationStack {
+			sut.isPresentedAsSheet(true)
+		}
 		
 		// Then
 		takeSnapShots(content: content)
@@ -70,7 +77,9 @@ final class PatientFriendlyTermViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(true) }
+		let content = NavigationStackBackport.NavigationStack {
+			sut.isPresentedAsSheet(true)
+		}
 		
 		// Then
 		takeSnapShots(content: content)
@@ -85,10 +94,16 @@ final class PatientFriendlyTermViewTests: XCTestCase {
 			term: term
 		)
 		sut = PatientFriendlyTermView(viewModel: self.viewModel)
-		let content = NavigationStackBackport.NavigationStack { sut.isPresentedAsSheet(true) }
+		let content = NavigationStackBackport.NavigationStack {
+			sut.isPresentedAsSheet(true)
+		}
 		
 		// When
-		try content.inspect().find(viewWithAccessibilityIdentifier: "common.close").button().tap()
+		try content
+			.inspect()
+			.find(viewWithAccessibilityIdentifier: "common.close")
+			.button()
+			.tap()
 		
 		// Then
 		expect(onCloseCalled) == true

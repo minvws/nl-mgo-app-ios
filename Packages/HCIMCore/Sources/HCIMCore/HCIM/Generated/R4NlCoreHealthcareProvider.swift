@@ -13,10 +13,10 @@ import Foundation
 // MARK: - R4NlCoreHealthcareProvider
 public struct R4NlCoreHealthcareProvider: Codable, Hashable, Sendable {
     public let address: R4NlCoreAddressInformation
-    public let fhirVersion: R4NlCoreHealthcareProviderFhirVersion
+    public let fhirVersion: R4BBSDocumentReferenceFhirVersion
     public let id: String?
     public let managingOrganization: MgoReference?
-    public let name: PrimitiveValueTypeOfStringString?
+    public let name: MgoString?
     public let profile: R4NlCoreHealthcareProviderProfile
     public let referenceID, resourceType: String
     public let telecom: R4NlCoreContactInformation
@@ -27,7 +27,7 @@ public struct R4NlCoreHealthcareProvider: Codable, Hashable, Sendable {
         case resourceType, telecom
     }
 
-    public init(address: R4NlCoreAddressInformation, fhirVersion: R4NlCoreHealthcareProviderFhirVersion, id: String?, managingOrganization: MgoReference?, name: PrimitiveValueTypeOfStringString?, profile: R4NlCoreHealthcareProviderProfile, referenceID: String, resourceType: String, telecom: R4NlCoreContactInformation) {
+    public init(address: R4NlCoreAddressInformation, fhirVersion: R4BBSDocumentReferenceFhirVersion, id: String?, managingOrganization: MgoReference?, name: MgoString?, profile: R4NlCoreHealthcareProviderProfile, referenceID: String, resourceType: String, telecom: R4NlCoreContactInformation) {
         self.address = address
         self.fhirVersion = fhirVersion
         self.id = id
@@ -60,10 +60,10 @@ public extension R4NlCoreHealthcareProvider {
 
     func with(
         address: R4NlCoreAddressInformation? = nil,
-        fhirVersion: R4NlCoreHealthcareProviderFhirVersion? = nil,
+        fhirVersion: R4BBSDocumentReferenceFhirVersion? = nil,
         id: String?? = nil,
         managingOrganization: MgoReference?? = nil,
-        name: PrimitiveValueTypeOfStringString?? = nil,
+        name: MgoString?? = nil,
         profile: R4NlCoreHealthcareProviderProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,

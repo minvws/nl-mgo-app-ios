@@ -10,7 +10,8 @@ This package will handle all the FHIR calls to the server.
 
 import FHIRClient
 
-let url = URL(string: "https://hapi.fhir.org/baseDstu3")
+// FHIRClient is an actor; use await when calling its methods.
+guard let url = URL(string: "https://hapi.fhir.org/baseDstu3") else { return }
 let client = FHIRClient(baseURL: url)
 
 // BGZ Parameters for MedicationStatement

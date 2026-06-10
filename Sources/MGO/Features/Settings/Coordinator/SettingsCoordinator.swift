@@ -203,7 +203,8 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 						browser: self.browser,
 						title: LocalizedStringKey(stringLiteral: title ?? ""),
 						coordinator: self,
-						closeAction: .closeSheet
+						closeAction: .closeSheet,
+						showScreenshotTrigger: false
 					)
 				)
 			

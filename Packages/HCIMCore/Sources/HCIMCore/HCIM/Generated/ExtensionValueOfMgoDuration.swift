@@ -13,7 +13,7 @@ import Foundation
 // MARK: - ExtensionValueOfMgoDuration
 public struct ExtensionValueOfMgoDuration: Codable, Hashable, Sendable {
     public let ext: Bool
-    public let type: MgoDurationType
+    public let type: ExtensionValueOfMgoDurationType
     public let code, comparator, system, unit: String?
     public let value: Double?
 
@@ -23,7 +23,7 @@ public struct ExtensionValueOfMgoDuration: Codable, Hashable, Sendable {
         case code, comparator, system, unit, value
     }
 
-    public init(ext: Bool, type: MgoDurationType, code: String?, comparator: String?, system: String?, unit: String?, value: Double?) {
+    public init(ext: Bool, type: ExtensionValueOfMgoDurationType, code: String?, comparator: String?, system: String?, unit: String?, value: Double?) {
         self.ext = ext
         self.type = type
         self.code = code
@@ -54,7 +54,7 @@ public extension ExtensionValueOfMgoDuration {
 
     func with(
         ext: Bool? = nil,
-        type: MgoDurationType? = nil,
+        type: ExtensionValueOfMgoDurationType? = nil,
         code: String?? = nil,
         comparator: String?? = nil,
         system: String?? = nil,

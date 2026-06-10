@@ -22,7 +22,8 @@ let package = Package(
 		.package(url: "https://github.com/siteline/SwiftUI-Introspect", exact: "26.0.1"),
 
 		// Testing:
-		.package(name: "MGOTest", path: "../MGOTest")
+		.package(name: "MGOTest", path: "../MGOTest"),
+		.package(url: "https://github.com/jonreid/ViewControllerPresentationSpy", exact: "7.1.0")
 	],
 	targets: [
 		// Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -41,7 +42,9 @@ let package = Package(
 			name: "ReusableUITests",
 			dependencies: [
 				"ReusableUI",
-				.product(name: "MGOTest", package: "MGOTest")
+				.product(name: "OSVersion", package: "OSVersion"),
+				.product(name: "MGOTest", package: "MGOTest"),
+				.product(name: "ViewControllerPresentationSpy", package: "ViewControllerPresentationSpy")
 			]
 		)
 	]

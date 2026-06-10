@@ -14,7 +14,7 @@ import Foundation
 public struct ZibEncounter: Codable, Hashable, Sendable {
     public let zibEncounterClass: MgoCoding?
     public let diagnosis: [ZibEncounterDiagnosis]?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let hospitalization: ZibEncounterHospitalization
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -32,7 +32,7 @@ public struct ZibEncounter: Codable, Hashable, Sendable {
         case resourceType, serviceProvider, subject
     }
 
-    public init(zibEncounterClass: MgoCoding?, diagnosis: [ZibEncounterDiagnosis]?, fhirVersion: NlCoreObservationFhirVersion, hospitalization: ZibEncounterHospitalization, id: String?, identifier: [MgoIdentifier]?, participant: [ZibEncounterParticipant]?, period: MgoPeriod?, profile: ZibEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String, serviceProvider: MgoReference?, subject: MgoReference?) {
+    public init(zibEncounterClass: MgoCoding?, diagnosis: [ZibEncounterDiagnosis]?, fhirVersion: EAfspraakAppointmentFhirVersion, hospitalization: ZibEncounterHospitalization, id: String?, identifier: [MgoIdentifier]?, participant: [ZibEncounterParticipant]?, period: MgoPeriod?, profile: ZibEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String, serviceProvider: MgoReference?, subject: MgoReference?) {
         self.zibEncounterClass = zibEncounterClass
         self.diagnosis = diagnosis
         self.fhirVersion = fhirVersion
@@ -71,7 +71,7 @@ public extension ZibEncounter {
     func with(
         zibEncounterClass: MgoCoding?? = nil,
         diagnosis: [ZibEncounterDiagnosis]?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         hospitalization: ZibEncounterHospitalization? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,

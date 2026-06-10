@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - ZibParticipationInSociety
 public struct ZibParticipationInSociety: Codable, Hashable, Sendable {
-    public let comment: PrimitiveValueTypeOfStringString?
-    public let component: ZibParticipationInSocietyComponent
-    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let comment: MgoString?
+    public let component: ZibParticipationInSocietyComponent?
+    public let effectiveDateTime: MgoDateTime?
     public let effectivePeriod: MgoPeriod?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let performer: [MgoReference]?
@@ -30,7 +30,7 @@ public struct ZibParticipationInSociety: Codable, Hashable, Sendable {
         case resourceType, subject
     }
 
-    public init(comment: PrimitiveValueTypeOfStringString?, component: ZibParticipationInSocietyComponent, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: ZibParticipationInSocietyProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
+    public init(comment: MgoString?, component: ZibParticipationInSocietyComponent?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: ZibParticipationInSocietyProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
         self.comment = comment
         self.component = component
         self.effectiveDateTime = effectiveDateTime
@@ -65,11 +65,11 @@ public extension ZibParticipationInSociety {
     }
 
     func with(
-        comment: PrimitiveValueTypeOfStringString?? = nil,
-        component: ZibParticipationInSocietyComponent? = nil,
-        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        comment: MgoString?? = nil,
+        component: ZibParticipationInSocietyComponent?? = nil,
+        effectiveDateTime: MgoDateTime?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         performer: [MgoReference]?? = nil,

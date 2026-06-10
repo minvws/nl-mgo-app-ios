@@ -22,6 +22,6 @@ class DataServicesTests {
 		// When
 		
 		// Then
-		#expect(sut.services.count == 6)
+		#expect(sut.services.count == 8)
 	}
 }

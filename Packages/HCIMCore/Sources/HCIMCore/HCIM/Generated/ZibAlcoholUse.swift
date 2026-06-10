@@ -12,11 +12,10 @@ import Foundation
 
 // MARK: - ZibAlcoholUse
 public struct ZibAlcoholUse: Codable, Hashable, Sendable {
-    public let comment: PrimitiveValueTypeOfStringString?
+    public let comment: MgoString?
     public let component: ZibAlcoholUseComponent?
-    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let effectivePeriod: MgoPeriod?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let performer: [MgoReference]?
@@ -26,15 +25,14 @@ public struct ZibAlcoholUse: Codable, Hashable, Sendable {
     public let valueCodeableConcept: MgoCodeableConcept?
 
     public enum CodingKeys: String, CodingKey {
-        case comment, component, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, performer, profile
+        case comment, component, effectivePeriod, fhirVersion, id, identifier, performer, profile
         case referenceID = "referenceId"
         case resourceType, subject, valueCodeableConcept
     }
 
-    public init(comment: PrimitiveValueTypeOfStringString?, component: ZibAlcoholUseComponent?, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: ZibAlcoholUseProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?) {
+    public init(comment: MgoString?, component: ZibAlcoholUseComponent?, effectivePeriod: MgoPeriod?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: ZibAlcoholUseProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?) {
         self.comment = comment
         self.component = component
-        self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
         self.fhirVersion = fhirVersion
         self.id = id
@@ -67,11 +65,10 @@ public extension ZibAlcoholUse {
     }
 
     func with(
-        comment: PrimitiveValueTypeOfStringString?? = nil,
+        comment: MgoString?? = nil,
         component: ZibAlcoholUseComponent?? = nil,
-        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         performer: [MgoReference]?? = nil,
@@ -84,7 +81,6 @@ public extension ZibAlcoholUse {
         return ZibAlcoholUse(
             comment: comment ?? self.comment,
             component: component ?? self.component,
-            effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,

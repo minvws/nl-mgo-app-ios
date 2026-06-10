@@ -16,9 +16,10 @@ let package = Package(
 		// Internal
 		.package(name: "OSVersion", path: "../OSVersion"),
 		.package(name: "ReusableUI", path: "../ReusableUI"),
-		
+
 		// External
 		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.8.0"),
+		.package(url: "https://github.com/airbnb/lottie-ios", exact: "4.6.0"),
 		.package(url: "https://github.com/lm/navigation-stack-backport", exact: "1.1.0")
 	],
 	targets: [
@@ -26,6 +27,7 @@ let package = Package(
 			name: "MGOUI",
 			dependencies: [
 				.product(name: "DeviceKit", package: "DeviceKit"),
+				.product(name: "Lottie", package: "lottie-ios"),
 				.product(name: "NavigationStackBackport", package: "navigation-stack-backport"),
 				.product(name: "OSVersion", package: "OSVersion"),
 				.product(name: "ReusableUI", package: "ReusableUI")

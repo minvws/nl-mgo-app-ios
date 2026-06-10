@@ -24,6 +24,7 @@ public struct Colors {
 		public let primary: Color
 		public let secondary: Color
 		public let invert: Color
+		public let timeline: Color
 	}
 	
 	public struct Symbols {

@@ -52,8 +52,16 @@ class AboutOpenSourceLibrariesViewModel: BaseViewModel {
 				urlString: "https://github.com/apple/example-package-figlet?tab=Apache-2.0-1-ov-file#readme" // NOSONAR
 			),
 			Library(
+				name: "GRDB (MIT)",
+				urlString: "https://github.com/groue/GRDB.swift?tab=MIT-1-ov-file#readme" // NOSONAR
+			),
+			Library(
 				name: "iOS Security Suite (BSD 2)",
 				urlString: "https://github.com/securing/IOSSecuritySuite/tree/1.9.11?tab=License-1-ov-file" // NOSONAR
+			),
+			Library(
+				name: "Lottie (Apache 2.0)",
+				urlString: "https://github.com/airbnb/lottie-ios?tab=Apache-2.0-1-ov-file#readme" // NOSONAR
 			),
 			Library(
 				name: "Nimble (Apache 2.0)",
@@ -83,8 +91,7 @@ class AboutOpenSourceLibrariesViewModel: BaseViewModel {
 				name: "Swift OpenAPI Generator (Apache 2.0)",
 				urlString: "https://github.com/apple/swift-openapi-generator#Apache-2.0-1-ov-file" // NOSONAR
 			),
-			Library(name:
-				"Swift OpenAPI Generator Runtime (Apache 2.0)",
+			Library(name: "Swift OpenAPI Generator Runtime (Apache 2.0)",
 				urlString: "https://github.com/apple/swift-openapi-runtime?tab=Apache-2.0-1-ov-file#Apache-2.0-1-ov-file" // NOSONAR
 			),
 			Library(
@@ -102,6 +109,10 @@ class AboutOpenSourceLibrariesViewModel: BaseViewModel {
 			Library(
 				name: "URLSession Transport for Swift OpenAPI Generator (Apache 2.0)",
 				urlString: "https://github.com/apple/swift-openapi-urlsession?tab=Apache-2.0-1-ov-file#readme" // NOSONAR
+			),
+			Library(
+				name: "ViewControllerPresentationSpy (MIT)",
+				urlString: "https://github.com/jonreid/ViewControllerPresentationSpy?tab=MIT-1-ov-file#readme" // NOSONAR
 			),
 			Library(
 				name: "ViewInspector 🕵️‍♂️ for SwiftUI (MIT)",

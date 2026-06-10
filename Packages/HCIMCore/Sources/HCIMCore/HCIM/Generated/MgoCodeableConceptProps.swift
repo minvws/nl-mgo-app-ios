@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - MgoCodeableConceptProps
 public struct MgoCodeableConceptProps: Codable, Hashable, Sendable {
-    public let coding: [MgoCodingProps]
+    public let coding: [DisplayValue]
     public let text: String?
 
-    public init(coding: [MgoCodingProps], text: String?) {
+    public init(coding: [DisplayValue], text: String?) {
         self.coding = coding
         self.text = text
     }
@@ -40,7 +40,7 @@ public extension MgoCodeableConceptProps {
     }
 
     func with(
-        coding: [MgoCodingProps]? = nil,
+        coding: [DisplayValue]? = nil,
         text: String?? = nil
     ) -> MgoCodeableConceptProps {
         return MgoCodeableConceptProps(

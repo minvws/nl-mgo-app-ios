@@ -13,7 +13,7 @@ import Foundation
 // MARK: - NlCoreCarePlan
 public struct NlCoreCarePlan: Codable, Hashable, Sendable {
     public let activity: [NlCoreCarePlanActivity]?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let goal: [MgoReference]?
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -28,7 +28,7 @@ public struct NlCoreCarePlan: Codable, Hashable, Sendable {
         case resourceType, subject
     }
 
-    public init(activity: [NlCoreCarePlanActivity]?, fhirVersion: NlCoreObservationFhirVersion, goal: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, period: MgoPeriod?, profile: NlCoreCarePlanProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
+    public init(activity: [NlCoreCarePlanActivity]?, fhirVersion: EAfspraakAppointmentFhirVersion, goal: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, period: MgoPeriod?, profile: NlCoreCarePlanProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
         self.activity = activity
         self.fhirVersion = fhirVersion
         self.goal = goal
@@ -62,7 +62,7 @@ public extension NlCoreCarePlan {
 
     func with(
         activity: [NlCoreCarePlanActivity]?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         goal: [MgoReference]?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,

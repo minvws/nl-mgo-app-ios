@@ -13,9 +13,9 @@ import Foundation
 // MARK: - GpDiagnosticResultRelated
 public struct GpDiagnosticResultRelated: Codable, Hashable, Sendable {
     public let target: MgoReference?
-    public let type: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy?
+    public let type: MgoCodeOfString?
 
-    public init(target: MgoReference?, type: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy?) {
+    public init(target: MgoReference?, type: MgoCodeOfString?) {
         self.target = target
         self.type = type
     }
@@ -41,7 +41,7 @@ public extension GpDiagnosticResultRelated {
 
     func with(
         target: MgoReference?? = nil,
-        type: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy?? = nil
+        type: MgoCodeOfString?? = nil
     ) -> GpDiagnosticResultRelated {
         return GpDiagnosticResultRelated(
             target: target ?? self.target,

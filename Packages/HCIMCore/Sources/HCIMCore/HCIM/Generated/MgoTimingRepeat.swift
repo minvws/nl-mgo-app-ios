@@ -15,17 +15,17 @@ public struct MgoTimingRepeat: Codable, Hashable, Sendable {
     public let boundsDuration: MgoDuration?
     public let boundsPeriod: MgoPeriod?
     public let boundsRange: MgoRange?
-    public let count, countMax: PrimitiveValueTypeOfIntegerNumber?
-    public let dayOfWeek: [PrimitiveValueTypeOfStringString]?
-    public let duration, durationMax: PrimitiveValueTypeOfDecimalNumber?
-    public let durationUnit: PrimitiveValueTypeOfStringString?
-    public let frequency, frequencyMax: PrimitiveValueTypeOfIntegerNumber?
-    public let offset: PrimitiveValueTypeOfUnsignedIntNumber?
-    public let period, periodMax: PrimitiveValueTypeOfDecimalNumber?
-    public let periodUnit: PrimitiveValueTypeOfStringString?
-    public let timeOfDay, when: [PrimitiveValueTypeOfStringString]?
+    public let count, countMax: MgoInteger?
+    public let dayOfWeek: [MgoString]?
+    public let duration, durationMax: MgoDecimal?
+    public let durationUnit: MgoString?
+    public let frequency, frequencyMax: MgoInteger?
+    public let offset: MgoUnsignedInt?
+    public let period, periodMax: MgoDecimal?
+    public let periodUnit: MgoString?
+    public let timeOfDay, when: [MgoString]?
 
-    public init(boundsDuration: MgoDuration?, boundsPeriod: MgoPeriod?, boundsRange: MgoRange?, count: PrimitiveValueTypeOfIntegerNumber?, countMax: PrimitiveValueTypeOfIntegerNumber?, dayOfWeek: [PrimitiveValueTypeOfStringString]?, duration: PrimitiveValueTypeOfDecimalNumber?, durationMax: PrimitiveValueTypeOfDecimalNumber?, durationUnit: PrimitiveValueTypeOfStringString?, frequency: PrimitiveValueTypeOfIntegerNumber?, frequencyMax: PrimitiveValueTypeOfIntegerNumber?, offset: PrimitiveValueTypeOfUnsignedIntNumber?, period: PrimitiveValueTypeOfDecimalNumber?, periodMax: PrimitiveValueTypeOfDecimalNumber?, periodUnit: PrimitiveValueTypeOfStringString?, timeOfDay: [PrimitiveValueTypeOfStringString]?, when: [PrimitiveValueTypeOfStringString]?) {
+    public init(boundsDuration: MgoDuration?, boundsPeriod: MgoPeriod?, boundsRange: MgoRange?, count: MgoInteger?, countMax: MgoInteger?, dayOfWeek: [MgoString]?, duration: MgoDecimal?, durationMax: MgoDecimal?, durationUnit: MgoString?, frequency: MgoInteger?, frequencyMax: MgoInteger?, offset: MgoUnsignedInt?, period: MgoDecimal?, periodMax: MgoDecimal?, periodUnit: MgoString?, timeOfDay: [MgoString]?, when: [MgoString]?) {
         self.boundsDuration = boundsDuration
         self.boundsPeriod = boundsPeriod
         self.boundsRange = boundsRange
@@ -68,20 +68,20 @@ public extension MgoTimingRepeat {
         boundsDuration: MgoDuration?? = nil,
         boundsPeriod: MgoPeriod?? = nil,
         boundsRange: MgoRange?? = nil,
-        count: PrimitiveValueTypeOfIntegerNumber?? = nil,
-        countMax: PrimitiveValueTypeOfIntegerNumber?? = nil,
-        dayOfWeek: [PrimitiveValueTypeOfStringString]?? = nil,
-        duration: PrimitiveValueTypeOfDecimalNumber?? = nil,
-        durationMax: PrimitiveValueTypeOfDecimalNumber?? = nil,
-        durationUnit: PrimitiveValueTypeOfStringString?? = nil,
-        frequency: PrimitiveValueTypeOfIntegerNumber?? = nil,
-        frequencyMax: PrimitiveValueTypeOfIntegerNumber?? = nil,
-        offset: PrimitiveValueTypeOfUnsignedIntNumber?? = nil,
-        period: PrimitiveValueTypeOfDecimalNumber?? = nil,
-        periodMax: PrimitiveValueTypeOfDecimalNumber?? = nil,
-        periodUnit: PrimitiveValueTypeOfStringString?? = nil,
-        timeOfDay: [PrimitiveValueTypeOfStringString]?? = nil,
-        when: [PrimitiveValueTypeOfStringString]?? = nil
+        count: MgoInteger?? = nil,
+        countMax: MgoInteger?? = nil,
+        dayOfWeek: [MgoString]?? = nil,
+        duration: MgoDecimal?? = nil,
+        durationMax: MgoDecimal?? = nil,
+        durationUnit: MgoString?? = nil,
+        frequency: MgoInteger?? = nil,
+        frequencyMax: MgoInteger?? = nil,
+        offset: MgoUnsignedInt?? = nil,
+        period: MgoDecimal?? = nil,
+        periodMax: MgoDecimal?? = nil,
+        periodUnit: MgoString?? = nil,
+        timeOfDay: [MgoString]?? = nil,
+        when: [MgoString]?? = nil
     ) -> MgoTimingRepeat {
         return MgoTimingRepeat(
             boundsDuration: boundsDuration ?? self.boundsDuration,

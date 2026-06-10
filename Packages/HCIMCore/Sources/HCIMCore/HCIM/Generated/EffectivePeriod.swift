@@ -12,7 +12,7 @@ import Foundation
 
 // MARK: - EffectivePeriod
 public struct EffectivePeriod: Codable, Hashable, Sendable {
-    public let type: MgoPeriodType
+    public let type: ExtensionValueOfMgoPeriodType
     public let duration: ExtensionValueOfMgoDuration?
     public let end, start: String?
 
@@ -21,7 +21,7 @@ public struct EffectivePeriod: Codable, Hashable, Sendable {
         case duration, end, start
     }
 
-    public init(type: MgoPeriodType, duration: ExtensionValueOfMgoDuration?, end: String?, start: String?) {
+    public init(type: ExtensionValueOfMgoPeriodType, duration: ExtensionValueOfMgoDuration?, end: String?, start: String?) {
         self.type = type
         self.duration = duration
         self.end = end
@@ -48,7 +48,7 @@ public extension EffectivePeriod {
     }
 
     func with(
-        type: MgoPeriodType? = nil,
+        type: ExtensionValueOfMgoPeriodType? = nil,
         duration: ExtensionValueOfMgoDuration?? = nil,
         end: String?? = nil,
         start: String?? = nil

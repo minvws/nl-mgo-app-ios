@@ -12,7 +12,7 @@ import Foundation
 
 // MARK: - R4NlCoreHealthProfessionalPractitionerRole
 public struct R4NlCoreHealthProfessionalPractitionerRole: Codable, Hashable, Sendable {
-    public let fhirVersion: R4NlCoreHealthcareProviderFhirVersion
+    public let fhirVersion: R4BBSDocumentReferenceFhirVersion
     public let id: String?
     public let organization: MgoReference?
     public let profile: R4NlCoreHealthProfessionalPractitionerRoleProfile
@@ -26,7 +26,7 @@ public struct R4NlCoreHealthProfessionalPractitionerRole: Codable, Hashable, Sen
         case resourceType, specialty, telecom
     }
 
-    public init(fhirVersion: R4NlCoreHealthcareProviderFhirVersion, id: String?, organization: MgoReference?, profile: R4NlCoreHealthProfessionalPractitionerRoleProfile, referenceID: String, resourceType: String, specialty: Specialty, telecom: R4NlCoreContactInformation) {
+    public init(fhirVersion: R4BBSDocumentReferenceFhirVersion, id: String?, organization: MgoReference?, profile: R4NlCoreHealthProfessionalPractitionerRoleProfile, referenceID: String, resourceType: String, specialty: Specialty, telecom: R4NlCoreContactInformation) {
         self.fhirVersion = fhirVersion
         self.id = id
         self.organization = organization
@@ -57,7 +57,7 @@ public extension R4NlCoreHealthProfessionalPractitionerRole {
     }
 
     func with(
-        fhirVersion: R4NlCoreHealthcareProviderFhirVersion? = nil,
+        fhirVersion: R4BBSDocumentReferenceFhirVersion? = nil,
         id: String?? = nil,
         organization: MgoReference?? = nil,
         profile: R4NlCoreHealthProfessionalPractitionerRoleProfile? = nil,

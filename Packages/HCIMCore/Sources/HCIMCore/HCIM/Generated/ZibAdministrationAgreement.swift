@@ -17,7 +17,7 @@ public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
     public let authoredOn: ExtensionValueOfMgoDateTime?
     public let authorizingPrescription: [MgoReference]?
     public let dossageInstruction: [ZibAdministrationAgreementDossageInstruction]?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let medicationReference: MgoReference?
@@ -30,7 +30,7 @@ public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
     public let referenceID: String
     public let repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?
     public let resourceType: String
-    public let status: MgoCodeOfEnteredInErrorPreparationInProgressOnHoldCompletedStopped?
+    public let status: MgoCodeOfString?
     public let stopType: ExtensionValueOfMgoCodeableConcept?
     public let usageDuration: ExtensionValueOfMgoDuration?
 
@@ -40,7 +40,7 @@ public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
         case repeatPeriodCyclicalSchedule, resourceType, status, stopType, usageDuration
     }
 
-    public init(additionalInformation: ExtensionValueOfMgoCodeableConcept?, agreementReason: ExtensionValueOfMgoString?, authoredOn: ExtensionValueOfMgoDateTime?, authorizingPrescription: [MgoReference]?, dossageInstruction: [ZibAdministrationAgreementDossageInstruction]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: ExtensionValueOfMgoIdentifier?, note: [MgoAnnotation]?, patient: MgoReference?, performer: [ZibAdministrationAgreementPerformer]?, periodOfUse: ExtensionValueOfMgoPeriod?, profile: ZibAdministrationAgreementProfile, referenceID: String, repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?, resourceType: String, status: MgoCodeOfEnteredInErrorPreparationInProgressOnHoldCompletedStopped?, stopType: ExtensionValueOfMgoCodeableConcept?, usageDuration: ExtensionValueOfMgoDuration?) {
+    public init(additionalInformation: ExtensionValueOfMgoCodeableConcept?, agreementReason: ExtensionValueOfMgoString?, authoredOn: ExtensionValueOfMgoDateTime?, authorizingPrescription: [MgoReference]?, dossageInstruction: [ZibAdministrationAgreementDossageInstruction]?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: ExtensionValueOfMgoIdentifier?, note: [MgoAnnotation]?, patient: MgoReference?, performer: [ZibAdministrationAgreementPerformer]?, periodOfUse: ExtensionValueOfMgoPeriod?, profile: ZibAdministrationAgreementProfile, referenceID: String, repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?, resourceType: String, status: MgoCodeOfString?, stopType: ExtensionValueOfMgoCodeableConcept?, usageDuration: ExtensionValueOfMgoDuration?) {
         self.additionalInformation = additionalInformation
         self.agreementReason = agreementReason
         self.authoredOn = authoredOn
@@ -89,7 +89,7 @@ public extension ZibAdministrationAgreement {
         authoredOn: ExtensionValueOfMgoDateTime?? = nil,
         authorizingPrescription: [MgoReference]?? = nil,
         dossageInstruction: [ZibAdministrationAgreementDossageInstruction]?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         medicationReference: MgoReference?? = nil,
@@ -102,7 +102,7 @@ public extension ZibAdministrationAgreement {
         referenceID: String? = nil,
         repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?? = nil,
         resourceType: String? = nil,
-        status: MgoCodeOfEnteredInErrorPreparationInProgressOnHoldCompletedStopped?? = nil,
+        status: MgoCodeOfString?? = nil,
         stopType: ExtensionValueOfMgoCodeableConcept?? = nil,
         usageDuration: ExtensionValueOfMgoDuration?? = nil
     ) -> ZibAdministrationAgreement {

@@ -15,16 +15,16 @@ public struct Repeat: Codable, Hashable, Sendable {
     public let boundsDuration: MgoDuration?
     public let boundsPeriod: MgoPeriod?
     public let boundsRange: MgoRange?
-    public let dayOfWeek: [MgoCode]?
-    public let duration: PrimitiveValueTypeOfDecimalNumber?
-    public let durationUnit: MgoCode?
-    public let frequency, frequencyMax: PrimitiveValueTypeOfIntegerNumber?
-    public let period: PrimitiveValueTypeOfDecimalNumber?
-    public let periodUnit: MgoCode?
-    public let timeOfDay: [PrimitiveValueTypeOfDateTimeDateTimeString]?
-    public let when: [MgoCode]?
+    public let dayOfWeek: [MgoCodeOfString]?
+    public let duration: MgoDecimal?
+    public let durationUnit: MgoCodeOfString?
+    public let frequency, frequencyMax: MgoInteger?
+    public let period: MgoDecimal?
+    public let periodUnit: MgoCodeOfString?
+    public let timeOfDay: [MgoDateTime]?
+    public let when: [MgoCodeOfString]?
 
-    public init(boundsDuration: MgoDuration?, boundsPeriod: MgoPeriod?, boundsRange: MgoRange?, dayOfWeek: [MgoCode]?, duration: PrimitiveValueTypeOfDecimalNumber?, durationUnit: MgoCode?, frequency: PrimitiveValueTypeOfIntegerNumber?, frequencyMax: PrimitiveValueTypeOfIntegerNumber?, period: PrimitiveValueTypeOfDecimalNumber?, periodUnit: MgoCode?, timeOfDay: [PrimitiveValueTypeOfDateTimeDateTimeString]?, when: [MgoCode]?) {
+    public init(boundsDuration: MgoDuration?, boundsPeriod: MgoPeriod?, boundsRange: MgoRange?, dayOfWeek: [MgoCodeOfString]?, duration: MgoDecimal?, durationUnit: MgoCodeOfString?, frequency: MgoInteger?, frequencyMax: MgoInteger?, period: MgoDecimal?, periodUnit: MgoCodeOfString?, timeOfDay: [MgoDateTime]?, when: [MgoCodeOfString]?) {
         self.boundsDuration = boundsDuration
         self.boundsPeriod = boundsPeriod
         self.boundsRange = boundsRange
@@ -62,15 +62,15 @@ public extension Repeat {
         boundsDuration: MgoDuration?? = nil,
         boundsPeriod: MgoPeriod?? = nil,
         boundsRange: MgoRange?? = nil,
-        dayOfWeek: [MgoCode]?? = nil,
-        duration: PrimitiveValueTypeOfDecimalNumber?? = nil,
-        durationUnit: MgoCode?? = nil,
-        frequency: PrimitiveValueTypeOfIntegerNumber?? = nil,
-        frequencyMax: PrimitiveValueTypeOfIntegerNumber?? = nil,
-        period: PrimitiveValueTypeOfDecimalNumber?? = nil,
-        periodUnit: MgoCode?? = nil,
-        timeOfDay: [PrimitiveValueTypeOfDateTimeDateTimeString]?? = nil,
-        when: [MgoCode]?? = nil
+        dayOfWeek: [MgoCodeOfString]?? = nil,
+        duration: MgoDecimal?? = nil,
+        durationUnit: MgoCodeOfString?? = nil,
+        frequency: MgoInteger?? = nil,
+        frequencyMax: MgoInteger?? = nil,
+        period: MgoDecimal?? = nil,
+        periodUnit: MgoCodeOfString?? = nil,
+        timeOfDay: [MgoDateTime]?? = nil,
+        when: [MgoCodeOfString]?? = nil
     ) -> Repeat {
         return Repeat(
             boundsDuration: boundsDuration ?? self.boundsDuration,

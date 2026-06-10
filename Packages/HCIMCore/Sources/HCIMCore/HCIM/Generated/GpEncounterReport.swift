@@ -13,15 +13,15 @@ import Foundation
 // MARK: - GpEncounterReport
 public struct GpEncounterReport: Codable, Hashable, Sendable {
     public let author: [MgoReference]?
-    public let date: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let date: MgoDateTime?
     public let encounter: MgoReference?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: MgoIdentifier?
     public let profile: GpEncounterReportProfile
     public let referenceID, resourceType: String
     public let section: [Section]?
-    public let status, title: PrimitiveValueTypeOfStringString?
+    public let status, title: MgoString?
     public let type: [MgoCoding]?
 
     public enum CodingKeys: String, CodingKey {
@@ -30,7 +30,7 @@ public struct GpEncounterReport: Codable, Hashable, Sendable {
         case resourceType, section, status, title, type
     }
 
-    public init(author: [MgoReference]?, date: PrimitiveValueTypeOfDateTimeDateTimeString?, encounter: MgoReference?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: MgoIdentifier?, profile: GpEncounterReportProfile, referenceID: String, resourceType: String, section: [Section]?, status: PrimitiveValueTypeOfStringString?, title: PrimitiveValueTypeOfStringString?, type: [MgoCoding]?) {
+    public init(author: [MgoReference]?, date: MgoDateTime?, encounter: MgoReference?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: MgoIdentifier?, profile: GpEncounterReportProfile, referenceID: String, resourceType: String, section: [Section]?, status: MgoString?, title: MgoString?, type: [MgoCoding]?) {
         self.author = author
         self.date = date
         self.encounter = encounter
@@ -67,17 +67,17 @@ public extension GpEncounterReport {
 
     func with(
         author: [MgoReference]?? = nil,
-        date: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        date: MgoDateTime?? = nil,
         encounter: MgoReference?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: MgoIdentifier?? = nil,
         profile: GpEncounterReportProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,
         section: [Section]?? = nil,
-        status: PrimitiveValueTypeOfStringString?? = nil,
-        title: PrimitiveValueTypeOfStringString?? = nil,
+        status: MgoString?? = nil,
+        title: MgoString?? = nil,
         type: [MgoCoding]?? = nil
     ) -> GpEncounterReport {
         return GpEncounterReport(

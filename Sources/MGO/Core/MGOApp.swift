@@ -64,12 +64,6 @@ struct ProductionApp: App {
 	/// Which scene phase is the app?
 	@Environment(\.scenePhase) private var phase
 	
-	/// Dependency injectable Secure User Settings
-	@Injected(\.secureUserSettings) private var secureUserSettings
-	
-	/// Dependency injectable Notification Center
-	@Injected(\.notificationCenter) private var notificationCenter
-	
 	/// The application coordinator to determine what view to show
 	private var coordinator: AppCoordinator
 	
@@ -107,12 +101,9 @@ struct ProductionApp: App {
 	/// propagate safe area insets, with the privacy overlay stacked on top.
 	@ViewBuilder private var content: some View {
 		ZStack {
-			GeometryReader { geo in
-				AppCoordinatorView<AppCoordinator>(appCoordinator: coordinator)
-					.environment(\.safeAreaInsets, geo.safeAreaInsets)
-					.preferredColorScheme(selectedAppearance.colorScheme)
-			}
-			
+			AppCoordinatorView<AppCoordinator>(appCoordinator: coordinator)
+				.preferredColorScheme(selectedAppearance.colorScheme)
+
 			SnapshotView(showSpinner: .constant(false))
 				.opacity(showPrivacyScene ? 1 : 0)
 		}

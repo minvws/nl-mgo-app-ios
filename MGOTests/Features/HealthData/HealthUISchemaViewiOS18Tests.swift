@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -340,14 +340,26 @@ final class HealthUISchemaViewiOS18Tests: XCTestCase {
 	}
 	
 	@MainActor func test_HealthUISchemaView_multipleGroupValuesMultipleDisplayCode_allCodesResolved() throws {
-		
+
 		// Given
 		try setupSut("multipleGroupValuesMultipleDisplayCode")
 		sut.resolvedCodes = ["1234": true, "5678": true]
-		
+
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
-		
+
+		// Then
+		takeSnapShots(content: content)
+	}
+
+	@MainActor func test_HealthUISchemaView_multiRowLongValue() throws {
+
+		// Given
+		try setupSut("multiRowLongValue")
+
+		// When
+		let content = NavigationStackBackport.NavigationStack { sut }
+
 		// Then
 		takeSnapShots(content: content)
 	}

@@ -21,3 +21,9 @@
 - Use the spies for mocking the desired input
 - Run tests before creating a pull request
 - Prefer testing behavior over implementation details
+
+## Gotchas
+
+- Empty closures need a comment (`{ /* no-op */ }`); bare `{ }` is rejected by CI
+- Extract deeply nested SwiftUI expressions into `@ViewBuilder` methods; CI rejects more than 2 nested result-builder expressions
+- Run snapshot tests on `iPhone 17 Pro, OS=26.4` — recordings are pinned to that simulator

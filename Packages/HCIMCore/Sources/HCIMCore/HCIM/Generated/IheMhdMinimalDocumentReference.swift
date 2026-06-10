@@ -14,19 +14,19 @@ import Foundation
 public struct IheMhdMinimalDocumentReference: Codable, Hashable, Sendable {
     public let author: [MgoReference]?
     public let iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?
-    public let content: [Content]?
-    public let context: Context
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let content: [IheMhdMinimalDocumentReferenceContent]?
+    public let context: IheMhdMinimalDocumentReferenceContext
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let indexed: PrimitiveValueTypeOfInstantInstantDateTimeString?
+    public let indexed: MgoInstant?
     public let masterIdentifier: MgoIdentifier?
     public let profile: IheMhdMinimalDocumentReferenceProfile
     public let referenceID: String
     public let relatesTo: [RelatesTo]?
     public let resourceType: String
     public let securityLabel: [MgoCodeableConcept]?
-    public let status: MgoCodeOfEnteredInErrorCurrentSuperseded?
+    public let status: MgoCodeOfString?
     public let subject: MgoReference?
     public let type: MgoCodeableConcept?
 
@@ -38,7 +38,7 @@ public struct IheMhdMinimalDocumentReference: Codable, Hashable, Sendable {
         case relatesTo, resourceType, securityLabel, status, subject, type
     }
 
-    public init(author: [MgoReference]?, iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?, content: [Content]?, context: Context, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, indexed: PrimitiveValueTypeOfInstantInstantDateTimeString?, masterIdentifier: MgoIdentifier?, profile: IheMhdMinimalDocumentReferenceProfile, referenceID: String, relatesTo: [RelatesTo]?, resourceType: String, securityLabel: [MgoCodeableConcept]?, status: MgoCodeOfEnteredInErrorCurrentSuperseded?, subject: MgoReference?, type: MgoCodeableConcept?) {
+    public init(author: [MgoReference]?, iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?, content: [IheMhdMinimalDocumentReferenceContent]?, context: IheMhdMinimalDocumentReferenceContext, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, indexed: MgoInstant?, masterIdentifier: MgoIdentifier?, profile: IheMhdMinimalDocumentReferenceProfile, referenceID: String, relatesTo: [RelatesTo]?, resourceType: String, securityLabel: [MgoCodeableConcept]?, status: MgoCodeOfString?, subject: MgoReference?, type: MgoCodeableConcept?) {
         self.author = author
         self.iheMhdMinimalDocumentReferenceClass = iheMhdMinimalDocumentReferenceClass
         self.content = content
@@ -80,19 +80,19 @@ public extension IheMhdMinimalDocumentReference {
     func with(
         author: [MgoReference]?? = nil,
         iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?? = nil,
-        content: [Content]?? = nil,
-        context: Context? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        content: [IheMhdMinimalDocumentReferenceContent]?? = nil,
+        context: IheMhdMinimalDocumentReferenceContext? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        indexed: PrimitiveValueTypeOfInstantInstantDateTimeString?? = nil,
+        indexed: MgoInstant?? = nil,
         masterIdentifier: MgoIdentifier?? = nil,
         profile: IheMhdMinimalDocumentReferenceProfile? = nil,
         referenceID: String? = nil,
         relatesTo: [RelatesTo]?? = nil,
         resourceType: String? = nil,
         securityLabel: [MgoCodeableConcept]?? = nil,
-        status: MgoCodeOfEnteredInErrorCurrentSuperseded?? = nil,
+        status: MgoCodeOfString?? = nil,
         subject: MgoReference?? = nil,
         type: MgoCodeableConcept?? = nil
     ) -> IheMhdMinimalDocumentReference {

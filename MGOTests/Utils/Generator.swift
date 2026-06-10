@@ -88,13 +88,24 @@ class Generator {
 	}
 	
 	/// Return a dummy health sub category
-	static func healthCategoryBlock() -> HealthCategoryBlock {
+	/// - Parameters:
+	///   - heading: the heading for the block
+	///   - isUnknownDate: marks the block as the trailing "unknown date" bucket
+	///     used by the timeline layout
+	///   - details: details string for the row, or `nil` to mirror the timeline
+	///     layout (which strips `details` from rows)
+	static func healthCategoryBlock(
+		heading: String = "heading subcategory",
+		isUnknownDate: Bool = false,
+		details: String? = "details"
+	) -> HealthCategoryBlock {
 
 		return HealthCategoryBlock(
-			heading: "heading subcategory",
+			heading: heading,
 			rows: [
-				healthCategoryRow()
-			]
+				healthCategoryRow(details: details)
+			],
+			isUnknownDate: isUnknownDate
 		)
 	}
 
@@ -122,13 +133,13 @@ class Generator {
 	}
 	
 	/// Create a dummy health category row
-	static func healthCategoryRow() -> HealthCategoryRow {
-		
+	static func healthCategoryRow(details: String? = "details") -> HealthCategoryRow {
+
 		return HealthCategoryRow(
 			heading: "heading",
 			subHeading: "healthcare organization",
 			schema: Self.healthUISchema(),
-			details: "details",
+			details: details,
 			action: nil
 		)
 	}

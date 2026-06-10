@@ -15,7 +15,7 @@ public struct ZibProcedure: Codable, Hashable, Sendable {
     public let basedOn: [MgoReference]?
     public let bodySite: [ZibProcedureBodySite]?
     public let code: MgoCodeableConcept?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let focalDevice: [FocalDevice]?
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -36,7 +36,7 @@ public struct ZibProcedure: Codable, Hashable, Sendable {
         case report, resourceType, subject
     }
 
-    public init(basedOn: [MgoReference]?, bodySite: [ZibProcedureBodySite]?, code: MgoCodeableConcept?, fhirVersion: NlCoreObservationFhirVersion, focalDevice: [FocalDevice]?, id: String?, identifier: [MgoIdentifier]?, location: MgoReference?, performedPeriod: MgoPeriod?, performer: [Performer]?, procedureMethod: ExtensionValueOfMgoCodeableConcept?, profile: ZibProcedureProfile, reasonReference: [MgoReference]?, referenceID: String, report: [MgoReference]?, resourceType: String, subject: MgoReference?) {
+    public init(basedOn: [MgoReference]?, bodySite: [ZibProcedureBodySite]?, code: MgoCodeableConcept?, fhirVersion: EAfspraakAppointmentFhirVersion, focalDevice: [FocalDevice]?, id: String?, identifier: [MgoIdentifier]?, location: MgoReference?, performedPeriod: MgoPeriod?, performer: [Performer]?, procedureMethod: ExtensionValueOfMgoCodeableConcept?, profile: ZibProcedureProfile, reasonReference: [MgoReference]?, referenceID: String, report: [MgoReference]?, resourceType: String, subject: MgoReference?) {
         self.basedOn = basedOn
         self.bodySite = bodySite
         self.code = code
@@ -79,7 +79,7 @@ public extension ZibProcedure {
         basedOn: [MgoReference]?? = nil,
         bodySite: [ZibProcedureBodySite]?? = nil,
         code: MgoCodeableConcept?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         focalDevice: [FocalDevice]?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,

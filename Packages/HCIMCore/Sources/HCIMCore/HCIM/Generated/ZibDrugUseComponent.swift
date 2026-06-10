@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - ZibDrugUseComponent
 public struct ZibDrugUseComponent: Codable, Hashable, Sendable {
-    public let amount: [FluffyAmount]?
-    public let drugOrMedicationType: [DrugOrMedicationType]?
+    public let amount: [AmountElement]?
+    public let drugOrMedicationType: DrugOrMedicationType?
     public let routeOfAdministration: [RouteOfAdministration]?
 
-    public init(amount: [FluffyAmount]?, drugOrMedicationType: [DrugOrMedicationType]?, routeOfAdministration: [RouteOfAdministration]?) {
+    public init(amount: [AmountElement]?, drugOrMedicationType: DrugOrMedicationType?, routeOfAdministration: [RouteOfAdministration]?) {
         self.amount = amount
         self.drugOrMedicationType = drugOrMedicationType
         self.routeOfAdministration = routeOfAdministration
@@ -42,8 +42,8 @@ public extension ZibDrugUseComponent {
     }
 
     func with(
-        amount: [FluffyAmount]?? = nil,
-        drugOrMedicationType: [DrugOrMedicationType]?? = nil,
+        amount: [AmountElement]?? = nil,
+        drugOrMedicationType: DrugOrMedicationType?? = nil,
         routeOfAdministration: [RouteOfAdministration]?? = nil
     ) -> ZibDrugUseComponent {
         return ZibDrugUseComponent(

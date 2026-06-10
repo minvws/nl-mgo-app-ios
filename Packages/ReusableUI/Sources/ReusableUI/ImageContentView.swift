@@ -36,10 +36,13 @@ public struct ImageContentView: View {
 		// the order of the content and image
 		var order: ImageContentView.Order
 		
-		// The maximum width the icon can use
+		// The maximum width the visual can use on iPhone (1 = 100% full width)
 		var maxWidthPercentage: Double
 		
-		/// Should we hide the icon on rotation to landscape?
+		// The maximum width the visual can use on iPad (1 = 100% full width)
+		var maxWidthPercentageIPad: Double
+		
+		/// Should we hide the visual on rotation to landscape?
 		var hideIconInLandscape: Bool
 		
 		/// Do we use the heading as a navigation title?
@@ -52,8 +55,9 @@ public struct ImageContentView: View {
 		///   - titleStyle: the style of the title
 		///   - subHeadingForegroundColor: the color of the sub heading
 		///   - order: the order of the content and image
-		///   - maxWidthPercentage: The maximum width the icon can use (1 = 100% full width)
-		///   - hideIconInLandscape: Should we hide the icon on rotation to landscape?
+		///   - maxWidthPercentage: The maximum width the visual can use on iPhone (1 = 100% full width)
+		///   - maxWidthPercentageIPad: The maximum width the visual can use on iPad (1 = 100% full width)
+		///   - hideIconInLandscape: Should we hide the visual on rotation to landscape?
 		public init(
 			textAlignment: ImageContentView.Alignment = .center,
 			textSpacing: CGFloat = 8,
@@ -61,6 +65,7 @@ public struct ImageContentView: View {
 			subHeadingForegroundColor: Color,
 			order: ImageContentView.Order = .imageFirst,
 			maxWidthPercentage: Double = 0.5,
+			maxWidthPercentageIPad: Double = 0.33,
 			hideIconInLandscape: Bool = true,
 			headingAsNavigationTitle: Bool = false
 		) {
@@ -70,6 +75,7 @@ public struct ImageContentView: View {
 			self.subHeadingForegroundColor = subHeadingForegroundColor
 			self.order = order
 			self.maxWidthPercentage = maxWidthPercentage
+			self.maxWidthPercentageIPad = maxWidthPercentageIPad
 			self.hideIconInLandscape = hideIconInLandscape
 			self.headingAsNavigationTitle = headingAsNavigationTitle
 		}
@@ -81,7 +87,25 @@ public struct ImageContentView: View {
 	/// The size classes
 	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 	
-	/// Create an empty view for a list
+	/// Create a view with a custom visual (image, animation, etc.) and text
+	/// - Parameters:
+	///   - heading: the heading of the empty state
+	///   - subHeading: the sub heading of the empty state
+	///   - configuration: The layout configuration
+	///   - visual: a view builder producing the visual element rendered alongside the text
+	public init<Visual: View>(
+		heading: LocalizedStringKey,
+		subHeading: LocalizedStringKey,
+		configuration: ImageContentView.Configuration,
+		@ViewBuilder visual: () -> Visual
+	) {
+		self.visual = AnyView(visual())
+		self.heading = heading
+		self.subHeading = subHeading
+		self.configuration = configuration
+	}
+	
+	/// Create a view with an image and text
 	/// - Parameters:
 	///   - icon: the icon to be displayed
 	///   - heading: the heading of the empty state
@@ -93,14 +117,18 @@ public struct ImageContentView: View {
 		subHeading: LocalizedStringKey,
 		configuration: ImageContentView.Configuration
 	) {
-		self.icon = icon
+		self.visual = AnyView(
+			icon
+				.resizable()
+				.aspectRatio(contentMode: .fill)
+		)
 		self.heading = heading
 		self.subHeading = subHeading
 		self.configuration = configuration
 	}
 	
-	/// The icon to be displayed
-	public var icon: Image
+	/// The visual to be displayed (image, animation, …)
+	private let visual: AnyView
 	
 	/// The language key for the heading
 	public var heading: LocalizedStringKey
@@ -125,7 +153,7 @@ public struct ImageContentView: View {
 			static let top: CGFloat = 12
 		}
 	}
-
+	
 	@ViewBuilder
 	private var contentStack: some View {
 		VStack(alignment: configuration.textAlignment == .center ? .center : .leading, spacing: configuration.textSpacing) {
@@ -151,24 +179,27 @@ public struct ImageContentView: View {
 			   alignment: configuration.textAlignment == .center ? .center : .leading
 		)
 	}
-
+	
 	@ViewBuilder
 	private var imageStack: some View {
-		// Image, 50% width
+		// Visual, 50% width
 		VStack(alignment: .center) {
 			Spacer(minLength: 0)
 			
-			icon
-				.resizable()
-				.aspectRatio(contentMode: .fill)
+			visual
 				.padding(.bottom, ViewTraits.View.padding)
 		}
-		.frame(maxWidth: contentSize.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.33 : configuration.maxWidthPercentage)
+		.frame(
+			maxWidth: contentSize.width * (
+				UIDevice.current.userInterfaceIdiom == .pad
+				? configuration.maxWidthPercentageIPad
+				: configuration.maxWidthPercentage
+			)
 		)
 	}
 	
 	public var body: some View {
-			
+		
 		VStack(alignment: .center) {
 			
 			switch configuration.order {
@@ -234,5 +265,5 @@ public struct ImageContentView: View {
 				subHeadingForegroundColor: Color.orange,
 				order: .imageFirst
 			)
-		)
+	)
 }

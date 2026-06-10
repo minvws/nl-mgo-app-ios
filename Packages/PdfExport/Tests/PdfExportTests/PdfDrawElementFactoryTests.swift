@@ -205,6 +205,33 @@ struct PdfDrawElementFactoryTests {
 		#expect(valueElement.isPageBreak == false)
 	}
 
+	@Test("createSubTableRowDrawElement with long value wraps without clipping")
+	func subTablePair_longValue() throws {
+
+		// Given — value that wraps to multiple lines (regression for clipping bug)
+		let pair = PdfSubTablePair(
+			key: "Extra uitleg",
+			value: "Beperking bij het bewegen van het gewricht, drukpijn door slijtage van twee compartimenten van de linker knie.",
+			style: .standard
+		)
+
+		// When
+		let drawElements = sut.createSubTableRowDrawElement(pair, yPosition: 20)
+
+		// Then
+		try #require(drawElements.count == 2)
+		let keyElement = try #require(drawElements.first)
+		let valueElement = try #require(drawElements.last)
+
+		// Key and value share the same row height
+		#expect(keyElement.height == valueElement.height)
+		#expect(keyElement.rect.height == valueElement.rect.height)
+		// Long value must wrap to more than one line
+		#expect(valueElement.rect.height > 11.5)
+		// Layout height = measured text height + 8 vertical padding
+		#expect(valueElement.height == valueElement.rect.height + 8)
+	}
+
 	@Test("createSubTableRowDrawElement with .download style returns single full-width element with label")
 	func subTablePair_download() throws {
 

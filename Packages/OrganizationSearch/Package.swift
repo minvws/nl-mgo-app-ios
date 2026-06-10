@@ -19,7 +19,7 @@ let package = Package(
 		.package(name: "MGODebug", path: "../MGODebug"),
 		.package(name: "Observatory", path: "../Observatory"),
 		// External
-		.package(url: "https://github.com/groue/GRDB.swift", exact: "7.10.0"),
+		.package(url: "https://github.com/groue/GRDB.swift", exact: "7.11.0"),
 	],
 	targets: [
 		.target(

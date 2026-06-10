@@ -13,9 +13,9 @@ import Foundation
 // MARK: - ZibEncounterParticipant
 public struct ZibEncounterParticipant: Codable, Hashable, Sendable {
     public let individual: MgoReference?
-    public let type: PurpleType
+    public let type: TentacledType
 
-    public init(individual: MgoReference?, type: PurpleType) {
+    public init(individual: MgoReference?, type: TentacledType) {
         self.individual = individual
         self.type = type
     }
@@ -41,7 +41,7 @@ public extension ZibEncounterParticipant {
 
     func with(
         individual: MgoReference?? = nil,
-        type: PurpleType? = nil
+        type: TentacledType? = nil
     ) -> ZibEncounterParticipant {
         return ZibEncounterParticipant(
             individual: individual ?? self.individual,

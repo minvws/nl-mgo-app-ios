@@ -21,6 +21,9 @@ class InAppBrowserViewModel: ObservableObject {
 	/// The url to display
 	@Published var url: URL
 	
+	/// Should we show a button to take a screen shot (used for UI Tests)
+	@Published var showScreenshotTrigger: Bool
+	
 	/// The action to perform when closing the view
 	private var closeAction: Coordination.Action
 	
@@ -39,7 +42,8 @@ class InAppBrowserViewModel: ObservableObject {
 		browser: RestrictedBrowser,
 		title: LocalizedStringKey?,
 		coordinator: (any Coordinator)? = nil,
-		closeAction: Coordination.Action = .backButtonPressed
+		closeAction: Coordination.Action = .backButtonPressed,
+		showScreenshotTrigger: Bool
 	) {
 		
 		self.url = url
@@ -47,6 +51,7 @@ class InAppBrowserViewModel: ObservableObject {
 		self.title = title
 		self.coordinator = coordinator
 		self.closeAction = closeAction
+		self.showScreenshotTrigger = showScreenshotTrigger
 	}
 	
 	/// Handle any action
@@ -114,6 +119,21 @@ struct InAppBrowserView: View {
 				.buttonStyle(BackButtonStyle())
 				.accessibilityLabel(closeKey)
 				.accessibilityIdentifier(closeKey.stringKey)
+			}
+			
+		}
+		
+		ToolbarItem(placement: .topBarTrailing) {
+			if viewModel.showScreenshotTrigger {
+				Button {
+					NotificationCenter.default.post(
+						name: UIApplication.userDidTakeScreenshotNotification,
+						object: nil
+					)
+				} label: {
+					Image(systemName: "camera")
+				}
+				.accessibilityIdentifier("debug.screenshot.trigger")
 			}
 		}
 	}

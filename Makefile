@@ -76,7 +76,7 @@ generate_diagrams:
 download_translations:
 	@mkdir -p tmp/localization_downloads
 	@lokalise2 file download --token ${LOKALISE_API_KEY} --project-id "61099271667adf7aa39e27.29068045" --format strings --original-filenames false --unzip-to tmp/localization_downloads/ --export-sort a_z --export-empty-as skip --placeholder-format ios
-	@cd Packages/CopyImport/ && swift run CopyImport --source-path ../../tmp/localization_downloads/nl.lproj/Localizable.strings --target-path ../../tmp/localization_downloads/Localizable.xcstrings
+	@cd Packages/CopyImport/ && swift run CopyImport --source-path ../../tmp/localization_downloads/nl.lproj/Localizable.strings --stringsdict-path ../../tmp/localization_downloads/nl.lproj/Localizable.stringsdict --target-path ../../tmp/localization_downloads/Localizable.xcstrings
 	@rm -f ./Sources/MGO/Resources/Localizable.xcstrings
 	@cp ./tmp/localization_downloads/Localizable.xcstrings ./Sources/MGO/Resources/Localizable.xcstrings
 	@rm -rf "tmp/localization_downloads"
@@ -104,29 +104,6 @@ download_hcimcore:
 	# Cleanup
 	@rm -rf "tmp/hcimcore"
 	
-# -- Download shared Organization Search package --
-	
-download_organization_search:
-	@mkdir -p tmp/organization_search
-	
-	# Download
-	@cd Packages/GithubArtifactDownload/ && swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --branch "main" --workflow-id "220233318" --output ../../tmp/organization_search/artifact.zip
-	
-	# Unpack
-	@cd tmp/organization_search && unzip artifact.zip
-	@cd tmp/organization_search && mv *.tar.gz artifact.tar.gz && tar -xzvf artifact.tar.gz
-	
-	# Move Files
-	@rm -f packages/OrganizationSearch/Sources/OrganizationSearch/Resources/version.json && cp tmp/organization_search/version.json packages/OrganizationSearch/Sources/OrganizationSearch/Resources/version.json
-	@rm -f packages/OrganizationSearch/Sources/OrganizationSearch/Resources/*.js && cp tmp/organization_search/mgo-org-search-api.iife.js packages/OrganizationSearch/Sources/OrganizationSearch/Resources/
-
-	# Generate OrganizationSearch types from schema/json/types.json
-	@rm -f packages/OrganizationSearch/Sources/OrganizationSearch/Generated/*
-	@quicktype --src "./tmp/organization_search/mgo-org-search-api.schema.json#/definitions/" --src-lang schema --access-level public --protocol hashable --sendable --multi-file-output --out ./Packages/OrganizationSearch/Sources/OrganizationSearch/Generated/Types.swift --swift-5-support
-
-	# Cleanup
-	@rm -rf "tmp/organization_search"
-	
 # -- Download shared Health Categories package --
 
 download_shared_config:
@@ -149,4 +126,4 @@ download_shared_config:
 	
 # -- Download shared packages --
 
-download: download_hcimcore download_shared_config download_organization_search
+download: download_hcimcore download_shared_config

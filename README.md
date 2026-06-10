@@ -141,7 +141,7 @@ Transforming the FHIR data into Health and Care Information Modules / Zorg Infor
 
 ### Shared Configuration
 
-The [configurations](https://github.com/minvws/nl-mgo-app-web/actions/workflows/package-config.yml) for the data services and the health categories is included in the app and can be updated with `make download_shared_configuration`
+The [configurations](https://github.com/minvws/nl-mgo-app-web/actions/workflows/package-config.yml) for the data services and the health categories is included in the app and can be updated with `make download_shared_config`
 
 ### End 2 End Tests
 

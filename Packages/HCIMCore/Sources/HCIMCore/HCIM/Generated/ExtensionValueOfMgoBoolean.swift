@@ -13,7 +13,7 @@ import Foundation
 // MARK: - ExtensionValueOfMgoBoolean
 public struct ExtensionValueOfMgoBoolean: Codable, Hashable, Sendable {
     public let ext: Bool
-    public let type: MgoBooleanType
+    public let type: ExtensionValueOfMgoBooleanType
     public let value: Bool
 
     public enum CodingKeys: String, CodingKey {
@@ -22,7 +22,7 @@ public struct ExtensionValueOfMgoBoolean: Codable, Hashable, Sendable {
         case value
     }
 
-    public init(ext: Bool, type: MgoBooleanType, value: Bool) {
+    public init(ext: Bool, type: ExtensionValueOfMgoBooleanType, value: Bool) {
         self.ext = ext
         self.type = type
         self.value = value
@@ -49,7 +49,7 @@ public extension ExtensionValueOfMgoBoolean {
 
     func with(
         ext: Bool? = nil,
-        type: MgoBooleanType? = nil,
+        type: ExtensionValueOfMgoBooleanType? = nil,
         value: Bool? = nil
     ) -> ExtensionValueOfMgoBoolean {
         return ExtensionValueOfMgoBoolean(

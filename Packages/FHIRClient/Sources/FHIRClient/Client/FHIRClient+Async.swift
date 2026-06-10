@@ -1,52 +1,37 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
 import Foundation
+import HTTPTypes
 
 extension FHIRClient {
-	
+
 	/**
 	 Reads the resource from the given path on the given server as Data.
-	 This is the async version
-	 
-	 This method creates a RequestHandlerImpl for a GET request and returns the data.
-	 Parsing of the response into FHIR Resources will be done by the Parser in a separate step.
-	 
-	 - parameter path:      The relative path on the server from which to read resource data from
-	 - parameter parameters  The request parameters to add
-	 - parameter headers:   Headers to send to the server
+
+	 - parameter path:       The relative path on the server to read resource data from
+	 - parameter parameters: The request parameters to add as URL query items
+	 - parameter headers:    Headers to send to the server
 	 - Returns: the requested data
 	 */
 	public func readDataFrom(
 		_ path: String,
 		parameters: RequestParameters = RequestParameters(),
-		headers: RequestHeaders?
+		headers: HTTPFields = HTTPFields()
 	) async throws -> Data {
-		
-		var handler = self.handlerForRequest(withMethod: .GET)
+
+		let handler = self.handlerForRequest(withMethod: .get)
 		handler.parameters = parameters
-		if let headers {
-			handler.add(headers: headers)
-		}
+		handler.add(headers: headers)
+
 		let response = await self.performRequest(against: path, handler: handler)
-		
+
 		if let error = response.error {
 			throw error
 		} else {
 			guard response.status == 200, let body = response.body else {
-				/*
-				 A 404 might contain an 'OperationOutcome' body
-				 {
-					"resourceType": "OperationOutcome",
-					"issue": [{
-						"severity": "error",
-						"code": "not-found",
-						"diagnostics": "The resource is not supported by the server"
-					}]
-				 }
-				 */
 				throw FHIRError.responseNoResourceReceived
 			}
 			return body

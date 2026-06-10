@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - R4NlCoreNameInformationFamily
 public struct R4NlCoreNameInformationFamily: Codable, Hashable, Sendable {
-    public let humannameOwnName, humannameOwnPrefix, humannamePartnerName, humannamePartnerPrefix: PrimitiveValueTypeOfStringString?
+    public let humannameOwnName, humannameOwnPrefix, humannamePartnerName, humannamePartnerPrefix: MgoString?
 
-    public init(humannameOwnName: PrimitiveValueTypeOfStringString?, humannameOwnPrefix: PrimitiveValueTypeOfStringString?, humannamePartnerName: PrimitiveValueTypeOfStringString?, humannamePartnerPrefix: PrimitiveValueTypeOfStringString?) {
+    public init(humannameOwnName: MgoString?, humannameOwnPrefix: MgoString?, humannamePartnerName: MgoString?, humannamePartnerPrefix: MgoString?) {
         self.humannameOwnName = humannameOwnName
         self.humannameOwnPrefix = humannameOwnPrefix
         self.humannamePartnerName = humannamePartnerName
@@ -41,10 +41,10 @@ public extension R4NlCoreNameInformationFamily {
     }
 
     func with(
-        humannameOwnName: PrimitiveValueTypeOfStringString?? = nil,
-        humannameOwnPrefix: PrimitiveValueTypeOfStringString?? = nil,
-        humannamePartnerName: PrimitiveValueTypeOfStringString?? = nil,
-        humannamePartnerPrefix: PrimitiveValueTypeOfStringString?? = nil
+        humannameOwnName: MgoString?? = nil,
+        humannameOwnPrefix: MgoString?? = nil,
+        humannamePartnerName: MgoString?? = nil,
+        humannamePartnerPrefix: MgoString?? = nil
     ) -> R4NlCoreNameInformationFamily {
         return R4NlCoreNameInformationFamily(
             humannameOwnName: humannameOwnName ?? self.humannameOwnName,

@@ -19,7 +19,7 @@ import XCTest
 	// MARK: - Elements
 	
 	private func headingLabel(_ heading: String) -> XCUIElement {
-		app.staticTexts[heading]
+		app.staticTexts[String(heading.prefix(128))]
 	}
 	
 	private func row(_ section: String) -> XCUIElement {
@@ -27,7 +27,7 @@ import XCTest
 	}
 	
 	private func referenceButton(_ identifier: String) -> XCUIElement {
-		app.buttons[identifier]
+		app.buttons[String(identifier.prefix(128))]
 	}
 	
 	private func detailsButton(_ identifier: String) -> XCUIElement {

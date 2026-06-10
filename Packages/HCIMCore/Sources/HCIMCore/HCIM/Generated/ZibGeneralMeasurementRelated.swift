@@ -13,9 +13,9 @@ import Foundation
 // MARK: - ZibGeneralMeasurementRelated
 public struct ZibGeneralMeasurementRelated: Codable, Hashable, Sendable {
     public let target: MgoReference?
-    public let type: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy?
+    public let type: MgoCodeOfString?
 
-    public init(target: MgoReference?, type: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy?) {
+    public init(target: MgoReference?, type: MgoCodeOfString?) {
         self.target = target
         self.type = type
     }
@@ -41,7 +41,7 @@ public extension ZibGeneralMeasurementRelated {
 
     func with(
         target: MgoReference?? = nil,
-        type: MgoCodeOfReplacesHasMemberDerivedFromSequelToQualifiedByInterferedBy?? = nil
+        type: MgoCodeOfString?? = nil
     ) -> ZibGeneralMeasurementRelated {
         return ZibGeneralMeasurementRelated(
             target: target ?? self.target,

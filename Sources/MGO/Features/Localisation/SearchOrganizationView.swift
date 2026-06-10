@@ -75,8 +75,6 @@ class SearchOrganizationViewModel: ObservableObject {
 	enum Action {
 		/// Dismiss the sheet that contains this view.
 		case closeSheet
-		/// Resign the keyboard / end text editing.
-		case endEditing
 		/// Render the next page of results.
 		case loadMore
 		/// Prepare the organization search database.
@@ -124,9 +122,6 @@ class SearchOrganizationViewModel: ObservableObject {
 				
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
-				
-			case .endEditing:
-				UIApplication.shared.endEditing()
 				
 			case .loadMore:
 				state.visibleCount = min(
@@ -419,6 +414,18 @@ struct SearchOrganizationView: View {
 				.foregroundColor(theme.labels.secondary)
 		) { /* no-op */ }
 			.focused($isInputFocused)
+			.autocorrectionDisabled()
+			.textInputAutocapitalization(.never)
+			.introspect(
+				.textField,
+				on: .iOS(.v15, .v16, .v17, .v18, .v26),
+				customize: { textField in
+					textField.spellCheckingType = .no
+					if #available(iOS 17.0, *) {
+						textField.inlinePredictionType = .no
+					}
+				}
+			)
 			.padding(.leading, ViewTraits.Input.leading)
 			.padding(.trailing, ViewTraits.Input.trailing)
 			.padding(.vertical, ViewTraits.Input.verticalPadding)

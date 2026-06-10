@@ -13,7 +13,7 @@ import Foundation
 // MARK: - NlCoreRelatedPerson
 public struct NlCoreRelatedPerson: Codable, Hashable, Sendable {
     public let address: [NlCoreRelatedPersonAddress]?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let name: [NlCoreRelatedPersonName]?
@@ -32,7 +32,7 @@ public struct NlCoreRelatedPerson: Codable, Hashable, Sendable {
         case relationship, resourceType, role, telecom
     }
 
-    public init(address: [NlCoreRelatedPersonAddress]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, name: [NlCoreRelatedPersonName]?, patient: MgoReference?, period: MgoPeriod?, profile: NlCoreRelatedPersonProfile, referenceID: String, relationship: MgoCodeableConcept?, resourceType: String, role: ExtensionValueOfMgoCodeableConcept?, telecom: [NlCoreRelatedPersonTelecom]?) {
+    public init(address: [NlCoreRelatedPersonAddress]?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, name: [NlCoreRelatedPersonName]?, patient: MgoReference?, period: MgoPeriod?, profile: NlCoreRelatedPersonProfile, referenceID: String, relationship: MgoCodeableConcept?, resourceType: String, role: ExtensionValueOfMgoCodeableConcept?, telecom: [NlCoreRelatedPersonTelecom]?) {
         self.address = address
         self.fhirVersion = fhirVersion
         self.id = id
@@ -69,7 +69,7 @@ public extension NlCoreRelatedPerson {
 
     func with(
         address: [NlCoreRelatedPersonAddress]?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         name: [NlCoreRelatedPersonName]?? = nil,

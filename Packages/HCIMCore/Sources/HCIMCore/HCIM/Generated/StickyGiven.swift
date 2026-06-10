@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - StickyGiven
 public struct StickyGiven: Codable, Hashable, Sendable {
-    public let birthName, initials: [PrimitiveValueTypeOfStringString]?
+    public let birthName, initials: [MgoString]?
 
-    public init(birthName: [PrimitiveValueTypeOfStringString]?, initials: [PrimitiveValueTypeOfStringString]?) {
+    public init(birthName: [MgoString]?, initials: [MgoString]?) {
         self.birthName = birthName
         self.initials = initials
     }
@@ -39,8 +39,8 @@ public extension StickyGiven {
     }
 
     func with(
-        birthName: [PrimitiveValueTypeOfStringString]?? = nil,
-        initials: [PrimitiveValueTypeOfStringString]?? = nil
+        birthName: [MgoString]?? = nil,
+        initials: [MgoString]?? = nil
     ) -> StickyGiven {
         return StickyGiven(
             birthName: birthName ?? self.birthName,

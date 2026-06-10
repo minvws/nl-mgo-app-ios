@@ -45,7 +45,7 @@ final class HealthExportViewTests: XCTestCase {
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content, precision: 0.98)
 	}
 	
 	@MainActor func test_exportView_asSheet() async {
@@ -59,7 +59,7 @@ final class HealthExportViewTests: XCTestCase {
 			.environment(\.isPresentedAsSheet, true)
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content, precision: 0.98)
 	}
 	
 	@MainActor func test_exportView_iPad() async {
@@ -87,7 +87,7 @@ final class HealthExportViewTests: XCTestCase {
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content, precision: 0.98)
 	}
 	
 	@MainActor func test_exportView_iPad_iOS18() async {
@@ -119,6 +119,6 @@ final class HealthExportViewTests: XCTestCase {
 			.environment(\.isPresentedAsSheet, false)
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content, precision: 0.98)
 	}
 }

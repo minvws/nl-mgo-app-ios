@@ -44,14 +44,14 @@ struct IntroductionView: View {
 	/// Boolean to determine if the header image should be shown (hidden in landscape)
 	@State var showImage = true
 	
-	/// helper to calculate the size of the view
-	@State private var contentSize: CGSize = .zero
-	
 	/// The size classes
 	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 	
 	/// Dependency injectable OS Version Checker
 	@Injected(\.osVersionChecker) private var osVersionChecker
+	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
 	
 	/// Magic numbers
 	private struct ViewTraits {
@@ -59,16 +59,15 @@ struct IntroductionView: View {
 			static let padding: CGFloat = 16
 		}
 		enum Icon {
-			static let maxWidth: Double = 0.63
+			static let maxWidth: Double = 1
 		}
 	}
 	
 	var body: some View {
 		
 		ScrollViewWithFixedBottom {
-			
 			ImageContentView(
-				icon: Image(ImageResource.Placeholder.onboarding),
+				icon: Image(ImageResource.Introduction.introduction),
 				heading: "introduction.heading",
 				subHeading: "introduction.subheading",
 				configuration: ImageContentView.Configuration(
@@ -78,9 +77,14 @@ struct IntroductionView: View {
 					subHeadingForegroundColor: theme.labels.primary,
 					order: .contentFirst,
 					maxWidthPercentage: ViewTraits.Icon.maxWidth,
+					maxWidthPercentageIPad: ViewTraits.Icon.maxWidth,
 					hideIconInLandscape: false
 				)
 			)
+//			{
+//				let animation: MGOAnimation = colorScheme == .light ? .introductionLight : .introductionDark
+//				MGOLottieView(animation.rawValue)
+//			}
 			.padding(.horizontal, ViewTraits.General.padding)
 		} bottomView: {
 			

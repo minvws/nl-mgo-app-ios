@@ -13,11 +13,11 @@ import Foundation
 // MARK: - NlCoreOrganization
 public struct NlCoreOrganization: Codable, Hashable, Sendable {
     public let address: [NlCoreOrganizationAddress]?
-    public let alias: [PrimitiveValueTypeOfStringString]?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let alias: [MgoString]?
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let name: PrimitiveValueTypeOfStringString?
+    public let name: MgoString?
     public let profile: NlCoreOrganizationProfile
     public let referenceID, resourceType: String
     public let telecom: [NlCoreOrganizationTelecom]?
@@ -29,7 +29,7 @@ public struct NlCoreOrganization: Codable, Hashable, Sendable {
         case resourceType, telecom, type
     }
 
-    public init(address: [NlCoreOrganizationAddress]?, alias: [PrimitiveValueTypeOfStringString]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, name: PrimitiveValueTypeOfStringString?, profile: NlCoreOrganizationProfile, referenceID: String, resourceType: String, telecom: [NlCoreOrganizationTelecom]?, type: NlCoreOrganizationType) {
+    public init(address: [NlCoreOrganizationAddress]?, alias: [MgoString]?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, name: MgoString?, profile: NlCoreOrganizationProfile, referenceID: String, resourceType: String, telecom: [NlCoreOrganizationTelecom]?, type: NlCoreOrganizationType) {
         self.address = address
         self.alias = alias
         self.fhirVersion = fhirVersion
@@ -64,11 +64,11 @@ public extension NlCoreOrganization {
 
     func with(
         address: [NlCoreOrganizationAddress]?? = nil,
-        alias: [PrimitiveValueTypeOfStringString]?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        alias: [MgoString]?? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        name: PrimitiveValueTypeOfStringString?? = nil,
+        name: MgoString?? = nil,
         profile: NlCoreOrganizationProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,

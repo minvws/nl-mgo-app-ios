@@ -68,6 +68,7 @@ packages:
     path: ./Packages/SecureUserSettings
   Theme:
     path: ./Packages/Theme
+
 # - Attributes:
 
 attributes:
@@ -193,7 +194,6 @@ targetTemplates:
       - package: MGODebug
       - package: RestrictedBrowser
       - package: PdfExport
-        embed: false
     settings:
       base:
         CURRENT_PROJECT_VERSION: 1 # needs to be present for project to build locally, but is overwritten by fastlane. No need to change.

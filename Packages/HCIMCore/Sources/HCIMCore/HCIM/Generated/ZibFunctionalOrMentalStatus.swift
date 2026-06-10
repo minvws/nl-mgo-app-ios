@@ -13,10 +13,10 @@ import Foundation
 // MARK: - ZibFunctionalOrMentalStatus
 public struct ZibFunctionalOrMentalStatus: Codable, Hashable, Sendable {
     public let code: MgoCodeableConcept?
-    public let comment: PrimitiveValueTypeOfStringString?
-    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let comment: MgoString?
+    public let effectiveDateTime: MgoDateTime?
     public let effectivePeriod: MgoPeriod?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let medicalDevice: [ExtensionValueOfMgoReference]
@@ -32,7 +32,7 @@ public struct ZibFunctionalOrMentalStatus: Codable, Hashable, Sendable {
         case resourceType, subject, valueCodeableConcept
     }
 
-    public init(code: MgoCodeableConcept?, comment: PrimitiveValueTypeOfStringString?, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, medicalDevice: [ExtensionValueOfMgoReference], performer: [MgoReference]?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?) {
+    public init(code: MgoCodeableConcept?, comment: MgoString?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, medicalDevice: [ExtensionValueOfMgoReference], performer: [MgoReference]?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?) {
         self.code = code
         self.comment = comment
         self.effectiveDateTime = effectiveDateTime
@@ -70,10 +70,10 @@ public extension ZibFunctionalOrMentalStatus {
 
     func with(
         code: MgoCodeableConcept?? = nil,
-        comment: PrimitiveValueTypeOfStringString?? = nil,
-        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        comment: MgoString?? = nil,
+        effectiveDateTime: MgoDateTime?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         medicalDevice: [ExtensionValueOfMgoReference]? = nil,

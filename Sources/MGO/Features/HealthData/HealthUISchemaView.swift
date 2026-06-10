@@ -8,86 +8,100 @@ import MGOUI
 
 // swiftlint:disable type_body_length
 struct HealthUISchemaView: View {
-	
+
 	/// The schema
 	var schema: HealthUISchema
-	
+
 	/// The healthcare organization
 	var healthcareOrganization: OrganizationSearch.Organization
-	
+
 	/// Handler when a user taps on a reference
 	var referenceTapped: ((String?) -> Void)?
-	
+
 	/// An array with the state of references
 	var resolvedReferences: [String: Bool]
-	
+
 	/// Handler when a user taps on a code
 	var codeTapped: ((DisplayValue?) -> Void)?
-	
+
 	/// An array with the state of codes
 	var resolvedCodes: [String: Bool]
-	
+
 	let unknown = String(localized: "common.unknown")
 
 	@State private var showToolbarTitle = false
 
+	/// Vertical scroll offset, used to fade in the toolbar title.
+	@State private var scrollOffset: CGPoint = .zero
+
+	/// Measured size of the in-content title block.
+	@State private var titleSize: CGSize = .zero
+
 	/// The Theme
 	@Environment(\.mgoTheme) var theme
-	
+
 	/// Dependency injectable OS Version Checker
 	@Injected(\.osVersionChecker) private var osVersionChecker
-	
+
 	/// Magic Numbers
-	private struct ViewTraits {
-		enum List {
-			static let headerInset: EdgeInsets = EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16)
-			static let alternativeInset = EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
-			static let inset: EdgeInsets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
-			static let zeroInset: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-			static let bottom: CGFloat = 16
-			static let categoryHeaderTopPadding: CGFloat = 24
-			static let categoryHeaderBottomPadding: CGFloat = 10
-		}
-		enum Row {
-			static let spacing: CGFloat = 4
-			static let padding: CGFloat = 12
-		}
-		enum General {
-			static let padding: CGFloat = 16
-		}
-		enum Chevron {
-			static let size: CGFloat = 32.0
-		}
-		enum QuestionMark {
-			static let size: CGFloat = 20.0
-		}
-		enum Title {
-			static let duration: Double = 0.2
-		}
+	private enum Layout {
+		static let screenMargin: CGFloat = 16
+		static let cardPadding: CGFloat = 16
+		static let cardRadiusNew: CGFloat = 26
+		static let cardRadiusOld: CGFloat = 12
+		static let rowVertical: CGFloat = 16
+		static let labelValueSpacing: CGFloat = 4
+		static let sectionHeaderTop: CGFloat = 24
+		static let sectionHeaderBottom: CGFloat = 10
+		static let interSectionGap: CGFloat = 16
+		static let bottom: CGFloat = 16
+		static let titleVertical: CGFloat = 16
+		static let titleFadeDuration: Double = 0.2
+		static let chevronSize: CGFloat = 32
+		static let questionMarkSize: CGFloat = 20
+		static let separatorHeight: CGFloat = 1
+	}
+
+	/// Leading inset for section headers and row text (card inset + internal padding).
+	private var contentLeading: CGFloat { Layout.screenMargin + Layout.cardPadding }
+
+	/// Card corner radius, larger/continuous on iOS 26.
+	private var cardCornerRadius: CGFloat {
+		osVersionChecker.available(version: .iOS(.v26)) ? Layout.cardRadiusNew : Layout.cardRadiusOld
 	}
 
 	var body: some View {
 
-		List {
-			Section {
-				titleSection
-			}
-			// A HealthUISchema consists of an array of schema groups
-			// (blocks of correlated data)
-			ForEach(schema.children, id: \.self) { schemaGroup in
-				viewFor(schemaGroup)
+		OffsetObservingScrollView(bounces: true, offset: $scrollOffset) {
+			scrollContent
+		}
+		.onChange(of: scrollOffset) { offset in
+			withAnimation(.easeInOut(duration: Layout.titleFadeDuration)) {
+				showToolbarTitle = HealthSchemaToolbarTitle.shouldShow(
+					scrollOffsetY: offset.y,
+					titleBlockHeight: titleSize.height
+				)
 			}
 		}
-		.backport.listSectionSpacing(osVersionChecker.available(version: .iOS(.v26)) ? 0 : 4)
-		.backport.contentMargins(0)
-		.backport.scrollContentBackground(.hidden)
-		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.navigationBarTitleDisplayMode(.inline)
 		.toolbar { toolbarContent }
 	}
-	
-	// MARK: - Title helper -
-	
+
+	/// The scrolling content. Extracted from `body` so the view tree stays within
+	/// SwiftLint's result-builder nesting limit.
+	@ViewBuilder private var scrollContent: some View {
+		VStack(alignment: .leading, spacing: 0) {
+			titleRow
+			ForEach(schema.children, id: \.self) { schemaGroup in
+				sectionView(for: schemaGroup)
+			}
+		}
+		.frame(maxWidth: .infinity, alignment: .leading)
+		.padding(.bottom, Layout.bottom)
+	}
+
+	// MARK: - Title -
+
 	/// Inline navigation bar title that fades in once the in-content title has scrolled out of view.
 	@ToolbarContentBuilder private var toolbarContent: some ToolbarContent {
 		ToolbarItem(placement: .principal) {
@@ -99,105 +113,93 @@ struct HealthUISchemaView: View {
 				.fixedSize(horizontal: false, vertical: true)
 		}
 	}
-	
-	/// Large in-content title row. Triggers toolbar title visibility via `onAppear`/`onDisappear`.
-	@ViewBuilder private var titleSection: some View {
-		
+
+	/// Large in-content title row. Its height is measured so the toolbar title can
+	/// fade in once it has scrolled out of view.
+	@ViewBuilder private var titleRow: some View {
 		Text(schema.label)
 			.typography(.headingExtraLarge)
 			.multilineTextAlignment(.leading)
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.padding()
-			.listRowInsets(.init())
-			.listRowSeparator(.hidden)
-			.listRowBackground(Color.clear)
-			.onAppear {
-				withAnimation(
-					.easeInOut(duration: ViewTraits.Title.duration)
-				) {
-					showToolbarTitle = false
-				}
-			}
-			.onDisappear {
-				withAnimation(
-					.easeInOut(duration: ViewTraits.Title.duration)
-				) {
-					showToolbarTitle = true
-				}
-			}
+			.padding(.vertical, Layout.titleVertical)
+			.padding(.horizontal, Layout.screenMargin)
+			.readSize($titleSize)
 	}
-	
+
+	// MARK: - Sections -
+
+	/// Renders a schema group: an optional header followed by its content runs.
+	@ViewBuilder private func sectionView(for group: HealthUIGroup) -> some View {
+		let isFirst = group == schema.children.first
+		if let label = group.label {
+			sectionHeader(label, isFirst: isFirst)
+		} else if !isFirst {
+			Color.clear.frame(height: Layout.interSectionGap)
+		}
+		ForEach(Array(HealthSectionRun.runs(from: group.uiElements).enumerated()), id: \.offset) { index, run in
+			sectionRunView(run)
+				.padding(.top, index == 0 ? 0 : Layout.interSectionGap)
+		}
+	}
+
+	/// A schema group's header. Sits outside the card, aligned with the row text.
+	@ViewBuilder private func sectionHeader(_ label: String, isFirst: Bool) -> some View {
+		Text(NSLocalizedString(label, comment: ""))
+			.typography(.headingMedium)
+			.foregroundStyle(theme.labels.primary)
+			.frame(maxWidth: .infinity, alignment: .topLeading)
+			.accessibilityAddTraits(.isHeader)
+			.padding(.top, isFirst ? 0 : Layout.sectionHeaderTop)
+			.padding(.bottom, Layout.sectionHeaderBottom)
+			.padding(.leading, contentLeading)
+			.padding(.trailing, Layout.screenMargin)
+	}
+
+	/// Renders a single layout run: a card of normal rows, or a full-width element.
+	@ViewBuilder private func sectionRunView(_ run: HealthSectionRun) -> some View {
+		switch run {
+			case let .card(elements):
+				cardView(elements)
+			case let .fullWidth(element):
+				viewFor(element)
+		}
+	}
+
+	/// A rounded card containing a group's normal rows, separated by hairlines.
+	@ViewBuilder private func cardView(_ elements: [UIElementProtocol]) -> some View {
+		VStack(alignment: .leading, spacing: 0) {
+			ForEach(elements.indices, id: \.self) { index in
+				cardRow(elements[index], isLast: index == elements.count - 1)
+			}
+		}
+		.background(theme.backgrounds.secondary)
+		.clipShape(RoundedRectangle(cornerRadius: cardCornerRadius))
+		.padding(.horizontal, Layout.screenMargin)
+	}
+
+	/// A single card row plus its trailing separator (omitted for the last row).
+	@ViewBuilder private func cardRow(_ element: UIElementProtocol, isLast: Bool) -> some View {
+		viewFor(element)
+			.frame(maxWidth: .infinity, alignment: .leading)
+			.padding(.vertical, Layout.rowVertical)
+			.padding(.horizontal, Layout.cardPadding)
+		if !isLast {
+			separator
+		}
+	}
+
+	/// A hairline row separator, leading-aligned with the row text.
+	private var separator: some View {
+		Rectangle()
+			.fill(theme.separators.primary)
+			.frame(height: Layout.separatorHeight)
+			.padding(.leading, Layout.cardPadding)
+	}
+
 	// MARK: - viewFor methods -
-	
-	/// Get the view for a schema group
-	/// - Parameter schemaGroup: the schema group to display
-	/// - Returns: block view
-	@ViewBuilder private func viewFor(_ schemaGroup: HealthUIGroup) -> some View {
-		
-		let isFirstSchemaGroup = schemaGroup == schema.children.first
-		
-		if let schemaGroupLabel = schemaGroup.label {
-			Section {
-				// A schema group has a section label
-				Text(NSLocalizedString(schemaGroupLabel, comment: ""))
-					.typography(.headingMedium)
-					.foregroundStyle(theme.labels.primary)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.accessibilityAddTraits(.isHeader)
-					.padding(.top, isFirstSchemaGroup ? 0 : ViewTraits.List.categoryHeaderTopPadding
-					)
-					.padding(.bottom, ViewTraits.List.categoryHeaderBottomPadding)
-			}
-			.listRowBackground(Color.clear)
-			.listRowInsets(
-				headerInset(
-					first: isFirstSchemaGroup
-				)
-			)
-		}
-		// A schema group consists of an array of UIElementProtocol structs
-		Section {
-			ForEach(schemaGroup.uiElements.indices, id: \.self) { index in
-				viewFor(schemaGroup.uiElements[index])
-			}
-		} footer: {
-			if schemaGroup == schema.children.last {
-				Rectangle()
-					.fill(.clear)
-					.frame(height: ViewTraits.List.bottom)
-			}
-		}
-	}
-	
-	/// The inset for the header
-	/// - Parameter first: is this the first header
-	/// - Returns: the inset for the header
-	func headerInset(first: Bool) -> EdgeInsets {
-		
-		guard osVersionChecker.available(version: .iOS(.v17)) else {
-			return ViewTraits.List.zeroInset
-		}
-		
-		var inset: EdgeInsets = ViewTraits.List.headerInset
-		
-		if first {
-			inset = ViewTraits.List.alternativeInset
-		}
-		
-		inset.leading = osVersionChecker
-			.available(version: .iOS(.v26)) ? ViewTraits.General.padding : 0
-		
-		return inset
-	}
-	
-	/// Show a row of key: value for a UIElement
-	/// - Parameters:
-	///   - entry: the UIElement to display
-	/// - Returns: view for a UIElement
-	@ViewBuilder private func viewFor(
-		_ entry: UIElementProtocol
-	) -> some View {
-		
+
+	/// Get the view for a UIElement
+	@ViewBuilder private func viewFor(_ entry: UIElementProtocol) -> some View {
 		switch entry {
 			case is SingleValue:
 				viewFor(entry as! SingleValue) // swiftlint:disable:this force_cast
@@ -218,246 +220,137 @@ struct HealthUISchemaView: View {
 					.logWarning("UISchemaView - unknown type", entry.elementType)
 		}
 	}
-	
-	/// Show a row of key: value for a Single Value entry
-	/// - Parameters:
-	///   - singleValue: the Single Value entry to display
-	/// - Returns: view for a Single Value entry
-	@ViewBuilder private func viewFor(
-		_ singleValue: SingleValue
-	) -> some View {
-		
+
+	@ViewBuilder private func viewFor(_ singleValue: SingleValue) -> some View {
 		if let value = singleValue.value {
 			viewFor([value], heading: singleValue.label)
 		}
 	}
-	
-	/// Show a row of key: value for a Multiple Values entry
-	/// - Parameters:
-	///   - multipleValues: the Multiple Values entry to display
-	/// - Returns: view for a Multiple Values entry
-	@ViewBuilder private func viewFor(
-		_ multipleValues: MultipleValues,
-	) -> some View {
-		
+
+	@ViewBuilder private func viewFor(_ multipleValues: MultipleValues) -> some View {
 		if let values = multipleValues.value {
 			viewFor(values, heading: multipleValues.label)
 		}
 	}
-	
-	/// Show a row of key: value for a Multiple Grouped Values entry
-	/// - Parameters:
-	///   - multipleGroupedValues: the Multiple Grouped Values entry to display
-	/// - Returns: view for a Multiple Grouped Values entry
-	@ViewBuilder private func viewFor(
-		_ multipleGroupedValues: MultipleGroupedValues,
-	) -> some View {
-		
+
+	@ViewBuilder private func viewFor(_ multipleGroupedValues: MultipleGroupedValues) -> some View {
 		if let values = multipleGroupedValues.value {
 			let elements = values.flatMap({ $0 })
-			viewFor(
-				elements,
-				heading: multipleGroupedValues.label
-			)
+			viewFor(elements, heading: multipleGroupedValues.label)
 		}
 	}
-	
-	/// Show a row of key: value for a Reference Link
-	/// - Parameters:
-	///   - referenceLink: the Reference Link entry to display
-	/// - Returns: view for a Reference Link entry
-	@ViewBuilder private func viewFor(
-		_ referenceLink: ReferenceLink
-	) -> some View {
-		
+
+	@ViewBuilder private func viewFor(_ referenceLink: ReferenceLink) -> some View {
 		if resolvedReferences[referenceLink.reference] == true {
 			// Reference Link to details page
 			Button {
 				self.referenceTapped?(referenceLink.reference)
 			} label: {
-				viewFor(
-					referenceLink.label,
-					heading: nil,
-					showChevron: true
-				)
-				.padding(.vertical, osVersionChecker.available(version: .iOS(.v26)) ? 0 : 16)
+				viewFor(referenceLink.label, heading: nil, showChevron: true)
 			}
+			.contentShape(Rectangle())
 			.accessibilityIdentifier(referenceLink.label)
-			
 		} else {
 			viewFor(
 				SingleValue(
 					id: referenceLink.id,
 					label: referenceLink.label,
 					type: .singleValue,
-					value: DisplayValue(
-						code: nil,
-						display: referenceLink.reference,
-						system: nil
-					)
+					value: DisplayValue(code: nil, display: referenceLink.reference, system: nil)
 				)
 			)
 		}
 	}
-	
-	/// Show a row of key: value for a Reference Value
-	/// - Parameters:
-	///   - referenceValue: the Reference Value entry to display
-	/// - Returns: view for a Reference Value entry
-	@ViewBuilder private func viewFor(
-		_ referenceValue: ReferenceValue,
-	) -> some View {
-		
+
+	@ViewBuilder private func viewFor(_ referenceValue: ReferenceValue) -> some View {
 		let value = referenceValue.display ?? referenceValue.reference
-		
 		if let reference = referenceValue.reference,
 		   resolvedReferences[reference] == true {
-			
 			Button {
 				self.referenceTapped?(reference)
 			} label: {
-				viewFor(
-					value,
-					heading: referenceValue.label,
-					showChevron: true
-				)
-				.padding(.vertical, osVersionChecker.available(version: .iOS(.v26)) ? 0 : 16)
+				viewFor(value, heading: referenceValue.label, showChevron: true)
 			}
+			.contentShape(Rectangle())
 			.accessibilityIdentifier("\(referenceValue.label), \(value ?? "")")
-			
 		} else {
 			viewFor(
 				SingleValue(
 					id: referenceValue.id,
 					label: referenceValue.label,
 					type: .singleValue,
-					value: DisplayValue(
-						code: nil,
-						display: value,
-						system: nil
-					)
+					value: DisplayValue(code: nil, display: value, system: nil)
 				)
 			)
 		}
 	}
-	
-	/// Show a row of key: value for a Download Binary entry
-	/// - Parameters:
-	///   - entry: the Download Binary entry to display
-	/// - Returns: view for a Download Binary entry
-	@ViewBuilder private func viewFor(
-		_ downloadBinary: DownloadBinary,
-	) -> some View {
-		
+
+	@ViewBuilder private func viewFor(_ downloadBinary: DownloadBinary) -> some View {
 		HealthDataDownloadView(
-			viewModel:
-				HealthDataDownloadViewModel(
-					healthcareOrganization: healthcareOrganization,
-					downloadBinary: downloadBinary
-				)
+			viewModel: HealthDataDownloadViewModel(
+				healthcareOrganization: healthcareOrganization,
+				downloadBinary: downloadBinary
+			)
 		)
-		.listRowInsets(ViewTraits.List.zeroInset)
 	}
-	
-	/// Show a row of key: value for a Download Link entry
-	/// - Parameters:
-	///   - entry: the Download Link entry to display
-	/// - Returns: view for a Download Link entry
-	@ViewBuilder private func viewFor(
-		_ downloadLink: DownloadLink,
-	) -> some View {
-		
+
+	@ViewBuilder private func viewFor(_ downloadLink: DownloadLink) -> some View {
 		HealthDataDownloadView(
-			viewModel:
-				HealthDataDownloadViewModel(
-					healthcareOrganization: healthcareOrganization,
-					downloadLink: downloadLink
-				)
+			viewModel: HealthDataDownloadViewModel(
+				healthcareOrganization: healthcareOrganization,
+				downloadLink: downloadLink
+			)
 		)
-		.listRowInsets(ViewTraits.List.zeroInset)
 	}
-	
+
 	/// Show a row of data (heading and value)
-	/// - Parameters:
-	///   - value: the value to display
-	///   - heading: the heading to display
-	///   - showChevron: show a chevron
-	/// - Returns: Row View
-	@ViewBuilder private func viewFor(
-		_ value: String?,
-		heading: String?,
-		showChevron: Bool = false
-	) -> some View {
-		
+	@ViewBuilder private func viewFor(_ value: String?, heading: String?, showChevron: Bool = false) -> some View {
 		HStack(alignment: .center, spacing: 0) {
-			
-			VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
-				
+			VStack(alignment: .leading, spacing: Layout.labelValueSpacing) {
 				if let heading {
-					viewFor(heading, accessibilityIdentifier: heading)
+					// Headings inside the tappable reference row must not be
+					// selectable; UITextView selection gestures conflict with
+					// the parent Button's tap.
+					viewFor(heading, accessibilityIdentifier: heading, selectable: false)
 				}
 				let text = Sanitizer.strip(value) ?? unknown
 				Text(text)
 					.typography(.bodyMedium)
 					.foregroundStyle(theme.labels.primary)
+					.fixedSize(horizontal: false, vertical: true)
 					.accessibilityIdentifier(text)
 			}
 			Spacer()
-			
 			if showChevron {
-				
 				Image(systemName: "chevron.right")
 					.foregroundStyle(theme.symbols.primary)
-					.frame(
-						width: ViewTraits.Chevron.size,
-						height: ViewTraits.Chevron.size,
-						alignment: .center
-					)
+					.frame(width: Layout.chevronSize, height: Layout.chevronSize, alignment: .center)
 					.accessibilityHidden(true)
 			}
 		}
 	}
-	
+
 	/// A Selectable Text View
-	/// - Parameter value: the display value
-	/// - Returns: view
 	@ViewBuilder private func selectableTextView(_ value: String) -> some View {
-		
 		SelectableTextView(
 			text: value,
 			textColor: theme.labels.primary,
-			font: UIFont(
-				name: RijksoverheidFont.regular.fontName,
-				size: Font.TextStyle.body.pointSize
-			)
+			font: UIFont(name: RijksoverheidFont.regular.fontName, size: Font.TextStyle.body.pointSize)
 		)
 	}
-	
-	/// Show a row of data (ValueDisplay)
-	/// - Parameters:
-	///   - value: the value to display
-	///   - heading: the heading to display
-	/// - Returns: Row View
-	@ViewBuilder private func viewFor(
-		_ values: [DisplayValue],
-		heading: String?,
-	) -> some View {
-		
-		VStack(alignment: .leading, spacing: 0) {
-			
+
+	/// Show a row of data (heading + ValueDisplay array)
+	@ViewBuilder private func viewFor(_ values: [DisplayValue], heading: String?) -> some View {
+		VStack(alignment: .leading, spacing: Layout.labelValueSpacing) {
 			if let heading {
 				viewFor(heading, accessibilityIdentifier: heading)
 			}
 			viewFor(values)
 		}
-		.padding(.vertical, osVersionChecker.available(version: .iOS(.v26)) ? 8 : 16)
 	}
-	
+
 	/// The view for an array of value displays
-	/// - Parameter element: the array of value displays
-	/// - Returns: view for the array of value displays
 	@ViewBuilder private func viewFor(_ values: [DisplayValue]) -> some View {
-		
 		ForEach(Array(values.enumerated()), id: \.offset) { _, element in
 			if let code = element.code, resolvedCodes[code] ?? false {
 				termViewFor(element)
@@ -468,12 +361,9 @@ struct HealthUISchemaView: View {
 			}
 		}
 	}
-	
+
 	/// The view for a display coding
-	/// - Parameter displayValue: the coding object
-	/// - Returns: view for display coding
 	@ViewBuilder private func termViewFor(_ displayValue: DisplayValue) -> some View {
-		
 		Button {
 			codeTapped?(displayValue)
 		} label: {
@@ -482,14 +372,10 @@ struct HealthUISchemaView: View {
 		.buttonStyle(HalfOpacityWhenPressedButtonStyle())
 		.accessibilityIdentifier(displayValue.code ?? "unknown")
 	}
-	
+
 	/// The label for a patient friendly term
-	/// - Parameter text: the term
-	/// - Returns: view for the label of a term (with question mark icon)
 	@ViewBuilder private func displayCodingLabel(_ text: String) -> some View {
-		
 		HStack(alignment: .center, content: {
-			
 			Label {
 				Text(text)
 					.typography(.bodyMedium)
@@ -497,51 +383,44 @@ struct HealthUISchemaView: View {
 			} icon: {
 				Image(systemName: "questionmark.circle")
 					.resizable()
-					.frame(
-						width: ViewTraits.QuestionMark.size,
-						height: ViewTraits.QuestionMark.size
-					)
+					.frame(width: Layout.questionMarkSize, height: Layout.questionMarkSize)
 			}
 			.labelStyle(TrailingIconLabelStyle())
-			
 			Spacer()
 		})
 		.fixedSize(horizontal: false, vertical: true)
 		.foregroundStyle(theme.categories.rijkslint)
 	}
-	
+
 	/// The view for a heading row
-	/// - Parameter heading: the heading
-	/// - Parameter accessibilityIdentifier: the accessibility Identifier
-	/// - Returns: heading view
-	@ViewBuilder private func viewFor(
-		_ heading: String,
-		accessibilityIdentifier: String
-	) -> some View {
-		
-		SelectableTextView(
-			text: heading,
-			textColor: theme.labels.secondary,
-			font: UIFont(
-				name: RijksoverheidFont.regular.fontName,
-				size: Font.TextStyle.callout.pointSize
+	@ViewBuilder private func viewFor(_ heading: String, accessibilityIdentifier: String, selectable: Bool = true) -> some View {
+		if selectable {
+			SelectableTextView(
+				text: heading,
+				textColor: theme.labels.secondary,
+				font: UIFont(name: RijksoverheidFont.regular.fontName, size: Font.TextStyle.callout.pointSize)
 			)
-		)
-		.accessibilityIdentifier(accessibilityIdentifier)
-		.accessibilityAddTraits(.isHeader)
-		.padding(.bottom, osVersionChecker.available(version: OSVersion.iOS(.v26)) ? 0 : -8)
+			.accessibilityIdentifier(accessibilityIdentifier)
+			.accessibilityAddTraits(.isHeader)
+		} else {
+			Text(heading)
+				.typography(.bodySmall)
+				.foregroundStyle(theme.labels.secondary)
+				.fixedSize(horizontal: false, vertical: true)
+				.accessibilityIdentifier(accessibilityIdentifier)
+				.accessibilityAddTraits(.isHeader)
+		}
 	}
 }
 // swiftlint:enable type_body_length
 
 #Preview {
-	ScrollView {
+	NavigationStackBackport.NavigationStack {
 		HealthUISchemaView(
 			schema: PreviewContent.uiSchema,
 			healthcareOrganization: PreviewContent.healthcareOrganization,
 			resolvedReferences: ["reference": true],
 			resolvedCodes: ["code": true]
 		)
-		.padding(.horizontal, 16)
 	}
 }

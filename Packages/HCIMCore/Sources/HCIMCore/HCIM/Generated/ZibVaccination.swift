@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - ZibVaccination
 public struct ZibVaccination: Codable, Hashable, Sendable {
-    public let date: PrimitiveValueTypeOfDateDateString?
+    public let date: MgoDate?
     public let doseQuantity: MgoQuantity?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let note: [MgoAnnotation]?
@@ -32,7 +32,7 @@ public struct ZibVaccination: Codable, Hashable, Sendable {
         case reportOrigin, resourceType, vaccineCode
     }
 
-    public init(date: PrimitiveValueTypeOfDateDateString?, doseQuantity: MgoQuantity?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, patient: MgoReference?, practitioner: [Practitioner]?, profile: ZibVaccinationProfile, referenceID: String, reportOrigin: MgoCodeableConcept?, resourceType: String, vaccineCode: MgoCodeableConcept?) {
+    public init(date: MgoDate?, doseQuantity: MgoQuantity?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, patient: MgoReference?, practitioner: [Practitioner]?, profile: ZibVaccinationProfile, referenceID: String, reportOrigin: MgoCodeableConcept?, resourceType: String, vaccineCode: MgoCodeableConcept?) {
         self.date = date
         self.doseQuantity = doseQuantity
         self.fhirVersion = fhirVersion
@@ -68,9 +68,9 @@ public extension ZibVaccination {
     }
 
     func with(
-        date: PrimitiveValueTypeOfDateDateString?? = nil,
+        date: MgoDate?? = nil,
         doseQuantity: MgoQuantity?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         note: [MgoAnnotation]?? = nil,

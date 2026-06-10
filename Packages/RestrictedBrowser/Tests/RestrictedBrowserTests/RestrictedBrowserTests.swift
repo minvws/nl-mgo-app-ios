@@ -3,84 +3,114 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+import Foundation
+import Testing
 @testable import RestrictedBrowser
 
-final class RestrictedBrowserTests: XCTestCase {
+@Suite @MainActor
+struct RestrictedBrowserTests {
 	
-	private var urlOpenerSpy: URLOpenerSpy!
+	let urlOpenerSpy = URLOpenerSpy()
 	
-	override func setUp() {
-		super.setUp()
-		urlOpenerSpy = URLOpenerSpy()
-	}
-	
-	@MainActor func test_isDomainAllowed_allowed() throws {
+	@Test func test_isDomainAllowed_empty() throws {
 		
 		// Given
-		let url = try XCTUnwrap(URL(string: "https://apple.com"))
-		let sut = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
+		let url = try #require(URL(string: "https://apple.com"))
+		let sut = RestrictedBrowser(
+			allowedDomains: [],
+			urlOpener: urlOpenerSpy
+		)
 		
 		// When
 		let result = sut.isDomainAllowed(url)
 		
 		// Then
-		expect(result) == true
-	}
-
-	@MainActor func test_isDomainAllowed_notAllowed() throws {
-		
-		// Given
-		let url = try XCTUnwrap(URL(string: "https://apple.com"))
-		let sut = RestrictedBrowser(allowedDomains: ["google.com"], urlOpener: urlOpenerSpy)
-		
-		// When
-		let result = sut.isDomainAllowed(url)
-		
-		// Then
-		expect(result) == false
-	}
-
-	@MainActor func test_isDomainAllowed_notAllowedSubDomain() throws {
-		
-		// Given
-		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
-		let sut = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
-		
-		// When
-		let result = sut.isDomainAllowed(url)
-		
-		// Then
-		expect(result) == false
+		#expect(result == false)
 	}
 	
-	@MainActor func test_handleUnallowedDomain() throws {
+	@Test func test_isDomainAllowed_allowed() throws {
+		
+		// Given
+		let url = try #require(URL(string: "https://apple.com"))
+		let sut = RestrictedBrowser(
+			allowedDomains: ["apple.com"],
+			urlOpener: urlOpenerSpy
+		)
+		
+		// When
+		let result = sut.isDomainAllowed(url)
+		
+		// Then
+		#expect(result == true)
+	}
+	
+	@Test func test_isDomainAllowed_notAllowed() throws {
+		
+		// Given
+		let url = try #require(URL(string: "https://apple.com"))
+		let sut = RestrictedBrowser(
+			allowedDomains: ["google.com"],
+			urlOpener: urlOpenerSpy
+		)
+		
+		// When
+		let result = sut.isDomainAllowed(url)
+		
+		// Then
+		#expect(result == false)
+	}
+	
+	@Test func test_isDomainAllowed_notAllowedSubDomain() throws {
+		
+		// Given
+		let url = try #require(URL(string: "https://support.apple.com"))
+		let sut = RestrictedBrowser(
+			allowedDomains: ["apple.com"],
+			urlOpener: urlOpenerSpy
+		)
+		
+		// When
+		let result = sut.isDomainAllowed(url)
+		
+		// Then
+		#expect(result == false)
+	}
+	
+	@Test func test_handleUnallowedDomain() async throws {
 		
 		// Given
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
-		let sut = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
+		let url = try #require(URL(string: "https://support.apple.com"))
+		let sut = RestrictedBrowser(
+			allowedDomains: ["apple.com"],
+			urlOpener: urlOpenerSpy
+		)
 		
 		// When
 		sut.handleUnallowedDomain(url)
 		
 		// Then
-		expect(self.urlOpenerSpy.invokedCanOpenURL) == true
-		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
+		#expect(urlOpenerSpy.invokedCanOpenURL == true)
+		await Task.yield()
+		#expect(urlOpenerSpy.invokedOpen == true)
 	}
 	
-	@MainActor func test_openInDefaultBrowser() throws {
+	@Test func test_openInDefaultBrowser() async throws {
 		
 		// Given
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
-		let sut = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
+		let url = try #require(URL(string: "https://support.apple.com"))
+		let sut = RestrictedBrowser(
+			allowedDomains: ["apple.com"],
+			urlOpener: urlOpenerSpy
+		)
 		
 		// When
 		sut.openInDefaultBrowser(url: url)
 		
 		// Then
-		expect(self.urlOpenerSpy.invokedCanOpenURL) == true
-		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
+		#expect(urlOpenerSpy.invokedCanOpenURL == true)
+		await Task.yield()
+		#expect(urlOpenerSpy.invokedOpen == true)
 	}
 }

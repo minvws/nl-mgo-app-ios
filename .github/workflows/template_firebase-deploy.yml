@@ -28,7 +28,7 @@ on:
         required: true
 
 env:
-  DEVELOPER_DIR: /Applications/Xcode_26.4.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode_26.4.1.app/Contents/Developer
   FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 180
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
 
@@ -79,6 +79,28 @@ jobs:
 #    - name: Setup Imagemagick for icon overlays
 #      run: |
 #        make homebrew_ci_imagemagick
+
+    # SPM packages are the same regardless of build configuration, so this cache
+    # is shared with the ci.yml key (same Package.resolved hash). On a warm cache
+    # the ~2-min GitHub network fetch is skipped entirely.
+    # DerivedData is intentionally NOT cached here: release/distribution builds
+    # produce different artifacts than the Debug test build in ci.yml, making a
+    # shared cache useless, and deploys are too infrequent to stay warm on their own.
+    - name: Restore SPM package cache
+      uses: actions/cache@v5
+      with:
+        path: SourcePackages
+        key: spm-${{ runner.os }}-${{ env.DEVELOPER_DIR }}-${{ hashFiles('**/Package.resolved') }}
+        restore-keys: |
+          spm-${{ runner.os }}-${{ env.DEVELOPER_DIR }}-
+
+    - name: Resolve packages
+      run: |
+        xcodebuild -resolvePackageDependencies \
+          -scheme "MGO Dev" \
+          -project MGO.xcodeproj \
+          -clonedSourcePackagesDirPath SourcePackages \
+          -skipPackagePluginValidation
 
     - name: Build and deploy
       timeout-minutes: 45

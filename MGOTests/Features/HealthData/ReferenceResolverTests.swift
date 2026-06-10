@@ -1,48 +1,46 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOFoundation
+import Testing
 import MGOTest
+import MGOFoundation
 @testable import MGO
 
-class ReferenceResolverTests: XCTestCase {
+@MainActor
+@Suite(.serialized)
+struct ReferenceResolverTests {
 	
 	private let organization: OrganizationSearch.Organization = Generator.healthcareOrganization("1")
+	private let sut: ReferenceResolver
+	private let servicesSpies: ServicesSpies
 	
-	private var reference = "Reference"
-	
-	private var sut: ReferenceResolver!
-	
-	private var servicesSpies: ServicesSpies!
-	
-	override func setUp() {
-		
-		super.setUp()
-		
+	init() {
 		servicesSpies = setupServicesSpies()
 		sut = ReferenceResolver()
 	}
 	
-	func test_resolve_noData() {
+	@Test("Resolving with no stored data returns nil")
+	func resolve_noData() {
 		
-		// Given
+		// Given the data store has no data for the organization
 		servicesSpies.dataStoreSpy.stubbedGetOrganizationIdResult = .failure(DataStoreError.noData)
 		
-		// When
+		// When resolving a reference
 		let resolved = sut.resolve(
-			reference: reference,
+			reference: "Reference",
 			healthcareOrganization: organization
 		)
 		
-		// Then
-		expect(resolved) == nil
+		// Then nothing is resolved
+		#expect(resolved == nil)
 	}
 	
-	func test_resolve_errorInData() {
+	@Test("Resolving an errored record returns nil")
+	func resolve_errorInData() {
 		
-		// Given
+		// Given a stored record flagged as errored
 		let record = MgoResourceRecord(
 			categoryId: "1",
 			organizationId: organization.identifier,
@@ -51,21 +49,21 @@ class ReferenceResolverTests: XCTestCase {
 		)
 		servicesSpies.dataStoreSpy.stubbedGetOrganizationIdResult = .success([record])
 		
-		// When
+		// When resolving a reference
 		let resolved = sut.resolve(
-			reference: reference,
+			reference: "Reference",
 			healthcareOrganization: organization
 		)
 		
-		// Then
-		expect(resolved) == nil
+		// Then nothing is resolved
+		#expect(resolved == nil)
 	}
 	
-	func test_resolve_noReferenceFound() throws {
+	@Test("Resolving a reference absent from the resource returns nil")
+	func resolve_noReferenceFound() throws {
 		
-		// Given
+		// Given a stored record whose resource does not contain the reference
 		let resource = try getResource("zibProblem")
-		
 		let record = MgoResourceRecord(
 			categoryId: "1",
 			organizationId: organization.identifier,
@@ -74,19 +72,20 @@ class ReferenceResolverTests: XCTestCase {
 		)
 		servicesSpies.dataStoreSpy.stubbedGetOrganizationIdResult = .success([record])
 		
-		// When
+		// When resolving a reference that is not present in the resource
 		let resolved = sut.resolve(
-			reference: reference,
+			reference: "Reference",
 			healthcareOrganization: organization
 		)
 		
-		// Then
-		expect(resolved) == nil
+		// Then nothing is resolved
+		#expect(resolved == nil)
 	}
-
-	func test_resolve_referenceFound() throws {
+	
+	@Test("Resolving a matching reference returns the resource and its schema")
+	func resolve_referenceFound() throws {
 		
-		// Given
+		// Given a stored record containing the referenced resource
 		let resource = try getResource("zibProblem")
 		let record = MgoResourceRecord(
 			categoryId: "1",
@@ -95,19 +94,18 @@ class ReferenceResolverTests: XCTestCase {
 			error: nil
 		)
 		servicesSpies.dataStoreSpy.stubbedGetOrganizationIdResult = .success([record])
-		reference = "Condition/3c77bb22-795d-4e5e-815e-1db080fca69f"
 		
-		// When
+		// When resolving the matching reference
 		let resolved = sut.resolve(
-			reference: reference,
+			reference: "Condition/3c77bb22-795d-4e5e-815e-1db080fca69f",
 			healthcareOrganization: organization
 		)
-		let (data, schema) = try XCTUnwrap(resolved)
+		let (data, schema) = try #require(resolved)
 		
-		// Then
-		expect(data) == resource
-		expect(schema.label) == "Medische klacht"
-		expect(schema.children.first?.label) == nil
-		expect(schema.children.first?.children.count) == 2
+		// Then the resource and its mapped schema are returned
+		#expect(data == resource)
+		#expect(schema.label == "Medische klacht")
+		#expect(schema.children.first?.label == nil)
+		#expect(schema.children.first?.children.count == 2)
 	}
 }

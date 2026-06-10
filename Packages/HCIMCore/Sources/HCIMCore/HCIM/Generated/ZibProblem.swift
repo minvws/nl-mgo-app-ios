@@ -12,17 +12,17 @@ import Foundation
 
 // MARK: - ZibProblem
 public struct ZibProblem: Codable, Hashable, Sendable {
-    public let abatementDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let abatementDateTime: MgoDateTime?
     public let asserter: MgoReference?
     public let bodySite: [ZibProblemBodySite]?
     public let category: [MgoCodeableConcept]?
     public let clinicalStatus: ZibProblemClinicalStatus
     public let code: MgoCodeableConcept?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let note: [MgoAnnotation]?
-    public let onsetDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let onsetDateTime: MgoDateTime?
     public let profile: ZibProblemProfile
     public let referenceID, resourceType: String
     public let subject: MgoReference?
@@ -34,7 +34,7 @@ public struct ZibProblem: Codable, Hashable, Sendable {
         case resourceType, subject, verificationStatus
     }
 
-    public init(abatementDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, asserter: MgoReference?, bodySite: [ZibProblemBodySite]?, category: [MgoCodeableConcept]?, clinicalStatus: ZibProblemClinicalStatus, code: MgoCodeableConcept?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, onsetDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, profile: ZibProblemProfile, referenceID: String, resourceType: String, subject: MgoReference?, verificationStatus: VerificationStatus) {
+    public init(abatementDateTime: MgoDateTime?, asserter: MgoReference?, bodySite: [ZibProblemBodySite]?, category: [MgoCodeableConcept]?, clinicalStatus: ZibProblemClinicalStatus, code: MgoCodeableConcept?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, onsetDateTime: MgoDateTime?, profile: ZibProblemProfile, referenceID: String, resourceType: String, subject: MgoReference?, verificationStatus: VerificationStatus) {
         self.abatementDateTime = abatementDateTime
         self.asserter = asserter
         self.bodySite = bodySite
@@ -73,17 +73,17 @@ public extension ZibProblem {
     }
 
     func with(
-        abatementDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        abatementDateTime: MgoDateTime?? = nil,
         asserter: MgoReference?? = nil,
         bodySite: [ZibProblemBodySite]?? = nil,
         category: [MgoCodeableConcept]?? = nil,
         clinicalStatus: ZibProblemClinicalStatus? = nil,
         code: MgoCodeableConcept?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         note: [MgoAnnotation]?? = nil,
-        onsetDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        onsetDateTime: MgoDateTime?? = nil,
         profile: ZibProblemProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,

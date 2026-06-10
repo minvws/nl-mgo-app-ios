@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - WorkSituation
 public struct WorkSituation: Codable, Hashable, Sendable {
-    public let valueString: PrimitiveValueTypeOfStringString?
+    public let valueString: MgoString?
 
-    public init(valueString: PrimitiveValueTypeOfStringString?) {
+    public init(valueString: MgoString?) {
         self.valueString = valueString
     }
 }
@@ -38,7 +38,7 @@ public extension WorkSituation {
     }
 
     func with(
-        valueString: PrimitiveValueTypeOfStringString?? = nil
+        valueString: MgoString?? = nil
     ) -> WorkSituation {
         return WorkSituation(
             valueString: valueString ?? self.valueString

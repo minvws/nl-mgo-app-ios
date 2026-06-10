@@ -3,112 +3,114 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import Testing
 import MGOFoundation
-import MGOTest
 import MGOUI
 @testable import MGO
 
-final class DashboardCoordinatorTests: XCTestCase {
-	
-	private var sut: DashboardCoordinator!
-	private var parentCoordinatorSpy: AppCoordinatorSpy!
-	private var servicesSpies: ServicesSpies!
-	
-	override func setUp() {
-		
+@MainActor
+@Suite
+struct DashboardCoordinatorTests {
+
+	private let sut: DashboardCoordinator
+	private let parentCoordinatorSpy: AppCoordinatorSpy
+	private let servicesSpies: ServicesSpies
+
+	init() {
 		servicesSpies = setupServicesSpies()
-		super.setUp()
-	}
-	
-	@MainActor private func createSut() {
-		
 		parentCoordinatorSpy = AppCoordinatorSpy()
 		sut = DashboardCoordinator(parentCoordinator: parentCoordinatorSpy)
 	}
 
-	@MainActor func test_handleResetApplication() throws {
-		
+	// MARK: - Handle -
+
+	@Test("resetApplication resets children, selects first tab and bubbles to parent")
+	func coordinatorHandle_resetApplication_resetsChildrenSelectsFirstTabAndBubbles() {
+
 		// Given
-		createSut()
 		sut.selectedTab = DashboardTab.settings.rawValue
-		
+		sut.healthCategoriesCoordinator.handle(
+			Coordination.Action(identifier: "showHealthCategory", params: ["category": Generator.healthCategory])
+		)
+		sut.healthCategoriesCoordinator.handle(Coordination.Action.addHealthcareOrganization)
+		sut.healthcareOrganizationsCoordinator.handle(
+			Coordination.Action(identifier: "showHealthCategory", params: ["category": Generator.healthCategory])
+		)
+		sut.healthcareOrganizationsCoordinator.handle(Coordination.Action.addHealthcareOrganization)
+		#expect(!sut.healthCategoriesCoordinator.path.isEmpty)
+		#expect(sut.healthCategoriesCoordinator.rootStateForSheet == HealthcareCoordination.State.manualLocalization)
+		#expect(!sut.healthcareOrganizationsCoordinator.path.isEmpty)
+		#expect(sut.healthcareOrganizationsCoordinator.rootStateForSheet == HealthcareCoordination.State.manualLocalization)
+
 		// When
-		sut.handle(.resetApplication)
-		
+		sut.handle(Coordination.Action.resetApplication)
+
 		// Then
-		expect(self.parentCoordinatorSpy.invokedHandle) == true
-		expect(self.parentCoordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.resetApplication
-		expect(self.sut.selectedTab) == DashboardTab.healthCategories.rawValue
+		#expect(parentCoordinatorSpy.invokedHandle)
+		#expect(parentCoordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.resetApplication)
+		#expect(sut.selectedTab == DashboardTab.healthCategories.rawValue)
+		#expect(sut.healthCategoriesCoordinator.path.isEmpty)
+		#expect(sut.healthCategoriesCoordinator.rootStateForSheet == nil)
+		#expect(sut.healthcareOrganizationsCoordinator.path.isEmpty)
+		#expect(sut.healthcareOrganizationsCoordinator.rootStateForSheet == nil)
 	}
-	
-	@MainActor func test_handleTabSwitch_categories() throws {
-		
+
+	// MARK: - handleTabSwitch -
+
+	@Test("handleTabSwitch on the categories tab clears the categories coordinator path")
+	func handleTabSwitch_categoriesTab_clearsCategoriesPath() {
+
 		// Given
-		createSut()
 		let category = Generator.healthCategory
 		sut.selectedTab = DashboardTab.healthCategories.rawValue
 		sut.healthCategoriesCoordinator.handle(
-			Coordination.Action(
-				identifier: "showHealthCategory",
-				params: ["category": category]
-			)
+			Coordination.Action(identifier: "showHealthCategory", params: ["category": category])
 		)
-		expect(self.sut.healthCategoriesCoordinator.path) == NavigationStackBackport.NavigationPath(
-			[
-				HealthcareCoordination.State.showHealthCategory(
-					category: category,
-					organization: nil
-				)
-			]
-		)
-		
+		#expect(sut.healthCategoriesCoordinator.path == NavigationStackBackport.NavigationPath(
+			[HealthcareCoordination.State.showHealthCategory(category: category, organization: nil)]
+		))
+
 		// When
 		sut.handleTabSwitch()
-		
+
 		// Then
-		expect(self.sut.healthCategoriesCoordinator.path.isEmpty) == true
+		#expect(sut.healthCategoriesCoordinator.path.isEmpty)
 	}
-	
-	@MainActor func test_handleTabSwitch_organizations() throws {
-		
+
+	@Test("handleTabSwitch on the organizations tab clears the organizations coordinator path")
+	func handleTabSwitch_organizationsTab_clearsOrganizationsPath() {
+
 		// Given
-		createSut()
 		let category = Generator.healthCategory
 		sut.selectedTab = DashboardTab.healthcareOrganizations.rawValue
 		sut.healthcareOrganizationsCoordinator.handle(
-			Coordination.Action(
-				identifier: "showHealthCategory",
-				params: ["category": category]
-			)
+			Coordination.Action(identifier: "showHealthCategory", params: ["category": category])
 		)
-		expect(self.sut.healthcareOrganizationsCoordinator.path) == NavigationStackBackport.NavigationPath(
-			[
-				HealthcareCoordination.State.showHealthCategory(
-					category: category,
-					organization: nil
-				)
-			]
-		)
-		
+		#expect(sut.healthcareOrganizationsCoordinator.path == NavigationStackBackport.NavigationPath(
+			[HealthcareCoordination.State.showHealthCategory(category: category, organization: nil)]
+		))
+
 		// When
 		sut.handleTabSwitch()
-		
+
 		// Then
-		expect(self.sut.healthcareOrganizationsCoordinator.path.isEmpty) == true
+		#expect(sut.healthcareOrganizationsCoordinator.path.isEmpty)
 	}
-	
-	@MainActor func test_handleTabSwitch_settings() throws {
+
+	@Test("handleTabSwitch on the settings tab clears the settings coordinator path")
+	func handleTabSwitch_settingsTab_clearsSettingsPath() {
 
 		// Given
-		createSut()
 		sut.selectedTab = DashboardTab.settings.rawValue
 		sut.settingsCoordinator.handle(Coordination.Action.showDisplaySettings)
-		expect(self.sut.settingsCoordinator.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.displaySettings])
-		
+		#expect(sut.settingsCoordinator.path == NavigationStackBackport.NavigationPath(
+			[SettingsCoordination.State.displaySettings]
+		))
+
 		// When
 		sut.handleTabSwitch()
-		
+
 		// Then
-		expect(self.sut.settingsCoordinator.path.isEmpty) == true
+		#expect(sut.settingsCoordinator.path.isEmpty)
 	}
 }

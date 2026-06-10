@@ -36,4 +36,10 @@ public class LaunchArgumentsHandler {
 		
 		return CommandLine.arguments.contains("-useTestProviders")
 	}
+	
+	/// Should we show a debug button to simulate a screenshot notification?
+	public static func shouldSimulateScreenshot() -> Bool {
+		
+		return CommandLine.arguments.contains("-simulateScreenshot")
+	}
 }

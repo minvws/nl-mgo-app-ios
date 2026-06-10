@@ -17,7 +17,10 @@ let package = Package(
 		.package(name: "FHIRClient", path: "../FHIRClient"),
 		.package(name: "Observatory", path: "../Observatory"),
 		.package(name: "HCIMCore", path: "../HCIMCore"),
-		
+
+		// External
+		.package(url: "https://github.com/apple/swift-http-types", exact: "1.6.0"),
+
 		// Testing
 		.package(name: "MGOTest", path: "../MGOTest")
 	],
@@ -27,7 +30,8 @@ let package = Package(
 			dependencies: [
 				.product(name: "FHIRClient", package: "FHIRClient"),
 				.product(name: "Observatory", package: "Observatory"),
-				.product(name: "HCIMCore", package: "HCIMCore")
+				.product(name: "HCIMCore", package: "HCIMCore"),
+				.product(name: "HTTPTypes", package: "swift-http-types"),
 			],
 			resources: [.process("Resources")]
 		),

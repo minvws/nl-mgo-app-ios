@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - TargetDisease
 public struct TargetDisease: Codable, Hashable, Sendable {
-    public let targetDisease: [MgoCodeableConcept]?
+    public let targetDisease: [MgoCodeableConcept]
 
-    public init(targetDisease: [MgoCodeableConcept]?) {
+    public init(targetDisease: [MgoCodeableConcept]) {
         self.targetDisease = targetDisease
     }
 }
@@ -38,7 +38,7 @@ public extension TargetDisease {
     }
 
     func with(
-        targetDisease: [MgoCodeableConcept]?? = nil
+        targetDisease: [MgoCodeableConcept]? = nil
     ) -> TargetDisease {
         return TargetDisease(
             targetDisease: targetDisease ?? self.targetDisease

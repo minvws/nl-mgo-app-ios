@@ -71,11 +71,11 @@ class HealthCategoryRowViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.light)),
-			as: .image(precision: 0.95)
+			as: .image(precision: 0.99)
 		)
 		assertSnapshot(
 			of: UIHostingController(rootView: view.colorScheme(.dark)),
-			as: .image(precision: 0.95)
+			as: .image(precision: 0.99)
 		)
 	}
 	

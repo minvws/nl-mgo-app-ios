@@ -27,9 +27,12 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 		
 		if appCoordinator.showChildCoordinator {
 			appCoordinator.view(for: .dashboard)
-				.inspectableFullScreenCover(isPresented: $appCoordinator.rootStateForSheet.presence(), content: {
-					sheetContent(withCloseButton: false)
-				})
+				.inspectableFullScreenCover(
+					isPresented: $appCoordinator.rootStateForSheet.presence(),
+					content: {
+						sheetContent(withCloseButton: false)
+					}
+				)
 				.screenshotAlert()
 		} else {
 			

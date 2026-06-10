@@ -103,6 +103,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	func handle(_ action: Coordination.Action) {
 		
 		if action == .resetApplication {
+			healthCategoriesCoordinator.handle(.resetApplication)
+			healthcareOrganizationsCoordinator.handle(.resetApplication)
 			parentCoordinator?.handle(.resetApplication)
 			selectedTab = 0
 			return

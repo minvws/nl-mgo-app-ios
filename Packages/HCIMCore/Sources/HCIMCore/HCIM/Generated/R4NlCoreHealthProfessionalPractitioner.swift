@@ -13,8 +13,8 @@ import Foundation
 // MARK: - R4NlCoreHealthProfessionalPractitioner
 public struct R4NlCoreHealthProfessionalPractitioner: Codable, Hashable, Sendable {
     public let address: [R4NlCoreHealthProfessionalPractitionerAddress]?
-    public let fhirVersion: R4NlCoreHealthcareProviderFhirVersion
-    public let gender: MgoCodeOfUnknownOtherMaleFemale?
+    public let fhirVersion: R4BBSDocumentReferenceFhirVersion
+    public let gender: MgoCodeOfString?
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let name: [R4NlCoreHealthProfessionalPractitionerName]?
@@ -28,7 +28,7 @@ public struct R4NlCoreHealthProfessionalPractitioner: Codable, Hashable, Sendabl
         case resourceType, telecom
     }
 
-    public init(address: [R4NlCoreHealthProfessionalPractitionerAddress]?, fhirVersion: R4NlCoreHealthcareProviderFhirVersion, gender: MgoCodeOfUnknownOtherMaleFemale?, id: String?, identifier: [MgoIdentifier]?, name: [R4NlCoreHealthProfessionalPractitionerName]?, profile: R4NlCoreHealthProfessionalPractitionerProfile, referenceID: String, resourceType: String, telecom: R4NlCoreContactInformation) {
+    public init(address: [R4NlCoreHealthProfessionalPractitionerAddress]?, fhirVersion: R4BBSDocumentReferenceFhirVersion, gender: MgoCodeOfString?, id: String?, identifier: [MgoIdentifier]?, name: [R4NlCoreHealthProfessionalPractitionerName]?, profile: R4NlCoreHealthProfessionalPractitionerProfile, referenceID: String, resourceType: String, telecom: R4NlCoreContactInformation) {
         self.address = address
         self.fhirVersion = fhirVersion
         self.gender = gender
@@ -62,8 +62,8 @@ public extension R4NlCoreHealthProfessionalPractitioner {
 
     func with(
         address: [R4NlCoreHealthProfessionalPractitionerAddress]?? = nil,
-        fhirVersion: R4NlCoreHealthcareProviderFhirVersion? = nil,
-        gender: MgoCodeOfUnknownOtherMaleFemale?? = nil,
+        fhirVersion: R4BBSDocumentReferenceFhirVersion? = nil,
+        gender: MgoCodeOfString?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         name: [R4NlCoreHealthProfessionalPractitionerName]?? = nil,

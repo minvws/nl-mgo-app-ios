@@ -13,10 +13,10 @@ import Foundation
 // MARK: - ZibTextResult
 public struct ZibTextResult: Codable, Hashable, Sendable {
     public let code: MgoCodeableConcept?
-    public let conclusion: PrimitiveValueTypeOfStringString?
-    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let conclusion: MgoString?
+    public let effectiveDateTime: MgoDateTime?
     public let effectivePeriod: MgoPeriod?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let performer: [ZibTextResultPerformer]?
@@ -31,7 +31,7 @@ public struct ZibTextResult: Codable, Hashable, Sendable {
         case resourceType, status, subject
     }
 
-    public init(code: MgoCodeableConcept?, conclusion: PrimitiveValueTypeOfStringString?, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [ZibTextResultPerformer]?, profile: ZibTextResultProfile, referenceID: String, resourceType: String, status: ExtensionValueOfMgoCodeableConcept?, subject: MgoReference?) {
+    public init(code: MgoCodeableConcept?, conclusion: MgoString?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [ZibTextResultPerformer]?, profile: ZibTextResultProfile, referenceID: String, resourceType: String, status: ExtensionValueOfMgoCodeableConcept?, subject: MgoReference?) {
         self.code = code
         self.conclusion = conclusion
         self.effectiveDateTime = effectiveDateTime
@@ -68,10 +68,10 @@ public extension ZibTextResult {
 
     func with(
         code: MgoCodeableConcept?? = nil,
-        conclusion: PrimitiveValueTypeOfStringString?? = nil,
-        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        conclusion: MgoString?? = nil,
+        effectiveDateTime: MgoDateTime?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         performer: [ZibTextResultPerformer]?? = nil,

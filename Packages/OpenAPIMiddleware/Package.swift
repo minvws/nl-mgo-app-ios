@@ -17,7 +17,7 @@ let package = Package(
 		.package(name: "OpenAPICore", path: "../OpenAPICore"),
 
 		// External
-		.package(url: "https://github.com/apple/swift-http-types", exact: "1.5.1"),
+		.package(url: "https://github.com/apple/swift-http-types", exact: "1.6.0"),
 	],
 	targets: [
 		// Targets are the basic building blocks of a package, defining a module or a test suite.

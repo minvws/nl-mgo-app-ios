@@ -16,7 +16,6 @@ extension Coordination.Action {
 	@MainActor static let showHealthCategory = Coordination.Action(identifier: "showHealthCategory")
 	@MainActor static let showHealthData = Coordination.Action(identifier: "showHealthData")
 	
-	@MainActor static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
 	@MainActor static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
 	
 	@MainActor static let exportHealthData = Coordination.Action(identifier: "exportHealthData")
@@ -62,8 +61,7 @@ struct HealthcareCoordination {
 		case showHealthcareOrganization(healthcareOrganization: OrganizationSearch.Organization)
 		case showHealthCategory(category: SharedHealthCategories.Category, organization: OrganizationSearch.Organization?)
 		case showHealthData(config: HealthDataViewConfig, schema: HealthUISchema, organization: OrganizationSearch.Organization)
-		case removeHealthcareOrganization(healthcareOrganization: OrganizationSearch.Organization)
-		
+
 		// Favorites
 		case showFavorites
 		
@@ -88,15 +86,19 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	
 	/// The flow coordinator for routing
 	private weak var parentCoordinator: (any DashboardCoordinatorProtocol)?
-	
+
 	/// Create a healthcare coordinator
 	/// - Parameter coordinator: the coordinator
-	init(parentCoordinator: (any DashboardCoordinatorProtocol)?, rootState: HealthcareCoordination.State) {
-		
+	/// - Parameter rootState: the start state
+	init(
+		parentCoordinator: (any DashboardCoordinatorProtocol)?,
+		rootState: HealthcareCoordination.State
+	) {
+
 		self.parentCoordinator = parentCoordinator
 		self.rootState = rootState
 	}
-	
+
 	/// Handle any incoming action from any of the view models
 	/// - Parameter action: any Action
 	@MainActor func handle(_ action: Coordination.Action) {
@@ -120,7 +122,12 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				} else {
 					path.removeLast()
 				}
-				
+
+			case Coordination.Action.resetApplication.identifier:
+				path = NavigationStackBackport.NavigationPath()
+				pathForSheet = NavigationStackBackport.NavigationPath()
+				rootStateForSheet = nil
+
 			default:
 				// Unhandled
 				logWarning("Healthcare Coordinator does not handle \(action)")
@@ -155,12 +162,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			case Coordination.Action.showHealthData.identifier:
 				return handleShowHealthData(action)
 				
-			case Coordination.Action.removeHealthcareOrganization.identifier:
-				return handleRemoveHealthcareOrganization(action)
-				
 			case Coordination.Action.removedHealthcareOrganization.identifier:
-				pathForSheet = NavigationStackBackport.NavigationPath()
-				rootStateForSheet = nil
 				path.removeLast()
 				return true
 				
@@ -286,24 +288,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		}
 	}
 	
-	/// Handle the `removeHealthcareOrganization` action
-	/// - Parameter action: the action
-	/// - Returns: true if handled successfully
-	@MainActor private func handleRemoveHealthcareOrganization(_ action: Coordination.Action) -> Bool {
-		
-		guard action.identifier == Coordination.Action.removeHealthcareOrganization.identifier else { return false }
-		
-		if action.params.count == 1,
-		   let healthcareOrganization = action.params["healthcareOrganization"] as? OrganizationSearch.Organization {
-			
-			rootStateForSheet = HealthcareCoordination.State.removeHealthcareOrganization(healthcareOrganization: healthcareOrganization)
-			return true
-		} else {
-			logError("HealthcareCoordinator Coordinator, missing params for \(action)")
-			return false
-		}
-	}
-	
 	/// Get a View for the State
 	/// - Parameter state: the HealthcareCoordination State
 	/// - Returns: A view for that state
@@ -334,15 +318,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 						)
 				)
 				.isPresentedAsSheet(false)
-				
-			case let .removeHealthcareOrganization(healthcareOrganization):
-				RemoveHealthcareOrganizationView(
-					viewModel: RemoveHealthcareOrganizationViewModel(
-						coordinator: self,
-						healthcareOrganization: healthcareOrganization
-					)
-				)
-				.isPresentedAsSheet(true)
 				
 				// Health Categories and Data
 				
@@ -400,29 +375,13 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		organization: OrganizationSearch.Organization? = nil
 	) -> some View {
 		
-		if category.id == "documents" {
-			// Documents has an override method for sortRecords.
-			HealthCategoryView(
-				viewModel: DocumentsHealthCategoryViewModel(
-					coordinator: self,
-					category: category,
-					organization: organization
-				)
+		HealthCategoryView(
+			viewModel: HealthCategoryViewModel(
+				coordinator: self,
+				category: category,
+				organization: organization,
+				type: category.id == "documents" ? .timeline : .regular
 			)
-		} else {
-			if let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category) {
-				HealthCategoryView(
-					viewModel: HealthCategoryViewModel(
-						coordinator: self,
-						category: category,
-						organization: organization,
-						translations: translations
-					)
-				)
-			} else {
-				EmptyView()
-					.logError("HealthcareCoordinator, no translations for category", category.id)
-			}
-		}
+		)
 	}
 }

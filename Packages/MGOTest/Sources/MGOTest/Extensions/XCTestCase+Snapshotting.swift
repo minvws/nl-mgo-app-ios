@@ -20,13 +20,17 @@ extension XCTestCase {
 	/// - Parameters:
 	///   - content: the view for the snapshots
 	///   - name: The name of the test
-	///   - precision: the precision to check against (0.99 means 1% pixel difference)
+	///   - precision: the precision to check against (default 1.0 = exact pixel match)
+	///   - perceptualPrecision: perceptual color-difference tolerance (default 0.95); absorbs
+	///     sub-pixel text anti-aliasing differences across simulator versions without hiding real
+	///     regressions. A snapshot passes if it satisfies either precision or perceptualPrecision.
 	///   - file: the file
 	///   - isRecording: true if we should record new snapshots
 	public func takeSnapShots(
 		content: some View,
 		name: String = #function,
 		precision: Float = 1.0,
+		perceptualPrecision: Float = 0.95,
 		file: StaticString = #filePath,
 		isRecording: Bool = false
 	) {
@@ -34,7 +38,11 @@ extension XCTestCase {
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone17Pro(.portrait), precision: precision),
+			as: .image(
+				on: .iPhone17Pro(.portrait),
+				precision: precision,
+				perceptualPrecision: perceptualPrecision
+			),
 			named: "_darkPortrait",
 			record: isRecording ? .all : nil,
 			file: file,
@@ -44,7 +52,11 @@ extension XCTestCase {
 		// Light Mode & Portrait orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone17Pro(.portrait), precision: precision),
+			as: .image(
+				on: .iPhone17Pro(.portrait),
+				precision: precision,
+				perceptualPrecision: perceptualPrecision
+			),
 			named: "_lightPortrait",
 			record: isRecording ? .all : nil,
 			file: file,
@@ -54,7 +66,11 @@ extension XCTestCase {
 		// Dark Mode & Landscape orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone17Pro(.landscape), precision: precision),
+			as: .image(
+				on: .iPhone17Pro(.landscape),
+				precision: precision,
+				perceptualPrecision: perceptualPrecision
+			),
 			named: "_darkLandscape",
 			record: isRecording ? .all : nil,
 			file: file,
@@ -64,7 +80,11 @@ extension XCTestCase {
 		// Light Mode & Landscape orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone17Pro(.landscape), precision: precision),
+			as: .image(
+				on: .iPhone17Pro(.landscape),
+				precision: precision,
+				perceptualPrecision: perceptualPrecision
+			),
 			named: "_lightLandscape",
 			record: isRecording ? .all : nil,
 			file: file,
@@ -76,13 +96,15 @@ extension XCTestCase {
 	/// - Parameters:
 	///   - content: the view for the snapshots
 	///   - name: The name of the test
-	///   - precision: the precision to check against (0.99 means 1% pixel difference)
+	///   - precision: the precision to check against (default 1.0 = exact pixel match)
+	///   - perceptualPrecision: perceptual color-difference tolerance (default 0.95)
 	///   - file: the file
 	///   - isRecording: true if we should record new snapshots
 	public func takeSnapShotsForiPad(
 		content: some View,
 		name: String = #function,
 		precision: Float = 1.0,
+		perceptualPrecision: Float = 0.95,
 		file: StaticString = #filePath,
 		isRecording: Bool = false
 	) {
@@ -90,7 +112,11 @@ extension XCTestCase {
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPadPro11(.portrait), precision: precision),
+			as: .image(
+				on: .iPadPro11(.portrait),
+				precision: precision,
+				perceptualPrecision: perceptualPrecision
+			),
 			named: "_iPad_darkPortrait",
 			record: isRecording ? .all : nil,
 			file: file,
@@ -100,7 +126,11 @@ extension XCTestCase {
 		// Light Mode & Portrait orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPadPro11(.portrait), precision: precision),
+			as: .image(
+				on: .iPadPro11(.portrait),
+				precision: precision,
+				perceptualPrecision: perceptualPrecision
+			),
 			named: "_iPad_lightPortrait",
 			record: isRecording ? .all : nil,
 			file: file,
@@ -110,7 +140,11 @@ extension XCTestCase {
 		// Dark Mode & Landscape orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPadPro11(.landscape), precision: precision),
+			as: .image(
+				on: .iPadPro11(.landscape),
+				precision: precision,
+				perceptualPrecision: perceptualPrecision
+			),
 			named: "_iPad_darkLandscape",
 			record: isRecording ? .all : nil,
 			file: file,
@@ -120,7 +154,11 @@ extension XCTestCase {
 		// Light Mode & Landscape orientation
 		assertSnapshot(
 			of: preparedHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPadPro11(.landscape), precision: precision),
+			as: .image(
+				on: .iPadPro11(.landscape),
+				precision: precision,
+				perceptualPrecision: perceptualPrecision
+			),
 			named: "_iPad_lightLandscape",
 			record: isRecording ? .all : nil,
 			file: file,

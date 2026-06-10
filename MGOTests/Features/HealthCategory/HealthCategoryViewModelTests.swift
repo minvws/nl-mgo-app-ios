@@ -37,12 +37,6 @@ struct HealthCategoryViewModelTests {
 			coordinator: coordinatorSpy,
 			category: category,
 			organization: organization,
-			translations: HealthCategoryViewTranslations(
-				heading: "hc_complaints.heading",
-				search: "health_category.complaints.search",
-				noSearchResults: "health_category.complaints.no_search_results",
-				backButtonTitle: String.LocalizationValue(stringLiteral: "hc_complaints.heading")
-			),
 			fileStorage: fileStorageSpy
 		)
 	}
@@ -87,7 +81,7 @@ struct HealthCategoryViewModelTests {
 
 	// MARK: - Load resources
 
-	@Test("onAppear with empty record transitions to list with no rows")
+	@Test("onAppear with empty record transitions to an empty list and no error")
 	func loadResources_noResults() async throws {
 
 		// Given
@@ -106,8 +100,7 @@ struct HealthCategoryViewModelTests {
 			Issue.record("Expected .list state, got \(sut.state)")
 			return
 		}
-		#expect(items.count == 1)
-		#expect(items.first?.rows.isEmpty == true)
+		#expect(items.isEmpty)
 		#expect(errorState == HealthCategoriesErrorState.none)
 	}
 
@@ -130,8 +123,7 @@ struct HealthCategoryViewModelTests {
 			Issue.record("Expected .list state, got \(sut.state)")
 			return
 		}
-		#expect(items.count == 1)
-		#expect(items.first?.rows.isEmpty == true)
+		#expect(items.isEmpty)
 		#expect(errorState == HealthCategoriesErrorState.none)
 	}
 
@@ -154,8 +146,7 @@ struct HealthCategoryViewModelTests {
 			Issue.record("Expected .list state, got \(sut.state)")
 			return
 		}
-		#expect(items.count == 1)
-		#expect(items.first?.rows.isEmpty == true)
+		#expect(items.isEmpty)
 		#expect(errorState == HealthCategoriesErrorState.error(
 			heading: "Gegevens niet opgehaald",
 			subHeading: "Helaas konden we door een probleem aan onze kant uw gegevens niet ophalen."
@@ -181,8 +172,7 @@ struct HealthCategoryViewModelTests {
 			Issue.record("Expected .list state, got \(sut.state)")
 			return
 		}
-		#expect(items.count == 1)
-		#expect(items.first?.rows.isEmpty == true)
+		#expect(items.isEmpty)
 		#expect(errorState == HealthCategoriesErrorState.error(
 			heading: "Gegevens niet opgehaald",
 			subHeading: "Er ging iets mis bij het ophalen. Controleer uw verbinding en probeer het opnieuw."
@@ -209,10 +199,8 @@ struct HealthCategoryViewModelTests {
 			Issue.record("Expected .list state, got \(sut.state)")
 			return
 		}
-		#expect(items.count == 3)
+		#expect(items.count == 1)
 		#expect(items[0].rows.isEmpty == false)
-		#expect(items[1].rows.isEmpty == true)
-		#expect(items[2].rows.isEmpty == true)
 		#expect(errorState == HealthCategoriesErrorState.none)
 	}
 
@@ -237,10 +225,8 @@ struct HealthCategoryViewModelTests {
 			Issue.record("Expected .list state, got \(sut.state)")
 			return
 		}
-		#expect(items.count == 3)
+		#expect(items.count == 1)
 		#expect(items[0].rows.isEmpty == false)
-		#expect(items[1].rows.isEmpty == true)
-		#expect(items[2].rows.isEmpty == true)
 		#expect(errorState == HealthCategoriesErrorState.none)
 	}
 
@@ -270,7 +256,7 @@ struct HealthCategoryViewModelTests {
 		let params = try #require(coordinatorSpy.invokedHandleParameters?.0)
 		#expect(params.identifier == Coordination.Action.showHealthData.identifier)
 		#expect(params.params["resource"] as? MgoResource == resource)
-		#expect(params.params["backButtonTitle"] as? String == "Medische klachten")
+		#expect(params.params["backButtonTitle"] as? String == "common.previous")
 		#expect((params.params["uiSchema"] as? HealthUISchema)?.label == "Zestril tablet 10mg")
 	}
 
@@ -295,10 +281,8 @@ struct HealthCategoryViewModelTests {
 			Issue.record("Expected .list state, got \(sut.state)")
 			return
 		}
-		#expect(items.count == 3)
+		#expect(items.count == 1)
 		#expect(items[0].rows.isEmpty == false)
-		#expect(items[1].rows.isEmpty == true)
-		#expect(items[2].rows.isEmpty == true)
 	}
 
 	@Test("onAppear with cache miss keeps loading state")
@@ -406,8 +390,8 @@ struct HealthCategoryViewModelTests {
 			Issue.record("Expected .list state, got \(sut.state)")
 			return
 		}
-		#expect(items.count == 3)
-		#expect(items[0].rows.isEmpty == false)
+		#expect(items.count == 1)
+		#expect(items[0].rows.count == 3)
 		#expect(errorState == HealthCategoriesErrorState.none)
 	}
 
@@ -430,8 +414,7 @@ struct HealthCategoryViewModelTests {
 			Issue.record("Expected .list state, got \(sut.state)")
 			return
 		}
-		#expect(items.count == 1)
-		#expect(items.first?.rows.isEmpty == true)
+		#expect(items.isEmpty)
 		#expect(errorState == HealthCategoriesErrorState.none)
 	}
 
@@ -466,20 +449,6 @@ struct HealthCategoryViewModelTests {
 
 		// Then
 		#expect(sut.showExportAlert == true)
-	}
-
-	@Test("cancelExportAlert sets showExportAlert to false")
-	func cancelExportAlert() throws {
-
-		// Given
-		let sut = try makeSut(organization: healthcareOrganization)
-		sut.showExportAlert = true
-
-		// When
-		sut.reduce(.cancelExportAlert)
-
-		// Then
-		#expect(sut.showExportAlert == false)
 	}
 
 	// MARK: - Export health data

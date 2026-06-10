@@ -96,7 +96,6 @@ final class SettingsFlowTests: XCTestCase {
 			.verifySafariButtonExists()
 			.tapPrivacyButton()
 			.tapCloseButton()
-			.tapCloseButton()
 			.verifyPreviousButtonExists()
 			.tapPreviousButton()
 	}

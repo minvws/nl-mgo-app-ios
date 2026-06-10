@@ -3,18 +3,19 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import HTTPTypes
 import MGOTest
 @testable import FHIRClient
 
 class FHIRClientTests: XCTestCase {
-	
+
 	override func tearDown() {
 		super.tearDown()
 		HTTPStubs.removeAllStubs()
 	}
-	
+
 	func test_readDataFrom_success() async throws {
-		
+
 		// Given
 		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
 		let client = FHIRClient(baseURL: serverUrl)
@@ -27,20 +28,20 @@ class FHIRClientTests: XCTestCase {
 		stub(condition: isPath("/MedicationStatement")) { _ in
 			return HTTPStubsResponse(data: Data("success".utf8), statusCode: 200, headers: nil)
 		}
-		
+
 		// When
 		let data = try await client.readDataFrom(
 			"MedicationStatement",
 			parameters: parameters,
-			headers: RequestHeaders([RequestHeaderField.dvaTarget: "dvaTarget"])
+			headers: [.dvaTarget: "dvaTarget"]
 		)
-		
+
 		// Then
 		expect(data) == Data("success".utf8)
 	}
-	
+
 	func test_readDataFrom_error() async throws {
-		
+
 		// Given
 		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
 		let client = FHIRClient(baseURL: serverUrl)
@@ -54,20 +55,18 @@ class FHIRClientTests: XCTestCase {
 			let notConnectedError = NSError(domain: NSURLErrorDomain, code: URLError.timedOut.rawValue)
 			return HTTPStubsResponse(error: notConnectedError)
 		}
-		
-		// When
-		
-		// Then
+
+		// When / Then
 		await expect { try await client.readDataFrom(
 			"MedicationStatement",
 			parameters: parameters,
-			headers: RequestHeaders([RequestHeaderField.dvaTarget: "dvaTarget"]))
+			headers: [.dvaTarget: "dvaTarget"])
 		}
-		.to( throwError())
+		.to(throwError())
 	}
-	
+
 	func test_readDataFrom_400_withBody() async throws {
-		
+
 		// Given
 		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
 		let client = FHIRClient(baseURL: serverUrl)
@@ -80,15 +79,27 @@ class FHIRClientTests: XCTestCase {
 		stub(condition: isPath("/MedicationStatement")) { _ in
 			return HTTPStubsResponse(data: Data("404".utf8), statusCode: 404, headers: nil)
 		}
-		
-		// When
-		
-		// Then
+
+		// When / Then
 		await expect { try await client.readDataFrom(
 			"MedicationStatement",
 			parameters: parameters,
-			headers: RequestHeaders([RequestHeaderField.dvaTarget: "dvaTarget"]))
+			headers: [.dvaTarget: "dvaTarget"])
 		}
-		.to( throwError())
+		.to(throwError())
+	}
+
+	func test_readDataFrom_nonSuccessStatusCode_throwsResponseNoResourceReceived() async throws {
+
+		// Given
+		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
+		let client = FHIRClient(baseURL: serverUrl)
+		stub(condition: isPath("/Resource")) { _ in
+			return HTTPStubsResponse(data: Data("created".utf8), statusCode: 201, headers: nil)
+		}
+
+		// When / Then
+		await expect { try await client.readDataFrom("Resource") }
+			.to(throwError(FHIRError.responseNoResourceReceived))
 	}
 }

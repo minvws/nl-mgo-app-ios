@@ -15,7 +15,7 @@ public struct ZibTreatmentObjective: Codable, Hashable, Sendable {
     public let addresses: [MgoReference]?
     public let description: MgoCodeableConcept?
     public let expressedBy: MgoReference?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let profile: ZibTreatmentObjectiveProfile
@@ -29,7 +29,7 @@ public struct ZibTreatmentObjective: Codable, Hashable, Sendable {
         case resourceType, subject, target
     }
 
-    public init(addresses: [MgoReference]?, description: MgoCodeableConcept?, expressedBy: MgoReference?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, profile: ZibTreatmentObjectiveProfile, referenceID: String, resourceType: String, subject: MgoReference?, target: Target) {
+    public init(addresses: [MgoReference]?, description: MgoCodeableConcept?, expressedBy: MgoReference?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, profile: ZibTreatmentObjectiveProfile, referenceID: String, resourceType: String, subject: MgoReference?, target: Target) {
         self.addresses = addresses
         self.description = description
         self.expressedBy = expressedBy
@@ -66,7 +66,7 @@ public extension ZibTreatmentObjective {
         addresses: [MgoReference]?? = nil,
         description: MgoCodeableConcept?? = nil,
         expressedBy: MgoReference?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         profile: ZibTreatmentObjectiveProfile? = nil,

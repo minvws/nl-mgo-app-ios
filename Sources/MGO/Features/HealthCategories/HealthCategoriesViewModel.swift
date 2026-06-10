@@ -35,7 +35,8 @@ struct HealthCategoriesViewState {
 	var subheading: String
 	var canTitleCollapse: Bool
 	var showEmptyView: Bool
-	var showRemoveHealthcareProvider: Bool
+	var showRemoveHealthcareProviderOption: Bool
+	var showRemoveHealthcareProviderDialog: Bool
 	var errorState: HealthCategoriesErrorState
 	var mainCategories: [SharedHealthCategories.MainCategory]
 	var buttonState: [String: CategoryState]
@@ -93,6 +94,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		case onAppear
 		case search
 		case showFavorites
+		case showRemovalDialog
 	}
 	
 	/// Intitializer
@@ -142,7 +144,8 @@ class HealthCategoriesViewModel: ObservableObject {
 			subheading: subheading,
 			canTitleCollapse: canTitleCollapse,
 			showEmptyView: true,
-			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
+			showRemoveHealthcareProviderOption: showRemoveHealthcareProvider,
+			showRemoveHealthcareProviderDialog: false,
 			errorState: .none,
 			mainCategories: sharedHealthCategories?.mainCategories ?? [],
 			buttonState: initialButtonState,
@@ -251,17 +254,25 @@ class HealthCategoriesViewModel: ObservableObject {
 			
 			case .removeHealthcareOrganization:
 				if case let .single(healthcareOrganization) = mode {
-					coordinator?.handle(
-						Coordination.Action(
-							identifier: "removeHealthcareOrganization",
-							params: ["healthcareOrganization": healthcareOrganization]
-						)
-					)
+					dataStore.removeRecords(for: healthcareOrganization.identifier)
+					try? healthcareOrganizationRepository.remove(healthcareOrganization)
+					coordinator?.handle(.removedHealthcareOrganization)
 				}
+				
 			case .showFavorites:
 				if case .all = mode {
 					coordinator?.handle(.showFavorites)
 				}
+				
+			case .showRemovalDialog:
+				// Deferred so the menu's dismissal animation transaction is no longer
+				// active when the binding flips — otherwise the full-screen cover slides in.
+				Task { @MainActor in
+					var transaction = Transaction()
+					transaction.disablesAnimations = true
+					withTransaction(transaction) { state.showRemoveHealthcareProviderDialog = true }
+				}
+				
 		}
 	}
 	

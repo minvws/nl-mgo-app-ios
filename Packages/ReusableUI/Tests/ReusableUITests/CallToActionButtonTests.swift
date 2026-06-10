@@ -1,15 +1,16 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
 @testable import ReusableUI
+import OSVersion
 import SwiftUI
 import MGOTest
 
 @MainActor
 final class CallToActionButtonTests: XCTestCase {
-
+	
 	func test_primaryWithLeadingIcon() throws {
 		
 		// Given
@@ -23,7 +24,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_primaryWithLeadingIcon_rounded() throws {
@@ -39,7 +40,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_primaryWithLeadingSpinner() throws {
@@ -54,7 +55,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_primaryWithLeadingSpinner_rounded() throws {
@@ -69,7 +70,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_primary() throws {
@@ -84,7 +85,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_primary_rounded() throws {
@@ -99,7 +100,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_primary_small() throws {
@@ -114,9 +115,9 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
-
+	
 	func test_primary_roundedAndSmall() throws {
 		
 		// Given
@@ -129,7 +130,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_primary_asTitle() throws {
@@ -144,7 +145,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_secondary() throws {
@@ -159,7 +160,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_secondary_rounded() throws {
@@ -174,7 +175,37 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
+	}
+	
+	func test_secondary_glass() throws {
+		
+		// Given
+		let sut = CallToActionButton(
+			"Glass",
+			style: .glass(rounded: false)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
+	}
+	
+	func test_secondary_glass_rounded() throws {
+		
+		// Given
+		let sut = CallToActionButton(
+			"Glass",
+			style: .glass(rounded: true)
+		)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_tertiary() throws {
@@ -189,7 +220,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_withIcon() throws {
@@ -205,7 +236,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_withSpinner() throws {
@@ -220,7 +251,7 @@ final class CallToActionButtonTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_solidStyle_equality() {
@@ -248,5 +279,54 @@ final class CallToActionButtonTests: XCTestCase {
 		// Then
 		expect(tonalRounded) != tonal
 		expect(tonalRounded) == CallToActionButtonStyle.tonal(rounded: true)
+	}
+	
+	func test_glass_iOS26() throws {
+		
+		// Given
+		let sut = Button("Glass") { /* no-op */ }
+			.buttonStyle(
+				GlassButtonStyle(
+					rounded: false,
+					osVersionChecker: OSVersionCheckerTrue()
+				)
+			)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
+	}
+	
+	func test_glass_iOS18() throws {
+		
+		// Given
+		let sut = Button("Glass") { /* no-op */ }
+			.buttonStyle(
+				GlassButtonStyle(
+					rounded: false,
+					osVersionChecker: OSVersionCheckerFalse()
+				)
+			)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
+	}
+	
+	func test_glassStyle_equality() {
+		
+		// Given
+		let glassRounded = CallToActionButtonStyle.glass(rounded: true)
+		let glass = CallToActionButtonStyle.glass(rounded: false)
+		
+		// When
+		
+		// Then
+		expect(glassRounded) != glass
+		expect(glassRounded) == CallToActionButtonStyle.glass(rounded: true)
 	}
 }

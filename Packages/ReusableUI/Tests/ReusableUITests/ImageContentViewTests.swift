@@ -27,9 +27,32 @@ final class ImageContentViewTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 600)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
+	func test_imageContentView_customVisual() throws {
+
+		// Given
+		let sut = ImageContentView(
+			heading: "Heading",
+			subHeading: "SubHeading",
+			configuration: ImageContentView.Configuration(
+				titleStyle: .headingExtraLarge,
+				subHeadingForegroundColor: Color.pink
+			)
+		) {
+			Rectangle()
+				.fill(Color.blue)
+				.frame(width: 100, height: 100)
+		}
+
+		// When
+		let view = sut.frame(width: 300, height: 600)
+
+		// Then
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
+	}
+
 	func test_imageContentView_contentFirst() throws {
 		
 		// Given
@@ -48,7 +71,7 @@ final class ImageContentViewTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 600)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_onRotate() {
@@ -112,7 +135,7 @@ final class ImageContentViewTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 600)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	func test_navigation_inNavigationView() {
@@ -135,6 +158,6 @@ final class ImageContentViewTests: XCTestCase {
 		let view = NavigationView { sut }.frame(width: 300, height: 600)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 }

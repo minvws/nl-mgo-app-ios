@@ -8,15 +8,19 @@ import MGODebug
 @_exported import HCIMCoreModels
 
 /*
- Health and Care Information models (HCIM), or Clinical Buildingblocks (CBB's) or Zorginformatiebouwstenen (zib's)
- are used to capture functional, semantic (non technical) agreements for the standardization of information used in
- the care process. The purpose of the standardization is that this information from the care process is reused for
- other purposes such as quality registration, transfer or patient-related research.
- A HCIM is an information model in which a care-based concept is described in terms of the data elements from which
- that concept exists, the data types of those data elements, etc.
+ Health and Care Information models (HCIM), or Clinical Buildingblocks (CBB's)
+ or Zorginformatiebouwstenen (zib's) are used to capture functional,
+ semantic (non technical) agreements for the standardization of information used
+ in the care process. The purpose of the standardization is that this information
+ from the care process is reused for other purposes such as quality registration,
+ transfer or patient-related research.
+ A HCIM is an information model in which a care-based concept is described in
+ terms of the data elements from which that concept exists, the data types of
+ those data elements, etc.
  
  See: https://zibs.nl/wiki/HCIM_Mainpage
  */
+
 @MainActor
 public class HCIMFactory {
 	
@@ -33,12 +37,31 @@ public class HCIMFactory {
 		)
 	}
 	
+	public static func createIheMhdMinimalDocumentReference(_ data: Data) -> IheMhdMinimalDocumentReference? {
+		
+		return decode(
+			data: data,
+			profileDefinition: IheMhdMinimalDocumentReferenceProfile.httpNictizNlFhirStructureDefinitionIHEMHDMinimalDocumentReference.rawValue
+		)
+	}
+	
+	public static func createR4BBSDocumentReference(_ data: Data) -> R4BBSDocumentReference? {
+		
+		return decode(
+			data: data,
+			profileDefinition: R4BBSDocumentReferenceProfile.httpMedmijNlFhirStructureDefinitionBBSDocumentReference.rawValue
+		)
+	}
+	
 	/// Generic decode method to decode a parsed resource into a HCIM
 	/// - Parameters:
 	///   - data: the mgo resource
 	///   - profileDefinition: the factory will only decode data that has this profile definition
 	/// - Returns: Health and Care Information model
-	private static func decode<T: Decodable>(data: Data, profileDefinition: String) -> T? {
+	private static func decode<T: Decodable>(
+		data: Data,
+		profileDefinition: String
+	) -> T? {
 		
 //		logDebug("HCIMFactory: trying to decoding \(String(decoding: data, as: UTF8.self))")
 		guard data.hasProfile(profileDefinition) else { return nil }

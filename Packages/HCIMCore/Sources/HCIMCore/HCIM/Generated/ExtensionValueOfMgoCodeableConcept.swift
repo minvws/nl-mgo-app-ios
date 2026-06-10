@@ -14,7 +14,7 @@ import Foundation
 public struct ExtensionValueOfMgoCodeableConcept: Codable, Hashable, Sendable {
     public let ext: Bool
     public let type: MgoCodeableConceptType
-    public let coding: [MgoCodingProps]
+    public let coding: [DisplayValue]
     public let text: String?
 
     public enum CodingKeys: String, CodingKey {
@@ -23,7 +23,7 @@ public struct ExtensionValueOfMgoCodeableConcept: Codable, Hashable, Sendable {
         case coding, text
     }
 
-    public init(ext: Bool, type: MgoCodeableConceptType, coding: [MgoCodingProps], text: String?) {
+    public init(ext: Bool, type: MgoCodeableConceptType, coding: [DisplayValue], text: String?) {
         self.ext = ext
         self.type = type
         self.coding = coding
@@ -52,7 +52,7 @@ public extension ExtensionValueOfMgoCodeableConcept {
     func with(
         ext: Bool? = nil,
         type: MgoCodeableConceptType? = nil,
-        coding: [MgoCodingProps]? = nil,
+        coding: [DisplayValue]? = nil,
         text: String?? = nil
     ) -> ExtensionValueOfMgoCodeableConcept {
         return ExtensionValueOfMgoCodeableConcept(

@@ -45,6 +45,7 @@ let package = Package(
 			path: "Sources/HCIMCore",
 			sources: [
 				"HCIM/Data+Profile.swift",
+				"HCIM/FHIRDateString.swift",
 				"HCIM/HCIMFactory.swift",
 				"HCIMParser",
 			],

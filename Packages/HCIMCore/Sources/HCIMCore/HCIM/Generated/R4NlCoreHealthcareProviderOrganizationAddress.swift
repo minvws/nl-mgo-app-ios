@@ -13,11 +13,11 @@ import Foundation
 // MARK: - R4NlCoreHealthcareProviderOrganizationAddress
 public struct R4NlCoreHealthcareProviderOrganizationAddress: Codable, Hashable, Sendable {
     public let profile: R4NlCoreAddressInformationProfile
-    public let city: PrimitiveValueTypeOfStringString?
+    public let city: MgoString?
     public let country: PurpleCountry
-    public let district: PrimitiveValueTypeOfStringString?
+    public let district: MgoString?
     public let line: [PurpleLine]?
-    public let postalCode: PrimitiveValueTypeOfStringString?
+    public let postalCode: MgoString?
     public let type, use: MgoCodeOfString?
 
     public enum CodingKeys: String, CodingKey {
@@ -25,7 +25,7 @@ public struct R4NlCoreHealthcareProviderOrganizationAddress: Codable, Hashable, 
         case city, country, district, line, postalCode, type, use
     }
 
-    public init(profile: R4NlCoreAddressInformationProfile, city: PrimitiveValueTypeOfStringString?, country: PurpleCountry, district: PrimitiveValueTypeOfStringString?, line: [PurpleLine]?, postalCode: PrimitiveValueTypeOfStringString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
+    public init(profile: R4NlCoreAddressInformationProfile, city: MgoString?, country: PurpleCountry, district: MgoString?, line: [PurpleLine]?, postalCode: MgoString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
         self.profile = profile
         self.city = city
         self.country = country
@@ -57,11 +57,11 @@ public extension R4NlCoreHealthcareProviderOrganizationAddress {
 
     func with(
         profile: R4NlCoreAddressInformationProfile? = nil,
-        city: PrimitiveValueTypeOfStringString?? = nil,
+        city: MgoString?? = nil,
         country: PurpleCountry? = nil,
-        district: PrimitiveValueTypeOfStringString?? = nil,
+        district: MgoString?? = nil,
         line: [PurpleLine]?? = nil,
-        postalCode: PrimitiveValueTypeOfStringString?? = nil,
+        postalCode: MgoString?? = nil,
         type: MgoCodeOfString?? = nil,
         use: MgoCodeOfString?? = nil
     ) -> R4NlCoreHealthcareProviderOrganizationAddress {

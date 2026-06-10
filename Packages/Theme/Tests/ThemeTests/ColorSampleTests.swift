@@ -21,7 +21,7 @@ final class ColorSampleTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(precision: 0.95)
+			as: .image(precision: 0.95, perceptualPrecision: 0.95)
 		)
 	}
 	
@@ -36,7 +36,7 @@ final class ColorSampleTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(precision: 0.95)
+			as: .image(precision: 0.95, perceptualPrecision: 0.95)
 		)
 	}
 }

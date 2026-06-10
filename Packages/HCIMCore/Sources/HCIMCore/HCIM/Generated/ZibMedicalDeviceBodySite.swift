@@ -14,9 +14,9 @@ import Foundation
 public struct ZibMedicalDeviceBodySite: Codable, Hashable, Sendable {
     public let coding: [MgoCoding]?
     public let laterality: ExtensionValueOfMgoCodeableConcept?
-    public let text: PrimitiveValueTypeOfStringString?
+    public let text: MgoString?
 
-    public init(coding: [MgoCoding]?, laterality: ExtensionValueOfMgoCodeableConcept?, text: PrimitiveValueTypeOfStringString?) {
+    public init(coding: [MgoCoding]?, laterality: ExtensionValueOfMgoCodeableConcept?, text: MgoString?) {
         self.coding = coding
         self.laterality = laterality
         self.text = text
@@ -44,7 +44,7 @@ public extension ZibMedicalDeviceBodySite {
     func with(
         coding: [MgoCoding]?? = nil,
         laterality: ExtensionValueOfMgoCodeableConcept?? = nil,
-        text: PrimitiveValueTypeOfStringString?? = nil
+        text: MgoString?? = nil
     ) -> ZibMedicalDeviceBodySite {
         return ZibMedicalDeviceBodySite(
             coding: coding ?? self.coding,

@@ -12,12 +12,10 @@ import Foundation
 
 // MARK: - HcimCardDetails
 public struct HcimCardDetails: Codable, Hashable, Sendable {
-    public let description: String?
-    public let descriptionIcon: CardIconNames?
-    public let detail: String?
+    public let description, descriptionIcon, detail: String?
     public let title: String
 
-    public init(description: String?, descriptionIcon: CardIconNames?, detail: String?, title: String) {
+    public init(description: String?, descriptionIcon: String?, detail: String?, title: String) {
         self.description = description
         self.descriptionIcon = descriptionIcon
         self.detail = detail
@@ -45,7 +43,7 @@ public extension HcimCardDetails {
 
     func with(
         description: String?? = nil,
-        descriptionIcon: CardIconNames?? = nil,
+        descriptionIcon: String?? = nil,
         detail: String?? = nil,
         title: String? = nil
     ) -> HcimCardDetails {

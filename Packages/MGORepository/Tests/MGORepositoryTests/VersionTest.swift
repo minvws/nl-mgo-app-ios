@@ -22,8 +22,8 @@ struct SharedVersionTests {
 		let result: SharedCategoriesVersion = try await sut.getVersion()
 		
 		// Then
-		#expect(result.version == "main-ef55529")
-		#expect(result.gitRef == "ef55529d311945a433dcd33722c8df1c07dc0adc")
-		#expect(result.created == "2026-03-13T08:20:07")
+		#expect(result.version == "main-cdaedbe")
+		#expect(result.gitRef == "cdaedbe30128751894052bc385a291a82eae0d7e")
+		#expect(result.created == "2026-05-19T14:38:12")
 	}
 }

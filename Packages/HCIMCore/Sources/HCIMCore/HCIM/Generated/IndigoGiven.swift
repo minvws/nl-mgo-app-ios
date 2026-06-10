@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - IndigoGiven
 public struct IndigoGiven: Codable, Hashable, Sendable {
-    public let birthName, initials: [PrimitiveValueTypeOfStringString]?
+    public let birthName, initials: [MgoString]?
 
-    public init(birthName: [PrimitiveValueTypeOfStringString]?, initials: [PrimitiveValueTypeOfStringString]?) {
+    public init(birthName: [MgoString]?, initials: [MgoString]?) {
         self.birthName = birthName
         self.initials = initials
     }
@@ -39,8 +39,8 @@ public extension IndigoGiven {
     }
 
     func with(
-        birthName: [PrimitiveValueTypeOfStringString]?? = nil,
-        initials: [PrimitiveValueTypeOfStringString]?? = nil
+        birthName: [MgoString]?? = nil,
+        initials: [MgoString]?? = nil
     ) -> IndigoGiven {
         return IndigoGiven(
             birthName: birthName ?? self.birthName,

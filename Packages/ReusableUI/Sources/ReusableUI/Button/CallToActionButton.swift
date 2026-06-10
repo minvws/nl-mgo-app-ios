@@ -138,7 +138,10 @@ private struct ButtonStyleApplier: ViewModifier {
 				
 			case let .tonal(rounded):
 				content.buttonStyle(TonalButtonStyle(rounded: rounded))
-				
+
+			case let .glass(rounded):
+				content.buttonStyle(GlassButtonStyle(rounded: rounded))
+
 			case .withIcon:
 				content.buttonStyle(ButtonWithIconStyle())
 				

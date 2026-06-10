@@ -12,16 +12,16 @@ import Foundation
 
 // MARK: - GpLaboratoryResultStatus
 public struct GpLaboratoryResultStatus: Codable, Hashable, Sendable {
-    public let type: MgoCodeType?
+    public let type: MgoCodeOfStringType?
     public let testResultStatus: ExtensionValueOfMgoCodeableConcept?
-    public let value: PurpleValue?
+    public let value: String?
 
     public enum CodingKeys: String, CodingKey {
         case type = "_type"
         case testResultStatus, value
     }
 
-    public init(type: MgoCodeType?, testResultStatus: ExtensionValueOfMgoCodeableConcept?, value: PurpleValue?) {
+    public init(type: MgoCodeOfStringType?, testResultStatus: ExtensionValueOfMgoCodeableConcept?, value: String?) {
         self.type = type
         self.testResultStatus = testResultStatus
         self.value = value
@@ -47,9 +47,9 @@ public extension GpLaboratoryResultStatus {
     }
 
     func with(
-        type: MgoCodeType?? = nil,
+        type: MgoCodeOfStringType?? = nil,
         testResultStatus: ExtensionValueOfMgoCodeableConcept?? = nil,
-        value: PurpleValue?? = nil
+        value: String?? = nil
     ) -> GpLaboratoryResultStatus {
         return GpLaboratoryResultStatus(
             type: type ?? self.type,

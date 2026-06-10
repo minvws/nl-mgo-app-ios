@@ -1,0 +1,22 @@
+{
+    "id": "66",
+    "name": "Vaccination Immunization 2.0",
+    "fhirVersion": "4.0",
+    "fhirVersionEnum": "R4",
+    "endpoints": [
+        {
+            "id": "vaccination",
+            "path": "/Immunization?_include=Immunization:patient&_include=Immunization:location&_include=Immunization:performer",
+            "profiles": [
+                "http://nictiz.nl/fhir/StructureDefinition/imm-Vaccination-event",
+                "http://nictiz.nl/fhir/StructureDefinition/imm-PharmaceuticalProduct",
+                "http://nictiz.nl/fhir/StructureDefinition/nl-core-HealthcareProvider",
+                "http://nictiz.nl/fhir/StructureDefinition/nl-core-HealthProfessional-Practitioner",
+                "http://nictiz.nl/fhir/StructureDefinition/nl-core-HealthProfessional-PractitionerRole",
+                "http://nictiz.nl/fhir/StructureDefinition/nl-core-Patient",
+                "http://nictiz.nl/fhir/StructureDefinition/nl-core-HealthcareProvider",
+                "http://nictiz.nl/fhir/StructureDefinition/nl-core-HealthcareProvider-Organization"
+            ]
+        }
+    ]
+}

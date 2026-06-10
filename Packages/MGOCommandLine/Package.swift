@@ -17,8 +17,8 @@ let package = Package(
 	dependencies: [
 		
 		// External
-		.package(url: "https://github.com/apple/example-package-figlet", branch: "main"),
-		.package(url: "https://github.com/apple/swift-argument-parser", exact: "1.7.1")
+		.package(url: "https://github.com/apple/example-package-figlet", revision: "166eef46de0b094d6d1966e749f727d6c4beba0e"),
+		.package(url: "https://github.com/apple/swift-argument-parser", exact: "1.8.2")
 	],
 	targets: [
 		.target(

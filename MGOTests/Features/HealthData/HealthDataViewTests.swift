@@ -38,7 +38,7 @@ final class HealthDataViewTests: XCTestCase {
 		)
 		sut = HealthDataView(viewModel: self.viewModel)
 	}
-
+	
 	@MainActor func test_view() throws {
 		
 		// Given
@@ -73,8 +73,12 @@ final class HealthDataViewTests: XCTestCase {
 			.environment(\.isPresentedAsSheet, false)
 		
 		// When
-		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
-
+		try content
+			.inspect()
+			.find(viewWithAccessibilityIdentifier: "common.previous")
+			.button()
+			.tap()
+		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed

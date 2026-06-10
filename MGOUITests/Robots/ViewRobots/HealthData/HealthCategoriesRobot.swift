@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -122,19 +122,21 @@ import XCTest
 	
 	@discardableResult
 	func verifyToastHeadingExists() -> Self {
-		XCTAssertTrue(toastHeading.exists)
+		// Wait: ConfirmationAlertCoverView fades out for 250ms before firing onConfirm,
+		// then the observatory + pop + toast slide-in all happen async.
+		XCTAssertTrue(toastHeading.waitForExistence(timeout: timeOut))
 		return self
 	}
-	
+
 	@discardableResult
 	func verifyToastRecoverButtonExists() -> Self {
-		XCTAssertTrue(toastRecoverButton.exists)
+		XCTAssertTrue(toastRecoverButton.waitForExistence(timeout: timeOut))
 		return self
 	}
-	
+
 	@discardableResult
 	func verifyToastCloseExists() -> Self {
-		XCTAssertTrue(toastCloseButton.exists)
+		XCTAssertTrue(toastCloseButton.waitForExistence(timeout: timeOut))
 		return self
 	}
 	

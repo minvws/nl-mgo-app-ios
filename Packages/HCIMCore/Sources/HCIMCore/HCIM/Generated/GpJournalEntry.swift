@@ -14,17 +14,17 @@ import Foundation
 public struct GpJournalEntry: Codable, Hashable, Sendable {
     public let code: MgoCodeableConcept?
     public let component: GpJournalEntryComponent?
-    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let effectiveDateTime: MgoDateTime?
     public let effectivePeriod: MgoPeriod?
     public let episodeOfCare: [ExtensionValueOfMgoReference]
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let performer: [MgoReference]?
     public let profile: GpJournalEntryProfile
     public let referenceID, resourceType: String
     public let subject: MgoReference?
-    public let valueString: PrimitiveValueTypeOfStringString?
+    public let valueString: MgoString?
 
     public enum CodingKeys: String, CodingKey {
         case code, component, effectiveDateTime, effectivePeriod, episodeOfCare, fhirVersion, id, identifier, performer, profile
@@ -32,7 +32,7 @@ public struct GpJournalEntry: Codable, Hashable, Sendable {
         case resourceType, subject, valueString
     }
 
-    public init(code: MgoCodeableConcept?, component: GpJournalEntryComponent?, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, episodeOfCare: [ExtensionValueOfMgoReference], fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: GpJournalEntryProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueString: PrimitiveValueTypeOfStringString?) {
+    public init(code: MgoCodeableConcept?, component: GpJournalEntryComponent?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, episodeOfCare: [ExtensionValueOfMgoReference], fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: GpJournalEntryProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueString: MgoString?) {
         self.code = code
         self.component = component
         self.effectiveDateTime = effectiveDateTime
@@ -71,10 +71,10 @@ public extension GpJournalEntry {
     func with(
         code: MgoCodeableConcept?? = nil,
         component: GpJournalEntryComponent?? = nil,
-        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        effectiveDateTime: MgoDateTime?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
         episodeOfCare: [ExtensionValueOfMgoReference]? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         performer: [MgoReference]?? = nil,
@@ -82,7 +82,7 @@ public extension GpJournalEntry {
         referenceID: String? = nil,
         resourceType: String? = nil,
         subject: MgoReference?? = nil,
-        valueString: PrimitiveValueTypeOfStringString?? = nil
+        valueString: MgoString?? = nil
     ) -> GpJournalEntry {
         return GpJournalEntry(
             code: code ?? self.code,

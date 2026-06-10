@@ -13,7 +13,7 @@ import Foundation
 // MARK: - ZibHelpFromOthers
 public struct ZibHelpFromOthers: Codable, Hashable, Sendable {
     public let activity: [ZibHelpFromOthersActivity]?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let period: MgoPeriod?
@@ -27,7 +27,7 @@ public struct ZibHelpFromOthers: Codable, Hashable, Sendable {
         case resourceType, subject
     }
 
-    public init(activity: [ZibHelpFromOthersActivity]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, period: MgoPeriod?, profile: ZibHelpFromOthersProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
+    public init(activity: [ZibHelpFromOthersActivity]?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, period: MgoPeriod?, profile: ZibHelpFromOthersProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
         self.activity = activity
         self.fhirVersion = fhirVersion
         self.id = id
@@ -60,7 +60,7 @@ public extension ZibHelpFromOthers {
 
     func with(
         activity: [ZibHelpFromOthersActivity]?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         period: MgoPeriod?? = nil,

@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - NlCoreHumannameGiven
 public struct NlCoreHumannameGiven: Codable, Hashable, Sendable {
-    public let birthName, callName, initials: [PrimitiveValueTypeOfStringString]?
+    public let birthName, callName, initials: [MgoString]?
 
-    public init(birthName: [PrimitiveValueTypeOfStringString]?, callName: [PrimitiveValueTypeOfStringString]?, initials: [PrimitiveValueTypeOfStringString]?) {
+    public init(birthName: [MgoString]?, callName: [MgoString]?, initials: [MgoString]?) {
         self.birthName = birthName
         self.callName = callName
         self.initials = initials
@@ -40,9 +40,9 @@ public extension NlCoreHumannameGiven {
     }
 
     func with(
-        birthName: [PrimitiveValueTypeOfStringString]?? = nil,
-        callName: [PrimitiveValueTypeOfStringString]?? = nil,
-        initials: [PrimitiveValueTypeOfStringString]?? = nil
+        birthName: [MgoString]?? = nil,
+        callName: [MgoString]?? = nil,
+        initials: [MgoString]?? = nil
     ) -> NlCoreHumannameGiven {
         return NlCoreHumannameGiven(
             birthName: birthName ?? self.birthName,

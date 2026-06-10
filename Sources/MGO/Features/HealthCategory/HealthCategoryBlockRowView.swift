@@ -17,6 +17,18 @@ struct HealthCategoryBlockRowView: View {
 	/// The accessibility identifier for this row
 	let accessibilityIdentifier: String
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum General {
+			static let oldCornerRadius: CGFloat = 12
+			static let cornerRadius: CGFloat = 26
+			static let padding: CGFloat = 16
+		}
+	}
+	
 	/// Tracks whether the button is currently pressed, driven by `PressedPreferenceKey`.
 	@State private var isPressed = false
 
@@ -34,12 +46,21 @@ struct HealthCategoryBlockRowView: View {
 					titleColor: theme.labels.primary
 				)
 			)
+			.padding(ViewTraits.General.padding)
+			.background(isPressed ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
+			.clipShape(
+				RoundedRectangle(
+					cornerRadius: osVersionChecker
+						.available(
+							version: .iOS(.v26)
+						) ? ViewTraits.General.cornerRadius : ViewTraits.General.oldCornerRadius
+				)
+			)
 			.contentShape(Rectangle())
 		}
 		.accessibilityIdentifier(accessibilityIdentifier)
 		.accessibilityRemoveTraits(.isHeader)
 		.buttonStyle(PressReportingButtonStyle(isPressed: $isPressed))
 		.onPreferenceChange(PressedPreferenceKey.self) { isPressed = $0 }
-		.listRowBackground(isPressed ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
 	}
 }

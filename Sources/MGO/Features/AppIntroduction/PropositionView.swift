@@ -155,7 +155,7 @@ struct PropositionView: View {
 			
 			CallToActionButton(
 				"proposition.open_privacy.button",
-				style: .tonal(rounded: rounded)
+				style: .glass(rounded: rounded)
 			) {
 				viewModel.reduce(.privacyLinkClicked)
 			}

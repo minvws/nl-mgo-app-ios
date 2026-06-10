@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - ZibTobaccoUseComponent
 public struct ZibTobaccoUseComponent: Codable, Hashable, Sendable {
-    public let amount: [TentacledAmount]?
-    public let packYears: [PackYear]?
-    public let typeOfTobaccoUsed: [TypeOfTobaccoUsed]?
+    public let amount: FluffyAmount?
+    public let packYears: PackYears?
+    public let typeOfTobaccoUsed: TypeOfTobaccoUsed?
 
-    public init(amount: [TentacledAmount]?, packYears: [PackYear]?, typeOfTobaccoUsed: [TypeOfTobaccoUsed]?) {
+    public init(amount: FluffyAmount?, packYears: PackYears?, typeOfTobaccoUsed: TypeOfTobaccoUsed?) {
         self.amount = amount
         self.packYears = packYears
         self.typeOfTobaccoUsed = typeOfTobaccoUsed
@@ -42,9 +42,9 @@ public extension ZibTobaccoUseComponent {
     }
 
     func with(
-        amount: [TentacledAmount]?? = nil,
-        packYears: [PackYear]?? = nil,
-        typeOfTobaccoUsed: [TypeOfTobaccoUsed]?? = nil
+        amount: FluffyAmount?? = nil,
+        packYears: PackYears?? = nil,
+        typeOfTobaccoUsed: TypeOfTobaccoUsed?? = nil
     ) -> ZibTobaccoUseComponent {
         return ZibTobaccoUseComponent(
             amount: amount ?? self.amount,

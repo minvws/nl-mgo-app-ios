@@ -19,9 +19,10 @@ import SwiftUI
 		height: .greatestFiniteMagnitude
 	)
 
-	// Common half-width bounding size for sub table measurements
+	// Common half-width bounding size for sub table measurements.
+	// Subtract 2 * horizontalPadding (12pt each side) to match the actual drawing rect width.
 	private let halfWidthBoundingSize = CGSize(
-		width: (PdfExport.Constants.contentSize.width / 2) - 12,
+		width: (PdfExport.Constants.contentSize.width / 2) - 24,
 		height: .greatestFiniteMagnitude
 	)
 

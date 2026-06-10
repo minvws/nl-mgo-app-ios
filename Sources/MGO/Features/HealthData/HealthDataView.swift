@@ -54,7 +54,6 @@ class HealthDataViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-		case cancelExportAlert
 		case closeSheet
 		case closeTermSheet
 		case exportHealthData
@@ -180,9 +179,6 @@ class HealthDataViewModel: ObservableObject {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 				
-			case .cancelExportAlert:
-				state.showExportAlert = false
-			
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
 			
@@ -294,7 +290,6 @@ struct HealthDataView: View {
 			},
 			resolvedCodes: viewModel.resolvedCodes
 		)
-		.toolbar { pdfExportToolbarContent }
 		.confirmationAlert(
 			heading: String(localized: "export_pdf.dialog.heading"),
 			subheading: String(localized: "export_pdf.dialog.subheading"),
@@ -318,6 +313,10 @@ struct HealthDataView: View {
 					// This closes the view when shown in a sheet aka a reference
 					viewModel.reduce(.closeSheet)
 				}
+		})
+		.when(!isPresentedAsSheet, transform: { view in
+			view
+				.toolbar { pdfExportToolbarContent }
 		})
 		.inspectableSheet(
 			isPresented: $viewModel.selectedPatientFriendlyTerm.presence(),

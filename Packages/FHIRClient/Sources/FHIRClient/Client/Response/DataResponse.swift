@@ -1,24 +1,22 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
 import Foundation
+import HTTPTypes
 
 /**
-Encapsulates a server response, which can also indicate that there was no response or not even a request, in which case the `error`
-property carries the only useful information.
-*/
-open class DataResponse: ServerResponse {
-	
-	/// The handler handling the request provoking this response.
-	public internal(set) var handler: RequestHandler?
+ Encapsulates a server response, which can also indicate that there was no response or not even a request, in which case the `error`
+ property carries the only useful information.
+ */
+open class DataResponse {
 	
 	/// The HTTP status code.
 	public let status: Int
 	
 	/// Response headers.
-	public let headers: [String: String]
+	public let headers: HTTPFields
 	
 	/// The response body data.
 	open var body: Data?
@@ -27,45 +25,38 @@ open class DataResponse: ServerResponse {
 	open var error: FHIRError?
 	
 	/**
-	Instantiate a FHIRServerResponse from a (HTTP)URLResponse, Data and an optional Error.
-	*/
-	public required init(handler: RequestHandler, response: URLResponse, data: Data?, error: Error?) {
-		
-		self.handler = handler
+	 Instantiate a response from a completed HTTP request.
+	 
+	 - parameter response: The `HTTPResponse` received from the server.
+	 - parameter data:     The response body data, if any.
+	 - parameter error:    The error reported by the URL session, if any.
+	 */
+	public required init(
+		response: HTTPResponse,
+		data: Data?,
+		error: Error?
+	) {
 		self.body = data
+		self.status = response.status.code
+		self.headers = response.headerFields
 		
-		var localStatus = 0
-		var localHeaders = [String: String]()
-		
-		// parse status and headers from the URL response
-		(response as? HTTPURLResponse).map { response in
-			localStatus = response.statusCode
-			response.allHeaderFields.forEach { (key: AnyHashable, value: Any) in
-				if var keyStr = key as? String, let valStr = value as? String {
-					keyStr = keyStr.replacingOccurrences(of: "Etag", with: "ETag")
-					localHeaders[keyStr] = valStr
-				}
-			}
-		}
-		
-		// was there an error?
-		if let error = error, NSURLErrorDomain == error._domain {
-			self.error = FHIRError.requestError(localStatus, error.humanized)
+		if let error, NSURLErrorDomain == error._domain {
+			self.error = FHIRError.requestError(self.status, error.humanized)
 		} else if let error = error as? FHIRError {
 			self.error = error
-		} else if let error = error {
+		} else if let error {
 			self.error = FHIRError.error(error.localizedDescription)
 		}
-		
-		self.status = localStatus
-		self.headers = localHeaders
 	}
 	
-	public required init(error: Error, handler: RequestHandler? = nil) {
-		
-		self.handler = handler
+	/**
+	 Instantiate an error-only response when no HTTP response was received.
+	 
+	 - parameter error: The error that prevented a response from being received.
+	 */
+	public required init(error: Error) {
 		self.status = 0
-		self.headers = [String: String]()
+		self.headers = HTTPFields()
 		if NSURLErrorDomain == error._domain {
 			self.error = FHIRError.requestError(status, error.humanized)
 		} else if let error = error as? FHIRError {

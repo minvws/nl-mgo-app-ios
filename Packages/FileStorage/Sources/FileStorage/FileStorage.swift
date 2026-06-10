@@ -113,6 +113,18 @@ final public class FileStorage: FileStorageProtocol, Sendable {
 			logError(directoryError)
 			return
 		}
+		// Ensure the parent directory exists before writing. The atomic write
+		// option creates a temp file in the same directory first; if that
+		// directory doesn't exist (e.g. app container not fully initialized,
+		// or first write after a reinstall) mktemp fails with ENOENT.
+		let directory = url.deletingLastPathComponent()
+		if !fileManager.fileExists(atPath: directory.path) {
+			try fileManager.createDirectory(
+				at: directory,
+				withIntermediateDirectories: true,
+				attributes: [.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication]
+			)
+		}
 		try data.write(to: url, options: [.atomic, .completeFileProtection])
 	}
 	

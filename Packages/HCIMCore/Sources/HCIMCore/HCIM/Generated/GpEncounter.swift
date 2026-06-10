@@ -14,7 +14,7 @@ import Foundation
 public struct GpEncounter: Codable, Hashable, Sendable {
     public let gpEncounterClass: MgoCoding?
     public let diagnosis: [GpEncounterDiagnosis]?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let hospitalization: GpEncounterHospitalization
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -32,7 +32,7 @@ public struct GpEncounter: Codable, Hashable, Sendable {
         case resourceType, serviceProvider, subject
     }
 
-    public init(gpEncounterClass: MgoCoding?, diagnosis: [GpEncounterDiagnosis]?, fhirVersion: NlCoreObservationFhirVersion, hospitalization: GpEncounterHospitalization, id: String?, identifier: [MgoIdentifier]?, participant: [GpEncounterParticipant]?, period: MgoPeriod?, profile: GpEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String, serviceProvider: MgoReference?, subject: MgoReference?) {
+    public init(gpEncounterClass: MgoCoding?, diagnosis: [GpEncounterDiagnosis]?, fhirVersion: EAfspraakAppointmentFhirVersion, hospitalization: GpEncounterHospitalization, id: String?, identifier: [MgoIdentifier]?, participant: [GpEncounterParticipant]?, period: MgoPeriod?, profile: GpEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String, serviceProvider: MgoReference?, subject: MgoReference?) {
         self.gpEncounterClass = gpEncounterClass
         self.diagnosis = diagnosis
         self.fhirVersion = fhirVersion
@@ -71,7 +71,7 @@ public extension GpEncounter {
     func with(
         gpEncounterClass: MgoCoding?? = nil,
         diagnosis: [GpEncounterDiagnosis]?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         hospitalization: GpEncounterHospitalization? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,

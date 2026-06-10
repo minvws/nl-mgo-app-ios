@@ -21,7 +21,7 @@ final class ConditionalViewModifierTests: XCTestCase {
 		}
 		
 		// Then
-		assertSnapshot(of: sut, as: .image)
+		assertSnapshot(of: sut, as: .image(perceptualPrecision: 0.95))
 	}
 	
 	@MainActor func test_conditionalViewModifier_conditionTrue() throws {
@@ -37,6 +37,6 @@ final class ConditionalViewModifierTests: XCTestCase {
 		}
 		
 		// Then
-		assertSnapshot(of: sut, as: .image)
+		assertSnapshot(of: sut, as: .image(perceptualPrecision: 0.95))
 	}
 }

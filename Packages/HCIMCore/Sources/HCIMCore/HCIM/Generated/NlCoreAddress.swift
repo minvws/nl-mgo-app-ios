@@ -14,18 +14,18 @@ import Foundation
 public struct NlCoreAddress: Codable, Hashable, Sendable {
     public let profile: NlCoreAddressProfile
     public let addressType: MgoCodeableConcept?
-    public let city, country, district: PrimitiveValueTypeOfStringString?
+    public let city, country, district: MgoString?
     public let line: [NlCoreAddressStreetNameHouseNumber]?
-    public let official: PrimitiveValueTypeOfBooleanBoolean?
-    public let postalCode: PrimitiveValueTypeOfStringString?
-    public let type, use: MgoCode?
+    public let official: MgoBoolean?
+    public let postalCode: MgoString?
+    public let type, use: MgoCodeOfString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
         case addressType, city, country, district, line, official, postalCode, type, use
     }
 
-    public init(profile: NlCoreAddressProfile, addressType: MgoCodeableConcept?, city: PrimitiveValueTypeOfStringString?, country: PrimitiveValueTypeOfStringString?, district: PrimitiveValueTypeOfStringString?, line: [NlCoreAddressStreetNameHouseNumber]?, official: PrimitiveValueTypeOfBooleanBoolean?, postalCode: PrimitiveValueTypeOfStringString?, type: MgoCode?, use: MgoCode?) {
+    public init(profile: NlCoreAddressProfile, addressType: MgoCodeableConcept?, city: MgoString?, country: MgoString?, district: MgoString?, line: [NlCoreAddressStreetNameHouseNumber]?, official: MgoBoolean?, postalCode: MgoString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
         self.profile = profile
         self.addressType = addressType
         self.city = city
@@ -60,14 +60,14 @@ public extension NlCoreAddress {
     func with(
         profile: NlCoreAddressProfile? = nil,
         addressType: MgoCodeableConcept?? = nil,
-        city: PrimitiveValueTypeOfStringString?? = nil,
-        country: PrimitiveValueTypeOfStringString?? = nil,
-        district: PrimitiveValueTypeOfStringString?? = nil,
+        city: MgoString?? = nil,
+        country: MgoString?? = nil,
+        district: MgoString?? = nil,
         line: [NlCoreAddressStreetNameHouseNumber]?? = nil,
-        official: PrimitiveValueTypeOfBooleanBoolean?? = nil,
-        postalCode: PrimitiveValueTypeOfStringString?? = nil,
-        type: MgoCode?? = nil,
-        use: MgoCode?? = nil
+        official: MgoBoolean?? = nil,
+        postalCode: MgoString?? = nil,
+        type: MgoCodeOfString?? = nil,
+        use: MgoCodeOfString?? = nil
     ) -> NlCoreAddress {
         return NlCoreAddress(
             profile: profile ?? self.profile,

@@ -13,7 +13,7 @@ import Foundation
 // MARK: - PurpleBodySite
 public struct PurpleBodySite: Codable, Hashable, Sendable {
     public let type: MgoCodeableConceptType?
-    public let coding: [MgoCodingProps]?
+    public let coding: [DisplayValue]?
     public let laterality, morphology: [ExtensionValueOfMgoCodeableConcept]
     public let text: String?
 
@@ -22,7 +22,7 @@ public struct PurpleBodySite: Codable, Hashable, Sendable {
         case coding, laterality, morphology, text
     }
 
-    public init(type: MgoCodeableConceptType?, coding: [MgoCodingProps]?, laterality: [ExtensionValueOfMgoCodeableConcept], morphology: [ExtensionValueOfMgoCodeableConcept], text: String?) {
+    public init(type: MgoCodeableConceptType?, coding: [DisplayValue]?, laterality: [ExtensionValueOfMgoCodeableConcept], morphology: [ExtensionValueOfMgoCodeableConcept], text: String?) {
         self.type = type
         self.coding = coding
         self.laterality = laterality
@@ -51,7 +51,7 @@ public extension PurpleBodySite {
 
     func with(
         type: MgoCodeableConceptType?? = nil,
-        coding: [MgoCodingProps]?? = nil,
+        coding: [DisplayValue]?? = nil,
         laterality: [ExtensionValueOfMgoCodeableConcept]? = nil,
         morphology: [ExtensionValueOfMgoCodeableConcept]? = nil,
         text: String?? = nil

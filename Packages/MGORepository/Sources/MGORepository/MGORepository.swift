@@ -6,6 +6,7 @@
 import Foundation
 import FHIRClient
 import HCIMCore
+import HTTPTypes
 import MGODebug
 
 /// The repository to fetch FHIR data and store as HCIM
@@ -49,21 +50,21 @@ public actor MGORepository {
 			path = String(path.dropFirst())
 		}
 		
-		var requestHeaders: [RequestHeaderField: String] = [
-			RequestHeaderField.dvaTarget: headers.dvaTarget,
-			RequestHeaderField.accept: fhirVersion.acceptHeader,
-			RequestHeaderField.dataServiceId: headers.dataServiceId,
-			RequestHeaderField.providerId: headers.medmijId ?? "none" // defaults to none.
+		var requestHeaders: HTTPFields = [
+			.dvaTarget: headers.dvaTarget,
+			.accept: fhirVersion.acceptHeader,
+			.dataServiceId: headers.dataServiceId,
+			.medmijId: headers.medmijId ?? "none" // defaults to none.
 		]
-		
+
 		if let basicAuth = basicAuthenticationHeader(
 			username: headers.username,
 			password: headers.password) {
-			requestHeaders[RequestHeaderField.authorization] = basicAuth
+			requestHeaders[.authorization] = basicAuth
 		}
 		let data = try await client.readDataFrom(
 			path,
-			headers: RequestHeaders(requestHeaders)
+			headers: requestHeaders
 		)
 		return data
 	}

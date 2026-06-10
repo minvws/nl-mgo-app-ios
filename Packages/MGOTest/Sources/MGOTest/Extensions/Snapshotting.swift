@@ -50,8 +50,10 @@ func makeSnapshotHostingController<V: View>(rootView: V) -> UIHostingController<
 ///   - name: The base name used for the snapshot files. Defaults to the calling function name,
 ///     which SnapshotTesting sanitises and uses as the file stem.
 ///   - precision: Pixel-match tolerance in the range `0...1` (default `1.0` = exact match).
-///     Use a value slightly below `1.0` (e.g. `0.99`) to absorb sub-pixel GPU rendering variance
-///     across test-suite runs.
+///   - perceptualPrecision: Perceptual color-difference tolerance in the range `0...1`
+///     (default `0.95`). Absorbs sub-pixel text anti-aliasing and GPU rendering variance
+///     that differ across simulator versions without hiding real layout or color regressions.
+///     A snapshot passes if it satisfies either `precision` or `perceptualPrecision`.
 ///   - file: Source file path, forwarded to SnapshotTesting for locating the `__Snapshots__`
 ///     directory relative to the test file.
 ///   - isRecording: When `true`, writes new reference images instead of asserting against them.
@@ -60,12 +62,17 @@ public func takeSnapShots(
 	content: some View,
 	name: String = #function,
 	precision: Float = 1.0,
+	perceptualPrecision: Float = 0.95,
 	file: StaticString = #filePath,
 	isRecording: Bool = false
 ) {
 	assertSnapshot(
 		of: makeSnapshotHostingController(rootView: content.colorScheme(.dark)),
-		as: .image(on: .iPhone17Pro(.portrait), precision: precision),
+		as: .image(
+			on: .iPhone17Pro(.portrait),
+			precision: precision,
+			perceptualPrecision: perceptualPrecision
+		),
 		named: "_darkPortrait",
 		record: isRecording ? .all : nil,
 		file: file,
@@ -73,7 +80,11 @@ public func takeSnapShots(
 	)
 	assertSnapshot(
 		of: makeSnapshotHostingController(rootView: content.colorScheme(.light)),
-		as: .image(on: .iPhone17Pro(.portrait), precision: precision),
+		as: .image(
+			on: .iPhone17Pro(.portrait),
+			precision: precision,
+			perceptualPrecision: perceptualPrecision
+		),
 		named: "_lightPortrait",
 		record: isRecording ? .all : nil,
 		file: file,
@@ -81,7 +92,11 @@ public func takeSnapShots(
 	)
 	assertSnapshot(
 		of: makeSnapshotHostingController(rootView: content.colorScheme(.dark)),
-		as: .image(on: .iPhone17Pro(.landscape), precision: precision),
+		as: .image(
+			on: .iPhone17Pro(.landscape),
+			precision: precision,
+			perceptualPrecision: perceptualPrecision
+		),
 		named: "_darkLandscape",
 		record: isRecording ? .all : nil,
 		file: file,
@@ -89,7 +104,11 @@ public func takeSnapShots(
 	)
 	assertSnapshot(
 		of: makeSnapshotHostingController(rootView: content.colorScheme(.light)),
-		as: .image(on: .iPhone17Pro(.landscape), precision: precision),
+		as: .image(
+			on: .iPhone17Pro(.landscape),
+			precision: precision,
+			perceptualPrecision: perceptualPrecision
+		),
 		named: "_lightLandscape",
 		record: isRecording ? .all : nil,
 		file: file,

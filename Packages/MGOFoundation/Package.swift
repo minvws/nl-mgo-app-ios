@@ -30,7 +30,7 @@ let package = Package(
 		.package(name: "RemoteConfiguration", path: "../RemoteConfiguration"),
 		
 		// External
-		.package(url: "https://github.com/hmlongco/Factory", exact: "2.5.3")
+		.package(url: "https://github.com/hmlongco/Factory", exact: "3.0.5")
 	],
 	targets: [
 		.target(

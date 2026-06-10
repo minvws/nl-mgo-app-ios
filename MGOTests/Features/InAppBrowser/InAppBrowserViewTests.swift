@@ -20,14 +20,26 @@ final class InAppBrowserViewTests: XCTestCase {
 		HTTPStubs.removeAllStubs()
 	}
 	
-	@MainActor func setupSut(title: LocalizedStringKey = "") throws {
-		
+	@MainActor func setupSut(
+		title: LocalizedStringKey = "",
+		showScreenshotTrigger: Bool = false
+	) throws {
+
 		coordinatorSpy = AppCoordinatorSpy()
 		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
 		let url = try XCTUnwrap(URL(string: "https://localhost/test"))
-		let browser = RestrictedBrowser(allowedDomains: ["localhost"], urlOpener: urlOpenerSpy)
-		let viewModel = InAppBrowserViewModel(url: url, browser: browser, title: title, coordinator: coordinatorSpy)
+		let browser = RestrictedBrowser(
+			allowedDomains: ["localhost"],
+			urlOpener: urlOpenerSpy
+		)
+		let viewModel = InAppBrowserViewModel(
+			url: url,
+			browser: browser,
+			title: title,
+			coordinator: coordinatorSpy,
+			showScreenshotTrigger: showScreenshotTrigger
+		)
 		sut = InAppBrowserView(viewModel: viewModel)
 	}
 	
@@ -37,13 +49,36 @@ final class InAppBrowserViewTests: XCTestCase {
 		try setupSut()
 		
 		// When
-		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.close").button().tap()
+		try sut.inspect()
+			.find(viewWithAccessibilityIdentifier: "common.close")
+			.button()
+			.tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
+	@MainActor func test_screenshotTrigger_notVisible_byDefault() throws {
+
+		// Given
+		try setupSut()
+
+		// Then
+		XCTAssertThrowsError(try sut.inspect().find(viewWithAccessibilityIdentifier: "debug.screenshot.trigger"))
+	}
+
+	@MainActor func test_screenshotTrigger_visible_whenEnabled() throws {
+
+		// Given
+		try setupSut(showScreenshotTrigger: true)
+
+		// Then
+		XCTAssertNoThrow(try sut.inspect()
+			.find(viewWithAccessibilityIdentifier: "debug.screenshot.trigger")
+		)
+	}
+
 	@MainActor func test_backButtonPressed_iOS18() throws {
 		
 		// Given
@@ -51,7 +86,10 @@ final class InAppBrowserViewTests: XCTestCase {
 		try setupSut()
 		
 		// When
-		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.close").button().tap()
+		try sut.inspect()
+			.find(viewWithAccessibilityIdentifier: "common.close")
+			.button()
+			.tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

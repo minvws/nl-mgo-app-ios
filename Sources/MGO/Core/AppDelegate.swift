@@ -17,7 +17,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	/// Dependency injectable Feature Flag Manager
 	@Injected(\.featureFlagManager) private var featureFlagManager
 	
-	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+	func application(
+		_ application: UIApplication,
+		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+	) -> Bool {
 		
 		checkLaunchArguments()
 		styleUI()
@@ -88,7 +91,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	// MARK: 3rd Party Keyboard
 	
-	func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {
+	func application(
+		_ application: UIApplication,
+		shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier
+	) -> Bool {
 		
 		// See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623122-application
 		return extensionPointIdentifier != .keyboard

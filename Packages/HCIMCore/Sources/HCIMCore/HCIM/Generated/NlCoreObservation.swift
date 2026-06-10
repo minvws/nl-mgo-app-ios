@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - NlCoreObservation
 public struct NlCoreObservation: Codable, Hashable, Sendable {
-    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let effectiveDateTime: MgoDateTime?
     public let effectivePeriod: MgoPeriod?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let performer: [MgoReference]?
@@ -28,7 +28,7 @@ public struct NlCoreObservation: Codable, Hashable, Sendable {
         case resourceType, subject
     }
 
-    public init(effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: NlCoreObservationProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
+    public init(effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: NlCoreObservationProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
         self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
         self.fhirVersion = fhirVersion
@@ -61,9 +61,9 @@ public extension NlCoreObservation {
     }
 
     func with(
-        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        effectiveDateTime: MgoDateTime?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         performer: [MgoReference]?? = nil,

@@ -1,0 +1,13 @@
+{
+    "id": "9000002",
+    "name": "Image Availability",
+    "fhirVersion": "4.0",
+    "fhirVersionEnum": "R4",
+    "endpoints": [
+        {
+            "id": "imageAvailability",
+            "path": "/DocumentReference?status=current",
+            "profiles": ["http://medmij.nl/fhir/StructureDefinition/bbs-DocumentReference"]
+        }
+    ]
+}

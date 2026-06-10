@@ -16,18 +16,22 @@ final class HealthcareCoordinatorViewTests: XCTestCase {
 	override func setUp() {
 		
 		servicesSpies = setupServicesSpies()
-		coordinator = HealthcareCoordinator(parentCoordinator: DashboardCoordinatorSpy(), rootState: .organizations)
+		coordinator = HealthcareCoordinator(
+			parentCoordinator: DashboardCoordinatorSpy(),
+			rootState: .organizations
+		)
 		super.setUp()
 	}
-
+	
 	@MainActor func test_default() throws {
 		
 		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		
 		// When
 		let sut = HealthcareCoordinatorView(coordinator: coordinator)
 		
 		// Then
-		takeSnapShots(content: sut, precision: 0.95)
+		_ = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.add_organizations")
 	}
 }

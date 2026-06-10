@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - CareResponsibility
 public struct CareResponsibility: Codable, Hashable, Sendable {
-    public let valueString: PrimitiveValueTypeOfStringString?
+    public let valueString: MgoString?
 
-    public init(valueString: PrimitiveValueTypeOfStringString?) {
+    public init(valueString: MgoString?) {
         self.valueString = valueString
     }
 }
@@ -38,7 +38,7 @@ public extension CareResponsibility {
     }
 
     func with(
-        valueString: PrimitiveValueTypeOfStringString?? = nil
+        valueString: MgoString?? = nil
     ) -> CareResponsibility {
         return CareResponsibility(
             valueString: valueString ?? self.valueString

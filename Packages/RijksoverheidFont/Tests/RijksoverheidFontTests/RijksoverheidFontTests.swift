@@ -23,7 +23,7 @@ final class RijksoverheidFontTests: XCTestCase {
 				.frame(width: 120, height: 50)
 			
 			// Then
-			assertSnapshot(of: content, as: .image)
+			assertSnapshot(of: content, as: .image(perceptualPrecision: 0.95))
 		}
 	}
 	
@@ -40,7 +40,7 @@ final class RijksoverheidFontTests: XCTestCase {
 				.frame(width: 120, height: 50)
 			
 			// Then
-			assertSnapshot(of: content, as: .image)
+			assertSnapshot(of: content, as: .image(perceptualPrecision: 0.95))
 		}
 	}
 	
@@ -57,7 +57,7 @@ final class RijksoverheidFontTests: XCTestCase {
 				.frame(width: 120, height: 50)
 			
 			// Then
-			assertSnapshot(of: content, as: .image)
+			assertSnapshot(of: content, as: .image(perceptualPrecision: 0.95))
 		}
 	}
 	
@@ -74,7 +74,7 @@ final class RijksoverheidFontTests: XCTestCase {
 				.frame(width: 120, height: 50)
 			
 			// Then
-			assertSnapshot(of: content, as: .image)
+			assertSnapshot(of: content, as: .image(perceptualPrecision: 0.95))
 		}
 	}
 }

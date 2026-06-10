@@ -28,7 +28,8 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 	
 	@MainActor func createSut(
 		_ categoryId: String = "alerts",
-		state: HealthCategoryViewState
+		state: HealthCategoryViewState,
+		type: HealthCategoryViewType = .regular
 	) throws {
 
 		self.categoryId = categoryId
@@ -36,11 +37,6 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		let category = try XCTUnwrap(
 			sharedCategories.findCategory(
 				id: categoryId
-			)
-		)
-		let translations = try XCTUnwrap(
-			HealthCategoryViewTranslationsFactory.makeTranslations(
-				for: category
 			)
 		)
 
@@ -52,7 +48,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 			coordinator: coordinatorSpy,
 			category: category,
 			organization: healthcareOrganization,
-			translations: translations
+			type: type
 		)
 		viewModel.state = state
 		sut = HealthCategoryView(viewModel: viewModel)
@@ -71,7 +67,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(
 			content: content,
 			name: "\(categoryId)_\(#function)",
-			precision: 0.75
+			precision: 0.99
 		)
 	}
 	
@@ -101,7 +97,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(
 			content: content,
 			name: "\(categoryId)_\(#function)",
-			precision: 0.75
+			precision: 0.99
 		)
 	}
 	
@@ -163,7 +159,7 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(
 			content: content,
 			name: "\(categoryId)_\(#function)",
-			precision: 0.75
+			precision: 0.99
 		)
 	}
 	
@@ -225,12 +221,12 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(
 			content: content,
 			name: "\(categoryId)_\(#function)",
-			precision: 0.75
+			precision: 0.99
 		)
 	}
 	
 	@MainActor func test_stateNotEmptyListErrorState_iOS26() throws {
-		
+
 		// Given
 		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		try createSut(state: .list(
@@ -240,10 +236,54 @@ class AlertsHealthCategoryViewTests: XCTestCase {
 				subHeading: "Er is een fout opgetreden"
 			)
 		))
-		
+
 		// When
 		let content = NavigationStackBackport.NavigationStack { sut }
-		
+
+		// Then
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
+	}
+
+	@MainActor func test_stateNotEmptyListNoError_timeline() throws {
+
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
+		let items = [
+			Generator.healthCategoryBlock(heading: "10 mei 2026", details: nil),
+			Generator.healthCategoryBlock(heading: "5 mei 2026", details: nil),
+			Generator.healthCategoryBlock(heading: "Geen datum bekend", isUnknownDate: true, details: nil)
+		]
+		try createSut(
+			"documents",
+			state: .list(items: items, errorState: .none),
+			type: .timeline
+		)
+
+		// When
+		let content = NavigationStackBackport.NavigationStack { sut }
+
+		// Then
+		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
+	}
+
+	@MainActor func test_stateNotEmptyListNoError_timeline_iOS26() throws {
+
+		// Given
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
+		let items = [
+			Generator.healthCategoryBlock(heading: "10 mei 2026", details: nil),
+			Generator.healthCategoryBlock(heading: "5 mei 2026", details: nil),
+			Generator.healthCategoryBlock(heading: "Geen datum bekend", isUnknownDate: true, details: nil)
+		]
+		try createSut(
+			"documents",
+			state: .list(items: items, errorState: .none),
+			type: .timeline
+		)
+
+		// When
+		let content = NavigationStackBackport.NavigationStack { sut }
+
 		// Then
 		takeSnapShots(content: content, name: "\(categoryId)_\(#function)")
 	}

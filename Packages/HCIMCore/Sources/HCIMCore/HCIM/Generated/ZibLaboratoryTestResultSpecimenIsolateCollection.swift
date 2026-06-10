@@ -13,12 +13,12 @@ import Foundation
 // MARK: - ZibLaboratoryTestResultSpecimenIsolateCollection
 public struct ZibLaboratoryTestResultSpecimenIsolateCollection: Codable, Hashable, Sendable {
     public let bodySite: FluffyBodySite
-    public let collectedDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let collectedDateTime: MgoDateTime?
     public let collectedPeriod: MgoPeriod?
     public let method: MgoCodeableConcept?
     public let quantity: MgoQuantity?
 
-    public init(bodySite: FluffyBodySite, collectedDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, collectedPeriod: MgoPeriod?, method: MgoCodeableConcept?, quantity: MgoQuantity?) {
+    public init(bodySite: FluffyBodySite, collectedDateTime: MgoDateTime?, collectedPeriod: MgoPeriod?, method: MgoCodeableConcept?, quantity: MgoQuantity?) {
         self.bodySite = bodySite
         self.collectedDateTime = collectedDateTime
         self.collectedPeriod = collectedPeriod
@@ -47,7 +47,7 @@ public extension ZibLaboratoryTestResultSpecimenIsolateCollection {
 
     func with(
         bodySite: FluffyBodySite? = nil,
-        collectedDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        collectedDateTime: MgoDateTime?? = nil,
         collectedPeriod: MgoPeriod?? = nil,
         method: MgoCodeableConcept?? = nil,
         quantity: MgoQuantity?? = nil

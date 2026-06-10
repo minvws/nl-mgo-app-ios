@@ -346,11 +346,11 @@
 		"search_blob": "testtest",
 		"data_services": [
 			{
-				"id": "63",
-				"auth_endpoint": "99999999999963",
-				"token_endpoint": "99999999999963",
-				"resource_endpoint": "99999999999963"
-			}
+				"id": "66",
+				"auth_endpoint": "99999999991001",
+				"token_endpoint": "99999999991002",
+				"resource_endpoint": "99999999991066"
+			},
 		]
 	},
 	{

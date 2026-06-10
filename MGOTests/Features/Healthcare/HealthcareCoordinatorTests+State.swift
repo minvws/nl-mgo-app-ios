@@ -81,20 +81,6 @@ struct HealthcareCoordinatorStateTests {
 		_ = try view.inspect().find(HealthCategoriesView.self)
 	}
 
-	@Test("removeHealthcareOrganization state renders RemoveHealthcareOrganizationView")
-	func coordinatorView_forRemoveHealthcareOrganization() throws {
-
-		// Given
-		let organization = Generator.healthcareOrganization("1")
-		let state = HealthcareCoordination.State.removeHealthcareOrganization(healthcareOrganization: organization)
-
-		// When
-		let view = sut.view(for: state)
-
-		// Then
-		_ = try view.inspect().find(RemoveHealthcareOrganizationView.self)
-	}
-
 	@Test("showHealthData state renders HealthDataView")
 	func coordinatorView_forShowHealthCategoryData() throws {
 
@@ -219,40 +205,6 @@ struct HealthcareCoordinatorStateTests {
 
 		// Then
 		_ = try view.inspect().find(HealthCategoriesView.self)
-	}
-
-	@Test(
-		"Health category view translations",
-		arguments: [
-			("alerts", "hc_alerts.heading"),
-			("allergies", "hc_allergies.heading"),
-			("appointments", "hc_appointments.heading"),
-			("problems", "hc_complaints.heading"),
-			("medical_devices", "hc_devices.heading"),
-			("documents", "hc_documents.heading"),
-			("lab_results", "hc_lab_results.heading"),
-			("lifestyle", "hc_lifestyle.heading"),
-			("measurements", "hc_measurements.heading"),
-			("medication", "hc_medication.heading"),
-			("mental_wellbeing", "hc_mental.heading"),
-			("patient", "hc_patient.heading"),
-			("care_team", "hc_care_team.heading"),
-			("plans", "hc_plans.heading"),
-			("treatments", "hc_treatments.heading"),
-			("vaccinations", "hc_vaccinations.heading")
-		]
-	)
-	func coordinatorView_showHealthCategory_translations(categoryId: String, expectedHeading: String) throws {
-
-		// Given
-		let sharedCategories = try SharedHealthCategories()
-		let category = try #require(sharedCategories.findCategory(id: categoryId))
-
-		// When
-		let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category)
-
-		// Then
-		#expect(translations?.heading == String.LocalizationValue(stringLiteral: expectedHeading))
 	}
 
 	@Test("exportHealthData state renders HealthExportView")

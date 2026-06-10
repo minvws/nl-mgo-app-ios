@@ -1,56 +1,56 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+import Testing
 import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class HealthCategoriesViewModelModeAllTests: XCTestCase {
-
-	private var coordinatorSpy: DashboardCoordinatorSpy!
-	private var servicesSpies: ServicesSpies!
-	private var healthcareOrganization: OrganizationSearch.Organization!
-	private var sut: HealthCategoriesViewModel!
+@MainActor
+@Suite(.serialized)
+struct HealthCategoriesViewModelModeAllTests {
 	
-	override func setUp() {
-		
-		super.setUp()
+	private let coordinatorSpy: DashboardCoordinatorSpy
+	private let servicesSpies: ServicesSpies
+	private let healthcareOrganization: OrganizationSearch.Organization
+	
+	init() {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 	}
 	
-	@MainActor private func setupSut() {
-		
-		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+	private func makeSut() -> HealthCategoriesViewModel {
+		HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 	}
 	
-	@MainActor func test_categorySelected_shouldCallCoordinator() throws {
+	@Test("Selecting a category in .all mode omits the organization param")
+	func categorySelected_shouldCallCoordinator() throws {
 		
 		// Given
-		setupSut()
+		let sut = makeSut()
 		let sharedCategories = try SharedHealthCategories()
-		let category = try XCTUnwrap(sharedCategories.findCategory(id: "measurements"))
+		let category = try #require(sharedCategories.findCategory(id: "measurements"))
 		
 		// When
 		sut.reduce(.categorySelected(category))
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.showHealthCategory.identifier
-		expect(params.params["category"] as? SharedHealthCategories.Category) == category
-		expect(params.params["healthcareOrganization"]) == nil
+		#expect(coordinatorSpy.invokedHandle == true)
+		let params = try #require(coordinatorSpy.invokedHandleParameters?.0)
+		#expect(params.identifier == Coordination.Action.showHealthCategory.identifier)
+		#expect(params.params["category"] as? SharedHealthCategories.Category == category)
+		#expect(params.params["healthcareOrganization"] == nil)
 	}
 	
-	@MainActor func test_loadMedication_withData() throws {
+	@Test("onAppear with full medication data sets state to .loaded")
+	func loadMedication_withData() async throws {
 		
 		// Given
-		setupSut()
+		let sut = makeSut()
 		let resource = try getResource("zibMedicationUse")
 		let mgoResource = MgoResourceRecord(
 			categoryId: "medication",
@@ -61,19 +61,22 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
-		expect(self.sut.state.buttonState["medication"]) == .loading
-	
+		#expect(sut.state.buttonState["medication"] == .loading)
+		
 		// When
 		sut.reduce(.onAppear)
+		await Task.yield()
+		await Task.yield()
 		
 		// Then
-		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.loaded))
+		#expect(sut.state.buttonState["medication"] == .loaded)
 	}
 	
-	@MainActor func test_loadMedication_withServerErrorData() throws {
+	@Test("onAppear with server-error records sets state to .serverError")
+	func loadMedication_withServerErrorData() async throws {
 		
 		// Given
-		setupSut()
+		let sut = makeSut()
 		let mgoResource = MgoResourceRecord(
 			categoryId: "medication",
 			organizationId: healthcareOrganization.identifier,
@@ -83,19 +86,22 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
-		expect(self.sut.state.buttonState["medication"]) == .loading
+		#expect(sut.state.buttonState["medication"] == .loading)
 		
 		// When
 		sut.reduce(.onAppear)
+		await Task.yield()
+		await Task.yield()
 		
 		// Then
-		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.serverError))
+		#expect(sut.state.buttonState["medication"] == .serverError)
 	}
 	
-	@MainActor func test_loadMedication_withClientErrorData() throws {
+	@Test("onAppear with client-error records sets state to .clientError")
+	func loadMedication_withClientErrorData() async throws {
 		
 		// Given
-		setupSut()
+		let sut = makeSut()
 		let mgoResource = MgoResourceRecord(
 			categoryId: "medication",
 			organizationId: healthcareOrganization.identifier,
@@ -105,19 +111,22 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
-		expect(self.sut.state.buttonState["medication"]) == .loading
+		#expect(sut.state.buttonState["medication"] == .loading)
 		
 		// When
 		sut.reduce(.onAppear)
+		await Task.yield()
+		await Task.yield()
 		
 		// Then
-		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.clientError))
+		#expect(sut.state.buttonState["medication"] == .clientError)
 	}
 	
-	@MainActor func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
+	@Test("onAppear with empty resource records sets state to .empty")
+	func loadMedication_emptyData_stateShouldBeEmpty() async throws {
 		
 		// Given
-		setupSut()
+		let sut = makeSut()
 		let mgoResource = MgoResourceRecord(
 			categoryId: "medication",
 			organizationId: healthcareOrganization.identifier,
@@ -127,132 +136,145 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
-		expect(self.sut.state.buttonState["medication"]) == .loading
-	
+		#expect(sut.state.buttonState["medication"] == .loading)
+		
 		// When
 		sut.reduce(.onAppear)
+		await Task.yield()
+		await Task.yield()
 		
 		// Then
-		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.empty))
+		#expect(sut.state.buttonState["medication"] == .empty)
 	}
 	
-	@MainActor func test_loadMedication_noData_stateShouldBeLoading() throws {
+	@Test("onAppear with .noData failure keeps state as .loading")
+	func loadMedication_noData_stateShouldBeLoading() async throws {
 		
 		// Given
-		setupSut()
+		let sut = makeSut()
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(DataStoreError.noData)
-		expect(self.sut.state.buttonState["medication"]) == .loading
-	
+		#expect(sut.state.buttonState["medication"] == .loading)
+		
 		// When
 		sut.reduce(.onAppear)
+		await Task.yield()
+		await Task.yield()
 		
 		// Then
-		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.loading))
+		#expect(sut.state.buttonState["medication"] == .loading)
 	}
 	
-	@MainActor func test_loadMedication_dataError_stateShouldBeError() throws {
+	@Test("onAppear with arbitrary data-store error sets state to .serverError")
+	func loadMedication_dataError_stateShouldBeError() async throws {
 		
 		// Given
-		setupSut()
+		let sut = makeSut()
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(NSError(domain: "test_loadMedication_cacheMiss_dataError", code: 404))
-		expect(self.sut.state.buttonState["medication"]) == .loading
-	
+		#expect(sut.state.buttonState["medication"] == .loading)
+		
 		// When
 		sut.reduce(.onAppear)
+		await Task.yield()
+		await Task.yield()
 		
 		// Then
-		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.serverError), timeout: .seconds(5))
+		#expect(sut.state.buttonState["medication"] == .serverError)
 	}
 	
-	@MainActor func test_refresh() {
+	@Test("Refresh in .all mode wipes all records and reloads everything")
+	func refresh() {
 		
 		// Given
-		setupSut()
+		let sut = makeSut()
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
-		expect(self.sut.state.buttonState["medication"]) == .loading
-	
+		#expect(sut.state.buttonState["medication"] == .loading)
+		
 		// When
 		sut.reduce(.refresh)
 		
 		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == false
-		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == true
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 1
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForOrganizationCount) == 0
+		#expect(servicesSpies.dataStoreSpy.invokedRemoveRecords == false)
+		#expect(servicesSpies.dataStoreSpy.invokedRemoveAllRecords == true)
+		#expect(servicesSpies.resourceRepositorySpy.invokedLoadCount == 1)
+		#expect(servicesSpies.resourceRepositorySpy.invokedLoadForOrganizationCount == 0)
 	}
 	
-	@MainActor func test_retry() {
+	@Test("Retry in .all mode reloads only the faulty categories")
+	func retry() {
 		
 		// Given
-		setupSut()
-		self.sut.state.buttonState["medication"] = .clientError
+		let sut = makeSut()
+		sut.state.buttonState["medication"] = .clientError
 		
 		// When
 		sut.reduce(.retry)
 		
 		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == false
-		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
-		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 0
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForOrganizationCount) == 0
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForSharedHealthCategoriesCategoriesCount) == 1
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount) == 0
+		#expect(servicesSpies.dataStoreSpy.invokedRemoveRecords == false)
+		#expect(servicesSpies.dataStoreSpy.invokedRemoveAllRecords == false)
+		#expect(servicesSpies.dataStoreSpy.invokedRemoveRecordsFor == true)
+		#expect(servicesSpies.resourceRepositorySpy.invokedLoadCount == 0)
+		#expect(servicesSpies.resourceRepositorySpy.invokedLoadForOrganizationCount == 0)
+		#expect(servicesSpies.resourceRepositorySpy.invokedLoadForSharedHealthCategoriesCategoriesCount == 1)
+		#expect(servicesSpies.resourceRepositorySpy.invokedLoadResourceCount == 0)
 	}
 	
-	@MainActor func test_searchButtonPressed_shouldCallCoordinator() {
+	@Test("Search button routes to add-organization action")
+	func searchButtonPressed_shouldCallCoordinator() {
 		
 		// Given
-		setupSut()
+		let sut = makeSut()
 		
 		// When
 		sut.reduce(.search)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
+		#expect(coordinatorSpy.invokedHandle == true)
+		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.addHealthcareOrganization)
 	}
 	
-	@MainActor func test_emptyState_withOrganizations() {
+	@Test("Empty view is hidden when organizations are present")
+	func emptyState_withOrganizations() {
 		
 		// Given
-		setupSut()
-		
-		// When
+		let sut = makeSut()
 		
 		// Then
-		expect(self.sut.state.showEmptyView) == false
+		#expect(sut.state.showEmptyView == false)
 	}
 	
-	@MainActor func test_emptyState_withoutOrganizations() {
+	@Test("Empty view is shown when no organizations are stored")
+	func emptyState_withoutOrganizations() {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
-		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
-		
-		// When
+		let sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 		
 		// Then
-		expect(self.sut.state.showEmptyView) == true
+		#expect(sut.state.showEmptyView == true)
 	}
 	
-	@MainActor func test_observe_favoriteRepository() throws {
+	@Test("Storing a favorite updates state.favorites via repository observer")
+	func observe_favoriteRepository() async throws {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
-		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
-		expect(self.sut.state.favorites).to(beEmpty())
+		let sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		#expect(sut.state.favorites.isEmpty)
 		
 		// When
 		try Container.shared.favoritesRepository().store(Generator.healthCategory)
+		await Task.yield()
+		await Task.yield()
 		
 		// Then
-		expect(self.sut.state.favorites).toEventuallyNot(beEmpty())
+		#expect(!sut.state.favorites.isEmpty)
 		Container.shared.favoritesRepository().wipePersistedData()
 	}
 	
-	@MainActor func test_observe_healthcareOrganizationRepository() throws {
-	
+	@Test("Storing an organization flips showEmptyView via repository observer")
+	func observe_healthcareOrganizationRepository() async throws {
+		
 		// Given
 		let repo = try HealthcareOrganizationRepository()
 		Container.shared.healthcareOrganizationRepository
@@ -260,30 +282,34 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		let healthcareOrganizationRepository = Container.shared.healthcareOrganizationRepository()
 		
 		healthcareOrganizationRepository.wipePersistedData()
-		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
-		expect(self.sut.state.showEmptyView) == true
+		let sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		#expect(sut.state.showEmptyView == true)
 		
 		// When
-		try healthcareOrganizationRepository
-			.store(Generator.healthcareOrganization("1"))
+		try healthcareOrganizationRepository.store(Generator.healthcareOrganization("1"))
+		await Task.yield()
+		await Task.yield()
 		
 		// Then
-		expect(self.sut.state.showEmptyView).toEventually(beFalse())
+		#expect(sut.state.showEmptyView == false)
 		healthcareOrganizationRepository.wipePersistedData()
 	}
 	
-	@MainActor func test_observe_dataStore() throws {
+	@Test("Data-store change notifications trigger button state updates")
+	func observe_dataStore() async throws {
 		
 		// Given
 		Container.shared.dataStore
 			.register { InMemoryDataStore() }
-		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		let sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 		sut.state.buttonState = [:]
 		
 		// When
 		Container.shared.dataStore().observatory.notifyObservers(newValue: true)
+		// The data-store observer debounces via a 150ms sleep before applying updates.
+		try await Task.sleep(nanoseconds: 250_000_000)
 		
 		// Then
-		expect(self.sut.state.buttonState).toEventuallyNot(beEmpty())
+		#expect(!sut.state.buttonState.isEmpty)
 	}
 }

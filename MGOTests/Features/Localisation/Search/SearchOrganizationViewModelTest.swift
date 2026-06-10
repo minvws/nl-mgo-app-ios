@@ -41,24 +41,6 @@ final class SearchOrganizationViewModelTests {
 		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.closeSheet)
 	}
 	
-	// MARK: - endEditing Action Tests
-	
-	@Test("Reduce endEditing should end editing")
-	func reduce_endEditing_shouldEndEditing() {
-		
-		// Given
-		// Initial state setup in init
-		
-		// When
-		sut.reduce(.endEditing)
-		
-		// Then
-		// Note: This test verifies the action is handled
-		// UIApplication.shared.endEditing() is called internally
-		// We can't easily verify this without mocking UIApplication
-		#expect(coordinatorSpy.invokedHandle == false)
-	}
-	
 	// MARK: - search Action Tests
 	
 	@Test("Reduce search with nil search term should clear results")

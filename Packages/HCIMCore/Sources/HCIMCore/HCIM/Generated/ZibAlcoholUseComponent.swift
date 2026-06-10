@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - ZibAlcoholUseComponent
 public struct ZibAlcoholUseComponent: Codable, Hashable, Sendable {
-    public let amount: [PurpleAmount]?
+    public let amount: PurpleAmount?
 
-    public init(amount: [PurpleAmount]?) {
+    public init(amount: PurpleAmount?) {
         self.amount = amount
     }
 }
@@ -38,7 +38,7 @@ public extension ZibAlcoholUseComponent {
     }
 
     func with(
-        amount: [PurpleAmount]?? = nil
+        amount: PurpleAmount?? = nil
     ) -> ZibAlcoholUseComponent {
         return ZibAlcoholUseComponent(
             amount: amount ?? self.amount

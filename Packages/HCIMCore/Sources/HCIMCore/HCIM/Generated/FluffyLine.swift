@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - FluffyLine
 public struct FluffyLine: Codable, Hashable, Sendable {
-    public let additionalInformation, countryCode, houseNumber, houseNumberAddition: PrimitiveValueTypeOfStringString?
-    public let houseNumberIndiciation, houseNumberLetter, streetName: PrimitiveValueTypeOfStringString?
+    public let additionalInformation, countryCode, houseNumber, houseNumberAddition: MgoString?
+    public let houseNumberIndiciation, houseNumberLetter, streetName: MgoString?
 
-    public init(additionalInformation: PrimitiveValueTypeOfStringString?, countryCode: PrimitiveValueTypeOfStringString?, houseNumber: PrimitiveValueTypeOfStringString?, houseNumberAddition: PrimitiveValueTypeOfStringString?, houseNumberIndiciation: PrimitiveValueTypeOfStringString?, houseNumberLetter: PrimitiveValueTypeOfStringString?, streetName: PrimitiveValueTypeOfStringString?) {
+    public init(additionalInformation: MgoString?, countryCode: MgoString?, houseNumber: MgoString?, houseNumberAddition: MgoString?, houseNumberIndiciation: MgoString?, houseNumberLetter: MgoString?, streetName: MgoString?) {
         self.additionalInformation = additionalInformation
         self.countryCode = countryCode
         self.houseNumber = houseNumber
@@ -45,13 +45,13 @@ public extension FluffyLine {
     }
 
     func with(
-        additionalInformation: PrimitiveValueTypeOfStringString?? = nil,
-        countryCode: PrimitiveValueTypeOfStringString?? = nil,
-        houseNumber: PrimitiveValueTypeOfStringString?? = nil,
-        houseNumberAddition: PrimitiveValueTypeOfStringString?? = nil,
-        houseNumberIndiciation: PrimitiveValueTypeOfStringString?? = nil,
-        houseNumberLetter: PrimitiveValueTypeOfStringString?? = nil,
-        streetName: PrimitiveValueTypeOfStringString?? = nil
+        additionalInformation: MgoString?? = nil,
+        countryCode: MgoString?? = nil,
+        houseNumber: MgoString?? = nil,
+        houseNumberAddition: MgoString?? = nil,
+        houseNumberIndiciation: MgoString?? = nil,
+        houseNumberLetter: MgoString?? = nil,
+        streetName: MgoString?? = nil
     ) -> FluffyLine {
         return FluffyLine(
             additionalInformation: additionalInformation ?? self.additionalInformation,

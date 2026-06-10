@@ -17,7 +17,7 @@ final class SnapshotViewTests: XCTestCase {
 		// When
 		
 		// Then
-		takeSnapShots(content: sut, precision: 0.90)
+		takeSnapShots(content: sut)
 	}
 	
 	@MainActor func test_snapshot_withoutSpinner() {

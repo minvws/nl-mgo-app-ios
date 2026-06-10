@@ -12,7 +12,7 @@ import Foundation
 
 // MARK: - NlCoreCareTeam
 public struct NlCoreCareTeam: Codable, Hashable, Sendable {
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let participant: [NlCoreCareTeamParticipant]?
@@ -27,7 +27,7 @@ public struct NlCoreCareTeam: Codable, Hashable, Sendable {
         case resourceType, subject
     }
 
-    public init(fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, participant: [NlCoreCareTeamParticipant]?, period: MgoPeriod?, profile: NlCoreCareTeamProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
+    public init(fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, participant: [NlCoreCareTeamParticipant]?, period: MgoPeriod?, profile: NlCoreCareTeamProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
@@ -59,7 +59,7 @@ public extension NlCoreCareTeam {
     }
 
     func with(
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         participant: [NlCoreCareTeamParticipant]?? = nil,

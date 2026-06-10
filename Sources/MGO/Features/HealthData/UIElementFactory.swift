@@ -70,12 +70,17 @@ class UIElementFactory {
 /// (e.g., PDF export). The `elementType` typically mirrors the server-provided
 /// `UIElementType` raw value.
 public protocol UIElementProtocol {
-	
+
 	var elementType: String { get }
-	
+
 	var label: String { get }
-	
+
 	func getPdfMapping() -> PdfSubTablePair?
+
+	/// Whether this element renders edge-to-edge, breaking out of its section
+	/// card. Defaults to `false`; full-width elements (e.g. DICOM imagery)
+	/// override to `true`.
+	var prefersFullWidth: Bool { get }
 }
 
 /// Default behaviors for `UIElementProtocol`.
@@ -85,6 +90,8 @@ public protocol UIElementProtocol {
 /// PDF should override this default and return the appropriate `PdfSubTablePair` data.
 extension UIElementProtocol {
 	public func getPdfMapping() -> PdfSubTablePair? { nil }
+
+	public var prefersFullWidth: Bool { false }
 }
 
 /// Conformance to `UIElementProtocol` for DownloadBinary.

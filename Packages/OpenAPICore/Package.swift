@@ -16,7 +16,7 @@ let package = Package(
 		// External
 		.package(
 			url: "https://github.com/apple/swift-openapi-runtime",
-			exact: "1.11.0"
+			exact: "1.12.0"
 		),
 		.package(
 			url: "https://github.com/apple/swift-openapi-urlsession",

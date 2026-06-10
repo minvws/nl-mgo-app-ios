@@ -16,14 +16,14 @@ public struct ContactTelecom: Codable, Hashable, Sendable {
     public let system: MgoCodeOfString?
     public let telecomType: MgoCodeableConcept?
     public let use: MgoCodeOfString?
-    public let value: PrimitiveValueTypeOfStringString?
+    public let value: MgoString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
         case system, telecomType, use, value
     }
 
-    public init(profile: NlCoreContactpointProfile, system: MgoCodeOfString?, telecomType: MgoCodeableConcept?, use: MgoCodeOfString?, value: PrimitiveValueTypeOfStringString?) {
+    public init(profile: NlCoreContactpointProfile, system: MgoCodeOfString?, telecomType: MgoCodeableConcept?, use: MgoCodeOfString?, value: MgoString?) {
         self.profile = profile
         self.system = system
         self.telecomType = telecomType
@@ -55,7 +55,7 @@ public extension ContactTelecom {
         system: MgoCodeOfString?? = nil,
         telecomType: MgoCodeableConcept?? = nil,
         use: MgoCodeOfString?? = nil,
-        value: PrimitiveValueTypeOfStringString?? = nil
+        value: MgoString?? = nil
     ) -> ContactTelecom {
         return ContactTelecom(
             profile: profile ?? self.profile,

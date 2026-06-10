@@ -34,6 +34,10 @@ import XCTest
 	private var safariButton: XCUIElement {
 		app.buttons["safariButton"]
 	}
+	
+	private var screenshotTriggerButton: XCUIElement {
+		app.navigationBars.buttons["debug.screenshot.trigger"]
+	}
 
 	// MARK: - Validations
 
@@ -52,9 +56,22 @@ import XCTest
 	// MARK: - Interactions
 
 	@discardableResult
-	func tapCloseButton() -> AboutPrivacyRobot {
+	func tapCloseButton() -> AboutTheAppRobot {
 		closeButton.tap()
-		return AboutPrivacyRobot(app)
+		return AboutTheAppRobot(app)
+	}
+	
+	@discardableResult
+	func tapCloseButtonProposition() -> PropositionRobot {
+		closeButton.tap()
+		return PropositionRobot(app)
+	}
+
+	@discardableResult
+	func triggerScreenshot() -> Self {
+		XCTAssertTrue(screenshotTriggerButton.waitForExistence(timeout: timeOut))
+		screenshotTriggerButton.tap()
+		return self
 	}
 
 	@discardableResult

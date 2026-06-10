@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - Child
 public struct Child: Codable, Hashable, Sendable {
-    public let dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let dateTime: MgoDateTime?
     public let livingAtHome: ExtensionValueOfMgoBoolean?
 
-    public init(dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, livingAtHome: ExtensionValueOfMgoBoolean?) {
+    public init(dateTime: MgoDateTime?, livingAtHome: ExtensionValueOfMgoBoolean?) {
         self.dateTime = dateTime
         self.livingAtHome = livingAtHome
     }
@@ -40,7 +40,7 @@ public extension Child {
     }
 
     func with(
-        dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        dateTime: MgoDateTime?? = nil,
         livingAtHome: ExtensionValueOfMgoBoolean?? = nil
     ) -> Child {
         return Child(

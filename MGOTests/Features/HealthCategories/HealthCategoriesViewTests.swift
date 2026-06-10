@@ -43,7 +43,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content)
 	}
 	
 	@MainActor func test_initialState_singleMode_belowIOS18() {
@@ -56,7 +56,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content)
 	}
 	
 	@MainActor func test_initialState_multipleMode() {
@@ -71,7 +71,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content, precision: 0.99)
 	}
 	
 	@MainActor func test_initialState_multipleMode_withFavorite() throws {
@@ -86,7 +86,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content, precision: 0.99)
 		Container.shared.favoritesRepository().wipePersistedData()
 	}
 	
@@ -133,7 +133,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content, precision: 0.98)
 	}
 	
 	@MainActor func test_showFavorites() throws {
@@ -181,6 +181,6 @@ final class HealthCategoriesViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content)
 	}
 }

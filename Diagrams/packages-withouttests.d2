@@ -90,6 +90,9 @@ SwiftSoup: {
 SwiftUIIntrospect: {
   shape: hexagon
 }
+Lottie: {
+  shape: hexagon
+}
 
 # The application
 
@@ -97,6 +100,7 @@ MGOapp: {
   shape: package
 }
 
+MGOapp <- Lottie
 MGOapp <- MGODebug
 MGOapp <- MGOFoundation
 MGOapp <- MGOUI
@@ -110,6 +114,7 @@ MGOapp <- UIKit
 FeatureFlag { style.fill: "#ffcc00" }
 
 FHIRClient { style.fill: "#ffcc00" }
+FHIRClient <- swift-http-types
 
 FileStorage { style.fill: "#ffcc00" }
 FileStorage <- MGODebug
@@ -153,6 +158,7 @@ MGORepository  { style.fill: "#ffcc00" }
 MGORepository <- FHIRClient
 MGORepository <- Observatory
 MGORepository <- HCIMCore
+MGORepository <- swift-http-types
 
 MGOUI { style.fill: "#ffcc00" }
 MGOUI <- DeviceKit
@@ -205,12 +211,14 @@ RemoteAuthentication <- swift-openapi-generator
 
 RemoteConfiguration { style.fill: "#ffcc00" }
 RemoteConfiguration <- OpenAPICore
+RemoteConfiguration <- OpenAPIMiddleware
 RemoteConfiguration <- FileStorage
 RemoteConfiguration <- MGODebug
 RemoteConfiguration <- Observatory
 RemoteConfiguration <- swift-openapi-generator
 
 RestrictedBrowser { style.fill: "#ffcc00" }
+RestrictedBrowser <- OSVersion
 RestrictedBrowser <- SwiftUI
 RestrictedBrowser <- Theme
 RestrictedBrowser <- WebKit

@@ -2,12 +2,12 @@ import Foundation
 
 public enum AmbitiousGiven: Codable, Hashable, Sendable {
     case indigoGiven(IndigoGiven)
-    case primitiveValueTypeOfStringStringArray([PrimitiveValueTypeOfStringString])
+    case mgoStringArray([MgoString])
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let x = try? container.decode([PrimitiveValueTypeOfStringString].self) {
-            self = .primitiveValueTypeOfStringStringArray(x)
+        if let x = try? container.decode([MgoString].self) {
+            self = .mgoStringArray(x)
             return
         }
         if let x = try? container.decode(IndigoGiven.self) {
@@ -22,7 +22,7 @@ public enum AmbitiousGiven: Codable, Hashable, Sendable {
         switch self {
         case .indigoGiven(let x):
             try container.encode(x)
-        case .primitiveValueTypeOfStringStringArray(let x):
+        case .mgoStringArray(let x):
             try container.encode(x)
         }
     }

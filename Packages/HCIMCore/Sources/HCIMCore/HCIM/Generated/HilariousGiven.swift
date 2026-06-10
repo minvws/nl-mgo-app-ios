@@ -1,17 +1,17 @@
 import Foundation
 
 public enum HilariousGiven: Codable, Hashable, Sendable {
-    case primitiveValueTypeOfStringStringArray([PrimitiveValueTypeOfStringString])
-    case r4NlCoreNameInformationGivenClass(R4NlCoreNameInformationGivenClass)
+    case mgoStringArray([MgoString])
+    case stickyGiven(StickyGiven)
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let x = try? container.decode([PrimitiveValueTypeOfStringString].self) {
-            self = .primitiveValueTypeOfStringStringArray(x)
+        if let x = try? container.decode([MgoString].self) {
+            self = .mgoStringArray(x)
             return
         }
-        if let x = try? container.decode(R4NlCoreNameInformationGivenClass.self) {
-            self = .r4NlCoreNameInformationGivenClass(x)
+        if let x = try? container.decode(StickyGiven.self) {
+            self = .stickyGiven(x)
             return
         }
         throw DecodingError.typeMismatch(HilariousGiven.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for HilariousGiven"))
@@ -20,9 +20,9 @@ public enum HilariousGiven: Codable, Hashable, Sendable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case .primitiveValueTypeOfStringStringArray(let x):
+        case .mgoStringArray(let x):
             try container.encode(x)
-        case .r4NlCoreNameInformationGivenClass(let x):
+        case .stickyGiven(let x):
             try container.encode(x)
         }
     }

@@ -26,7 +26,8 @@ public final class Theme: Themeable {
 	@Published public var separators = Colors.Separators(
 		primary: Color("separatorsPrimary", bundle: .module),
 		secondary: Color("separatorsSecondary", bundle: .module),
-		invert: Color("separatorsInvert", bundle: .module)
+		invert: Color("separatorsInvert", bundle: .module),
+		timeline: Color("separatorsTimeline", bundle: .module)
 	)
 	
 	@Published public var symbols = Colors.Symbols(

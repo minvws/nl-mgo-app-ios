@@ -11,21 +11,16 @@ on:
     types: [opened, synchronize, reopened]
 
 env:
-  DEVELOPER_DIR: /Applications/Xcode_26.4.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode_26.4.1.app/Contents/Developer
   FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 180
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
-  
+
 jobs:
   test:
     runs-on: macos-26
     name: Build & test
     timeout-minutes: 75
     steps:
-      - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
-        # 🧐 when changing below, don't forget to also change the device name in the Fastfile too:
-        run: |
-          xcrun simctl boot "iPhone 17 Pro" || true
-
       - name: Checkout
         uses: actions/checkout@v6
 
@@ -36,7 +31,7 @@ jobs:
       - name: Build mint dependencies
         uses: ./.github/actions/build-mint
 
-      - name: Run SwiftLint 
+      - name: Run SwiftLint
         run: |
           make run_swiftlint
 
@@ -57,6 +52,59 @@ jobs:
         with:
           bundler-cache: true
 
+      # Cache the SPM package checkouts that fastlane writes to ./SourcePackages.
+      # The Fastfile sets `cloned_source_packages_path: "SourcePackages"` to keep
+      # this at a predictable, project-relative path (the default is a content-
+      # hashed directory inside ~/Library/Developer/Xcode/DerivedData).
+      #
+      # Cache key strategy:
+      #   - Primary key: Xcode version + hash of every Package.resolved in the repo.
+      #     A hit means packages are fully resolved; xcodebuild can skip network I/O.
+      #   - Restore key: Xcode version only, so a partial hit (e.g. one new dep) is
+      #     still useful — only the changed package is fetched from GitHub.
+      - name: Restore SPM package cache
+        uses: actions/cache@v5
+        with:
+          path: SourcePackages
+          key: spm-${{ runner.os }}-${{ env.DEVELOPER_DIR }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            spm-${{ runner.os }}-${{ env.DEVELOPER_DIR }}-
+
+      # Cache Xcode's DerivedData build artifacts.
+      # The Fastfile sets `derived_data_path: "DerivedData"` to keep this at a
+      # stable path. On a full cache hit the ~4-minute compile step is reduced to
+      # near-zero because Xcode's incremental build system reuses the cached .o
+      # and .swiftmodule files. On a partial hit (source changed, deps unchanged)
+      # Xcode still recompiles only the changed files.
+      #
+      # Cache key strategy:
+      #   - Primary key: Xcode version + Package.resolved hash + Swift source hash.
+      #     Guarantees a fully valid cache when nothing at all has changed.
+      #   - Restore key 1: Xcode + Package.resolved — deps unchanged, source changed.
+      #     Xcode recompiles only changed source files (incremental).
+      #   - Restore key 2: Xcode only — deps and source changed, at minimum the
+      #     pre-built SDKs and framework indexes are reused.
+      - name: Restore DerivedData cache
+        uses: actions/cache@v5
+        with:
+          path: DerivedData
+          key: deriveddata-${{ runner.os }}-${{ env.DEVELOPER_DIR }}-${{ hashFiles('**/Package.resolved') }}-${{ hashFiles('**/*.swift', 'project.yml') }}
+          restore-keys: |
+            deriveddata-${{ runner.os }}-${{ env.DEVELOPER_DIR }}-${{ hashFiles('**/Package.resolved') }}-
+            deriveddata-${{ runner.os }}-${{ env.DEVELOPER_DIR }}-
+
+      # Resolve packages once before fastlane runs. fastlane's skip_package_repository_fetches
+      # skips its own internal pre-resolve, so this is the only resolve call that hits
+      # the network. xcodebuild build test reuses the already-resolved SourcePackages.
+      - name: Resolve packages
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -scheme "MGO Dev" \
+            -project MGO.xcodeproj \
+            -derivedDataPath DerivedData \
+            -clonedSourcePackagesDirPath SourcePackages \
+            -skipPackagePluginValidation
+
       - name: Build and test
         env:
           SLACK_URL: ${{ secrets.SLACK_URL }}
@@ -73,7 +121,7 @@ jobs:
         with:
           name: coverage.xml
           path: coverage.xml
-     
+
   sonar:
     runs-on: ubuntu-24.04
     needs: test

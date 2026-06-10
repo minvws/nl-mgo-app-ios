@@ -95,24 +95,24 @@ func setupServicesSpies() -> ServicesSpies {
 	
 	let spies = ServicesSpies()
 	Container.shared.appVersionSupplier
-		.register { @MainActor in spies.appVersionSupplierSpy }
+		.register { spies.appVersionSupplierSpy }
 	Container.shared.dataStore
 		.register { spies.dataStoreSpy }
 	Container.shared.favoritesRepository.register {
 		FileRepository<SharedHealthCategories.Category>(fileName: "favorites-test.json")
 	}
 	Container.shared.featureFlagManager
-		.register { @MainActor in spies.featureFlagSpy }
+		.register { spies.featureFlagSpy }
 	Container.shared.healthcareOrganizationRepository
 		.register { spies.healthcareOrganizationStoreSpy }
 	Container.shared.jailBreakDetector
-		.register { @MainActor in spies.jailBreakSpy }
+		.register { spies.jailBreakSpy }
 	Container.shared.osVersionChecker
 		.register { OSVersionCheckerTrue() }
 	Container.shared.patientFriendyTermsRepository
-		.register { @MainActor in spies.patientFriendlyTermsRepositorySpy }
+		.register { spies.patientFriendlyTermsRepositorySpy }
 	Container.shared.remoteConfigurationRepository
-		.register { @MainActor in spies.remoteConfigurationRepositorySpy }
+		.register { spies.remoteConfigurationRepositorySpy }
 	Container.shared.resourceRepository
 		.register { spies.resourceRepositorySpy }
 	Container.shared.networkAvailabilityChecker

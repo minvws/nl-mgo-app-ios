@@ -11,19 +11,37 @@ let package = Package(
 	dependencies: [
 		
 		// Internal
-		.package(name: "OpenAPIMiddleware", path: "../OpenAPIMiddleware"),
-		.package(name: "MGOCommandLine", path: "../MGOCommandLine"),
+		.package(
+			name: "OpenAPIMiddleware",
+			path: "../OpenAPIMiddleware"
+		),
+		.package(
+			name: "MGOCommandLine",
+			path: "../MGOCommandLine"
+		),
 		
 		// External
-		.package(url: "https://github.com/wei18/github-rest-api-swift-openapi.git", exact: "3.0.10")
+		.package(
+			url: "https://github.com/wei18/github-rest-api-swift-openapi.git",
+			exact: "3.0.10"
+		)
 	],
 	targets: [
 		.executableTarget(
 			name: "GithubArtifactDownload",
 			dependencies: [
-				.product(name: "OpenAPIMiddleware", package: "OpenAPIMiddleware"),
-				.product(name: "MGOCommandLine", package: "MGOCommandLine"),
-				.product(name: "GitHubRestAPIActions", package: "github-rest-api-swift-openapi")
+				.product(
+					name: "OpenAPIMiddleware",
+					package: "OpenAPIMiddleware"
+				),
+				.product(
+					name: "MGOCommandLine",
+					package: "MGOCommandLine"
+				),
+				.product(
+					name: "GitHubRestAPIActions",
+					package: "github-rest-api-swift-openapi"
+				)
 			],
 			path: "Sources"
 		)

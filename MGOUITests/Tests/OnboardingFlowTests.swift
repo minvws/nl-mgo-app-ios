@@ -12,6 +12,7 @@ final class OnboardingFlowTests: XCTestCase {
 	 This e2e test will test the onboarding flow
 	 ✅ Verify the introduction page
 	 ✅ Verify the proposition page, verify the privacy page
+	 ✅ Verify the screenshot alert appears on the introduction page, the proposition page and in the privacy page
 	 ✅ Verify the login page, verify the mock digid page
 	 */
 	
@@ -35,9 +36,27 @@ final class OnboardingFlowTests: XCTestCase {
 			.tapPrivacyButton()
 			.verifyWebViewExists()
 			.verifySafariButtonExists()
-			.tapCloseButton()
+			.tapCloseButtonProposition()
 	}
 	
+	@MainActor
+	func testScreenshotAlert_showsAlertAfterScreenshot() {
+		AppRobot()
+			.launchAppWithScreenshotTrigger()
+			.triggerScreenshot()
+			.verifyScreenshotAlertExists()
+			.tapScreenshotAlertAction()
+			.tapNextButton()
+			.triggerScreenshot()
+			.verifyScreenshotAlertExists()
+			.tapScreenshotAlertAction()
+			.tapPrivacyButton()
+			.triggerScreenshot()
+			.verifyScreenshotAlertExists()
+			.tapScreenshotAlertAction()
+			.verifyWebViewExists()
+	}
+
 	@MainActor
 	func testOnboardingFlow_verifyLoginScreen() {
 		AppRobot()

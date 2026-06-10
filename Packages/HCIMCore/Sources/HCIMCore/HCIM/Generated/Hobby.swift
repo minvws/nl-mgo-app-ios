@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - Hobby
 public struct Hobby: Codable, Hashable, Sendable {
-    public let valueString: PrimitiveValueTypeOfStringString?
+    public let valueString: MgoString?
 
-    public init(valueString: PrimitiveValueTypeOfStringString?) {
+    public init(valueString: MgoString?) {
         self.valueString = valueString
     }
 }
@@ -38,7 +38,7 @@ public extension Hobby {
     }
 
     func with(
-        valueString: PrimitiveValueTypeOfStringString?? = nil
+        valueString: MgoString?? = nil
     ) -> Hobby {
         return Hobby(
             valueString: valueString ?? self.valueString

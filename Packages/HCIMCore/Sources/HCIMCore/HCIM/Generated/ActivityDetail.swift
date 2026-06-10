@@ -13,11 +13,11 @@ import Foundation
 // MARK: - ActivityDetail
 public struct ActivityDetail: Codable, Hashable, Sendable {
     public let category: MgoCodeableConcept?
-    public let code, description: PrimitiveValueTypeOfStringString?
+    public let code, description: MgoString?
     public let performer: [MgoReference]?
-    public let scheduledString: PrimitiveValueTypeOfStringString?
+    public let scheduledString: MgoString?
 
-    public init(category: MgoCodeableConcept?, code: PrimitiveValueTypeOfStringString?, description: PrimitiveValueTypeOfStringString?, performer: [MgoReference]?, scheduledString: PrimitiveValueTypeOfStringString?) {
+    public init(category: MgoCodeableConcept?, code: MgoString?, description: MgoString?, performer: [MgoReference]?, scheduledString: MgoString?) {
         self.category = category
         self.code = code
         self.description = description
@@ -46,10 +46,10 @@ public extension ActivityDetail {
 
     func with(
         category: MgoCodeableConcept?? = nil,
-        code: PrimitiveValueTypeOfStringString?? = nil,
-        description: PrimitiveValueTypeOfStringString?? = nil,
+        code: MgoString?? = nil,
+        description: MgoString?? = nil,
         performer: [MgoReference]?? = nil,
-        scheduledString: PrimitiveValueTypeOfStringString?? = nil
+        scheduledString: MgoString?? = nil
     ) -> ActivityDetail {
         return ActivityDetail(
             category: category ?? self.category,

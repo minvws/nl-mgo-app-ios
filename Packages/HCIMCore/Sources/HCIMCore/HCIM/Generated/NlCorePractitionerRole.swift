@@ -12,7 +12,7 @@ import Foundation
 
 // MARK: - NlCorePractitionerRole
 public struct NlCorePractitionerRole: Codable, Hashable, Sendable {
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let organization: MgoReference?
@@ -27,7 +27,7 @@ public struct NlCorePractitionerRole: Codable, Hashable, Sendable {
         case resourceType, specialty, telecom
     }
 
-    public init(fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, organization: MgoReference?, profile: NlCorePractitionerRoleProfile, referenceID: String, resourceType: String, specialty: MgoCodeableConcept?, telecom: [NlCorePractitionerRoleTelecom]?) {
+    public init(fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, organization: MgoReference?, profile: NlCorePractitionerRoleProfile, referenceID: String, resourceType: String, specialty: MgoCodeableConcept?, telecom: [NlCorePractitionerRoleTelecom]?) {
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
@@ -59,7 +59,7 @@ public extension NlCorePractitionerRole {
     }
 
     func with(
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         organization: MgoReference?? = nil,

@@ -2,20 +2,32 @@
 
 ## Overview
 
-This package will transform a strings file into a xcstrings file
+This package transforms Lokalise-exported translation files into a single [xcstrings](https://developer.apple.com/documentation/xcode/localizing-and-varying-text-with-a-string-catalog) catalog:
+
+- A [`.strings`](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/LoadingResources/Strings/Strings.html) file containing flat key/value pairs → xcstrings `stringUnit` entries
+- An optional `.stringsdict` plist file containing plural variants → xcstrings `variations.plural` entries
+
+Both are merged into one output `.xcstrings` file.
 
 ## Usage
 
-Point the `--source-path` to the [strings](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/LoadingResources/Strings/Strings.html) file, and the `--target-path` to the desired [xcstrings](https://developer.apple.com/documentation/xcode/localizing-and-varying-text-with-a-string-catalog) file
+| Argument | Required | Description |
+|---|---|---|
+| `--source-path` | yes | Path to the `.strings` file |
+| `--stringsdict-path` | no | Path to the `.stringsdict` plist file |
+| `--target-path` | yes | Path for the generated `.xcstrings` file |
 
-```swift
+```bash
+swift run CopyImport \
+  --source-path ../../tmp/localization_downloads/nl.lproj/Localizable.strings \
+  --stringsdict-path ../../tmp/localization_downloads/nl.lproj/Localizable.stringsdict \
+  --target-path ../../tmp/localization_downloads/Localizable.xcstrings
 
-	swift run CopyImport --source-path ../../tmp/localization_downloads/nl.lproj/Localizable.strings --target-path ../../tmp/localization_downloads/Localizable.xcstrings
-	
-	rm -f ./Sources/MGO/Resources/Localizable.xcstrings
-	cp ./tmp/localization_downloads/Localizable.xcstrings ./Sources/MGO/Resources/Localizable.xcstrings
-
+rm -f ./Sources/MGO/Resources/Localizable.xcstrings
+cp ./tmp/localization_downloads/Localizable.xcstrings ./Sources/MGO/Resources/Localizable.xcstrings
 ```
+
+In practice this is handled automatically by `make download_translations`.
 
 ---
 

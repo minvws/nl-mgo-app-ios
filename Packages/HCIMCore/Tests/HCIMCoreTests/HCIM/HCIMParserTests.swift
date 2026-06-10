@@ -26,9 +26,9 @@ struct HCIMParserTests {
 		let result = try sut.getVersion()
 		
 		// Then
-		#expect(result.version == "main-e4873e9")
-		#expect(result.gitRef == "e4873e9014c8fed5ba9a5a073b97d7dc406bb157")
-		#expect(result.created == "2026-04-10T09:36:24")
+		#expect(result.version == "main-4d26b31")
+		#expect(result.gitRef == "4d26b31b1c7d1ca4bd42e01b4b532b21545460e1")
+		#expect(result.created == "2026-06-04T11:48:58")
 	}
 	
 	@Test func getBundleResourcesJson_withValidInput_shouldResultInAListOfResources() throws {

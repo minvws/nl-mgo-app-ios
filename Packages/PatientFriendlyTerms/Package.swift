@@ -21,7 +21,7 @@ let package = Package(
 		// External
 		.package(
 			url: "https://github.com/apple/swift-openapi-generator",
-			exact: "1.11.1"
+			exact: "1.12.2"
 		),
 		.package(
 			url: "https://github.com/jessesquires/Foil.git",

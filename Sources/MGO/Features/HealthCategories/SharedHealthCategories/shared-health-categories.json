@@ -10,8 +10,11 @@
                 "subheading": "hc_problems.subheading",
                 "subcategories": [
                     {
+                        "id": "medical_complaints",
                         "heading": "zib_problem.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Problem"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-Problem"
+                        ]
                     }
                 ]
             },
@@ -22,6 +25,7 @@
                 "subheading": "hc_allergies.subheading",
                 "subcategories": [
                     {
+                        "id": "allergies_intolerances",
                         "heading": "zib_allergy_intolerance.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance"
@@ -36,8 +40,11 @@
                 "subheading": "hc_alerts.subheading",
                 "subcategories": [
                     {
+                        "id": "warnings",
                         "heading": "zib_alert.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Alert"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-Alert"
+                        ]
                     }
                 ]
             },
@@ -48,13 +55,15 @@
                 "subheading": "hc_vaccinations.subheading",
                 "subcategories": [
                     {
+                        "id": "vaccinations",
                         "heading": "zib_vaccination.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-Vaccination",
-                            "http://nictiz.nl/fhir/StructureDefinition/nl-core-Vaccination-event"
+                            "http://nictiz.nl/fhir/StructureDefinition/imm-Vaccination-event"
                         ]
                     },
                     {
+                        "id": "vaccination_recommendations",
                         "heading": "zib_vaccination_recommendation.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-VaccinationRecommendation"
@@ -69,6 +78,7 @@
                 "subheading": "hc_mental.subheading",
                 "subcategories": [
                     {
+                        "id": "mental_wellbeing_status",
                         "heading": "zib_functional_or_mental_status.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus"
@@ -83,36 +93,49 @@
                 "subheading": "hc_lifestyle.subheading",
                 "subcategories": [
                     {
+                        "id": "living_conditions",
                         "heading": "zib_living_situation.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation"
                         ]
                     },
                     {
+                        "id": "drug_use",
                         "heading": "zib_drug_use.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse"
+                        ]
                     },
                     {
+                        "id": "alcohol_use",
                         "heading": "zib_alcohol_use.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse"
+                        ]
                     },
                     {
+                        "id": "smoking_status",
                         "heading": "zib_tobacco_use.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-TobaccoUse"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-TobaccoUse"
+                        ]
                     },
                     {
+                        "id": "nutrition_advice",
                         "heading": "zib_nutrition_advice.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice"
                         ]
                     },
                     {
+                        "id": "family_situation",
                         "heading": "zib_familiy_situation.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-FamilySituation"
                         ]
                     },
                     {
+                        "id": "social_participation",
                         "heading": "zib_participation_in_society.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-ParticipationInSociety"
@@ -133,10 +156,14 @@
                 "subheading": "hc_treatments.subheading",
                 "subcategories": [
                     {
+                        "id": "treatment_procedures",
                         "heading": "zib_procedure.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-Procedure"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-Procedure"
+                        ]
                     },
                     {
+                        "id": "planned_care_appointments",
                         "heading": "zib_procedure_request.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-ProcedureRequest",
@@ -152,20 +179,25 @@
                 "subheading": "hc_plans.subheading",
                 "subcategories": [
                     {
+                        "id": "treatment_preferences",
                         "heading": "zib_treatment_directive.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective"
                         ]
                     },
                     {
+                        "id": "advance_directives",
                         "heading": "zib_advance_directive.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective"
                         ]
                     },
                     {
+                        "id": "care_plan",
                         "heading": "zib_care_plan.heading",
-                        "profiles": ["http://fhir.nl/fhir/StructureDefinition/nl-core-careplan"]
+                        "profiles": [
+                            "http://fhir.nl/fhir/StructureDefinition/nl-core-careplan"
+                        ]
                     }
                 ]
             },
@@ -176,16 +208,21 @@
                 "subheading": "hc_medication.subheading",
                 "subcategories": [
                     {
+                        "id": "current_medication",
                         "heading": "zib_medication_use.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"
+                        ]
                     },
                     {
+                        "id": "medication_agreements",
                         "heading": "zib_medication_agreement.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement"
                         ]
                     },
                     {
+                        "id": "medication_administration_plan",
                         "heading": "zib_administration_agreement.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement"
@@ -200,12 +237,14 @@
                 "subheading": "hc_appointments.subheading",
                 "subcategories": [
                     {
+                        "id": "care_appointments",
                         "heading": "eAfspraak_appointment.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/eAfspraak-Appointment"
                         ]
                     },
                     {
+                        "id": "care_contacts",
                         "heading": "zib_encounter.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-Encounter",
@@ -222,9 +261,11 @@
                 "subheading": "hc_documents.subheading",
                 "subcategories": [
                     {
+                        "id": "documents",
                         "heading": "ihe_mhd_minimal_document_reference.heading",
                         "profiles": [
-                            "http://nictiz.nl/fhir/StructureDefinition/IHE.MHD.Minimal.DocumentReference"
+                            "http://nictiz.nl/fhir/StructureDefinition/IHE.MHD.Minimal.DocumentReference",
+                            "http://medmij.nl/fhir/StructureDefinition/bbs-DocumentReference"
                         ]
                     }
                 ]
@@ -236,6 +277,7 @@
                 "subheading": "hc_devices.subheading",
                 "subcategories": [
                     {
+                        "id": "medical_aids",
                         "heading": "zib_medical_device.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDevice",
@@ -258,24 +300,35 @@
                 "subheading": "hc_measurements.subheading",
                 "subcategories": [
                     {
+                        "id": "blood_pressure",
                         "heading": "zib_blood_pressure.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure"
+                        ]
                     },
                     {
+                        "id": "body_weight",
                         "heading": "zib_body_weight.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight"
+                        ]
                     },
                     {
+                        "id": "body_height",
                         "heading": "zib_body_height.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight"
+                        ]
                     },
                     {
+                        "id": "diagnostic_results",
                         "heading": "gp_diagnostic_result.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult"
                         ]
                     },
                     {
+                        "id": "general_measurements",
                         "heading": "zib_general_measurement.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-GeneralMeasurement"
@@ -290,26 +343,32 @@
                 "subheading": "hc_lab_results.subheading",
                 "subcategories": [
                     {
+                        "id": "laboratory_test_results",
                         "heading": "zib_laboratory_test_result_observation.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation"
                         ]
                     },
                     {
+                        "id": "gp_laboratory_results",
                         "heading": "gp_laboratory_result.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult"
                         ]
                     },
                     {
+                        "id": "lab_specimens",
                         "heading": "zib_laboratory_test_result_specimen.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen"
                         ]
                     },
                     {
+                        "id": "text_results",
                         "heading": "zib_text_result.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-TextResult"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-TextResult"
+                        ]
                     }
                 ]
             }
@@ -326,6 +385,7 @@
                 "subheading": "hc_patient.subheading",
                 "subcategories": [
                     {
+                        "id": "personal_details",
                         "heading": "zib_patient.heading",
                         "profiles": [
                             "http://fhir.nl/fhir/StructureDefinition/nl-core-patient",
@@ -333,6 +393,7 @@
                         ]
                     },
                     {
+                        "id": "payment_insurance_details",
                         "heading": "zib_payer.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/zib-Payer",
@@ -341,6 +402,7 @@
                         ]
                     },
                     {
+                        "id": "contact_persons",
                         "heading": "zib_contact_person.heading",
                         "profiles": [
                             "http://nictiz.nl/fhir/StructureDefinition/nl-core-ContactPerson"
@@ -355,6 +417,7 @@
                 "subheading": "hc_care_team.subheading",
                 "subcategories": [
                     {
+                        "id": "care_providers",
                         "heading": "zib_care_team.heading",
                         "profiles": [
                             "http://fhir.nl/fhir/StructureDefinition/nl-core-careteam",
@@ -362,8 +425,11 @@
                         ]
                     },
                     {
+                        "id": "support_from_others",
                         "heading": "zib_help_from_others.heading",
-                        "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-HelpFromOthers"]
+                        "profiles": [
+                            "http://nictiz.nl/fhir/StructureDefinition/zib-HelpFromOthers"
+                        ]
                     }
                 ]
             }

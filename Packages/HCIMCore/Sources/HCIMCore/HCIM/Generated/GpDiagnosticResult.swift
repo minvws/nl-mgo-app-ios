@@ -13,11 +13,11 @@ import Foundation
 // MARK: - GpDiagnosticResult
 public struct GpDiagnosticResult: Codable, Hashable, Sendable {
     public let bodySite, code: MgoCodeableConcept?
-    public let comment: PrimitiveValueTypeOfStringString?
-    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let comment: MgoString?
+    public let effectiveDateTime: MgoDateTime?
     public let effectivePeriod: MgoPeriod?
     public let episodeOfCare: [ExtensionValueOfMgoReference]
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let method: MgoCodeableConcept?
@@ -29,16 +29,16 @@ public struct GpDiagnosticResult: Codable, Hashable, Sendable {
     public let status: GpDiagnosticResultStatus
     public let subject: MgoReference?
     public let valueAttachment: MgoAttachment?
-    public let valueBoolean: PrimitiveValueTypeOfBooleanBoolean?
+    public let valueBoolean: MgoBoolean?
     public let valueCodeableConcept: MgoCodeableConcept?
-    public let valueDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let valueDateTime: MgoDateTime?
     public let valuePeriod: MgoPeriod?
     public let valueQuantity: MgoQuantity?
     public let valueRange: MgoRange?
     public let valueRatio: MgoRatio?
     public let valueSampledData: MgoSampledData?
-    public let valueString: PrimitiveValueTypeOfStringString?
-    public let valueTime: PrimitiveValueTypeOfTimeTimeString?
+    public let valueString: MgoString?
+    public let valueTime: MgoTime?
 
     public enum CodingKeys: String, CodingKey {
         case bodySite, code, comment, effectiveDateTime, effectivePeriod, episodeOfCare, fhirVersion, id, identifier, method, performer, profile
@@ -46,7 +46,7 @@ public struct GpDiagnosticResult: Codable, Hashable, Sendable {
         case related, resourceType, status, subject, valueAttachment, valueBoolean, valueCodeableConcept, valueDateTime, valuePeriod, valueQuantity, valueRange, valueRatio, valueSampledData, valueString, valueTime
     }
 
-    public init(bodySite: MgoCodeableConcept?, code: MgoCodeableConcept?, comment: PrimitiveValueTypeOfStringString?, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, episodeOfCare: [ExtensionValueOfMgoReference], fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: GpDiagnosticResultProfile, referenceID: String, related: [GpDiagnosticResultRelated]?, resourceType: String, status: GpDiagnosticResultStatus, subject: MgoReference?, valueAttachment: MgoAttachment?, valueBoolean: PrimitiveValueTypeOfBooleanBoolean?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, valuePeriod: MgoPeriod?, valueQuantity: MgoQuantity?, valueRange: MgoRange?, valueRatio: MgoRatio?, valueSampledData: MgoSampledData?, valueString: PrimitiveValueTypeOfStringString?, valueTime: PrimitiveValueTypeOfTimeTimeString?) {
+    public init(bodySite: MgoCodeableConcept?, code: MgoCodeableConcept?, comment: MgoString?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, episodeOfCare: [ExtensionValueOfMgoReference], fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: GpDiagnosticResultProfile, referenceID: String, related: [GpDiagnosticResultRelated]?, resourceType: String, status: GpDiagnosticResultStatus, subject: MgoReference?, valueAttachment: MgoAttachment?, valueBoolean: MgoBoolean?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: MgoDateTime?, valuePeriod: MgoPeriod?, valueQuantity: MgoQuantity?, valueRange: MgoRange?, valueRatio: MgoRatio?, valueSampledData: MgoSampledData?, valueString: MgoString?, valueTime: MgoTime?) {
         self.bodySite = bodySite
         self.code = code
         self.comment = comment
@@ -99,11 +99,11 @@ public extension GpDiagnosticResult {
     func with(
         bodySite: MgoCodeableConcept?? = nil,
         code: MgoCodeableConcept?? = nil,
-        comment: PrimitiveValueTypeOfStringString?? = nil,
-        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        comment: MgoString?? = nil,
+        effectiveDateTime: MgoDateTime?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
         episodeOfCare: [ExtensionValueOfMgoReference]? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         method: MgoCodeableConcept?? = nil,
@@ -115,16 +115,16 @@ public extension GpDiagnosticResult {
         status: GpDiagnosticResultStatus? = nil,
         subject: MgoReference?? = nil,
         valueAttachment: MgoAttachment?? = nil,
-        valueBoolean: PrimitiveValueTypeOfBooleanBoolean?? = nil,
+        valueBoolean: MgoBoolean?? = nil,
         valueCodeableConcept: MgoCodeableConcept?? = nil,
-        valueDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        valueDateTime: MgoDateTime?? = nil,
         valuePeriod: MgoPeriod?? = nil,
         valueQuantity: MgoQuantity?? = nil,
         valueRange: MgoRange?? = nil,
         valueRatio: MgoRatio?? = nil,
         valueSampledData: MgoSampledData?? = nil,
-        valueString: PrimitiveValueTypeOfStringString?? = nil,
-        valueTime: PrimitiveValueTypeOfTimeTimeString?? = nil
+        valueString: MgoString?? = nil,
+        valueTime: MgoTime?? = nil
     ) -> GpDiagnosticResult {
         return GpDiagnosticResult(
             bodySite: bodySite ?? self.bodySite,

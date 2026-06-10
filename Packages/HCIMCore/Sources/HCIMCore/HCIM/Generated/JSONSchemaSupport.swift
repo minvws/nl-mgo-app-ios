@@ -1,10 +1,5 @@
 import Foundation
 
-public typealias DateTimeString = String
-public typealias TimeString = String
-public typealias DateString = String
-public typealias InstantDateTimeString = String
-
 // MARK: - Helper functions for creating encoders and decoders
 
 func newJSONDecoder() -> JSONDecoder {

@@ -37,7 +37,7 @@ final class PropositionViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.98)
+		takeSnapShots(content: content)
 	}
 	
 	@MainActor func test_showProposition_iOS18() {
@@ -50,7 +50,7 @@ final class PropositionViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.98)
+		takeSnapShots(content: content)
 	}
 	
 	@MainActor func test_nextButtonPressed_shouldCallCoordinator() throws {

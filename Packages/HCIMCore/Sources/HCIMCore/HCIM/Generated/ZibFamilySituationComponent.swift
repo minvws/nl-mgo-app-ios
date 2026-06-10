@@ -13,11 +13,11 @@ import Foundation
 // MARK: - ZibFamilySituationComponent
 public struct ZibFamilySituationComponent: Codable, Hashable, Sendable {
     public let careResponsibility: [CareResponsibility]?
-    public let familyComposition: [FamilyComposition]?
-    public let numberOfChildren: [NumberOfChild]?
-    public let numberOfChildrenLivingAtHome: [NumberOfChildrenLivingAtHome]?
+    public let familyComposition: FamilyComposition?
+    public let numberOfChildren: NumberOfChildren?
+    public let numberOfChildrenLivingAtHome: NumberOfChildrenLivingAtHome?
 
-    public init(careResponsibility: [CareResponsibility]?, familyComposition: [FamilyComposition]?, numberOfChildren: [NumberOfChild]?, numberOfChildrenLivingAtHome: [NumberOfChildrenLivingAtHome]?) {
+    public init(careResponsibility: [CareResponsibility]?, familyComposition: FamilyComposition?, numberOfChildren: NumberOfChildren?, numberOfChildrenLivingAtHome: NumberOfChildrenLivingAtHome?) {
         self.careResponsibility = careResponsibility
         self.familyComposition = familyComposition
         self.numberOfChildren = numberOfChildren
@@ -45,9 +45,9 @@ public extension ZibFamilySituationComponent {
 
     func with(
         careResponsibility: [CareResponsibility]?? = nil,
-        familyComposition: [FamilyComposition]?? = nil,
-        numberOfChildren: [NumberOfChild]?? = nil,
-        numberOfChildrenLivingAtHome: [NumberOfChildrenLivingAtHome]?? = nil
+        familyComposition: FamilyComposition?? = nil,
+        numberOfChildren: NumberOfChildren?? = nil,
+        numberOfChildrenLivingAtHome: NumberOfChildrenLivingAtHome?? = nil
     ) -> ZibFamilySituationComponent {
         return ZibFamilySituationComponent(
             careResponsibility: careResponsibility ?? self.careResponsibility,

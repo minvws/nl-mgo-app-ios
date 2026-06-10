@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - Batch
 public struct Batch: Codable, Hashable, Sendable {
-    public let lotNumber: PrimitiveValueTypeOfStringString?
+    public let lotNumber: MgoString?
 
-    public init(lotNumber: PrimitiveValueTypeOfStringString?) {
+    public init(lotNumber: MgoString?) {
         self.lotNumber = lotNumber
     }
 }
@@ -38,7 +38,7 @@ public extension Batch {
     }
 
     func with(
-        lotNumber: PrimitiveValueTypeOfStringString?? = nil
+        lotNumber: MgoString?? = nil
     ) -> Batch {
         return Batch(
             lotNumber: lotNumber ?? self.lotNumber

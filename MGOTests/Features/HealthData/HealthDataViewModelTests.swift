@@ -287,20 +287,6 @@ struct HealthDataViewModelTests {
 		#expect(sut.state.showExportAlert == true)
 	}
 	
-	@Test("cancelExportAlert sets showExportAlert to false")
-	func cancelExportAlert() {
-		
-		// Given
-		let sut = makeSut()
-		sut.state.showExportAlert = true
-		
-		// When
-		sut.reduce(.cancelExportAlert)
-		
-		// Then
-		#expect(sut.state.showExportAlert == false)
-	}
-	
 	@Test("exportHealthData calls coordinator with exportHealthData identifier")
 	func exportHealthData_list_shouldCallCoordinator() throws {
 		

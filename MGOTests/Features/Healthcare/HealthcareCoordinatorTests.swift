@@ -40,6 +40,23 @@ struct HealthcareCoordinatorTests {
 		#expect(sut.rootStateForSheet == HealthcareCoordination.State.manualLocalization)
 	}
 
+	@Test("resetApplication clears navigation paths and sheet root state")
+	func coordinatorHandle_resetApplication_clearsNavigation() {
+
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([HealthcareCoordination.State.showHealthCategories])
+		sut.pathForSheet = NavigationStackBackport.NavigationPath([HealthcareCoordination.State.manualLocalization])
+		sut.rootStateForSheet = HealthcareCoordination.State.manualLocalization
+
+		// When
+		sut.handle(Coordination.Action.resetApplication)
+
+		// Then
+		#expect(sut.path == NavigationStackBackport.NavigationPath())
+		#expect(sut.pathForSheet == NavigationStackBackport.NavigationPath())
+		#expect(sut.rootStateForSheet == nil)
+	}
+
 	@Test("closeSheet clears path and root state for sheet")
 	func coordinatorHandle_closeSheet_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
 
@@ -176,32 +193,11 @@ struct HealthcareCoordinatorTests {
 		#expect(sut.path.isEmpty)
 	}
 
-	@Test("removeHealthcareOrganization sets confirmation sheet state")
-	func coordinatorHandle_removeHealthcareOrganization() {
-
-		// Given
-		let organization = Generator.healthcareOrganization("1")
-
-		// When
-		sut.handle(
-			Coordination.Action(
-				identifier: "removeHealthcareOrganization",
-				params: ["healthcareOrganization": organization]
-			)
-		)
-
-		// Then
-		#expect(sut.rootStateForSheet == HealthcareCoordination.State.removeHealthcareOrganization(
-			healthcareOrganization: organization
-		))
-	}
-
-	@Test("removedHealthcareOrganization clears sheet and pops organization from path")
+	@Test("removedHealthcareOrganization pops the organization off the path")
 	func coordinatorHandle_removedHealthcareOrganization() {
 
 		// Given
 		let organization = Generator.healthcareOrganization("1")
-		sut.rootStateForSheet = HealthcareCoordination.State.removeHealthcareOrganization(healthcareOrganization: organization)
 		sut.path = NavigationStackBackport.NavigationPath([
 			HealthcareCoordination.State.organizations,
 			HealthcareCoordination.State.showHealthcareOrganization(healthcareOrganization: organization)
@@ -211,7 +207,6 @@ struct HealthcareCoordinatorTests {
 		sut.handle(Coordination.Action.removedHealthcareOrganization)
 
 		// Then
-		#expect(sut.rootStateForSheet == nil)
 		#expect(sut.path == NavigationStackBackport.NavigationPath(
 			[HealthcareCoordination.State.organizations]
 		))

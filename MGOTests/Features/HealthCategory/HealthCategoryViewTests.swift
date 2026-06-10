@@ -32,13 +32,7 @@ final class HealthCategoryViewTests: XCTestCase {
 		viewModel = HealthCategoryViewModel(
 			coordinator: coordinatorSpy,
 			category: category,
-			organization: healthcareOrganization,
-			translations: HealthCategoryViewTranslations(
-				heading: "heading",
-				search: "search",
-				noSearchResults: "no_search_results",
-				backButtonTitle: String.LocalizationValue(stringLiteral: "details_heading")
-			)
+			organization: healthcareOrganization
 		)
 		sut = HealthCategoryView(viewModel: self.viewModel)
 	}

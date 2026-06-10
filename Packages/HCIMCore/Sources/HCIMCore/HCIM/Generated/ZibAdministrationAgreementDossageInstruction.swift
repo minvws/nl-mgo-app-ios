@@ -12,7 +12,7 @@ import Foundation
 
 // MARK: - ZibAdministrationAgreementDossageInstruction
 public struct ZibAdministrationAgreementDossageInstruction: Codable, Hashable, Sendable {
-    public let profile: ZibInstructionsForUseProfile
+    public let profile: DossageInstructionProfile
     public let additionalInstruction: [MgoCodeableConcept]?
     public let asNeededCodeableConcept: MgoCodeableConcept?
     public let doseQuantity: MgoQuantityProps?
@@ -22,8 +22,8 @@ public struct ZibAdministrationAgreementDossageInstruction: Codable, Hashable, S
     public let rateRange: MgoRange?
     public let rateRatio: MgoRatio?
     public let route: MgoCodeableConcept?
-    public let sequence: PrimitiveValueTypeOfIntegerNumber?
-    public let text: PrimitiveValueTypeOfStringString?
+    public let sequence: MgoInteger?
+    public let text: MgoString?
     public let timing: ZibAdministrationSchedule
 
     public enum CodingKeys: String, CodingKey {
@@ -31,7 +31,7 @@ public struct ZibAdministrationAgreementDossageInstruction: Codable, Hashable, S
         case additionalInstruction, asNeededCodeableConcept, doseQuantity, doseRange, maxDosePerPeriod, rateQuantity, rateRange, rateRatio, route, sequence, text, timing
     }
 
-    public init(profile: ZibInstructionsForUseProfile, additionalInstruction: [MgoCodeableConcept]?, asNeededCodeableConcept: MgoCodeableConcept?, doseQuantity: MgoQuantityProps?, doseRange: MgoRange?, maxDosePerPeriod: MgoRatio?, rateQuantity: MgoQuantityProps?, rateRange: MgoRange?, rateRatio: MgoRatio?, route: MgoCodeableConcept?, sequence: PrimitiveValueTypeOfIntegerNumber?, text: PrimitiveValueTypeOfStringString?, timing: ZibAdministrationSchedule) {
+    public init(profile: DossageInstructionProfile, additionalInstruction: [MgoCodeableConcept]?, asNeededCodeableConcept: MgoCodeableConcept?, doseQuantity: MgoQuantityProps?, doseRange: MgoRange?, maxDosePerPeriod: MgoRatio?, rateQuantity: MgoQuantityProps?, rateRange: MgoRange?, rateRatio: MgoRatio?, route: MgoCodeableConcept?, sequence: MgoInteger?, text: MgoString?, timing: ZibAdministrationSchedule) {
         self.profile = profile
         self.additionalInstruction = additionalInstruction
         self.asNeededCodeableConcept = asNeededCodeableConcept
@@ -67,7 +67,7 @@ public extension ZibAdministrationAgreementDossageInstruction {
     }
 
     func with(
-        profile: ZibInstructionsForUseProfile? = nil,
+        profile: DossageInstructionProfile? = nil,
         additionalInstruction: [MgoCodeableConcept]?? = nil,
         asNeededCodeableConcept: MgoCodeableConcept?? = nil,
         doseQuantity: MgoQuantityProps?? = nil,
@@ -77,8 +77,8 @@ public extension ZibAdministrationAgreementDossageInstruction {
         rateRange: MgoRange?? = nil,
         rateRatio: MgoRatio?? = nil,
         route: MgoCodeableConcept?? = nil,
-        sequence: PrimitiveValueTypeOfIntegerNumber?? = nil,
-        text: PrimitiveValueTypeOfStringString?? = nil,
+        sequence: MgoInteger?? = nil,
+        text: MgoString?? = nil,
         timing: ZibAdministrationSchedule? = nil
     ) -> ZibAdministrationAgreementDossageInstruction {
         return ZibAdministrationAgreementDossageInstruction(

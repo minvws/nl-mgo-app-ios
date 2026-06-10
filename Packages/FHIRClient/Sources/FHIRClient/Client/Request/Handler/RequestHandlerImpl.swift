@@ -4,17 +4,15 @@
  */
 
 import Foundation
+import HTTPTypes
 
-/**
-Base implementation of `RequestHandler`.
-*/
-open class RequestHandlerImpl: RequestHandler {
+open class RequestHandlerImpl {
 	
 	/// The HTTP method of the request.
-	public let method: RequestMethod
+	public let method: HTTPRequest.Method
 	
-	/// Headers to be used on the request.
-	open var headers = RequestHeaders()
+	/// Headers to be used on the request. Seeded with the FHIR default `Accept-Charset: utf-8`.
+	open var headers: HTTPFields = [.acceptCharset: "utf-8"]
 	
 	/// Request parameters to pass along.
 	open var parameters = RequestParameters()
@@ -23,58 +21,71 @@ open class RequestHandlerImpl: RequestHandler {
 	open var data: Data?
 	
 	/**
-	Designated initializer.
-	*/
-	public required init(_ method: RequestMethod) {
+	 Designated initializer.
+	 */
+	public init(_ method: HTTPRequest.Method) {
 		self.method = method
 	}
 	
 	// MARK: - Preparation
 	
 	/**
-	Add the given headers to the request, overwriting existing headers.
-	
-	- parameter headers: The headers to add to the receiver
-	*/
-	open func add(headers inHeaders: RequestHeaders) {
-		var hdrs = headers
-		inHeaders.headers.forEach { hdrs[$0] = $1 }
-		headers = hdrs
+	 Merge the given headers into the receiver, overwriting any existing values for the same field names.
+	 
+	 - parameter headers: The headers to add
+	 */
+	open func add(headers newHeaders: HTTPFields) {
+		for field in newHeaders {
+			headers[field.name] = field.value
+		}
 	}
 	
 	/**
-	Give the request type a chance to prepare/alter the URL request.
-	
-	Typically the FHIRRequestMethod instance sets the correct HTTPMethod as well as correct FHIR headers. It will also inspect the `options`
-	property and add appropriate query params.
-	*/
+	 Give the receiver a chance to prepare/alter the URL request (set method, headers, query params, body).
+	 */
 	open func prepare(request: inout URLRequest) throws {
-		let params = parameters
-		
-		method.prepare(request: &request, body: data)
-		headers.prepare(request: &request)
-		params.prepare(request: &request)
+		request.httpMethod = method.rawValue
+		for field in headers {
+			request.setValue(field.value, forHTTPHeaderField: field.name.rawName)
+		}
+		if data != nil, method != .get, method != .delete, method != .options {
+			request.httpBody = data
+		}
+		parameters.prepare(request: &request)
 	}
 	
 	// MARK: - Response
 	
 	/**
-	Instantiate a FHIRServerResponse based on the response and data that we get.
-	*/
-	open func response(response: URLResponse?, data inData: Data? = nil, error: Error? = nil) -> ServerResponse {
-		if let res = response {
-			return DataResponse(handler: self, response: res, data: inData, error: error)
+	 Instantiate a `DataResponse` from the typed HTTP response and body bytes.
+	 
+	 - parameter response: The `HTTPResponse` resulting from the request, if any
+	 - parameter data:     The body data that was returned, if any
+	 - parameter error:    The error that was reported, if any
+	 */
+	open func response(
+		response: HTTPResponse? = nil,
+		data inData: Data? = nil,
+		error: Error? = nil
+	) -> DataResponse {
+
+		if let response {
+			return DataResponse(
+				response: response,
+				data: inData,
+				error: error
+			)
 		}
-		if let error = error {
-			return DataResponse(error: error, handler: self)
+		if let error {
+			return DataResponse(error: error)
 		}
-		return DataResponse(error: FHIRError.noResponseReceived, handler: self)
+		return DataResponse(error: FHIRError.noResponseReceived)
 	}
-	
+
 	/**
-	Convenience method to indicate a request that has not actually been sent.
-	*/
-	open func notSent(_ reason: String) -> ServerResponse {
-		return DataResponse(error: FHIRError.requestNotSent(reason), handler: self)
+	 Convenience method to indicate a request that has not actually been sent.
+	 */
+	open func notSent(_ reason: String) -> DataResponse {
+		return DataResponse(error: FHIRError.requestNotSent(reason))
 	}
 }

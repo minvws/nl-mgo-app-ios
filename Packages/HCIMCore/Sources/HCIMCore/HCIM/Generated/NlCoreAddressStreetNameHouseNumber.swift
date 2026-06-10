@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - NlCoreAddressStreetNameHouseNumber
 public struct NlCoreAddressStreetNameHouseNumber: Codable, Hashable, Sendable {
-    public let additionalLocator, buildingNumbersuffix, houseNumber, streetName: PrimitiveValueTypeOfStringString?
-    public let unitID: PrimitiveValueTypeOfStringString?
+    public let additionalLocator, buildingNumbersuffix, houseNumber, streetName: MgoString?
+    public let unitID: MgoString?
 
-    public init(additionalLocator: PrimitiveValueTypeOfStringString?, buildingNumbersuffix: PrimitiveValueTypeOfStringString?, houseNumber: PrimitiveValueTypeOfStringString?, streetName: PrimitiveValueTypeOfStringString?, unitID: PrimitiveValueTypeOfStringString?) {
+    public init(additionalLocator: MgoString?, buildingNumbersuffix: MgoString?, houseNumber: MgoString?, streetName: MgoString?, unitID: MgoString?) {
         self.additionalLocator = additionalLocator
         self.buildingNumbersuffix = buildingNumbersuffix
         self.houseNumber = houseNumber
@@ -43,11 +43,11 @@ public extension NlCoreAddressStreetNameHouseNumber {
     }
 
     func with(
-        additionalLocator: PrimitiveValueTypeOfStringString?? = nil,
-        buildingNumbersuffix: PrimitiveValueTypeOfStringString?? = nil,
-        houseNumber: PrimitiveValueTypeOfStringString?? = nil,
-        streetName: PrimitiveValueTypeOfStringString?? = nil,
-        unitID: PrimitiveValueTypeOfStringString?? = nil
+        additionalLocator: MgoString?? = nil,
+        buildingNumbersuffix: MgoString?? = nil,
+        houseNumber: MgoString?? = nil,
+        streetName: MgoString?? = nil,
+        unitID: MgoString?? = nil
     ) -> NlCoreAddressStreetNameHouseNumber {
         return NlCoreAddressStreetNameHouseNumber(
             additionalLocator: additionalLocator ?? self.additionalLocator,

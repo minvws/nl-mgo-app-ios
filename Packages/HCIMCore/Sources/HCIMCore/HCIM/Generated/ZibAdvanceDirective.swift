@@ -15,9 +15,9 @@ public struct ZibAdvanceDirective: Codable, Hashable, Sendable {
     public let category: ZibAdvanceDirectiveCategory
     public let comment: ExtensionValueOfMgoString?
     public let consentingParty: MgoReference?
-    public let dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let dateTime: MgoDateTime?
     public let disorder: [ExtensionValueOfMgoReference]
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let id: String?
     public let identifier: MgoIdentifier?
     public let profile: ZibAdvanceDirectiveProfile
@@ -32,7 +32,7 @@ public struct ZibAdvanceDirective: Codable, Hashable, Sendable {
         case resourceType, sourceAttachment, sourceIdentifier, sourceReference
     }
 
-    public init(category: ZibAdvanceDirectiveCategory, comment: ExtensionValueOfMgoString?, consentingParty: MgoReference?, dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, disorder: [ExtensionValueOfMgoReference], fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: MgoIdentifier?, profile: ZibAdvanceDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?) {
+    public init(category: ZibAdvanceDirectiveCategory, comment: ExtensionValueOfMgoString?, consentingParty: MgoReference?, dateTime: MgoDateTime?, disorder: [ExtensionValueOfMgoReference], fhirVersion: EAfspraakAppointmentFhirVersion, id: String?, identifier: MgoIdentifier?, profile: ZibAdvanceDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?) {
         self.category = category
         self.comment = comment
         self.consentingParty = consentingParty
@@ -72,9 +72,9 @@ public extension ZibAdvanceDirective {
         category: ZibAdvanceDirectiveCategory? = nil,
         comment: ExtensionValueOfMgoString?? = nil,
         consentingParty: MgoReference?? = nil,
-        dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        dateTime: MgoDateTime?? = nil,
         disorder: [ExtensionValueOfMgoReference]? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         id: String?? = nil,
         identifier: MgoIdentifier?? = nil,
         profile: ZibAdvanceDirectiveProfile? = nil,

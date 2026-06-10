@@ -13,6 +13,10 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+# Disable fastlane's anonymous usage analytics ping. Without this, fastlane
+# sends an HTTP request on every invocation, adding latency and log noise.
+opt_out_usage
+
 default_platform(:ios)
 
 platform :ios do
@@ -23,7 +27,7 @@ platform :ios do
   lane :test_ci do
     run_tests(
       app_name: "MGO",
-      destination: "platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2",
+      destination: "platform=iOS Simulator,name=iPhone 17 Pro,OS=26.4.1",
       project: "MGO.xcodeproj",
       scheme: "MGO Dev",
       reinstall_app: true,
@@ -31,17 +35,26 @@ platform :ios do
       code_coverage: true,
       result_bundle_path: "MGO.xcresult",
       skip_slack: true,
-      xcargs: "-skipPackagePluginValidation"
+      # Stable paths allow GitHub Actions to cache both directories between runs.
+      # Without these, Xcode writes to a content-hashed path inside ~/Library/
+      # Developer/Xcode/DerivedData, making the location unpredictable across jobs.
+      cloned_source_packages_path: "SourcePackages",
+      derived_data_path: "DerivedData",
+      # SourcePackages is pre-populated by the CI "Resolve packages" step, so
+      # there is no need to re-contact GitHub during the fastlane pre-resolve or
+      # the xcodebuild build-test invocation.
+      skip_package_repository_fetches: true,
+      xcargs: "-skipPackagePluginValidation -skipPackageUpdates"
     )
   end
-  
+
   # -- E2E TESTING --
 
   desc "Run end to end tests"
   lane :e2e_ci do
     run_tests(
       app_name: "MGO",
-      destination: "platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2",
+      destination: "platform=iOS Simulator,name=iPhone 17 Pro,OS=26.4.1",
       project: "MGO.xcodeproj",
       scheme: "MGO UI Tests",
       reinstall_app: true,
@@ -52,7 +65,11 @@ platform :ios do
       result_bundle_path: "MGO.xcresult",
       skip_slack: true,
       result_bundle: true,
-      xcargs: "-skipPackagePluginValidation"
+      # Stable paths allow GitHub Actions to cache both directories between runs.
+      cloned_source_packages_path: "SourcePackages",
+      derived_data_path: "DerivedData",
+      skip_package_repository_fetches: true,
+      xcargs: "-skipPackagePluginValidation -skipPackageUpdates"
     )
   end
 
@@ -111,7 +128,7 @@ platform :ios do
            bundleid => provisioningprofilename
          }
        },
-       xcargs: "-skipPackagePluginValidation"
+       xcargs: "-skipPackagePluginValidation -clonedSourcePackagesDirPath SourcePackages"
      )
 
      upload_to_testflight(skip_submission: true)
@@ -211,7 +228,9 @@ platform :ios do
           bundleid => provisioningprofilename
         }
       },
-      xcargs: "-skipPackagePluginValidation"
+      # clonedSourcePackagesDirPath keeps SPM checkouts at a stable path so
+      # the GitHub Actions SPM cache in template_firebase-deploy.yml can find them.
+      xcargs: "-skipPackagePluginValidation -skipPackageUpdates -clonedSourcePackagesDirPath SourcePackages"
     )
 
     # It's useful to see the originating git branch in Firebase release notes:

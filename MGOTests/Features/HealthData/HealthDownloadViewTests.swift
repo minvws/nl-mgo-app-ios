@@ -120,7 +120,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		takeSnapShots(content: content)
 	}
 	
 	@MainActor func test_HealthDownloadView_error() throws {

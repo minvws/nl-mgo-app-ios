@@ -14,7 +14,7 @@ import Foundation
 public struct ZibMedicalDevice: Codable, Hashable, Sendable {
     public let bodySite: ZibMedicalDeviceBodySite
     public let device: MgoReference?
-    public let fhirVersion: NlCoreObservationFhirVersion
+    public let fhirVersion: EAfspraakAppointmentFhirVersion
     public let healthCareProvider, healthProfessional: ExtensionValueOfMgoReference?
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -31,7 +31,7 @@ public struct ZibMedicalDevice: Codable, Hashable, Sendable {
         case resourceType, source, subject, whenUsed
     }
 
-    public init(bodySite: ZibMedicalDeviceBodySite, device: MgoReference?, fhirVersion: NlCoreObservationFhirVersion, healthCareProvider: ExtensionValueOfMgoReference?, healthProfessional: ExtensionValueOfMgoReference?, id: String?, identifier: [MgoIdentifier]?, indicationProblem: [IndicationProblem]?, note: [MgoAnnotation]?, profile: ZibMedicalDeviceProfile, referenceID: String, resourceType: String, source: MgoReference?, subject: MgoReference?, whenUsed: MgoPeriod?) {
+    public init(bodySite: ZibMedicalDeviceBodySite, device: MgoReference?, fhirVersion: EAfspraakAppointmentFhirVersion, healthCareProvider: ExtensionValueOfMgoReference?, healthProfessional: ExtensionValueOfMgoReference?, id: String?, identifier: [MgoIdentifier]?, indicationProblem: [IndicationProblem]?, note: [MgoAnnotation]?, profile: ZibMedicalDeviceProfile, referenceID: String, resourceType: String, source: MgoReference?, subject: MgoReference?, whenUsed: MgoPeriod?) {
         self.bodySite = bodySite
         self.device = device
         self.fhirVersion = fhirVersion
@@ -71,7 +71,7 @@ public extension ZibMedicalDevice {
     func with(
         bodySite: ZibMedicalDeviceBodySite? = nil,
         device: MgoReference?? = nil,
-        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        fhirVersion: EAfspraakAppointmentFhirVersion? = nil,
         healthCareProvider: ExtensionValueOfMgoReference?? = nil,
         healthProfessional: ExtensionValueOfMgoReference?? = nil,
         id: String?? = nil,

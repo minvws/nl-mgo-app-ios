@@ -49,7 +49,10 @@ final class AboutOpenSourceLibrariesViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
-		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
+		try content.inspect()
+			.find(viewWithAccessibilityIdentifier: "common.previous")
+			.button()
+			.tap()
 
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
@@ -63,7 +66,10 @@ final class AboutOpenSourceLibrariesViewTests: XCTestCase {
 		let content = NavigationStackBackport.NavigationStack { sut }
 		
 		// When
-		try content.inspect().find(viewWithAccessibilityIdentifier: "Button DeviceKit (MIT)").button().tap()
+		try content.inspect()
+			.find(viewWithAccessibilityIdentifier: "Button DeviceKit (MIT)")
+			.button()
+			.tap()
 
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

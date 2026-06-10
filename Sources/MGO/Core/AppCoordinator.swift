@@ -409,7 +409,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 						browser: self.browser,
 						title: LocalizedStringKey(stringLiteral: title ?? ""),
 						coordinator: self,
-						closeAction: .closeSheet
+						closeAction: .closeSheet,
+						showScreenshotTrigger: LaunchArgumentsHandler
+							.shouldSimulateScreenshot()
 					)
 				)
 			

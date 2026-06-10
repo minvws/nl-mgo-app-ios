@@ -12,7 +12,7 @@ import Foundation
 
 // MARK: - MgoCodeOfString
 public struct MgoCodeOfString: Codable, Hashable, Sendable {
-    public let type: MgoCodeType
+    public let type: MgoCodeOfStringType
     public let value: String
 
     public enum CodingKeys: String, CodingKey {
@@ -20,7 +20,7 @@ public struct MgoCodeOfString: Codable, Hashable, Sendable {
         case value
     }
 
-    public init(type: MgoCodeType, value: String) {
+    public init(type: MgoCodeOfStringType, value: String) {
         self.type = type
         self.value = value
     }
@@ -45,7 +45,7 @@ public extension MgoCodeOfString {
     }
 
     func with(
-        type: MgoCodeType? = nil,
+        type: MgoCodeOfStringType? = nil,
         value: String? = nil
     ) -> MgoCodeOfString {
         return MgoCodeOfString(

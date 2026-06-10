@@ -3,37 +3,45 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+import Foundation
+import Testing
 @testable import RestrictedBrowser
 import WebKit
 
-@MainActor
-final class RestrictedBrowserViewModelTests: XCTestCase {
+@Suite @MainActor
+struct RestrictedBrowserViewModelTests {
 	
-	@MainActor func test_reduce() throws {
+	@Test func test_reduce() async throws {
 		
 		// Given
 		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
-		let browser = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
+		let url = try #require(URL(string: "https://support.apple.com"))
+		let browser = RestrictedBrowser(
+			allowedDomains: ["apple.com"],
+			urlOpener: urlOpenerSpy
+		)
 		let sut = RestrictedBrowserViewModel(url: url, browser: browser)
 		
 		// When
 		sut.reduce(.safariButtonPressed)
 		
 		// Then
-		expect(urlOpenerSpy.invokedCanOpenURL) == true
-		expect(urlOpenerSpy.invokedOpen).toEventually(beTrue())
+		#expect(urlOpenerSpy.invokedCanOpenURL == true)
+		await Task.yield()
+		#expect(urlOpenerSpy.invokedOpen == true)
 	}
 	
-	func test_policy_allow() throws {
+	@Test func test_policy_allow() throws {
 		
 		// Given
 		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let url = try XCTUnwrap(URL(string: "https://localhost"))
-		let browser = RestrictedBrowser(allowedDomains: ["localhost"], urlOpener: urlOpenerSpy)
+		let url = try #require(URL(string: "https://localhost"))
+		let browser = RestrictedBrowser(
+			allowedDomains: ["localhost"],
+			urlOpener: urlOpenerSpy
+		)
 		let sut = RestrictedBrowserViewModel(url: url, browser: browser)
 		let testAction = MockNavigationAction(url: url)
 		
@@ -41,16 +49,19 @@ final class RestrictedBrowserViewModelTests: XCTestCase {
 		sut.webView(WKWebView(), decidePolicyFor: testAction, decisionHandler: testAction.decisionHandler)
 		
 		// Then
-		expect(testAction.receivedPolicy) == .allow
+		#expect(testAction.receivedPolicy == .allow)
 	}
 	
-	func test_policy_cancel() throws {
+	@Test func test_policy_cancel() throws {
 		
 		// Given
 		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
-		let browser = RestrictedBrowser(allowedDomains: ["localhost"], urlOpener: urlOpenerSpy)
+		let url = try #require(URL(string: "https://support.apple.com"))
+		let browser = RestrictedBrowser(
+			allowedDomains: ["localhost"],
+			urlOpener: urlOpenerSpy
+		)
 		let sut = RestrictedBrowserViewModel(url: url, browser: browser)
 		let testAction = MockNavigationAction(url: url)
 		
@@ -58,63 +69,72 @@ final class RestrictedBrowserViewModelTests: XCTestCase {
 		sut.webView(WKWebView(), decidePolicyFor: testAction, decisionHandler: testAction.decisionHandler)
 		
 		// Then
-		expect(testAction.receivedPolicy) == .cancel
+		#expect(testAction.receivedPolicy == .cancel)
 	}
 	
-	func test_didReceive_authenticationMode_serverTrust() throws {
+	@Test func test_didReceive_authenticationMode_serverTrust() throws {
 		
 		// Given
-		let challenge = challenge(authenticationMethod: NSURLAuthenticationMethodServerTrust)
+		let authChallenge = challenge(authenticationMethod: NSURLAuthenticationMethodServerTrust)
 		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
-		let browser = RestrictedBrowser(allowedDomains: ["localhost"], urlOpener: urlOpenerSpy)
+		let url = try #require(URL(string: "https://support.apple.com"))
+		let browser = RestrictedBrowser(
+			allowedDomains: ["localhost"],
+			urlOpener: urlOpenerSpy
+		)
 		let sut = RestrictedBrowserViewModel(url: url, browser: browser)
 		let completionHandler = MockWebViewDidReceiveCompletionHandler()
 		
 		// When
 		sut.webView(
 			WKWebView(),
-			didReceive: challenge,
+			didReceive: authChallenge,
 			completionHandler: completionHandler.completionHandler
 		)
 		
 		// Then
-		expect(completionHandler.disposition) == .performDefaultHandling
-		expect(completionHandler.credential) == nil
+		#expect(completionHandler.disposition == .performDefaultHandling)
+		#expect(completionHandler.credential == nil)
 	}
 	
-	func test_didReceive_authenticationMode_default_withoutCredentials() throws {
+	@Test func test_didReceive_authenticationMode_default_withoutCredentials() throws {
 		
 		// Given
-		let challenge = challenge(authenticationMethod: NSURLAuthenticationMethodDefault)
+		let authChallenge = challenge(authenticationMethod: NSURLAuthenticationMethodDefault)
 		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
-		let browser = RestrictedBrowser(allowedDomains: ["localhost"], urlOpener: urlOpenerSpy)
+		let url = try #require(URL(string: "https://support.apple.com"))
+		let browser = RestrictedBrowser(
+			allowedDomains: ["localhost"],
+			urlOpener: urlOpenerSpy
+		)
 		let sut = RestrictedBrowserViewModel(url: url, browser: browser)
 		let completionHandler = MockWebViewDidReceiveCompletionHandler()
 		
 		// When
 		sut.webView(
 			WKWebView(),
-			didReceive: challenge,
+			didReceive: authChallenge,
 			completionHandler: completionHandler.completionHandler
 		)
 		
 		// Then
-		expect(completionHandler.disposition) == .cancelAuthenticationChallenge
-		expect(completionHandler.credential) == nil
+		#expect(completionHandler.disposition == .cancelAuthenticationChallenge)
+		#expect(completionHandler.credential == nil)
 	}
 	
-	func test_didReceive_authenticationMode_default() throws {
+	@Test func test_didReceive_authenticationMode_default() throws {
 		
 		// Given
-		let challenge = challenge(authenticationMethod: NSURLAuthenticationMethodDefault)
+		let authChallenge = challenge(authenticationMethod: NSURLAuthenticationMethodDefault)
 		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
-		let browser = RestrictedBrowser(allowedDomains: ["localhost"], urlOpener: urlOpenerSpy)
+		let url = try #require(URL(string: "https://support.apple.com"))
+		let browser = RestrictedBrowser(
+			allowedDomains: ["localhost"],
+			urlOpener: urlOpenerSpy
+		)
 		let sut = RestrictedBrowserViewModel(
 			url: url,
 			browser: browser,
@@ -126,23 +146,30 @@ final class RestrictedBrowserViewModelTests: XCTestCase {
 		// When
 		sut.webView(
 			WKWebView(),
-			didReceive: challenge,
+			didReceive: authChallenge,
 			completionHandler: completionHandler.completionHandler
 		)
 		
 		// Then
-		expect(completionHandler.disposition) == .useCredential
-		expect(completionHandler.credential) == URLCredential(user: "username", password: "password", persistence: .forSession)
+		#expect(completionHandler.disposition == .useCredential)
+		#expect(completionHandler.credential == URLCredential(
+			user: "username",
+			password: "password",
+			persistence: .forSession)
+		)
 	}
 	
-	func test_didReceive_authenticationMode_other() throws {
+	@Test func test_didReceive_authenticationMode_other() throws {
 		
 		// Given
-		let challenge = challenge(authenticationMethod: NSURLAuthenticationMethodNegotiate)
+		let authChallenge = challenge(authenticationMethod: NSURLAuthenticationMethodNegotiate)
 		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
-		let browser = RestrictedBrowser(allowedDomains: ["localhost"], urlOpener: urlOpenerSpy)
+		let url = try #require(URL(string: "https://support.apple.com"))
+		let browser = RestrictedBrowser(
+			allowedDomains: ["localhost"],
+			urlOpener: urlOpenerSpy
+		)
 		let sut = RestrictedBrowserViewModel(
 			url: url,
 			browser: browser,
@@ -154,13 +181,13 @@ final class RestrictedBrowserViewModelTests: XCTestCase {
 		// When
 		sut.webView(
 			WKWebView(),
-			didReceive: challenge,
+			didReceive: authChallenge,
 			completionHandler: completionHandler.completionHandler
 		)
 		
 		// Then
-		expect(completionHandler.disposition) == .cancelAuthenticationChallenge
-		expect(completionHandler.credential) == nil
+		#expect(completionHandler.disposition == .cancelAuthenticationChallenge)
+		#expect(completionHandler.credential == nil)
 	}
 	
 	// MARK: - helper

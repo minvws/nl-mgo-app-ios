@@ -18,8 +18,17 @@ final class InAppBrowserViewModelTests: XCTestCase {
 		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
 		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
-		let browser = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
-		sut = InAppBrowserViewModel(url: url, browser: browser, title: nil, coordinator: coordinatorSpy)
+		let browser = RestrictedBrowser(
+			allowedDomains: ["apple.com"],
+			urlOpener: urlOpenerSpy
+		)
+		sut = InAppBrowserViewModel(
+			url: url,
+			browser: browser,
+			title: nil,
+			coordinator: coordinatorSpy,
+			showScreenshotTrigger: false
+		)
 	}
 	
 	@MainActor func test_closeButtonPressed() throws {

@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - ZibParticipationInSocietyComponent
 public struct ZibParticipationInSocietyComponent: Codable, Hashable, Sendable {
-    public let hobby: [Hobby]?
-    public let socialNetwork: [SocialNetwork]?
-    public let workSituation: [WorkSituation]?
+    public let hobby: Hobby?
+    public let socialNetwork: SocialNetwork?
+    public let workSituation: WorkSituation?
 
-    public init(hobby: [Hobby]?, socialNetwork: [SocialNetwork]?, workSituation: [WorkSituation]?) {
+    public init(hobby: Hobby?, socialNetwork: SocialNetwork?, workSituation: WorkSituation?) {
         self.hobby = hobby
         self.socialNetwork = socialNetwork
         self.workSituation = workSituation
@@ -42,9 +42,9 @@ public extension ZibParticipationInSocietyComponent {
     }
 
     func with(
-        hobby: [Hobby]?? = nil,
-        socialNetwork: [SocialNetwork]?? = nil,
-        workSituation: [WorkSituation]?? = nil
+        hobby: Hobby?? = nil,
+        socialNetwork: SocialNetwork?? = nil,
+        workSituation: WorkSituation?? = nil
     ) -> ZibParticipationInSocietyComponent {
         return ZibParticipationInSocietyComponent(
             hobby: hobby ?? self.hobby,

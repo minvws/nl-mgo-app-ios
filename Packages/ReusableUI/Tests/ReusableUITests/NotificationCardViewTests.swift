@@ -23,6 +23,6 @@ final class NotificationCardViewTests: XCTestCase {
 		let view = sut.frame(width: 300, height: 200)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view, as: .image(perceptualPrecision: 0.95))
 	}
 }

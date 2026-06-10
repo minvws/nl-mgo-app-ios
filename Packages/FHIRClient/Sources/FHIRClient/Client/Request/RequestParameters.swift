@@ -1,30 +1,33 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
 import Foundation
 
 /**
-Parameters to pass along when making a request.
-*/
+ Parameters to pass along when making a request.
+ */
 public struct RequestParameters: Sendable {
 	
 	internal var parameters: [(RequestParameterField, String)]
 	
 	/** Designated initializer. */
 	public init(_ params: [(RequestParameterField, String)]? = nil) {
+		
 		parameters = params ?? [(RequestParameterField, String)]()
 	}
 	
 	/**
-	Prepare a given mutable URL request with the receiver's parameters.
-	*/
+	 Prepare a given mutable URL request with the receiver's parameters.
+	 */
 	public func prepare(request: inout URLRequest) {
+		
 		guard !parameters.isEmpty else {
 			return
 		}
-		if let url = request.url, var comps = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+		if let url = request.url,
+		   var comps = URLComponents(url: url, resolvingAgainstBaseURL: false) {
 			var query = comps.queryItems ?? []
 			for (param, value) in parameters {
 				// Allow duplicate keys.

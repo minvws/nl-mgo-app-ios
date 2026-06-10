@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-FileCopyrightText: 2026 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
@@ -14,7 +14,11 @@ class ReferenceResolverSpy: ReferenceResolverProtocol {
 	var invokedResolveParametersList = [(reference: String, healthcareOrganization: OrganizationSearch.Organization)]()
 	var stubbedResolveResult: (Data, HealthUISchema)!
 
-	func resolve(reference: String, healthcareOrganization: OrganizationSearch.Organization) -> (Data, HealthUISchema)? {
+	func resolve(
+		reference: String,
+		healthcareOrganization: OrganizationSearch.Organization
+	) -> (Data, HealthUISchema)? {
+		
 		invokedResolve = true
 		invokedResolveCount += 1
 		invokedResolveParameters = (reference, healthcareOrganization)
